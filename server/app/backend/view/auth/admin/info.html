@@ -29,7 +29,7 @@
                 <select id="role_id" name="role_id" lay-verify="required" disabled readonly class="layui-disabled">
                     <option value="">请选择</option>
                     {volist name="roles" id="vo"}
-                        {if $vo.id == 1}
+                        {if $detail.id == 1}
                             <option value="0" selected>系统管理员</option>
                         {else}
                             {if $vo.id == $detail.role_id}
@@ -64,7 +64,7 @@
             <label for="email" class="layui-form-label">电子邮箱：</label>
             <div class="layui-input-block">
                 <input type="text" id="email" name="email" value="{$detail.email}"
-                       class="layui-input" autocomplete="off" lay-verType="tips" lay-verify="required|email">
+                       class="layui-input" autocomplete="off" lay-verType="tips">
             </div>
         </div>
         <!-- 联系电话 -->

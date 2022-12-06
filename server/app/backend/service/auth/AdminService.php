@@ -136,7 +136,7 @@ class AdminService extends Service
             $avatar = 'storage/admin/'.$adminId.'_avatar.'.$ext;
             FileUtils::move($source, $target);
         } else if (empty($avatar)) {
-            $avatar = '/images/default/avatar.png';
+            $avatar = '/static/backend/images/default/avatar.png';
         }
 
         AuthAdmin::update([
