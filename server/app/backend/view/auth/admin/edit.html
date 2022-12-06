@@ -1,0 +1,99 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 所属部门 -->
+        <div class="layui-form-item">
+            <label for="dept_id" class="layui-form-label">所属部门：</label>
+            <div class="layui-input-block">
+                <select id="dept_id" name="dept_id" lay-verType="tips">
+                    <option value="">请选择</option>
+                    {volist name="$dept" id="vo"}
+                        <option value="{$vo.id}" {if $detail.dept_id==$vo.id}selected{/if}>{$vo.html} {$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <!-- 所属岗位 -->
+        <div class="layui-form-item">
+            <label for="post_id" class="layui-form-label">所属岗位：</label>
+            <div class="layui-input-block">
+                <select id="post_id" name="post_id" lay-verType="tips">
+                    <option value="">请选择</option>
+                    {volist name="$post" id="vo"}
+                        <option value="{$vo.id}" {if $detail.post_id==$vo.id}selected{/if}>{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <!-- 所属角色 -->
+        <div class="layui-form-item">
+            <label for="role_id" class="layui-form-label"><span class="asterisk">*</span>所属角色：</label>
+            <div class="layui-input-block">
+                <select id="role_id" name="role_id" lay-verType="tips" lay-verify="required|number">
+                    <option value="">请选择</option>
+                    {volist name="$roles" id="vo"}
+                        <option value="{$vo.id}" {if $detail.role_id==$vo.id}selected{/if}>{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <!-- 用户昵称 -->
+        <div class="layui-form-item">
+            <label for="nickname" class="layui-form-label"><span class="asterisk">*</span>用户昵称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="nickname" name="nickname" value="{$detail.nickname}"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 登录账号 -->
+        <div class="layui-form-item">
+            <label for="username" class="layui-form-label"><span class="asterisk">*</span>登录账号：</label>
+            <div class="layui-input-block">
+                <input type="text" id="username" name="username" value="{$detail.username}"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 登录密码 -->
+        <div class="layui-form-item">
+            <label for="password" class="layui-form-label">登录密码：</label>
+            <div class="layui-input-block">
+                <input type="password" id="password" name="password" placeholder="不填写则不修改"
+                       autocomplete="off" class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 电子邮箱 -->
+        <div class="layui-form-item">
+            <label for="email" class="layui-form-label">电子邮箱：</label>
+            <div class="layui-input-block">
+                <input type="text" id="email" name="email" value="{$detail.email}"
+                       autocomplete="off" class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 联系电话 -->
+        <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">联系电话：</label>
+            <div class="layui-input-block">
+                <input type="text" id="phone" name="phone" value="{$detail.phone}"
+                       autocomplete="off" class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 状态 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_disable" value="0" title="正常" {if $detail.is_disable==0}checked{/if}>
+                <input type="radio" name="is_disable" value="1" title="禁用" {if $detail.is_disable==1}checked{/if}>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

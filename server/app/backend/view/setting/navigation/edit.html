@@ -1,0 +1,71 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 上级导航 -->
+        <div class="layui-form-item">
+            <label for="pid" class="layui-form-label"><span class="asterisk">*</span>上级导航：</label>
+            <div class="layui-input-block">
+                <select id="pid" name="pid" lay-verify="required|number" lay-search>
+                    <option value="0">顶级</option>
+                    {volist name="navigation" id="vo"}
+                        <option value="{$vo.id}" {if $detail.pid==$vo.id}selected{/if}>{$vo.html} {$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <!-- 跳转方式 -->
+        <div class="layui-form-item">
+            <label for="target" class="layui-form-label"><span class="asterisk">*</span>跳转方式：</label>
+            <div class="layui-input-block">
+                <select id="target" name="target" lay-verify="required" lay-search>
+                    <option value="_self" {if $detail.target=='_self'}selected{/if}>_self</option>
+                    <option value="_blank" {if $detail.target=='_blank'}selected{/if}>_blank</option>
+                    <option value="_parent" {if $detail.target=='_parent'}selected{/if}>_parent</option>
+                    <option value="_top" {if $detail.target=='_top'}selected{/if}>_top</option>
+                </select>
+            </div>
+        </div>
+        <!-- 导航名称 -->
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label"><span class="asterisk">*</span>导航名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" value="{$detail.name}"
+                       class="layui-input" autocomplete="off" lay-verify="required">
+            </div>
+        </div>
+        <!-- 跳转链接 -->
+        <div class="layui-form-item">
+            <label for="url" class="layui-form-label">跳转链接：</label>
+            <div class="layui-input-block">
+                <input type="text" id="url" name="url" value="{$detail.url}"
+                       class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <!-- 排序编号 -->
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">排序编号：</label>
+            <div class="layui-input-block">
+                <input type="number" id="sort" name="sort" value="{$detail.sort}"
+                       class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <!-- 是否禁用 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否禁用：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_disable" value="1" title="是" {if $detail.is_disable==1}checked{/if}>
+                <input type="radio" name="is_disable" value="0" title="否" {if $detail.is_disable==0}checked{/if}>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

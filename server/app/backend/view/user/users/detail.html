@@ -1,0 +1,86 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    .layui-form-item { margin-bottom: 0; }
+    .layui-form-item .layui-form-label { width: 95px; padding: 9px 0; }
+    .layui-form-item .layui-input-inline { width: 140px; }
+    .avatar { width: 60px; height: 60px; margin: 0 auto; }
+    .avatar .image { width: 100%; height: 100%; }
+</style>
+{/block}
+
+{block name="body"}
+<form class="layui-form container">
+    <!-- 用户头像 -->
+    <div class="avatar">
+        <img class="image" src="{$detail.avatar}" alt="头像">
+    </div>
+
+    <!-- 基础信息 -->
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>基础信息</legend>
+        <div class="layui-field-box">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户名称：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-form-mid">{$detail.nickname}</div>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">会员编号：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-form-mid">{$detail.sn}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">手机号码：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-form-mid">{$detail.mobile ? $detail.mobile : '无'}</div>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">电子邮箱：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-form-mid">{$detail.email ? $detail.email : '无'}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">是否禁用：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-form-mid">{$detail.is_disable == 1 ? '是' : '否'}</div>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">登录地址：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-form-mid">{$detail.last_login_ip ? $detail.last_login_ip : '无'}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">注册时间：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-form-mid">{$detail.create_time}</div>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">最后登录：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-form-mid">{$detail.last_login_time | date='Y-m-d H:i:s'}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
+{/block}

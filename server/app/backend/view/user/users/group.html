@@ -1,0 +1,26 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 分组列表 -->
+        <div class="layui-form-item">
+            <label for="id" class="layui-hide"></label>
+            <div class="layui-input-block" style="margin-left:0;">
+                <select id="id" name="id" lay-verType="tips" lay-verify="required">
+                    <option value="">请选择</option>
+                    {volist name="$groups" id="vo"}
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+    </div>
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

@@ -1,0 +1,188 @@
+{extend name="common/layout" /}
+
+
+{block name="style"}
+<style>
+    html,body,ul,li { margin: 0; padding: 0; }
+    .theme { padding: 15px; overflow-x: hidden; }
+    .theme ul { width: 330px; font-size: 0; }
+    .theme ul li { position: relative; display: inline-block; vertical-align: top; width: 80px; height: 50px; margin: 0 15px 15px 0; background-color: #f2f2f2; cursor: pointer; font-size: 12px; color: #666; }
+    .theme ul li:after { content: ''; position: absolute; z-index: 20; top: 50%; left: 50%; width: 1px; height: 0; border: 1px solid #f2f2f2; transition: all .3s; -webkit-transition: all .3s; opacity: 0; }
+    .theme ul li.layui-this:after,
+    .theme ul li:hover:after {width: 100%; height: 100%; padding: 4px; top: -5px; left: -5px; border-color: #5FB878; opacity: 1; }
+    .theme ul li .header { position: relative; z-index: 10; height: 10px; border-top: 1px solid #f2f2f2; border-right: 1px solid #f2f2f2; }
+    .theme ul li .sidebar { position: absolute; left: 0; top: 0; width: 20px; height: 100%; z-index: 11; box-shadow: 1px 0 2px 0 rgba(0,0,0,.05); }
+    .theme ul li .logo { position: absolute; left: 0; top: 0; width: 100%; height: 10px; }
+
+    .layui-form { margin-top: 10px; }
+    .layui-form-item { margin-bottom: 6px; }
+</style>
+{/block}
+
+{block name="body"}
+    <div class="theme">
+        <ul>
+            <li data-index="0" data-alias="default" title="default" class="layui-this">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #03152a;">
+                    <div class="logo" style="background-color: #03152a;"></div>
+                </div>
+            </li>
+            <li data-index="1" data-alias="blue" title="blue">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #03152a;">
+                    <div class="logo" style="background-color: #03152a;"></div>
+                </div>
+            </li>
+            <li data-index="2" data-alias="red" title="red">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #03152a;">
+                    <div class="logo" style="background-color: #03152a;"></div>
+                </div>
+            </li>
+            <li data-index="3" data-alias="purple" title="purple">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #50314f;">
+                    <div class="logo" style="background-color: #50314f;"></div>
+                </div>
+            </li>
+            <li data-index="4" data-alias="coffee" title="coffee">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #2e241b;">
+                    <div class="logo" style="background-color: #2e241b;"></div>
+                </div>
+            </li>
+            <li data-index="5" data-alias="white" title="white">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #0f468e;">
+                    <div class="logo" style="background-color: #0f468e;"></div>
+                </div>
+            </li>
+            <li data-index="6" data-alias="classic-green" title="classic-green">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #344058;">
+                    <div class="logo" style="background-color: #344058;"></div>
+                </div>
+            </li>
+            <li data-index="7" data-alias="classic-blue" title="classic-blue">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #344058;">
+                    <div class="logo" style="background-color: #344058;"></div>
+                </div>
+            </li>
+            <li data-index="8" data-alias="classic-red" title="classic-red">
+                <div class="header" style="background-color: #ffffff;"></div>
+                <div class="sidebar" style="background-color: #344058;">
+                    <div class="logo" style="background-color: #344058;"></div>
+                </div>
+            </li>
+            <li data-index="9" data-alias="header-green" title="header-green">
+                <div class="header" style="background-color: #2F9688;"></div>
+                <div class="sidebar" style="background-color: #03152A;">
+                    <div class="logo" style="background-color: #03152A;"></div>
+                </div>
+            </li>
+            <li data-index="10" data-alias="header-blue" title="header-blue">
+                <div class="header" style="background-color: #1e9fff;"></div>
+                <div class="sidebar" style="background-color: #03152a;">
+                    <div class="logo" style="background-color: #03152a;"></div>
+                </div>
+            </li>
+            <li data-index="11" data-alias="header-red" title="header-red">
+                <div class="header" style="background-color: #d24437;"></div>
+                <div class="sidebar" style="background-color: #03152a;">
+                    <div class="logo" style="background-color: #03152a;"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-card-header">系统配置</div>
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label for="isTabHidden" class="layui-form-label">标签隐藏：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" id="isTabHidden" name="switch" lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="isTabMemory" class="layui-form-label">标签记忆：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" id="isTabMemory" name="switch" lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="isTabRefresh" class="layui-form-label">切换刷新：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" id="isTabRefresh" name="switch" lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
+            </div>
+        </div>
+    </form>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['form'], function() {
+        let $          = layui.$;
+        let form       = layui.form;
+        let config     = waitCache.getItem();
+        let parentBody = parent.document.body;
+        // let parentNode = $(parentBody).find("#app:first-child");
+        let parentNode = $(parentBody);
+
+        /** 初始配置 **/
+        $(function(){
+            const theme = config['theme']|| waitConfig.theme;
+            $(".theme ul li").removeClass("layui-this");
+            $(".theme ul li[data-alias="+theme+"]").addClass("layui-this");
+
+            $("#isTabHidden").prop("checked",  !(config['isTabHidden']  === undefined || config['isTabHidden']  === false));
+            $("#isTabMemory").prop("checked",  !(config['isTabMemory']  === undefined || config['isTabMemory']  === false));
+            $("#isTabRefresh").prop("checked", !(config['isTabRefresh'] === undefined || config['isTabRefresh'] === false));
+            form.render();
+        });
+
+        /** 切换主题 **/
+        $(document).on('click', '.theme ul li', function() {
+            let theme = $(this).attr('data-alias');
+            $(this).addClass("layui-this").siblings().removeClass("layui-this");
+            parentNode.attr('data-theme', theme);
+            waitCache.setItem('theme', theme);
+
+            let iframe = $(parentBody).find('.tab-body-item iframe');
+            for (let i=0; i<iframe.length; i++) {
+                let $body = $(iframe[i].contentWindow.document).find('html > body');
+                $body.attr('data-theme', theme)
+            }
+        });
+
+        /** 系统配置 **/
+        form.on('switch(switch-status)', function(obj){
+            let key = $(obj.elem).attr("id");
+            switch (key) {
+                case 'isTabHidden':
+                    if (this.checked) {
+                        parentNode.attr('data-tab', true);
+                        $(parentBody).find('.tpl-body .tab-body-item:not(.layui-show)').remove();
+                        $(parentBody).find('.tpl-tabs .layui-tab-title li:gt(0):not(.layui-this)').remove();
+                    } else {
+                        parentNode.removeAttr("data-tab");
+                    }
+                    break;
+                case "isTabMemory":
+                    if (this.checked) {
+                        let data = {
+                            'tabs': $(parentBody).find('.tpl-tabs .layui-tab-title').html(),
+                            'body': $(parentBody).find('.tpl-body').html()
+                        };
+                        sessionStorage.setItem('tabMenus', JSON.stringify(data));
+                    } else {
+                        sessionStorage.removeItem('tabMenus');
+                    }
+                    break;
+            }
+            waitCache.setItem(key, this.checked);
+        });
+    })
+</script>
+{/block}

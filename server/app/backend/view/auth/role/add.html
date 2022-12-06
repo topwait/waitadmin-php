@@ -1,0 +1,72 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 角色名称 -->
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label"><span class="asterisk">*</span>角色名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name"
+                       class="layui-input" autocomplete="off" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 角色排序 -->
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">角色排序：</label>
+            <div class="layui-input-block">
+                <input type="number" id="sort" name="sort"
+                       class="layui-input" autocomplete="off" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 角色描述 -->
+        <div class="layui-form-item">
+            <label for="describe" class="layui-form-label">角色描述：</label>
+            <div class="layui-input-block">
+                <input type="text" id="describe" name="describe"
+                       class="layui-input" autocomplete="off" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 角色状态 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_disable" value="0" title="正常" checked>
+                <input type="radio" name="is_disable" value="1" title="禁用">
+            </div>
+        </div>
+        <!-- 权限列表 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限列表：</label>
+            <div class="layui-input-block">
+                <div id="treeMenu"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['tree'], function () {
+        let tree = layui.tree;
+
+        // 权限树渲染
+        tree.render({
+            id: 'treeMenu'
+            ,elem: '#treeMenu'
+            ,data: JSON.parse('{$treeMenu|raw}')
+            ,showCheckbox: true
+            ,isJump: true
+        });
+
+    });
+</script>
+{/block}

@@ -1,0 +1,58 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 友链名称 -->
+        <div class="layui-form-item">
+            <label for="title" class="layui-form-label"><span class="asterisk">*</span>友链名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="title" name="title"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 跳转方式 -->
+        <div class="layui-form-item">
+            <label for="target" class="layui-form-label"><span class="asterisk">*</span>跳转方式：</label>
+            <div class="layui-input-block">
+                <select id="target" name="target" lay-verify="required" lay-search>
+                    <option value="_self">_self</option>
+                    <option value="_blank">_blank</option>
+                    <option value="_parent">_parent</option>
+                    <option value="_top">_top</option>
+                </select>
+            </div>
+        </div>
+        <!-- 跳转链接 -->
+        <div class="layui-form-item">
+            <label for="url" class="layui-form-label">跳转链接：</label>
+            <div class="layui-input-block">
+                <input type="text" id="url" name="url" class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <!-- 排序编号 -->
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">排序编号：</label>
+            <div class="layui-input-block">
+                <input type="number" id="sort" name="sort"
+                       autocomplete="off" class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 是否禁用 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否禁用：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_disable" value="1" title="是">
+                <input type="radio" name="is_disable" value="0" title="否" checked>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

@@ -1,0 +1,153 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    .layui-form-label {width: 95px;}
+    .layui-table {width: 415px;}
+</style>
+{/block}
+
+{block name="body"}
+<div class="container">
+    <div class="layui-card layui-form">
+        <div class="layui-card-header">图片水印设置</div>
+        <div class="layui-card-body">
+            <!-- 水印功能状态 -->
+            <div class="layui-form-item">
+                <label for="statusOpen" class="layui-form-label">水印功能状态：</label>
+                <label for="statusClose" class="layui-hide"></label>
+                <div class="layui-input-block">
+                    <input type="radio" id="statusOpen" name="status" value="1" title="开启" {if $detail.status==1}checked{/if}>
+                    <input type="radio" id="statusClose" name="status" value="0" title="关闭" {if $detail.status==0}checked{/if}>
+                </div>
+            </div>
+            <!-- 水印文件类型 -->
+            <div class="layui-form-item">
+                <label for="typeImage" class="layui-form-label">水印文件类型：</label>
+                <label for="typeText" class="layui-hide"></label>
+                <div class="layui-input-block">
+                    <input type="radio" id="typeImage" name="type" value="image" title="图片" {if $detail.type=='image'}checked{/if}>
+                    <input type="radio" id="typeText" name="type" value="text" title="文字" {if $detail.type=='text'}checked{/if}>
+                </div>
+            </div>
+            <!-- 水印图片文件 -->
+            <div class="layui-form-item">
+                <label for="icon" class="layui-form-label">水印图片文件：</label>
+                <div class="layui-input-inline">
+                    <div class="thumbnail" data-type="image">
+                        <div class="musters">
+                            <div class="preview {if !$detail.icon}layui-hide{/if}" style="width: 120px; height: 40px;">
+                                <input type="hidden" id="icon" name="icon" value="{$detail.icon}">
+                                <i class="layui-icon layui-icon-close"></i>
+                                <img src="{$detail.icon}" alt="img">
+                            </div>
+                        </div>
+                        <div class="builder layui-auto-call {if $detail.icon}layui-hide{/if}" style="width: 120px; height: 40px;">
+                            <p>上传图标</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 水印字体文字 -->
+            <div class="layui-form-item">
+                <label for="fonts" class="layui-form-label">水印字体文字：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="fonts" name="fonts" value="{$detail.fonts}" class="layui-input" autocomplete="off">
+                </div>
+                <div class="layui-form-mid layui-word-aux">开启文字水印时生效</div>
+            </div>
+            <!-- 水印字体大小 -->
+            <div class="layui-form-item">
+                <label for="size" class="layui-form-label">水印字体大小：</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="size" name="size" value="{$detail.size}" class="layui-input" autocomplete="off">
+                </div>
+                <div class="layui-form-mid layui-word-aux">文字的大小，示例值: 16</div>
+            </div>
+            <!-- 水印字体颜色 -->
+            <div class="layui-form-item">
+                <label for="color" class="layui-form-label">水印字体颜色：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="color" name="color" value="{$detail.color}" class="layui-input" autocomplete="off">
+                </div>
+                <div class="layui-form-mid layui-word-aux">文字的颜色，默认值是#000000</div>
+            </div>
+            <!-- 水印字体偏移 -->
+            <div class="layui-form-item">
+                <label for="offset" class="layui-form-label">水印字体偏移：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="offset" name="offset" value="{$detail.offset}" class="layui-input" autocomplete="off">
+                </div>
+                <div class="layui-form-mid layui-word-aux">文字相对当前位置的偏移量，默认值是0</div>
+            </div>
+            <!-- 水印字体倾斜 -->
+            <div class="layui-form-item">
+                <label for="angle" class="layui-form-label">水印字体倾斜：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="angle" name="angle" value="{$detail.angle}" class="layui-input" autocomplete="off">
+                </div>
+                <div class="layui-form-mid layui-word-aux">字体的倾斜角度，默认值是0</div>
+            </div>
+            <!-- 水印图透明度 -->
+            <div class="layui-form-item">
+                <label for="alpha" class="layui-form-label">水印图透明度：</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="alpha" name="alpha" value="{$detail.alpha}" class="layui-input" autocomplete="off">
+                </div>
+                <div class="layui-form-mid layui-word-aux">透明度取值0~100，默认值是100</div>
+            </div>
+            <!-- 水印位置 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label">水印位置：</label>
+                <div class="layui-input-block">
+                    <table class="layui-table">
+                        <tbody>
+                            <tr>
+                                <td><input type="radio" name="position" value="1" title="顶部居左" {if $detail.position==1}checked{/if}></td>
+                                <td><input type="radio" name="position" value="2" title="顶部居中" {if $detail.position==2}checked{/if}></td>
+                                <td><input type="radio" name="position" value="3" title="顶部居右" {if $detail.position==3}checked{/if}></td>
+                            </tr>
+                            <tr>
+                                <td><input type="radio" name="position" value="4" title="左边居中" {if $detail.position==4}checked{/if}></td>
+                                <td><input type="radio" name="position" value="5" title="图片中心" {if $detail.position==5}checked{/if}></td>
+                                <td><input type="radio" name="position" value="6" title="右边居中" {if $detail.position==6}checked{/if}></td>
+                            </tr>
+                            <tr>
+                                <td><input type="radio" name="position" value="7" title="底部居左" {if $detail.position==7}checked{/if}></td>
+                                <td><input type="radio" name="position" value="8" title="底部居中" {if $detail.position==8}checked{/if}></td>
+                                <td><input type="radio" name="position" value="9" title="底部居右" {if $detail.position==9}checked{/if}></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 保存配置 -->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['form'], function () {
+        let form = layui.form;
+
+        // 提交表单
+        form.on('submit(addForm)', function(data){
+            layer.confirm('确定保存当前配置吗?', function(index) {
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '{:route("setting.watermark/save")}',
+                    type: 'POST',
+                    data: data.field
+                });
+            });
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,177 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <div class="layui-card">
+        <!-- 表格栏 -->
+        <div class="layui-card-body">
+            <div class="wait-blockquote success">
+                <div class="content">
+                    <p>1、请在linux环境使用crontab命令添加定时任务：*/1 * * * * php think crontab </p>
+                    <p>2、语法格式: </p>
+                        <p style="margin-left: 13px;">(0~59分钟) (0~23小时) (1~31日期) (1~12月份) (0~7周) 需要执行的命令</p>
+                    <p>3、执行规则： </p>
+                    <p style="margin-left: 13px;"><strong>*(星号)：</strong>  代表任何时刻都接受的意思，例：0 12 * * * command 日、月、周都是*，就代表着不论何月、何日的星期几的12：00都执行后续命令的意思。</p>
+                    <p style="margin-left: 13px;"><strong>,(逗号)：</strong>  代表分隔时段的意思。例：如要执行的工作是3：00与6：00时，就会是：0 4,6 * * * command时间还是有五列，不过第二列是 3,6 ，代表3与6都适用。</p>
+                    <p style="margin-left: 13px;"><strong>-(减号)：</strong>  代表一段时间范围内，例：8点到11点之间的每小时的18分都进行一项工作：18 8-11 * * * command仔细看到第二列变成8-11.代表 8,9,10,11,12 都适用的。</p>
+                    <p style="margin-left: 13px;"><strong>/n(斜线)：</strong> 那个n代表数字，即是每隔n单位间隔的意思，例：每五分钟进行一次，则：*/5 * * * * 。</p>
+                </div>
+            </div>
+
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+            <script type="text/html" id="toolbar">
+                <div class="layui-btn-container">
+                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="add">
+                        <i class="layui-icon icon-add"></i>
+                        <span>新增</span>
+                    </a>
+                </div>
+            </script>
+            <script type="text/html" id="table-status">
+                {{#  if(d.status === 1){ }}<span class="text-success"><i class="layui-icon layui-icon-circle-dot"></i> 运行中</span>{{#  } }}
+                {{#  if(d.status === 2){ }}<span class="text-warning"><i class="layui-icon layui-icon-circle-dot"></i> 已停止</span>{{#  } }}
+                {{#  if(d.status === 3){ }}<span class="text-warning"><i class="layui-icon layui-icon-circle-dot"></i> 异常</span>{{#  } }}
+            </script>
+            <script type="text/html" id="table-operate">
+                {{#  if(d.status === 1){ }}
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="stop" lay-tips="运行中">
+                        <i class="layui-icon icon-stop"></i>
+                    </button>
+                {{#  } }}
+                {{#  if(d.status === 2 || d.status === 3){ }}
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="run" lay-tips="已暂停">
+                        <i class="layui-icon icon-run"></i>
+                    </button>
+                {{#  } }}
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit" lay-tips="编辑">
+                    <i class="layui-icon icon-edit"></i>
+                </button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" lay-tips="删除">
+                    <i class="layui-icon icon-del"></i>
+                </button>
+            </script>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function() {
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("system.crontab/index")}'
+            ,cols: [[
+                {field:'id', title:'ID', width:60, align:'center'},
+                {field:'name', title:'计划名称', width:140},
+                {field:'command', title:'命令', width:140},
+                {field:'params', title:'参数', width:100},
+                {field:'rules', title:'规则', width:100},
+                {field:'error', title:'错误原因', width:160},
+                {field:'status', title:'状态', width:100, align:'center', templet:'#table-status'},
+                {field:'exe_time', title:'时长', width:70, align:'center'},
+                {field:'max_time', title:'最大时长', width:90, align:'center'},
+                {field:'last_time', title:'最后执行时间', width:170, align:'center'},
+                {fixed:'right', title:'操作', width:120, align:'center', toolbar:'#table-operate'},
+            ]]
+        });
+
+        // 绑定事件
+        waitUtil.event({
+            add: function () {
+                waitUtil.popup({
+                    title: '新增',
+                    url: '{:route("system.crontab/add")}',
+                    area: ['500px', '500px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.locking(this);
+                            waitUtil.ajax({
+                                url: '{:route("system.crontab/add")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                waitUtil.unlock(this);
+                                if (res.code === 0) {
+                                    table.reload({
+                                        where: [],
+                                        page: {curr: 1}
+                                    });
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            edit: function (obj) {
+                waitUtil.popup({
+                    title: '编辑',
+                    url: '{:route("system.Crontab/edit")}?id='+obj.data.id,
+                    area: ['500px', '500px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.locking(this);
+                            data.field['id'] = obj.data.id;
+                            waitUtil.ajax({
+                                url: '{:route("system.Crontab/edit")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                waitUtil.unlock(this);
+                                if (res.code === 0) {
+                                    table.reload();
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            del: function (obj) {
+                layer.confirm('确定删除该任务吗?', function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("system.crontab/del")}',
+                        type: 'POST',
+                        data: {id: obj.data.id}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            },
+            stop: function (obj) {
+                layer.confirm('确定要停止运行吗?', function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("system.crontab/stop")}',
+                        type: 'POST',
+                        data: {id: obj.data.id}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            },
+            run: function (obj) {
+                layer.confirm('确定要启动任务吗?', function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("system.Crontab/run")}',
+                        type: 'POST',
+                        data: {id: obj.data.id}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>
+{/block}

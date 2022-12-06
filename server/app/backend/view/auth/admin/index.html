@@ -1,0 +1,205 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <!-- 搜索栏 -->
+    <form class="layui-form layui-search">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label for="username" class="layui-form-label">登录账号：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" name="username" class="layui-input" placeholder="请输入登录账号" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label for="phone" class="layui-form-label">手机号码：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phone" name="phone" class="layui-input" placeholder="手机号码" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label for="status" class="layui-form-label">状态：</label>
+                <div class="layui-input-inline">
+                    <select id="status" name="status">
+                        <option value="" selected>全部</option>
+                        <option value="0">正常</option>
+                        <option value="1">禁用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-sm layui-btn-default" lay-submit lay-filter="search">查询</a>
+                <a class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="clear-search">重置</a>
+            </div>
+        </div>
+    </form>
+
+    <!-- 表格栏 -->
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+            <script type="text/html" id="toolbar">
+                <div class="layui-btn-container">
+                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="add">
+                        <i class="layui-icon icon-add"></i>
+                        <span>新增</span>
+                    </a>
+                    <a class="layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" lay-event="leave">
+                        <i class="layui-icon icon-del"></i>
+                        <span>删除</span>
+                    </a>
+                </div>
+            </script>
+            <script type="text/html" id="table-role">
+                {{#  if(d.id === 1){ }}
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-gloomy">{{ d.role.name }}</button>
+                {{#  }else{ }}
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-primary">{{ d.role.name }}</button>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-disable">
+                {{#  if(d.is_disable === 0){ }}
+                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                {{# } else { }}
+                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-operate">
+                {{#  if(d.id !== 1){ }}
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit">
+                        <i class="layui-icon icon-edit"></i>
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
+                        <i class="layui-icon icon-del"></i>
+                    </button>
+                {{#  } }}
+            </script>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function() {
+        let $ = layui.$;
+
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("auth.admin/index")}'
+            ,cols: [[
+                {type:'checkbox', width:48},
+                {field:'id', title:'ID', width:60, align:'center', event:'id'},
+                {field:'nickname', title:'用户昵称', width:100, align:'center'},
+                {field:'username', title:'登录账号', width:100, align:'center'},
+                {field:'role', title:'所属角色', width:120, align:'center', templet:'#table-role'},
+                {field:'dept', title:'所属部门', width:120, align:'center'},
+                {field:'post', title:'所属岗位', width:120, align:'center'},
+                {field:'email', title:'电子邮箱', width:190, align:'center'},
+                {field:'last_login_ip', title:'最后登录IP', width:120, align:'center'},
+                {field:'last_login_time', title:'最后登录时间', width:170, align:'center'},
+                {field:'disable', title:'状态', width:60, align:'center', templet:'#table-disable'},
+                {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
+            ]]
+            ,done: function(res) {
+                if (res.data) {
+                    $('th[data-field=0] div input[type="checkbox"]').prop('disabled', true);
+                    res.data.forEach(function (item, index) {
+                        if (item.id === 1) {
+                            $('tr[data-index=' + index + '] input[type="checkbox"]').prop('disabled', true);
+                        }
+                    });
+                    layui.form.render();
+                }
+            }
+        });
+
+        // 逻辑事件
+        waitUtil.event({
+            add: function () {
+                waitUtil.popup({
+                    title: '新增',
+                    url: '{:route("auth.admin/add")}',
+                    area: ['500px', '600px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data) {
+                            waitUtil.locking(this);
+                            waitUtil.ajax({
+                                url: '{:route("auth.admin/add")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                waitUtil.unlock(this);
+                                if (res.code === 0) {
+                                    table.reload({page: {curr: 1}});
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            edit: function (obj) {
+                waitUtil.popup({
+                    title: '编辑',
+                    url: '{:route("auth.admin/edit")}?id='+obj.data.id,
+                    area: ['500px', '600px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data) {
+                            waitUtil.locking(this);
+                            data.field['id'] = obj.data.id;
+                            waitUtil.ajax({
+                                url: '{:route("auth.admin/edit")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                waitUtil.locking(this);
+                                if (res.code === 0) {
+                                    table.reload();
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            del: function (obj) {
+                layer.confirm('确定要删除此项数据吗？', function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("auth.admin/del")}',
+                        type: 'POST',
+                        data: {ids: [obj.data.id]}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            },
+            leave: function () {
+                let ids = waitUtil.checkbox();
+                if (!ids.length) {
+                    return layer.msg('请至少选择一项！', {icon: 2});
+                }
+                layer.confirm(`确定要删除选中的${ids.length}项数据吗？`, function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("auth.admin/del")}',
+                        type: 'POST',
+                        data: {ids: ids}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            }
+        });
+
+        // 搜索事件
+        waitUtil.search(table);
+    });
+</script>
+{/block}

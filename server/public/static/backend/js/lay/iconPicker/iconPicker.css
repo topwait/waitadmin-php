@@ -1,0 +1,164 @@
+.layui-iconPicker {
+    max-width: 280px;
+}
+
+.layui-iconPicker .layui-anim {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 42px;
+    padding: 5px 0;
+    z-index: 899;
+    min-width: 100%;
+    border: 1px solid #d2d2d2;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.12);
+    box-sizing: border-box;
+}
+
+.layui-iconPicker-item {
+    border: 1px solid #e6e6e6;
+    width: 90px;
+    height: 38px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+.layui-iconPicker-icon {
+    border-right: 1px solid #e6e6e6;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    width: 60px;
+    height: 100%;
+    float: left;
+    text-align: center;
+    background: #fff;
+    transition: all .3s;
+}
+
+.layui-iconPicker-icon i {
+    line-height: 38px;
+    font-size: 18px;
+}
+
+.layui-iconPicker-item > .layui-edge {
+    left: 70px;
+}
+
+.layui-iconPicker-item:hover {
+    border-color: #D2D2D2!important;
+}
+
+.layui-iconPicker-item:hover .layui-iconPicker-icon {
+    border-color: #D2D2D2!important;
+}
+
+.layui-iconPicker.layui-form-selected .layui-anim {
+    display: block;
+}
+
+.layui-iconPicker-body {
+    padding: 6px;
+}
+
+.layui-iconPicker .layui-iconPicker-list {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.layui-iconPicker .layui-iconPicker-icon-item {
+    display: inline-block;
+    width: 21.1%;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+    height: 36px;
+    margin: 4px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    transition: 300ms;
+}
+
+.layui-iconPicker .layui-iconPicker-icon-item i.layui-icon {
+    font-size: 17px;
+}
+
+.layui-iconPicker .layui-iconPicker-icon-item:hover {
+    background-color: #eee;
+    border-color: #ccc;
+    -webkit-box-shadow: 0 0 2px #aaa,0 0 2px #fff inset;
+    -moz-box-shadow: 0 0 2px #aaa,0 0 2px #fff inset;
+    box-shadow: 0 0 2px #aaa,0 0 2px #fff inset;
+    text-shadow: 0 0 1px #fff;
+}
+
+.layui-iconPicker-search {
+    position: relative;
+    margin: 0 0 6px 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 2px;
+    transition: 300ms;
+}
+
+.layui-iconPicker-search:hover {
+    border-color: #D2D2D2!important;
+}
+
+.layui-iconPicker-search .layui-input {
+    cursor: text;
+    display: inline-block;
+    width: 86%;
+    border: none;
+    padding-right: 0;
+    margin-top: 1px;
+}
+
+.layui-iconPicker-search .layui-icon {
+    position: absolute;
+    top: 11px;
+    right: 4%;
+}
+
+.layui-iconPicker-tips {
+    text-align: center;
+    padding: 8px 0;
+    cursor: not-allowed;
+}
+
+.layui-iconPicker-page {
+    margin-top: 6px;
+    margin-bottom: -6px;
+    font-size: 12px;
+    padding: 0 2px;
+}
+
+.layui-iconPicker-page-count {
+    display: inline-block;
+}
+
+.layui-iconPicker-page-operate {
+    display: inline-block;
+    float: right;
+    cursor: default;
+}
+
+.layui-iconPicker-page-operate .layui-icon {
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.layui-iconPicker-body-page .layui-iconPicker-icon-limit {
+    display: none;
+}
+
+.layui-iconPicker-body-page .layui-iconPicker-icon-limit:first-child {
+    display: block;
+}

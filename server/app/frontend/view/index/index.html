@@ -1,0 +1,132 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<!-- 主体 -->
+<div class="layout-global-main">
+    <div class="container">
+        <div class="main-layout-section">
+            <div class="index-modular-carousel">
+                <div class="layui-carousel" id="indexCarousel">
+                    <div carousel-item>
+                        {volist name="banner" id="vo"}
+                            <div>
+                                <a href="{$vo.url}" target="{$vo.target}" title="{$vo.title}">
+                                    <img src="{$vo.image}" alt="{$vo.title}">
+                                </a>
+                            </div>
+                        {/volist}
+                    </div>
+                </div>
+            </div>
+            <div class="index-modular-sticker">
+                <div class="layui-card">
+                    <div class="layui-card-header">置顶特推</div>
+                    <div class="layui-card-body">
+                        <ul>
+                            {volist name="topping" id="vo"}
+                                <li>
+                                    {if $vo.image}
+                                        <a href="/frontend/article/detail?id={$vo.id}" title="{$vo.title}">
+                                            <img src="{$vo.image}" alt="{$vo.title}">
+                                        </a>
+                                    {/if}
+                                    <dl>
+                                        <dt><a href="/frontend/article/detail?id={$vo.id}">{$vo.title}</a></dt>
+                                        <dd>{$vo.intro}</dd>
+                                    </dl>
+                                </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="index-modular-lists">
+                <div class="layui-card">
+                    <div class="layui-card-header">每日推荐</div>
+                    <div class="layui-card-body">
+                        <ul>
+                            {volist name="everyday" id="vo"}
+                                <li>
+                                    <a href="/frontend/article/detail?id={$vo.id}" class="image" title="{$vo.title}">
+                                        <img src="{$vo.image}" alt="{$vo.title}">
+                                    </a>
+                                    <div class="region-right">
+                                        <h3><a href="/frontend/article/detail?id={$vo.id}">{$vo.title}</a></h3>
+                                        <p class="intro">{$vo.intro}</p>
+                                        <div class="tags">
+                                            <span>{$vo.category}</span>
+                                        </div>
+                                        <div class="footer">
+                                            <span>{$vo.datetime}</span>
+                                            <span>{$vo.browse} 阅读量</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-layout-aside">
+            <div class="index-modular-emerge">
+                <div class="layui-card">
+                    <div class="layui-card-header">最近更新</div>
+                    <div class="layui-card-body">
+                        <ul>
+                            {volist name="lately" id="vo"}
+                                <li><a href="/frontend/article/detail?id={$vo.id}"><span>[{$vo.category}] · </span>{$vo.title}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="index-modular-ranking">
+                <div class="layui-card">
+                    <div class="layui-card-header">排名榜单</div>
+                    <div class="layui-card-body">
+                        <ul>
+                            {volist name="ranking" id="vo" key="k"}
+                                <li><span>0{$k}</span><a href="/frontend/article/detail?id={$vo.id}">{$vo.title}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="index-modular-adv">
+                <img src="__FRONTEND__/images/ad.png" alt="adv">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 友链 -->
+<div class="layout-global-link">
+    <div class="container">
+        <div class="layui-card">
+            <div class="layui-card-header">友情链接</div>
+            <div class="layui-card-body">
+                <ul>
+                    {volist name="links" id="vo"}
+                        <li><a href="{$vo.title}" target="{$vo.target}" title="{$vo.title}">{$vo.title}</a></li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use('carousel', function(){
+        let carousel = layui.carousel;
+        carousel.render({
+            elem: '#indexCarousel'
+            ,width: '100%'
+            ,height: '360'
+            ,arrow: 'always'
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaitAdmin后台管理系统</title>
+    <link rel="stylesheet" href="__BACKEND__/js/layui/css/layui.css">
+    <link rel="stylesheet" href="__BACKEND__/font/iconfont.css">
+    <link rel="stylesheet" href="__BACKEND__/css/kernel2.css">
+</head>
+<body>
+<div id="app">
+    <!-- 导航区域 -->
+    <div class="wait-header">
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item">
+                <a href="javascript:" class="stretch" title="菜单切换">
+                    <i class="layui-icon layui-icon-shrink-right"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a class="refresh" href="javascript:" title="刷新">
+                    <i class="layui-icon layui-icon-refresh-3"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide-xs">
+                <a class="fullscreen" href="javascript:" title="全屏">
+                    <i class="layui-icon layui-icon-screen-full"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:">
+                    <img src="__BACKEND__/images/default/avatar.png" class="layui-nav-img" alt="avatar">
+                    {$Request.session.adminUser.username}
+                    <span class="layui-nav-more"></span>
+                </a>
+                <dl class="layui-nav-child layui-anim layui-anim-upbit user-info">
+                    <dd class="info" lay-event="info"><a href="javascript:">基本资料</a></dd>
+                    <dd><hr></dd>
+                    <dd class="logout" lay-event="logout"><a href="javascript:">退出登录</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="javascript:" class="about" lay-event="about">
+                    <i class="layui-icon layui-icon-more-vertical"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 菜单区域 -->
+    <div class="wait-sidebar">
+        <div class="logo"><span>WaitAdmin</span></div>
+        <ul>
+            {volist name="menus" id="vo" key="k"}
+            {if !$vo.children}
+            <li class="wait-menu-item {if $k==1}on{/if}">
+                <a lay-id="{$vo.title=='首页' ? '0' : $vo.id}"
+                   lay-attr="{:route($vo.title=='首页' ? 'index/console' : $vo.perms)}" >
+                    <i class="{$vo.icon}"></i>
+                    <cite>{$vo.title}</cite>
+                </a>
+            </li>
+            {else}
+            <li class="wait-menu-item">
+                <a href="javascript:">
+                    <i class="{$vo.icon}"></i>
+                    <cite>{$vo.title}</cite>
+                    <span class="layui-icon layui-icon-left"></span>
+                </a>
+                <dl class="wait-second-menu">
+                    {volist name="$vo.children" id="item"}
+                    {if !$item.children}
+                    <dd><a lay-id="{$item.id}" lay-attr="{:route($item.perms)}">{$item.title}</a></dd>
+                    {else}
+                    <dd>
+                        <a href="javascript:">
+                            <i class="layui-icon icon-member-user"></i>
+                            <cite>{$item.title}</cite>
+                            <span class="layui-icon layui-icon-left"></span>
+                        </a>
+                        <dl>
+                            {volist name="$item.children" id="sub"}
+                            <dd><a lay-id="{$item.id}" lay-attr="{:route($item.perms)}">{$item.title}</a></dd>
+                            {/volist}
+                        </dl>
+                    </dd>
+                    {/if}
+                    {/volist}
+                </dl>
+            </li>
+            {/if}
+            {/volist}
+        </ul>
+    </div>
+
+    <!-- 标签区域 -->
+    <div class="wait-tabs">
+        <div class="layui-icon lay-tabs-control layui-icon-prev" lay-event="leftPage"></div>
+        <div class="layui-icon lay-tabs-control layui-icon-next" lay-event="rightPage"></div>
+        <div class="layui-icon lay-tabs-control layui-icon-down">
+            <ul class="layui-nav lay-tabs-select">
+                <li class="layui-nav-item">
+                    <a href="javascript:"><span class="layui-nav-more"></span></a>
+                    <dl class="layui-nav-child layui-anim-fadein11 ">
+                        <dd lay-event="closeThisTabs"><a href="javascript:">关闭当前标签页</a></dd>
+                        <dd lay-event="closeOtherTabs"><a href="javascript:">关闭其它标签页</a></dd>
+                        <dd lay-event="closeAllTabs"><a href="javascript:">关闭全部标签页</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <div class="layui-tab" lay-unauto lay-allowclose="true" lay-filter="tab-body-filter">
+            <ul class="layui-tab-title">
+                <li lay-id="0" lay-attr="{:route('index/console')}" class="layui-this">
+                    <i class="layui-icon layui-icon-home"></i>
+                    <i class="layui-icon layui-tab-close"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主体区域 -->
+    <div class="wait-body">
+        <div lay-id="0" class="tab-body-item layui-show">
+            <iframe src="{:route('index/console')}"></iframe>
+        </div>
+    </div>
+
+    <!-- 辅助遮罩 -->
+    <div class="wait-mask"></div>
+
+    <div class="wait-load">
+        <div class="loader"></div>
+    </div>
+
+    <!-- JS脚本 -->
+    <script src="__BACKEND__/js/layui/layui.js"></script>
+    <script src="__BACKEND__/js/jquery.min.js"></script>
+    <script src="__BACKEND__/js/config.min.js"></script>
+    <script src="__BACKEND__/js/cache.min.js"></script>
+    <script src="__BACKEND__/js/kernel2.min.js"></script>
+    <script src="__BACKEND__/js/utils.min.js"></script>
+    <script>
+        layui.use(function() {
+            waitUtil.event({
+                info: function () {
+                    waitUtil.popup({
+                        title: '基本信息',
+                        url: '{:route("auth.Admin/info")}',
+                        area: ["510px", "540px"],
+                        success: function (layero, index) {
+                            layero.layui.form.on('submit(addForm)', function(data){
+                                data.field['id'] = '{$Request.session.adminUser.id}';
+                                waitUtil.ajax({
+                                    url: '{:route("auth.admin/info")}',
+                                    type: 'POST',
+                                    data: data.field
+                                }).then((res) => {
+                                    if (res.code === 0) {
+                                        layer.close(index);
+                                    }
+                                });
+                            });
+                        }
+                    });
+                },
+                logout: function () {
+                    layer.confirm("您确定要退出系统吗?", function(index) {
+                        layer.close(index);
+                        waitUtil.ajax({
+                            url: '{:route("login/logout")}',
+                            type: 'POST',
+                            data: []
+                        }).then((res) => {
+                            if (res.code === 0) {
+                                location.href = '{:route("login/index")}';
+                            }
+                        });
+                    })
+                }
+            })
+        })
+    </script>
+</div>
+</body>
+</html>

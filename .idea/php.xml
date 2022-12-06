@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/server/vendor/guzzlehttp/command" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-captcha" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/framework" />
+      <path value="$PROJECT_DIR$/server/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/server/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/server/vendor/league/flysystem" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-template" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-image" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-multi-app" />
+      <path value="$PROJECT_DIR$/server/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-trace" />
+      <path value="$PROJECT_DIR$/server/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/server/vendor/qcloud/cos-sdk-v5" />
+      <path value="$PROJECT_DIR$/server/vendor/guzzlehttp/uri-template" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-view" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-filesystem" />
+      <path value="$PROJECT_DIR$/server/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/server/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/server/vendor/aliyuncs/oss-sdk-php" />
+      <path value="$PROJECT_DIR$/server/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/server/vendor/topwait/think-addons" />
+      <path value="$PROJECT_DIR$/server/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-orm" />
+      <path value="$PROJECT_DIR$/server/vendor/topthink/think-helper" />
+      <path value="$PROJECT_DIR$/server/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/server/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/server/vendor/league/mime-type-detection" />
+      <path value="$PROJECT_DIR$/server/vendor/qiniu/php-sdk" />
+      <path value="$PROJECT_DIR$/server/vendor/guzzlehttp/guzzle-services" />
+      <path value="$PROJECT_DIR$/server/vendor/composer" />
+      <path value="$PROJECT_DIR$/server/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/server/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/server/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/server/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/server/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/server/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/server/vendor/myclabs/php-enum" />
+      <path value="$PROJECT_DIR$/server/vendor/psr/http-client" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
+</project>

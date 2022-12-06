@@ -1,0 +1,38 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 分组名称 -->
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label"><span class="asterisk">*</span>分组名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" value="{$detail.name}"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 分组排序 -->
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">分组排序：</label>
+            <div class="layui-input-block">
+                <input type="number" id="sort" name="sort" value="{$detail.sort}"
+                       autocomplete="off" class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 分组备注 -->
+        <div class="layui-form-item">
+            <label for="remarks" class="layui-form-label">分组备注：</label>
+            <div class="layui-input-block">
+                <textarea id="remarks" name="remarks" class="layui-textarea">{$detail.remarks}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

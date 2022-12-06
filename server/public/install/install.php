@@ -1,0 +1,135 @@
+<?php
+include_once 'proof.php';
+include_once 'mysql.php';
+include_once 'util.php';
+
+// 常量定义
+define('INSTALL_ROOT', __DIR__);
+define('PUBLIC_ROOT', dirname(__DIR__));
+define('APP_ROOT', dirname(dirname(__DIR__)));
+
+// 参数实例化
+$successTables = [];
+$errMsg = null;
+$step   = $_GET['step'] ?? 1;
+$ajax   = $_POST['ajax'] ?? 0;
+$proof  = new Proof();
+$util   = new Util();
+
+// 安装验证
+if ($util->loadLock() && in_array($step, [1, 2, 3, 4])) {
+    die('可能已经安装过本系统了，请删除根目录下面的install.lock文件再尝试！');
+}
+
+// 流程校验
+if (!in_array($step, [1, 2, 3, 4, 5]))  {
+    die('你想干嘛？能不能好按流程操作？');
+}
+
+// 后台访问名
+$number = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+$adminName = substr(str_shuffle($number), 0, 10) . '.php';
+
+// 数据库校验
+if ($step == 4) {
+    $post = [
+        'host'       => $_POST['host'] ?? '',
+        'port'       => $_POST['port'] ?? '',
+        'db'         => $_POST['db'] ?? '',
+        'username'   => $_POST['username'] ?? '',
+        'password'   => $_POST['password'] ?? '',
+        'prefix'     => $_POST['prefix'] ?? '',
+        'clear'      => empty($_POST['clear']) ? false : true,
+        'layout'     => $_POST['layout'] ?? 'exhale',
+        'admin_user' => $_POST['admin_user'] ?? '',
+        'admin_pwd'  => $_POST['admin_pwd'] ?? '',
+        'admin_pwd_confirm'  => $_POST['admin_pwd_confirm'] ?? ''
+    ];
+
+    // 连接数据库
+    $mysql = new Mysql($post);
+
+    // 异步验证
+    if ($ajax) {
+        // 参数验证
+        $errMsg = $proof->checkParams($post);
+        if ($errMsg) {
+            exit(json_encode(['code'=>1, 'msg'=>$errMsg]));
+        }
+        // 数据库验证
+        $mysqlErr = $mysql->checkDB();
+        if ($mysqlErr !== true) {
+            exit(json_encode(['code'=>1, 'msg'=>$mysqlErr]));
+        }
+        // 验证菜单布局
+        if ($post['layout'] == 'tree') {
+            $indexTreeRc = APP_ROOT . '/app/backend/view/index/';
+            if ($proof->checkDirWrite($indexTreeRc) == 'fail') {
+                exit(json_encode(['code'=>1, 'msg'=>'此路径没有写入权限: “app/backend/view/index/”']));
+            }
+
+            $jsTreeRc = APP_ROOT . '/public/static/backend/js';
+            if ($proof->checkDirWrite($jsTreeRc) == 'fail') {
+                exit(json_encode(['code'=>1, 'msg'=>'此路径没有写入权限: “public/static/backend/js”']));
+            }
+        }
+        // 验证通过返回
+        exit(json_encode(['code'=>0, 'msg'=>'success']));
+    } else {
+        // 同步验证
+        $errMsg = $proof->checkParams($post);
+        if ($errMsg) {
+            $step = 3;
+        } else {
+            $indexTreeRc = APP_ROOT . '/app/backend/view/index/';
+            $jsTreeRc = APP_ROOT . '/public/static/backend/js';
+            $mysqlErr = $mysql->checkDB();
+            if ($mysqlErr !== true) {
+                $errMsg = $mysqlErr;
+                $step = 3;
+            } elseif ($proof->checkDirWrite($indexTreeRc) == 'fail' && $post['layout'] == 'tree') {
+                $errMsg = '此路径没有写入权限: “app/backend/view/index/”';
+                $step = 3;
+            } elseif ($proof->checkDirWrite($indexTreeRc) == 'fail' && $post['layout'] == 'tree') {
+                $errMsg = 'public/static/backend/js';
+                $step = 3;
+            } else {
+                // 写入到数据表
+                $successTables = $mysql->install();
+                if (is_string($successTables)) {
+                    $errMsg = $successTables;
+                    $step = 3;
+                }
+
+                // 生成配置文件
+                $util->makeEnv($post);
+
+                // 生成锁定文件
+                $util->makeLock();
+
+                // 树形菜单生成
+                if ($post['layout'] == 'tree') {
+                    $util->makeTpl();
+                }
+            }
+        }
+    }
+}
+
+// 生成入口文件
+if ($step == 5) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $util->replaceEntrance($adminName);
+    } else {
+        $key = 'backend_entrance';
+        $appConfig = APP_ROOT . '/config/app.php';
+        $config = file_get_contents($appConfig);
+
+        $re = [];
+        preg_match_all("/'{$key}'.*?=>.*?'(.*?)'/", $config, $re);
+        $adminName = trim($re[1][0], '/');
+    }
+}
+
+// 输出模板
+include_once __DIR__ . '/template/main.php';

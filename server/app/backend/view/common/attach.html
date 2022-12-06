@@ -1,0 +1,508 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    /** 容器 **/
+    .file-container {display: flex; justify-content: space-between; width: 100%; position: absolute; top: 0; bottom: 0; padding-bottom: 50px;}
+    ::-webkit-scrollbar {display: none; width: 6px; height: 6px;}
+    ::-webkit-scrollbar-thumb {border-radius: 10px;background-color: #e1e1e1;}
+    /** 目录 **/
+    .file-container .folder {position: relative; display: flex; flex-direction: column; width: 180px; padding-top: 10px;}
+    .file-container .folder ul::-webkit-scrollbar {display: block;}
+    .file-container .folder ul {flex: 1; overflow: hidden; overflow-y: auto;}
+    .file-container .folder ul li {display: flex; align-items: center; justify-content: space-between; padding: 0 15px; height: 36px; font-size: 13px; color: #666666;}
+    .file-container .folder ul li img {width: 20px; height: 16px; margin-right: 0.7rem;}
+    .file-container .folder ul li > span {display: flex; flex: 1; margin-right: 0.5rem;  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+    .file-container .folder ul li.active {background: #edefff;}
+    .file-container .folder ul li:hover  {background: #f5f7fa;}
+    .file-container .folder ul li .dropdown:hover dl{display: block;}
+    .file-container .folder ul li .dropdown dl {display: none; position: absolute; top: 36px; right: -15px; z-index: 10000; width: 88px; text-align: center; padding: 5px 0; box-shadow: #ccc 0 0 10px; border-radius: 2px; background-color: #fff;}
+    .file-container .folder ul li .dropdown dl dd {height: 32px; line-height: 32px;}
+    .file-container .folder ul li .dropdown dl dd:hover {color: #4a5dff; background-color: #edefff;}
+    .file-container .folder ul li .dropdown dl:before {position: absolute; top: -16px;; left: 44px; z-index: 12; width: 0; height: 0; padding: 0; display: block; content: ''; box-sizing: content-box; border-bottom: 8px solid #FFFFFF; border-top: 8px solid transparent; border-left: 8px solid transparent; border-right: 8px solid transparent;}
+    .file-container .folder .footer {position: absolute; bottom: -50px; width: 100%; height: 50px; display: flex;align-items: center; justify-content: center; border-top: 1px solid #f2f2f2; border-right: 1px solid #f2f2f2;}
+    /** 搜索 **/
+    .file-container .attach .header {display: flex; align-items: center; justify-content: space-between; padding: 6px 15px; border-bottom: 1px solid #f2f2f2;}
+    .file-container .attach .header .search {display: flex;}
+    .file-container .attach .header .search input:focus {border-color: #eee !important;}
+    .file-container .attach .header .search input {height: 30px; border-color: #eee; border-top-right-radius: 0; border-bottom-right-radius: 0;}
+    .file-container .attach .header .search button {border-color: #eee; background: #f5f7fa; border-top-left-radius: 0; border-bottom-left-radius: 0}
+    /** 文件 **/
+    .file-container .attach {flex: 1; border-left: 1px solid #f6f6f6; border-right: 1px solid #f6f6f6;}
+    .file-container .attach .subject {display: flex; padding: 5px 10px; box-sizing: border-box; height: calc(100% - 44px); overflow: hidden; overflow-y: auto;}
+    .file-container .attach .subject:hover::-webkit-scrollbar{display: block;}
+    .file-container .attach .subject ul::after{content: ""; display: block; visibility: hidden; clear: both;}
+    .file-container .attach .subject ul li {position: relative; float: left; padding: 10px; margin: 5px; border-radius: 6px; border: 1px solid rgba(0, 0, 0, 0.05); -webkit-transition: All 0.2s ease-in-out; -moz-transition: All 0.2s ease-in-out; -o-transition: All 0.2s ease-in-out; transition: All 0.2s ease-in-out;}
+    .file-container .attach .subject ul li:hover {border: 1px solid #ccc;}
+    .file-container .attach .subject ul li img {width: 98px; height: 98px;}
+    .file-container .attach .subject ul li video {width: 98px; height: 98px;}
+    .file-container .attach .subject ul li p {margin: 5px 0 0 0; width: 98px; font-size: 13px; text-align: center; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+    .file-container .attach .subject ul li:after {display: none; content: "\e605"; font-family: "layui-icon",serif; font-size: 26px; font-weight: bold; line-height: 125px; text-align: center; color: #fff; position: absolute; top: 0; bottom: 0; left: 0; right: 0; border-radius: 4px; background: rgba(0, 0, 0, 0.5);}
+    .file-container .attach .subject ul li.active:after{display: block;}
+    .file-container .attach .footer {display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: fixed; bottom: 0; left: 181px; right: 0; height: 50px; text-align: center; border-top: 1px solid #f2f2f2; background: #FFFFFF;}
+    /** 选择 **/
+    .file-container .select {width: 125px;}
+    .file-container .select .header {display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 10px;}
+    .file-container .select .header span:first-child {font-size: 14px; color: #666666;}
+    .file-container .select .header span:last-child {color: #ea5455;}
+    .file-container .select ul {display: flex; flex-direction: column; align-items: center;}
+    .file-container .select ul li {position: relative; width: 90px; height: 90px; border: 1px solid #f2f2f2; margin-bottom: 10px;}
+    .file-container .select ul li img {width: 100%; height: 100%;}
+    .file-container .select ul li video {width: 100%; height: 100%;}
+    .file-container .select ul li:hover i {visibility: visible;}
+    .file-container .select ul li i {font-size: 12px; color: #fff; cursor: pointer; position: absolute; top: -10px; right: -6px; visibility: hidden; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: hsla(0, 0%, 60%, .6);}
+    /** 空的 **/
+    .file-container .empty {flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; overflow: hidden; text-align: center; color: #ccc;}
+    .file-container .empty i {font-size: 180px; }
+    .file-container .empty p {text-align: center; width: 180px;}
+</style>
+{/block}
+
+{block name="body"}
+    <!-- 主体容器 -->
+    <div class="file-container">
+        <div class="folder">
+            <ul class="groups"> </ul>
+            <div class="footer">
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm cateCreate">添加分组</button>
+            </div>
+        </div>
+        <div class="attach">
+            <div class="header">
+                {if $type==10}
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="imageUpload">上传图片</button>
+                {else}
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="videoUpload">上传视频</button>
+                {/if}
+                <div class="search">
+                    <label><input type="text" name="keyword" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-primary">
+                        <i class="layui-icon layui-icon-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="subject">
+                <div class="empty">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    <p>空空如也，快去上传吧!</p>
+                </div>
+            </div>
+            <div class="footer">
+                <div id="paging"></div>
+                <button type="button" class="layui-btn layui-btn-sm layui-btn-disabled" id="okFile">使用选中文件</button>
+            </div>
+        </div>
+        <div class="select"></div>
+    </div>
+
+    <!-- 目录模板 -->
+    <script id="folder" type="text/html">
+        <li data-id="-1" class="active">
+            <img  src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <span>全部</span>
+        </li>
+        <li data-id="0">
+            <img src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <span>未分组</span>
+        </li>
+        {{#  layui.each(d, function(index, item){ }}
+        <li data-id="{{ item.id }}">
+            <img src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <span title="{{ item.name }}">{{ item.name }}</span>
+            <div class="dropdown">
+                <span>···</span>
+                <dl>
+                    <dd class="cateRename">命名分组</dd>
+                    <dd class="cateDelete">删除分组</dd>
+                </dl>
+            </div>
+        </li>
+        {{#  }); }}
+    </script>
+
+    <!-- 文件模板 -->
+    <script id="attach" type="text/html">
+        {{#  if(d.length > 0){ }}
+        <ul>
+            {{#  layui.each(d, function(index, item){ }}
+            <li data-id="{{ item.id }}">
+                {if $type==10}
+                    <img src="{{ item.file_path }}" alt="img">
+                {else}
+                    <video src="{{ item.file_path }}"></video>
+                {/if}
+                <p title="{{ item.file_name }}">{{ item.file_name }}</p>
+            </li>
+            {{#  }); }}
+        </ul>
+        {{#  } }}
+
+        {{#  if(d.length <= 0){ }}
+        <div class="empty">
+            <i class="layui-icon layui-icon-upload"></i>
+            <p>空空如也，快去上传吧!</p>
+        </div>
+        {{#  } }}
+    </script>
+
+    <!-- 选中模板 -->
+    <script id="select" type="text/html">
+        <div class="header">
+            <span>已选择 {{ d.data.length }}/{{ d.limit }}</span>
+            <span class="clean">清空</span>
+        </div>
+        <ul>
+            {{# layui.each(d.data, function(index, item){ }}
+            <li data-id="{{ item.id }}" title="{{ item.text }}">
+                {if $type==10}
+                    <img src="{{ item.url }}" alt="img">
+                {else}
+                    <video src="{{ item.url }}"></video>
+                {/if}
+                <i class="layui-icon icon-window-close"></i>
+            </li>
+            {{#  }); }}
+        </ul>
+    </script>
+{/block}
+
+{block name="js"}
+<script>
+    let limit   = 2;
+    let urlArr  = [];
+    layui.use(['laytpl', 'laypage', 'upload'], function () {
+        let laytpl  = layui.laytpl;
+        let laypage = layui.laypage;
+        let upload  = layui.upload;
+        let type    = parseInt('{$type}');
+        let cid     = -1;
+
+        // 事件定义
+        let event = waitUtil.event({
+            // 分组列表
+            group: function () {
+                waitUtil.ajax({
+                    url: '{:route("attach/cateLists")}',
+                    type: 'GET',
+                    fulShow: false,
+                    data: {type: type}
+                }).then((res) => {
+                    let getTpl = document.getElementById('folder').innerHTML;
+                    let view   = document.getElementsByClassName('groups')[0];
+                    laytpl(getTpl).render(res.data, function(html){
+                        view.innerHTML = html;
+                    });
+
+                    $('.folder .dropdown span').hover(function () {
+                        let top = $(this).offset().top + 24.5;
+                        $(this).next().css('top', top+'px')
+                    })
+                });
+            },
+            // 文件列表
+            lists: function (obj) {
+                let cid  = (!obj || obj.cid  === undefined)  ? -1 : obj.cid;
+                let page = (!obj || obj.page === undefined)  ? 1  : obj.page;
+                let cls  = (!obj || obj.type === undefined) ? type : obj.type;
+                let where = {cid: cid, type: cls, page: page};
+                if (obj && obj.keyword !== undefined) {
+                    where['keyword'] = obj.keyword;
+                }
+
+                let index = layer.load(1, {shade: false});
+                waitUtil.ajax({
+                    url: '{:route("attach/index")}',
+                    type: 'GET',
+                    fulShow: false,
+                    data: where
+                }).then((res) => {
+                    let getTpl = document.getElementById('attach').innerHTML;
+                    let view   = document.getElementsByClassName('subject')[0];
+                    laytpl(getTpl).render(res.data.data, function(html){
+                        view.innerHTML = html;
+                    });
+
+                    layer.close(index);
+                    laypage.render({
+                        elem: 'paging'
+                        ,count: res.data['total']
+                        ,curr: res.data['current_page']
+                        ,limit: res.data['per_page']
+                        ,last: res.data['last_page']
+                        ,jump: function (obj, first) {
+                            if (!first) {
+                                event.lists({cid: cid, page: obj.curr});
+                            }
+                        }
+                    });
+                });
+            },
+            // 文件选择
+            picks: function (obj) {
+                obj = obj === undefined ? {limit: limit, data: urlArr} : obj;
+                let getTpl = document.getElementById('select').innerHTML;
+                let view   = document.getElementsByClassName('select')[0];
+                laytpl(getTpl).render(obj, function(html){
+                    view.innerHTML = html;
+                });
+            }
+        });
+
+        // 初始加载
+        event.group();
+        event.lists();
+        event.picks();
+
+        // 分组切换
+        $(document).on('click', '.folder li', function (e) {
+            e.preventDefault();
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+            cid = parseInt($(this).attr('data-id'));
+            event.lists({cid: $(this).attr('data-id')}, 1);
+        });
+
+        // 分组创建
+        $(document).on('click', '.folder .cateCreate', function () {
+            layer.prompt({title: '添加分组', value: ' ', formType: 3}, function(text, index){
+                if (text.trim().length <= 0) {
+                    return layer.msg('请输入分组名称', {icon: 0});
+                }
+                waitUtil.ajax({
+                    url: '{:route("attach/cateAdd")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {type: type, name: text.trim()}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        event.group();
+                        layer.close(index);
+                    }
+                });
+            });
+        });
+
+        // 分组命名
+        $(document).on('click', '.folder .cateRename', function (e) {
+            e.stopPropagation();
+            let node = $(this).parents('li');
+            let id   = $(node).attr('data-id');
+            let span = $(node).find('span').html();
+            layer.prompt({title: '重命分组', value: span, formType: 3}, function(text, index){
+                if (text.trim().length <= 0) {
+                    return layer.msg("请输入分组名称", {icon: 0});
+                }
+                waitUtil.ajax({
+                    url: '{:route("attach/cateRename")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {id: id, type: type, name: text.trim()}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        event.group();
+                        layer.close(index);
+                    }
+                });
+            });
+        });
+
+        // 分组删除
+        $(document).on('click', '.folder .cateDelete', function (e) {
+            e.stopPropagation();
+            let id = $(this).parents('li').attr('data-id');
+            layer.confirm('确定要删除吗?', function (index){
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '{:route("attach/cateDelete")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {id: id, type: type}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        cid = -1;
+                        event.group();
+                    }
+                });
+            });
+        });
+
+        // 命名文件
+        $(document).on('contextmenu', '.attach li p', function () {
+            let that = $(this);
+            let name = that.html();
+            let id   = that.parents('li').attr('data-id');
+
+            layer.prompt({title: '重命名', value: name, formType: 3}, function(text, index){
+                if (text.trim().length <= 0) {
+                    return layer.msg('请输入文件名称', {icon: 0});
+                }
+                waitUtil.ajax({
+                    url: '{:route("attach/rename")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {id: id, type: type, name: text.trim()}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        that.html(text);
+                        layer.close(index);
+                    }
+                });
+            });
+        });
+
+        // 选择文件
+        $(document).on('click', '.attach li', function () {
+            let id   = parseInt($(this).attr('data-id'));
+            let text = $(this).find('p').html().trim();
+            let url  = $(this).find('img').attr('src');
+            if (type === 20) {
+                url = $(this).find('video').attr('src');
+            }
+
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                for (let i=0; i<urlArr.length; i++) {
+                    if (urlArr[i]['id'] === id) {
+                        urlArr.splice(i, 1);
+                        break;
+                    }
+                }
+            } else {
+                if (limit === 1 && urlArr.length >= limit) {
+                    $(this).siblings().removeClass('active');
+                    urlArr = [];
+                } else if (urlArr.length >= limit) {
+                    return layer.msg('超出最大限制数', {icon: 2, time: 1000});
+                }
+
+                $(this).addClass('active');
+                urlArr.push({
+                    id: id,
+                    url: url,
+                    text: text
+                });
+            }
+
+            let okFileNode = $('#okFile');
+            if (urlArr.length <= 0) {
+                okFileNode.addClass('layui-btn-disabled');
+                okFileNode.removeClass('layui-btn-default');
+            } else {
+                okFileNode.addClass('layui-btn-default');
+                okFileNode.removeClass('layui-btn-disabled');
+            }
+
+            event.picks();
+        });
+
+        // 选择销毁
+        $(document).on('click', '.select li i', function () {
+            let id = parseInt($(this).parents('li').attr('data-id'));
+            $('.attach ul li[data-id="'+id+'"]').removeClass('active');
+            for (let i=0; i<urlArr.length; i++) {
+                if (urlArr[i]['id'] === id) {
+                    urlArr.splice(i, 1);
+                    break;
+                }
+            }
+
+            event.picks();
+        });
+
+        // 选择清空
+        $(document).on('click', '.select .clean', function () {
+            layer.confirm('确定要清空吗?', function (index) {
+                layer.close(index);
+                urlArr = [];
+                $('.select ul').html('');
+                $('.attach ul li').removeClass('active');
+
+                event.picks();
+            });
+        });
+
+        // 文件搜索
+        $(document).on('click', '.attach .search button', function () {
+            let keyword = $('.attach .search input').val().trim();
+            event.lists({type: type, cid: cid, page: 1, keyword: keyword});
+        });
+
+        // 上传图片
+        let layerIndex;
+        upload.render({
+            elem: '#imageUpload'
+            ,url: '{:route("upload/attach")}?type=image'
+            ,field: 'file'
+            ,multiple: true
+            ,acceptMime: 'image/*'
+            ,accept: 'images'
+            ,exts: '{:implode("|", $imageLimit.ext)}'
+            ,size: parseInt('{$imageLimit.size}') / 1024
+            ,data: {
+                cid: function () {
+                    return cid > 0 ? cid : 0;
+                }
+            }
+            ,before: function () {
+                layer.load();
+                layerIndex = layer.msg('图片上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            }
+            ,done: function (res) {
+                layer.close(layerIndex);
+                event.lists({cid: cid, type: type, page: 1});
+                if (res.code !== 0) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                }
+            }
+            ,error: function (e) {
+                layer.close(layerIndex);
+                layer.msg(e, {icon: 2, time: 1500});
+            }
+        });
+
+        // 上传视频
+        upload.render({
+            elem: '#videoUpload'
+            ,url: '{:route("upload/attach")}?type=video'
+            ,field: 'file'
+            ,multiple: true
+            ,acceptMime: 'video/*'
+            ,accept: 'video'
+            ,exts: '{:implode("|", $videoLimit.ext)}'
+            ,size: parseInt('{$videoLimit.size}') / 1024
+            ,data: {
+                cid: function () {
+                    return cid > 0 ? cid : 0;
+                }
+            }
+            ,before: function () {
+                layer.load();
+                layerIndex = layer.msg('视频上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            }
+            ,done: function (res) {
+                layer.close(layerIndex);
+                event.lists({cid: cid, type: type, page: 1});
+                if (res.code !== 0) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                }
+            }
+            ,error: function (e) {
+                layer.close(layerIndex);
+                layer.msg(e, {icon: 2, time: 1500});
+            }
+        });
+    });
+
+    function getUrlArr() {
+        return urlArr;
+    }
+</script>
+{/block}

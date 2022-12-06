@@ -1,0 +1,65 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 任务名称 -->
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label"><span class="asterisk">*</span>任务名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" value="{$detail.name}"
+                       placeholder="请输入计划任务名称" class="layui-input"
+                       autocomplete="off" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 执行命令 -->
+        <div class="layui-form-item">
+            <label for="command" class="layui-form-label"><span class="asterisk">*</span>执行命令：</label>
+            <div class="layui-input-block">
+                <input type="text" id="command" name="command" value="{$detail.command}"
+                       placeholder="请输入执行的命令" class="layui-input"
+                       autocomplete="off" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 附带参数 -->
+        <div class="layui-form-item">
+            <label for="params" class="layui-form-label">附带参数：</label>
+            <div class="layui-input-block">
+                <input type="text" id="params" name="params" value="{$detail.params}"
+                       placeholder="请输入参数，例:--id 8 --name 测试" class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <!-- 执行规则 -->
+        <div class="layui-form-item">
+            <label for="rules" class="layui-form-label">执行规则：</label>
+            <div class="layui-input-block">
+                <input type="text" id="rules" name="rules" value="{$detail.rules}"
+                       placeholder="请输入crontab规则，例：59 * * * *" class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <!-- 备注信息 -->
+        <div class="layui-form-item">
+            <label for="remarks" class="layui-form-label">备注信息：</label>
+            <div class="layui-input-block">
+                    <textarea id="remarks" name="remarks"
+                              placeholder="请输入内容" class="layui-textarea">{$detail.remarks}</textarea>
+            </div>
+        </div>
+        <!-- 运行状态 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">运行状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="1" title="立即启动" {if $detail.status==1}checked{/if}>
+                <input type="radio" name="status" value="{$detail.status==1?2:$detail.status}" title="暂停执行" {if $detail.status>1}checked{/if}>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

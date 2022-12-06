@@ -1,0 +1,8 @@
+/.idea
+/.vscode
+/runtime/
+/public/locals/
+/public/storage/
+/public/temporary/
+*.log
+.env

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$website.website_title??'首页'}</title>
+    <meta name="keywords" content="{$website.seo_keywords??''}">
+    <meta name="description" content="{$website.seo_description??''}">
+    <link rel="stylesheet" href="__FRONTEND__/js/layui/css/layui.css">
+    <link rel="stylesheet" href="__FRONTEND__/css/app.css">
+    <script src="__FRONTEND__/js/layui/layui.js"></script>
+</head>
+<body>
+    <!-- 头部 -->
+    {include file="common/header" /}
+
+    {block name="body"}{/block}
+
+    <!-- 页脚 -->
+    {include file="common/footer" /}
+
+    <!-- 脚本 -->
+    <script src="__FRONTEND__/js/layui/layui.js"></script>
+    {block name="js"}{/block}
+    {$website.website_analyse??''}
+</body>
+</html>

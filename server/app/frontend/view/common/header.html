@@ -1,0 +1,25 @@
+<div class="layout-global-header">
+    <div class="navigation">
+        <div class="container">
+            <a class="logo"><img src="__FRONTEND__/images/logo.png" alt="logo"></a>
+            <ul>
+                {volist name="navigation" id="vo"}
+                    {if !$vo.children}
+                        <li class="{:think\\facade\\Request::url()==$vo.url?'active':''}">
+                            <a href="{$vo.url}" target="{$vo.target}">{$vo.name}</a>
+                        </li>
+                    {else}
+                        <li class="children {:think\\facade\\Request::url()==$vo.url?'active':''}">
+                            <a href="javascript:">{$vo.name}</a>
+                            <dl>
+                                {volist name="$vo.children" id="subItem"}
+                                    <dd><a href="{$subItem.url}" target="{$subItem.target}">{$subItem.name}</a></dd>
+                                {/volist}
+                            </dl>
+                        </li>
+                    {/if}
+                {/volist}
+            </ul>
+        </div>
+    </div>
+</div>

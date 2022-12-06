@@ -1,0 +1,93 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 上级菜单 -->
+        <div class="layui-form-item">
+            <label for="pid" class="layui-form-label">上级菜单：</label>
+            <div class="layui-input-block">
+                <select id="pid" name="pid" lay-verify="required|number" lay-search>
+                    <option value="0">顶级</option>
+                    {volist name="menus" id="vo"}
+                        <option value="{$vo.id}">{$vo.html} {$vo.title}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <!-- 菜单图标 -->
+        <div class="layui-form-item">
+            <label for="iconPicker" class="layui-form-label">菜单图标：</label>
+            <div class="layui-input-block">
+                <input type="hidden" id="iconPicker" lay-filter="iconPicker">
+                <input type="hidden" name="icon">
+            </div>
+        </div>
+        <!-- 菜单名称 -->
+        <div class="layui-form-item">
+            <label for="title" class="layui-form-label">菜单名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="title" name="title" class="layui-input" autocomplete="off" lay-verify="required">
+            </div>
+        </div>
+        <!-- 权限标识 -->
+        <div class="layui-form-item">
+            <label for="perms" class="layui-form-label">权限标识：</label>
+            <div class="layui-input-block">
+                <input type="text" id="perms" name="perms" class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <!-- 菜单排序 -->
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">菜单排序：</label>
+            <div class="layui-input-block">
+                <input type="number" id="sort" name="sort" class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <!-- 是否菜单 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否菜单：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_menu" value="1" title="是" checked>
+                <input type="radio" name="is_menu" value="0" title="否">
+            </div>
+        </div>
+        <!-- 是否禁用 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否禁用：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_disable" value="1" title="是">
+                <input type="radio" name="is_disable" value="0" title="否" checked>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['iconPicker'], function () {
+        let $ = layui.$;
+        let iconPicker = layui.iconPicker;
+
+        // 图标选择器
+        iconPicker.render({
+            elem: '#iconPicker',
+            search: true,
+            page: true,
+            limit: 12,
+            cellWidth: '20%',
+            click: function (data) {
+                $('input[name="icon"]').val(data.icon);
+            }
+        });
+    });
+</script>
+{/block}

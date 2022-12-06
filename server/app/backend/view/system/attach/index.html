@@ -1,0 +1,549 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    /** 容器 **/
+    body {display: flex; height: 100vh; overflow: hidden;}
+    body .container {flex: 1; display: flex; flex-direction: column; overflow: hidden;}
+    .file-container {flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #fff; box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0; border-radius: 2px;}
+    .file-majors    {flex: 1; display: flex; justify-content: space-between; overflow: hidden;}
+    .file-header    {padding: 0 15px;}
+    ::-webkit-scrollbar {display: none; width: 6px; height: 6px;}
+    ::-webkit-scrollbar-thumb {border-radius: 10px;background-color: #e1e1e1;}
+
+    /** 目录 **/
+    .file-majors .folder {position: relative; display: flex; flex-direction: column; padding-top: 10px; width: 180px; border-right: 1px solid #f6f6f6;}
+    .file-majors .folder ul::-webkit-scrollbar {display: block;}
+    .file-majors .folder ul {flex: 1; overflow: hidden; overflow-y: auto;}
+    .file-majors .folder ul li {display: flex; align-items: center; justify-content: space-between; padding: 0 15px; height: 36px; font-size: 13px; color: #666666;}
+    .file-majors .folder ul li img {width: 20px;height: 16px; margin-right: 0.7rem;}
+    .file-majors .folder ul li > span {display: flex; flex: 1; margin-right: 0.5rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+    .file-majors .folder ul li.active {background: #edefff;}
+    .file-majors .folder ul li:hover  {background: #f5f7fa;}
+    .file-majors .folder ul li .dropdown:hover dl{display: block;}
+    .file-majors .folder ul li .dropdown dl {display: none; position: absolute; top: 36px; right: -15px; z-index: 10000; width: 88px; text-align: center; padding: 5px 0; box-shadow: #ccc 0 0 10px; border-radius: 2px; background-color: #fff;}
+    .file-majors .folder ul li .dropdown dl dd {height: 32px; line-height: 32px;}
+    .file-majors .folder ul li .dropdown dl dd:hover {color: #4a5dff; background-color: #edefff;}
+    .file-majors .folder ul li .dropdown dl:before {position: absolute; top: -16px;; left: 44px; z-index: 12; width: 0; height: 0; padding: 0; display: block; content: ''; box-sizing: content-box; border-bottom: 8px solid #FFFFFF; border-top: 8px solid transparent; border-left: 8px solid transparent; border-right: 8px solid transparent;}
+    .file-majors .folder .footer {width: 100%; height: 50px; display: flex;align-items: center; justify-content: center; border-top: 1px solid #f2f2f2; border-right: 1px solid #f2f2f2;}
+    /** 移动 **/
+    .file-majors .attach #move:hover {position: relative; opacity: 1;}
+    .file-majors .attach #move:hover .dropdown {display: block; background-color: #fff;}
+    .file-majors .attach .dropdown {display: none; position: absolute; top: 38px;  z-index: 100000; width: 150px; padding: 5px 0; text-align: left; line-height: 1.6; background-color: #fff; border: 1px solid #ddd;}
+    .file-majors .attach .dropdown em {font-style: normal; font-weight: 400; font-size: 13px; color: #333;}
+    .file-majors .attach .dropdown em {display: block; padding: 6px 20px; clear: both; white-space: nowrap;}
+    .file-majors .attach .dropdown em:hover {background: #eeeeee;}
+    .file-majors .attach .dropdown em:first-child {font-size: 12px; color: #999;}
+    .file-majors .attach .dropdown:before {position: absolute; top: -16px;; left: 21px; z-index: 12; width: 0; height: 0; padding: 0; display: block; content: ''; box-sizing: content-box; border-bottom: 8px solid #FFFFFF; border-top: 8px solid transparent; border-left: 8px solid transparent; border-right: 8px solid transparent;}
+    .file-majors .attach .dropdown:after {position: absolute; top: -18px; left: 20px; z-index: 10; width: 0; height: 0; padding:0; display: block; content: ''; box-sizing: content-box; border-bottom: 9px solid #cccccc; border-top: 9px solid transparent; border-left: 9px solid transparent; border-right: 9px solid transparent;}
+    /** 文件 **/
+    .file-majors .attach {flex: 1; display: flex; flex-direction: column; position: relative;}
+    .file-majors .attach .header {display: flex; align-items: center; justify-content: space-between; padding: 8px 15px;}
+    .file-majors .attach .header .search {display: flex;}
+    .file-majors .attach .header .search input {height: 30px; border-color: #eee; border-top-right-radius: 0; border-bottom-right-radius: 0;}
+    .file-majors .attach .header .search button {border-color: #eee; background: #f5f7fa; border-top-left-radius: 0; border-bottom-left-radius: 0}
+    .file-majors .attach .header .search button:hover {background-color: #eeeeef;}
+    .file-majors .attach .subject {flex: 1; display: flex; margin: 10px; box-sizing: border-box; overflow: hidden; overflow-y: auto;}
+    .file-majors .attach .subject:hover::-webkit-scrollbar{display: block;}
+    .file-majors .attach .subject ul::after{content: ""; display: block; visibility: hidden; clear: both;}
+    .file-majors .attach .subject ul li {position: relative; float: left; padding: 10px; margin: 5px; border-radius: 4px; border: 1px solid rgba(0, 0, 0, 0.05); -webkit-transition: All 0.2s ease-in-out; -moz-transition: All 0.2s ease-in-out; -o-transition: All 0.2s ease-in-out; transition: All 0.2s ease-in-out;}
+    .file-majors .attach .subject ul li:hover {border: 1px solid #ccc;}
+    .file-majors .attach .subject ul li img {width: 98px; height: 98px;}
+    .file-majors .attach .subject ul li video {width: 98px; height: 98px;}
+    .file-majors .attach .subject ul li p {margin: 5px 0 0 0; width: 98px; font-size: 13px; text-align: center; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+    .file-majors .attach .subject ul li:after {display: none; content: "\e605"; font-family: "layui-icon",serif; font-size: 26px; font-weight: bold; line-height: 125px; text-align: center; color: #fff; position: absolute; top: 0; bottom: 0; left: 0; right: 0; border-radius: 4px; background: rgba(0, 0, 0, 0.5);}
+    .file-majors .attach .subject ul li.active:after{display: block;}
+    .file-majors .attach .footer {display: flex; align-items: center; justify-content: end; padding: 0 20px; height: 50px; text-align: center; border-top: 1px solid #f2f2f2; background: #FFFFFF;}
+     /** 空的 **/
+    .file-majors .empty {flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; text-align: center; color: #ccc;}
+    .file-majors .empty i {font-size: 180px; }
+    .file-majors .empty p {text-align: center; width: 180px;}
+</style>
+{/block}
+
+{block name="body"}
+    <!-- 主体容器 -->
+    <div class="container">
+        <div class="file-container">
+            <div class="file-header">
+                <div class="layui-tab layui-tab-brief" lay-filter="attach-tab-filter">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" data-type="10">图片</li>
+                        <li data-type="20">视频</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="file-majors">
+                <!-- 分组 -->
+                <div class="folder">
+                    <ul class="groups"></ul>
+                    <div class="footer">
+                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm cateCreate">添加分组</button>
+                    </div>
+                </div>
+                <!-- 附件 -->
+                <div class="attach">
+                    <!-- 工具 -->
+                    <div class="header">
+                        <div class="layui-btn-group">
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal" id="imageUpload">上传图片</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide" id="videoUpload">上传视频</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" id="delete">删除文件</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-warm layui-btn-forbid" id="move">
+                                移动至<i class="layui-icon layui-icon-triangle-d"></i>
+                                <span class="dropdown" id="groupDrop"></span>
+                            </button>
+                        </div>
+                        <div class="search">
+                            <label><input type="text" name="keyword" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-primary">
+                                <i class="layui-icon layui-icon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 主体 -->
+                    <div class="subject">
+                        <div class="empty">
+                            <i class="layui-icon layui-icon-upload"></i>
+                            <p>空空如也，快去上传吧!</p>
+                        </div>
+                    </div>
+                    <!-- 页脚 -->
+                    <div class="footer">
+                        <div id="paging"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 下拉模板 -->
+    <script id="dropdown" type="text/html">
+        <em data-id="-1">请选择分组</em>
+        <em data-id="0">未分组</em>
+        {{#  layui.each(d, function(index, item){ }}
+        <em data-id="{{ item.id }}">{{ item.name }}</em>
+        {{#  }); }}
+    </script>
+
+    <!-- 目录模板 -->
+    <script id="folder" type="text/html">
+        <li data-id="-1" class="active">
+            <img  src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <span>全部</span>
+        </li>
+        <li data-id="0">
+            <img src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <span>未分组</span>
+        </li>
+        {{#  layui.each(d, function(index, item){ }}
+        <li data-id="{{ item.id }}">
+            <img src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <span title="{{ item.name }}">{{ item.name }}</span>
+            <div class="dropdown">
+                <span>···</span>
+                <dl>
+                    <dd class="cateRename">命名分组</dd>
+                    <dd class="cateDelete">删除分组</dd>
+                </dl>
+            </div>
+        </li>
+        {{#  }); }}
+    </script>
+
+    <!-- 文件模板 -->
+    <script id="attach" type="text/html">
+        {{#  if(d.data.length > 0){ }}
+        <ul>
+            {{#  layui.each(d.data, function(index, item){ }}
+            <li data-id="{{ item.id }}">
+                {{#  if(d.type===10){ }}
+                    <img src="{{ item.file_path }}" alt="img">
+                {{#  } }}
+                {{#  if(d.type===20){ }}
+                    <video src="{{ item.file_path }}"></video>
+                {{#  } }}
+                <p title="{{ item.file_name }}">{{ item.file_name }}</p>
+            </li>
+            {{#  }); }}
+        </ul>
+        {{#  } }}
+
+        {{#  if(d.data.length <= 0){ }}
+        <div class="empty">
+            <i class="layui-icon layui-icon-upload"></i>
+            <p>空空如也，快去上传吧!</p>
+        </div>
+        {{#  } }}
+    </script>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['laytpl', 'laypage', 'upload', 'element'], function () {
+        let laytpl  = layui.laytpl;
+        let laypage = layui.laypage;
+        let upload  = layui.upload;
+        let element = layui.element;
+        let urlArr  = [];
+        let type    = 10;
+        let cid     = -1;
+
+        // 事件定义
+        let event = waitUtil.event({
+            // 分组列表
+            group: function (obj) {
+                let type = (!obj || obj.type === undefined) ? 10 : obj.type;
+                waitUtil.ajax({
+                    url: '{:route("attach/cateLists")}',
+                    type: 'GET',
+                    fulShow: false,
+                    data: {type: type}
+                }).then((res) => {
+                    let getTpl = document.getElementById('folder').innerHTML;
+                    let view   = document.getElementsByClassName('groups')[0];
+                    laytpl(getTpl).render(res.data, function(html){
+                        view.innerHTML = html;
+                    });
+
+                    let getTpl2 = document.getElementById('dropdown').innerHTML;
+                    let view2   = document.getElementById('groupDrop');
+                    laytpl(getTpl2).render(res.data, function(html){
+                        view2.innerHTML = html;
+                    });
+
+                    $('.folder .dropdown span').hover(function () {
+                        let top = $(this).offset().top - 50.5;
+                        $(this).next().css('top', top+'px')
+                    })
+                });
+            },
+            // 文件列表
+            lists: function (obj) {
+                let cid   = (!obj || obj.cid  === undefined) ? -1 : obj.cid;
+                let page  = (!obj || obj.page === undefined) ? 1  : obj.page;
+                let type  = (!obj || obj.type === undefined) ? 10 : obj.type;
+                let where = {cid: cid, type: type, page: page};
+                if (obj && obj.keyword !== undefined) {
+                    where['keyword'] = obj.keyword;
+                }
+
+                let index = layer.load(1, {shade: false});
+                waitUtil.ajax({
+                    url: '{:route("attach/index")}',
+                    type: 'GET',
+                    fulShow: false,
+                    data: where
+                }).then((res) => {
+                    let getTpl = document.getElementById('attach').innerHTML;
+                    let view   = document.getElementsByClassName('subject')[0];
+                    let data = {type: type, data: res.data.data};
+                    laytpl(getTpl).render(data, function(html){
+                        view.innerHTML = html;
+                    });
+
+                    layer.close(index);
+                    laypage.render({
+                        elem: 'paging'
+                        ,count: res.data['total']
+                        ,curr: res.data['current_page']
+                        ,limit: res.data['per_page']
+                        ,last: res.data['last_page']
+                        ,jump: function (obj, first) {
+                            if (!first) {
+                                urlArr = [];
+                                $('#move').addClass('layui-btn-forbid');
+                                $('#delete').addClass('layui-btn-forbid');
+                                event.lists({cid: cid, page: obj.curr});
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        // 初始加载
+        event.group();
+        event.lists();
+
+        // 分组切换
+        $(document).on('click', '.folder li', function (e) {
+            e.preventDefault();
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+            cid = parseInt($(this).attr('data-id'));
+            event.lists({type: type, cid: cid, page: 1});
+
+            urlArr = [];
+            $('#move').addClass('layui-btn-forbid');
+            $('#delete').addClass('layui-btn-forbid');
+        });
+
+        // 分组创建
+        $(document).on('click', '.folder .cateCreate', function () {
+            layer.prompt({title: '添加分组', value: ' ', formType: 3}, function(text, index){
+                if (text.trim().length <= 0) {
+                    return layer.msg('请输入分组名称', {icon: 0});
+                }
+                waitUtil.ajax({
+                    url: '{:route("attach/cateAdd")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {type: type, name: text.trim()}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        event.group();
+                        layer.close(index);
+                    }
+                });
+            });
+        });
+
+        // 分组命名
+        $(document).on('click', '.folder .cateRename', function (e) {
+            e.stopPropagation();
+            let node = $(this).parents('li');
+            let id   = $(node).attr('data-id');
+            let span = $(node).find('span').html();
+            layer.prompt({title: '重命分组', value: span, formType: 3}, function(text, index){
+                if (text.trim().length <= 0) {
+                    return layer.msg("请输入分组名称", {icon: 0});
+                }
+                waitUtil.ajax({
+                    url: '{:route("attach/cateRename")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {id: id, type: 10, name: text.trim()}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        event.group();
+                        layer.close(index);
+                    }
+                });
+            });
+        });
+
+        // 分组删除
+        $(document).on('click', '.folder .cateDelete', function (e) {
+            e.stopPropagation();
+            let id = $(this).parents('li').attr('data-id');
+            layer.confirm('确定要删除吗?', function (index){
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '{:route("attach/cateDelete")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {id: id, type: type}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        cid = -1;
+                        event.group();
+                        event.lists();
+                    }
+                });
+            });
+        });
+
+        // 文件命名
+        $(document).on('contextmenu', '.attach li p', function (e) {
+            e.preventDefault();
+            let that = $(this);
+            let name = that.html();
+            let id   = that.parents('li').attr('data-id');
+
+            layer.prompt({title: '重命名', value: name, formType: 3}, function(text, index){
+                if (text.trim().length <= 0) {
+                    return layer.msg('请输入文件名称', {icon: 0});
+                }
+                waitUtil.ajax({
+                    url: '{:route("attach/rename")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {id: id, type: 10, title: text.trim()}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        that.html(text);
+                        layer.close(index);
+                    }
+                });
+            });
+        });
+
+        // 文件移动
+        $(document).on('click', '.attach .dropdown em', function () {
+            let cid = parseInt($(this).attr('data-id'));
+            let cur = parseInt($('.folder li.active').attr('data-id'));
+
+            if (cur === cid) {
+                layer.msg('当前文件就在这目录了!', {icon: 0, time: 1000});
+                return false;
+            }
+
+            if (urlArr.length <= 0) {
+                layer.msg('未选中任何文件!', {icon: 0, time: 1000});
+                return false;
+            }
+
+            waitUtil.ajax({
+                url: '{:route("attach/move")}',
+                type: 'POST',
+                fulShow: false,
+                data: {cid: cid, ids: urlArr, type: type}
+            }).then((res) => {
+                if (res.code === 0) {
+                    event.lists();
+                }
+            });
+        });
+
+        // 文件选择
+        $(document).on('click', '.attach li', function () {
+            let id = parseInt($(this).attr('data-id'));
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                for (let i=0; i<urlArr.length; i++) {
+                    if (urlArr[i] === id) {
+                        urlArr.splice(i, 1);
+                        break;
+                    }
+                }
+            } else {
+                $(this).addClass('active');
+                urlArr.push(id);
+            }
+
+            if (urlArr.length <= 0) {
+                let delElem = $('#delete');
+                let movElem = $('#move');
+
+                if (!delElem.hasClass('layui-btn-forbid')) {
+                    delElem.addClass('layui-btn-forbid')
+                }
+
+                if (!movElem.hasClass('layui-btn-forbid')) {
+                    movElem.addClass('layui-btn-forbid')
+                }
+            } else {
+                $('#move').removeClass('layui-btn-forbid');
+                $('#delete').removeClass('layui-btn-forbid');
+            }
+        });
+
+        // 文件删除
+        $(document).on('click', '.attach #delete', function () {
+            if (urlArr.length <= 0) {
+                layer.msg('未选中任何文件!', {icon: 0, time: 1000});
+                return false;
+            }
+
+            layer.confirm('确定要删除此项数据吗？', function (index) {
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '{:route("attach/del")}',
+                    type: 'POST',
+                    fulShow: false,
+                    data: {ids: urlArr, type: type}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        event.lists();
+                    }
+                });
+            });
+        });
+
+        // 文件搜索
+        $(document).on('click', '.attach .search button', function () {
+            let keyword = $('.attach .search input').val().trim();
+            event.lists({type: type, cid: cid, page: 1, keyword: keyword});
+        });
+
+        // 切换选项
+        element.on('tab(attach-tab-filter)', function(){
+            type = parseInt(this.getAttribute('data-type'));
+            event.group({type: type});
+            event.lists({type: type, cid: -1, page: 1});
+            if (type === 10) {
+                $('#imageUpload').removeClass('layui-hide');
+                $('#videoUpload').addClass('layui-hide');
+            } else {
+                $('#videoUpload').removeClass('layui-hide');
+                $('#imageUpload').addClass('layui-hide');
+            }
+        });
+
+        // 上传图片
+        let layerIndex;
+        upload.render({
+            elem: '#imageUpload'
+            ,url: '{:route("upload/attach")}?type=image'
+            ,field: 'file'
+            ,multiple: true
+            ,acceptMime: 'image/*'
+            ,accept: 'images'
+            ,exts: '{:implode("|", $imageLimit.ext)}'
+            ,size: parseInt('{$imageLimit.size}') / 1024
+            ,data: {
+                cid: function () {
+                    return cid > 0 ? cid : 0;
+                }
+            }
+            ,before: function () {
+                layer.load();
+                layerIndex = layer.msg('图片上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            }
+            ,done: function (res) {
+                layer.close(layerIndex);
+                event.lists({cid: cid, type: type, page: 1});
+                if (res.code !== 0) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                }
+            }
+            ,error: function (e) {
+                layer.close(layerIndex);
+                layer.msg(e, {icon: 2, time: 1500});
+            }
+        });
+
+        // 上传视频
+        upload.render({
+            elem: '#videoUpload'
+            ,url: '{:route("upload/attach")}?type=video'
+            ,field: 'file'
+            ,multiple: true
+            ,acceptMime: 'video/*'
+            ,accept: 'video'
+            ,exts: '{:implode("|", $videoLimit.ext)}'
+            ,size: parseInt('{$videoLimit.size}') / 1024
+            ,data: {
+                cid: function () {
+                    return cid > 0 ? cid : 0;
+                }
+            }
+            ,before: function () {
+                layer.load();
+                layerIndex = layer.msg('视频上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            }
+            ,done: function (res) {
+                layer.close(layerIndex);
+                event.lists({cid: cid, type: type, page: 1});
+                if (res.code !== 0) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                }
+            }
+            ,error: function (e) {
+                layer.close(layerIndex);
+                layer.msg(e, {icon: 2, time: 1500});
+            }
+        });
+
+    });
+</script>
+{/block}

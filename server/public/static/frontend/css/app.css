@@ -1,0 +1,205 @@
+html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
+.container {width: 1200px; margin: 0 auto;}
+@keyframes page-fade-in {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+/** 头部布局 **/
+.layout-global-header .navigation {height: 50px; background: #3a67e4;}
+.layout-global-header .navigation .container {display: flex;}
+.layout-global-header .navigation .logo {display: flex; align-items: center; width: 160px; height: 50px;}
+.layout-global-header .navigation .logo img {max-width: 100%; max-height: 100%;}
+.layout-global-header .navigation ul { display: flex; align-items: center;}
+.layout-global-header .navigation ul li {height: 50px; line-height: 50px;}
+.layout-global-header .navigation ul li.active {background: #345dcd;}
+.layout-global-header .navigation ul li:hover  {background: #345dcd;}
+.layout-global-header .navigation ul li a {position: relative; display: block; padding: 0 28px; font-size: 16px; color: #ffffff;}
+.layout-global-header .navigation ul li.children > a:before {content: ''; position: absolute; right: 12px; top: 22px; border-left: 4px solid transparent;  border-right: 4px solid transparent; border-top: 5px solid #ffffff;}
+.layout-global-header .navigation ul li:hover > dl {display: block; transition: all 300ms;}
+.layout-global-header .navigation ul li dl {display: none; position: absolute;  z-index: 2000; width: 120px;  transition: all 300ms; background:#ffffff;}
+.layout-global-header .navigation ul li dl dd {width: 100%; height: 36px; line-height: 36px; padding: 0; text-align: center;}
+.layout-global-header .navigation ul li dl dd:hover {background: #fcfbfb; }
+.layout-global-header .navigation ul li dl dd a {font-size: 14px; color: #333333; padding: 0;}
+
+/** 页脚布局 **/
+.layout-global-footer {width: 1200px; margin: 30px auto;}
+.layout-global-footer p {height: 17px; text-align: center; font-size: 12px; line-height: 17px; color: #a7a7a7;}
+.layout-global-footer p a {color: #a7a7a7;}
+.layout-global-footer p a:hover {text-decoration: underline;}
+
+/** 面包布局 **/
+.layout-global-crumbs .navigation {padding: 12px 15px; margin-top: 15px; background-color: #ffffff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);}
+.layout-global-crumbs .navigation a {font-size: 14px; color: #333;}
+.layout-global-crumbs .navigation a:hover {color: #345dcd; }
+.layout-global-crumbs .navigation a:last-child {color: #999; font-size: 13px;}
+.layout-global-crumbs .navigation a:last-child:hover {color: #999; cursor: default;}
+
+/** 友链布局 **/
+.layout-global-link {margin-top: 15px;}
+.layout-global-link ul {margin-top: 15px;}
+.layout-global-link ul:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
+.layout-global-link ul li {float: left; margin: 0 25px 10px 0;}
+.layout-global-link ul li a {display: block; height: 20px; font-size: 14px; line-height: 20px; color: #333333;}
+.layout-global-link ul li a:hover {color: #345dcd; cursor: pointer; text-decoration: underline;}
+
+/** 主体布局 **/
+.layout-global-main {margin-top: 15px;}
+.layout-global-main .container {display: flex;}
+.layout-global-main .main-layout-section {width: 810px; min-width: 810px; margin-right: 20px;}
+.layout-global-main .main-layout-aside {width: 370px;}
+
+/** 轮播样式 **/
+.index-modular-carousel {width: 810px; height: 360px;}
+.index-modular-feature #indexCarousel {width: 100%; height: 360px;}
+.index-modular-feature #indexCarousel img {width: 100%; height: 100%;}
+
+/** 特色模块 **/
+.index-modular-feature {margin-top: 15px;}
+.index-modular-feature ul {display: flex;}
+.index-modular-feature ul li {margin-right: 20px;}
+.index-modular-feature ul li:last-child {margin-right: 0;}
+.index-modular-feature ul li img {width: 180px; height: 132px;}
+.index-modular-feature ul li p {padding-top: 10px; font-size: 15px; text-align: center; color: #333333;}
+.index-modular-feature ul li p:hover {color: #345dcd; cursor: pointer;}
+
+/** 贴图模块 **/
+.index-modular-sticker {margin-top: 15px;}
+.index-modular-sticker ul {display: flex; flex-wrap: wrap;}
+.index-modular-sticker ul li {float: left; width: 50%; margin-top: 15px; height: 72px;}
+.index-modular-sticker ul li > a {float: left; display: block; width: 72px; height: 72px; margin-right: 10px;}
+.index-modular-sticker ul li > a img {width: 100%; height: 100%;}
+.index-modular-sticker ul li:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
+.index-modular-sticker ul li:nth-of-type(1) {margin-top: 0;}
+.index-modular-sticker ul li:nth-of-type(2) {margin-top: 0;}
+.index-modular-sticker dl {float: left; width: 288px;}
+.index-modular-sticker dl dt:hover {color: #345dcd; cursor: pointer; text-decoration: underline;}
+.index-modular-sticker dl dt {font-size: 16px; color: #333333; overflow: hidden; text-overflow:ellipsis; white-space: nowrap; margin-bottom: 5px;}
+.index-modular-sticker dl dd {font-size: 13px; color: #999999; line-height: 18px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;}
+
+/** 列表模块 **/
+.index-modular-lists {margin-top: 15px;}
+.index-modular-lists ul li {padding: 20px 0; border-bottom: 1px solid #f6f6f6;}
+.index-modular-lists ul li:last-child {border: none;}
+.index-modular-lists ul li:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
+.index-modular-lists ul li a.image {float: left; display: block; width: 200px; height: 132px; margin-right: 15px; }
+.index-modular-lists a.image img {width: 100%; height: 100%;}
+.index-modular-lists .empty {text-align: center; padding: 100px 0 80px 0; color: #ccc;}
+.index-modular-lists .empty i {font-size: 120px;}
+.index-modular-lists .empty p {margin-top: 20px;}
+.index-modular-lists .region-right {float: left; width: 560px;}
+.index-modular-lists .region-right h3 a {display: block; font-size: 18px; color: #333333; height: 25px; line-height: 25px; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+.index-modular-lists .region-right h3 a:hover {color: #345dcd; text-decoration: underline;}
+.index-modular-lists .region-right p.intro {height: 42px; line-height: 20px; font-size: 14px; color: #999999; margin-top: 5px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;}
+.index-modular-lists .region-right .tags {margin: 9px 0;}
+.index-modular-lists .region-right .tags span {font-size: 14px; color: #3A67E4; padding: 4px 8px; margin-right: 10px; background: rgba(58, 103, 228, 0.1);}
+.index-modular-lists .region-right .footer {height: 18px; line-height: 18px; font-size: 13px; color: #a7a7a7; margin-top: 5px;}
+.index-modular-lists .region-right .footer span {margin-right: 30px;}
+.index-modular-lists #paging {text-align: right; margin-top: 10px}
+
+/** 详情模块 **/
+.index-modular-detail .header {border-bottom: 1px solid #f6f6f6;}
+.index-modular-detail .header h1 {height: 33px; line-height: 33px; font-size: 24px; color: #333333;}
+.index-modular-detail .header .meta {padding: 10px 0; }
+.index-modular-detail .header .meta span {height: 18px; line-height: 18px; margin-right: 30px; font-size: 13px; color: #a7a7a7;}
+.index-modular-detail .main {margin-top: 20px; min-height: 200px;}
+.index-modular-detail .main img {max-width: 1170px;}
+.index-modular-detail .prefer {margin: 40px 0; text-align: center;}
+.index-modular-detail .prefer a.btn {display: inline-block; width: 130px; height: 42px; line-height: 42px; text-align: center; color: #666666; border-radius: 2px; border: 1px solid #D7D7D7; background: #ffffff;}
+.index-modular-detail .prefer a.btn.no-collect{background: #ffffff;}
+.index-modular-detail .prefer a.btn.ok-collect{background: #feac12;}
+.index-modular-detail .pages {font-size: 14px; color: #666; margin-top: 40px;}
+.index-modular-detail .pages .line:last-child {margin-top: 10px;}
+.index-modular-detail .pages .line a {color: #3CA5F6;}
+.index-modular-detail .pages .line em {font-style: normal;}
+
+/** 浮现模块 **/
+.index-modular-emerge ul {padding-top: 4px;}
+.index-modular-emerge li {padding-bottom: 19px;}
+.index-modular-emerge li:last-child {padding-bottom: 0;}
+.index-modular-emerge li a {display: block; height: 20px; line-height: 20px; font-size: 14px; color: #333333; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+.index-modular-emerge li a span {color: #dab26b !important;}
+.index-modular-emerge li a:hover {color: #345dcd;}
+
+/** 精品模块 **/
+.index-modular-boutique {margin-top: 15px;}
+.index-modular-boutique ul li {padding-bottom: 20px;}
+.index-modular-boutique ul li:last-child {padding-bottom: 0;}
+.index-modular-boutique ul li:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
+.index-modular-boutique ul li .image {float: left; display: block; width: 80px; height: 50px; margin-right: 15px;}
+.index-modular-boutique ul li .image img {width: 100%; height: 100%;}
+.index-modular-boutique ul li h3 {float: left; width: 235px;}
+.index-modular-boutique ul li h3 a {display: block; height: 43px; font-size: 14px; line-height: 20px; color: #333333;}
+.index-modular-boutique ul li h3 a:hover {color: #345dcd;}
+
+/** 排名模块 **/
+.index-modular-ranking {margin-top: 15px;}
+.index-modular-ranking ul li span {width: 40px; height: 61px; font-size: 36px; line-height: 61px; font-family: Mangal; font-weight: bold; color: #dbdbdb; margin-right: 10px;}
+.index-modular-ranking ul li a {display: inline-block; width: 279px; height: 40px; line-height: 20px; font-size: 14px; color: #333333; vertical-align: text-bottom;}
+.index-modular-ranking ul li a:hover {color: #345dcd;}
+
+/** 广告模块 **/
+.index-modular-adv {margin-top: 15px;}
+.index-modular-adv img {width: 100%;}
+
+/** 用户布局 **/
+.layout-global-users {margin-top: 15px;}
+.layout-global-users .left-sidebar {float: left; width: 200px; height: 700px; background-color: #ffffff;}
+.layout-global-users .right-iframe {float: left; width: 980px; height: 700px; margin-left: 20px; background-color: #ffffff;}
+.layout-global-users .left-sidebar ul.menu {margin-top: 20px;}
+.layout-global-users .left-sidebar ul.menu li {height: 48px; width: 160px; margin: 0 auto 8px;}
+.layout-global-users .left-sidebar ul.menu li a {position: relative; display: block; height: 48px; font-size: 16px; line-height: 48px; color: #787d82; padding-left: 64px; text-align: left;}
+.layout-global-users .left-sidebar ul.menu li a i {font-weight: bold; padding-right: 3px; position: absolute; left: 24px; top: 0; font-size: 20px; color: #93999f; line-height: 48px;}
+.layout-global-users .left-sidebar ul.menu li.active a {color: #fff; background: #3a67e4; border-radius: 8px 0 0 8px;}
+.layout-global-users .left-sidebar ul.menu li.active a i {color: #fff;}
+.layout-global-users .left-sidebar ul.menu li.active a:after {display: block; content: ""; position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-top: 24px solid #fff; border-bottom: 24px solid #fff; border-left: 15px solid transparent;}
+.layout-global-users .left-sidebar .member .avatar {width: 100%; height: 120px; display: block; text-align: center;}
+.layout-global-users .left-sidebar .member .avatar {padding-top: 10px;}
+.layout-global-users .left-sidebar .member .avatar img {width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; }
+.layout-global-users .left-sidebar .member .name {width: 100%; height: 24px; margin: 10px 0; text-align: center;}
+.layout-global-users .left-sidebar .member .name a {display: inline-block; font-size: 16px;}
+.layout-global-users .left-sidebar .member .sign {padding: 0 5px; margin: 10px auto; text-align: center; font-size: 12px; line-height: 20px; color: #999; font-weight: 300;}
+.layout-global-users .left-sidebar .member .nums {display: block; margin-top: 15px; padding: 10px; border-top: 1px solid #EFEFEF; border-bottom: 1px solid #EFEFEF;}
+.layout-global-users .left-sidebar .member .nums p {width: 85px; display: inline-block; border-right: 1px solid #efefef;}
+.layout-global-users .left-sidebar .member .nums p:nth-child(2) {border-right: none;}
+.layout-global-users .left-sidebar .member .nums p .num {display: block; text-align: center; font-size: 18px; }
+.layout-global-users .left-sidebar .member .nums p .item {margin-top: 10px; display: block; height: 14px; line-height: 14px; text-align: center; font-size: 14px; color: #999;}
+
+/** 用户标题 **/
+.user-modular-title {padding: 15px 0; height: 26px; line-height: 26px; text-align: center; font-size: 18px; font-weight: 600; color: #575757;}
+.user-modular-title i {font-size: 24px;}
+
+/** 用户账号 **/
+.user-modular-account {padding: 0 20px; background-color: #fff;}
+.user-modular-account .information {margin-top: 10px; width: 600px;}
+.user-modular-account .information .list {margin-bottom: 20px;}
+.user-modular-account .information .list span {margin-right: 15px; height: 30px; font-size: 17px; color: #666;}
+.user-modular-account .information .list p {display: inline-block; font-size: 18px;}
+.user-modular-account .information .list button {display: inline-block; margin-top: 2px; margin-left: 10px; padding: 0 10px; height: 26px; line-height: 26px; font-size: 14px; color: #fff; text-align: center; cursor: pointer; border: none; background-color: #3a67e4;}
+.user-modular-account .information .list .sign {height: 40px;line-height: 40px;padding: 10px;font-size: 16px;background: #ececec;}
+.user-modular-account .generalize {margin-top: 50px;}
+.user-modular-account .generalize h2 {margin-bottom: 10px; padding: 10px 0; border-bottom: 1px solid #efefef; font-size: 17px;}
+.user-modular-account .generalize ul:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
+.user-modular-account .generalize ul li.clear {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
+.user-modular-account .generalize ul li {float: left; margin-right: 10px; padding: 10px 0; min-width: 340px;  max-width: 454px; height: 22px; line-height: 22px; font-size: 17px; color: #666;}
+.user-modular-account .generalize ul li em {padding-right: 10px; display: inline-block; max-width: 135px; min-width: 85px; text-align: left; font-style: normal;}
+.user-modular-account .avatar {margin-top: 20px;}
+.user-modular-account .avatar:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
+.user-modular-account .avatar .explain {float: left; margin-right: 30px; width: 260px; height: 190px; background: url(../images/zz.png) no-repeat center center;}
+.user-modular-account .avatar .upload {float: left; width: 130px; height: 190px; text-align: center;}
+.user-modular-account .avatar .upload .wrapper {width: 130px; height: 130px; border-radius: 50%; margin-bottom: 20px;}
+.user-modular-account .avatar .upload .wrapper img {width: 100%; height: 100%; border-radius: 50%; background: #eee;}
+.user-modular-account .password {margin-top: 20px;}
+.user-modular-account .password .layui-input-inline {width: 280px;}
+.user-modular-account .password .layui-form-label {font-size: 14px; color: #333;}
+.user-modular-account .password a.btn {margin-left: 110px;}
+
+/** 用户收藏 **/
+.user-modular-collect {padding: 0 20px; background-color: #fff;}
+.user-modular-collect .layui-tab-content ul {margin-top: 10px; margin-bottom: 20px;}
+.user-modular-collect .layui-tab-content ul li {padding-top: 10px;height: 40px; line-height: 40px; font-size: 16px; border-bottom: 1px dashed #d4d4d4;}
+.user-modular-collect .layui-tab-content ul li .title {margin-right: 12px;}
+.user-modular-collect .layui-tab-content ul li .title a {font-weight: 400; color: #333;}
+.user-modular-collect .layui-tab-content ul li .date {float: right; color: #999;}
+.user-modular-collect .layui-tab-content ul li .edit {color: #999;}
+.user-modular-collect .layui-tab-content ul li .edit a {font-size: 16px;}

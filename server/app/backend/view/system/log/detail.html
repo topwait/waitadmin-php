@@ -1,0 +1,72 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    .layui-form-item {margin-bottom: 0;}
+    .layui-form-label {font-size: 14px; font-weight: bold; color: #606266;}
+    .layui-input-block {font-size: 14px; line-height: 37px;}
+</style>
+{/block}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 请求方式 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求信息：</label>
+        <div class="layui-input-block">{$detail.method} | {$detail.ip}</div>
+    </div>
+    <!-- 请求地址 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求地址：</label>
+        <div class="layui-input-block">{$detail.url}</div>
+    </div>
+    <!-- 请求UA -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求UA：</label>
+        <div class="layui-input-block"><p class="wait-lh-20">{$detail.ua}</p></div>
+    </div>
+
+    <!-- 请求参数 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求参数：</label>
+        <div class="layui-input-block">{$detail.params}</div>
+    </div>
+    <!-- 操作时间 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">操作时间：</label>
+        <div class="layui-input-block">{$detail.create_time}</div>
+    </div>
+    <!-- 执行开始 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">执行开始：</label>
+        <div class="layui-input-block">{$detail.start_time}</div>
+    </div>
+    <!-- 执行结束 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">执行结束：</label>
+        <div class="layui-input-block">{$detail.end_time}</div>
+    </div>
+    <!-- 执行耗时 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">执行耗时：</label>
+        <div class="layui-input-block">{$detail.task_time}ms</div>
+    </div>
+    <!-- 执行状态 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">执行状态：</label>
+        <div class="layui-input-block">{$detail.status}</div>
+    </div>
+    <!-- 错误信息 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">错误信息：</label>
+        <div class="layui-input-block">{$detail.error?$detail.error:'无'}</div>
+    </div>
+    {if $detail.trace}
+    <!-- 异常信息 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">异常信息：</label>
+        <div class="layui-input-block"><pre>{$detail.trace}</pre></div>
+    </div>
+    {/if}
+</form>
+{/block}

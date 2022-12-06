@@ -1,0 +1,54 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 岗位编号 -->
+        <div class="layui-form-item">
+            <label for="code" class="layui-form-label"><span class="asterisk">*</span>岗位编号：</label>
+            <div class="layui-input-block">
+                <input type="text" id="code" name="code"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 岗位名称 -->
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label"><span class="asterisk">*</span>岗位名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 岗位状态 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">岗位状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_disable" value="0" title="正常" checked>
+                <input type="radio" name="is_disable" value="1" title="禁用">
+            </div>
+        </div>
+        <!-- 岗位排序 -->
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">岗位排序：</label>
+            <div class="layui-input-block">
+                <input type="number" id="sort" name="sort"
+                       autocomplete="off" class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 岗位备注 -->
+        <div class="layui-form-item">
+            <label for="remarks" class="layui-form-label">岗位备注：</label>
+            <div class="layui-input-block">
+                <textarea id="remarks" name="remarks" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

@@ -1,0 +1,103 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<!-- 主体 -->
+<div class="layout-global-main">
+    <div class="container">
+        <div class="main-layout-section">
+            <div class="index-modular-lists" style="margin-top:0;">
+                <div class="layui-card">
+                    <div class="layui-card-header">{$category}</div>
+                    <div class="layui-card-body">
+                        {if $lists.data}
+                            <ul>
+                                {volist name="lists.data" id="vo"}
+                                    <li>
+                                        <a href="./detail.html" class="image">
+                                            <img src="{$vo.image}" alt="{$vo.title}">
+                                        </a>
+                                        <div class="region-right">
+                                            <h3><a href="/frontend/article/detail?id={$vo.id}">{$vo.title}</a></h3>
+                                            <p class="intro">{$vo.intro}</p>
+                                            <div class="tags">
+                                                <span>{$vo.category}</span>
+                                            </div>
+                                            <div class="footer">
+                                                <span>{$vo.datetime}</span>
+                                                <span>{$vo.browse} 阅读量</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {/volist}
+                            </ul>
+                        {else}
+                            <div class="empty">
+                                <i class="layui-icon layui-icon-face-surprised"></i>
+                                <p>什么都没有~~</p>
+                            </div>
+                        {/if}
+                        <div id="paging"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-layout-aside">
+            <div class="index-modular-emerge">
+                <div class="layui-card">
+                    <div class="layui-card-header">最近更新</div>
+                    <div class="layui-card-body">
+                        <ul>
+                            {volist name="lately" id="vo"}
+                            <li><a href="/frontend/article/detail?id={$vo.id}"><span>[{$vo.category}] · </span>{$vo.title}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="index-modular-ranking">
+                <div class="layui-card">
+                    <div class="layui-card-header">排名榜单</div>
+                    <div class="layui-card-body">
+                        <ul>
+                            {volist name="ranking" id="vo" key="k"}
+                            <li><span>0{$k}</span><a href="/frontend/article/detail?id={$vo.id}">{$vo.title}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="index-modular-adv">
+                <img src="__FRONTEND__/images/ad.png" alt="adv">
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['laypage'], function(){
+        let $ = layui.$;
+        let laypage = layui.laypage;
+
+        laypage.render({
+            elem: 'paging'
+            ,count: parseInt('{$lists.total}')
+            ,limit: parseInt('{$lists.per_page}')
+            ,curr: parseInt('{$lists.current_page}')
+            ,theme: '#3a67e4'
+            ,jump: function(obj, first){
+                if(!first){
+                    let cid = parseInt('{:think\\facade\\Request::get("cid")??0}');
+                    console.log(cid)
+                    if (cid === 0) {
+                        location.href = '?page=' + obj.curr
+                    } else {
+                        location.href = '?cid='+cid+'&page=' + obj.curr
+                    }
+                }
+            }
+        });
+    });
+</script>
+{/block}

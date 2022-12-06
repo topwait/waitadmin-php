@@ -1,0 +1,236 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">网站配置</li>
+            <li>邮件配置</li>
+            <li>SEO配置</li>
+        </ul>
+        <div class="layui-tab-content layui-form" style="background: #FFF;">
+            <!-- 网站配置 -->
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label for="website_title" class="layui-form-label">网站LOGO:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <div class="thumbnail" data-type="image" data-field="website_logo" data-limit="1">
+                                <div class="musters">
+                                    {if $website.website_logo}
+                                    <div class="preview">
+                                        <input type="hidden" id="website_logo" name="website_logo" value="{$website.website_logo}">
+                                        <i class="layui-icon layui-icon-close"></i>
+                                        <img src="{$website.website_logo}" alt="img">
+                                    </div>
+                                    {/if}
+                                </div>
+                                <div class="builder {if $website.website_logo}layui-hide{/if}">
+                                    <i class="layui-icon layui-icon-camera"></i>
+                                    <p>上传图标</p>
+                                    <div class="mask">
+                                        <div class="item layui-auto">图库选择</div>
+                                        <div class="item layui-auto-call">本地上传</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="website_title" class="layui-form-label">网站名称:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="website_title" name="website_title" value="{$website.website_title}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="website_copyright" class="layui-form-label">网站版权:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="website_copyright" name="website_copyright" value="{$website.website_copyright}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="website_icp" class="layui-form-label">ICP备案:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="website_icp" name="website_icp" value="{$website.website_icp}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="website_pcp" class="layui-form-label">公安备案:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="website_pcp" name="website_pcp" value="{$website.website_pcp}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="website_analyse" class="layui-form-label">统计代码:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <textarea id="website_analyse" name="website_analyse"
+                                      class="layui-textarea" autocomplete="off">{$website.website_analyse}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 邮件配置 -->
+            <div class="layui-tab-item">
+                <div class="layui-form-item">
+                    <label for="mail_type" class="layui-form-label">发送的方式:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <select name="mail_type" id="mail_type">
+                                <option value="">请选择</option>
+                                <option value="smtp" {if $mail.mail_type=="smtp"}selected{/if}>SMTP</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="mail_smtp_host" class="layui-form-label">SMTP服务:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="mail_smtp_host" name="mail_smtp_host" value="{$mail.mail_smtp_host}"
+                                   class="layui-input" autocomplete="off" placeholder="smtp.163.com">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="mail_smtp_port" class="layui-form-label">SMTP端口:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="mail_smtp_port" name="mail_smtp_port" value="{$mail.mail_smtp_port}"
+                                   class="layui-input" autocomplete="off" placeholder="25">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="mail_smtp_user" class="layui-form-label">SMTP账号:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="mail_smtp_user" name="mail_smtp_user" value="{$mail.mail_smtp_user}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="mail_smtp_pass" class="layui-form-label">SMTP密码:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="mail_smtp_pass" name="mail_smtp_pass" value="{$mail.mail_smtp_pass}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="mail_verify_type" class="layui-form-label">SMTP验证:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <select name="mail_verify_type" id="mail_verify_type">
+                                <option value="">无</option>
+                                <option value="tls" {if $mail.mail_verify_type=="tls"}selected{/if}>TLS</option>
+                                <option value="ssl" {if $mail.mail_verify_type=="ssl"}selected{/if}>SSL</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="mail_from_user" class="layui-form-label">发件人邮箱:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md3">
+                            <input type="text" id="mail_from_user" name="mail_from_user" value="{$mail.mail_from_user}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                        <div class="layui-form-mid" style="padding:0 0 0 5px !important; margin-top:4px;">
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-default" lay-event="test">测试发送</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SEO配置 -->
+            <div class="layui-tab-item">
+                <div class="layui-form-item">
+                    <label for="seo_title" class="layui-form-label">SEO的标题:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="seo_title" name="seo_title" value="{$seo.seo_title}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="seo_keywords" class="layui-form-label">SEO关键字:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="seo_keywords" name="seo_keywords" value="{$seo.seo_keywords}"
+                                   class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="seo_description" class="layui-form-label">SEO的描述:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <textarea id="seo_description" name="seo_description"
+                                      class="layui-textarea" autocomplete="off">{$seo.seo_description}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 保存配置 -->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use('form', function () {
+        let form = layui.form;
+
+        form.on('submit(addForm)', function(data) {
+            layer.confirm('确定保存当前配置吗?', function (index) {
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '{:route("setting.basics/save")}',
+                    type: "POST",
+                    data: data.field
+                });
+            });
+        });
+
+        waitUtil.event({
+            test: function () {
+                let that = this;
+                layer.prompt({title: '请输入测试接收邮箱', formType: 3, value: ''}, function (value, index) {
+                    layer.close(index);
+                    waitUtil.locking(that);
+                    waitUtil.ajax({
+                        url: '{:route("setting.basics/testEmail")}',
+                        type: "POST",
+                        data: {recipient: value}
+                    }).then(() => {
+                        waitUtil.unlock(that);
+                    });
+                });
+            }
+        })
+    });
+</script>
+{/block}

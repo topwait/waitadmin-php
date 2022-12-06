@@ -1,0 +1,156 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <!-- 搜索栏 -->
+    <form class="layui-form layui-search">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label for="keyword_type" class="layui-form-label">用户信息：</label>
+                <div class="layui-inline layui-sm-select" style="margin-right:0;">
+                    <select id="keyword_type" name="keyword_type">
+                        <option value="sn">用户编号</option>
+                        <option value="nickname">用户昵称</option>
+                        <option value="mobile">用户电话</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <label for="keyword" class="layui-hide"></label>
+                    <input type="text" id="keyword" name="keyword" class="layui-input" placeholder="关键词">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label for="gid" class="layui-form-label">用户分组：</label>
+                <div class="layui-input-inline">
+                    <select id="gid" name="gid">
+                        <option value="" selected>全部</option>
+                        {volist name="groups" id="vo"}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-input-datetime">
+                <label for="datetime" class="layui-form-label">注册时间：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="datetime" name="datetime" class="layui-input" placeholder="开始和结束时间" readonly>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-sm layui-btn-default" lay-submit lay-filter="search">查询</a>
+                <a class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="clear-search">重置</a>
+            </div>
+        </div>
+    </form>
+
+    <!-- 表格栏 -->
+    <div class="layui-card">
+        <div class="layui-card-body wait-table-cell">
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+            <script type="text/html" id="toolbar">
+                <div class="layui-btn-container">
+                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="group">
+                        <i class="layui-icon icon-team-fill"></i>
+                        <span>设置分组</span>
+                    </a>
+                </div>
+            </script>
+            <script type="text/html" id="table-info">
+                <img src="{{d.avatar}}" alt="头像" style="height:80px; width:80px; margin-right:10px;">
+                <div class="layui-input-inline" style="width:145px;">
+                    <p>编号：{{d.sn || '未知'}}</p>
+                    <p>昵称：{{d.nickname || '未知'}}</p>
+                    <p>电话：{{d.mobile || '无'}}</p>
+                </div>
+            </script>
+            <script type="text/html" id="table-disable">
+                {{#  if(d.is_disable === 0){ }}
+                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                {{# } else { }}
+                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-operate">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">
+                    <i class="layui-icon icon-detail"></i><span>详情</span>
+                </button>
+            </script>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['laydate'], function() {
+        let laydate = layui.laydate;
+
+        // 时间选择
+        laydate.render({
+            elem: "#datetime"
+            ,type: "datetime"
+            ,range: true
+        });
+
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("user.users/index")}'
+            ,cols: [[
+                {type:'checkbox', width:48},
+                {field:'id', title:'ID', width:60, align:'center', event:'id'},
+                {field:'info', title:'用户信息', width:270, templet:'#table-info'},
+                {field:'groups', title:'用户分组', align:'center', width:100},
+                {field:'username', title:'登录账号', align:'center', width:100},
+                {field:'email', title:'电子邮箱', align:'center', width:100},
+                {field:'sex', title:'性别', align:'center', width:60},
+                {field:'disable', title:'状态', align:'center', width:60, templet:'#table-disable'},
+                {field:'create_time', title:'创建时间', width:130, align:'center'},
+                {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
+            ]]
+        });
+
+        // 逻辑事件
+        waitUtil.event({
+            detail: function (obj) {
+                waitUtil.popup({
+                    title: '用户详情',
+                    url: '{:route("user.users/detail")}?id='+obj.data.id,
+                    area: ['650px', '500px'],
+                    success: function (layero, index) {}
+                });
+            },
+            group: function () {
+                let ids = waitUtil.checkbox();
+                if (!ids.length) {
+                    return layer.msg('请至少选择一项！', {icon: 2});
+                }
+                waitUtil.popup({
+                    title: '设置分组',
+                    url: '{:route("user.users/group")}',
+                    area: ['350px', '400px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data) {
+                            waitUtil.locking(this);
+                            waitUtil.ajax({
+                                url: '{:route("user.users/group")}',
+                                type: 'POST',
+                                data: {ids: ids, gid: data.field['id']}
+                            }).then((res) => {
+                                waitUtil.unlock(this);
+                                if (res.code === 0) {
+                                    table.reload();
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        });
+
+        // 搜索事件
+        waitUtil.search(table);
+    });
+</script>
+{/block}
