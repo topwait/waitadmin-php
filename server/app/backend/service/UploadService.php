@@ -55,7 +55,7 @@ class UploadService extends Service
 
             // 上传调用
             $storageDriver = new StorageDriver(['engine'=>$engine, 'params'=>$params]);
-            $fileInfo = $storageDriver->upload($type);
+            $fileInfo = $storageDriver->upload($type, 'attach');
 
             // 记录信息
             $attach = Attach::create([

@@ -57,7 +57,7 @@ class StorageDriver
      * @author windy
      */
     #[ArrayShape(['type' => "string", 'ext' => "mixed", 'size' => "mixed", 'mime' => "mixed", 'name' => "mixed", 'realPath' => "mixed", 'fileName' => "string"])]
-    public function upload(string $type, string $dir='attach'): array
+    public function upload(string $type, string $dir=''): array
     {
         $file = request()->file('file');
         if (!$file) {
