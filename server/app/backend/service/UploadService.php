@@ -20,7 +20,6 @@ use app\common\basics\Service;
 use app\common\enum\AttachEnum;
 use app\common\exception\UploadException;
 use app\common\model\attach\Attach;
-use app\common\model\attach\AttachKeep;
 use app\common\service\storage\StorageDriver;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
