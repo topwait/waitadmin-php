@@ -50,13 +50,14 @@ class StorageDriver
     /**
      * 上传文件
      *
-     * @author windy
      * @param string $type (类型: image/video/package/document)
+     * @param string $dir  (目录: attach)
      * @return array
      * @throws Exception
+     * @author windy
      */
     #[ArrayShape(['type' => "string", 'ext' => "mixed", 'size' => "mixed", 'mime' => "mixed", 'name' => "mixed", 'realPath' => "mixed", 'fileName' => "string"])]
-    public function upload(string $type): array
+    public function upload(string $type, string $dir='attach'): array
     {
         $file = request()->file('file');
         if (!$file) {
@@ -70,8 +71,11 @@ class StorageDriver
             $extension = explode('/', $file->getMime())[1];
         }
 
-        $disks = config('filesystem.disks.public.url');
-        $disks = trim($disks, '/') . '/' . $type . '/';
+        $dir   = ($dir && str_ends_with($dir, '/')) ? $dir : $dir.'/';
+        $dir   = ($dir && str_starts_with($dir, '/')) ? $dir : '/'.$dir;
+        $disks = trim(config('filesystem.disks.public.url'), '/');
+        $disks = $disks . $dir. $type . '/';
+
         $fileInfo = [
             'type'     => $type,
             'ext'      => $extension,
