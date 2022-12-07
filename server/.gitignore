@@ -1,8 +1,11 @@
+*.log
+.env
+.htaccess
+.install.lock
 /.idea
 /.vscode
 /runtime/
 /public/locals/
 /public/storage/
 /public/temporary/
-*.log
-.env
+/public/nginx.htaccess
