@@ -16,9 +16,7 @@
 namespace app\common\exception;
 
 
-use app\common\enum\ErrorEnum;
 use Exception;
-use Throwable;
 
 /**
  * 自定义异常基类

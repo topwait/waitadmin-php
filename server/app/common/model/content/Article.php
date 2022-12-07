@@ -53,7 +53,7 @@ class Article extends Models
      * @author windy
      * @return HasOne
      */
-    public function category()
+    public function category(): HasOne
     {
         return $this->hasOne(ArticleCategory::class, 'id', 'cid')
             ->field('id,name');

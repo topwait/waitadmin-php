@@ -195,7 +195,7 @@ class TimeUtils
     public static function daysAgo(int $day = 1): int
     {
         $nowTime = time();
-        return intval($nowTime - self::daysToSecond($day));
+        return $nowTime - self::daysToSecond($day);
     }
 
     /**
@@ -208,7 +208,7 @@ class TimeUtils
     public static function daysAfter(int $day = 1): int
     {
         $nowTime = time();
-        return intval($nowTime + self::daysToSecond($day));
+        return $nowTime + self::daysToSecond($day);
     }
 
     /**
@@ -291,33 +291,21 @@ class TimeUtils
     public static function capMonth(int $month=0): string
     {
         $month = $month > 0 ? $month : intval(date('m'));
-        switch ($month) {
-            case 1:
-                return '一月';
-            case 2:
-                return '二月';
-            case 3:
-                return '三月';
-            case 4:
-                return '四月';
-            case 5:
-                return '五月';
-            case 6:
-                return '六月';
-            case 7:
-                return '七月';
-            case 8:
-                return '八月';
-            case 9:
-                return '九月';
-            case 10:
-                return '十月';
-            case 11:
-                return '十一月';
-            case 12:
-                return '十二月';
-        }
-        return '未知月份';
+        return match ($month) {
+            1 => '一月',
+            2 => '二月',
+            3 => '三月',
+            4 => '四月',
+            5 => '五月',
+            6 => '六月',
+            7 => '七月',
+            8 => '八月',
+            9 => '九月',
+            10 => '十月',
+            11 => '十一月',
+            12 => '十二月',
+            default => '未知月份',
+        };
     }
 
     /**

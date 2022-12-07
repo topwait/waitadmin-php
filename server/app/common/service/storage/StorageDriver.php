@@ -20,7 +20,6 @@ use app\backend\service\setting\WatermarkService;
 use app\common\utils\UrlUtils;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\Pure;
 use think\Image;
 
 /**
@@ -118,7 +117,6 @@ class StorageDriver
      * @param string $ext      (文件后缀)
      * @return string          (日期名称)
      */
-    #[Pure]
     public function buildSaveName(string $realPath, string $ext): string
     {
         return date('Ymd') . '/'

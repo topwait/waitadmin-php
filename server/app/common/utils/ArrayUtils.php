@@ -37,7 +37,7 @@ class ArrayUtils
      * @return array
      * @author windy
      */
-    public static function toTreeHtml($data, $pid=0, $field='pid', $pk='id', $html='|--', $level=0, $clear=true): array
+    public static function toTreeHtml($data, int $pid=0, string $field='pid', string $pk='id', string $html='|--', int $level=0, bool $clear=true): array
     {
         static $list = [];
         if ($clear) $list = [];
@@ -67,7 +67,7 @@ class ArrayUtils
     public static function toTreeJson(array $data, int $pid=0, string $field='pid', string $pk='id'): array
     {
         $tree = array();
-        foreach ($data as $key => $value) {
+        foreach ($data as $value) {
             if ($value[$field] == $pid) {
                 $value['children'] = self::toTreeJson($data, $value[$pk], $field, $pk);
                 $tree[] = $value;
@@ -87,7 +87,7 @@ class ArrayUtils
      * @return array
      * @author windy
      */
-    public static function formToLinear(array $arr, $fill = false): array
+    public static function formToLinear(array $arr, bool $fill = false): array
     {
         $keys = [];
         $count = $fill ? 0 : PHP_INT_MAX;
@@ -103,7 +103,7 @@ class ArrayUtils
         $data = [];
         for ($i = 0; $i < $count; $i++) {
             foreach ($keys as $v) {
-                $data[$i][$v] = isset($arr[$v][$i]) ? $arr[$v][$i] : null;
+                $data[$i][$v] = $arr[$v][$i] ?? null;
             }
         }
         return $data;
@@ -130,7 +130,7 @@ class ArrayUtils
             ) {
                 $data[$key] = self::arrayMergeMultiple($array1[$key], $array2[$key]);
             } else {
-                $data[$key] = isset($array2[$key]) ? $array2[$key] : $array1[$key];
+                $data[$key] = $array2[$key] ?? $array1[$key];
             }
         }
         return $data;

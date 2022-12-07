@@ -22,7 +22,7 @@ namespace app\common\enum;
  * Class SexEnum
  * @package app\common\enum
  */
-class SexEnum
+class GenderEnum
 {
     const MALE = 1; //男性
     const GIRL = 2; //女性

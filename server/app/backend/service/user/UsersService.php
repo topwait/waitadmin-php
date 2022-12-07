@@ -17,7 +17,7 @@ namespace app\backend\service\user;
 
 
 use app\common\basics\Service;
-use app\common\enum\SexEnum;
+use app\common\enum\GenderEnum;
 use app\common\model\user\User;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
@@ -73,7 +73,7 @@ class UsersService extends Service
 
         foreach ($lists['data'] as &$item) {
             $item['avatar'] = UrlUtils::toAbsoluteUrl($item['avatar']);
-            $item['sex']    = SexEnum::getMsgByCode($item['sex']);
+            $item['sex']    = GenderEnum::getMsgByCode($item['sex']);
             $item['email']  = $item['email'] ? $item['email'] : '-';
             $item['groups'] = $item['groups'] ? $item['groups'] : '-';
         }
@@ -100,7 +100,7 @@ class UsersService extends Service
             ->toArray();
 
         $detail['avatar'] = UrlUtils::toAbsoluteUrl($detail['avatar']);
-        $detail['sex']    = SexEnum::getMsgByCode($detail['sex']);
+        $detail['sex']    = GenderEnum::getMsgByCode($detail['sex']);
         return $detail;
     }
 

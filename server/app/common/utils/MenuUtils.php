@@ -131,7 +131,7 @@ class MenuUtils
     private static function upgrade(array $menus, int $pid=0, string $module='addon'): void
     {
         $model = new AuthMenu();
-        foreach ($menus as $key => $menu) {
+        foreach ($menus as $menu) {
             $menu['pid']    = $pid;
             $menu['module'] = $module;
             $menu['perms']  = trim($menu['perms'], '/');
@@ -162,11 +162,11 @@ class MenuUtils
      * @param false $changeStatus (变动状态: true=有变动, false=无变动)
      * @author windy
      */
-    private static function isChangeMenu(array $menus, int $pid=0, string $module='addon', &$changeStatus=false): void
+    private static function isChangeMenu(array $menus, int $pid=0, string $module='addon', bool &$changeStatus=false): void
     {
         if (!$changeStatus) {
             $model = new AuthMenu();
-            foreach ($menus as $key => $menu) {
+            foreach ($menus as $menu) {
                 $menu['pid'] = $pid;
                 $menu['module'] = $module;
                 $menu['perms'] = trim($menu['perms'], '/');

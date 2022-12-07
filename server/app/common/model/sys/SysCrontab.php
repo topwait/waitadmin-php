@@ -44,13 +44,13 @@ class SysCrontab extends Models
     ];
 
     /**
-     * 获取器-格式化最后执行时间
+     * 获取器: 格式化最后执行时间
      *
      * @author windy
      * @param $value
      * @return string
      */
-    public function getLastTimeAttr($value)
+    public function getLastTimeAttr($value): string
     {
         return date('Y-m-d H:i:s', $value);
     }

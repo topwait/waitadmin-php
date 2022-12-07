@@ -77,7 +77,7 @@ class Models extends Model
     }
 
     /**
-     * 获取器：处理图片路径
+     * 获取器: 处理图片路径
      *
      * @param $value
      * @return string
@@ -93,7 +93,7 @@ class Models extends Model
     }
 
     /**
-     * 获取器：处理轮播图片
+     * 获取器: 处理轮播图片
      *
      * @param $value
      * @return array

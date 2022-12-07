@@ -43,7 +43,7 @@ class IndexController extends Backend
      */
     public function index(): View
     {
-        $detail = IndexService::index(1);
+        $detail = IndexService::index($this->adminId);
         return view('index', [
             'menus'     => ArrayUtils::toTreeJson($detail['menus']),
             'adminUser' => $detail['adminUser']

@@ -39,11 +39,11 @@ class UrlUtils
             return $url;
         }
 
-        if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
+        if (str_starts_with($url, 'http:'.'//') || str_starts_with($url, 'https://')) {
             return $url;
         }
 
-        if (substr($url, 0, 1) !== '/') {
+        if (!str_starts_with($url, '/')) {
             $url = '/' . $url;
         }
 
@@ -56,7 +56,7 @@ class UrlUtils
             return request()->domain() . $url;
         } else {
             $config = ConfigUtils::get('storage', $engine, []);
-            $domain = isset($config['domain']) ? $config['domain'] : '';
+            $domain = $config['domain'] ?? '';
             return $domain . $url;
         }
     }
@@ -72,8 +72,8 @@ class UrlUtils
      */
     public static function toRelativeUrl(string $url): string
     {
-        if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
-            $url = str_replace('http://', '', $url);
+        if (str_starts_with($url, 'http:'.'//') || str_starts_with($url, 'https://')) {
+            $url = str_replace('http:'.'//', '', $url);
             $url = str_replace('https://', '', $url);
             $arr = explode('/', $url);
             array_shift($arr);
@@ -94,7 +94,7 @@ class UrlUtils
      */
     public static function toRoot(string $url): string
     {
-        if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
+        if (str_starts_with($url, 'http:'.'//') || str_starts_with($url, 'https://')) {
             $url = self::toRelativeUrl($url);
         }
 

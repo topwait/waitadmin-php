@@ -17,7 +17,6 @@ namespace app\common\model\user;
 
 
 use app\common\basics\Models;
-use think\model\relation\HasOne;
 
 /**
  * 用户模型
