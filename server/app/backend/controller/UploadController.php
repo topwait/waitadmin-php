@@ -46,20 +46,6 @@ class UploadController extends Backend
     }
 
     /**
-     * 直达上传
-     *
-     * @return Json
-     * @throws UploadException
-     * @author windy
-     */
-    public function through(): Json
-    {
-        $type = $this->request->get('type');
-        $res  = UploadService::through($type, $this->adminId);
-        return AjaxUtils::success('上传成功', $res);
-    }
-
-    /**
      * 临时上传
      *
      * @return Json

@@ -82,48 +82,6 @@ class UploadService extends Service
     }
 
     /**
-     * 直接上传
-     *
-     * @param string $type (类型: image/video)
-     * @param int $uid (所属用户)
-     * @return array
-     * @throws UploadException
-     * @author windy
-     */
-    #[ArrayShape(['name' => "mixed", 'ext' => "mixed", 'size' => "mixed", 'url' => "string"])]
-    public static function through(string $type, int $uid): array
-    {
-        try {
-            // 存储引擎
-            $engine = ConfigUtils::get('storage', 'default', 'local');
-            $params = ConfigUtils::get('storage', $engine, []);
-
-            // 上传调用
-            $storageDriver = new StorageDriver(['engine' => $engine, 'params' => $params]);
-            $fileInfo = $storageDriver->upload($type);
-
-            // 记录信息
-            AttachKeep::create([
-                'uid'       => $uid,
-                'file_path' => $fileInfo['fileName'],
-                'file_name' => $fileInfo['name'],
-                'file_ext'  => $fileInfo['ext'],
-                'file_size' => $fileInfo['size']
-            ]);
-
-            // 返回信息
-            return [
-                'name' => $fileInfo['name'],
-                'ext'  => $fileInfo['ext'],
-                'size' => $fileInfo['size'],
-                'url'  => UrlUtils::toAbsoluteUrl($fileInfo['fileName'])
-            ];
-        } catch (Exception $e) {
-            throw new UploadException($e->getMessage());
-        }
-    }
-
-    /**
      * 临时上传
      *
      * @param string $type (类型: image/video)
