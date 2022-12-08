@@ -134,6 +134,14 @@ body:before {
     color: #5FB878 !important;
 }
 
+.layui-btn-gloomy  {background-color: #444c69;}
+.layui-btn-danger  {background-color: #f56c6c;}
+.layui-btn-default {background-color: #009688;}
+.layui-btn-forbid,
+.layui-btn-forbid:hover {cursor: not-allowed; opacity: 0.65; pointer-events: none;}
+
+
+
 @media screen and (min-height: 550px) {
     .login-wrapper {
         margin: -250px auto 0;

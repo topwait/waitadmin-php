@@ -76,6 +76,8 @@ body,a,dl,dt,dd,li,img {cursor: url('../images/default/cursor.cur'), auto !impor
 .layui-table-view .layui-table-cell .layui-btn-xs {padding: 0 2px; margin: 0;}
 .layui-table-view .layui-table-cell .layui-btn-xs span {padding: 0 2px;}
 .layui-table-view .layui-table-cell .layui-btn {vertical-align: middle;}
+.layui-table-view .layui-table-cell .table-image-wrap {width: 28px; height: 26px; }
+.layui-table-view .layui-table-cell .table-image-wrap img {width: 100%; height: 100%; vertical-align: top;}
 .layui-table-view .layui-table-header th {font-size: 13px; font-weight: bold;}
 .layui-table-view .layui-icon-circle-dot {cursor: pointer;}
 .wait-table-cell .layui-table-cell {white-space:normal; word-wrap: break-word; height: auto !important;}
