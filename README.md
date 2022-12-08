@@ -8,9 +8,9 @@ WaitAdmin是一款ThinkPHP6 + Layui的极速后台开发框架。
 市面上已有很多类似的后台管理系统了，为什么还要去做呢？难道多一种选择不好吗？
 
 ## 在线体验
-- 演示站点: https://admin.waitshop.cn
 - 官方网址: https://www.waitadmin.cn
 - 开发文档: https://www.waitadmin.cn/docs
+- 演示站点: https://demo.waitadmin.cn/admin.php
 
 ## 体验账号
 - 账号：admin
@@ -53,5 +53,22 @@ WaitAdmin是一款ThinkPHP6 + Layui的极速后台开发框架。
 - 文件存储：管理文件的存储(本地存储、阿里云OSS、腾讯云OSS、七牛云OSS)
 
 ## 演示图
+<table>
+    <tr>
+        <td><img src="https://www.waitadmin.cn/others/ts_01.png" height="200" width="400"/></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_02.png" height="200" width="400"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://www.waitadmin.cn/others/ts_03.png" height="200" width="400"/></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_04.png" height="200" width="400"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://www.waitadmin.cn/others/ts_05.png" height="200" width="400"/></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_06.png" height="200" width="400"/></td>
+    </tr>
+</table>
 
 ## 交流群
+QQ群：<a href="https://gitee.com/link?target=https://jq.qq.com/?_wv=1027&k=TRrklD6W">
+    <img src="https://img.shields.io/badge/613667155-blue.svg" alt="加入QQ群">
+</a>
