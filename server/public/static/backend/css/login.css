@@ -30,6 +30,10 @@ body:before {
     z-index: 2;
 }
 
+.login-wrapper .layui-btn {
+    border-color: currentColor !important;
+}
+
 .login-wrapper > .layui-form {
     padding: 25px 30px;
     background-color: #fff;
