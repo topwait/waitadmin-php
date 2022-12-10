@@ -7,6 +7,8 @@ WaitAdmin是一款ThinkPHP6 + Layui的极速后台开发框架。
 个人开发者利用的空闲碎片时间开发的后台管理系统。<br/>
 市面上已有很多类似的后台管理系统了，为什么还要去做呢？难道多一种选择不好吗？
 
+🚀🚀🚀 **开源不易，给个star支持一下吧！**
+
 ## 在线体验
 - 官方网址: https://www.waitadmin.cn
 - 开发文档: https://www.waitadmin.cn/docs
