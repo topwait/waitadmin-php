@@ -4,8 +4,6 @@
 .install.lock
 /.idea
 /.vscode
-/runtime/
 /public/locals/
-/public/storage/
 /public/temporary/
 /public/nginx.htaccess
