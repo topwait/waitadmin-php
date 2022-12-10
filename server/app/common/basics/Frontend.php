@@ -68,22 +68,16 @@ abstract class Frontend extends BaseController
      */
     protected function setValues(): void
     {
-        $navigation = Cache::get('navigation');
-        if (!$navigation) {
-            $modelNavigation = new DevNavigation();
-            $navigationData = $modelNavigation
-                ->field('id,pid,name,target,url')
-                ->where(['is_disable' => 0])
-                ->where(['is_delete' => 0])
-                ->order('sort desc, id desc')
-                ->select()->toArray();
-            $navigation = ArrayUtils::toTreeJson($navigationData);
-            $navigation = json_encode($navigation);
-            Cache::set('navigation', $navigation);
-        }
+        $modelNavigation = new DevNavigation();
+        $navigationData = $modelNavigation
+            ->field('id,pid,name,target,url')
+            ->where(['is_disable' => 0])
+            ->where(['is_delete' => 0])
+            ->order('sort desc, id desc')
+            ->select()->toArray();
 
         View::assign('seo', ConfigUtils::get('seo'));
         View::assign('website', ConfigUtils::get('website'));
-        View::assign('navigation', json_decode($navigation, true));
+        View::assign('navigation', ArrayUtils::toTreeJson($navigationData));
     }
 }
