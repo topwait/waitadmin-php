@@ -18,6 +18,12 @@ namespace app\backend\validate\setting;
 
 use app\common\basics\Validate;
 
+/**
+ * 友情链接参数验证器
+ *
+ * Class LinksValidate
+ * @package app\backend\validate\setting
+ */
 class LinksValidate extends Validate
 {
     protected $rule = [
@@ -25,8 +31,8 @@ class LinksValidate extends Validate
         'ids'        => 'require|array',
         'title'      => 'require|max:200',
         'target'     => 'require|in:_self,_blank,_parent,_top',
-        'url'        => 'require|max:250',
-        'sort'       => 'require|number',
+        'url'        => 'max:250',
+        'sort'       => 'number',
         'is_disable' => 'require|in:0,1',
     ];
 

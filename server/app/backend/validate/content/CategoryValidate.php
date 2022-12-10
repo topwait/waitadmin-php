@@ -19,7 +19,7 @@ namespace app\backend\validate\content;
 use app\common\basics\Validate;
 
 /**
- * 档案类目参数验证器
+ * 文章类目参数验证器
  *
  * Class CategoryValidate
  * @package app\backend\validate\content

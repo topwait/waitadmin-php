@@ -26,7 +26,7 @@ use think\response\Json;
 use think\response\View;
 
 /**
- * 导航管理
+ * 导航配置管理
  *
  * Class NavigationController
  * @package app\backend\controller\setting

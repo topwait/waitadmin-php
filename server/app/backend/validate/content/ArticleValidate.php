@@ -19,7 +19,7 @@ namespace app\backend\validate\content;
 use app\common\basics\Validate;
 
 /**
- * 档案参数验证器
+ * 文章参数验证器
  *
  * Class ArchivesValidate
  * @package app\backend\validate\content

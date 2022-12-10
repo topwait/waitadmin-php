@@ -18,6 +18,12 @@ namespace app\backend\validate\setting;
 
 use app\common\basics\Validate;
 
+/**
+ * 导航参数验证器
+ *
+ * Class NavigationValidate
+ * @package app\backend\validate\setting
+ */
 class NavigationValidate extends Validate
 {
     protected $rule = [
@@ -25,8 +31,8 @@ class NavigationValidate extends Validate
         'pid'        => 'require|number',
         'name'       => 'require|max:30',
         'target'     => 'require|in:_self,_blank,_parent,_top',
-        'url'        => 'require|max:250',
-        'sort'       => 'require|number',
+        'url'        => 'max:250',
+        'sort'       => 'number',
         'is_disable' => 'require|in:0,1',
     ];
 

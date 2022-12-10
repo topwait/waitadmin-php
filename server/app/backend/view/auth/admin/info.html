@@ -28,17 +28,17 @@
             <div class="layui-input-block">
                 <select id="role_id" name="role_id" lay-verify="required" disabled readonly class="layui-disabled">
                     <option value="">请选择</option>
-                    {volist name="roles" id="vo"}
-                        {if $detail.id == 1}
-                            <option value="0" selected>系统管理员</option>
-                        {else}
+                    {if $detail.id == 1}
+                        <option value="0" selected>系统管理员</option>
+                    {else}
+                        {volist name="roles" id="vo"}
                             {if $vo.id == $detail.role_id}
                                 <option value="{$vo.id}" selected>{$vo.name}</option>
                             {else}
                                 <option value="{$vo.id}">{$vo.name}</option>
                             {/if}
-                        {/if}
-                    {/volist}
+                        {/volist}
+                    {/if}
                 </select>
             </div>
         </div>
