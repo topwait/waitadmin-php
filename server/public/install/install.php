@@ -104,7 +104,9 @@ if ($step == 4) {
 
                 // 树形菜单生成
                 if ($post['layout'] == 'tree') {
-                    $util->makeTpl();
+                    $util->makeTreeTpl();
+                } else {
+                    $util->makeCallTpl();
                 }
             }
         }

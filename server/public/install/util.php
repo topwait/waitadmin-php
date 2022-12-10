@@ -37,11 +37,11 @@ class Util
     }
 
     /**
-     * 生成菜单模板
+     * 生成菜单模板 (树形)
      *
      * @author windy
      */
-    public function makeTpl(): void
+    public function makeTreeTpl(): void
     {
         $cssTreeJsRc = APP_ROOT . '/public/static/backend/css/kernel.css';
         $cssTreeJsTo = file_get_contents(INSTALL_ROOT . '/pages/css_tree.tp');
@@ -53,6 +53,26 @@ class Util
 
         $kernelTreeJsRc = APP_ROOT . '/public/static/backend/js/kernel.min.js';
         $kernelTreeJsTo = file_get_contents(INSTALL_ROOT . '/pages/kernel_tree.tp');
+        file_put_contents($kernelTreeJsRc, $kernelTreeJsTo);
+    }
+
+    /**
+     * 生成菜单模板 (呼出)
+     *
+     * @author windy
+     */
+    public function makeCallTpl(): void
+    {
+        $cssTreeJsRc = APP_ROOT . '/public/static/backend/css/kernel.css';
+        $cssTreeJsTo = file_get_contents(INSTALL_ROOT . '/pages/css_call.tp');
+        file_put_contents($cssTreeJsRc, $cssTreeJsTo);
+
+        $indexTreeRc = APP_ROOT . '/app/backend/view/index/index.html';
+        $indexTreeTo = file_get_contents(INSTALL_ROOT . '/pages/index_call.tp');
+        file_put_contents($indexTreeRc, $indexTreeTo);
+
+        $kernelTreeJsRc = APP_ROOT . '/public/static/backend/js/kernel.min.js';
+        $kernelTreeJsTo = file_get_contents(INSTALL_ROOT . '/pages/kernel_call.tp');
         file_put_contents($kernelTreeJsRc, $kernelTreeJsTo);
     }
 
