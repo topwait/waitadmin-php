@@ -18,10 +18,10 @@ layui.use(['jquery', 'element'], function() {
         ,loading: function() {
             let load = '<div class="wait-loading">' +
                 '<div class="ball-loader">' +
-                '<span></span><span></span>' +
-                '<span></span><span></span>' +
+                    '<span></span><span></span>' +
+                    '<span></span><span></span>' +
                 '</div>' +
-                '</div>';
+            '</div>';
 
             $iframe = $waitBodyNode.find('.tab-body-item.layui-show iframe');
             if (!$iframe.next().length) {
@@ -244,7 +244,7 @@ layui.use(['jquery', 'element'], function() {
                     }
                 });
 
-                $waitTabsNode.find('.layui-tab-title li')
+               $waitTabsNode.find('.layui-tab-title li')
                     .eq(events.tabsPage.index).trigger('click');
 
                 $waitBodyNode.find('.tab-body-item iframe').each(function () {
@@ -406,17 +406,18 @@ layui.use(['jquery', 'element'], function() {
 
     /** 呼出系统配置 **/
     $waitHeaderNode.on('click', '.about', function () {
+        let enter = '/' + window.location.pathname.split('/')[1];
         layer.open({
-            type: 2,
-            title: '主题配置',
-            shadeClose: true,
-            closeBtn: 0,
-            skin: 'layui-anim layui-anim-right layui-layer-right',
-            area: ['300px', '100%'],
-            offset: 'r',
-            anim: -1,
-            content: window.location.pathname + '/setting'
-        });
+			type: 2,
+			title: '主题配置',
+			shadeClose: true,
+			closeBtn: 0,
+			skin: 'layui-anim layui-anim-right layui-layer-right',
+			area: ['300px', '100%'],
+			offset: 'r',
+			anim: -1,
+			content: enter + '/index/setting'
+		});
     });
 
     /** 按钮全屏退出 **/

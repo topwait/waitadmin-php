@@ -129,8 +129,8 @@ body,a,dl,dt,dd,li,img {cursor: url('../images/default/cursor.cur'), auto !impor
 .wait-header .layui-layout-left {transition: all .3s; -webkit-transition: all .3s;}
 
 /** 隐藏标签 **/
-#app[data-tab="true"] .wait-tabs {display: none;}
-#app[data-tab="true"] .wait-body {top: 50px;}
+body[data-tab="true"] .wait-tabs {display: none;}
+body[data-tab="true"] .wait-body {top: 50px;}
 
 /** 主题: 蓝色 **/
 body[data-theme="blue"] .wait-sidebar .wait-menu-item.on {background-color: #3b91ff;}
