@@ -39,7 +39,7 @@
                         <p class="mt6 ml8">您的注册、登录、购买、安装、使用等行为将视为对本协议的接受，并同意接受本协议各项条款的约束。</p>
                         <p class="mt6 ml8">并且waitAdmin作者拥有本软件和本授权协议的最终解释权。</p>
                         <h3 class="mt16">二、协议许可的权利</h3>
-                        <p class="mt6 ml8">1．使用本应用请，否则会被视为盗版行为并承担相应法律责任。</p>
+                        <p class="mt6 ml8">1．使用本应用请遵循本协议，否则会被视为盗版行为并承担相应法律责任。</p>
                         <p class="mt6 ml8">2．请尊重WaitAdmin开源团队劳动成果，严禁使用本系统转手、转卖、倒卖或二次开发后转手、转卖、倒卖等商业行为。</p>
                         <p class="mt6 ml8">3．任何企业和个人不允许对waitAdmin程序代码发布与本应用相同类型、微调整、相似度高的程序。</p>
                         <p class="mt6 ml8">4．你可以在协议规定的约束和限制范围内修改WaitAdmin系列开源软件产品或界面风格以适应你的网站要求。</p>
@@ -71,7 +71,7 @@
                         <p class="mt6 ml8">5．本程本身不是百分百的完善，如因使用过程中发现漏洞导致的损失，我们概不承担任何责任，请自行测试好再进行上线。</p>
                         <br><br>
                         <p class="mt6">gitee:   https://gitee.com/wafts/waitAdmin</p>
-                        <p class="mt6">github:  ttps://github.com/topwait/waitadmin</p>
+                        <p class="mt6">github:  https://github.com/topwait/waitadmin</p>
                         <p class="mt6">官方网站: https://www.waitadmin.cn</p>
                         <p class="mt6">-----------------------------------------------------</p>
                         <p class="mt6">邮箱: 2474369941@qq.com</p>
