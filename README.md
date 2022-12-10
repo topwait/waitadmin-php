@@ -1,4 +1,4 @@
-<h1 align="center">WaitAdmin通用管理后台</h1>
+<h1 align="center">WaitAdmin管理后台</h1>
 
 WaitAdmin是一款ThinkPHP6 + Layui的极速后台开发框架。
 实现了后台系统常见的RBAC权限管理，并且内置了诸多好用的工具。

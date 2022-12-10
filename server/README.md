@@ -1,4 +1,4 @@
-<h1 align="center">WaitAdmin通用管理后台</h1>
+<h1 align="center">WaitAdmin管理后台</h1>
 
 ## 目录结构
 ```
