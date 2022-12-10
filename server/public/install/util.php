@@ -1,5 +1,16 @@
 <?php
-
+// +----------------------------------------------------------------------
+// | WaitAdmin快速开发后台管理系统 (安装界面不允许迁移到别的程序使用)
+// +----------------------------------------------------------------------
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
+// +----------------------------------------------------------------------
+// | Author: WaitAdmin Team <2474369941@qq.com>
+// +----------------------------------------------------------------------
 
 use JetBrains\PhpStorm\Pure;
 
@@ -32,12 +43,16 @@ class Util
      */
     public function makeTpl(): void
     {
-        $indexTreeRc = APP_ROOT . '/app/backend/view/index/uu.html';
-        $indexTreeTo = file_get_contents(INSTALL_ROOT . '/pages/index_tree.html');
+        $cssTreeJsRc = APP_ROOT . '/public/static/backend/css/kernel.css';
+        $cssTreeJsTo = file_get_contents(INSTALL_ROOT . '/pages/css_tree.tp');
+        file_put_contents($cssTreeJsRc, $cssTreeJsTo);
+
+        $indexTreeRc = APP_ROOT . '/app/backend/view/index/index.html';
+        $indexTreeTo = file_get_contents(INSTALL_ROOT . '/pages/index_tree.tp');
         file_put_contents($indexTreeRc, $indexTreeTo);
 
-        $kernelTreeJsRc = APP_ROOT . '/public/static/backend/js/kk.js';
-        $kernelTreeJsTo = file_get_contents(INSTALL_ROOT . '/pages/kernel_tree.js');
+        $kernelTreeJsRc = APP_ROOT . '/public/static/backend/js/kernel.min.js';
+        $kernelTreeJsTo = file_get_contents(INSTALL_ROOT . '/pages/kernel_tree.tp');
         file_put_contents($kernelTreeJsRc, $kernelTreeJsTo);
     }
 

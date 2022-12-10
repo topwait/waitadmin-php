@@ -1,4 +1,17 @@
 <?php
+// +----------------------------------------------------------------------
+// | WaitAdmin快速开发后台管理系统 (安装界面不允许迁移到别的程序使用)
+// +----------------------------------------------------------------------
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
+// +----------------------------------------------------------------------
+// | Author: WaitAdmin Team <2474369941@qq.com>
+// +----------------------------------------------------------------------
+
 include_once 'proof.php';
 include_once 'mysql.php';
 include_once 'util.php';
@@ -61,18 +74,6 @@ if ($step == 4) {
         if ($mysqlErr !== true) {
             exit(json_encode(['code'=>1, 'msg'=>$mysqlErr]));
         }
-        // 验证菜单布局
-        if ($post['layout'] == 'tree') {
-            $indexTreeRc = APP_ROOT . '/app/backend/view/index/';
-            if ($proof->checkDirWrite($indexTreeRc) == 'fail') {
-                exit(json_encode(['code'=>1, 'msg'=>'此路径没有写入权限: “app/backend/view/index/”']));
-            }
-
-            $jsTreeRc = APP_ROOT . '/public/static/backend/js';
-            if ($proof->checkDirWrite($jsTreeRc) == 'fail') {
-                exit(json_encode(['code'=>1, 'msg'=>'此路径没有写入权限: “public/static/backend/js”']));
-            }
-        }
         // 验证通过返回
         exit(json_encode(['code'=>0, 'msg'=>'success']));
     } else {
@@ -86,12 +87,6 @@ if ($step == 4) {
             $mysqlErr = $mysql->checkDB();
             if ($mysqlErr !== true) {
                 $errMsg = $mysqlErr;
-                $step = 3;
-            } elseif ($proof->checkDirWrite($indexTreeRc) == 'fail' && $post['layout'] == 'tree') {
-                $errMsg = '此路径没有写入权限: “app/backend/view/index/”';
-                $step = 3;
-            } elseif ($proof->checkDirWrite($indexTreeRc) == 'fail' && $post['layout'] == 'tree') {
-                $errMsg = 'public/static/backend/js';
                 $step = 3;
             } else {
                 // 写入到数据表

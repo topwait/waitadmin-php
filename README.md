@@ -69,6 +69,7 @@ WaitAdmin是一款ThinkPHP6 + Layui的极速后台开发框架。
 </table>
 
 ## 交流群
-QQ群：<a href="https://gitee.com/link?target=https://jq.qq.com/?_wv=1027&k=TRrklD6W">
+QQ群：
+<a href="https://gitee.com/link?target=https://jq.qq.com/?_wv=1027&k=TRrklD6W">
     <img src="https://img.shields.io/badge/613667155-blue.svg" alt="加入QQ群">
 </a>
