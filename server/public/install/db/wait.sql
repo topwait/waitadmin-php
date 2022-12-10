@@ -77,23 +77,6 @@ CREATE TABLE `wait_attach_cate` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='附件类目表';
 
 -- ----------------------------
--- Table structure for wait_attach_keep
--- ----------------------------
-DROP TABLE IF EXISTS `wait_attach_keep`;
-CREATE TABLE `wait_attach_keep` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户',
-  `file_name` varchar(200) DEFAULT '' COMMENT '文件名称',
-  `file_path` varchar(200) DEFAULT '' COMMENT '文件路径',
-  `file_ext` varchar(10) DEFAULT '' COMMENT '文件扩展',
-  `file_size` int(10) unsigned DEFAULT '0' COMMENT '文件大小',
-  `is_use` tinyint(1) unsigned DEFAULT '0' COMMENT '是否使用',
-  `create_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) unsigned DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='附件记录表';
-
--- ----------------------------
 -- Table structure for wait_auth_admin
 -- ----------------------------
 DROP TABLE IF EXISTS `wait_auth_admin`;
