@@ -31,5 +31,5 @@ return [
     'show_error_msg'   => false,
 
     // 后台入口文件
-    'backend_entrance' => '/h954eWb8Rl.php'
+    'backend_entrance' => '/admin.php'
 ];
