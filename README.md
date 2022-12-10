@@ -66,6 +66,10 @@ WaitAdmin是一款ThinkPHP6 + Layui的极速后台开发框架。
         <td><img src="https://www.waitadmin.cn/others/ts_05.png" height="200" width="400"/></td>
         <td><img src="https://www.waitadmin.cn/others/ts_06.png" height="200" width="400"/></td>
     </tr>
+    <tr>
+        <td><img src="https://www.waitadmin.cn/others/ts_07.png" height="200" width="400"/></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_08.png" height="200" width="400"/></td>
+    </tr>
 </table>
 
 ## 交流群
