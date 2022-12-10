@@ -129,7 +129,7 @@ body,a,dl,dt,dd,li,img {cursor: url('../images/default/cursor.cur'), auto !impor
 .wait-tabs,
 .wait-body,
 .wait-header,
-.wait-sidebar, 
+.wait-sidebar,
 .wait-sidebar .logo,
 .wait-sidebar .wait-menu-item .wait-second-menu,
 .wait-header .layui-layout-left {transition: all .3s; -webkit-transition: all .3s;}
@@ -297,7 +297,7 @@ body[data-theme="header-red"] .wait-load .loader:after {background-color: #d2443
 	100% {transform: translateY(0) rotate(90deg);}
 }
 
-@keyframes wait-anim-shadow { 
+@keyframes wait-anim-shadow {
     0%, 100% {transform: scale(1, 1);}
 	50% {transform: scale(1.2, 1);}
 }

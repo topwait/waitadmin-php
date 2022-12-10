@@ -17,7 +17,6 @@ namespace app\backend\service\setting;
 
 
 use app\common\basics\Service;
-use app\common\model\DevBanner;
 use app\common\model\DevLinks;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
@@ -67,7 +66,7 @@ class LinksService extends Service
      */
     public static function detail(int $id): array
     {
-        $model = new DevBanner();
+        $model = new DevLinks();
         return $model->withoutField('is_delete,delete_time')
             ->where(['is_delete'=>0])
             ->where(['id'=>intval($id)])
