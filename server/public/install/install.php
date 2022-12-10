@@ -102,7 +102,7 @@ if ($step == 4) {
                 // 生成锁定文件
                 $util->makeLock();
 
-                // 树形菜单生成
+                // 左侧菜单生成
                 if ($post['layout'] == 'tree') {
                     $util->makeTreeTpl();
                 } else {
