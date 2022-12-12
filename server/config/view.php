@@ -24,6 +24,7 @@ return [
     'taglib_end'    => '}',
     // 自定义路径标记
     'tpl_replace_string'  =>  [
+        '__COMMON__'    => '/static/common',
         '__BACKEND__'   => '/static/backend',
         '__FRONTEND__'  => '/static/frontend'
     ]

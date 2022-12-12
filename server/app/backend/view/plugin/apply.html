@@ -1,0 +1,167 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    .layout-global-index {display: flex; position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: #f5f7f9;}
+    .layout-global-main {flex: 1; overflow: hidden;}
+    .layout-global-main iframe {width: 100%; height: 100%; border: 0;}
+
+    .layout-global-menu::-webkit-scrollbar {width: 0;}
+    .layout-global-menu {width: 170px; min-height: 200px; overflow: auto; overflow-x: hidden; background: #ffffff; box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
+    .layout-global-menu ul {margin: 15px 0;}
+    .layout-global-menu .wait-menu-item a {position: relative; display: block; overflow: hidden; color: #666666; height: 38px; line-height: 38px; padding: 6px 13px 6px 38px;}
+    .layout-global-menu .wait-menu-item a i {position: absolute; top: 50%; left: 15px; margin-top: -20px; font-size: 16px;}
+    .layout-global-menu .wait-menu-item a span {float: right; font-size: 14px;}
+    .layout-global-menu .wait-menu-item a cite {font-size: 14px; overflow:hidden; white-space: nowrap; text-overflow: ellipsis;}
+    .layout-global-menu .wait-menu-item > a:hover {background: #ecf1ff; color: #3b91ff;}
+    .layout-global-menu .wait-menu-item.on > a {background: #ecf1ff; color: #3b91ff;}
+
+    .layout-global-menu .wait-second-menu {display: none; padding-left: 15px; background-color: #ffffff;}
+    .layout-global-menu .wait-second-menu dd a {padding: 0 0 0 34px;}
+    .layout-global-menu .wait-second-menu dd a i {float: none; padding: 0;}
+    .layout-global-menu .wait-second-menu dd span {padding-right: 13px;}
+    .layout-global-menu .wait-second-menu dd dl {display: none; padding-left: 12px;}
+    .layout-global-menu .wait-second-menu dd a:hover {color: #3b91ff;}
+    .layout-global-menu .wait-second-menu dd.on a {color: #3b91ff;}
+</style>
+{/block}
+
+{block name="bodyStyle"}
+<body class="layout-global-index">
+{/block}
+
+{block name="body"}
+<!-- 菜单 -->
+<!--<div class="layout-global-menu">-->
+<!--    <ul>-->
+<!--        <li class="wait-menu-item ">-->
+<!--            <a href="javascript:">-->
+<!--                <i class="layui-icon icon-member-user"></i>-->
+<!--                <cite>充值概览</cite>-->
+<!--                <span class="layui-icon layui-icon-left"></span>-->
+<!--            </a>-->
+<!--            <dl class="wait-second-menu">-->
+<!--                <dd>-->
+<!--                    <a href="javascript:">-->
+<!--                        <i class="layui-icon icon-member-user"></i>-->
+<!--                        <cite>充值金额</cite>-->
+<!--                    </a>-->
+<!--                </dd>-->
+<!--                <dd>-->
+<!--                    <a href="javascript:">-->
+<!--                        <i class="layui-icon icon-member-user"></i>-->
+<!--                        <cite>充值套餐</cite>-->
+<!--                        <span class="layui-icon layui-icon-left"></span>-->
+<!--                    </a>-->
+<!--                    <dl>-->
+<!--                        <dd>-->
+<!--                            <a href="javascript:">-->
+<!--                                <i class="layui-icon icon-member-user"></i>-->
+<!--                                <cite>大保健套餐</cite>-->
+<!--                            </a>-->
+<!--                        </dd>-->
+<!--                        <dd><a lay-id="1" lay-attr="#">强势坚固完</a></dd>-->
+<!--                    </dl>-->
+<!--                </dd>-->
+<!--                <dd>-->
+<!--                    <a href="javascript:">-->
+<!--                        <i class="layui-icon icon-member-user"></i>-->
+<!--                        <cite>充值套餐</cite>-->
+<!--                        <span class="layui-icon layui-icon-left"></span>-->
+<!--                    </a>-->
+<!--                    <dl>-->
+<!--                        <dd>-->
+<!--                            <a href="javascript:">-->
+<!--                                <i class="layui-icon icon-member-user"></i>-->
+<!--                                <cite>大保健套餐</cite>-->
+<!--                            </a>-->
+<!--                        </dd>-->
+<!--                        <dd><a lay-id="1" lay-attr="#">强势坚固完</a></dd>-->
+<!--                    </dl>-->
+<!--                </dd>-->
+<!--            </dl>-->
+<!--        </li>-->
+<!--        <li class="wait-menu-item">-->
+<!--            <a href="javascript:" lay-attr="{:route('auth.menu/index')}">-->
+<!--                <i class="layui-icon icon-member-user"></i>-->
+<!--                <cite>充值规则</cite>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--        <li class="wait-menu-item">-->
+<!--            <a href="javascript:" lay-attr="{:route('auth.menu/index')}">-->
+<!--                <i class="layui-icon icon-member-user"></i>-->
+<!--                <cite>充值记录</cite>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</div>-->
+<!-- 主体 -->
+<div class="layout-global-main">
+    <iframe src="{:route($url)}"></iframe>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function () {
+        let $ = layui.$;
+
+        let $waitIframesNode = $('.layout-global-main iframe');
+        let $waitSidebarNode = $('.layout-global-menu');
+        $waitSidebarNode.on('click', '.wait-menu-item', function () {
+            if (!$(this).children('dl').length) {
+                $waitSidebarNode.find('.active dl').slideUp();
+                $waitSidebarNode.find('.active .layui-icon').removeClass('layui-icon-down');
+                $waitSidebarNode.find('.active .layui-icon').addClass('layui-icon-left');
+                $waitSidebarNode.find('.active').removeClass('active');
+                $(this).siblings().removeClass('on');
+                $(this).addClass('on');
+
+                let url  = $(this).children('a').attr('lay-attr');
+                $waitIframesNode.attr('src', url);
+            } else {
+                if (!$(this).hasClass('active')) {
+                    $(this).siblings().removeClass('active');
+                    $(this).siblings().children('a').children('span').addClass('layui-icon-left');
+                    $(this).siblings().children('a').children('span').removeClass('layui-icon-down');
+                    $(this).addClass('active');
+                    $(this).children('dl').stop().slideDown();
+                    $(this).siblings().children('.wait-second-menu').slideUp();
+                    $(this).children('a').children('span').addClass('layui-icon-down');
+                    $(this).children('a').children('span').removeClass('layui-icon-left');
+                } else {
+                    $(this).removeClass('active');
+                    $(this).children('dl').stop().slideUp();
+                    $(this).children('a').children('span').addClass('layui-icon-left');
+                    $(this).children('a').children('span').removeClass('layui-icon-down');
+                }
+            }
+        });
+
+        $waitSidebarNode.on('click', '.wait-second-menu dd > a', function (e) {
+            if ($(this).next().length) {
+                if (!$(this).parent().hasClass('active')) {
+                    $(this).parent().addClass('active');
+                    $(this).parent().children('dl').stop().slideDown();
+                    $(this).children('span').addClass('layui-icon-down');
+                    $(this).children('span').removeClass('layui-icon-left');
+                } else {
+                    $(this).parent().children('dl').stop().slideUp();
+                    $(this).parent().removeClass('active');
+                    $(this).parent().removeAttr('class');
+                    $(this).children('span').addClass('layui-icon-left');
+                    $(this).children('span').removeClass('layui-icon-down');
+                }
+            } else {
+                $waitSidebarNode.find('.wait-menu-item').removeClass('on')
+                $waitSidebarNode.find('dd.on').removeAttr('class');
+                $(this).parent().addClass('on');
+
+                let url = $(this).attr('lay-attr');
+                $waitIframesNode.attr('src', url);
+            }
+            e.stopPropagation();
+        });
+    });
+</script>
+{/block}
