@@ -1,7 +1,8 @@
 {%%%extend name="common/layout" /}
 
-{block name="body"}
+{%%%block name="body"}
 <div class="container">
+{if !empty($searchArr)}
     <!-- 搜索栏 -->
     <form class="layui-form layui-search">
         <div class="layui-form-item">
@@ -33,6 +34,7 @@
             </div>
         </div>
     </form>
+{/if}
 
     <!-- 表格栏 -->
     <div class="layui-card">
@@ -76,13 +78,13 @@
 </div>
 {/block}
 
-{block name="js"}
+{%%%block name="js"}
 <script>
     layui.use(function() {
         // 渲染表格
         let table = waitUtil.table({
             elem: '#wait-table-list'
-            ,url: '{%%%:route("auth.admin/index")}'
+            ,url: '{%%%:route("{$routes}/index")}'
             ,cols: [[
                 {type:'checkbox', width:48},
 {volist name="$columns" id="vo"}
@@ -156,24 +158,6 @@
                         url: '{%%%:route("{$routes}/del")}',
                         type: 'POST',
                         data: {ids: [obj.data.id]}
-                    }).then((res) => {
-                        if (res.code === 0) {
-                            table.reload();
-                        }
-                    });
-                });
-            },
-            leave: function () {
-                let ids = waitUtil.checkbox();
-                if (!ids.length) {
-                    return layer.msg('请至少选择一项！', {icon: 2});
-                }
-                layer.confirm(`确定要删除选中的${ids.length}项数据吗？`, function(index) {
-                    layer.close(index);
-                    waitUtil.ajax({
-                        url: '{%%%:route("{$routes}/del")}',
-                        type: 'POST',
-                        data: {ids: ids}
                     }).then((res) => {
                         if (res.code === 0) {
                             table.reload();
