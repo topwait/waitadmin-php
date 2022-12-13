@@ -1,0 +1,107 @@
+{%%%extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 类目 -->
+        <div class="layui-form-item">
+            <label for="cid" class="layui-form-label"><span class="asterisk">*</span>类目：</label>
+            <div class="layui-input-block">
+                <select id="cid" name="cid" lay-verify="required|number">
+                    <option value="">请选择</option>
+
+                    <option value="1">1</option>
+
+                </select>
+            </div>
+        </div>
+        <!-- 标题 -->
+        <div class="layui-form-item">
+            <label for="title" class="layui-form-label"><span class="asterisk">*</span>标题：</label>
+            <div class="layui-input-block">
+                <input type="text" id="title" name="title"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 封面 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">封面：</label>
+            <div class="layui-input-block">
+                <div class="thumbnail" data-type="image" data-limit="1">
+                    <div class="musters"></div>
+                    <div class="builder">
+                        <i class="layui-icon layui-icon-camera"></i>
+                        <p>上传封面</p>
+                        <div class="mask">
+                            <div class="item layui-auto">图库选择</div>
+                            <div class="item layui-auto-call">本地上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 简介 -->
+        <div class="layui-form-item">
+            <label for="intro" class="layui-form-label">简介：</label>
+            <div class="layui-input-block">
+                <textarea id="intro" name="intro" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <!-- 排序 -->
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">排序：</label>
+            <div class="layui-input-block">
+                <input type="number" id="sort" name="sort"
+                       autocomplete="off" class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 置顶 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="asterisk">*</span>置顶：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_topping" value="1" title="是">
+                <input type="radio" name="is_topping" value="0" title="否" checked>
+            </div>
+        </div>
+        <!-- 推荐 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="asterisk">*</span>推荐：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_recommend" value="1" title="是">
+                <input type="radio" name="is_recommend" value="0" title="否" checked>
+            </div>
+        </div>
+        <!-- 状态 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="asterisk">*</span>状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_show" value="1" title="显示" checked>
+                <input type="radio" name="is_show" value="0" title="隐藏">
+            </div>
+        </div>
+        <!-- 内容 -->
+        <div class="layui-form-item">
+            <label for="content" class="layui-form-label">内容：</label>
+            <div class="layui-input-block">
+                <textarea id="content" name="content"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['tinymce'], function () {
+        let tinymce = layui.tinymce;
+        tinymce.render();
+    });
+</script>
+{/block}

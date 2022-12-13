@@ -1,0 +1,23 @@
+<%%%?php
+
+
+namespace app\common\model{if $tables.gen_folder}\{$tables.gen_folder}{/if};
+
+
+use app\common\basics\Models;
+
+/**
+ * {$tables.table_comment}模型
+ *
+ * Class {$tables.gen_class}
+ * @package app\common\model\{if $tables.gen_folder}\{$tables.gen_folder}{/if}
+ */
+class {$tables.gen_class} extends Models
+{
+    // 设置字段信息
+    protected $schema = [
+{volist name="$columns" id="vo"}
+        '{$vo.column_name}' => '{$vo.model_type}', //{$vo.column_comment}\r\n
+{/volist}
+    ];
+}

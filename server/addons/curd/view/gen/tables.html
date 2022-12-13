@@ -1,0 +1,63 @@
+{extend name="../../../app/backend/view/common/layout" /}
+
+{block name="body"}
+<div class="form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 搜索栏 -->
+        <form class="layui-form layui-search" style="padding:0;">
+            <div class="layui-form-item" style="margin-bottom:0; padding:0;">
+                <div class="layui-inline">
+                    <label for="name" class="layui-form-label">表名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="name" name="name" class="layui-input" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label for="comment" class="layui-form-label">表描述：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="comment" name="comment" class="layui-input" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-submit lay-filter="search">查询</a>
+                    <a class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="clear-search">重置</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- 表格栏 -->
+        <table id="wait-table-list" lay-filter="wait-table-list"></table>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function() {
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("addons/curd/gen/tables")}'
+            ,toolbar: false
+            ,limit: 9
+            ,cols: [[
+                {type:'checkbox', width:48},
+                {field:'name', title:'表名称', width:200},
+                {field:'engine', title:'表描述', width:100, align:'center'},
+                {field:'comment', title:'表描述'},
+                {field:'create_time', title:'创建时间', width:170, align:'center'}
+            ]]
+        });
+
+        // 搜索事件
+        waitUtil.search(table);
+    });
+</script>
+{/block}

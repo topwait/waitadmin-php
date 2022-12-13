@@ -1,0 +1,140 @@
+<%%%?php
+
+
+namespace app\{$table.gen_class}\service{if $table.gen_folder}\{$table.gen_folder}{/if};
+
+
+use app\common\basics\Service;
+use app\common\exception\OperateException;
+use app\common\model{if $table.gen_folder}\{$table.gen_folder}{/if}\{$table.gen_class};
+use app\common\utils\AttachUtils;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+
+/**
+ * {$table.table_comment}服务类
+ *
+ * Class {$table.gen_class}Service
+ * @package app\{$table.gen_class}\service{if $table.gen_folder}\{$table.gen_folder}{/if}
+ */
+class {$table.gen_class}Service extends Service
+{
+    /**
+     * {$table.table_comment}列表
+     *
+     * @return array
+     * @throws DbException
+     * @author {$table.author} ;#;
+     */
+    public static function lists(): array
+    {
+{if !empty($searchArr)}
+        self::setSearch([
+{foreach $searchArr as $key=>$fieldsArr}
+            '{$key|raw}' => {php}echo str_replace('"', '\'', json_encode($fieldsArr));{/php},
+{/foreach}
+        ]);
+{/if}
+;#;
+        $model = new {$table.gen_model}();
+        $lists = $model
+            ->withoutField('is_delete,delete_time')
+            ->where(['is_delete'=>0])
+            ->where(self::$searchWhere)
+            ->order('sort desc, id desc')
+            ->paginate([
+                'page'      => $get['page']  ?? 1,
+                'list_rows' => $get['limit'] ?? 20,
+                'var_page'  => 'page'
+            ])->toArray();
+;#;
+        foreach ($lists['data'] as &$item) {
+            $item['category'] = $item['category']['name'] ?? '无';
+        }
+;#;
+        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+    }
+;#;
+
+    /**
+     * {$table.table_comment}详情
+     *
+     * @param int $id
+     * @return array
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     {if $table.author}* @author {$table.author}{/if}
+     */
+    public static function detail(int $id): array
+    {
+        $model = new {$table.gen_class}();
+        return $model->withoutField('is_delete,delete_time')
+            ->where(['id'=>intval($id)])
+            ->where(['is_delete'=>0])
+            ->findOrFail()
+            ->toArray();
+    }
+
+    /**
+     * {$table.table_comment}新增
+     *
+     * @param array $post
+     {if $table.author}* @author {$table.author}{/if}
+     */
+    public static function add(array $post): void
+    {
+        {$table.gen_class}::create([
+{volist name="$columns" id="vo"}
+{if $vo.is_insert}
+{if in_array($vo.column_name, ['create_time', 'update_time', 'delete_time'])}
+            '{$vo.column_name}' => time(),
+{else}
+            '{$vo.column_name}' => $post['{$vo.column_name}'],
+{/if}
+{/if}
+{/volist}
+        ]);
+    }
+
+    /**
+     * {$table.table_comment}编辑
+     *
+     * @param array $post
+     * @throws OperateException
+     {if $table.author}* @author {$table.author}{/if}
+     */
+    public static function edit(array $post): void
+    {
+        {$table.gen_class}::update([
+{volist name="$columns" id="vo"}
+{if $vo.is_edit}
+            '{$vo.column_name}' => $post['{$vo.column_name}'],
+{/if}
+{/volist}
+            'title'        => $post['title'],
+            'image'        => $post['image'] ?? '',
+            'intro'        => $post['intro'] ?? '',
+            'sort'         => $post['sort'] ?? 0,
+            'content'      => $post['content'] ?? '',
+            'is_topping'   => $post['is_topping'],
+            'is_recommend' => $post['is_recommend'],
+            'is_show'      => $post['is_show'],
+            'update_time'  => time()
+        ], ['id'=>intval($post['id'])]);
+    }
+
+    /**
+     * {$table.table_comment}删除
+     *
+     * @param array $ids
+     {if $table.author}* @author {$table.author}{/if}
+     */
+    public static function del(array $ids): void
+    {
+        Article::update([
+            'is_delete'   => 1,
+            'update_time' => time()
+        ], array(['id', 'in', $ids]));
+    }
+}

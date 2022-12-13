@@ -1,0 +1,193 @@
+{extend name="../../../app/backend/view/common/layout" /}
+
+{block name="body"}
+<body>
+<div class="container">
+    <!-- 搜索栏 -->
+    <form class="layui-form layui-search">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label for="username" class="layui-form-label">表名称：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" name="username" class="layui-input" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label for="phone" class="layui-form-label">表描述：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phone" name="phone" class="layui-input" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-sm layui-btn-default" lay-submit lay-filter="search">查询</a>
+                <a class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="clear-search">重置</a>
+            </div>
+        </div>
+    </form>
+
+    <!-- 表格栏 -->
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+            <script type="text/html" id="toolbar">
+                <div class="layui-btn-container">
+                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="import">
+                        <i class="layui-icon icon-add"></i>
+                        <span>导入表结构</span>
+                    </a>
+                    <a class="layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" lay-event="leave">
+                        <i class="layui-icon icon-del"></i>
+                        <span>删除</span>
+                    </a>
+                </div>
+            </script>
+            <script type="text/html" id="table-operate">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary layui-border-green" lay-event="preview" lay-tips="预览">
+                    <i class="layui-icon icon-eye-fill"></i>
+                </button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="update" lay-tips="编辑">
+                    <i class="layui-icon icon-edit"></i>
+                </button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="synchrony" lay-tips="同步">
+                    <i class="layui-icon icon-seckill-flash"></i>
+                </button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-gloomy" lay-event="exports" lay-tips="导出">
+                    <i class="layui-icon icon-download-arrow"></i>
+                </button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="destroy" lay-tips="销毁">
+                    <i class="layui-icon icon-del"></i>
+                </button>
+            </script>
+        </div>
+    </div>
+</div>
+</body>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function() {
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("addons/curd/gen/index")}'
+            ,cols: [[
+                {type:'checkbox', width:48},
+                {field:'table_name', title:'表名称', width:150},
+                {field:'table_comment', title:'表描述', width:150},
+                {field:'table_engine', title:'表引擎', width:80},
+                {field:'author', title:'作者', width:110},
+                {field:'tpl_type', title:'模板类型', width:85, align:'center'},
+                {field:'gen_type', title:'生成方式', width:85, align:'center'},
+                {field:'gen_module', title:'生成模块', width:85, align:'center'},
+                {field:'menu_type', title:'菜单构建', width:85, align:'center'},
+                {field:'join_status', title:'子表关联', width:85, align:'center'},
+                {field:'create_time', title:'创建时间', width:160, align:'center'},
+                {field:'update_time', title:'更新时间', width:160, align:'center'},
+                {fixed:'right', title:'操作', width:160, align:'center', toolbar:'#table-operate'}
+            ]]
+        });
+
+        // 逻辑事件
+        waitUtil.event({
+            import: function () {
+                waitUtil.popup({
+                    title: '选择生成表',
+                    url: '{:route("addons/curd/gen/tables")}',
+                    area: ['750px', '600px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function() {
+                            let tableNames = waitUtil.checkbox({layero: layero, key: 'name'});
+                            if (tableNames.length <= 0) {
+                                return layer.msg('请至少选择一项！', {icon: 2});
+                            }
+                            waitUtil.locking(this);
+                            waitUtil.ajax({
+                                url: '{:route("addons/curd/gen/imports")}',
+                                type: 'POST',
+                                data: {tableNames: tableNames}
+                            }).then((res) => {
+                                waitUtil.unlock(this);
+                                if (res.code === 0) {
+                                    table.reload({page: {curr: 1}});
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            update: function (obj) {
+                waitUtil.popup({
+                    title: '更新表结构',
+                    url: '{:route("addons/curd/gen/update")}?id='+obj.data.id,
+                    area: ['95%', '95%'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data) {
+                            // waitUtil.locking(this);
+                            data.field['id'] = obj.data.id;
+                            waitUtil.ajax({
+                                url: '{:route("addons/curd/gen/update")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                // waitUtil.locking(this);
+                                if (res.code === 0) {
+                                    table.reload();
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            destroy: function (obj) {
+                layer.confirm('确定要删除此项数据吗？', function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("addons/curd/gen/preview")}?id='+obj.data.id,
+                        type: 'POST',
+                        data: {ids: [obj.data.id]}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            },
+            preview: function (obj) {
+                waitUtil.popup({
+                    title: '预览代码',
+                    url: '{:route("addons/curd/gen/preview")}?id='+obj.data.id,
+                    area: ['95%', '95%'],
+                    success: function (layero, index) {}
+                });
+            },
+            exports: function () {
+                location.href = '{:route("addons/curd/gen/exports")}'
+            },
+            leave: function () {
+                let ids = waitUtil.checkbox();
+                if (!ids.length) {
+                    return layer.msg('请至少选择一项！', {icon: 2});
+                }
+                layer.confirm(`确定要删除选中的${ids.length}项数据吗？`, function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("auth.admin/del")}',
+                        type: 'POST',
+                        data: {ids: ids}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            }
+        });
+
+        // 搜索事件
+        waitUtil.search(table);
+    });
+</script>
+{/block}

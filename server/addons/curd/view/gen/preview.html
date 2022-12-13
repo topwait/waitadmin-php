@@ -1,0 +1,38 @@
+{extend name="../../../app/backend/view/common/layout" /}
+
+{block name="style"}
+<style>
+    .layui-tab {margin: 0;}
+    .layui-tab-title {position: fixed; width: 100%; z-index: 99999; background: #fff; font-weight: bold; color: #666;}
+    .layui-tab-content {padding: 45px 0 0;}
+    .layui-code-view {margin: 0 !important;}
+    .layui-code-dark {border: none !important;}
+</style>
+{/block}
+
+{block name="body"}
+<form class="layui-form">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            {foreach $keys as $k=>$v}
+                <li class="{if $k==0}layui-this{/if}">{$v}</li>
+            {/foreach}
+        </ul>
+        <div class="layui-tab-content">
+            {foreach $values as $k=>$v}
+                <div class="layui-tab-item {if $k==0}layui-show{/if}">
+                    <pre class="layui-code layui-code-view layui-code-dark">{$v}</pre>
+                </div>
+            {/foreach}
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['code'], function () {
+        layui.code({title: 'code', skin: 'notepad'});
+    });
+</script>
+{/block}

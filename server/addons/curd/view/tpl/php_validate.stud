@@ -1,0 +1,43 @@
+<%%%?php
+
+
+namespace app\backend\validate\content;
+
+
+use app\common\basics\Validate2;
+
+/**
+ * 档案参数验证器
+ *
+ * Class ArchivesValidate
+ * @package app\backend\validate\content
+ */
+class ArticleValidate extends Validate
+{
+    protected $rule = [
+        'id'           => 'require|integer',
+        'ids'          => 'require|array',
+        'title'        => 'require',
+        'image'        => 'max:200',
+        'intro'        => 'max:200',
+        'sort'         => 'number',
+        'is_topping'   => 'require|in:0,1',
+        'is_recommend' => 'require|in:0,1',
+        'is_show'      => 'require|in:0,1'
+    ];
+
+    public function __construct()
+    {
+        $this->field = [
+            'title'        => '标题',
+            'image'        => '封面',
+            'intro'        => '简介',
+            'sort'         => '排序',
+            'is_topping'   => '置顶',
+            'is_recommend' => '推荐',
+            'is_show'      => '状态'
+        ];
+
+        parent::__construct();
+    }
+}
