@@ -320,7 +320,8 @@ class GenerateService extends Service
                 'php_controller' => $genPath  . 'controller'   . $genFolder . '/' . $v,
                 'php_service'    => $genPath  . 'service'      . $genFolder . '/' . $v,
                 'php_validate'   => $genPath  . 'validate'     . $genFolder . '/' . $v,
-                'php_model'      => $rootPath . 'common/model' . $genFolder . '/' . $v
+                'php_model'      => $rootPath . 'common/model' . $genFolder . '/' . $v,
+                'html_list'      => $genPath  . 'view'         . $genFolder . '/' . strtolower($table['gen_class']) . '/' . $v
             };
 
             if (!file_exists(dirname($writePath))) {

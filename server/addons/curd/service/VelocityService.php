@@ -5,6 +5,7 @@ namespace addons\curd\service;
 
 
 use app\common\basics\Service;
+use JetBrains\PhpStorm\ArrayShape;
 use think\facade\Db;
 
 class VelocityService extends Service
@@ -74,6 +75,7 @@ class VelocityService extends Service
         $detail = [
             'table'      => $table,
             'columns'    => $columns,
+            'routes'     => self::makeRoutes($table),
             'namespace'  => '',
             'primaryKey' => '',
             'fieldsArr'  => [],
@@ -107,15 +109,18 @@ class VelocityService extends Service
      * @return string[]
      * @author windy
      */
+    #[ArrayShape([
+        'php_controller' => "string", 'php_service' => "string",
+        'php_validate'   => "string", 'php_model'   => "string",
+        'html_list'      => "string"])]
     public static function getTemplates(array $table): array
     {
-
         return [
             'php_controller'  => $table['gen_class'].'Controller.php',
             'php_service'     => $table['gen_class'].'Service.php',
             'php_validate'    =>  $table['gen_class'].'Validate.php',
             'php_model'       => self::toCamel($table['table_name']).'.php',
-            //'html_list'     => 'index.html',
+            'html_list'     => 'index.html',
             //'html_edit'     => 'edit.html',
         ];
     }
@@ -271,22 +276,11 @@ class VelocityService extends Service
      */
     public static function makeRoutes(array $table): string
     {
-        if ($table['gen_folder']) {
-            return $table['gen_folder'] . '/' . $table['gen_class'];
+        $genFolder = trim($table['gen_folder'], '\\');
+        $genFolder = str_replace('\\', '.', $genFolder);
+        if ($genFolder) {
+            return $genFolder.'.'.$table['gen_class'];
         }
         return $table['gen_class'];
-    }
-
-    /**
-     * 生成命名空间
-     *
-     * @param array $table
-     * @author windy
-     */
-    public static function makeNamespace(array $table)
-    {
-        $tables = $table['table'];
-
-        return 'app/'.$table['gen_module'] . '/';
     }
 }
