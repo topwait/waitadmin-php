@@ -9,10 +9,10 @@ use app\common\basics\Models;
 /**
  * {$tables.table_comment}模型
  *
- * Class {$tables.gen_class}
+ * Class {$tables.gen_model}
  * @package app\common\model\{if $tables.gen_folder}\{$tables.gen_folder}{/if}
  */
-class {$tables.gen_class} extends Models
+class {$tables.gen_model} extends Models
 {
     // 设置字段信息
     protected $schema = [

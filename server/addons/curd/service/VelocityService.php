@@ -71,16 +71,29 @@ class VelocityService extends Service
      */
     public static function prepareContext(array $table, array $columns)
     {
+        $table['gen_model'] = self::toCamel($table['table_name']);
         $detail = [
-            'table'     => $table,
-            'columns'   => $columns,
-            'searchArr' => []
+            'table'      => $table,
+            'columns'    => $columns,
+            'primaryKey' => 'id',
+            'fieldsArr'  => [],
+            'searchArr'  => [],
+            'listIgnore' => [],
         ];
 
-        $detail['table']['gen_model'] = self::toCamel($table['table_name']);
         foreach ($columns as $column) {
+            $detail['fieldsArr'][] = $column['column_name'];
+
+            if ($column['is_pk'] && $column['is_increment']) {
+                $detail['primaryKey'] = $column['column_name'];
+            }
+
             if ($column['is_query']) {
                 $detail['searchArr'][$column['query_type']][] = $column['column_name'];
+            }
+
+            if (!$column['is_list']) {
+                $detail['listIgnore'][] = $column['column_name'];
             }
         }
 
@@ -98,7 +111,7 @@ class VelocityService extends Service
     {
 
         return [
-            //'php_controller'  => $genClass.'Controller.php',
+            'php_controller'  => $genClass.'Controller.php',
             'php_service'     => $genClass.'Service.php',
             //'php_validate'    => $genClass.'Validate.php',
             //'html_list'       => 'index.html',

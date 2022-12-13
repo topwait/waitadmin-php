@@ -243,7 +243,7 @@ class GenerateService extends Service
                     'gen_class'     => $table['gen_class']  ?? '',
                     'gen_module'    => $table['gen_module'] ?? '',
                     'gen_folder'    => $table['gen_folder'] ?? '',
-                    'menu_type'     => $table['menu_type']  ?? 0,
+                    'menu_type'     => $table['menu_type']  ?? 'hand',
                     'menu_pid'      => $table['menu_pid']   ?? '',
                     'menu_name'     => $table['menu_name']  ?? '',
                     'menu_icon'     => $table['menu_icon']  ?? '',
@@ -323,6 +323,7 @@ class GenerateService extends Service
 
             $content = $view->getContent();
             $content = str_replace(';#;', ' ', $content);
+            $content = str_replace('%%%', '', $content);
             $detail[$v] = $content;
         }
 

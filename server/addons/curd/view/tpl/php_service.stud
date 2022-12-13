@@ -11,12 +11,13 @@ use app\common\utils\AttachUtils;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+;#;
 
 /**
  * {$table.table_comment}服务类
  *
  * Class {$table.gen_class}Service
- * @package app\{$table.gen_class}\service{if $table.gen_folder}\{$table.gen_folder}{/if}
+ * @package app\{$table.gen_class}\service{if $table.gen_folder}\{$table.gen_folder}{/if} ;#;
  */
 class {$table.gen_class}Service extends Service
 {
@@ -34,24 +35,25 @@ class {$table.gen_class}Service extends Service
 {foreach $searchArr as $key=>$fieldsArr}
             '{$key|raw}' => {php}echo str_replace('"', '\'', json_encode($fieldsArr));{/php},
 {/foreach}
-        ]);
+        ]); ;#;
 {/if}
-;#;
         $model = new {$table.gen_model}();
         $lists = $model
-            ->withoutField('is_delete,delete_time')
+{if !empty($listIgnore)}
+            ->withoutField({php}echo str_replace('"', '\'', json_encode($listIgnore));{/php})
+{/if}
+{if in_array('is_delete', $fieldsArr)}
             ->where(['is_delete'=>0])
+{/if}
+{if !empty($searchArr)}
             ->where(self::$searchWhere)
-            ->order('sort desc, id desc')
+{/if}
+            ->order('{$primaryKey} desc')
             ->paginate([
                 'page'      => $get['page']  ?? 1,
                 'list_rows' => $get['limit'] ?? 20,
                 'var_page'  => 'page'
             ])->toArray();
-;#;
-        foreach ($lists['data'] as &$item) {
-            $item['category'] = $item['category']['name'] ?? '无';
-        }
 ;#;
         return ['count'=>$lists['total'], 'list'=>$lists['data']];
     }
@@ -64,33 +66,47 @@ class {$table.gen_class}Service extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     {if $table.author}* @author {$table.author}{/if}
+     {if $table.author}* @author {$table.author}{/if};#;
      */
     public static function detail(int $id): array
     {
         $model = new {$table.gen_class}();
-        return $model->withoutField('is_delete,delete_time')
-            ->where(['id'=>intval($id)])
+        return $model
+{if in_array('is_delete', $fieldsArr) && in_array('delete_time', $fieldsArr)}
+            ->withoutField('is_delete,delete_time')
+{elseif in_array('is_delete', $fieldsArr)}
+            ->withoutField('is_delete,delete_time')
+{elseif in_array('delete_time', $fieldsArr)}
+            ->withoutField('is_delete,delete_time')
+{/if}
+{if in_array('is_delete', $fieldsArr)}
             ->where(['is_delete'=>0])
+{/if}
+            ->where(['{$primaryKey}'=>$id])
             ->findOrFail()
             ->toArray();
     }
+;#;
 
     /**
      * {$table.table_comment}新增
      *
      * @param array $post
-     {if $table.author}* @author {$table.author}{/if}
+     {if $table.author}* @author {$table.author}{/if} ;#;
      */
     public static function add(array $post): void
     {
-        {$table.gen_class}::create([
+        {$table.gen_model}::create([
 {volist name="$columns" id="vo"}
 {if $vo.is_insert}
 {if in_array($vo.column_name, ['create_time', 'update_time', 'delete_time'])}
             '{$vo.column_name}' => time(),
 {else}
-            '{$vo.column_name}' => $post['{$vo.column_name}'],
+{if in_array($vo.model_type, ['int', 'float', 'double'])}
+            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? 0,
+{else}
+            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? '',
+{/if}
 {/if}
 {/if}
 {/volist}
@@ -102,39 +118,41 @@ class {$table.gen_class}Service extends Service
      *
      * @param array $post
      * @throws OperateException
-     {if $table.author}* @author {$table.author}{/if}
+     {if $table.author}* @author {$table.author}{/if} ;#;
      */
     public static function edit(array $post): void
     {
-        {$table.gen_class}::update([
+        {$table.gen_model}::update([
 {volist name="$columns" id="vo"}
 {if $vo.is_edit}
+{if $vo.is_required}
             '{$vo.column_name}' => $post['{$vo.column_name}'],
+{else}
+{if in_array($vo.model_type, ['int', 'float', 'double'])}
+            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? 0,
+{else}
+            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? '',
+{/if}
+{/if}
 {/if}
 {/volist}
-            'title'        => $post['title'],
-            'image'        => $post['image'] ?? '',
-            'intro'        => $post['intro'] ?? '',
-            'sort'         => $post['sort'] ?? 0,
-            'content'      => $post['content'] ?? '',
-            'is_topping'   => $post['is_topping'],
-            'is_recommend' => $post['is_recommend'],
-            'is_show'      => $post['is_show'],
-            'update_time'  => time()
-        ], ['id'=>intval($post['id'])]);
+        ], ['id'=>intval($post['{$primaryKey}'])]);
     }
+;#;
 
     /**
      * {$table.table_comment}删除
      *
-     * @param array $ids
-     {if $table.author}* @author {$table.author}{/if}
+     * @param int $id
+     {if $table.author}* @author {$table.author}{/if} ;#;
      */
-    public static function del(array $ids): void
+    public static function del(int $id): void
     {
-        Article::update([
+{if in_array('is_delete', $fieldsArr)}
+        {$table.gen_model}::update([
             'is_delete'   => 1,
-            'update_time' => time()
-        ], array(['id', 'in', $ids]));
+            'delete_time' => time()
+        ], ['{$primaryKey}'=>$id]);
+{/if}
     }
 }

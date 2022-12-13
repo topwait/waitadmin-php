@@ -16,6 +16,7 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\response\Json;
 use think\response\View;
+;#;
 
 /**
  * 文章管理
@@ -23,20 +24,20 @@ use think\response\View;
  * Class ArchivesController
  * @package app\backend\controller\content
  */
-class ArticleController extends Backend
+class {$table.gen_class}Controller extends Backend
 {
     /**
-     * 文章列表
+     * {$table.table_comment}列表
      *
      * @return Json|View
      * @throws DbException
-     * @author windy
+     {if $table.author}* @author {$table.author}{/if} ;#;
      */
     public function index()
     {
         if ($this->isAjaxGet()) {
             (new PageValidate())->goCheck();
-            $list = ArticleService::lists();
+            $list = {$table.gen_class}Service::lists();
             return AjaxUtils::success($list);
         }
 
@@ -44,7 +45,7 @@ class ArticleController extends Backend
     }
 
     /**
-     * 文章新增
+     * {$table.table_comment}新增
      *
      * @return Json|View
      * @throws DbException
@@ -55,18 +56,16 @@ class ArticleController extends Backend
     public function add()
     {
         if ($this->isAjaxPost()) {
-            (new ArticleValidate())->addCheck();
-            ArticleService::add($this->request->post());
+            (new {$table.gen_class}Validate())->addCheck();
+            {$table.gen_class}Service::add($this->request->post());
             return AjaxUtils::success();
         }
 
-        return view('', [
-            'category' => CategoryService::all()
-        ]);
+        return view();
     }
 
     /**
-     * 文章编辑
+     * {$table.table_comment}编辑
      *
      * @return Json|View
      * @throws DataNotFoundException
@@ -78,8 +77,8 @@ class ArticleController extends Backend
     public function edit()
     {
         if ($this->isAjaxPost()) {
-            (new ArticleValidate())->editCheck();
-            ArticleService::edit($this->request->post());
+            (new {$table.gen_class}Validate())->editCheck();
+            {$table.gen_class}Service::edit($this->request->post());
             return AjaxUtils::success();
         }
 
@@ -87,13 +86,12 @@ class ArticleController extends Backend
         $id = $this->request->get('id');
 
         return view('', [
-            'category' => CategoryService::all(),
             'detail'   => ArticleService::detail($id)
         ]);
     }
 
     /**
-     * 文章删除
+     * {$table.table_comment}删除
      *
      * @return Json
      * @author windy
@@ -101,8 +99,8 @@ class ArticleController extends Backend
     public function del()
     {
         if ($this->isAjaxPost()) {
-            (new ArticleValidate())->idsCheck();
-            ArticleService::del($this->request->post('ids'));
+            (new {$table.gen_class}Validate())->idCheck();
+            {$table.gen_class}Service::del($this->request->post('id'));
             return AjaxUtils::success();
         }
 
