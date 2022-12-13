@@ -5,7 +5,6 @@ namespace addons\curd\service;
 
 
 use app\common\basics\Service;
-use JetBrains\PhpStorm\ArrayShape;
 use think\facade\Db;
 
 class VelocityService extends Service
@@ -75,7 +74,8 @@ class VelocityService extends Service
         $detail = [
             'table'      => $table,
             'columns'    => $columns,
-            'primaryKey' => 'id',
+            'namespace'  => '',
+            'primaryKey' => '',
             'fieldsArr'  => [],
             'searchArr'  => [],
             'listIgnore' => [],
@@ -103,19 +103,20 @@ class VelocityService extends Service
     /**
      * 获取模板列表
      *
-     * @param string $genClass (生成类名)
+     * @param array $table (表信息)
      * @return string[]
      * @author windy
      */
-    public static function getTemplates(string $genClass): array
+    public static function getTemplates(array $table): array
     {
 
         return [
-            'php_controller'  => $genClass.'Controller.php',
-            'php_service'     => $genClass.'Service.php',
-            //'php_validate'    => $genClass.'Validate.php',
-            //'html_list'       => 'index.html',
-            //'html_edit'       => 'edit.html',
+            'php_controller'  => $table['gen_class'].'Controller.php',
+            'php_service'     => $table['gen_class'].'Service.php',
+            'php_validate'    =>  $table['gen_class'].'Validate.php',
+            'php_model'       => self::toCamel($table['table_name']).'.php',
+            //'html_list'     => 'index.html',
+            //'html_edit'     => 'edit.html',
         ];
     }
 
@@ -285,5 +286,7 @@ class VelocityService extends Service
     public static function makeNamespace(array $table)
     {
         $tables = $table['table'];
+
+        return 'app/'.$table['gen_module'] . '/';
     }
 }

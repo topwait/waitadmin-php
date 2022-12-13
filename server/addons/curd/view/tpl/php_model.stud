@@ -1,23 +1,20 @@
 <%%%?php
 
 
-namespace app\common\model{if $tables.gen_folder}\{$tables.gen_folder}{/if};
+namespace app\common\model{if $table.gen_folder}{$table.gen_folder}{/if};
 
 
 use app\common\basics\Models;
 
 /**
- * {$tables.table_comment}模型
- *
- * Class {$tables.gen_model}
- * @package app\common\model\{if $tables.gen_folder}\{$tables.gen_folder}{/if}
+ * {$table.table_comment}模型
  */
-class {$tables.gen_model} extends Models
+class {$table.gen_model} extends Models
 {
     // 设置字段信息
     protected $schema = [
 {volist name="$columns" id="vo"}
-        '{$vo.column_name}' => '{$vo.model_type}', //{$vo.column_comment}\r\n
+        '{$vo.column_name}' => '{$vo.model_type}', //{$vo.column_comment} ;#;
 {/volist}
     ];
 }

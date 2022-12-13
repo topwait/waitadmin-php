@@ -289,8 +289,48 @@ class GenerateService extends Service
         }
     }
 
-    #[NoReturn]
-    public static function exports()
+    /**
+     * 导出生成的代码
+     *
+     * @param int $id
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @author windy
+     */
+    public static function exports(int $id): void
+    {
+        $tableData = self::detail($id);
+        $table   = (array)$tableData['table'];
+        $columns = (array)$tableData['columns'];
+
+        $rootPath = str_replace('\\', '/', root_path()).'app/';
+        $genPath  = $rootPath . $table['gen_module'] . '/';
+
+        foreach (VelocityService::getTemplates($table) as $k => $v) {
+            $vars = VelocityService::prepareContext($table, $columns);
+            $view = view('tpl\\'.$k, $vars);
+
+            $content = $view->getContent();
+            $content = str_replace(';#;', ' ', $content);
+            $content = str_replace('%%%', '', $content);
+
+            $genFolder = str_replace('\\', '/', $table['gen_folder']);
+            $writePath = match ($k) {
+                'php_controller' => $genPath  . 'controller'   . $genFolder . '/' . $v,
+                'php_service'    => $genPath  . 'service'      . $genFolder . '/' . $v,
+                'php_validate'   => $genPath  . 'validate'     . $genFolder . '/' . $v,
+                'php_model'      => $rootPath . 'common/model' . $genFolder . '/' . $v
+            };
+
+            if (!file_exists(dirname($writePath))) {
+                mkdir(dirname($writePath), 0755, true);
+            }
+            file_put_contents($writePath , $content);
+        }
+    }
+
+    public static function download()
     {
         $zip = new ZipArchive();
         $zip->open(runtime_path().'rsa.zip', ZipArchive::CREATE);

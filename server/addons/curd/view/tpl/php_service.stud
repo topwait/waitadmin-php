@@ -1,13 +1,12 @@
 <%%%?php
 
 
-namespace app\{$table.gen_class}\service{if $table.gen_folder}\{$table.gen_folder}{/if};
+namespace app\{$table.gen_module}\service{if $table.gen_folder}{$table.gen_folder}{/if};
 
 
 use app\common\basics\Service;
-use app\common\exception\OperateException;
-use app\common\model{if $table.gen_folder}\{$table.gen_folder}{/if}\{$table.gen_class};
-use app\common\utils\AttachUtils;
+use app\common\model{if $table.gen_folder}{$table.gen_folder}{/if}\{$table.gen_model};
+use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -28,6 +27,7 @@ class {$table.gen_class}Service extends Service
      * @throws DbException
      * @author {$table.author} ;#;
      */
+    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(): array
     {
 {if !empty($searchArr)}
@@ -70,7 +70,7 @@ class {$table.gen_class}Service extends Service
      */
     public static function detail(int $id): array
     {
-        $model = new {$table.gen_class}();
+        $model = new {$table.gen_model}();
         return $model
 {if in_array('is_delete', $fieldsArr) && in_array('delete_time', $fieldsArr)}
             ->withoutField('is_delete,delete_time')
@@ -117,7 +117,6 @@ class {$table.gen_class}Service extends Service
      * {$table.table_comment}编辑
      *
      * @param array $post
-     * @throws OperateException
      {if $table.author}* @author {$table.author}{/if} ;#;
      */
     public static function edit(array $post): void

@@ -1,15 +1,13 @@
 <%%%?php
 
 
-namespace app\backend\controller\content2;
+namespace app\{$table.gen_module}\controller{if $table.gen_folder}{$table.gen_folder}{/if};
 
 
-use app\backend\service\content\ArticleService;
-use app\backend\service\content\CategoryService;
-use app\backend\validate\content\ArticleValidate;
+use app\{$table.gen_module}\service{if $table.gen_folder}{$table.gen_folder}{/if}\{$table.gen_class}Service;
+use app\{$table.gen_module}\validate{if $table.gen_folder}{$table.gen_folder}{/if}\{$table.gen_class}Validate;
 use app\backend\validate\PageValidate;
 use app\common\basics\Backend;
-use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -33,7 +31,7 @@ class {$table.gen_class}Controller extends Backend
      * @throws DbException
      {if $table.author}* @author {$table.author}{/if} ;#;
      */
-    public function index()
+    public function index(): View|Json
     {
         if ($this->isAjaxGet()) {
             (new PageValidate())->goCheck();
@@ -48,12 +46,9 @@ class {$table.gen_class}Controller extends Backend
      * {$table.table_comment}新增
      *
      * @return Json|View
-     * @throws DbException
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
      * @author windy
      */
-    public function add()
+    public function add(): View|Json
     {
         if ($this->isAjaxPost()) {
             (new {$table.gen_class}Validate())->addCheck();
@@ -69,12 +64,10 @@ class {$table.gen_class}Controller extends Backend
      *
      * @return Json|View
      * @throws DataNotFoundException
-     * @throws DbException
      * @throws ModelNotFoundException
-     * @throws OperateException
      * @author windy
      */
-    public function edit()
+    public function edit(): Json|View
     {
         if ($this->isAjaxPost()) {
             (new {$table.gen_class}Validate())->editCheck();
@@ -82,11 +75,11 @@ class {$table.gen_class}Controller extends Backend
             return AjaxUtils::success();
         }
 
-        (new ArticleValidate())->idCheck();
-        $id = $this->request->get('id');
+        (new {$table.gen_class}Validate())->idCheck();
+        $id = intval($this->request->get('id'));
 
         return view('', [
-            'detail'   => ArticleService::detail($id)
+            'detail'   => {$table.gen_class}Service::detail($id)
         ]);
     }
 
@@ -96,7 +89,7 @@ class {$table.gen_class}Controller extends Backend
      * @return Json
      * @author windy
      */
-    public function del()
+    public function del(): Json
     {
         if ($this->isAjaxPost()) {
             (new {$table.gen_class}Validate())->idCheck();

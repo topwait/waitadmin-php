@@ -135,11 +135,20 @@ class GenController extends Backend
     /**
      * 导出生成的代码
      *
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author windy
      */
-    public function exports()
+    public function exports(): Json
     {
-        GenerateService::exports();
+        if ($this->isAjaxPost()) {
+            GenerateService::exports($this->request->post('id'));
+            return AjaxUtils::success();
+        }
+
+        return AjaxUtils::error();
     }
 
     /**
@@ -153,7 +162,8 @@ class GenController extends Backend
      */
     public function preview(): View
     {
-        $detail = GenerateService::preview(1);
+        $id = intval($this->request->get('id'));
+        $detail = GenerateService::preview($id);
         $keys   = array_keys($detail);
         $values = array_values($detail);
 

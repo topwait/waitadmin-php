@@ -163,8 +163,12 @@
                     success: function (layero, index) {}
                 });
             },
-            exports: function () {
-                location.href = '{:route("addons/curd/gen/exports")}'
+            exports: function (obj) {
+                waitUtil.ajax({
+                    url: '{:route("addons/curd/gen/exports")}',
+                    type: 'POST',
+                    data: {id: obj.data.id}
+                });
             },
             leave: function () {
                 let ids = waitUtil.checkbox();

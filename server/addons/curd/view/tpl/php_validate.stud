@@ -1,41 +1,34 @@
 <%%%?php
 
 
-namespace app\backend\validate\content;
+namespace app\{$table.gen_module}\validate{if $table.gen_folder}{$table.gen_folder}{/if};
 
 
-use app\common\basics\Validate2;
+use app\common\basics\Validate;
 
 /**
- * 档案参数验证器
- *
- * Class ArchivesValidate
- * @package app\backend\validate\content
+ * {$table.table_comment}参数验证器
  */
-class ArticleValidate extends Validate
+class {$table.gen_class}Validate extends Validate
 {
     protected $rule = [
-        'id'           => 'require|integer',
-        'ids'          => 'require|array',
-        'title'        => 'require',
-        'image'        => 'max:200',
-        'intro'        => 'max:200',
-        'sort'         => 'number',
-        'is_topping'   => 'require|in:0,1',
-        'is_recommend' => 'require|in:0,1',
-        'is_show'      => 'require|in:0,1'
+{volist name="$columns" id="vo"}
+{if $vo.is_pk}
+        '{$vo.column_name}' => 'require|posInteger',
+{elseif $vo.is_required}
+        '{$vo.column_name}' => 'require',
+{/if}
+{/volist}
     ];
 
     public function __construct()
     {
         $this->field = [
-            'title'        => '标题',
-            'image'        => '封面',
-            'intro'        => '简介',
-            'sort'         => '排序',
-            'is_topping'   => '置顶',
-            'is_recommend' => '推荐',
-            'is_show'      => '状态'
+{volist name="$columns" id="vo"}
+{if $vo.is_pk || $vo.is_required}
+            '{$vo.column_name}' => '{$vo.column_comment}',
+{/if}
+{/volist}
         ];
 
         parent::__construct();
