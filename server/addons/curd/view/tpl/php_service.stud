@@ -53,7 +53,7 @@ class {$table.gen_class}Service extends Service
 {/volist}
         ]);
     }
-
+;#;
     /**
      * {$table.table_comment}编辑
      *

@@ -244,21 +244,24 @@ class GenerateService extends Service
         try {
             foreach ($tables as $table) {
                 // 生成表信息
+                $className = VelocityService::toCamel($table['name']);
                 $genTable = GenTable::create([
                     'table_name'    => $table['name'],
                     'table_engine'  => $table['engine'],
                     'table_comment' => $table['comment'],
                     'table_alias'   => $table['table_alias']   ?? '',
-                    'tpl_type_curd' => $table['tpl_type_curd'] ?? 'curd',
-                    'gen_type_down' => $table['gen_type_down'] ?? 'down',
-                    'gen_class'     => $table['gen_class']     ?? '',
-                    'gen_module'    => $table['gen_module']    ?? '',
+                    'author'        => $table['author']        ?? 'wait',
+                    'tpl_type'      => $table['tpl_type_curd'] ?? 'curd',
+                    'gen_type'      => $table['gen_type_down'] ?? 'down',
+                    'gen_class'     => $table['gen_class']     ?? $className,
+                    'gen_module'    => $table['gen_module']    ?? 'backend',
                     'gen_folder'    => $table['gen_folder']    ?? '',
                     'menu_type'     => $table['menu_type']     ?? 'hand',
                     'menu_pid'      => $table['menu_pid']      ?? '',
                     'menu_name'     => $table['menu_name']     ?? '',
                     'menu_icon'     => $table['menu_icon']     ?? '',
                     'join_status'   => $table['join_status']   ?? 0,
+                    'join_array'    => json_encode([]),
                     'create_time'   => time(),
                     'update_time'   => time()
                 ]);

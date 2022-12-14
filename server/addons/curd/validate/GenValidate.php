@@ -63,8 +63,9 @@ class GenValidate extends Validate
      * @return bool|string
      * @author windy
      */
-    protected function checkJoin($value)
+    protected function checkJoin($value): bool|string
     {
+dump($value);exit;
         foreach ($value as $item) {
             if (!in_array($item['join_type'], ['inner', 'left', 'right'])) {
                 return '关联类型不在合法范围: [inner, left, right]';
