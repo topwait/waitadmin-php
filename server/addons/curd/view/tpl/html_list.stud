@@ -6,12 +6,15 @@
     <!-- 搜索栏 -->
     <form class="layui-form layui-search">
         <div class="layui-form-item">
+{volist name="$columns" id="vo"}
             <div class="layui-inline">
-                <label for="username" class="layui-form-label">登录账号：</label>
+                <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="username" name="username" class="layui-input" placeholder="请输入登录账号" autocomplete="off">
+                    <input type="text" id="{$vo.column_name}" name="{$vo.column_name}"
+                        class="layui-input" placeholder="请输入{$vo.column_comment}" autocomplete="off">
                 </div>
             </div>
+{/volist}
             <div class="layui-inline">
                 <label for="phone" class="layui-form-label">手机号码：</label>
                 <div class="layui-input-inline">
@@ -53,13 +56,19 @@
                 </div>
             </script>
 {volist name="$columns" id="vo"}
-{if strpos($vo.column_name, 'is_') === 0}
+{if str_starts_with($vo.column_name, 'is_')}
             <script type="text/html" id="table-{$vo.column_name}">
                 {{#  if(d.{$vo.column_name} === 0){ }}
                     <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
                 {{# } else { }}
                     <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
                 {{#  } }}
+            </script>
+{elseif $vo.column_name=='image'}
+            <script type="text/html" id="table-image">
+                <div class="table-image-wrap">
+                    <img src="{{ d.image }}" alt="img">
+                </div>
             </script>
 {/if}
 {/volist}
@@ -86,13 +95,14 @@
             elem: '#wait-table-list'
             ,url: '{%%%:route("{$routes}/index")}'
             ,cols: [[
-                {type:'checkbox', width:48},
 {volist name="$columns" id="vo"}
 {if $vo.is_list}
 {if in_array($vo.column_name, ['create_time', 'update_time', 'delete_time'])}
                 {field:'{$vo.column_name}', title:'{$vo.column_comment}', width:160, align:'center'},
-{elseif strpos($vo.column_name, 'is_') === 0}
-                {field:'{$vo.column_name}', title:'{$vo.column_comment}', width:90, align:'center', templet:'#table-{$vo.column_name}'},
+{elseif str_starts_with($vo.column_name, 'is_')}
+                {field:'{$vo.column_name}', title:'{$vo.column_comment}', width:60, align:'center', templet:'#table-{$vo.column_name}'},
+{elseif $vo.column_name=='image'}
+                {field:'{$vo.column_name}', title:'{$vo.column_comment}', width:60, align:'center', templet:'#table-{$vo.column_name}'},
 {else}
                 {field:'{$vo.column_name}', title:'{$vo.column_comment}',{if $vo.column_name=='id'} width:60,{/if} align:'center'},
 {/if}
@@ -108,7 +118,7 @@
                 waitUtil.popup({
                     title: '新增',
                     url: '{%%%:route("{$routes}/add")}',
-                    area: ['500px', '600px'],
+                    area: ['90%', '90%'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
                             waitUtil.locking(this);
@@ -131,7 +141,7 @@
                 waitUtil.popup({
                     title: '编辑',
                     url: '{%%%:route("{$routes}/edit")}?id='+obj.data.id,
-                    area: ['500px', '600px'],
+                    area: ['90%', '90%'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
                             waitUtil.locking(this);
@@ -167,8 +177,10 @@
             }
         });
 
+{if !empty($searchArr)}
         // 搜索事件
         waitUtil.search(table);
+{/if}
     });
 </script>
 {/block}

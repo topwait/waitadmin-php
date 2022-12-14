@@ -144,7 +144,8 @@ class GenController extends Backend
     public function exports(): Json
     {
         if ($this->isAjaxPost()) {
-            GenerateService::exports($this->request->post('id'));
+            $id = intval($this->request->post('id'));
+            GenerateService::exports($id);
             return AjaxUtils::success();
         }
 

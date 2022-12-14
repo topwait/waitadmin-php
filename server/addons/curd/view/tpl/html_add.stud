@@ -5,14 +5,14 @@
     <!-- 主体内容 -->
     <div class="wait-body-content">
 {foreach $columns as $vo}
-{if $vo.is_edit}
+{if $vo.is_insert}
 {switch $vo.html_type}
 {case text}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
             <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
             <div class="layui-input-block">
-                <input type="text" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off" value="{%%%$detail.{$vo.column_name}}"
+                <input type="text" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off"
                     class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="layui-form-item">
             <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
             <div class="layui-input-block">
-                <input type="number" min="0" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off" value="{%%%$detail.{$vo.column_name}}"
+                <input type="number" min="0" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off"
                     class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
             </div>
         </div>
@@ -33,7 +33,6 @@
             <div class="layui-input-block">
                 <textarea id="{$vo.column_name}" name="{$vo.column_name}" class="layui-textarea"
                     lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
-                    {%%%$detail.{$vo.column_name}}
                 </textarea>
             </div>
         </div>
@@ -87,16 +86,8 @@
             <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
             <div class="layui-input-block">
                 <div class="thumbnail" data-type="image" data-field="{$vo.column_name}" data-limit="1">
-                    <div class="musters">
-                        {%%%if $detail.{$vo.column_name}}
-                            <div class="preview">
-                                <input type="hidden" id="{$vo.column_name}" name="{$vo.column_name}" value="{%%%$detail.{$vo.column_name}}">
-                                <i class="layui-icon layui-icon-close"></i>
-                                <img src="{%%%$detail.{$vo.column_name}}" alt="img">
-                            </div>
-                        {%%%/if}
-                    </div>
-                    <div class="builder {%%%if $detail.{$vo.column_name}}layui-hide{%%%/if}">
+                    <div class="musters"></div>
+                    <div class="builder">
                         <i class="layui-icon layui-icon-camera"></i>
                         <p>上传图片</p>
                         <div class="mask">
@@ -132,7 +123,7 @@
        <div class="layui-form-item">
            <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
            <div class="layui-input-block">
-               <input type="text" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off" value="{%%%$detail.{$vo.column_name}}"
+               <input type="text" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off"
                    class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
            </div>
        </div>

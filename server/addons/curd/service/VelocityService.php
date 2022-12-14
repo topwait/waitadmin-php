@@ -76,11 +76,12 @@ class VelocityService extends Service
             'table'      => $table,
             'columns'    => $columns,
             'routes'     => self::makeRoutes($table),
-            'namespace'  => '',
-            'primaryKey' => '',
-            'fieldsArr'  => [],
-            'searchArr'  => [],
-            'listIgnore' => [],
+            'namespace'  => '', // 命名空间路径
+            'primaryKey' => '', // 主键字段名称
+            'fieldsArr'  => [], // 所有字段数组
+            'searchArr'  => [], // 搜索字段数组
+            'listIgnore' => [], // 列表忽略数组
+            'layImport'  => []  // 前端导入字段
         ];
 
         foreach ($columns as $column) {
@@ -97,6 +98,16 @@ class VelocityService extends Service
             if (!$column['is_list']) {
                 $detail['listIgnore'][] = $column['column_name'];
             }
+
+            if ($column['is_insert'] || $column['is_edit']) {
+                if ($column['html_type'] == 'editor' && !in_array('tinymce', $detail['layImport'])) {
+                    $detail['layImport'][] = 'tinymce';
+                }
+
+                if ($column['html_type'] == 'datetime' && !in_array('laydate', $detail['layImport'])) {
+                    $detail['layImport'][] = 'laydate';
+                }
+            }
         }
 
         return $detail;
@@ -112,16 +123,18 @@ class VelocityService extends Service
     #[ArrayShape([
         'php_controller' => "string", 'php_service' => "string",
         'php_validate'   => "string", 'php_model'   => "string",
-        'html_list'      => "string"])]
+        'html_list'      => "string", 'html_add'    => "string",
+        'html_edit'      => "string"])]
     public static function getTemplates(array $table): array
     {
         return [
-            'php_controller'  => $table['gen_class'].'Controller.php',
-            'php_service'     => $table['gen_class'].'Service.php',
-            'php_validate'    =>  $table['gen_class'].'Validate.php',
-            'php_model'       => self::toCamel($table['table_name']).'.php',
-            'html_list'     => 'index.html',
-            //'html_edit'     => 'edit.html',
+            'php_controller' => $table['gen_class'].'Controller.php',
+            'php_service'    => $table['gen_class'].'Service.php',
+            'php_validate'   => $table['gen_class'].'Validate.php',
+            'php_model'      => self::toCamel($table['table_name']).'.php',
+            'html_list'      => 'index.html',
+            'html_add'       => 'add.html',
+            'html_edit'      => 'edit.html',
         ];
     }
 
