@@ -79,6 +79,8 @@ class VelocityService extends Service
             'namespace'  => '', // 命名空间路径
             'primaryKey' => '', // 主键字段名称
             'fieldsArr'  => [], // 所有字段数组
+            'joinLsArr'  => [], // 连表列表字段
+            'joinDtArr'  => [], // 连表详情字段
             'searchArr'  => [], // 搜索字段数组
             'listIgnore' => [], // 列表忽略数组
             'layImport'  => []  // 前端导入字段
@@ -87,18 +89,28 @@ class VelocityService extends Service
         foreach ($columns as $column) {
             $detail['fieldsArr'][] = $column['column_name'];
 
+            // 获取出表中唯一的主键
             if ($column['is_pk'] && $column['is_increment']) {
                 $detail['primaryKey'] = $column['column_name'];
             }
 
+            // 查找出那些字段需搜索
             if ($column['is_query']) {
-                $detail['searchArr'][$column['query_type']][] = $column['column_name'];
+                $alias = $table['join_status'] ? $table['table_alias'].'.' : '';
+                $detail['searchArr'][$column['query_type']][] = $alias.$column['column_name'];
             }
 
+            // 普通列表需忽略的字段
             if (!$column['is_list']) {
                 $detail['listIgnore'][] = $column['column_name'];
             }
 
+            // 关联列表需显示的字段
+            if ($column['is_list'] && $table['join_status']) {
+                $detail['joinLsArr'][] = $table['table_alias'].'.'.$column['column_name'];
+            }
+
+            // 新增编辑要导入的组件
             if ($column['is_insert'] || $column['is_edit']) {
                 if ($column['html_type'] == 'editor' && !in_array('tinymce', $detail['layImport'])) {
                     $detail['layImport'][] = 'tinymce';
@@ -106,6 +118,19 @@ class VelocityService extends Service
 
                 if ($column['html_type'] == 'datetime' && !in_array('laydate', $detail['layImport'])) {
                     $detail['layImport'][] = 'laydate';
+                }
+            }
+        }
+
+        // 处理关联状态下需显示的字段
+        if ($table['join_status']) {
+            $tableArrays = $table['join_array'];
+            foreach ($tableArrays as $tableArray) {
+                $joinField = explode(',', $tableArray['join_field']);
+                foreach ($joinField as $field) {
+                    if (trim($field)) {
+                        $detail['joinLsArr'][] = $field;
+                    }
                 }
             }
         }

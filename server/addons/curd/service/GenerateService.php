@@ -163,16 +163,27 @@ class GenerateService extends Service
         $modelTable = new GenTable();
         $detail['table'] = $modelTable
             ->field(true)
-            ->where(['id'=>intval($id)])
+            ->where(['id'=> $id])
             ->findOrEmpty()
             ->toArray();
 
         $modelColumn = new GenTableColumn();
         $detail['columns'] = $modelColumn
             ->field(true)
-            ->where(['table_id'=>intval($id)])
+            ->where(['table_id'=> $id])
             ->select()
             ->toArray();
+
+        if (empty($detail['table']['join_array'])) {
+            $detail['table']['join_array'][] = [
+                'join_type'    => 'inner',
+                'join_field'   => '',
+                'join_alias'   => '',
+                'sub_table'    => '',
+                'primary_key'  => '',
+                'foreign_key'  => ''
+            ];
+        }
 
         return $detail;
     }
@@ -237,17 +248,17 @@ class GenerateService extends Service
                     'table_name'    => $table['name'],
                     'table_engine'  => $table['engine'],
                     'table_comment' => $table['comment'],
-                    'table_alias'   => $table['table_alias'] ?? '',
+                    'table_alias'   => $table['table_alias']   ?? '',
                     'tpl_type_curd' => $table['tpl_type_curd'] ?? 'curd',
                     'gen_type_down' => $table['gen_type_down'] ?? 'down',
-                    'gen_class'     => $table['gen_class']  ?? '',
-                    'gen_module'    => $table['gen_module'] ?? '',
-                    'gen_folder'    => $table['gen_folder'] ?? '',
-                    'menu_type'     => $table['menu_type']  ?? 'hand',
-                    'menu_pid'      => $table['menu_pid']   ?? '',
-                    'menu_name'     => $table['menu_name']  ?? '',
-                    'menu_icon'     => $table['menu_icon']  ?? '',
-                    'join_status'   => $table['join_status'] ?? 0,
+                    'gen_class'     => $table['gen_class']     ?? '',
+                    'gen_module'    => $table['gen_module']    ?? '',
+                    'gen_folder'    => $table['gen_folder']    ?? '',
+                    'menu_type'     => $table['menu_type']     ?? 'hand',
+                    'menu_pid'      => $table['menu_pid']      ?? '',
+                    'menu_name'     => $table['menu_name']     ?? '',
+                    'menu_icon'     => $table['menu_icon']     ?? '',
+                    'join_status'   => $table['join_status']   ?? 0,
                     'create_time'   => time(),
                     'update_time'   => time()
                 ]);
@@ -314,6 +325,7 @@ class GenerateService extends Service
             $content = $view->getContent();
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('%%%', '', $content);
+            $content = str_replace('>>>', '', $content);
 
             $genFolder = str_replace('\\', '/', $table['gen_folder']);
             $writePath = match ($k) {

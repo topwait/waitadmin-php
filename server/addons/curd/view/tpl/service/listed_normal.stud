@@ -1,0 +1,37 @@
+    /**
+     * {$table.table_comment}列表
+     *
+     * @return array
+     * @throws DbException
+     * @author {$table.author} ;#;
+     */
+    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
+    public static function lists(): array
+    {
+{if !empty($searchArr)}
+        self::setSearch([
+{foreach $searchArr as $key=>$fieldsArr}
+            '{$key|raw}' => {php}echo str_replace('"', '\'', json_encode($fieldsArr));{/php},
+{/foreach}
+        ]); ;#;
+{/if}
+        $model = new {$table.gen_model}();
+        $lists = $model
+{if !empty($listIgnore)}
+            ->withoutField({php}echo str_replace('"', '\'', json_encode($listIgnore));{/php})
+{/if}
+{if in_array('is_delete', $fieldsArr)}
+            ->where(['is_delete'=>0])
+{/if}
+{if !empty($searchArr)}
+            ->where(self::$searchWhere)
+{/if}
+            ->order('{$primaryKey} desc')
+            ->paginate([
+                'page'      => $get['page']  ?? 1,
+                'list_rows' => $get['limit'] ?? 20,
+                'var_page'  => 'page'
+            ])->toArray();
+;#;
+        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+    }

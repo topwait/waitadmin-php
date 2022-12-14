@@ -161,28 +161,28 @@
                         <legend>子表关联</legend>
                         <div class="layui-field-box">
                             <div class="layui-form-item">
-                                <label for="table_alias" class="layui-form-label">主表别名：</label>
+                                <label for="join_status_open" class="layui-hide"></label>
+                                <label for="join_status_close" class="layui-form-label"><span class="asterisk">*</span>关联状态：</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="join_status" id="join_status_open" value="1" title="开启" lay-filter="join_status" {if $table.join_status==1}checked{/if}>
+                                    <input type="radio" name="join_status" id="join_status_close" value="0" title="关闭" lay-filter="join_status" {if $table.join_status==0}checked{/if}>
+                                </div>
+                            </div>
+                            <div class="layui-form-item table_alias" {if $table.join_status==0}style="display: none;"{/if}>
+                                <label for="table_alias" class="layui-form-label"><span class="asterisk">*</span>主表别名：</label>
                                 <div class="layui-input-inline">
                                     <input type="text" name="table_alias" id="table_alias" value="{$table.table_alias}"
                                            placeholder="请输入主表别名" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
-                            <div class="layui-form-item">
-                                <label for="join_status_open" class="layui-hide"></label>
-                                <label for="join_status_close" class="layui-form-label">关联状态：</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="join_status" id="join_status_open" value="1" title="开启" checked>
-                                    <input type="radio" name="join_status" id="join_status_close" value="0" title="关闭">
-                                </div>
-                            </div>
-                            <div class="formJoinArray">
+                            <div class="formJoinArray" {if $table.join_status==0}style="display: none;"{/if}>
                                 {volist name="$table.join_array" id="vo" key="k"}
                                     <div class="layui-form-item">
                                         <div class="layui-input-block">
                                             <div class="layui-inline">
                                                 <select name="join[{$k}][join_type]">
                                                     <option value="inner" {if $vo.join_type=='inner'}selected{/if}>内连接</option>
-                                                    <option value="left" {if $vo.join_type=='left'}selected{/if}>左外连接</option>
+                                                    <option value="left"  {if $vo.join_type=='left'}selected{/if}>左外连接</option>
                                                     <option value="right" {if $vo.join_type=='right'}selected{/if}>右外连接</option>
                                                 </select>
                                             </div>
@@ -271,10 +271,10 @@
                                 <td>
                                     <select name="cols[{$k}][model_type]">
                                         <option value="integer" {if $vo.model_type=='int'}selected{/if}>Int</option>
-                                        <option value="string" {if $vo.model_type=='string'}selected{/if}>String</option>
-                                        <option value="double" {if $vo.model_type=='double'}selected{/if}>Double</option>
-                                        <option value="float" {if $vo.model_type=='float'}selected{/if}>Float</option>
-                                        <option value="array" {if $vo.model_type=='array'}selected{/if}>Array</option>
+                                        <option value="string"  {if $vo.model_type=='string'}selected{/if}>String</option>
+                                        <option value="double"  {if $vo.model_type=='double'}selected{/if}>Double</option>
+                                        <option value="float"   {if $vo.model_type=='float'}selected{/if}>Float</option>
+                                        <option value="array"   {if $vo.model_type=='array'}selected{/if}>Array</option>
                                         <option value="boolean" {if $vo.model_type=='boolean'}selected{/if}>Boolean</option>
                                     </select>
                                 </td>
@@ -351,6 +351,7 @@
 {block name="js"}
 <script>
     layui.use(['form'], function () {
+        let $    = layui.$;
         let form = layui.form;
 
         // 设置高度
@@ -387,6 +388,17 @@
         // 监听删除
         $(document).on('click', '.formJoinArray .delInput', function () {
             $(this).parents('.layui-form-item').remove();
+        });
+
+        // 监听链表
+        form.on('radio(join_status)', function (obj) {
+            if (parseInt(obj.value) === 0) {
+                $('.table_alias').hide();
+                $('.formJoinArray').hide();
+            } else {
+                $('.table_alias').show();
+                $('.formJoinArray').show();
+            }
         });
 
         // 参数验证

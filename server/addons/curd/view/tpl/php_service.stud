@@ -20,74 +20,15 @@ use think\db\exception\ModelNotFoundException;
  */
 class {$table.gen_class}Service extends Service
 {
-    /**
-     * {$table.table_comment}列表
-     *
-     * @return array
-     * @throws DbException
-     * @author {$table.author} ;#;
-     */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
-    public static function lists(): array
-    {
-{if !empty($searchArr)}
-        self::setSearch([
-{foreach $searchArr as $key=>$fieldsArr}
-            '{$key|raw}' => {php}echo str_replace('"', '\'', json_encode($fieldsArr));{/php},
-{/foreach}
-        ]); ;#;
-{/if}
-        $model = new {$table.gen_model}();
-        $lists = $model
-{if !empty($listIgnore)}
-            ->withoutField({php}echo str_replace('"', '\'', json_encode($listIgnore));{/php})
-{/if}
-{if in_array('is_delete', $fieldsArr)}
-            ->where(['is_delete'=>0])
-{/if}
-{if !empty($searchArr)}
-            ->where(self::$searchWhere)
-{/if}
-            ->order('{$primaryKey} desc')
-            ->paginate([
-                'page'      => $get['page']  ?? 1,
-                'list_rows' => $get['limit'] ?? 20,
-                'var_page'  => 'page'
-            ])->toArray();
+{if $table.join_status}
+{include file="tpl/service/listed_join" /}
+{include file="tpl/service/detail_join" /}
+{else}
+{include file="tpl/service/listed_normal" /}
 ;#;
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
-    }
-;#;
-
-    /**
-     * {$table.table_comment}详情
-     *
-     * @param int $id
-     * @return array
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
-     {if $table.author}* @author {$table.author}{/if};#;
-     */
-    public static function detail(int $id): array
-    {
-        $model = new {$table.gen_model}();
-        return $model
-{if in_array('is_delete', $fieldsArr) && in_array('delete_time', $fieldsArr)}
-            ->withoutField('is_delete,delete_time')
-{elseif in_array('is_delete', $fieldsArr)}
-            ->withoutField('is_delete,delete_time')
-{elseif in_array('delete_time', $fieldsArr)}
-            ->withoutField('is_delete,delete_time')
+{include file="tpl/service/detail_normal" /}
 {/if}
-{if in_array('is_delete', $fieldsArr)}
-            ->where(['is_delete'=>0])
-{/if}
-            ->where(['{$primaryKey}'=>$id])
-            ->findOrFail()
-            ->toArray();
-    }
 ;#;
-
     /**
      * {$table.table_comment}新增
      *
