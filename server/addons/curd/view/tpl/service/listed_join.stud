@@ -40,11 +40,19 @@
 {/switch}
 {/foreach}
             ->order('{$table.table_alias}.{$primaryKey} desc')
+{if $table.tpl_type == 'curd'}
             ->paginate([
                 'page'      => $get['page']  ?? 1,
                 'list_rows' => $get['limit'] ?? 20,
                 'var_page'  => 'page'
             ])->toArray();
+{else}
+            ->select()->toArray();
+{/if}
 ;#;
+{if $table.tpl_type == 'curd'}
         return ['count'=>$lists['total'], 'list'=>$lists['data']];
+{else}
+        return $lists;
+{/if}
     }

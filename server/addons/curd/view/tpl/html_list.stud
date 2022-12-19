@@ -198,7 +198,7 @@
                     waitUtil.ajax({
                         url: '{%%%:route("{$routes}/del")}',
                         type: 'POST',
-                        data: {ids: [obj.data.id]}
+                        data: {id: obj.data.id}
                     }).then((res) => {
                         if (res.code === 0) {
                             table.reload();
