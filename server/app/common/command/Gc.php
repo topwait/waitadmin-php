@@ -70,7 +70,6 @@ class Gc extends Command
             }
         }
 
-
         // 检测文件并进行处理
         foreach ($dirsArray as $path) {
             if (file_exists($path)) {
