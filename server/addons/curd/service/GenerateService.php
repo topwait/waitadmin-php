@@ -375,13 +375,14 @@ class GenerateService extends Service
         $table   = (array)$tableData['table'];
         $columns = (array)$tableData['columns'];
 
-        foreach (VelocityService::getTemplates($table['gen_class']) as $k => $v) {
+        foreach (VelocityService::getTemplates($table) as $k => $v) {
             $vars = VelocityService::prepareContext($table, $columns);
             $view = view('tpl\\'.$k, $vars);
 
             $content = $view->getContent();
-            $content = str_replace(';#;', ' ', $content);
             $content = str_replace('%%%', '', $content);
+            $content = str_replace(';#;', ' ', $content);
+            $content = str_replace('>>>', '', $content);
             $detail[$v] = $content;
         }
 

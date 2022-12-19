@@ -60,12 +60,18 @@ class GenValidate extends Validate
      * 验证关联参数
      *
      * @param $value
+     * @param $rule
+     * @param array $data
      * @return bool|string
      * @author windy
      */
-    protected function checkJoin($value): bool|string
+    protected function checkJoin($value, $rule, array $data=[]): bool|string
     {
-dump($value);exit;
+        unset($rule);
+        if (!$data['join_status']) {
+            return true;
+        }
+
         foreach ($value as $item) {
             if (!in_array($item['join_type'], ['inner', 'left', 'right'])) {
                 return '关联类型不在合法范围: [inner, left, right]';
@@ -93,7 +99,7 @@ dump($value);exit;
      * @return bool|string
      * @author windy
      */
-    protected function checkCols($value)
+    protected function checkCols($value): bool|string
     {
         foreach ($value as $item) {
             if (strlen(trim($item['column_comment'])) > 200) {

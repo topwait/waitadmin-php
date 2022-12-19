@@ -1,9 +1,21 @@
 <%%%?php
-
-
+// +----------------------------------------------------------------------
+// | WaitAdmin快速开发后台管理系统
+// +----------------------------------------------------------------------
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
+// +----------------------------------------------------------------------
+// | Author: WaitAdmin Team <2474369941@qq.com>
+// +----------------------------------------------------------------------
+declare (strict_types = 1);
+;#;
 namespace app\{$table.gen_module}\service{if $table.gen_folder}{$table.gen_folder}{/if};
 
-
+;#;
 use app\common\basics\Service;
 use app\common\model{if $table.gen_folder}{$table.gen_folder}{/if}\{$table.gen_model};
 use JetBrains\PhpStorm\ArrayShape;
@@ -93,6 +105,8 @@ class {$table.gen_class}Service extends Service
             'is_delete'   => 1,
             'delete_time' => time()
         ], ['{$primaryKey}'=>$id]);
+{else}
+        {$table.gen_model}::destroy($id)
 {/if}
     }
 }
