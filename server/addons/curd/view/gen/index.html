@@ -170,6 +170,13 @@
                     data: {id: obj.data.id}
                 });
             },
+            synchrony: function (obj) {
+                waitUtil.ajax({
+                    url: '{:route("addons/curd/gen/synchrony")}',
+                    type: 'POST',
+                    data: {id: obj.data.id}
+                });
+            },
             leave: function () {
                 let ids = waitUtil.checkbox();
                 if (!ids.length) {

@@ -106,7 +106,7 @@ class {$table.gen_class}Service extends Service
             'delete_time' => time()
         ], ['{$primaryKey}'=>$id]);
 {else}
-        {$table.gen_model}::destroy($id)
+        {$table.gen_model}::destroy($id);
 {/if}
     }
 }

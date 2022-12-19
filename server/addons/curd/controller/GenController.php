@@ -106,11 +106,21 @@ class GenController extends Backend
     /**
      * 同步数据表结构
      *
-     * @author windy
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws OperateException
      */
-    public function synchrony()
+    public function synchrony(): Json
     {
+        if ($this->isAjaxPost()) {
+            $id = intval($this->request->post('id'));
+            GenerateService::synchrony($id);
+            return AjaxUtils::success();
+        }
 
+        return AjaxUtils::error();
     }
 
     /**

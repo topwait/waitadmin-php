@@ -7,20 +7,8 @@
     <form class="layui-form layui-search">
         <div class="layui-form-item">
 {volist name="$columns" id="vo"}
-            <div class="layui-inline">
-                <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="{$vo.column_name}" name="{$vo.column_name}"
-                        class="layui-input" placeholder="请输入{$vo.column_comment}" autocomplete="off">
-                </div>
-            </div>
-{/volist}
-            <div class="layui-inline">
-                <label for="phone" class="layui-form-label">手机号码：</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="phone" name="phone" class="layui-input" placeholder="手机号码" autocomplete="off">
-                </div>
-            </div>
+{if $vo.is_query}
+{if str_starts_with($vo.column_name, 'is_')}
             <div class="layui-inline">
                 <label for="status" class="layui-form-label">状态：</label>
                 <div class="layui-input-inline">
@@ -31,6 +19,17 @@
                     </select>
                 </div>
             </div>
+{else}
+            <div class="layui-inline">
+                <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="{$vo.column_name}" name="{$vo.column_name}"
+                        class="layui-input" placeholder="请输入{$vo.column_comment}" autocomplete="off">
+                </div>
+            </div>
+{/if}
+{/if}
+{/volist}
             <div class="layui-inline">
                 <a class="layui-btn layui-btn-sm layui-btn-default" lay-submit lay-filter="search">查询</a>
                 <a class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="clear-search">重置</a>
@@ -48,10 +47,6 @@
                     <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="add">
                         <i class="layui-icon icon-add"></i>
                         <span>新增</span>
-                    </a>
-                    <a class="layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" lay-event="leave">
-                        <i class="layui-icon icon-del"></i>
-                        <span>删除</span>
                     </a>
                 </div>
             </script>
@@ -89,6 +84,7 @@
 
 {%%%block name="js"}
 <script>
+{if $table.tpl_type=='curd'}
     layui.use(function() {
         // 渲染表格
         let table = waitUtil.table({
@@ -111,6 +107,41 @@
                 {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
             ]]
         });
+{else}
+    layui.use(['treeTable'], function() {
+        // 渲染表格
+        let table = layui.treeTable.render({
+            treeColIndex: 1
+            ,treePid: 0
+            ,treeIdName: 'id'
+            ,treePidName: 'pid'
+            ,treeDefaultClose: true
+            ,treeLinkage: true
+            ,treeDirIcon: false
+            ,treeExpand: false
+            ,id: 'wait-table-list'
+            ,elem: '#wait-table-list'
+            ,url: '{%%%:route("{$routes}/index")}'
+            ,toolbar: '#toolbar'
+            ,defaultToolbar: ['filter', 'exports', 'print']
+            ,cols: [[
+{volist name="$columns" id="vo"}
+{if $vo.is_list}
+{if in_array($vo.column_name, ['create_time', 'update_time', 'delete_time'])}
+                {field:'{$vo.column_name}', title:'{$vo.column_comment}', width:160, align:'center'},
+{elseif str_starts_with($vo.column_name, 'is_')}
+                {field:'{$vo.column_name}', title:'{$vo.column_comment}', width:60, align:'center', templet:'#table-{$vo.column_name}'},
+{elseif $vo.column_name=='image'}
+                {field:'{$vo.column_name}', title:'{$vo.column_comment}', width:60, align:'center', templet:'#table-{$vo.column_name}'},
+{else}
+                {field:'{$vo.column_name}', title:'{$vo.column_comment}',{if $vo.column_name=='id'} width:60,{/if} align:'center'},
+{/if}
+{/if}
+{/volist}
+                {field:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'},
+            ]]
+        });
+{/if}
 
         // 逻辑事件
         waitUtil.event({

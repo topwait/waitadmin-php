@@ -152,9 +152,9 @@
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">菜单图标：</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="menu_icon" value="{$table.menu_icon}"
-                                           placeholder="请输入菜单图标" autocomplete="off" class="layui-input">
+                                <div class="layui-input-inline" style="width: 275px;">
+                                    <input type="hidden" id="iconPicker" lay-filter="iconPicker">
+                                    <input type="hidden" name="menu_icon" value="{$table.menu_icon}">
                                 </div>
                             </div>
                         </div>
@@ -354,9 +354,10 @@
 
 {block name="js"}
 <script>
-    layui.use(['form'], function () {
+    layui.use(['form', 'iconPicker'], function () {
         let $    = layui.$;
         let form = layui.form;
+        let iconPicker = layui.iconPicker;
         let joinStatus = parseInt('{$table.join_status}');
 
         // 设置高度
@@ -370,6 +371,19 @@
             $('.layui-tab-item').css('height', (windowHeight-118)+'px');
             $('.layui-tab-content').css('height', (windowHeight-88)+'px');
         });
+
+        // 图标选择器
+        iconPicker.render({
+            elem: '#iconPicker',
+            search: true,
+            page: true,
+            limit: 12,
+            cellWidth: '20%',
+            click: function (data) {
+                $('input[name="menu_icon"]').val(data.icon);
+            }
+        });
+        iconPicker.checkIcon('iconPicker', "{$table.menu_icon|default='layui-icon layui-icon-circle-dot'}");
 
         // 监听新增
         let joinLength = $('.formJoinArray .layui-form-item').length;

@@ -51,6 +51,13 @@ class GenerateService extends Service
                 'var_page' => 'page'
             ])->toArray();
 
+        foreach ($lists['data'] as &$item) {
+            $item['tpl_type']  = $item['tpl_type']=='curd'?'单表':'树表';
+            $item['gen_type']  = $item['gen_type']=='down'?'下载':'覆盖';
+            $item['menu_type'] = $item['menu_type']=='auto'?'自动':'手动';
+            $item['join_status'] = $item['join_status']?'开启':'关闭';
+        }
+
         return ['count' => $lists['total'], 'list' => $lists['data']];
     }
 
@@ -192,11 +199,78 @@ class GenerateService extends Service
      * 同步表结构信息
      *
      * @param int $id
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws OperateException
      * @author windy
      */
     public static function synchrony(int $id): void
     {
+        $modelTable  = new GenTable();
+        $modelColumn = new GenTableColumn();
 
+        // 旧表数据
+        $table   = $modelTable->where(['id'=>$id])->findOrEmpty()->toArray();
+        $oldCols = $modelColumn->where(['table_id'=>$id])->select()->toArray();
+        $colsMap = [];
+        foreach ($oldCols as $col) {
+            $colsMap[$col['column_name']] = $col;
+        }
+
+        // 新表数据
+        $columns = VelocityService::queryColumnsByName($table['table_name']);
+        if (empty($columns)) {
+            throw new OperateException('表结构不存在!');
+        }
+
+        // 更新字段
+        $updateIds = [];
+        foreach ($columns as $column) {
+            $lengths = explode('(', $column['type'])[1]??'0)';
+            $types   = explode('(', $column['type'])[0];
+            $lengths = explode(')', trim($lengths))[0];
+            $column['type']   = $types;
+            $column['length'] = $lengths;
+
+            $data = [
+                'table_id'       => $id,
+                'column_name'    => $column['name'],
+                'column_comment' => $column['comment'],
+                'column_length'  => trim($lengths),
+                'column_type'    => trim($types),
+                'model_type'     => VelocityService::toPhpType(trim($types)),
+                'is_pk'          => $column['primary'] ? 1 : 0,
+                'is_increment'   => $column['autoinc'] ? 1 : 0,
+                'is_required'    => $column['primary'] ? 0 : (in_array(strtolower($column['name']), VelocityService::$ignoreFields)?0:1),
+                'is_insert'      => $column['primary'] ? 0 : (in_array(strtolower($column['name']), VelocityService::$ignoreFields)?0:1),
+                'is_edit'        => $column['primary'] ? 0 : (in_array(strtolower($column['name']), VelocityService::$ignoreFields)?0:1),
+                'is_list'        => VelocityService::handleList($column),
+                'is_query'       => VelocityService::handleQuery($column),
+                'query_type'     => VelocityService::handleQueryWhere($column),
+                'html_type'      => VelocityService::handleShowType($column),
+                'update_time'    => time()
+            ];
+
+            if (in_array($column['name'], array_keys($colsMap))) {
+                $nid = $colsMap[$column['name']]['id'];
+                $updateIds[] = $nid;
+                GenTableColumn::update($data, ['id'=>$nid]);
+            } else {
+                GenTableColumn::create($data);
+            }
+        }
+
+        $deleteIds = [];
+        foreach ($oldCols as $col) {
+            if (!in_array($col['id'], $updateIds)) {
+                $deleteIds[] = $col['id'];
+            }
+        }
+
+        if (!empty($deleteIds)) {
+            GenTableColumn::destroy($deleteIds);
+        }
     }
 
     /**
