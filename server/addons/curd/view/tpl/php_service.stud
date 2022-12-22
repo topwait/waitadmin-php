@@ -26,9 +26,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * {$table.table_comment}服务类
- *
- * Class {$table.gen_class}Service
- * @package app\{$table.gen_class}\service{if $table.gen_folder}\{$table.gen_folder}{/if} ;#;
  */
 class {$table.gen_class}Service extends Service
 {

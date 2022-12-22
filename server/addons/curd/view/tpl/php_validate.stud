@@ -32,7 +32,7 @@ class {$table.gen_class}Validate extends Validate
 {/if}
 {/volist}
     ];
-
+;#;
     public function __construct()
     {
         $this->field = [
@@ -42,7 +42,7 @@ class {$table.gen_class}Validate extends Validate
 {/if}
 {/volist}
         ];
-
+;#;
         parent::__construct();
     }
 }

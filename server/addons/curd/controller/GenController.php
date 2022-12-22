@@ -18,6 +18,7 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\Config;
+use think\response\File;
 use think\response\Json;
 use think\response\View;
 
@@ -160,6 +161,21 @@ class GenController extends Backend
         }
 
         return AjaxUtils::error();
+    }
+
+    /**
+     * 下载生成的代码
+     *
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @author windy
+     */
+    public function download(): File
+    {
+        $id = intval($this->request->get('id'));
+        $path = GenerateService::download($id);
+        return download($path, 'aa.zip');
     }
 
     /**

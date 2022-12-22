@@ -422,14 +422,62 @@ class GenerateService extends Service
         }
     }
 
-    public static function download()
+    /**
+     * 下载生成代码
+     *
+     * @param int $id
+     * @return string
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @author windy
+     */
+    public static function download(int $id): string
     {
-        $zip = new ZipArchive();
-        $zip->open(runtime_path().'rsa.zip', ZipArchive::CREATE);
-        $zip->addFromString('html/edit.html', '哈哈哈哈哈');
+        $tableData = self::detail($id);
+        $table   = (array)$tableData['table'];
+        $columns = (array)$tableData['columns'];
 
-        $a = $zip->getStream(runtime_path().'rsa.zip');
-        dump($a);exit;
+        $path = root_path() . 'runtime/generate/WaitAdmin-curd.zip';
+        $path = str_replace('\\', '/', $path);
+        if (file_exists($path)) {
+            @unlink($path);
+        }
+
+        if (!file_exists(dirname($path))) {
+            mkdir(dirname($path), 0755, true);
+        }
+
+        $zip = new ZipArchive();
+        $zip->open($path, ZipArchive::CREATE);
+
+        $rootPath = 'app/';
+        $genPath  = $rootPath . $table['gen_module'] . '/';
+        foreach (VelocityService::getTemplates($table) as $k => $v) {
+            $vars = VelocityService::prepareContext($table, $columns);
+            $view = view('tpl\\'.$k, $vars);
+
+            $content = $view->getContent();
+            $content = str_replace('>>>', '', $content);
+            $content = str_replace(';#;', ' ', $content);
+            $content = str_replace('%%%', '', $content);
+
+            $genFolder = str_replace('\\', '/', $table['gen_folder']);
+            $writePath = match ($k) {
+                'php_controller' => $genPath  . 'controller'   . $genFolder . '/' . $v,
+                'php_service'    => $genPath  . 'service'      . $genFolder . '/' . $v,
+                'php_validate'   => $genPath  . 'validate'     . $genFolder . '/' . $v,
+                'php_model'      => $rootPath . 'common/model' . $genFolder . '/' . $v,
+                'html_list',
+                'html_edit',
+                'html_add' => $genPath . 'view' . $genFolder . '/' . strtolower($table['gen_class']) . '/' . $v
+            };
+
+            $zip->addFromString($writePath, $content);
+        }
+
+        $zip->close();
+        return (string)$path;
     }
 
     /**

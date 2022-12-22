@@ -51,7 +51,7 @@
                 <button type="button" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="synchrony" lay-tips="同步">
                     <i class="layui-icon icon-seckill-flash"></i>
                 </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-gloomy" lay-event="exports" lay-tips="导出">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-gloomy" lay-event="exports" lay-tips="生成">
                     <i class="layui-icon icon-download-arrow"></i>
                 </button>
                 <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="destroy" lay-tips="销毁">
@@ -124,14 +124,14 @@
                     area: ['95%', '95%'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
-                            // waitUtil.locking(this);
+                            waitUtil.locking(this);
                             data.field['id'] = obj.data.id;
                             waitUtil.ajax({
                                 url: '{:route("addons/curd/gen/update")}',
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
-                                // waitUtil.locking(this);
+                                waitUtil.locking(this);
                                 if (res.code === 0) {
                                     table.reload();
                                     layer.close(index);
@@ -164,10 +164,17 @@
                 });
             },
             exports: function (obj) {
-                waitUtil.ajax({
-                    url: '{:route("addons/curd/gen/exports")}',
-                    type: 'POST',
-                    data: {id: obj.data.id}
+                layer.confirm('确定要'+obj.data.gen_type+'吗？', function(index) {
+                    layer.close(index);
+                    if (obj.data.gen_type==='下载') {
+                        window.open('{:route("addons/curd/gen/download")}?id='+obj.data.id, '_blank');
+                    } else {
+                        waitUtil.ajax({
+                            url: '{:route("addons/curd/gen/exports")}',
+                            type: 'POST',
+                            data: {id: obj.data.id}
+                        });
+                    }
                 });
             },
             synchrony: function (obj) {
