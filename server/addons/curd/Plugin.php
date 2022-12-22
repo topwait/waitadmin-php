@@ -29,6 +29,10 @@ class Plugin extends Addons
      */
     public function install(): bool
     {
+        $menu = [
+            
+        ];
+
         return true;
     }
 
