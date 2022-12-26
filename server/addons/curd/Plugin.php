@@ -41,7 +41,7 @@ class Plugin extends Addons
                 'name'       => $this->module,
                 'title'      => 'Curd',
                 'perms'      => 'addons/curd/gen/index',
-                'icon'       => 'layui-icon icon-member-user',
+                'icon'       => 'layui-icon icon-seckill-flash',
                 'is_menu'    => 1,
                 'is_disable' => 0,
                 'children'   => [

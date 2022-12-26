@@ -49,7 +49,7 @@ class GenerateService extends Service
     public static function lists(array $get): array
     {
         self::setSearch([
-            '%like%' => ['name', 'comment']
+            '%like%' => ['table_name', 'table_comment']
         ]);
 
         $model = new GenTable();
@@ -63,10 +63,10 @@ class GenerateService extends Service
             ])->toArray();
 
         foreach ($lists['data'] as &$item) {
-            $item['tpl_type']  = $item['tpl_type']=='curd'?'单表':'树表';
-            $item['gen_type']  = $item['gen_type']=='down'?'下载':'覆盖';
-            $item['menu_type'] = $item['menu_type']=='auto'?'自动':'手动';
-            $item['join_status'] = $item['join_status']?'开启':'关闭';
+            $item['tpl_type']    = $item['tpl_type']  == 'curd' ? '单表' : '树表';
+            $item['gen_type']    = $item['gen_type']  == 'down' ? '下载' : '覆盖';
+            $item['menu_type']   = $item['menu_type'] == 'auto' ? '自动' : '手动';
+            $item['join_status'] = $item['join_status'] ? '开启' : '关闭';
         }
 
         return ['count' => $lists['total'], 'list' => $lists['data']];
