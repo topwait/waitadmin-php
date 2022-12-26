@@ -167,7 +167,21 @@
                 layer.confirm('确定要'+obj.data.gen_type+'吗？', function(index) {
                     layer.close(index);
                     if (obj.data.gen_type==='下载') {
-                        window.open('{:route("addons/curd/gen/download")}?id='+obj.data.id, '_blank');
+                        if (obj.data.menu_type === '自动') {
+                            layer.confirm('是否同时创建菜单?', function (i) {
+                                layer.close(i);
+                                waitUtil.ajax({
+                                    url: '{:route("addons/curd/gen/initMenu")}',
+                                    type: 'POST',
+                                    data: {id: obj.data.id},
+                                });
+                                window.open('{:route("addons/curd/gen/download")}?id=' + obj.data.id, '_blank');
+                            }, function () {
+                                window.open('{:route("addons/curd/gen/download")}?id=' + obj.data.id, '_blank');
+                            });
+                        } else {
+                            window.open('{:route("addons/curd/gen/download")}?id=' + obj.data.id, '_blank');
+                        }
                     } else {
                         waitUtil.ajax({
                             url: '{:route("addons/curd/gen/exports")}',

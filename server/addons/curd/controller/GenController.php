@@ -213,4 +213,26 @@ class GenController extends Backend
         \think\facade\View::engine('Think')->config($viewConfig);
         return view('', ['keys'=>$keys, 'values'=>$values]);
     }
+
+    /**
+     * 初始化菜单
+     *
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @author windy
+     */
+    public function initMenu(): Json
+    {
+        if ($this->isAjaxPost()) {
+            $id = intval($this->request->post('id'));
+            $tableData = GenerateService::detail($id);
+            $table   = (array)$tableData['table'];
+            GenerateService::initMenu($table);
+            return AjaxUtils::success();
+        }
+
+        return AjaxUtils::error();
+    }
 }

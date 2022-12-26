@@ -20,6 +20,7 @@ use addons\curd\model\GenTableColumn;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\exception\SystemException;
+use app\common\model\auth\AuthMenu;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\NoReturn;
@@ -431,6 +432,8 @@ class GenerateService extends Service
             }
             file_put_contents($writePath , $content);
         }
+
+        self::initMenu($table);
     }
 
     /**
@@ -522,4 +525,64 @@ class GenerateService extends Service
         return $detail;
     }
 
+    /**
+     * 初始化菜单
+     *
+     * @param array $table
+     * @author windy
+     */
+    public static function initMenu(array $table) {
+        if ($table['menu_type'] != 'auto') {
+            return;
+        }
+
+        $route = VelocityService::makeRoutes($table);
+        $modelMenu = new AuthMenu();
+        $menu = $modelMenu->field('id')
+            ->where(['module' => 'app'])
+            ->where(['pid'    => $table['menu_pid']])
+            ->where(['title'  => $table['menu_name']])
+            ->where(['icon'   => $table['menu_icon']])
+            ->where(['perms'  => $route.'/index'])
+            ->findOrEmpty();
+
+        if (!$menu->isEmpty()) {
+            return;
+        }
+
+        $authMenu = AuthMenu::create([
+            'module'  => 'app',
+            'pid'     => $table['menu_pid'],
+            'title'   => $table['menu_name'],
+            'icon'    => $table['menu_icon'],
+            'perms'   => $table['menu_pid']>0 ? $route.'/index' : '',
+            'sort'    => 0,
+            'is_menu' => 1
+        ]);
+
+        foreach (['index', 'add', 'edit', 'del'] as $item) {
+            $title = match ($item) {
+                'index' => $table['menu_name'] . '列表',
+                'add'   => $table['menu_name'] . '新增',
+                'edit'  => $table['menu_name'] . '编辑',
+                'del'   => $table['menu_name'] . '删除',
+                default => $table['menu_name'],
+            };
+
+            $isMenu = 0;
+            if ($item === 'index' && $table['menu_pid']==0) {
+                $isMenu = 1;
+            }
+
+            AuthMenu::create([
+                'module'  => 'app',
+                'pid'     => $authMenu['id'],
+                'title'   => $table['menu_name'],
+                'icon'    => $title,
+                'perms'   => $route.'/'.$item,
+                'sort'    => 0,
+                'is_menu' => $isMenu
+            ]);
+        }
+    }
 }
