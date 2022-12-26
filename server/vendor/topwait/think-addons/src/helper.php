@@ -574,11 +574,7 @@ if (!function_exists('get_target_assets_dir')) {
      */
     function get_target_assets_dir(string $name)
     {
-        $assetsDir = app()->getRootPath() . "public".DS."static".DS."addons".DS."{$name}".DS;
-        if (!is_dir($assetsDir)) {
-            mkdir($assetsDir, 0755, true);
-        }
-        return $assetsDir;
+        return app()->getRootPath() . "public".DS."static".DS."addons".DS."{$name}".DS;
     }
 }
 

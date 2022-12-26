@@ -587,6 +587,11 @@ class Service extends \think\Service
                 continue;
             }
 
+            // 检测不存在则创建
+            if (!is_dir($assetDir)) {
+                mkdir($assetDir, 0755, true);
+            }
+
             // 匹配出所有的文件
             $files = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($addonPublicPath, RecursiveDirectoryIterator::SKIP_DOTS),
