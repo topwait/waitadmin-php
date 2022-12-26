@@ -38,6 +38,8 @@ use think\response\View;
  */
 class GenController extends Backend
 {
+    protected array $notNeedPower = ['initMenu'];
+
     /**
      * 代码生成列表页
      *
