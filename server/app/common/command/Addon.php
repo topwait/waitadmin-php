@@ -164,6 +164,9 @@ class Addon extends Command
             // 执行插件卸载
             $class = get_addons_instance($name);
             $class->uninstall();
+            if (!empty($class->menus)) {
+                MenuUtils::delete($name);
+            }
 
             // 卸载插件SQL
             uninstall_addons_sql($name);
@@ -191,6 +194,11 @@ class Addon extends Command
             throw new OperateException('插件配置文件异常');
         }
 
+        // 校验插件状态
+        if ($ini['status']) {
+            throw new OperateException('插件已是启用状态');
+        }
+
         // 校验插件对象
         $class = get_addons_instance($name);
         if (empty($class)) {
@@ -211,9 +219,7 @@ class Addon extends Command
                 $basesPath = root_path() . 'runtime' . DS . 'addons'. DS . $name;
                 $backupDir = $basesPath . '-conflict-enable-' . date('YmdHis') . 'zip';
                 $zip->extractTo($backupDir);
-            } catch (Exception $e) {
-
-            } finally {
+            } catch (Exception) { } finally {
                 $zip->close();
             }
         }
@@ -221,8 +227,10 @@ class Addon extends Command
         try {
             // 执行启用插件
             AddonService::installAddonsApp($name);
-            MenuUtils::enable($name);
-            $class->enable();
+            $class->enabled();
+            if (!empty($class->menus)) {
+                MenuUtils::enable($name);
+            }
 
             // 更新插件配置
             $ini['status'] = 1;
@@ -230,7 +238,6 @@ class Addon extends Command
         } catch (Exception $e) {
             throw new OperateException($e->getMessage());
         }
-
     }
 
     /**
@@ -248,6 +255,11 @@ class Addon extends Command
             throw new OperateException('插件配置文件异常');
         }
 
+        // 校验插件状态
+        if (!$ini['status']) {
+            throw new OperateException('插件已是禁用状态');
+        }
+
         // 校验插件对象
         $class = get_addons_instance($name);
         if (empty($class)) {
@@ -257,8 +269,10 @@ class Addon extends Command
         try {
             // 禁用插件应用
             AddonService::uninstallAddonsApp($name);
-            MenuUtils::disable($name);
-            $class->disable();
+            $class->disabled();
+            if (!empty($class->menus)) {
+                MenuUtils::disable($name);
+            }
 
             // 更新插件配置
             $ini['status'] = 0;
