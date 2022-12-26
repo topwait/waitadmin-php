@@ -146,6 +146,10 @@ class Addon extends Command
 
         // 验证插件状态
         $ini = get_addons_info($name);
+        if (!$ini || !$ini['install']) {
+            throw new OperateException('插件不存在或已卸载');
+        }
+
         if ($ini['status']) {
             throw new OperateException('请先禁用插件');
         }
@@ -156,7 +160,7 @@ class Addon extends Command
         // 备份插件应用
         try {
             $source = root_path() . 'addons' . DS . $name . DS;
-            $target = root_path() . 'runtime' . DS . 'addons' . DS . '-backup-' . date("YmdHis") . '.zip';
+            $target = root_path() . 'runtime' . DS . 'addons' . DS . $name . '-backup-' . date("YmdHis") . '.zip';
             ZipUtils::zip($source, $target);
         } catch (Exception) {}
 
