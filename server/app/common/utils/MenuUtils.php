@@ -99,7 +99,7 @@ class MenuUtils
     {
         $model = new AuthMenu();
         $model->where(['module'=>$name])->update([
-            'is_disable'   => 1,
+            'is_disable'  => 0,
             'update_time' => time()
         ]);
     }
@@ -114,7 +114,7 @@ class MenuUtils
     {
         $model = new AuthMenu();
         $model->where(['module'=>$name])->update([
-            'is_disable'   => 0,
+            'is_disable'   => 1,
             'update_time' => time()
         ]);
     }
@@ -148,7 +148,7 @@ class MenuUtils
             }
 
             if (!empty($menu['children'])) {
-                self::upgrade($menu['children'], $authMenu['id'], $module);
+                self::upgrade($menu['children'], intval($authMenu['id']), $module);
             }
         }
     }

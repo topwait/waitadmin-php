@@ -282,7 +282,7 @@ if (!function_exists('get_addons_list')) {
                 continue;
             }
 
-            $info['url'] = isset($info['url']) && $info['url'] ? (string) addons_url($info['url']):'';
+            //$info['url'] = isset($info['url']) && $info['url'] ? (string) addons_url($info['url']):'';
             $list[$name] = $info;
             return $list;
         }
@@ -326,7 +326,7 @@ if (!function_exists('set_addons_info')) {
         $file  = $addonsPath . $name . DIRECTORY_SEPARATOR . 'service.ini';
         $addon = get_addons_instance($name);
         $array = $addon->setInfo($name, $array);
-        $array['status'] ? $addon->enabled() : $addon->disabled();
+        //$array['status'] ? $addon->enabled() : $addon->disabled();
         if (!isset($array['name']) || !isset($array['title']) || !isset($array['version'])) {
             throw new Exception("Failed to write plugin config");
         }

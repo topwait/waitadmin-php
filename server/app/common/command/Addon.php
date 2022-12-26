@@ -105,7 +105,7 @@ class Addon extends Command
             $class->install();
 
             // 安装插件菜单
-            if ($class->menus) {
+            if (!empty($class->menus)) {
                 MenuUtils::create($class->menus);
             }
 
@@ -225,7 +225,7 @@ class Addon extends Command
             $class->enable();
 
             // 更新插件配置
-            $ini['status'] = $ini['status'] ? 0 : 1;
+            $ini['status'] = 1;
             set_addons_info($name, $ini);
         } catch (Exception $e) {
             throw new OperateException($e->getMessage());

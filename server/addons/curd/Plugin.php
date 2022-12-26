@@ -45,15 +45,15 @@ class Plugin extends Addons
                 'is_menu'    => 1,
                 'is_disable' => 0,
                 'children'   => [
-                    ['title'=>'生成列表', 'perms'=>'addons/curd/gen/index', 'is_menu'=>0, 'is_disable'=>1],
-                    ['title'=>'查看库表', 'perms'=>'addons/curd/gen/tables', 'is_menu'=>0, 'is_disable'=>1],
-                    ['title'=>'更新库表', 'perms'=>'addons/curd/gen/update', 'is_menu'=>0, 'is_disable'=>1],
-                    ['title'=>'销毁库表', 'perms'=>'addons/curd/gen/destroy', 'is_menu'=>0, 'is_disable'=>1],
-                    ['title'=>'同步库表', 'perms'=>'addons/curd/gen/synchrony', 'is_menu'=>0, 'is_disable'=>1],
-                    ['title'=>'导入库表', 'perms'=>'addons/curd/gen/imports', 'is_menu'=>0, 'is_disable'=>1],
-                    ['title'=>'导出生成', 'perms'=>'addons/curd/gen/exports', 'is_menu'=>0, 'is_disable'=>1],
-                    ['title'=>'下载生成', 'perms'=>'addons/curd/gen/download', 'is_menu'=>0, 'is_disable'=>1],
-                    ['title'=>'预览生成', 'perms'=>'addons/curd/gen/preview', 'is_menu'=>0, 'is_disable'=>1]
+                    ['title'=>'生成列表', 'perms'=>'addons/curd/gen/index', 'is_menu'=>0, 'is_disable'=>0],
+                    ['title'=>'查看库表', 'perms'=>'addons/curd/gen/tables', 'is_menu'=>0, 'is_disable'=>0],
+                    ['title'=>'更新库表', 'perms'=>'addons/curd/gen/update', 'is_menu'=>0, 'is_disable'=>0],
+                    ['title'=>'销毁库表', 'perms'=>'addons/curd/gen/destroy', 'is_menu'=>0, 'is_disable'=>0],
+                    ['title'=>'同步库表', 'perms'=>'addons/curd/gen/synchrony', 'is_menu'=>0, 'is_disable'=>0],
+                    ['title'=>'导入库表', 'perms'=>'addons/curd/gen/imports', 'is_menu'=>0, 'is_disable'=>0],
+                    ['title'=>'导出生成', 'perms'=>'addons/curd/gen/exports', 'is_menu'=>0, 'is_disable'=>0],
+                    ['title'=>'下载生成', 'perms'=>'addons/curd/gen/download', 'is_menu'=>0, 'is_disable'=>0],
+                    ['title'=>'预览生成', 'perms'=>'addons/curd/gen/preview', 'is_menu'=>0, 'is_disable'=>0]
                 ]
             ]
         ];
