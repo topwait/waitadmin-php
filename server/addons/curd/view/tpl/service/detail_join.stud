@@ -1,0 +1,38 @@
+    /**
+     * {$table.table_comment}详情
+     *
+     * @param int $id
+     * @return array
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     {if $table.author}* @author {$table.author}{/if};#;
+     */
+    public static function detail(int $id): array
+    {
+        $model = new {$table.gen_model}();
+        return $model
+            ->alias('{$table.table_alias}')
+            ->field({php}echo str_replace('"', '\'', json_encode($joinLsArr));{/php})
+{if in_array('is_delete', $fieldsArr)}
+            ->where(['is_delete'=>0])
+{/if}
+{if !empty($searchArr)}
+            ->where(self::$searchWhere)
+{/if}
+{foreach $table['join_array'] as $item}
+{switch $item['join_type']}
+{case inner}
+             ->join('{$item.sub_table} {$item.join_alias}', '{$item.primary_key} = {$item.foreign_key}')
+{/case}
+{case left}
+            ->leftJoin('{$item.sub_table} {$item.join_alias}', '{$item.primary_key} = {$item.foreign_key}')
+{/case}
+{case left}
+            ->rightJoin('{$item.sub_table} {$item.join_alias}', '{$item.primary_key} = {$item.foreign_key}')
+{/case}
+{/switch}
+{/foreach}
+            ->where(['{$table.table_alias}.{$primaryKey}'=>$id])
+            ->findOrFail()
+            ->toArray();
+    }

@@ -510,6 +510,17 @@ INSERT INTO `wait_auth_menu` VALUES (952, 950, 'app', '分组详情', '', 'user.
 INSERT INTO `wait_auth_menu` VALUES (953, 950, 'app', '分组新增', '', 'user.group/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (954, 950, 'app', '分组编辑', '', 'user.group/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (955, 950, 'app', '分组删除', '', 'user.group/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5000, 400, 'curd', '代码生成', 'layui-icon icon-seckill-flash', 'addons/curd/gen/index', 0, 1, 0, 0, 1672039272, 1672049172, 0);
+INSERT INTO `wait_auth_menu` VALUES (5001, 5000, 'curd', '生成列表', '', 'addons/curd/gen/index', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+INSERT INTO `wait_auth_menu` VALUES (5002, 5000, 'curd', '查看库表', '', 'addons/curd/gen/tables', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+INSERT INTO `wait_auth_menu` VALUES (5003, 5000, 'curd', '更新库表', '', 'addons/curd/gen/update', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+INSERT INTO `wait_auth_menu` VALUES (5004, 5000, 'curd', '销毁库表', '', 'addons/curd/gen/destroy', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+INSERT INTO `wait_auth_menu` VALUES (5005, 5000, 'curd', '同步库表', '', 'addons/curd/gen/synchrony', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+INSERT INTO `wait_auth_menu` VALUES (5006, 5000, 'curd', '导入库表', '', 'addons/curd/gen/imports', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+INSERT INTO `wait_auth_menu` VALUES (5007, 5000, 'curd', '导出生成', '', 'addons/curd/gen/exports', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+INSERT INTO `wait_auth_menu` VALUES (5008, 5000, 'curd', '下载生成', '', 'addons/curd/gen/download', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+INSERT INTO `wait_auth_menu` VALUES (5009, 5000, 'curd', '预览生成', '', 'addons/curd/gen/preview', 0, 0, 0, 0, 1672039272, 1672039811, 0);
+
 COMMIT;
 
 BEGIN;

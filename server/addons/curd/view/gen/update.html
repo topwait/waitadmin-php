@@ -1,0 +1,455 @@
+{extend name="../../../app/backend/view/common/layout" /}
+
+{block name="style"}
+<style>
+    .wait-body-content {padding: 0; font-size: 14px;}
+    .layui-tab-card {border: none; box-shadow: none;}
+    .layui-tab-card.layui-tab {margin:0;}
+    .layui-tab-card .layui-tab-seize {height: 40px;}
+    .layui-tab-card .layui-tab-title {position: fixed; z-index: 9999; width: 100%; font-weight: bold;}
+    .layui-tab-card .layui-tab-content {padding: 0; overflow: hidden;}
+    .layui-tab-card .layui-tab-item {padding: 15px; overflow: auto;}
+
+    .table-gen-col {padding: 15px 10px; margin: 0;}
+    .table-gen-col thead tr th {padding: 9px; font-weight: bold;}
+    .table-gen-col *[lay-skin=primary] {padding-left: 0;}
+
+    .formJoinArray .w60 {width: 60px;}
+    .formJoinArray .w90 {width: 90px;}
+    .formJoinArray .layui-form-item {display: inline-block; border: 1px #ccc dashed; margin-left: 110px;}
+    .formJoinArray .layui-input-block {margin: 0 10px; padding-top: 5px;}
+    .formJoinArray .layui-inline {margin-right: 2px;}
+    .formJoinArray .layui-inline {margin-right: 2px;}
+</style>
+{/block}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this">结构信息</li>
+                <li>字段管理</li>
+            </ul>
+            <div class="layui-tab-seize"></div>
+            <div class="layui-tab-content">
+                <!-- 结构信息 -->
+                <div class="layui-tab-item layui-show">
+                    <!-- 基础信息 -->
+                    <fieldset class="layui-elem-field">
+                        <legend>基础信息</legend>
+                        <div class="layui-field-box">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label for="table_name" class="layui-form-label"><span class="asterisk">*</span>表名称：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="table_name" name="table_name" value="{$table.table_name}"
+                                               class="layui-input" placeholder="请输入表名称" autocomplete="off"
+                                               lay-verType="tips" lay-verify="required">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label for="table_comment" class="layui-form-label"><span class="asterisk">*</span>表描述：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="table_comment" name="table_comment" value="{$table.table_comment}"
+                                               class="layui-input" placeholder="请输入表描述" autocomplete="off"
+                                               lay-verType="tips" lay-verify="required">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label for="author" class="layui-form-label">作者名：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="author" name="author" value="{$table.author}"
+                                               class="layui-input" placeholder="请输入作者名" autocomplete="off"
+                                               lay-verType="tips">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- 生成信息 -->
+                    <fieldset class="layui-elem-field">
+                        <legend>生成信息</legend>
+                        <div class="layui-field-box">
+                            <div class="layui-form-item">
+                                <label for="tpl_type_curd" class="layui-hide"></label>
+                                <label for="tpl_type_tree" class="layui-form-label"><span class="asterisk">*</span>模板类型：</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="tpl_type" id="tpl_type_curd" value="curd" title="单表(CURD)" {if $table.tpl_type=='curd'}checked{/if}>
+                                    <input type="radio" name="tpl_type" id="tpl_type_tree" value="tree" title="树表(CURD)" {if $table.tpl_type=='tree'}checked{/if}>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="gen_type_down" class="layui-hide"></label>
+                                <label for="gen_type_code" class="layui-form-label"><span class="asterisk">*</span>生成方式：</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="gen_type" id="gen_type_down" value="down" title="压缩包下载" {if $table.gen_type=='down'}checked{/if}>
+                                    <input type="radio" name="gen_type" id="gen_type_code" value="code" title="源代码覆盖" {if $table.gen_type=='code'}checked{/if}>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="gen_class" class="layui-form-label"><span class="asterisk">*</span>生成类名：</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="gen_class" id="gen_class" value="{$table.gen_class}"
+                                           placeholder="请输入类名称" autocomplete="off" class="layui-input"
+                                           lay-verType="tips" lay-verify="required">
+                                    <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">比如输入Article,控制器会生成ArticleController</div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="gen_module" class="layui-form-label"><span class="asterisk">*</span>生成模块：</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="gen_module" id="gen_module" value="{$table.gen_module}"
+                                           placeholder="请输入模块名称" autocomplete="off" class="layui-input"
+                                           lay-verType="tips" lay-verify="required">
+                                    <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">指定生成到app下的哪个模块,如: backend或frontend</div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="gen_folder" class="layui-form-label">生成目录：</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="gen_folder" id="gen_folder" value="{$table.gen_folder}"
+                                           placeholder="请输入目录名称" autocomplete="off" class="layui-input">
+                                    <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">指定子级生成目录(斜杆开始),示例: \content\article</div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- 生成菜单 -->
+                    <fieldset class="layui-elem-field">
+                        <legend>生成菜单</legend>
+                        <div class="layui-field-box">
+                            <div class="layui-form-item">
+                                <label for="menu_type_auto" class="layui-hide"></label>
+                                <label for="menu_type_hand" class="layui-form-label"><span class="asterisk">*</span>菜单构建：</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="menu_type" id="menu_type_auto" value="auto" title="自动生成" {if $table.menu_type=='auto'}checked{/if}>
+                                    <input type="radio" name="menu_type" id="menu_type_hand" value="hand" title="手动添加" {if $table.menu_type=='hand'}checked{/if}>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="menu_pid" class="layui-form-label">父级菜单：</label>
+                                <div class="layui-input-inline">
+                                    <select name="menu_pid" id="menu_pid">
+                                        <option value="0">顶级</option>
+                                        {volist name="menus" id="vo"}
+                                            {if $vo.id == $table.menu_pid}
+                                                <option value="{$vo.id}" selected>{$vo.html} {$vo.title}</option>
+                                            {else}
+                                                <option value="{$vo.id}">{$vo.html} {$vo.title}</option>
+                                            {/if}
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">菜单名称：</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="menu_name" value="{$table.menu_name}"
+                                           placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">菜单图标：</label>
+                                <div class="layui-input-inline" style="width: 275px;">
+                                    <input type="hidden" id="iconPicker" lay-filter="iconPicker">
+                                    <input type="hidden" name="menu_icon" value="{$table.menu_icon}">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- 子表关联 -->
+                    <fieldset class="layui-elem-field">
+                        <legend>子表关联</legend>
+                        <div class="layui-field-box">
+                            <div class="layui-form-item">
+                                <label for="join_status_open" class="layui-hide"></label>
+                                <label for="join_status_close" class="layui-form-label"><span class="asterisk">*</span>关联状态：</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="join_status" id="join_status_open" value="1" title="开启" lay-filter="join_status" {if $table.join_status==1}checked{/if}>
+                                    <input type="radio" name="join_status" id="join_status_close" value="0" title="关闭" lay-filter="join_status" {if $table.join_status==0}checked{/if}>
+                                </div>
+                            </div>
+                            <div class="layui-form-item table_alias" {if $table.join_status==0}style="display: none;"{/if}>
+                                <label for="table_alias" class="layui-form-label"><span class="asterisk">*</span>主表别名：</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="table_alias" id="table_alias" value="{$table.table_alias}"
+                                           placeholder="请输入主表别名" autocomplete="off" class="layui-input"
+                                           lay-verType="tips" lay-verify="table_alias">
+                                </div>
+                            </div>
+                            <div class="formJoinArray" {if $table.join_status==0}style="display: none;"{/if}>
+                                {volist name="$table.join_array" id="vo" key="k"}
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <div class="layui-inline">
+                                                <select name="join[{$k}][join_type]">
+                                                    <option value="inner" {if $vo.join_type=='inner'}selected{/if}>内连接</option>
+                                                    <option value="left"  {if $vo.join_type=='left'}selected{/if}>左外连接</option>
+                                                    <option value="right" {if $vo.join_type=='right'}selected{/if}>右外连接</option>
+                                                </select>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <input type="text" name="join[{$k}][join_field]" value="{$vo.join_field}"
+                                                       placeholder="关联字段,如:a.id,a.title" autocomplete="off" class="layui-input"
+                                                       lay-verType="tips">
+                                            </div>
+                                            <div class="layui-inline w60">
+                                                <input type="text" name="join[{$k}][join_alias]" value="{$vo.join_alias}"
+                                                       placeholder="子别名" autocomplete="off" class="layui-input"
+                                                       lay-verType="tips" lay-verify="join_alias">
+                                            </div>
+                                        </div>
+                                        <div class="layui-input-block">
+                                            <div class="layui-inline">
+                                                <select name="join[{$k}][sub_table]" lay-verType="tips" lay-verify="join_sub_table">
+                                                    <option value="">请选择子表</option>
+                                                    {volist name="tables['list']" id="sub"}
+                                                        <option value="{$sub.name}" {if $vo.sub_table==$sub.name}selected{/if}>{$sub.name}</option>
+                                                    {/volist}
+                                                </select>
+                                            </div>
+                                            <div class="layui-inline w90">
+                                                <input type="text" name="join[{$k}][primary_key]" value="{$vo.primary_key}"
+                                                       placeholder="主键,如ac.id" autocomplete="off" class="layui-input"
+                                                       lay-verType="tips" lay-verify="primary_key">
+                                            </div>
+                                            <div class="layui-inline w90">
+                                                <input type="text" name="join[{$k}][foreign_key]" value="{$vo.foreign_key}"
+                                                       placeholder="外键,如a.cid" autocomplete="off" class="layui-input"
+                                                       lay-verType="tips" lay-verify="foreign_key">
+                                            </div>
+                                            {if $k==1}
+                                                <div class="layui-inline addInput">
+                                                    <button type="button" class="layui-btn layui-btn-warm layui-btn-sm">
+                                                        <i class="layui-icon icon-add"></i>
+                                                    </button>
+                                                </div>
+                                            {else}
+                                                <div class="layui-inline delInput">
+                                                    <button type="button" class="layui-btn layui-btn-danger layui-btn-sm">
+                                                        <i class="layui-icon icon-del"></i>
+                                                    </button>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                {/volist}
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <!-- 字段管理 -->
+                <div class="layui-tab-item">
+                    <table class="layui-table table-gen-col">
+                        <thead>
+                            <tr>
+                                <th style="min-width:90px;">字段列名</th>
+                                <th style="min-width:90px;">字段描述</th>
+                                <th style="width:60px; min-width:60px;">字段类型</th>
+                                <th style="width:110px; min-width:110px;">模型类型</th>
+                                <th style="text-align:center;">必填</th>
+                                <th style="text-align:center;">插入</th>
+                                <th style="text-align:center;">编辑</th>
+                                <th style="text-align:center;">列表</th>
+                                <th style="text-align:center;">查询</th>
+                                <th style="width:130px; min-width:130px;">查询条件</th>
+                                <th style="width:130px; min-width:130px;">显示类型</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="$columns" id="vo" key="k"}
+                            <tr>
+                                <!-- 字段列名 -->
+                                <td>{$vo.column_name}</td>
+                                <!-- 字段描述 -->
+                                <td>
+                                    <input type="hidden" name="cols[{$k}][id]" value="{$vo.id}">
+                                    <input type="text" name="cols[{$k}][column_comment]" value="{$vo.column_comment}" autocomplete="off" class="layui-input">
+                                </td>
+                                <!-- 字段类型 -->
+                                <td>{$vo.column_type}({$vo.column_length})</td>
+                                <!-- 模型字段 -->
+                                <td>
+                                    <select name="cols[{$k}][model_type]">
+                                        <option value="integer" {if $vo.model_type=='int'}selected{/if}>Int</option>
+                                        <option value="string"  {if $vo.model_type=='string'}selected{/if}>String</option>
+                                        <option value="double"  {if $vo.model_type=='double'}selected{/if}>Double</option>
+                                        <option value="float"   {if $vo.model_type=='float'}selected{/if}>Float</option>
+                                        <option value="array"   {if $vo.model_type=='array'}selected{/if}>Array</option>
+                                        <option value="boolean" {if $vo.model_type=='boolean'}selected{/if}>Boolean</option>
+                                    </select>
+                                </td>
+                                <!-- 必填 -->
+                                {if in_array($vo.column_name, [$primary, 'create_time', 'update_time', 'delete_time', 'is_delete'])}
+                                    <td><input type="checkbox" name="cols[{$k}][is_required]" value="1" lay-skin="primary" class="layui-btn-disabled" disabled></td>
+                                {else}
+                                    <td><input type="checkbox" name="cols[{$k}][is_required]" value="1" lay-skin="primary" {if $vo.is_required}checked{/if}></td>
+                                {/if}
+                                <!-- 插入 -->
+                                {if in_array($vo.column_name, [$primary, 'create_time', 'update_time', 'delete_time', 'is_delete'])}
+                                    <td><input type="checkbox" name="cols[{$k}][is_insert]" value="1" lay-skin="primary" class="layui-btn-disabled" disabled></td>
+                                {else}
+                                    <td><input type="checkbox" name="cols[{$k}][is_insert]" value="1" lay-skin="primary" {if $vo.is_insert}checked{/if}></td>
+                                {/if}
+                                <!-- 编辑 -->
+                                {if in_array($vo.column_name, [$primary, 'create_time', 'update_time', 'delete_time', 'is_delete'])}
+                                    <td><input type="checkbox" name="cols[{$k}][is_edit]" value="0" lay-skin="primary" class="layui-btn-disabled" disabled></td>
+                                {else}
+                                    <td><input type="checkbox" name="cols[{$k}][is_edit]" value="1" lay-skin="primary" {if $vo.is_insert}checked{/if}></td>
+                                {/if}
+                                <!-- 列表 -->
+                                <td><input type="checkbox" name="cols[{$k}][is_list]" value="1" lay-skin="primary" {if $vo.is_list}checked{/if}></td>
+                                <!-- 查询 -->
+                                <td><input type="checkbox" name="cols[{$k}][is_query]" value="1" lay-skin="primary" {if $vo.is_query}checked{/if}></td>
+                                <!-- 查询条件 -->
+                                <td>
+                                    <select name="cols[{$k}][query_type]">
+                                        <option value="="  {if $vo.query_type=='='}selected{/if}>=</option>
+                                        <option value="<>" {if $vo.query_type=='<>'}selected{/if}>!=</option>
+                                        <option value=">"  {if $vo.query_type=='>'}selected{/if}>></option>
+                                        <option value=">=" {if $vo.query_type=='>='}selected{/if}>>=</option>
+                                        <option value="<=" {if $vo.query_type=='<='}selected{/if}><=</option>
+                                        <option value="in" {if $vo.query_type=='in'}selected{/if}>IN</option>
+                                        <option value="%like%"   {if $vo.query_type=='%like%'}selected{/if}>%LIKE%</option>
+                                        <option value="%like"    {if $vo.query_type=='%like'}selected{/if}>%LIKE</option>
+                                        <option value="like%"    {if $vo.query_type=='like%'}selected{/if}>LIKE%</option>
+                                        <option value="between"  {if $vo.query_type=='between'}selected{/if}>BETWEEN</option>
+                                        <option value="datetime" {if $vo.query_type=='datetime'}selected{/if}>DATETIME</option>
+                                    </select>
+                                </td>
+                                <!-- 显示类型 -->
+                                <td>
+                                    <select name="cols[{$k}][html_type]">
+                                        <option value="text"     {if $vo.html_type=='text'}selected{/if}>文本框</option>
+                                        <option value="number"   {if $vo.html_type=='number'}selected{/if}>数字框</option>
+                                        <option value="textarea" {if $vo.html_type=='textarea'}selected{/if}>文本域</option>
+                                        <option value="select"   {if $vo.html_type=='select'}selected{/if}>下拉框</option>
+                                        <option value="checkbox" {if $vo.html_type=='checkbox'}selected{/if}>复选框</option>
+                                        <option value="radio"    {if $vo.html_type=='radio'}selected{/if}>单选框</option>
+                                        <option value="image"    {if $vo.html_type=='image'}selected{/if}>图片控件</option>
+                                        <option value="video"    {if $vo.html_type=='video'}selected{/if}>视频控件</option>
+                                        <option value="datetime" {if $vo.html_type=='datetime'}selected{/if}>日期控件</option>
+                                        <option value="editor"   {if $vo.html_type=='editor'}selected{/if}>富文本控件</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['form', 'iconPicker'], function () {
+        let $    = layui.$;
+        let form = layui.form;
+        let iconPicker = layui.iconPicker;
+        let joinStatus = parseInt('{$table.join_status}');
+
+        // 设置高度
+        let windowHeight = window.innerHeight;
+        $('.layui-tab-item').css('height', (windowHeight-118)+'px');
+        $('.layui-tab-content').css('height', (windowHeight-88)+'px');
+
+        // 监听页面
+        $(window).resize(function() {
+            let windowHeight = window.innerHeight;
+            $('.layui-tab-item').css('height', (windowHeight-118)+'px');
+            $('.layui-tab-content').css('height', (windowHeight-88)+'px');
+        });
+
+        // 图标选择器
+        iconPicker.render({
+            elem: '#iconPicker',
+            search: true,
+            page: true,
+            limit: 12,
+            cellWidth: '20%',
+            click: function (data) {
+                $('input[name="menu_icon"]').val(data.icon);
+            }
+        });
+        iconPicker.checkIcon('iconPicker', "{$table.menu_icon|default='layui-icon layui-icon-circle-dot'}");
+
+        // 监听新增
+        let joinLength = $('.formJoinArray .layui-form-item').length;
+        $(document).on('click', '.formJoinArray .addInput', function () {
+            let node = $(this).parents('.formJoinArray');
+            let html = node.children('.layui-form-item').html();
+
+            html = '<div class="layui-form-item">'+ html +'</div>'
+            html = html.replace('layui-btn-warm', 'layui-btn-danger');
+            html = html.replace('addInput', 'delInput');
+            html = html.replace('icon-add', 'icon-del');
+            html = html.replaceAll('join[0]', 'join['+(joinLength+1)+']');
+            node.append(html);
+
+            let lastNode = $('.formJoinArray .layui-form-item').last();
+            lastNode.find('select').last().val('');
+            lastNode.find('input').val('');
+            form.render();
+        });
+
+        // 监听删除
+        $(document).on('click', '.formJoinArray .delInput', function () {
+            $(this).parents('.layui-form-item').remove();
+        });
+
+        // 监听链表
+        form.on('radio(join_status)', function (obj) {
+            if (parseInt(obj.value) === 0) {
+                joinStatus = 0;
+                $('.table_alias').hide();
+                $('.formJoinArray').hide();
+            } else {
+                joinStatus = 1;
+                $('.table_alias').show();
+                $('.formJoinArray').show();
+            }
+        });
+
+        // 参数验证
+        form.verify({
+            table_alias: function (value) {
+                if (!value && joinStatus===1) {
+                    return '主表别名必须填写';
+                }
+            },
+            join_sub_table: function (value) {
+                if (!value && joinStatus===1) {
+                    return '请选择关联子表';
+                }
+            },
+            join_alias: function (value) {
+                if (!value && joinStatus===1) {
+                    return '子表别名必须填写';
+                }
+            },
+            primary_key: function (value) {
+                if (!value && joinStatus===1) {
+                    return '关联主键必须填写';
+                }
+            },
+            foreign_key: function (value) {
+                if (!value && joinStatus===1) {
+                    return '关联外键必须填写';
+                }
+            }
+        });
+    });
+</script>
+{/block}

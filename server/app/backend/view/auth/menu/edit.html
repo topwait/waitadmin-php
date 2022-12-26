@@ -86,16 +86,16 @@
 
         // 图标选择器
         iconPicker.render({
-            elem: "#iconPicker",
+            elem: '#iconPicker',
             search: true,
             page: true,
             limit: 12,
-            cellWidth: "20%",
+            cellWidth: '20%',
             click: function (data) {
                 $('input[name="icon"]').val(data.icon);
             }
         });
-        iconPicker.checkIcon("iconPicker", "{$detail.icon|default='layui-icon layui-icon-circle-dot'}");
+        iconPicker.checkIcon('iconPicker', "{$detail.icon|default='layui-icon layui-icon-circle-dot'}");
     });
 </script>
 {/block}

@@ -1,0 +1,171 @@
+{%%%extend name="common/layout" /}
+
+{%%%block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+{foreach $columns as $vo}
+{if $vo.is_insert}
+{switch $vo.html_type}
+{case text}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <input type="text" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off"
+                    class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
+            </div>
+        </div>
+{/case}
+{case number}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <input type="number" min="0" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off"
+                    class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
+            </div>
+        </div>
+{case textarea}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <textarea id="{$vo.column_name}" name="{$vo.column_name}" class="layui-textarea"
+                    lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
+                </textarea>
+            </div>
+        </div>
+{/case}
+{case select}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <select id="{$vo.column_name}" name="{$vo.column_name}"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
+                    <option value="">请选择</option>
+                    <option value="1">1</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+        </div>
+{/case}
+{case checkbox}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="{$vo.column_name}[]" title="写作">
+                <input type="checkbox" name="{$vo.column_name}[]" title="阅读" checked>
+                <input type="checkbox" name="{$vo.column_name}[]" title="发呆">
+            </div>
+        </div>
+{/case}
+{case radio}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="{$vo.column_name}" value="0" title="男">
+                <input type="radio" name="{$vo.column_name}" value="1" title="女" checked>
+            </div>
+        </div>
+{/case}
+{case switch}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label for="{$vo.column_name} class="layui-form-label">{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+              <input type="checkbox" id="{$vo.column_name}" name="{$vo.column_name}" lay-skin="switch">
+            </div>
+        </div>
+{/case}
+{case image}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <div class="thumbnail" data-type="image" data-field="{$vo.column_name}" data-limit="1">
+                    <div class="musters"></div>
+                    <div class="builder">
+                        <i class="layui-icon layui-icon-camera"></i>
+                        <p>上传图片</p>
+                        <div class="mask">
+                            <div class="item layui-auto">图库选择</div>
+                            <div class="item layui-auto-call">本地上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{/case}
+{case video}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <div class="thumbnail" data-type="video" data-field="{$vo.column_name}" data-limit="1">
+                    <div class="musters"></div>
+                    <div class="builder">
+                        <i class="layui-icon layui-icon-camera"></i>
+                        <p>上传视频</p>
+                        <div class="mask">
+                            <div class="item layui-auto">视库选择</div>
+                            <div class="item layui-auto-call">本地上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{/case}
+{case datetime}
+       <!-- {$vo.column_comment} -->
+       <div class="layui-form-item">
+           <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
+           <div class="layui-input-block">
+               <input type="text" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off"
+                   class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
+           </div>
+       </div>
+{/case}
+{case editor}
+        <!-- {$vo.column_comment} -->
+        <div class="layui-form-item">
+            <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
+            <div class="layui-input-block">
+                <textarea id="{$vo.column_name}" name="{$vo.column_name}"></textarea>
+            </div>
+        </div>
+{/case}
+{/switch}
+{/if}
+{/foreach}
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}
+
+{if !empty($layImport)}
+{%%%block name="js"}
+<script>
+    layui.use({php}echo str_replace('"', '\'', json_encode($layImport));{/php}, function () {
+{foreach $layImport as $name}
+        let {$name} = layui.{$name};
+{/foreach}
+;#;
+{foreach $columns as $vo}
+{if $vo.html_type=='datetime'}
+        laydate.render({elem: '#{$vo.column_name}'});
+{elseif $vo.html_type=='editor'}
+        tinymce.render({elem: '#{$vo.column_name}'});
+{/if}
+{/foreach}
+    });
+</script>
+{/block}
+{/if}

@@ -59,7 +59,7 @@ body,a,dl,dt,dd,li,img {cursor: url('../images/default/cursor.cur'), auto !impor
 .wait-side-shrink .wait-sidebar ul {position: static;}
 .wait-side-shrink .wait-sidebar .wait-menu-item > a {padding-right: 0;}
 .wait-side-shrink .wait-sidebar .wait-menu-item > a cite {display: none; padding: 8px 0; width: 120px;}
-.wait-side-shrink .wait-sidebar .wait-menu-item .wait-second-menu.activate {display: block; left: 60px;}
+.wait-side-shrink .wait-sidebar .wait-menu-item .wait-second-menu.activate {display: block; left: 61px;}
 .wait-side-shrink .wait-tabs {left: 60px;}
 
 /** 展开菜单 **/

@@ -1,0 +1,48 @@
+<%%%?php
+// +----------------------------------------------------------------------
+// | WaitAdmin快速开发后台管理系统
+// +----------------------------------------------------------------------
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
+// +----------------------------------------------------------------------
+// | Author: WaitAdmin Team <2474369941@qq.com>
+// +----------------------------------------------------------------------
+declare (strict_types = 1);
+;#;
+namespace app\{$table.gen_module}\validate{if $table.gen_folder}{$table.gen_folder}{/if};
+
+;#;
+use app\common\basics\Validate;
+
+/**
+ * {$table.table_comment}参数验证器
+ */
+class {$table.gen_class}Validate extends Validate
+{
+    protected $rule = [
+{volist name="$columns" id="vo"}
+{if $vo.is_pk}
+        '{$vo.column_name}' => 'require|posInteger',
+{elseif $vo.is_required}
+        '{$vo.column_name}' => 'require',
+{/if}
+{/volist}
+    ];
+;#;
+    public function __construct()
+    {
+        $this->field = [
+{volist name="$columns" id="vo"}
+{if $vo.is_pk || $vo.is_required}
+            '{$vo.column_name}' => '{$vo.column_comment}',
+{/if}
+{/volist}
+        ];
+;#;
+        parent::__construct();
+    }
+}

@@ -34,8 +34,8 @@
                 <i class="layui-icon layui-icon-auz"></i>
                 <input type="text" id="captcha" name="captcha" class="layui-input" placeholder="请输入验证码" autocomplete="off"
                        lay-vertype="tips" lay-verify="required">
-                <img src="/captcha.html" class="login-captcha"
-                     onclick="this.src='/captcha.html?'+Math.random()"
+                <img src="{$entrance}/captcha.html" class="login-captcha"
+                     onclick="this.src='{$entrance}/captcha.html?'+Math.random()"
                      width="130px" height="48px" alt="点击刷新验证码">
             </div>
             <div class="layui-form-item">

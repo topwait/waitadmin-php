@@ -1,0 +1,21 @@
+    /**
+     * {$table.table_comment}详情
+     *
+     * @param int $id
+     * @return array
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     {if $table.author}* @author {$table.author}{/if};#;
+     */
+    public static function detail(int $id): array
+    {
+        $model = new {$table.gen_model}();
+        return $model
+            ->withoutField('is_delete,delete_time')
+{if in_array('is_delete', $fieldsArr)}
+            ->where(['is_delete'=>0])
+{/if}
+            ->where(['{$primaryKey}'=>$id])
+            ->findOrFail()
+            ->toArray();
+    }

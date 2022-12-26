@@ -44,10 +44,11 @@ class LoginController extends Backend
     {
         $action = in_array(request()->action(), $this->notNeedLogin);
         if (session('adminUser') and !$action) {
-            $this->redirect((string) route('index/index'), 302);
+            $this->redirect(route('index/index'), 302);
         }
 
-        return view('common/login');
+        $entrance = config('app.backend_entrance');
+        return view('common/login', ['entrance'=>$entrance]);
     }
 
     /**
