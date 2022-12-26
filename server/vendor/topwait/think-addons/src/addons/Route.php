@@ -52,8 +52,8 @@ class Route
 
         // 验证是否可用
         $info = get_addons_info($addon);
-        if (!$info || !$info['status']) {
-            $message = !$info ? [404, 'addon %s not found'] : [500, 'addon %s is disabled'];
+        if (!$info || !$info['status'] || !$info['install']) {
+            $message = (!$info||!$info['install']) ? [404, 'addon %s not found'] : [500, 'addon %s is disabled'];
             throw new HttpException($message[0], lang($message[1], [$addon]));
         }
 

@@ -42,6 +42,10 @@ class ZipUtils
         $sourcePath = realpath($source);
         $zip = new ZipArchive();
 
+        if (!is_dir(dirname($target))) {
+            mkdir(dirname($target), 0777, true);
+        }
+
         try {
             $zip->open($target, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 

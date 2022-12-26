@@ -1,0 +1,109 @@
+<%%%?php
+// +----------------------------------------------------------------------
+// | WaitAdmin快速开发后台管理系统
+// +----------------------------------------------------------------------
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
+// +----------------------------------------------------------------------
+// | Author: WaitAdmin Team <2474369941@qq.com>
+// +----------------------------------------------------------------------
+declare (strict_types = 1);
+;#;
+namespace app\{$table.gen_module}\service{if $table.gen_folder}{$table.gen_folder}{/if};
+
+;#;
+use app\common\basics\Service;
+use app\common\model{if $table.gen_folder}{$table.gen_folder}{/if}\{$table.gen_model};
+use JetBrains\PhpStorm\ArrayShape;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+;#;
+
+/**
+ * {$table.table_comment}服务类
+ */
+class {$table.gen_class}Service extends Service
+{
+{if $table.join_status}
+{include file="tpl/service/listed_join" /}
+{include file="tpl/service/detail_join" /}
+{else}
+{include file="tpl/service/listed_normal" /}
+;#;
+{include file="tpl/service/detail_normal" /}
+{/if}
+;#;
+    /**
+     * {$table.table_comment}新增
+     *
+     * @param array $post
+     {if $table.author}* @author {$table.author}{/if} ;#;
+     */
+    public static function add(array $post): void
+    {
+        {$table.gen_model}::create([
+{volist name="$columns" id="vo"}
+{if $vo.is_insert}
+{if in_array($vo.column_name, ['create_time', 'update_time', 'delete_time'])}
+            '{$vo.column_name}' => time(),
+{else}
+{if in_array($vo.model_type, ['int', 'float', 'double'])}
+            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? 0,
+{else}
+            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? '',
+{/if}
+{/if}
+{/if}
+{/volist}
+        ]);
+    }
+;#;
+    /**
+     * {$table.table_comment}编辑
+     *
+     * @param array $post
+     {if $table.author}* @author {$table.author}{/if} ;#;
+     */
+    public static function edit(array $post): void
+    {
+        {$table.gen_model}::update([
+{volist name="$columns" id="vo"}
+{if $vo.is_edit}
+{if $vo.is_required}
+            '{$vo.column_name}' => $post['{$vo.column_name}'],
+{else}
+{if in_array($vo.model_type, ['int', 'float', 'double'])}
+            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? 0,
+{else}
+            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? '',
+{/if}
+{/if}
+{/if}
+{/volist}
+        ], ['id'=>intval($post['{$primaryKey}'])]);
+    }
+;#;
+
+    /**
+     * {$table.table_comment}删除
+     *
+     * @param int $id
+     {if $table.author}* @author {$table.author}{/if} ;#;
+     */
+    public static function del(int $id): void
+    {
+{if in_array('is_delete', $fieldsArr)}
+        {$table.gen_model}::update([
+            'is_delete'   => 1,
+            'delete_time' => time()
+        ], ['{$primaryKey}'=>$id]);
+{else}
+        {$table.gen_model}::destroy($id);
+{/if}
+    }
+}

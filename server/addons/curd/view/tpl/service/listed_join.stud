@@ -1,0 +1,58 @@
+    /**
+     * {$table.table_comment}列表
+     *
+     * @return array
+     * @throws DbException
+     * @author {$table.author} ;#;
+     */
+    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
+    public static function lists(): array
+    {
+{if !empty($searchArr)}
+        self::setSearch([
+{foreach $searchArr as $key=>$fieldsArr}
+            '{$key|raw}' => {php}echo str_replace('"', '\'', json_encode($fieldsArr));{/php},
+{/foreach}
+        ]);
+;#;
+{/if}
+        $model = new {$table.gen_model}();
+        $lists = $model
+            ->alias('{$table.table_alias}')
+            ->field({php}echo str_replace('"', '\'', json_encode($joinLsArr));{/php})
+{if in_array('is_delete', $fieldsArr)}
+            ->where(['{$table.table_alias}.is_delete'=>0])
+{/if}
+{if !empty($searchArr)}
+            ->where(self::$searchWhere)
+{/if}
+{foreach $table['join_array'] as $item}
+{switch $item['join_type']}
+{case inner}
+             ->join('{$item.sub_table} {$item.join_alias}', '{$item.primary_key} = {$item.foreign_key}')
+{/case}
+{case left}
+            ->leftJoin('{$item.sub_table} {$item.join_alias}', '{$item.primary_key} = {$item.foreign_key}')
+{/case}
+{case left}
+            ->rightJoin('{$item.sub_table} {$item.join_alias}', '{$item.primary_key} = {$item.foreign_key}')
+{/case}
+{/switch}
+{/foreach}
+            ->order('{$table.table_alias}.{$primaryKey} desc')
+{if $table.tpl_type == 'curd'}
+            ->paginate([
+                'page'      => $get['page']  ?? 1,
+                'list_rows' => $get['limit'] ?? 20,
+                'var_page'  => 'page'
+            ])->toArray();
+{else}
+            ->select()->toArray();
+{/if}
+;#;
+{if $table.tpl_type == 'curd'}
+        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+{else}
+        return $lists;
+{/if}
+    }
