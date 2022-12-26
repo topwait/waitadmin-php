@@ -15,11 +15,18 @@
 namespace addons\curd;
 
 
+use app\common\utils\MenuUtils;
 use Exception;
 use think\Addons;
 
 class Plugin extends Addons
 {
+    /**
+     * 插件名称
+     * @var string
+     */
+    private string $module = 'curd';
+
     /**
      * 插件安装方法
      *
@@ -29,10 +36,29 @@ class Plugin extends Addons
      */
     public function install(): bool
     {
-        $menu = [
-            
+        $menus = [
+            [
+                'name'       => $this->module,
+                'title'      => 'Curd',
+                'perms'      => 'addons/curd/gen/index',
+                'icon'       => 'layui-icon icon-member-user',
+                'is_menu'    => 1,
+                'is_disable' => 0,
+                'children'   => [
+                    ['title'=>'生成列表', 'perms'=>'addons/curd/gen/index', 'is_menu'=>0, 'is_disable'=>1],
+                    ['title'=>'查看库表', 'perms'=>'addons/curd/gen/tables', 'is_menu'=>0, 'is_disable'=>1],
+                    ['title'=>'更新库表', 'perms'=>'addons/curd/gen/update', 'is_menu'=>0, 'is_disable'=>1],
+                    ['title'=>'销毁库表', 'perms'=>'addons/curd/gen/destroy', 'is_menu'=>0, 'is_disable'=>1],
+                    ['title'=>'同步库表', 'perms'=>'addons/curd/gen/synchrony', 'is_menu'=>0, 'is_disable'=>1],
+                    ['title'=>'导入库表', 'perms'=>'addons/curd/gen/imports', 'is_menu'=>0, 'is_disable'=>1],
+                    ['title'=>'导出生成', 'perms'=>'addons/curd/gen/exports', 'is_menu'=>0, 'is_disable'=>1],
+                    ['title'=>'下载生成', 'perms'=>'addons/curd/gen/download', 'is_menu'=>0, 'is_disable'=>1],
+                    ['title'=>'预览生成', 'perms'=>'addons/curd/gen/preview', 'is_menu'=>0, 'is_disable'=>1]
+                ]
+            ]
         ];
 
+        MenuUtils::create($menus);
         return true;
     }
 
@@ -45,6 +71,7 @@ class Plugin extends Addons
      */
     public function uninstall(): bool
     {
+        MenuUtils::delete($this->module);
         return true;
     }
 
@@ -52,10 +79,12 @@ class Plugin extends Addons
      * 插件启用方法
      *
      * @return bool
+     * @throws Exception
      * @author windy
      */
     public function enabled(): bool
     {
+        MenuUtils::enable($this->module);
         return true;
     }
 
@@ -67,6 +96,7 @@ class Plugin extends Addons
      */
     public function disabled(): bool
     {
+        MenuUtils::disable($this->module);
         return true;
     }
 }

@@ -11,7 +11,10 @@ return [
         // 垃圾清理器
         'gc'      => 'app\common\crontab\Gc',
 
+
+        // 插件的指令
+        'addon'   => 'app\common\command\Addon',
         // 工具箱指令
-        'wa'      => 'app\common\command\Wa'
+        'wa'      => 'app\common\command\Wa',
     ],
 ];

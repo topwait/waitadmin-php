@@ -43,7 +43,8 @@ class Wa extends Command
             echo "(1) 修改后台密码   (2) 清除登录限制\n";
             echo "(3) 修改入口路径   (4) 清除系统缓存\n";
             echo "=======================================\n";
-            echo "请携带命令编号如: php think wa 1\n\n";
+            echo "请携带命令编号如: php think wa 1\n";
+            echo "\n";
         }
 
         switch (intval($input->getArgument('op'))) {
@@ -59,6 +60,9 @@ class Wa extends Command
             case 4: // 清除系统缓存
                 $this->cleanSysCache();
                 break;
+            default:
+                echo '没找到“' . $input->getArgument('op') . '”相关指令';
+                return false;
         }
 
         return true;
