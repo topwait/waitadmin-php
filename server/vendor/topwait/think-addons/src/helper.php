@@ -156,6 +156,7 @@ if (!function_exists('addons_path')) {
     /**
      * 获取插件基础目录
      *
+     * @param string $name 插件名称
      * @return string
      * @author windy
      */
@@ -252,8 +253,8 @@ if (!function_exists('get_addons_list')) {
     /**
      * 获取本地插件列表
      *
-     * @author windy
      * @return array
+     * @author windy
      */
     function get_addons_list()
     {
