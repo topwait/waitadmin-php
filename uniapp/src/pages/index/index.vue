@@ -19,7 +19,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .content {
   display: flex;
   flex-direction: column;
@@ -39,6 +39,9 @@ export default {
 .text-area {
   display: flex;
   justify-content: center;
+  .title {
+      font-size: 50rpx;
+  }
 }
 
 .title {
