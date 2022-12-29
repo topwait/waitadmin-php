@@ -10,8 +10,11 @@ module.exports = {
         'eslint:recommended',
         'plugin:vue/vue3-recommended'
     ],
-    'overrides': [
-    ],
+    globals: {
+        uni: 'readonly',
+        plus: 'readonly',
+        wx: 'readonly',
+    },
     'parserOptions': {
         'ecmaVersion': 'latest',
         'sourceType': 'module'
@@ -40,9 +43,9 @@ module.exports = {
         'no-multi-spaces': 'warn',
         // 禁止多次声明变量
         'no-redeclare': 'warn',
-        // 禁止对Function声明重新赋值
+        // 禁止函数重新赋值
         'no-func-assign': 'warn',
-        // 禁止出现[return|throw]之后的代码块
+        // 禁止返回后代码块
         'no-unreachable': 'warn',
         // 禁止if语句中return语句之后有else块
         'no-else-return': 'warn',
