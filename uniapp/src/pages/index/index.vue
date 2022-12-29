@@ -14,38 +14,34 @@ export default {
             title: 'Hello',
         }
     },
-    onLoad() {},
+    onLoad() { },
     methods: {},
 }
 </script>
 
 <style lang="scss">
 .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
-
 .logo {
-  height: 200rpx;
-  width: 200rpx;
-  margin-top: 200rpx;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50rpx;
+    margin: 0 auto;
+    margin-top: 200rpx;
+    margin-bottom: 50rpx;
+    width: 200rpx;
+    height: 200rpx;
 }
-
 .text-area {
-  display: flex;
-  justify-content: center;
-  .title {
-      font-size: 50rpx;
-  }
+    display: flex;
+    justify-content: center;
+    .title {
+        font-size: 50rpx;
+    }
 }
-
 .title {
-  font-size: 36rpx;
-  color: #8f8f94;
+    font-size: 36rpx;
+    color: #8f8f94;
 }
 </style>
