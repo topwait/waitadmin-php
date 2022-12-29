@@ -7,16 +7,10 @@
     </view>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            title: 'Hello',
-        }
-    },
-    onLoad() { },
-    methods: {},
-}
+<script setup>
+import { ref } from 'vue'
+
+let title = ref('Hello World!')
 </script>
 
 <style lang="scss">
