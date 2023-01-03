@@ -1,16 +1,41 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+    "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+            "path": "pages/index/index",
+            "style": {
+                "navigationBarTitleText": "uni-app"
+            }
+        }, {
+            "path": "pages/users/home/home",
+            "style": {
+                "navigationBarTitleText": "users",
+                "enablePullDownRefresh": false
+            }
+
+        }
+    ],
+    "globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "uni-app",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8"
+    },
+    "tabBar": {
+        "color": "#666666",
+        "selectedColor": "#FF5058",
+        "backgroundColor": "#FFFFFF",
+        "list": [{
+                "pagePath": "pages/index/index",
+                "iconPath": "static/tabBar/tab_home.png",
+                "selectedIconPath": "static/tabBar/tab_home_no.png",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/users/home/home",
+                "iconPath": "static/tabBar/tab_user.png",
+                "selectedIconPath": "static/tabBar/tab_user_no.png",
+                "text": "我的"
+            }
+        ]
+    }
 }
