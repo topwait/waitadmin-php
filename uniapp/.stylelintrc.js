@@ -21,6 +21,11 @@ module.exports = {
         'no-empty-source': null,
         'unit-no-unknown': [true, { ignoreUnits: ['/rpx/', '/upx/'] }],
         'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['deep'] }],
+        'selector-type-no-unknown': [true, {
+            'ignoreTypes': [
+                '/^page/'
+            ]
+        }],
         'order/properties-order': [
             'position',
             'top',

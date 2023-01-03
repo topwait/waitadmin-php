@@ -1,0 +1,11 @@
+page button {
+    overflow: unset;
+    margin: 0;
+    margin-right: 0;
+    margin-left: 0;
+    padding: 0;
+    font-size: 28rpx;
+    font-weight: normal;
+    background-color: none;
+    &::after { border: none; }
+}
