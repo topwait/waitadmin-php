@@ -1,7 +1,6 @@
 import { config } from './config.js'
 
 const install = (Vue) => {
-
     // 参数配置
     Vue.config.globalProperties.$u.http.setConfig(config)
 

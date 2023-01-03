@@ -13,7 +13,7 @@ export const config = {
     originalData: false,
     // 展示加载时候给透明蒙层防止触摸穿透
     loadingMask: true,
-    // 配置请求头信息
+    // 配置网络发起的请求头信息
     header: {
         'content-type': 'application/json;charset=UTF-8'
     }
