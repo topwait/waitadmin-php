@@ -15,8 +15,15 @@
 
 <script setup>
 import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
+import { getUserInfo } from '@/api/usersApi.js'
 
 let title = ref('Hello World!')
+
+
+onShow(() => {
+    getUserInfo()
+})
 </script>
 
 <style lang="scss">
