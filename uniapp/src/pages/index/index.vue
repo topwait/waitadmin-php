@@ -4,25 +4,25 @@
         <view class="text-area">
             <text class="title">{{ title }}</text>
         </view>
-        <u-button >默认按钮</u-button>
+        <u-button>默认按钮</u-button>
         <u-button type="primary">主要按钮</u-button>
         <u-button type="success">成功按钮</u-button>
         <u-button type="info">信息按钮</u-button>
         <u-button type="warning">警告按钮</u-button>
         <u-button type="error">危险按钮</u-button>
+        <view class="leading-3">斤斤计较急急急急急急急急急急急急急急急斤斤计较急急急急急急急急急急急急急急急</view>
     </view>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
-import { getUserInfo } from '@/api/usersApi.js'
 
 let title = ref('Hello World!')
 
 
 onShow(() => {
-    getUserInfo()
+
 })
 </script>
 

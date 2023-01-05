@@ -8,8 +8,9 @@
         }, {
             "path": "pages/users/home/home",
             "style": {
-                "navigationBarTitleText": "users",
-                "enablePullDownRefresh": false
+                "navigationBarTitleText": "个人中心",
+				"navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#1970F3"
             }
 
         }

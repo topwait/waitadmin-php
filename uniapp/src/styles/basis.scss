@@ -1,0 +1,107 @@
+/* 字体大小 */
+.text-xs { font-size: 24rpx; }
+.text-sm { font-size: 26rpx; }
+.text-base { font-size: 28rpx; }
+.text-lg { font-size: 30rpx; }
+.text-xl { font-size: 32rpx; }
+.text-2xl { font-size: 34rpx; }
+.text-3xl { font-size: 36rpx; }
+.text-4xl { font-size: 38rpx; }
+.text-5xl { font-size: 40rpx; }
+.text-6xl { font-size: 42rpx; }
+.text-7xl { font-size: 44rpx; }
+.text-8xl { font-size: 46rpx; }
+.text-9xl { font-size: 48rpx; }
+.text-xxl { font-size: 60rpx; }
+
+/* 字体样式 */
+.italic { font-style: italic; }
+.not-italic { font-style: normal; }
+
+/* 字体粗细 */
+.font-thin { font-weight: 100; }
+.font-extralight { font-weight: 200; }
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-black { font-weight: 900; }
+
+/* 数字变形 */
+.normal-nums { font-variant-numeric: normal; }
+.ordinal { font-variant-numeric: ordinal; }
+.slashed-zero { font-variant-numeric: slashed-zero; }
+.lining-nums { font-variant-numeric: lining-nums; }
+.oldstyle-nums { font-variant-numeric: oldstyle-nums; }
+.proportional-nums { font-variant-numeric: proportional-nums; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+.diagonal-fractions { font-variant-numeric: diagonal-fractions; }
+.stacked-fractions { font-variant-numeric: stacked-fractions; }
+
+/* 文本行高 */
+.leading-3 { line-height: .75rem; }
+.leading-4 { line-height: 1rem; }
+.leading-5 { line-height: 1.25rem; }
+.leading-6 { line-height: 1.5rem; }
+.leading-7 { line-height: 1.75rem; }
+.leading-8 { line-height: 2rem; }
+.leading-9 { line-height: 2.25rem; }
+.leading-10 { line-height: 2.5rem; }
+.leading-none { line-height: 1; }
+.leading-tight { line-height: 1.25; }
+.leading-snug { line-height: 1.375; }
+.leading-normal { line-height: 1.5; }
+.leading-relaxed { line-height: 1.625; }
+.leading-loose { line-height: 2; }
+
+/* 文本对齐 */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* 文本装饰 */
+.underline { text-decoration: underline; }
+.line-through { text-decoration: line-through; }
+.no-underline { text-decoration: none; }
+
+/* 内外边距 */
+@for $i from 0 through 100 {
+    @if $i % 2 == 0 or $i % 5 == 0 {
+        .m-#{$i} { margin: $i + rpx; }
+        .mt-#{$i} { margin-top: $i + rpx; }
+        .ml-#{$i} { margin-left: $i + rpx; }
+        .mr-#{$i} { margin-right: $i + rpx; }
+        .mb-#{$i} { margin-bottom: $i + rpx; }
+        .mc-#{$i} { margin: ($i + rpx) 0; }
+        .ma-#{$i} { margin: 0 ($i + rpx); }
+        .mx-#{$i} { margin-left: $i + rpx; margin-right: $i + rpx; }
+        .my-#{$i} { margin-left: $i + rpx; margin-right: $i + rpx; }
+        .-mx-#{$i} { margin-left: '-' + $i + rpx; margin-right: '-' + $i + rpx; }
+        .-my-#{$i} { margin-top: '-' + $i + rpx; margin-bottom: '-' + $i + rpx; }
+        .-m-#{$i}  { margin: '-' + $i + rpx; }
+		.-mt-#{$i} { margin-top: '-' + $i + rpx; }
+        .-ml-#{$i} { margin-left: '-' + $i + rpx; }
+        .-mr-#{$i} { margin-right: '-' + $i + rpx; }
+        .-mb-#{$i} { margin-bottom: '-' + $i + rpx; }
+
+        .p-#{$i} { padding: $i + rpx; }
+        .pt-#{$i} { padding-top: $i + rpx; }
+        .pl-#{$i} { padding-left: $i + rpx; }
+        .pr-#{$i} { padding-right: $i + rpx; }
+        .pb-#{$i} { padding-bottom: $i + rpx; }
+        .pc-#{$i} { padding: ($i + rpx) 0; }
+        .pa-#{$i} { padding: 0 ($i + rpx); }
+        .px-#{$i} { padding-left: $i + rpx; padding-right: $i + rpx; }
+        .py-#{$i} { padding-left: $i + rpx; padding-right: $i + rpx; }
+        .-px-#{$i} { padding-left: '-' + $i + rpx; padding-right: '-' + $i + rpx; }
+        .-py-#{$i} { padding-top: '-' + $i + rpx; padding-bottom: '-' + $i + rpx; }
+        .-p-#{$i}  { padding: '-' + $i + rpx; }
+		.-pt-#{$i} { padding-top: '-' + $i + rpx; }
+        .-pl-#{$i} { padding-left: '-' + $i + rpx; }
+        .-pr-#{$i} { padding-right: '-' + $i + rpx; }
+        .-pb-#{$i} { padding-bottom: '-' + $i + rpx; }
+	}
+}
