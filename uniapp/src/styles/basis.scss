@@ -311,6 +311,14 @@
 .truncate-line-3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .truncate-line-4 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
 
+/* 垂直对齐 */
+.align-baseline { vertical-align: baseline; }
+.align-top { vertical-align: top; }
+.align-middle { vertical-align: middle; }
+.align-bottom { vertical-align: bottom; }
+.align-text-top { vertical-align: text-top; }
+.align-text-bottom { vertical-align: text-bottom; }
+
 /* 最小宽度 */
 .min-w-0 { min-width: 0; }
 .min-w-full { min-width: 100%; }
