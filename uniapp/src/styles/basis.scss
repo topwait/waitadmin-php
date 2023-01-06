@@ -204,24 +204,28 @@
 .opacity-100 { opacity: 1; }
 
 /* 背景颜色 */
-.bg-white { background-color: #ffffff; }
-.bg-black { background-color: #000000; }
-.bg-primary { background-color: #2979ff; }
-.bg-dark { background-color: #2b85e4; }
-.bg-disabled { background-color: #30cfff; }
-.bg-light { background-color: #ecf5ff; }
+.bg-grey { background-color: $uni-bg-grey; }
+.bg-white { background-color: $uni-bg-white; }
+.bg-black { background-color: $uni-bg-black; }
+.bg-primary { background-color: $uni-bg-primary; }
+.bg-muted { background-color: $uni-bg-muted; }
+.bg-normal { background-color: $uni-bg-normal; }
+.bg-light { background-color: $uni-bg-light; }
+.bg-success { background-color: $uni-bg-success; }
+.bg-warning { background-color: $uni-bg-warning; }
+.bg-error { background-color: $uni-bg-error; }
 
 /* 字体颜色 */
-.color-white { color: #ffffff; }
-.color-black { color: #000000; }
-.color-main { color: #333333; }
-.color-text { color: #666666; }
-.color-muted { color: #999999; }
-.color-normal { color: #909399; }
-.color-lighter { color: #e5e5e5; }
-.color-success { color: #5ac725; }
-.color-warning { color: #f9ae3d; }
-.color-error { color: #f56c6c; }
+.color-white { color: $uni-color-white; }
+.color-black { color: $uni-color-black; }
+.color-main { color: $uni-color-main; }
+.color-text { color: $uni-color-text; }
+.color-muted { color: $uni-color-muted; }
+.color-normal { color: $uni-color-normal; }
+.color-lighter { color: $uni-color-lighter; }
+.color-success { color: $uni-color-success; }
+.color-warning { color: $uni-color-warning; }
+.color-error { color: $uni-color-error; }
 
 /* 字体大小 */
 .text-xs { font-size: 24rpx; }
@@ -300,12 +304,12 @@
 
 /* 文本溢出 */
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.overflow-clip { text-overflow: clip; }
-.overflow-ellipsis { text-overflow: ellipsis; }
-.overflow-line-1 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
-.overflow-line-2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-.overflow-line-3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-.overflow-line-4 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
+.truncate-clip { text-overflow: clip; }
+.truncate-ellipsis { text-overflow: ellipsis; }
+.truncate-line-1 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
+.truncate-line-2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.truncate-line-3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.truncate-line-4 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
 
 /* 最小宽度 */
 .min-w-0 { min-width: 0; }
