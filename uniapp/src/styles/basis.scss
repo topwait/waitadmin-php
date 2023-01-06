@@ -1,3 +1,77 @@
+/* Flex */
+.flex { display: flex; }
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-initial { flex: 0 1 auto; }
+.flex-none { flex: none; }
+
+/* Flex Wrap */
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+.flex-wrap-reverse { flex-wrap: wrap-reverse; }
+
+/* Flex Grow */
+.flex-grow-0 { flex-grow: 0; }
+.flex-grow { flex-grow: 1; }
+
+/* Flex Shrink */
+.flex-shrink-0 { flex-shrink: 0; }
+.flex-shrink { flex-shrink: 1; }
+
+/* Flex Direction */
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+.flex-row-reverse { flex-direction: row-reverse; }
+.flex-col-reverse { flex-direction: column-reverse; }
+
+/* Justify Content */
+.justify-start { justify-content: flex-start; }
+.justify-end { justify-content: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+.justify-evenly { justify-content: space-evenly; }
+
+/* Align Content */
+.content-center { align-content: center; }
+.content-start { align-content: flex-start; }
+.content-end { align-content: flex-end; }
+.content-between { align-content: space-between; }
+.content-around { align-content: space-around; }
+.content-evenly { align-content: space-evenly; }
+
+/* Align Items */
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.items-center { align-items: center; }
+.items-baseline { align-items: baseline; }
+.items-stretch { align-items: stretch; }
+
+/* Align Self */
+.self-auto { align-self: auto; }
+.self-start { align-self: flex-start; }
+.self-end { align-self: flex-end; }
+.self-center { align-self: center; }
+.self-stretch { align-self: stretch; }
+.self-baseline { align-self: baseline; }
+
+/* Order */
+.order-1 { order: 1; }
+.order-2 { order: 2; }
+.order-3 { order: 3; }
+.order-4 { order: 4; }
+.order-5 { order: 5; }
+.order-6 { order: 6; }
+.order-7 { order: 7; }
+.order-8 { order: 8; }
+.order-9 { order: 9; }
+.order-10 { order: 10; }
+.order-11 { order: 11; }
+.order-12 { order: 12; }
+.order-first { order: -9999; }
+.order-last { order: 9999; }
+.order-none { order: 0; }
+
 /* 字体大小 */
 .text-xs { font-size: 24rpx; }
 .text-sm { font-size: 26rpx; }
@@ -41,7 +115,7 @@
 .stacked-fractions { font-variant-numeric: stacked-fractions; }
 
 /* 文本行高 */
-.leading-3 { line-height: .75rem; }
+.leading-3 { line-height: 0.75rem; }
 .leading-4 { line-height: 1rem; }
 .leading-5 { line-height: 1.25rem; }
 .leading-6 { line-height: 1.5rem; }
@@ -67,6 +141,36 @@
 .line-through { text-decoration: line-through; }
 .no-underline { text-decoration: none; }
 
+/* 文本转换 */
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+.normal-case { text-transform: none; }
+
+/* 最小宽度 */
+.min-w-0 { min-width: 0; }
+.min-w-full { min-width: 100%; }
+.min-w-min { min-width: min-content; }
+.min-w-max { min-width: max-content; }
+
+/* 最大宽度 */
+.max-w-0 { max-width: 0; }
+.max-w-full { max-width: 100%; }
+.max-w-min { max-width: min-content; }
+.max-w-max { max-width: max-content; }
+
+/* 最小高度 */
+.min-h-0 { min-height: 0; }
+.min-h-full { min-height: 100%; }
+.min-h-min { min-height: min-content; }
+.min-h-max { min-height: max-content; }
+
+/* 最大宽度 */
+.max-h-0 { max-height: 0; }
+.max-h-full { max-height: 100%; }
+.max-h-min { max-height: min-content; }
+.max-h-max { max-height: max-content; }
+
 /* 内外边距 */
 @for $i from 0 through 100 {
     @if $i % 2 == 0 or $i % 5 == 0 {
@@ -77,15 +181,15 @@
         .mb-#{$i} { margin-bottom: $i + rpx; }
         .mc-#{$i} { margin: ($i + rpx) 0; }
         .ma-#{$i} { margin: 0 ($i + rpx); }
-        .mx-#{$i} { margin-left: $i + rpx; margin-right: $i + rpx; }
-        .my-#{$i} { margin-left: $i + rpx; margin-right: $i + rpx; }
-        .-mx-#{$i} { margin-left: '-' + $i + rpx; margin-right: '-' + $i + rpx; }
-        .-my-#{$i} { margin-top: '-' + $i + rpx; margin-bottom: '-' + $i + rpx; }
-        .-m-#{$i}  { margin: '-' + $i + rpx; }
-		.-mt-#{$i} { margin-top: '-' + $i + rpx; }
-        .-ml-#{$i} { margin-left: '-' + $i + rpx; }
-        .-mr-#{$i} { margin-right: '-' + $i + rpx; }
-        .-mb-#{$i} { margin-bottom: '-' + $i + rpx; }
+        .mx-#{$i} { margin-right: $i + rpx; margin-left: $i + rpx; }
+        .my-#{$i} { margin-right: $i + rpx; margin-left: $i + rpx; }
+        .-mx-#{$i} { margin-right: "-" + $i + rpx; margin-left: "-" + $i + rpx; }
+        .-my-#{$i} { margin-top: "-" + $i + rpx; margin-bottom: "-" + $i + rpx; }
+        .-m-#{$i} { margin: "-" + $i + rpx; }
+        .-mt-#{$i} { margin-top: "-" + $i + rpx; }
+        .-ml-#{$i} { margin-left: "-" + $i + rpx; }
+        .-mr-#{$i} { margin-right: "-" + $i + rpx; }
+        .-mb-#{$i} { margin-bottom: "-" + $i + rpx; }
 
         .p-#{$i} { padding: $i + rpx; }
         .pt-#{$i} { padding-top: $i + rpx; }
@@ -94,14 +198,14 @@
         .pb-#{$i} { padding-bottom: $i + rpx; }
         .pc-#{$i} { padding: ($i + rpx) 0; }
         .pa-#{$i} { padding: 0 ($i + rpx); }
-        .px-#{$i} { padding-left: $i + rpx; padding-right: $i + rpx; }
-        .py-#{$i} { padding-left: $i + rpx; padding-right: $i + rpx; }
-        .-px-#{$i} { padding-left: '-' + $i + rpx; padding-right: '-' + $i + rpx; }
-        .-py-#{$i} { padding-top: '-' + $i + rpx; padding-bottom: '-' + $i + rpx; }
-        .-p-#{$i}  { padding: '-' + $i + rpx; }
-		.-pt-#{$i} { padding-top: '-' + $i + rpx; }
-        .-pl-#{$i} { padding-left: '-' + $i + rpx; }
-        .-pr-#{$i} { padding-right: '-' + $i + rpx; }
-        .-pb-#{$i} { padding-bottom: '-' + $i + rpx; }
-	}
+        .px-#{$i} { padding-right: $i + rpx; padding-left: $i + rpx; }
+        .py-#{$i} { padding-right: $i + rpx; padding-left: $i + rpx; }
+        .-px-#{$i} { padding-right: "-" + $i + rpx; padding-left: "-" + $i + rpx; }
+        .-py-#{$i} { padding-top: "-" + $i + rpx; padding-bottom: "-" + $i + rpx; }
+        .-p-#{$i} { padding: "-" + $i + rpx; }
+        .-pt-#{$i} { padding-top: "-" + $i + rpx; }
+        .-pl-#{$i} { padding-left: "-" + $i + rpx; }
+        .-pr-#{$i} { padding-right: "-" + $i + rpx; }
+        .-pb-#{$i} { padding-bottom: "-" + $i + rpx; }
+    }
 }

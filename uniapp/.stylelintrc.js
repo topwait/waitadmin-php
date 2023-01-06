@@ -16,6 +16,7 @@ module.exports = {
         'color-hex-length': 'long',
         'rule-empty-line-before': 'never',
         'font-family-no-missing-generic-family-keyword': null,
+        'declaration-block-single-line-max-declarations': 10,
         'block-opening-brace-space-before': 'always',
         'property-no-unknown': null,
         'no-empty-source': null,
