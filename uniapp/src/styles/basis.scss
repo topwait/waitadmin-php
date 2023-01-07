@@ -1,11 +1,18 @@
+page {
+    padding-bottom: env(safe-area-inset-bottom);
+    font-size: 28rpx;
+    font-family: "PingFang SC", Arial, "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    color: $uni-color-main;
+    background-color: $uni-bg-pages;
+}
+
 /* Flex */
 .flex { display: flex; }
 .inline-flex { display: inline-flex; }
 .flex-none { flex: none; }
 .flex-auto { flex: 1 1 auto; }
 .flex-initial { flex: 0 1 auto; }
-.flex-0 { flex: 1 1 0%; }
-.flex-1 { flex: 1; }
+.flex-1 { flex: 1 1 0%; }
 .flex-2 { flex: 2; }
 .flex-3 { flex: 3; }
 .flex-4 { flex: 4; }
@@ -160,7 +167,7 @@
 .rounded-c50 { border-radius: 50%; }
 .rounded-xs { border-radius: 4rpx; }
 .rounded-sm { border-radius: 6rpx; }
-.rounded-base { border-radius: 8rpx; }
+.rounded-bm { border-radius: 8rpx; }
 .rounded-lg { border-radius: 12rpx; }
 .rounded-xl { border-radius: 14rpx; }
 .rounded-2xl { border-radius: 16rpx; }
@@ -204,7 +211,7 @@
 .opacity-100 { opacity: 1; }
 
 /* 背景颜色 */
-.bg-grey { background-color: $uni-bg-grey; }
+.bg-pages { background-color: $uni-bg-pages; }
 .bg-white { background-color: $uni-bg-white; }
 .bg-black { background-color: $uni-bg-black; }
 .bg-primary { background-color: $uni-bg-primary; }
@@ -230,7 +237,7 @@
 /* 字体大小 */
 .text-xs { font-size: 24rpx; }
 .text-sm { font-size: 26rpx; }
-.text-base { font-size: 28rpx; }
+.text-bm { font-size: 28rpx; }
 .text-lg { font-size: 30rpx; }
 .text-xl { font-size: 32rpx; }
 .text-2xl { font-size: 34rpx; }
@@ -243,10 +250,6 @@
 .text-9xl { font-size: 48rpx; }
 .text-xxl { font-size: 60rpx; }
 
-/* 字体样式 */
-.italic { font-style: italic; }
-.not-italic { font-style: normal; }
-
 /* 字体粗细 */
 .font-thin { font-weight: 100; }
 .font-extralight { font-weight: 200; }
@@ -257,6 +260,10 @@
 .font-bold { font-weight: 700; }
 .font-extrabold { font-weight: 800; }
 .font-black { font-weight: 900; }
+
+/* 字体样式 */
+.italic { font-style: italic; }
+.not-italic { font-style: normal; }
 
 /* 数字变形 */
 .normal-nums { font-variant-numeric: normal; }
@@ -319,6 +326,10 @@
 .align-text-top { vertical-align: text-top; }
 .align-text-bottom { vertical-align: text-bottom; }
 
+/* 宽高铺满 */
+.w-h-full { width: 100%; height: 100%; }
+.w-h-half { width: 50%; height: 50%; }
+
 /* 最小宽度 */
 .min-w-0 { min-width: 0; }
 .min-w-full { min-width: 100%; }
@@ -351,7 +362,7 @@
         .ml-#{$i} { margin-left: $i + rpx; }
         .mr-#{$i} { margin-right: $i + rpx; }
         .mb-#{$i} { margin-bottom: $i + rpx; }
-        .mc-#{$i} { margin: ($i + rpx) 0; }
+        .mc-#{$i} { margin: ($i + rpx) auto; }
         .ma-#{$i} { margin: 0 ($i + rpx); }
         .mx-#{$i} { margin-right: $i + rpx; margin-left: $i + rpx; }
         .my-#{$i} { margin-right: $i + rpx; margin-left: $i + rpx; }
@@ -368,7 +379,7 @@
         .pl-#{$i} { padding-left: $i + rpx; }
         .pr-#{$i} { padding-right: $i + rpx; }
         .pb-#{$i} { padding-bottom: $i + rpx; }
-        .pc-#{$i} { padding: ($i + rpx) 0; }
+        .pc-#{$i} { padding: ($i + rpx) auto; }
         .pa-#{$i} { padding: 0 ($i + rpx); }
         .px-#{$i} { padding-right: $i + rpx; padding-left: $i + rpx; }
         .py-#{$i} { padding-right: $i + rpx; padding-left: $i + rpx; }
@@ -412,5 +423,6 @@
     @if $i % 2 == 0 {
         .w-#{$i} { width: $i + rpx; }
         .h-#{$i} { height: $i + rpx; }
+        .w-h-#{$i} { width: $i + rpx; height: $i + rpx; }
     }
 }

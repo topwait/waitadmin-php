@@ -5,27 +5,28 @@
             "style": {
                 "navigationBarTitleText": "uni-app"
             }
-        }, {
+        },
+        {
             "path": "pages/users/home/home",
             "style": {
                 "navigationBarTitleText": "个人中心",
-				"navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#1970F3"
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
             }
-
         }
     ],
     "globalStyle": {
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "uni-app",
         "navigationBarBackgroundColor": "#F8F8F8",
-        "backgroundColor": "#F8F8F8"
+        "backgroundColor": "#f8f8f8"
     },
     "tabBar": {
         "color": "#666666",
-        "selectedColor": "#FF5058",
-        "backgroundColor": "#FFFFFF",
-        "list": [{
+        "selectedColor": "#ff5058",
+        "backgroundColor": "#ffffff",
+        "list": [
+            {
                 "pagePath": "pages/index/index",
                 "iconPath": "static/tabBar/tab_home.png",
                 "selectedIconPath": "static/tabBar/tab_home_no.png",
@@ -38,5 +39,10 @@
                 "text": "我的"
             }
         ]
+    },
+    "easycom": {
+        "custom": {
+            "^w-(.*)": "@/components/widgets/$1/$1.vue"
+        }
     }
 }

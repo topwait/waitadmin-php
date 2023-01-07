@@ -1,66 +1,81 @@
 <template>
     <view>
         <view class="layout-header-widget">
-            <view class="grid-skinny">
-                <view class="userinfo">
-                    <view class="avatar">
-                        <image class="config" src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg" />
-                    </view>
+            <view class="grid-skinny-unit">
+                <view class="flex items-center">
+                    <u-avatar :src="'/src/static/logo.png'" mode="circle" size="100" class="h-100" />
                     <view class="synopsis">
-                        <view class="username">Ants</view>
-                        <view class="identity">ID: u7456565</view>
+                        <view class="text-lg color-white">相见不如怀念</view>
+                        <view class="text-xs color-lighter">ID: u7456565</view>
                     </view>
                 </view>
-                <view class="settings">
-                    <image class="config" src="/static/ic_set.png" />
-                    <image class="config" src="/static/ic_set.png" />
-                    <image class="config" src="/static/ic_set.png" />
+                <view class="flex items-start">
+                    <u-icon class="icon" name="bell" color="#ffffff" size="42" />
+                    <u-icon class="icon" name="setting" color="#ffffff" size="42" />
                 </view>
             </view>
         </view>
+
+        <w-service title="我的服务" grid="25%" :list="service" />
     </view>
 </template>
 
 <script setup>
+import { reactive } from 'vue'
 
+const service = reactive([
+    {
+        "name": "发票管理",
+        "image": "../../../static/tabBar/tab_category_no.png"
+    },
+    {
+        "name": "我的管理",
+        "image": "../../../static/tabBar/tab_user_no.png"
+    },
+    {
+        "name": "推广管理",
+        "image": "../../../static/tabBar/tab_cart_no.png"
+    },
+    {
+        "name": "调整管理",
+        "image": "../../../static/tabBar/tab_home_no.png"
+    },
+    {
+        "name": "订单管理",
+        "image": "../../../static/tabBar/tab_home_no.png"
+    },
+    {
+        "name": "内容管理",
+        "image": "../../../static/tabBar/tab_home_no.png"
+    }
+])
 </script>
 
 <style lang="scss">
 .layout-header-widget {
-	background-color: #1970F3;
-	.grid-skinny {
-		display: flex;
+    min-height: 160rpx;
+    background: url("/static/bg_user.png");
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-color: $uni-bg-primary;
+    .grid-skinny-unit {
+        display: flex;
         justify-content: space-between;
         padding: 30rpx;
-        .userinfo {
-            display: flex;
-            align-items: center;
-        }
-        .avatar {
-			width: 120rpx;
-			height: 120rpx;
-            border-radius: 50%;
-            background-color: #FFFFFF;
-		}
         .synopsis {
-            color: #FFFFFF;
-            font-size: 28rpx;
-            margin-left: 20rpx;
-            height: 100%;
-            padding: 7px 0;
-            flex: 1;
             display: flex;
+            flex: 1;
             flex-direction: column;
             justify-content: space-between;
+            margin-left: 20rpx;
+            padding: 10rpx 0;
+            height: 100%;
         }
-        .settings {
-            .config {
-                width: 50rpx;
-                height: 50rpx;
-                margin-top: 7px;
-                margin-right: 10px;
-            }
+        .icon {
+            margin-top: 14rpx;
+            margin-right: 20rpx;
         }
-	}
+    }
 }
 </style>
