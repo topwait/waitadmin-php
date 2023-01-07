@@ -406,3 +406,11 @@
         .rounded-#{$i} { border-radius: $i + rpx; }
     }
 }
+
+/* 宽度高度 */
+@for $i from 0 through 200 {
+    @if $i % 2 == 0 {
+        .w-#{$i} { width: $i + rpx; }
+        .h-#{$i} { height: $i + rpx; }
+    }
+}
