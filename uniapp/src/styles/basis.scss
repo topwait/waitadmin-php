@@ -225,6 +225,7 @@ page {
 /* 字体颜色 */
 .color-white { color: $uni-color-white; }
 .color-black { color: $uni-color-black; }
+.color-theme { color: $uni-color-theme; }
 .color-main { color: $uni-color-main; }
 .color-text { color: $uni-color-text; }
 .color-muted { color: $uni-color-muted; }
@@ -365,7 +366,7 @@ page {
         .mc-#{$i} { margin: ($i + rpx) auto; }
         .ma-#{$i} { margin: 0 ($i + rpx); }
         .mx-#{$i} { margin-right: $i + rpx; margin-left: $i + rpx; }
-        .my-#{$i} { margin-right: $i + rpx; margin-left: $i + rpx; }
+        .my-#{$i} { margin-top: $i + rpx; margin-bottom: $i + rpx; }
         .-mx-#{$i} { margin-right: "-" + $i + rpx; margin-left: "-" + $i + rpx; }
         .-my-#{$i} { margin-top: "-" + $i + rpx; margin-bottom: "-" + $i + rpx; }
         .-m-#{$i} { margin: "-" + $i + rpx; }

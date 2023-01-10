@@ -17,6 +17,7 @@ module.exports = {
         'property-no-unknown': null,
         'function-url-quotes': 'always',
         'rule-empty-line-before': 'never',
+        "selector-class-pattern": null,
         'no-descending-specificity': null,
         'block-opening-brace-space-before': 'always',
         'scss/at-import-partial-extension': 'always',
@@ -26,7 +27,8 @@ module.exports = {
         'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['deep'] }],
         'selector-type-no-unknown': [true, {
             'ignoreTypes': [
-                '/^page/'
+                '/^page/',
+                '/^checkbox/',
             ]
         }],
         'order/properties-order': [

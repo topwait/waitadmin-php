@@ -3,11 +3,12 @@
         <view class="layout-header-widget">
             <view class="grid-skinny-unit">
                 <view class="flex items-center">
-                    <u-avatar :src="'/src/static/logo.png'" mode="circle" size="100" class="h-100" />
-                    <view class="synopsis">
+                    <u-avatar src="../../../static/logo.png" mode="circle" size="100" class="h-100" />
+                    <!--      <view class="synopsis">
                         <view class="text-lg color-white">相见不如怀念</view>
                         <view class="text-xs color-lighter">ID: u7456565</view>
-                    </view>
+                    </view> -->
+                    <view class="login" @click="onJump">点击登录</view>
                 </view>
                 <view class="flex items-start">
                     <u-icon class="icon" name="bell" color="#ffffff" size="42" />
@@ -16,39 +17,71 @@
             </view>
         </view>
 
-        <w-service title="我的服务" grid="25%" :list="service" />
+        <w-service title="" grid="20%" :list="orders" />
+
+        <w-service title="我的服务" mod="col" grid="25%" :list="service" />
     </view>
 </template>
 
 <script setup>
 import { reactive } from 'vue'
 
-const service = reactive([
+const orders = reactive([
     {
-        "name": "发票管理",
-        "image": "../../../static/tabBar/tab_category_no.png"
+        'name': '待付款',
+        'image': '../../../static/tabBar/tab_category_no.png'
     },
     {
-        "name": "我的管理",
-        "image": "../../../static/tabBar/tab_user_no.png"
+        'name': '待发货',
+        'image': '../../../static/tabBar/tab_user_no.png'
     },
     {
-        "name": "推广管理",
-        "image": "../../../static/tabBar/tab_cart_no.png"
+        'name': '待收货',
+        'image': '../../../static/tabBar/tab_cart_no.png'
     },
     {
-        "name": "调整管理",
-        "image": "../../../static/tabBar/tab_home_no.png"
+        'name': '评价',
+        'image': '../../../static/tabBar/tab_home_no.png'
     },
     {
-        "name": "订单管理",
-        "image": "../../../static/tabBar/tab_home_no.png"
-    },
-    {
-        "name": "内容管理",
-        "image": "../../../static/tabBar/tab_home_no.png"
+        'name': '退款售后',
+        'image': '../../../static/tabBar/tab_home_no.png'
     }
 ])
+
+const service = reactive([
+    {
+        'name': '发票管理',
+        'image': '../../../static/tabBar/tab_category_no.png'
+    },
+    {
+        'name': '我的管理',
+        'image': '../../../static/tabBar/tab_user_no.png'
+    },
+    {
+        'name': '推广管理',
+        'image': '../../../static/tabBar/tab_cart_no.png'
+    },
+    {
+        'name': '调整管理',
+        'image': '../../../static/tabBar/tab_home_no.png'
+    },
+    {
+        'name': '订单管理',
+        'image': '../../../static/tabBar/tab_home_no.png'
+    },
+    {
+        'name': '内容管理',
+        'image': '../../../static/tabBar/tab_home_no.png'
+    }
+])
+
+const onJump = () => {
+    uni.navigateTo({
+        url: '/pages/login/login'
+    })
+}
+
 </script>
 
 <style lang="scss">
@@ -71,6 +104,16 @@ const service = reactive([
             margin-left: 20rpx;
             padding: 10rpx 0;
             height: 100%;
+        }
+        .login {
+            margin-left: 20rpx;
+            padding: 8rpx;
+            width: 170rpx;
+            font-size: 28rpx;
+            border: 2rpx solid #ffffff;
+            border-radius: 50rpx;
+            text-align: center;
+            color: #ffffff;
         }
         .icon {
             margin-top: 14rpx;
