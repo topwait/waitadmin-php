@@ -7,33 +7,53 @@
             </view>
             <view class="form">
                 <view class="mt-30 mb-20">
-                    <u-tabs :list="tabs" :current="0" :font-size="34" inactive-color="#999999" />
+                    <u-tabs
+                        :list="tabLists"
+                        :current="tabIndex"
+                        :font-size="34"
+                        inactive-color="#999999"
+                        @change="changeTab"
+                    />
                 </view>
-                <u-form ref="uForm">
+                <u-form v-if="tabIndex === 0" ref="uForm" :model="signForm">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
+                        <u-input v-model="signForm.mobile" type="number" placeholder="请输入手机号" />
                     </u-form-item>
                     <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                         <u-input type="number" placeholder="请输入验证码" />
-                        <u-form-item slot="right" :border-bottom="false">
+                        <template #right>
                             <u-verification-code ref="uCode" seconds="60" />
                             <u-button
                                 :plain="true"
-                                type="error"
+                                type="primary"
                                 hover-class="none"
                                 size="mini"
                                 shape="circle"
                             >{{ '发送短信' }}
                             </u-button>
-                        </u-form-item>
+                        </template>
+                    </u-form-item>
+                </u-form>
+                <u-form v-if="tabIndex === 1" ref="uForm" :model="signForm">
+                    <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="signForm.mobile" type="number" placeholder="请输入登录账号" />
+                    </u-form-item>
+                    <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input type="number" placeholder="请输入登录密码" />
                     </u-form-item>
                 </u-form>
                 <button class="login">登录</button>
                 <view class="treaty">
                     <u-checkbox shape="circle" active-color="#2979ff" />
-                    已阅读并同意
+                    <text class="ml-10">已阅读并同意</text>
                     <text class="color-theme">《用户协议》</text>与
                     <text class="color-theme">《隐私协议》</text>
+                </view>
+                <view class="others mt-80">
+                    <u-divider>其它登录方式</u-divider>
+                    <view class="flex justify-center mt-40">
+                        <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
+                    </view>
                 </view>
             </view>
         </view>
@@ -42,18 +62,20 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 
-const tabs = reactive([{'name': '短信登录'}, {'name': '账号登录'}])
+const tabIndex = ref(0)
+const tabLists = reactive([{'name': '短信登录'}, {'name': '账号登录'}])
+const signForm = reactive({'mobile': ''})
 
-const form = reactive({
-    'mobile': ''
-})
+const changeTab = () => {
+    tabIndex.value = tabIndex.value ? 0 : 1
+}
 </script>
 
 <style lang="scss">
 .layout-login-widget {
-    margin-top: 50rpx;
+    padding-top: 50rpx;
     .logo {
         margin: 0 auto;
         padding: 6rpx;
@@ -63,7 +85,7 @@ const form = reactive({
         background-color: #ffffff;
     }
     .form {
-        margin: -40px 28px 0;
+        margin: -40px 20px 0;
         padding: 60rpx;
         border-radius: 14rpx;
         background-color: #ffffff;
@@ -71,7 +93,7 @@ const form = reactive({
     }
     .login {
         margin-top: 40rpx;
-        padding: 6rpx 0;
+        padding: 2rpx 0;
         width: 100%;
         font-size: 32rpx;
         border-radius: 50rpx;
@@ -83,9 +105,8 @@ const form = reactive({
         margin-top: 40rpx;
         font-size: 22rpx;
         color: #999999;
-        .u-checkbox__label {
+        :deep(.u-checkbox__label) {
             display: none;
-            margin-right: 0 !important;
         }
     }
 }
