@@ -78,7 +78,7 @@ const service = reactive([
 
 const onJump = () => {
     uni.navigateTo({
-        url: '/pages/login/login'
+        url: '/pages/users/login/login'
     })
 }
 

@@ -15,7 +15,7 @@
             }
         }
         ,{
-            "path" : "pages/login/login",
+            "path" : "pages/users/login/login",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "登录",
@@ -23,6 +23,24 @@
                 "navigationBarBackgroundColor": "#2979ff"
             }
             
+        }
+        ,{
+            "path" : "pages/users/regist/regist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "注册",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
+            }
+        }
+        ,{
+            "path" : "pages/users/forget/forget",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "忘记密码",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
+            }
         }
     ],
     "globalStyle": {

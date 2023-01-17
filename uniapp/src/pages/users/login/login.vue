@@ -3,9 +3,10 @@
 
         <view class="layout-login-widget">
             <view class="logo">
-                <image class="w-h-full rounded-c50" src="../../static/logo.png" />
+                <image class="w-h-full rounded-c50" src="../../../static/logo.png" />
             </view>
             <view class="form">
+                <!-- 登录方式 -->
                 <view class="mt-30 mb-20">
                     <u-tabs
                         :list="tabLists"
@@ -15,6 +16,7 @@
                         @change="changeTab"
                     />
                 </view>
+                <!-- 短信登录 -->
                 <u-form v-if="tabIndex === 0" ref="uForm" :model="signForm">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                         <u-input v-model="signForm.mobile" type="number" placeholder="请输入手机号" />
@@ -34,6 +36,7 @@
                         </template>
                     </u-form-item>
                 </u-form>
+                <!-- 账号登录 -->
                 <u-form v-if="tabIndex === 1" ref="uForm" :model="signForm">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                         <u-input v-model="signForm.mobile" type="number" placeholder="请输入登录账号" />
@@ -42,13 +45,21 @@
                         <u-input type="number" placeholder="请输入登录密码" />
                     </u-form-item>
                 </u-form>
-                <button class="login">登录</button>
+                <!-- 忘记密码 -->
+                <view v-if="tabIndex === 1" class="flex justify-between mt-30">
+                    <view class="text-sm color-muted" @click="onJumpReg()">注册账号</view>
+                    <view class="text-sm color-muted" @click="onJumpFor()">忘记密码?</view>
+                </view>
+                <!-- 登录安装 -->
+                <button class="button">登录</button>
+                <!-- 登录协议 -->
                 <view class="treaty">
                     <u-checkbox shape="circle" active-color="#2979ff" />
                     <text class="ml-10">已阅读并同意</text>
                     <text class="color-theme">《用户协议》</text>与
                     <text class="color-theme">《隐私协议》</text>
                 </view>
+                <!-- 其它登录 -->
                 <view class="others mt-80">
                     <u-divider>其它登录方式</u-divider>
                     <view class="flex justify-center mt-40">
@@ -71,6 +82,18 @@ const signForm = reactive({'mobile': ''})
 const changeTab = () => {
     tabIndex.value = tabIndex.value ? 0 : 1
 }
+
+const onJumpReg = () => {
+    uni.navigateTo({
+        url: '/pages/users/regist/regist'
+    })
+}
+
+const onJumpFor = () => {
+    uni.navigateTo({
+        url: '/pages/users/forget/forget'
+    })
+}
 </script>
 
 <style lang="scss">
@@ -91,7 +114,7 @@ const changeTab = () => {
         background-color: #ffffff;
         box-shadow: 0 2px 14px 0 rgb(0 0 0 / 8%);
     }
-    .login {
+    .button {
         margin-top: 40rpx;
         padding: 2rpx 0;
         width: 100%;
