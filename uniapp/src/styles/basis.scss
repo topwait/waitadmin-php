@@ -214,7 +214,7 @@ page {
 .bg-pages { background-color: $uni-bg-pages; }
 .bg-white { background-color: $uni-bg-white; }
 .bg-black { background-color: $uni-bg-black; }
-.bg-primary { background-color: $uni-bg-primary; }
+.bg-theme { background-color: $uni-bg-theme; }
 .bg-muted { background-color: $uni-bg-muted; }
 .bg-normal { background-color: $uni-bg-normal; }
 .bg-light { background-color: $uni-bg-light; }
@@ -411,10 +411,10 @@ page {
 /* 圆角幅度 */
 @for $i from 0 through 50 {
     @if $i % 2 == 0 {
-        .rounded-tl-#{$i} { border-top-left-radius: $i + rpx; }
-        .rounded-tr-#{$i} { border-top-right-radius: $i + rpx; }
-        .rounded-bl-#{$i} { border-bottom-left-radius: $i + rpx; }
-        .rounded-br-#{$i} { border-bottom-right-radius: $i + rpx; }
+        .rounded-tl-#{$i} { border-top-left-radius: $i + rpx !important; }
+        .rounded-tr-#{$i} { border-top-right-radius: $i + rpx !important; }
+        .rounded-bl-#{$i} { border-bottom-left-radius: $i + rpx !important; }
+        .rounded-br-#{$i} { border-bottom-right-radius: $i + rpx !important; }
         .rounded-#{$i} { border-radius: $i + rpx; }
     }
 }

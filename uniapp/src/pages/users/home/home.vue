@@ -91,7 +91,7 @@ const onJump = () => {
     background-position: center right;
     background-repeat: no-repeat;
     background-size: auto 100%;
-    background-color: $uni-bg-primary;
+    background-color: $uni-bg-theme;
     .grid-skinny-unit {
         display: flex;
         justify-content: space-between;

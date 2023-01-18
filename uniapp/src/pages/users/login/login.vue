@@ -51,7 +51,11 @@
                     <view class="text-sm color-muted" @click="onJumpFor()">忘记密码?</view>
                 </view>
                 <!-- 登录安装 -->
-                <button class="button">登录</button>
+                <!-- <w-button mt="40">登录</w-button> -->
+                <w-button mod="together" mt="40">
+                    <template #left>加入购物车</template>
+                    <template #right>立即购买</template>
+                </w-button>
                 <!-- 登录协议 -->
                 <view class="treaty">
                     <u-checkbox shape="circle" active-color="#2979ff" />
@@ -113,16 +117,6 @@ const onJumpFor = () => {
         border-radius: 14rpx;
         background-color: #ffffff;
         box-shadow: 0 2px 14px 0 rgb(0 0 0 / 8%);
-    }
-    .button {
-        margin-top: 40rpx;
-        padding: 2rpx 0;
-        width: 100%;
-        font-size: 32rpx;
-        border-radius: 50rpx;
-        text-align: center;
-        color: #ffffff;
-        background-color: #2979ff;
     }
     .treaty {
         margin-top: 40rpx;

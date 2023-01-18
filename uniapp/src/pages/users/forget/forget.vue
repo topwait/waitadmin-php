@@ -1,39 +1,37 @@
 <template>
-    <view>
-        
-        <view class="layout-regist-widget">
-            <view class="head"></view>
-            <view class="form">
-                <u-form ref="uForm">
-                    <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input type="number" placeholder="请输入手机号" />
-                    </u-form-item>
-                    <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input type="number" placeholder="请输入验证码" />
-                        <template #right>
-                            <u-verification-code ref="uCode" seconds="60" />
-                            <u-button
-                                :plain="true"
-                                type="primary"
-                                hover-class="none"
-                                size="mini"
-                                shape="circle"
-                            >{{ '获取验证码' }}
-                            </u-button>
-                        </template>
-                    </u-form-item>
-                    <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input type="number" placeholder="6~20位数字+字母或符号组合" />
-                    </u-form-item>
-                    <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input type="number" placeholder="请再次确认新密码" />
-                    </u-form-item>
-                </u-form>
-                <button class="button">重设密码</button>
-            </view>
+
+    <view class="layout-regist-widget">
+        <view class="head"></view>
+        <view class="form">
+            <u-form ref="uForm">
+                <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                    <u-input type="number" placeholder="请输入手机号" />
+                </u-form-item>
+                <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                    <u-input type="number" placeholder="请输入验证码" />
+                    <template #right>
+                        <u-verification-code ref="uCode" seconds="60" />
+                        <u-button
+                            :plain="true"
+                            type="primary"
+                            hover-class="none"
+                            size="mini"
+                            shape="circle"
+                        >{{ '获取验证码' }}
+                        </u-button>
+                    </template>
+                </u-form-item>
+                <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                    <u-input type="number" placeholder="6~20位数字+字母或符号组合" />
+                </u-form-item>
+                <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                    <u-input type="number" placeholder="请再次确认新密码" />
+                </u-form-item>
+            </u-form>
+            <button class="button">重设密码</button>
         </view>
-        
     </view>
+
 </template>
 
 <script>
