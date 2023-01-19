@@ -28,7 +28,7 @@ use think\response\Json;
 use think\response\View;
 
 /**
- * 轮播图管理
+ * 轮播图配置管理
  *
  * Class BannerController
  * @package app\backend\controller\setting

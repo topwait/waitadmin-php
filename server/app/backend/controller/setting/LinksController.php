@@ -28,7 +28,7 @@ use think\response\Json;
 use think\response\View;
 
 /**
- * 友情链接管理
+ * 友情链接配置管理
  *
  * Class LinksController
  * @package app\backend\controller\setting

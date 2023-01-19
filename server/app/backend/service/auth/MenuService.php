@@ -85,8 +85,8 @@ class MenuService extends Service
         if (intval($post['pid']) > 0) {
             $model = new AuthMenu();
             $model->checkDataDoesNotExist([
-                ['is_delete' => 0],
-                ['id' => intval($post['pid'])]
+                'is_delete' => 0,
+                'id' => intval($post['pid'])
             ], '父级菜单已不存在!');
         }
 
