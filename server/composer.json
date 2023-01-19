@@ -39,7 +39,8 @@
         "phpmailer/phpmailer": "^6.6",
         "topwait/think-addons": "^1.0",
         "symfony/var-exporter": "5.4.10",
-        "topthink/think-filesystem": "^2.0"
+        "topthink/think-filesystem": "^2.0",
+        "w7corp/easywechat": "6.10"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
