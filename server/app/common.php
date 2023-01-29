@@ -95,6 +95,35 @@ if (!function_exists('make_rand_char')) {
     }
 }
 
+if (!function_exists('make_rand_code')) {
+    /**
+     * 生成随机编码值
+     *
+     * @param $model (模型实体)
+     * @param string $field (字符串名称)
+     * @param int $length (生成长度)
+     * @param string $prefix (生成前缀)
+     * @return string
+     */
+    function make_rand_code($model, string $field = 'sn', int $length = 8, string $prefix = ''): string
+    {
+        $rand_str = '';
+        for ($i = 0; $i < $length; $i++) {
+            $rand_str .= mt_rand(0, 9);
+        }
+
+        if ($model == null) {
+            return $prefix . $rand_str;
+        }
+
+        $code = $prefix . $rand_str;
+        if ($model->where([$field => $code])->findOrEmpty()->toArray()) {
+            return make_rand_code($model, $field, $length);
+        }
+        return $code;
+    }
+}
+
 if (!function_exists('format_bytes')) {
     /**
      * 将字节转换为可读文本

@@ -20,9 +20,6 @@ use app\common\basics\Models;
 
 /**
  * 用户分组模型
- *
- * Class UserGroup
- * @package app\common\model\user
  */
 class UserGroup extends Models
 {

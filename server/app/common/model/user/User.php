@@ -20,9 +20,6 @@ use app\common\basics\Models;
 
 /**
  * 用户模型
- *
- * Class User
- * @package app\common\model\user
  */
 class User extends Models
 {

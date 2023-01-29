@@ -16,6 +16,9 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 
+use app\common\model\auth\Admin;
+use app\common\model\sys\SysConfig;
+
 /**
  * 服务类基类
  *
@@ -24,6 +27,12 @@ namespace app\common\basics;
  */
 class Service
 {
+    /**
+     * 模型实例
+     * @var object
+     */
+    private static $model;
+
     /**
      * 错误信息
      * @var string
@@ -62,6 +71,37 @@ class Service
     public static function getReturnCode(): int
     {
         return self::$returnCode;
+    }
+
+    /**
+     * 事务开启
+     *
+     * @author windy
+     */
+    public static function dbStartTrans(): void
+    {
+        self::$model = new SysConfig();
+        self::$model->startTrans();
+    }
+
+    /**
+     * 事务提交
+     *
+     * @author windy
+     */
+    public static function dbCommit(): void
+    {
+        self::$model->commit();
+    }
+
+    /**
+     * 事务回滚
+     *
+     * @author windy
+     */
+    public static function dbRollback(): void
+    {
+        self::$model->rollback();
     }
 
     /**
