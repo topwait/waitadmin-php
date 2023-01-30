@@ -17,6 +17,10 @@
 <script setup>
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
+import { useAppStore } from '@/stores/appStore'
+
+const store = useAppStore()
+console.log(store.config)
 
 let title = ref('Hello World!')
 
