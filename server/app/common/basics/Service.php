@@ -16,7 +16,6 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 
-use app\common\model\auth\Admin;
 use app\common\model\sys\SysConfig;
 
 /**
@@ -31,7 +30,7 @@ class Service
      * 模型实例
      * @var object
      */
-    private static $model;
+    private static object $model;
 
     /**
      * 错误信息
@@ -78,7 +77,7 @@ class Service
      *
      * @author windy
      */
-    public static function dbStartTrans(): void
+    protected static function dbStartTrans(): void
     {
         self::$model = new SysConfig();
         self::$model->startTrans();
@@ -89,7 +88,7 @@ class Service
      *
      * @author windy
      */
-    public static function dbCommit(): void
+    protected static function dbCommit(): void
     {
         self::$model->commit();
     }
@@ -99,7 +98,7 @@ class Service
      *
      * @author windy
      */
-    public static function dbRollback(): void
+    protected static function dbRollback(): void
     {
         self::$model->rollback();
     }
@@ -112,7 +111,7 @@ class Service
      * @return array
      * @author windy
      */
-    public static function setSearch(array $search): array
+    protected static function setSearch(array $search): array
     {
         $params = request()->param();
         if (empty($search)) {

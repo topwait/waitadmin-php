@@ -51,11 +51,7 @@
                     <view class="text-sm color-muted" @click="onJumpFor()">忘记密码?</view>
                 </view>
                 <!-- 登录安装 -->
-                <!-- <w-button mt="40">登录</w-button> -->
-                <w-button mod="together" mt="40">
-                    <template #left>加入购物车</template>
-                    <template #right>立即购买</template>
-                </w-button>
+                <w-button mt="40">登录</w-button>
                 <!-- 登录协议 -->
                 <view class="treaty">
                     <u-checkbox shape="circle" active-color="#2979ff" />
