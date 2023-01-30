@@ -41,31 +41,19 @@ class BasicsService extends Service
         $website = ConfigUtils::get('website');
         $detail['website'] = [
             'website_title'     => $website['website_title']   ?? '',
-            'website_logo'      => $website['website_logo']   ?? '',
-            'website_copyright' => $website['website_copyright']   ?? '',
+            'website_favicon'   => $website['website_favicon'] ?? '',
+            'website_copyright' => $website['website_copyright'] ?? '',
             'website_icp'       => $website['website_icp']     ?? '',
             'website_pcp'       => $website['website_pcp']     ?? '',
             'website_analyse'   => $website['website_analyse'] ?? ''
         ];
 
-        // 邮件配置
-        $mail = ConfigUtils::get('mail');
-        $detail['mail'] = [
-            'mail_type'        => $mail['mail_type']        ?? '',
-            'mail_smtp_host'   => $mail['mail_smtp_host']   ?? '',
-            'mail_smtp_port'   => $mail['mail_smtp_port']   ?? '',
-            'mail_smtp_user'   => $mail['mail_smtp_user']   ?? '',
-            'mail_smtp_pass'   => $mail['mail_smtp_pass']   ?? '',
-            'mail_from_user'   => $mail['mail_from_user']   ?? '',
-            'mail_verify_type' => $mail['mail_verify_type'] ?? ''
-        ];
-
         // SEO配置
-        $seo = ConfigUtils::get('seo');
-        $detail['seo'] = [
-            'seo_title'       => $seo['seo_title']       ?? '',
-            'seo_keywords'    => $seo['seo_keywords']    ?? '',
-            'seo_description' => $seo['seo_description'] ?? ''
+        $login = ConfigUtils::get('login');
+        $detail['login'] = [
+            'force_mobile' => $login['force_mobile'] ?? '',
+            'login_modes'  => json_decode($login['login_modes']??'[]', true),
+            'login_other'  => json_decode($login['login_other']??'[]', true),
         ];
 
         return $detail;
@@ -80,26 +68,17 @@ class BasicsService extends Service
     public static function save(array $post): void
     {
         // 网站配置
+        ConfigUtils::set('website', 'website_favicon', $post['website_favicon'] ?? '', '网站图标');
         ConfigUtils::set('website', 'website_title', $post['website_title'] ?? '', '网站标题');
-        ConfigUtils::set('website', 'website_logo', $post['website_logo'] ?? '', '网站logo');
         ConfigUtils::set('website', 'website_copyright', $post['website_copyright'] ?? '', '网站版权');
         ConfigUtils::set('website', 'website_icp', $post['website_icp'] ?? '', 'ICP备案');
         ConfigUtils::set('website', 'website_pcp', $post['website_pcp'] ?? '', '公安备案');
         ConfigUtils::set('website', 'website_analyse', $post['website_analyse'] ?? '', '统计代码');
 
-        // 邮件配置
-        ConfigUtils::set('mail', 'mail_type', $post['mail_type'] ?? '', '邮件方式');
-        ConfigUtils::set('mail', 'mail_smtp_host', $post['mail_smtp_host'] ?? '', 'SMTP服务');
-        ConfigUtils::set('mail', 'mail_smtp_port', $post['mail_smtp_port'] ?? '', 'SMTP端口');
-        ConfigUtils::set('mail', 'mail_smtp_user', $post['mail_smtp_user'] ?? '', 'SMTP账号');
-        ConfigUtils::set('mail', 'mail_smtp_pass', $post['mail_smtp_pass'] ?? '', 'SMTP密码');
-        ConfigUtils::set('mail', 'mail_from_user', $post['mail_from_user'] ?? '', 'SMTP验证');
-        ConfigUtils::set('mail', 'mail_verify_type', $post['mail_verify_type'] ?? '', '发件人邮箱');
-
-        // SEO配置
-        ConfigUtils::set('seo', 'seo_title', $post['seo_title'] ?? '', 'SEO的标题');
-        ConfigUtils::set('seo', 'seo_keywords', $post['seo_keywords'] ?? '', 'SEO关键字');
-        ConfigUtils::set('seo', 'seo_description', $post['seo_description'] ?? '', 'SEO的描述');
+        // 登录配置
+        ConfigUtils::set('login', 'force_mobile', $post['force_mobile'] ?? 0, '强制绑定手机');
+        ConfigUtils::set('login', 'login_modes', json_encode($post['login_modes'] ?? []), '通用登录方式');
+        ConfigUtils::set('login', 'login_other', json_encode($post['login_other'] ?? []), '第三方登录');
     }
 
     /**

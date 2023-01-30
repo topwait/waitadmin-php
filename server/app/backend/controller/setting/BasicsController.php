@@ -58,23 +58,4 @@ class BasicsController extends Backend
 
         return AjaxUtils::error();
     }
-
-    /**
-     * 邮件测试发送
-     *
-     * @return Json
-     * @throws SystemException
-     * @author windy
-     */
-    public function testEmail(): Json
-    {
-        if ($this->isAjaxPost()) {
-            $post = $this->request->post();
-            $this->validate($post, ['recipient'=>'require|email']);
-            BasicsService::testEmail($post['recipient']);
-            return AjaxUtils::success();
-        }
-
-        return AjaxUtils::error();
-    }
 }

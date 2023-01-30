@@ -1,0 +1,123 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <div class="layui-card layui-form">
+        <div class="layui-card-header">邮件设置</div>
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label for="mail_type" class="layui-form-label">发送的方式:</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md4">
+                        <select name="mail_type" id="mail_type">
+                            <option value="">请选择</option>
+                            <option value="smtp" {if $detail.mail_type=="smtp"}selected{/if}>SMTP</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="mail_smtp_host" class="layui-form-label">SMTP服务:</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md4">
+                        <input type="text" id="mail_smtp_host" name="mail_smtp_host" value="{$detail.mail_smtp_host}"
+                               class="layui-input" autocomplete="off" placeholder="smtp.163.com">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="mail_smtp_port" class="layui-form-label">SMTP端口:</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md4">
+                        <input type="text" id="mail_smtp_port" name="mail_smtp_port" value="{$detail.mail_smtp_port}"
+                               class="layui-input" autocomplete="off" placeholder="25">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="mail_smtp_user" class="layui-form-label">SMTP账号:</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md4">
+                        <input type="text" id="mail_smtp_user" name="mail_smtp_user" value="{$detail.mail_smtp_user}"
+                               class="layui-input" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="mail_smtp_pass" class="layui-form-label">SMTP密码:</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md4">
+                        <input type="text" id="mail_smtp_pass" name="mail_smtp_pass" value="{$detail.mail_smtp_pass}"
+                               class="layui-input" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="mail_verify_type" class="layui-form-label">SMTP验证:</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md4">
+                        <select name="mail_verify_type" id="mail_verify_type">
+                            <option value="">无</option>
+                            <option value="tls" {if $detail.mail_verify_type=="tls"}selected{/if}>TLS</option>
+                            <option value="ssl" {if $detail.mail_verify_type=="ssl"}selected{/if}>SSL</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="mail_from_user" class="layui-form-label">发件人邮箱:</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md3">
+                        <input type="text" id="mail_from_user" name="mail_from_user" value="{$detail.mail_from_user}"
+                               class="layui-input" autocomplete="off">
+                    </div>
+                    <div class="layui-form-mid" style="padding:0 0 0 5px !important; margin-top:4px;">
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-default" lay-event="test">测试发送</button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use('form', function () {
+        let form = layui.form;
+
+        form.on('submit(addForm)', function(data) {
+            layer.confirm('确定保存当前配置吗?', function (index) {
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '{:route("setting.email/save")}',
+                    type: "POST",
+                    data: data.field
+                });
+            });
+        });
+
+        waitUtil.event({
+            test: function () {
+                let that = this;
+                layer.prompt({title: '请输入测试接收邮箱', formType: 3, value: ''}, function (value, index) {
+                    layer.close(index);
+                    waitUtil.locking(that);
+                    waitUtil.ajax({
+                        url: '{:route("setting.email/test")}',
+                        type: "POST",
+                        data: {recipient: value}
+                    }).then(() => {
+                        waitUtil.unlock(that);
+                    });
+                });
+            }
+        })
+    });
+</script>
+{/block}
