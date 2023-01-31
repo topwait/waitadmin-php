@@ -6,13 +6,13 @@ const install = (Vue) => {
 
     // 请求拦截配置
     Vue.config.globalProperties.$u.http.interceptor.request = (config) => {
-        console.log('请求拦截')
+        // console.log('请求拦截')
         return config
     }
 
     // 响应拦截配置
     Vue.config.globalProperties.$u.http.interceptor.response = (res) => {
-        console.log('响应拦截')
+        // console.log('响应拦截')
         return res
     }
 }

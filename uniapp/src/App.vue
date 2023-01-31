@@ -1,16 +1,11 @@
 <script setup>
-import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
+import { onLaunch } from '@dcloudio/uni-app'
+import { useAppStore } from '@/stores/appStore'
+
+const appStore = useAppStore()
 
 onLaunch(async () => {
-    console.log('App Launch')
-})
-
-onShow(async () => {
-    console.log('App Show')
-})
-
-onHide(async () => {
-    console.log('App onHide')
+    await appStore.getSysConfig()
 })
 </script>
 

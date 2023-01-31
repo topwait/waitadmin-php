@@ -20,7 +20,7 @@ import { onShow } from '@dcloudio/uni-app'
 import { useAppStore } from '@/stores/appStore'
 
 const store = useAppStore()
-console.log(store.config)
+// console.log(store.config)
 
 let title = ref('Hello World!')
 

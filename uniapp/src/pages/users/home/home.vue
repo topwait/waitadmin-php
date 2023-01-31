@@ -17,7 +17,7 @@
             </view>
         </view>
 
-        <w-service title="" grid="20%" :list="orders" />
+       <w-service title="" grid="20%" :list="orders" />
 
         <w-service title="我的服务" mod="col" grid="25%" :list="service" />
     </view>
