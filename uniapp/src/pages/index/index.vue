@@ -18,11 +18,15 @@
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useAppStore } from '@/stores/appStore'
+import { toDateFormat, toTimeFormat, timeUtil } from '@/utils/timeUtil'
 
 const store = useAppStore()
 // console.log(store.config)
 
 let title = ref('Hello World!')
+
+
+console.log(timeUtil.toDateFormat('2023/01/31'))
 
 
 onShow(() => {
