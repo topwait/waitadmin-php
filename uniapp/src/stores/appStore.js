@@ -2,25 +2,25 @@ import { defineStore } from 'pinia'
 import { getSysConfigApi } from '@/api/indexApi'
 
 export const useAppStore = defineStore({
-    id:  'appStore',
+    id: 'appStore',
     state: () => {
         return {
             config: {
                 login: {
-                    force_mobile: 0,
-                    login_modes: [],
-                    login_other: []
+                    forceMobile: 0,
+                    loginModes: [],
+                    loginOther: []
                 }
             }
         }
     },
     getters: {
-        getLoginConfig: (state) => state.config.login || {}
+        loginConfigVal: (state) => state.config.login || {}
     },
     actions: {
         async getSysConfig() {
-            const data = await getSysConfigApi()
-            this.config = data.data
+            const result = await getSysConfigApi()
+            this.config = result.data
         }
     }
 })

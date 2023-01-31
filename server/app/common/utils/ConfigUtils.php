@@ -115,6 +115,15 @@ class ConfigUtils
         }
 
         $data = $cacheData[$type] ?? null;
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $json = json_decode($v, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $data[$k] = $json;
+                }
+            }
+        }
+
         if ($data === null && $default !== null) {
             return $default;
         }

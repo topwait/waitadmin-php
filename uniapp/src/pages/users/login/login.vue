@@ -8,17 +8,17 @@
             <!-- 登录方式 -->
             <view class="mt-30 mb-20">
                 <u-tabs
-                    :list="tabLists"
-                    :current="tabIndex"
+                    :list="loginConfig.loginModes"
+                    :current="loginTabs"
                     :font-size="34"
                     inactive-color="#999999"
-                    @change="changeTab"
+                    @change="tabChange"
                 />
             </view>
             <!-- 短信登录 -->
-            <u-form v-if="tabIndex === 0" ref="uForm" :model="signForm">
+            <u-form v-if="loginMode === 'mobile'" ref="uForm">
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="signForm.mobile" type="number" placeholder="请输入手机号" />
+                    <u-input type="number" placeholder="请输入手机号" />
                 </u-form-item>
                 <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                     <u-input type="number" placeholder="请输入验证码" />
@@ -36,21 +36,25 @@
                 </u-form-item>
             </u-form>
             <!-- 账号登录 -->
-            <u-form v-if="tabIndex === 1" ref="uForm" :model="signForm">
+            <u-form v-if="loginMode === 'account'" ref="uForm">
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="signForm.mobile" type="number" placeholder="请输入登录账号" />
+                    <u-input type="number" placeholder="请输入登录账号" />
                 </u-form-item>
                 <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                     <u-input type="number" placeholder="请输入登录密码" />
                 </u-form-item>
             </u-form>
-            <!-- 忘记密码 -->
-            <view v-if="tabIndex === 1" class="flex justify-between mt-30">
+            <!-- 注册重置 -->
+            <view v-if="loginMode === 'account'" class="flex justify-between mt-30">
                 <view class="text-sm color-muted" @click="onJumpReg()">注册账号</view>
                 <view class="text-sm color-muted" @click="onJumpFor()">忘记密码?</view>
             </view>
-            <!-- 登录安装 -->
-            <w-button mt="40">登录</w-button>
+            <!-- 登录按钮 -->
+            <w-button v-if="loginConfig.loginModes.length" mt="40">登录</w-button>
+            <!-- 登录插图 -->
+            <view v-if="!loginConfig.loginModes.length" class="flex justify-center">
+                <u-image width="300rpx" height="300rpx" src="https://img.zcool.cn/community/0108c75972fc5da8012193a369015f.png@1280w_1l_2o_100sh.png" mode="" />
+            </view>
             <!-- 登录协议 -->
             <view class="treaty">
                 <u-checkbox shape="circle" active-color="#2979ff" />
@@ -59,7 +63,7 @@
                 <text class="color-theme">《隐私协议》</text>
             </view>
             <!-- 其它登录 -->
-            <view class="others mt-80">
+            <view class="others mt-50">
                 <u-divider>其它登录方式</u-divider>
                 <view class="flex justify-center mt-40">
                     <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
@@ -71,22 +75,17 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { onLoad, onShow } from '@dcloudio/uni-app'
+import { ref } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 
 const appStore = useAppStore()
+const loginConfig = appStore.loginConfigVal
+const loginMode = ref(loginConfig.loginModes.length ? loginConfig.loginModes[0].alias : '')
+const loginTabs = ref(0)
 
-const tabIndex = ref(0)
-const tabLists = reactive([{'name': '短信登录'}, {'name': '账号登录'}])
-const signForm = reactive({'mobile': ''})
-
-onShow(async () => {
-    console.log(appStore.getLoginConfig)
-})
-
-const changeTab = () => {
-    tabIndex.value = tabIndex.value ? 0 : 1
+const tabChange = (e) => {
+    loginTabs.value = e
+    loginMode.value = loginConfig.loginModes[e].alias
 }
 
 const onJumpReg = () => {

@@ -48,12 +48,12 @@ class BasicsService extends Service
             'website_analyse'   => $website['website_analyse'] ?? ''
         ];
 
-        // SEO配置
+        // 登录配置
         $login = ConfigUtils::get('login');
         $detail['login'] = [
-            'force_mobile' => $login['force_mobile'] ?? '',
-            'login_modes'  => json_decode($login['login_modes']??'[]', true),
-            'login_other'  => json_decode($login['login_other']??'[]', true),
+            'forceMobile' => intval($login['forceMobile'] ?? 0),
+            'loginModes'  => $login['loginModes'] ?? [],
+            'loginOther'  => $login['loginOther'] ?? [],
         ];
 
         return $detail;
@@ -76,9 +76,9 @@ class BasicsService extends Service
         ConfigUtils::set('website', 'website_analyse', $post['website_analyse'] ?? '', '统计代码');
 
         // 登录配置
-        ConfigUtils::set('login', 'force_mobile', $post['force_mobile'] ?? 0, '强制绑定手机');
-        ConfigUtils::set('login', 'login_modes', json_encode($post['login_modes'] ?? []), '通用登录方式');
-        ConfigUtils::set('login', 'login_other', json_encode($post['login_other'] ?? []), '第三方登录');
+        ConfigUtils::set('login', 'forceMobile', $post['forceMobile'] ?? 0, '强制绑定手机');
+        ConfigUtils::set('login', 'loginModes', json_encode($post['loginModes'] ?? []), '通用登录方式');
+        ConfigUtils::set('login', 'loginOther', json_encode($post['loginOther'] ?? []), '第三方登录');
     }
 
     /**

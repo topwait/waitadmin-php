@@ -1,0 +1,61 @@
+<template>
+    <block v-if="mod === 'normal'">
+        <button
+            class="button"
+            :class="[
+                mt?('mt-'+mt):'',
+                mb?('mb-'+mb):'',
+                bgColor?bgColor:'']"
+        >
+            <slot></slot>
+        </button>
+    </block>
+
+    <block v-if="mod === 'together'">
+        <view class="flex" :class="[mt?('mt-'+mt):'', mb?('mb-'+mb):'']">
+            <button class="button rounded-tr-0 rounded-br-0">
+                <slot name="left"></slot>
+            </button>
+            <button class="button rounded-tl-0 rounded-bl-0">
+                <slot name="right"></slot>
+            </button>
+        </view>
+    </block>
+</template>
+
+<script setup>
+defineProps({
+    // 渲染模式: [normal/together/stand]
+    mod: {
+        type: String,
+        default: () => 'normal'
+    },
+    // 顶部边距
+    mt: {
+        type: String,
+        default: () => null
+    },
+    // 底部边距
+    mb: {
+        type: String,
+        default: () => null
+    },
+    // 背景颜色
+    bgColor: {
+        type: String,
+        default: () => null
+    }
+})
+</script>
+
+<style lang="scss">
+.button {
+    padding: 2rpx 0;
+    width: 100%;
+    font-size: 32rpx;
+    border-radius: 50rpx;
+    text-align: center;
+    color: #ffffff;
+    background-color: $uni-bg-theme;
+}
+</style>
