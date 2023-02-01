@@ -33,7 +33,7 @@ class LoginController extends Api
         switch ($post['scene']) {
             case 'account':
                 $validate->goCheck('account');
-                $response = LoginService::accountLogin($post['account'], $post['password']);
+                $response = LoginService::accountLogin($post['account'], $post['password'], $this->terminal);
                 break;
             case 'mobile':
                 $validate->goCheck('mobile');
@@ -41,7 +41,7 @@ class LoginController extends Api
                 break;
             case 'wx':
                 $validate->goCheck('wx');
-                $response = LoginService::wxLogin($post['code'], $terminal);
+                $response = LoginService::wxLogin($post['code'], $this->terminal);
                 break;
             case 'oa':
                 break;

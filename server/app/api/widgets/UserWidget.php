@@ -7,6 +7,7 @@ use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use Exception;
+use think\facade\Cache;
 
 /**
  * 用户服务装置
@@ -151,10 +152,18 @@ class UserWidget extends Service
             })->findOrEmpty()->toArray();
     }
 
-    public static function grantToken(int $userId, int $terminal)
+    /**
+     * 生成令牌
+     *
+     * @param int $userId
+     * @param int $terminal
+     * @return string
+     */
+    public static function grantToken(int $userId, int $terminal): string
     {
-//        $cacheKey = 'login:token:'.$terminal.':'.$userId;
-//        $token = Cache::get($cacheKey);
-        return make_md5_str(time().$userId);
+        $token = make_md5_str(time().$userId);
+        $cacheKey = 'login:token:'.$terminal.':'.$token;
+        Cache::set($cacheKey, 1, 7200);
+        return $token;
     }
 }

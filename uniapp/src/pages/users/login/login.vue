@@ -88,13 +88,16 @@
 <script setup>
 import { ref } from 'vue'
 import { useAppStore } from '@/stores/appStore'
+import { useUserStore } from '@/stores/userStore'
 import { loginApi } from '@/api/usersApi'
 import checkUtil from '@/utils/checkUtil'
 import clientUtil from '@/utils/clientUtil'
 import toolUtil from '@/utils/toolUtil'
 
-// 登录配置
 const appStore = useAppStore()
+const userStore = useUserStore()
+
+// 登录配置
 const loginConf = appStore.loginConfigVal
 const loginMode = ref(loginConf.loginModes.length ? loginConf.loginModes[0].alias : '')
 const loginTabs = ref(0)
@@ -140,8 +143,9 @@ const onSaLogin = (scene) => {
         param = {scene: scene, account: form.account, password: form.password}
     }
 
+    uni.showLoading({title: '请稍后...'})
     loginApi(param).then(result => {
-        console.log(result)
+        __loginHandle(result)
     })
 }
 
@@ -153,8 +157,30 @@ const onWxLogin = async (e) => {
         code: wxCode,
         phoneCode: e.detail.code
     }).then(result => {
-        console.log(result)
+        __loginHandle(result)
     })
+}
+
+// 处理登录
+const __loginHandle = (result) => {
+    if (result.code !== 0) {
+        return uni.$u.toast(result.msg)
+    }
+
+    userStore.login(result.data.token)
+    uni.$u.toast('登录成功')
+    uni.hideLoading()
+
+    const pages = toolUtil.currentPage()
+    if (pages.length > 1) {
+        const prevPage = pages.at(-2)
+        uni.navigateBack({
+            success: () => {
+                const { onLoad, options } = prevPage
+                onLoad && onLoad(options)
+            }
+        })
+    }
 }
 </script>
 

@@ -33,5 +33,11 @@ export default {
                 }
             })
         })
+    },
+    // 获取当前页面
+    currentPage() {
+        const pages = getCurrentPages()
+        const currentPage = pages[pages.length - 1]
+        return currentPage || {}
     }
 }

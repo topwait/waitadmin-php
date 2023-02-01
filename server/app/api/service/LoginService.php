@@ -38,16 +38,17 @@ class LoginService extends Service
      *
      * @param $account  (账号)
      * @param $password (密码)
+     * @param $terminal (渠道)
      * @return array
      * @throws OperateException
      */
     #[ArrayShape(['token' => "string"])]
-    public static function accountLogin(string $account, string $password): array
+    public static function accountLogin(string $account, string $password, int $terminal): array
     {
         $modelUser = new User();
         $userInfo = $modelUser
             ->field(['id,password,salt,is_disable'])
-            ->where(['username'=>$account])
+            ->where(['account'=>$account])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
@@ -65,7 +66,7 @@ class LoginService extends Service
             throw new OperateException('账号已被禁用!');
         }
 
-        $token = UserWidget::grantToken(1, 1);
+        $token = UserWidget::grantToken($userInfo['id'], $terminal);
         return ['token'=>$token];
     }
 

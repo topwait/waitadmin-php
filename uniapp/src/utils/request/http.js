@@ -1,4 +1,6 @@
-import { config } from './config.js'
+import { config } from './config'
+import { useUserStore } from '@/stores/userStore'
+import clientUtil from '@/utils/clientUtil'
 
 const install = (Vue) => {
     // 参数配置
@@ -6,13 +8,14 @@ const install = (Vue) => {
 
     // 请求拦截配置
     Vue.config.globalProperties.$u.http.interceptor.request = (config) => {
-        // console.log('请求拦截')
+        const userStore = useUserStore()
+        config.header.token = userStore.$state.token
+        config.header.terminal = clientUtil.fetchClient()
         return config
     }
 
     // 响应拦截配置
     Vue.config.globalProperties.$u.http.interceptor.response = (res) => {
-        // console.log('响应拦截')
         return res
     }
 }

@@ -29,8 +29,8 @@ class User extends Models
         'group_id'        => 'int',     //分组
         'sn'              => 'string',  //编号
         'avatar'          => 'string',  //用户头像
+        'account'         => 'string',  //用户账号
         'nickname'        => 'string',  //用户昵称
-        'username'        => 'string',  //用户账号
         'password'        => 'string',  //登录密码
         'salt'            => 'string',  //加密盐巴
         'sex'             => 'int',     //用户性别
