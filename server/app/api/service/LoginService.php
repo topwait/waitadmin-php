@@ -6,13 +6,33 @@ use app\api\widgets\UserWidget;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
-use app\common\model\user\UserAuth;
 use app\common\service\wechat\WeChatService;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 
 class LoginService extends Service
 {
+    /**
+     * 注册账号
+     *
+     * @param array $post
+     * @throws Exception
+     * @author windy
+     */
+    public static function register(array $post)
+    {
+        $code     = $post['code'];
+        $mobile   = $post['mobile'];
+        $account  = $post['account'];
+        $password = $post['password'];
+
+        UserWidget::createUser([
+            'mobile'   => $mobile,
+            'account'  => $account,
+            'password' => $password,
+        ]);
+    }
+
     /**
      * 账号登录
      *
@@ -92,6 +112,7 @@ class LoginService extends Service
     #[ArrayShape(['token' => "int"])]
     public static function wxLogin(string $code, int $terminal): array
     {
+        $phoneArr = WeChatService::wxPhoneNumber($code);
         $response = WeChatService::wxJsCode2session($code);
         $response['terminal'] = $terminal;
 

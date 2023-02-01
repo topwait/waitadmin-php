@@ -11,6 +11,11 @@ use think\response\Json;
 
 class LoginController extends Api
 {
+    public function register()
+    {
+
+    }
+
     /**
      * 登录
      *

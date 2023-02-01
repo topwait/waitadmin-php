@@ -74,7 +74,9 @@
             <view v-if="loginConf.loginOther.length && isWeixin" class="others mt-50">
                 <u-divider>其它登录方式</u-divider>
                 <view class="flex justify-center mt-40">
-                    <u-icon name="weixin-circle-fill" color="#19d46b" size="80" @click="onWxLogin()" />
+                    <button open-type="getPhoneNumber" @getphonenumber="onWxLogin">
+                        <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
+                    </button>
                 </view>
             </view>
             <!-- #endif -->
@@ -144,9 +146,15 @@ const onSaLogin = (scene) => {
 }
 
 // 微信登录
-const onWxLogin = async () => {
+const onWxLogin = async (e) => {
     const wxCode = await toolUtil.obtainWxCode()
-    console.log(wxCode)
+    loginApi({
+        scene: 'wx',
+        code: wxCode,
+        phoneCode: e.detail.code
+    }).then(result => {
+        console.log(result)
+    })
 }
 </script>
 
