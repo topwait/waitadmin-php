@@ -2,7 +2,6 @@
 
 namespace app\backend\controller\setting;
 
-use app\backend\service\setting\BasicsService;
 use app\backend\service\setting\EmailService;
 use app\common\basics\Backend;
 use app\common\exception\SystemException;
@@ -37,7 +36,7 @@ class EmailController extends Backend
     public function save(): Json
     {
         if ($this->isAjaxPost()) {
-            BasicsService::save($this->request->post());
+            EmailService::save($this->request->post());
             return AjaxUtils::success();
         }
 
@@ -56,7 +55,7 @@ class EmailController extends Backend
         if ($this->isAjaxPost()) {
             $post = $this->request->post();
             $this->validate($post, ['recipient'=>'require|email']);
-            BasicsService::testEmail($post['recipient']);
+            EmailService::testEmail($post['recipient']);
             return AjaxUtils::success();
         }
 

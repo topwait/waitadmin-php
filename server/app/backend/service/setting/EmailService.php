@@ -19,13 +19,13 @@ class EmailService extends Backend
     {
         $mail = ConfigUtils::get('mail');
         $detail['mail'] = [
-            'mail_type'        => $mail['mail_type']        ?? '',
-            'mail_smtp_host'   => $mail['mail_smtp_host']   ?? '',
-            'mail_smtp_port'   => $mail['mail_smtp_port']   ?? '',
-            'mail_smtp_user'   => $mail['mail_smtp_user']   ?? '',
-            'mail_smtp_pass'   => $mail['mail_smtp_pass']   ?? '',
-            'mail_from_user'   => $mail['mail_from_user']   ?? '',
-            'mail_verify_type' => $mail['mail_verify_type'] ?? ''
+            'smtpType'   => $mail['smtpType']   ?? '',
+            'smtpHost'   => $mail['smtpHost']   ?? '',
+            'smtpPort'   => $mail['smtpPort']   ?? '',
+            'smtpUser'   => $mail['smtpUser']   ?? '',
+            'smtpPass'   => $mail['smtpPass']   ?? '',
+            'fromUser'   => $mail['fromUser']   ?? '',
+            'verifyType' => $mail['verifyType'] ?? ''
         ];
 
         return $detail['mail'];
@@ -39,13 +39,13 @@ class EmailService extends Backend
      */
     public static function save(array $post): void
     {
-        ConfigUtils::set('mail', 'mail_type', $post['mail_type'] ?? '', '邮件方式');
-        ConfigUtils::set('mail', 'mail_smtp_host', $post['mail_smtp_host'] ?? '', 'SMTP服务');
-        ConfigUtils::set('mail', 'mail_smtp_port', $post['mail_smtp_port'] ?? '', 'SMTP端口');
-        ConfigUtils::set('mail', 'mail_smtp_user', $post['mail_smtp_user'] ?? '', 'SMTP账号');
-        ConfigUtils::set('mail', 'mail_smtp_pass', $post['mail_smtp_pass'] ?? '', 'SMTP密码');
-        ConfigUtils::set('mail', 'mail_from_user', $post['mail_from_user'] ?? '', 'SMTP验证');
-        ConfigUtils::set('mail', 'mail_verify_type', $post['mail_verify_type'] ?? '', '发件人邮箱');
+        ConfigUtils::set('mail', 'smtpType', $post['smtpType'] ?? '', '邮件方式');
+        ConfigUtils::set('mail', 'smtpHost', $post['smtpHost'] ?? '', 'SMTP服务');
+        ConfigUtils::set('mail', 'smtpPort', $post['smtpPort'] ?? '', 'SMTP端口');
+        ConfigUtils::set('mail', 'smtpUser', $post['smtpUser'] ?? '', 'SMTP账号');
+        ConfigUtils::set('mail', 'smtpPass', $post['smtpPass'] ?? '', 'SMTP密码');
+        ConfigUtils::set('mail', 'fromUser', $post['fromUser'] ?? '', '发件人邮箱');
+        ConfigUtils::set('mail', 'verifyType', $post['verifyType'] ?? '', 'SMTP验证');
     }
 
     /**

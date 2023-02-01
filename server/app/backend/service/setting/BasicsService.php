@@ -40,12 +40,12 @@ class BasicsService extends Service
         // 网站配置
         $website = ConfigUtils::get('website');
         $detail['website'] = [
-            'website_title'     => $website['website_title']   ?? '',
-            'website_favicon'   => $website['website_favicon'] ?? '',
-            'website_copyright' => $website['website_copyright'] ?? '',
-            'website_icp'       => $website['website_icp']     ?? '',
-            'website_pcp'       => $website['website_pcp']     ?? '',
-            'website_analyse'   => $website['website_analyse'] ?? ''
+            'title'     => $website['title']   ?? '',
+            'favicon'   => $website['favicon'] ?? '',
+            'copyright' => $website['copyright'] ?? '',
+            'icp'       => $website['icp']     ?? '',
+            'pcp'       => $website['pcp']     ?? '',
+            'analyse'   => $website['analyse'] ?? ''
         ];
 
         // 登录配置
@@ -68,12 +68,12 @@ class BasicsService extends Service
     public static function save(array $post): void
     {
         // 网站配置
-        ConfigUtils::set('website', 'website_favicon', $post['website_favicon'] ?? '', '网站图标');
-        ConfigUtils::set('website', 'website_title', $post['website_title'] ?? '', '网站标题');
-        ConfigUtils::set('website', 'website_copyright', $post['website_copyright'] ?? '', '网站版权');
-        ConfigUtils::set('website', 'website_icp', $post['website_icp'] ?? '', 'ICP备案');
-        ConfigUtils::set('website', 'website_pcp', $post['website_pcp'] ?? '', '公安备案');
-        ConfigUtils::set('website', 'website_analyse', $post['website_analyse'] ?? '', '统计代码');
+        ConfigUtils::set('website', 'favicon', $post['websiteFavicon'] ?? '', '网站图标');
+        ConfigUtils::set('website', 'title', $post['websiteTitle'] ?? '', '网站标题');
+        ConfigUtils::set('website', 'copyright', $post['websiteCopyright'] ?? '', '网站版权');
+        ConfigUtils::set('website', 'icp', $post['websiteIcp'] ?? '', 'ICP备案');
+        ConfigUtils::set('website', 'pcp', $post['websitePcp'] ?? '', '公安备案');
+        ConfigUtils::set('website', 'analyse', $post['websiteAnalyse'] ?? '', '统计代码');
 
         // 登录配置
         ConfigUtils::set('login', 'forceMobile', $post['forceMobile'] ?? 0, '强制绑定手机');

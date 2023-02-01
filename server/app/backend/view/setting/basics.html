@@ -14,20 +14,20 @@
             <div class="layui-card-header">基础设置</div>
             <div class="layui-card-body">
                 <div class="layui-form-item">
-                    <label for="website_title" class="layui-form-label">网站图标:</label>
+                    <label for="websiteFavicon" class="layui-form-label">网站图标:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <div class="thumbnail" data-type="image" data-field="website_favicon" data-limit="1">
+                            <div class="thumbnail" data-type="image" data-field="favicon" data-limit="1">
                                 <div class="musters">
-                                    {if $website.website_favicon}
+                                    {if $website.favicon}
                                     <div class="preview">
-                                        <input type="hidden" id="website_favicon" name="website_favicon" value="{$website.website_favicon}">
+                                        <input type="hidden" id="websiteFavicon" name="website_favicon" value="{$website.favicon}">
                                         <i class="layui-icon layui-icon-close"></i>
-                                        <img src="{$website.website_favicon}" alt="img">
+                                        <img src="{$website.favicon}" alt="img">
                                     </div>
                                     {/if}
                                 </div>
-                                <div class="builder {if $website.website_favicon}layui-hide{/if}">
+                                <div class="builder {if $website.favicon}layui-hide{/if}">
                                     <i class="layui-icon layui-icon-camera"></i>
                                     <p>上传图标</p>
                                     <div class="mask">
@@ -40,47 +40,47 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="website_title" class="layui-form-label">网站名称:</label>
+                    <label for="websiteTitle" class="layui-form-label">网站名称:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <input type="text" id="website_title" name="website_title" value="{$website.website_title}"
+                            <input type="text" id="websiteTitle" name="websiteTitle" value="{$website.title}"
                                    class="layui-input" autocomplete="off">
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="website_copyright" class="layui-form-label">网站版权:</label>
+                    <label for="websiteCopyright" class="layui-form-label">网站版权:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <input type="text" id="website_copyright" name="website_copyright" value="{$website.website_copyright}"
+                            <input type="text" id="websiteCopyright" name="websiteCopyright" value="{$website.copyright}"
                                    class="layui-input" autocomplete="off">
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="website_icp" class="layui-form-label">ICP备案:</label>
+                    <label for="websiteIcp" class="layui-form-label">ICP备案:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <input type="text" id="website_icp" name="website_icp" value="{$website.website_icp}"
+                            <input type="text" id="websiteIcp" name="websiteIcp" value="{$website.icp}"
                                    class="layui-input" autocomplete="off">
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="website_pcp" class="layui-form-label">公安备案:</label>
+                    <label for="websitePcp" class="layui-form-label">公安备案:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <input type="text" id="website_pcp" name="website_pcp" value="{$website.website_pcp}"
+                            <input type="text" id="websitePcp" name="websitePcp" value="{$website.pcp}"
                                    class="layui-input" autocomplete="off">
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="website_analyse" class="layui-form-label">统计代码:</label>
+                    <label for="websiteAnalyse" class="layui-form-label">统计代码:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <textarea id="website_analyse" name="website_analyse"
-                                      class="layui-textarea" autocomplete="off">{$website.website_analyse}</textarea>
+                            <textarea id="websiteAnalyse" name="websiteAnalyse"
+                                      class="layui-textarea" autocomplete="off">{$website.analyse}</textarea>
                         </div>
                     </div>
                 </div>
