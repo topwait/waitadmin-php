@@ -32,7 +32,7 @@ class Api extends BaseController
      * 客户端
      * @var int
      */
-    protected int $terminal = 1;
+    protected int $terminal;
 
     /**
      * 用户ID
@@ -51,10 +51,13 @@ class Api extends BaseController
      *
      * Backend constructor.
      * @param App $app
+     * @throws OperateException
      */
     public function __construct(App $app)
     {
         parent::__construct($app);
+
+        $this->checkLogin();
 
         $this->initialize();
     }
@@ -62,22 +65,25 @@ class Api extends BaseController
     /**
      * 初始方法
      *
-     * @author windy
      * @return void
+     * @author windy
      */
     protected function initialize(): void
     {}
 
     /**
-     * 
+     * 登录验证
+     *
      * @return bool
      * @throws OperateException
+     * @author windy
      */
     protected function checkLogin(): bool
     {
         $token    = strval(request()->header('token') ?? '');
         $terminal = intval(request()->header('terminal') ?? 0);
-        $userId   = Cache::get('token');
+        $cacheKey = 'login:token:'.$terminal.':'.$token;
+        $userId   = intval(Cache::get($cacheKey, 0));
 
         // 判断是否是免登录的方法
         if (in_array(request()->action(), $this->notNeedLogin)) {

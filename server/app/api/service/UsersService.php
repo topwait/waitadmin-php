@@ -17,7 +17,8 @@ class UsersService extends Service
     public static function center(int $id): array
     {
         $modelUser = new User();
-        return $modelUser->field(['id'])
+        return $modelUser
+            ->field(['id,sn,account,nickname,avatar,mobile,email,sex'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrEmpty()

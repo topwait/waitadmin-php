@@ -11,6 +11,8 @@ use think\response\Json;
 
 class LoginController extends Api
 {
+    protected array $notNeedLogin = ['register', 'login'];
+
     public function register()
     {
 

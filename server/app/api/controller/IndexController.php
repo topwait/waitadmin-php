@@ -12,6 +12,8 @@ use think\response\Json;
  */
 class IndexController extends Api
 {
+    protected array $notNeedLogin = ['config'];
+
     /**
      * 全局配置
      *

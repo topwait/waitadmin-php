@@ -3,12 +3,12 @@
         <view class="layout-header-widget">
             <view class="grid-skinny-unit">
                 <view class="flex items-center">
-                    <u-avatar src="../../../static/logo.png" mode="circle" size="100" class="h-100" />
-                    <!--      <view class="synopsis">
-                        <view class="text-lg color-white">相见不如怀念</view>
-                        <view class="text-xs color-lighter">ID: u7456565</view>
-                    </view> -->
-                    <view class="login" @click="onJump">点击登录</view>
+                    <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
+                    <view v-if="isLogin" class="synopsis">
+                        <view class="text-lg color-white">{{ userInfo.nickname }}</view>
+                        <view class="text-xs color-lighter">ID: {{ userInfo.sn }}</view>
+                    </view>
+                    <view v-else class="login" @click="onJump">点击登录</view>
                 </view>
                 <view class="flex items-start">
                     <u-icon class="icon" name="bell" color="#ffffff" size="42" />
@@ -25,6 +25,18 @@
 
 <script setup>
 import { reactive } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
+import { useUserStore } from '@/stores/userStore'
+
+const userStore = useUserStore()
+const isLogin  = userStore.$state.isLogin
+const userInfo = userStore.$state.userInfo
+
+console.log(isLogin)
+
+onShow(() => {
+    userStore.getUserInfo()
+})
 
 const orders = reactive([
     {
