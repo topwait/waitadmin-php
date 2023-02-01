@@ -8,7 +8,7 @@
             <!-- 登录方式 -->
             <view class="mt-30 mb-20">
                 <u-tabs
-                    :list="loginConfig.loginModes"
+                    :list="loginConf.loginModes"
                     :current="loginTabs"
                     :font-size="34"
                     inactive-color="#999999"
@@ -16,7 +16,7 @@
                 />
             </view>
             <!-- 短信登录 -->
-            <u-form v-if="loginMode === 'mobile'" ref="uForm">
+            <u-form v-if="loginMode === 'mobile'" ref="uForm" :model="form">
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                     <u-input type="number" placeholder="请输入手机号" />
                 </u-form-item>
@@ -50,9 +50,9 @@
                 <view class="text-sm color-muted" @click="onJumpFor()">忘记密码?</view>
             </view>
             <!-- 登录按钮 -->
-            <w-button v-if="loginConfig.loginModes.length" mt="40">登录</w-button>
+            <w-button v-if="loginConf.loginModes.length" mt="40">登录</w-button>
             <!-- 登录插图 -->
-            <view v-if="!loginConfig.loginModes.length" class="flex justify-center">
+            <view v-if="!loginConf.loginModes.length" class="flex justify-center">
                 <u-image width="300rpx" height="300rpx" src="https://img.zcool.cn/community/0108c75972fc5da8012193a369015f.png@1280w_1l_2o_100sh.png" mode="" />
             </view>
             <!-- 登录协议 -->
@@ -66,7 +66,7 @@
             <view class="others mt-50">
                 <u-divider>其它登录方式</u-divider>
                 <view class="flex justify-center mt-40">
-                    <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
+                    <u-icon name="weixin-circle-fill" color="#19d46b" size="80" @click="onLogin()" />
                 </view>
             </view>
         </view>
@@ -77,27 +77,48 @@
 <script setup>
 import { ref } from 'vue'
 import { useAppStore } from '@/stores/appStore'
+import { loginApi } from '@/api/usersApi'
 
+// 登录配置
 const appStore = useAppStore()
-const loginConfig = appStore.loginConfigVal
-const loginMode = ref(loginConfig.loginModes.length ? loginConfig.loginModes[0].alias : '')
+const loginConf = appStore.loginConfigVal
+const loginMode = ref(loginConf.loginModes.length ? loginConf.loginModes[0].alias : '')
 const loginTabs = ref(0)
 
+// 登录参数
+const form = {
+   code: '',
+   account: '',
+   password: ''
+}
+const formMobile  = {mobile: '', code: ''}
+const formAccount = {username: '', password: ''}
+
+// 登录方式
 const tabChange = (e) => {
     loginTabs.value = e
-    loginMode.value = loginConfig.loginModes[e].alias
+    loginMode.value = loginConf.loginModes[e].alias
 }
 
-const onJumpReg = () => {
-    uni.navigateTo({
-        url: '/pages/users/regist/regist'
+// 短信登录
+const onSmsLogin = () => {
+    loginApi({
+        scene: 'sms',
+        mobile: form.account,
+        code: form.code
+    }).then(result => {
+        console.log(result)
     })
 }
 
-const onJumpFor = () => {
-    uni.navigateTo({
-        url: '/pages/users/forget/forget'
-    })
+// 账号登录
+const onAcLogin = () => {
+
+}
+
+// 微信登录
+const onWxLogin = () => {
+    
 }
 </script>
 

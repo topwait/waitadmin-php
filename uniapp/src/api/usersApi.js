@@ -1,5 +1,3 @@
-const http = uni.$u.http
-
-export function getUserInfo(params) {
-    return http.get('index/config', params)
+export function loginApi(params) {
+    return uni.$u.http.post('login/login', params)
 }
