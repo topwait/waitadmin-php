@@ -42,7 +42,7 @@ class LoginService extends Service
      * @throws OperateException
      */
     #[ArrayShape(['token' => "string"])]
-    public static function accountLogin($account, $password): array
+    public static function accountLogin(string $account, string $password): array
     {
         $modelUser = new User();
         $userInfo = $modelUser
