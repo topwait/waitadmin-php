@@ -5,16 +5,19 @@ export default {
      * 是否为微信环境
      */
     isWeixin() {
+        let wxBoolean = true
+        // #ifndef MP-WEIXIN
         try {
             let ua = navigator.userAgent.toLowerCase()
             if (ua.match(/MicroMessenger/i) === 'micromessenger') {
-                return true
+                wxBoolean = true
             }
-            return false
-
+            wxBoolean = false
         } catch (e) {
-            return false
+            wxBoolean = false
         }
+        // #endif
+        return wxBoolean
     },
     /**
      * 是否为安卓环境

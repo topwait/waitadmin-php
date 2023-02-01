@@ -16,16 +16,6 @@
                 />
             </view>
 
-            <!-- 账号登录 -->
-            <u-form v-if="loginMode === 'account'" ref="uForm">
-                <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
-                </u-form-item>
-                <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
-                </u-form-item>
-            </u-form>
-
             <!-- 短信登录 -->
             <u-form v-if="loginMode === 'mobile'" ref="uForm" :model="form">
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
@@ -41,9 +31,19 @@
                             hover-class="none"
                             size="mini"
                             shape="circle"
-                        >{{ '发送短信' }}
+                        >{{ '获取验证码' }}
                         </u-button>
                     </template>
+                </u-form-item>
+            </u-form>
+
+            <!-- 账号登录 -->
+            <u-form v-if="loginMode === 'account'" ref="uForm">
+                <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                    <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
+                </u-form-item>
+                <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                    <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
                 </u-form-item>
             </u-form>
 
@@ -70,12 +70,14 @@
             </view>
 
             <!-- 其它登录 -->
-            <view v-if="loginConf.loginOther.length" class="others mt-50">
+            <!-- #ifdef MP-WEIXIN || H5 -->
+            <view v-if="loginConf.loginOther.length && isWeixin" class="others mt-50">
                 <u-divider>其它登录方式</u-divider>
                 <view class="flex justify-center mt-40">
                     <u-icon name="weixin-circle-fill" color="#19d46b" size="80" @click="onWxLogin()" />
                 </view>
             </view>
+            <!-- #endif -->
         </view>
     </view>
 
@@ -86,6 +88,7 @@ import { ref } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { loginApi } from '@/api/usersApi'
 import checkUtil from '@/utils/checkUtil'
+import clientUtil from '@/utils/clientUtil'
 import toolUtil from '@/utils/toolUtil'
 
 // 登录配置
@@ -93,7 +96,7 @@ const appStore = useAppStore()
 const loginConf = appStore.loginConfigVal
 const loginMode = ref(loginConf.loginModes.length ? loginConf.loginModes[0].alias : '')
 const loginTabs = ref(0)
-
+const isWeixin = clientUtil.isWeixin()
 
 // 登录参数
 const form = {
