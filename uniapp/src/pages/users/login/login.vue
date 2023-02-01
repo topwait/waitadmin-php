@@ -15,13 +15,24 @@
                     @change="tabChange"
                 />
             </view>
+
+            <!-- 账号登录 -->
+            <u-form v-if="loginMode === 'account'" ref="uForm">
+                <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                    <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
+                </u-form-item>
+                <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                    <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
+                </u-form-item>
+            </u-form>
+
             <!-- 短信登录 -->
             <u-form v-if="loginMode === 'mobile'" ref="uForm" :model="form">
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入手机号" />
+                    <u-input v-model="form.account" type="number" placeholder="请输入手机号" />
                 </u-form-item>
                 <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入验证码" />
+                    <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
                     <template #right>
                         <u-verification-code ref="uCode" seconds="60" />
                         <u-button
@@ -35,26 +46,21 @@
                     </template>
                 </u-form-item>
             </u-form>
-            <!-- 账号登录 -->
-            <u-form v-if="loginMode === 'account'" ref="uForm">
-                <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入登录账号" />
-                </u-form-item>
-                <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入登录密码" />
-                </u-form-item>
-            </u-form>
+
             <!-- 注册重置 -->
             <view v-if="loginMode === 'account'" class="flex justify-between mt-30">
                 <view class="text-sm color-muted" @click="onJumpReg()">注册账号</view>
                 <view class="text-sm color-muted" @click="onJumpFor()">忘记密码?</view>
             </view>
+
             <!-- 登录按钮 -->
-            <w-button v-if="loginConf.loginModes.length" mt="40">登录</w-button>
+            <w-button v-if="loginConf.loginModes.length" mt="40" @on-click="onSaLogin(loginMode)">登录</w-button>
+
             <!-- 登录插图 -->
             <view v-if="!loginConf.loginModes.length" class="flex justify-center">
                 <u-image width="300rpx" height="300rpx" src="https://img.zcool.cn/community/0108c75972fc5da8012193a369015f.png@1280w_1l_2o_100sh.png" mode="" />
             </view>
+
             <!-- 登录协议 -->
             <view class="treaty">
                 <u-checkbox shape="circle" active-color="#2979ff" />
@@ -62,11 +68,12 @@
                 <text class="color-theme">《用户协议》</text>与
                 <text class="color-theme">《隐私协议》</text>
             </view>
+
             <!-- 其它登录 -->
-            <view class="others mt-50">
+            <view v-if="loginConf.loginOther.length" class="others mt-50">
                 <u-divider>其它登录方式</u-divider>
                 <view class="flex justify-center mt-40">
-                    <u-icon name="weixin-circle-fill" color="#19d46b" size="80" @click="onLogin()" />
+                    <u-icon name="weixin-circle-fill" color="#19d46b" size="80" @click="onWxLogin()" />
                 </view>
             </view>
         </view>
@@ -78,6 +85,8 @@
 import { ref } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { loginApi } from '@/api/usersApi'
+import checkUtil from '@/utils/checkUtil'
+import toolUtil from '@/utils/toolUtil'
 
 // 登录配置
 const appStore = useAppStore()
@@ -85,14 +94,13 @@ const loginConf = appStore.loginConfigVal
 const loginMode = ref(loginConf.loginModes.length ? loginConf.loginModes[0].alias : '')
 const loginTabs = ref(0)
 
+
 // 登录参数
 const form = {
-   code: '',
-   account: '',
-   password: ''
+    code: '',
+    account: '',
+    password: ''
 }
-const formMobile  = {mobile: '', code: ''}
-const formAccount = {username: '', password: ''}
 
 // 登录方式
 const tabChange = (e) => {
@@ -100,25 +108,42 @@ const tabChange = (e) => {
     loginMode.value = loginConf.loginModes[e].alias
 }
 
-// 短信登录
-const onSmsLogin = () => {
-    loginApi({
-        scene: 'sms',
-        mobile: form.account,
-        code: form.code
-    }).then(result => {
+// 普通登录
+const onSaLogin = (scene) => {
+    let param = {}
+    if (scene === 'mobile') {
+        if (checkUtil.isEmpty(form.account)) {
+            return uni.$u.toast('请输入手机号')
+        }
+        if (checkUtil.isMobile(form.account)) {
+            return uni.$u.toast('手机号不合规')
+        }
+        if (checkUtil.isEmpty(form.code)) {
+            return uni.$u.toast('请输入验证码')
+        }
+        if (!checkUtil.isNumber(form.code) && form.code.length > 4) {
+            return uni.$u.toast('错误的验证码')
+        }
+        param = {scene: scene, code: form.code, mobile: form.account}
+    } else {
+        if (checkUtil.isEmpty(form.account)) {
+            return uni.$u.toast('请输入登录账号')
+        }
+        if (checkUtil.isEmpty(form.password)) {
+            return uni.$u.toast('请输入登录密码')
+        }
+        param = {scene: scene, account: form.account, password: form.password}
+    }
+
+    loginApi(param).then(result => {
         console.log(result)
     })
 }
 
-// 账号登录
-const onAcLogin = () => {
-
-}
-
 // 微信登录
-const onWxLogin = () => {
-    
+const onWxLogin = async () => {
+    const wxCode = await toolUtil.obtainWxCode()
+    console.log(wxCode)
 }
 </script>
 

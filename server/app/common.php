@@ -60,14 +60,15 @@ if (!function_exists('make_md5_str')) {
      * 生成MD5加密串
      *
      * @param string $str (未加密字符)
+     * @param string $salt (加密的盐)
      * @return string     (已加密字符)
      * @author windy
      */
     #[Pure]
-    function make_md5_str(string $str): string
+    function make_md5_str(string $str, string $salt=''): string
     {
         $baseStr = md5('CORRECT');
-        return md5($baseStr . $str);
+        return md5($baseStr . $str . $salt);
     }
 }
 

@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use app\api\service\LoginService;
+use app\api\validate\LoginValidate;
 use app\common\basics\Api;
 use app\common\utils\AjaxUtils;
 use Exception;
@@ -19,15 +20,28 @@ class LoginController extends Api
      */
     public function login(): Json
     {
-        $post = $this->request->post();
-        $terminal = intval($post['terminal']);
+        $post     = $this->request->post();
+        $terminal = intval($post['terminal']??1);
+        $validate = new LoginValidate();
 
+        $response = [];
         switch ($post['scene']) {
+            case 'account':
+                $validate->goCheck('account');
+                $response = LoginService::accountLogin($post['account'], $post['password']);
+                break;
+            case 'mobile':
+                $validate->goCheck('mobile');
+                $response = LoginService::mobileLogin($post['mobile'], $post['code']);
+                break;
             case 'wx':
-                LoginService::wxLogin($post['code'], $terminal);
+                $validate->goCheck('wx');
+                $response = LoginService::wxLogin($post['code'], $terminal);
+                break;
+            case 'oa':
                 break;
         }
 
-        return AjaxUtils::success();
+        return AjaxUtils::success('', $response);
     }
 }

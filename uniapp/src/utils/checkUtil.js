@@ -17,31 +17,31 @@ export default {
     },
     // Date类型
     isDate(val) {
-        return this.is(val, 'Date');
+        return this.is(val, 'Date')
     },
     // Number类型
     isNumber(val) {
-        return this.is(val, 'Number');
+        return this.is(val, 'Number')
     },
     // String类型
     isString(val) {
-        return this.is(val, 'String');
+        return this.is(val, 'String')
     },
     // Boolean类型
     isBoolean(val) {
-        return this.is(val, 'Boolean');
+        return this.is(val, 'Boolean')
     },
     // RegExp类型
     isRegExp(val) {
-        return this.is(val, 'RegExp');
+        return this.is(val, 'RegExp')
     },
     // Array类型
     isArray(val) {
-        return val && Array.isArray(val);
+        return val && Array.isArray(val)
     },
     // Function类型
     isFunction(val) {
-        return typeof val === 'function';
+        return typeof val === 'function'
     },
     // Object类型
     isObject(val) {
@@ -49,9 +49,9 @@ export default {
     },
     // Promise类型
     isPromise(val) {
-        return this.is(val, 'Promise') && 
-            this.isObject(val) && 
-            this.isFunction(val.then) && 
+        return this.is(val, 'Promise') &&
+            this.isObject(val) &&
+            this.isFunction(val.then) &&
             this.isFunction(val.catch)
     },
     // Null类型
@@ -63,20 +63,20 @@ export default {
         if (this.isArray(val) || this.isString(val)) {
             return val.length === 0
         }
-    
+
         if (val instanceof Map || val instanceof Set) {
             return val.size === 0
         }
-    
+
         if (this.isObject(val)) {
             return Object.keys(val).length === 0
         }
-    
-        return false;
+
+        return false
     },
     // Undefined类型
     isUndefined(val) {
-        return typeof val !== 'undefined';
+        return typeof val !== 'undefined'
     },
     // Undefined且Null
     isNullAndUndefined(val) {

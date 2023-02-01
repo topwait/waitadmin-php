@@ -141,7 +141,8 @@ class UserWidget extends Service
 
     public static function grantToken(int $userId, int $terminal)
     {
-        $cacheKey = 'login:token:'.$terminal.':'.$userId;
-        $token = Cache::get($cacheKey);
+//        $cacheKey = 'login:token:'.$terminal.':'.$userId;
+//        $token = Cache::get($cacheKey);
+        return make_md5_str(time().$userId);
     }
 }

@@ -6,6 +6,7 @@
                 mt?('mt-'+mt):'',
                 mb?('mb-'+mb):'',
                 bgColor?bgColor:'']"
+            @click="onClick"
         >
             <slot></slot>
         </button>
@@ -24,6 +25,8 @@
 </template>
 
 <script setup>
+import { defineEmits } from 'vue'
+
 defineProps({
     // 渲染模式: [normal/together/stand]
     mod: {
@@ -46,6 +49,11 @@ defineProps({
         default: () => null
     }
 })
+
+const emit = defineEmits(['on-click'])
+const onClick = () => {
+    emit('on-click')
+}
 </script>
 
 <style lang="scss">

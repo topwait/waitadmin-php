@@ -129,7 +129,7 @@ class ExceptionHandle extends Handle
 
         // 自定义的异常处理抛出
         if ($this->errCode) {
-            if ($request->isAjax()) {
+            if ($request->isAjax() || $this->app->http->getName() === 'api') {
                 return AjaxUtils::error(
                     $this->errMsg,
                     $this->errCode,
@@ -144,7 +144,7 @@ class ExceptionHandle extends Handle
         }
 
         // 其他错误交给系统处理
-        if ($request->isAjax()) {
+        if ($request->isAjax() || $this->app->http->getName() === 'api') {
             $this->errCode = ErrorEnum::SYSTEM_ERROR;
             return AjaxUtils::error(
                 $e->getMessage(),

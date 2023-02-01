@@ -4,6 +4,7 @@ namespace app\api\service;
 
 use app\api\widgets\UserWidget;
 use app\common\basics\Service;
+use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use app\common\service\wechat\WeChatService;
@@ -12,6 +13,74 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class LoginService extends Service
 {
+    /**
+     * 账号登录
+     *
+     * @param $account  (账号)
+     * @param $password (密码)
+     * @return array
+     * @throws OperateException
+     */
+    #[ArrayShape(['token' => "string"])]
+    public static function accountLogin($account, $password): array
+    {
+        $modelUser = new User();
+        $userInfo = $modelUser
+            ->field(['id,password,salt,is_disable'])
+            ->where(['username'=>$account])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        if (!$userInfo) {
+            throw new OperateException('账号不存在!');
+        }
+
+        $password = make_md5_str($password, $userInfo['salt']);
+        if ($userInfo['password'] !== $password) {
+            throw new OperateException('账号或密码错误!');
+        }
+
+        if ($userInfo['is_disable']) {
+            throw new OperateException('账号已被禁用!');
+        }
+
+        $token = UserWidget::grantToken(1, 1);
+        return ['token'=>$token];
+    }
+
+    /**
+     * 短信登录
+     *
+     * @param string $mobile (手机号)
+     * @param string $code   (验证码)
+     * @return array
+     * @throws OperateException
+     * @author windy
+     */
+    #[ArrayShape(['token' => "string"])]
+    public static function mobileLogin(string $mobile, string $code): array
+    {
+        $modelUser = new User();
+        $userInfo = $modelUser
+            ->field(['id,mobile,is_disable'])
+            ->where(['mobile'=>$mobile])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        if (!$userInfo) {
+            throw new OperateException('账号不存在!');
+        }
+
+        if ($userInfo['is_disable']) {
+            throw new OperateException('账号已被禁用!');
+        }
+
+        $token = UserWidget::grantToken(1, 1);
+        return ['token'=>$token];
+    }
+
     /**
      * 微信登录
      *
@@ -33,7 +102,13 @@ class LoginService extends Service
             $userId = UserWidget::updateUser($response);
         }
 
-        return ['token'=>$userId];
+        $token = UserWidget::grantToken(1, 1);
+        return ['token'=>$token];
+    }
+
+    public static function oaLogin()
+    {
+
     }
 
 }
