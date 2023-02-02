@@ -69,11 +69,11 @@ class MailDriver
         $this->mail->SMTPDebug = 0;                  // 启用详细调试输出
         $this->mail->isSMTP();                       // SMTP启用
         $this->mail->SMTPAuth   = true;              // SMTP认证
-        $this->mail->Host       = $this->config['smtpHost']   ?? '';  // SMTP服务器
-        $this->mail->Username   = $this->config['smtpUser']   ?? '';  // SMTP用户名
-        $this->mail->Password   = $this->config['smtpPass']   ?? '';  // SMTP的密码
-        $this->mail->SMTPSecure = $this->config['verifyType'] ?? '';  // 允许协议[TLS/SSL]
-        $this->mail->Port       = $this->config['smtpPort']   ?? '';  // 服务器端口[25/465]
+        $this->mail->Host       = $this->config['smtp_host']   ?? '';  // SMTP服务器
+        $this->mail->Username   = $this->config['smtp_user']   ?? '';  // SMTP用户名
+        $this->mail->Password   = $this->config['smtp_pass']   ?? '';  // SMTP的密码
+        $this->mail->SMTPSecure = $this->config['verify_type'] ?? '';  // 允许协议[TLS/SSL]
+        $this->mail->Port       = $this->config['smtp_port']   ?? '';  // 服务器端口[25/465]
         $this->mail->Debugoutput = 'html';
         $this->mail->SMTPOptions = [
             'ssl' => [
@@ -87,7 +87,7 @@ class MailDriver
         if ($this->form) {
             $this->mail->setFrom($this->form['address'], $this->form['name']);
         } else {
-            $this->mail->setFrom($this->config['fromUser']);
+            $this->mail->setFrom($this->config['from_user']);
         }
 
         // 发送

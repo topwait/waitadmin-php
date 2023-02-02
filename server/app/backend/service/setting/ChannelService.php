@@ -21,33 +21,33 @@ class ChannelService extends Service
     #[ArrayShape(['wx' => "array", 'oa' => "array", 'op' => "array", 'h5' => "array"])]
     public static function detail(): array
     {
-        $wxChannel = ConfigUtils::get('wxChannel');
-        $oaChannel = ConfigUtils::get('oaChannel');
-        $opChannel = ConfigUtils::get('opChannel');
-        $h5Channel = ConfigUtils::get('h5Channel');
+        $wxChannel = ConfigUtils::get('wx_channel');
+        $oaChannel = ConfigUtils::get('oa_channel');
+        $opChannel = ConfigUtils::get('op_channel');
+        $h5Channel = ConfigUtils::get('h5_channel');
 
         return [
             'wx' => [
-                'name'       => $wxChannel['name'] ?? '',
-                'originalId' => $wxChannel['originalId'] ?? '',
-                'appId'      => $wxChannel['appId'] ?? '',
-                'appSecret'  => $wxChannel['appSecret'] ?? '',
-                'qrCode'     => UrlUtils::toAbsoluteUrl($wxChannel['qrCode'] ?? ''),
+                'name'        => $wxChannel['name']        ?? '',
+                'app_id'      => $wxChannel['app_id']      ?? '',
+                'app_secret'  => $wxChannel['app_secret']  ?? '',
+                'original_id' => $wxChannel['original_id'] ?? '',
+                'qr_code'     => UrlUtils::toAbsoluteUrl($wxChannel['qr_code'] ?? ''),
             ],
             'oa' => [
-                'name'       => $oaChannel['name'] ?? '',
-                'originalId' => $oaChannel['originalId'] ?? '',
-                'appId'      => $oaChannel['appId'] ?? '',
-                'appSecret'  => $oaChannel['appSecret'] ?? '',
-                'qrCode'     => UrlUtils::toAbsoluteUrl($oaChannel['qrCode'] ?? ''),
+                'name'       => $oaChannel['name']         ?? '',
+                'app_id'      => $oaChannel['app_id']      ?? '',
+                'app_secret'  => $oaChannel['app_secret']  ?? '',
+                'original_id' => $oaChannel['original_id'] ?? '',
+                'qr_code'     => UrlUtils::toAbsoluteUrl($oaChannel['qr_code'] ?? ''),
             ],
             'op' => [
-                'appId'      => $opChannel['appId'] ?? '',
-                'appSecret'  => $opChannel['appSecret'] ?? '',
+                'app_id'      => $opChannel['app_id']     ?? '',
+                'app_secret'  => $opChannel['app_secret'] ?? '',
             ],
             'h5' => [
-                'status'   => intval($h5Channel['status'] ?? 0),
-                'closeUrl' => $h5Channel['closeUrl'] ?? '',
+                'status'    => intval($h5Channel['status'] ?? 0),
+                'close_url' => $h5Channel['close_url'] ?? '',
             ]
         ];
     }
@@ -60,22 +60,22 @@ class ChannelService extends Service
      */
     public static function save(array $post): void
     {
-        ConfigUtils::set('wxChannel', 'name', $post['wxName']??'', '小程序名称');
-        ConfigUtils::set('wxChannel', 'appId', $post['wxAppId']??'', 'AppID');
-        ConfigUtils::set('wxChannel', 'appSecret', $post['wxAppSecret']??'', 'AppSecret');
-        ConfigUtils::set('wxChannel', 'originalId', $post['wxOriginalId']??'', '原始ID');
-        ConfigUtils::set('wxChannel', 'qrCode', UrlUtils::toRelativeUrl($post['wxQrCode']??''), '二维码');
+        ConfigUtils::set('wx_channel', 'name', $post['wxName']??'', '小程序名称');
+        ConfigUtils::set('wx_channel', 'app_id', $post['wxAppId']??'', 'AppID');
+        ConfigUtils::set('wx_channel', 'app_secret', $post['wxAppSecret']??'', 'AppSecret');
+        ConfigUtils::set('wx_channel', 'original_id', $post['wxOriginalId']??'', '原始ID');
+        ConfigUtils::set('wx_channel', 'qr_code', UrlUtils::toRelativeUrl($post['wxQrCode']??''), '二维码');
 
-        ConfigUtils::set('oaChannel', 'name', $post['oaName']??'', '公众号名称');
-        ConfigUtils::set('oaChannel', 'appId', $post['oaAppId']??'', 'AppID');
-        ConfigUtils::set('oaChannel', 'appSecret', $post['oaAppSecret']??'', 'AppSecret');
-        ConfigUtils::set('oaChannel', 'originalId', $post['oaOriginalId']??'', '原始ID');
-        ConfigUtils::set('oaChannel', 'qrCode', UrlUtils::toRelativeUrl($post['oaQrCode']??''), '二维码');
+        ConfigUtils::set('oa_channel', 'name', $post['oa_name']??'', '公众号名称');
+        ConfigUtils::set('oa_channel', 'app_id', $post['oa_app_id']??'', 'AppID');
+        ConfigUtils::set('oa_channel', 'app_secret', $post['oa_app_secret']??'', 'AppSecret');
+        ConfigUtils::set('oa_channel', 'original_id', $post['oa_original_id']??'', '原始ID');
+        ConfigUtils::set('oa_channel', 'qr_code', UrlUtils::toRelativeUrl($post['oa_qr_code']??''), '二维码');
 
-        ConfigUtils::set('opChannel', 'appId', $post['opAppId']??'', 'AppID');
-        ConfigUtils::set('opChannel', 'appSecret', $post['opAppSecret']??'', 'AppSecret');
+        ConfigUtils::set('op_channel', 'app_id', $post['op_appId']??'', 'AppID');
+        ConfigUtils::set('op_channel', 'app_secret', $post['op_app_secret']??'', 'AppSecret');
 
-        ConfigUtils::set('h5Channel', 'status', $post['h5Status']??0, '渠道状态');
-        ConfigUtils::set('h5Channel', 'closeUrl', $post['h5CloseUrl']??'', '关闭页面');
+        ConfigUtils::set('h5_channel', 'status', $post['h5_status']??0, '渠道状态');
+        ConfigUtils::set('h5_channel', 'close_url', $post['h5_close_url']??'', '关闭页面');
     }
 }

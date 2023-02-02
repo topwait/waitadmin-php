@@ -6,69 +6,69 @@
         <div class="layui-card-header">邮件设置</div>
         <div class="layui-card-body">
             <div class="layui-form-item">
-                <label for="smtpType" class="layui-form-label">发送的方式:</label>
+                <label for="smtp_type" class="layui-form-label">发送的方式:</label>
                 <div class="layui-input-block">
                     <div class="layui-col-md4">
-                        <select name="smtpType" id="smtpType">
+                        <select name="smtp_type" id="smtp_type">
                             <option value="">请选择</option>
-                            <option value="smtp" {if $detail.smtpType=="smtp"}selected{/if}>SMTP</option>
+                            <option value="smtp" {if $detail.smtp_type=="smtp"}selected{/if}>SMTP</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="smtpHost" class="layui-form-label">SMTP服务:</label>
+                <label for="smtp_host" class="layui-form-label">SMTP服务:</label>
                 <div class="layui-input-block">
                     <div class="layui-col-md4">
-                        <input type="text" id="smtpHost" name="smtpHost" value="{$detail.smtpHost}"
+                        <input type="text" id="smtp_host" name="smtp_host" value="{$detail.smtp_host}"
                                class="layui-input" autocomplete="off" placeholder="smtp.163.com">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="smtpPort" class="layui-form-label">SMTP端口:</label>
+                <label for="smtp_port" class="layui-form-label">SMTP端口:</label>
                 <div class="layui-input-block">
                     <div class="layui-col-md4">
-                        <input type="text" id="smtpPort" name="smtpPort" value="{$detail.smtpPort}"
+                        <input type="text" id="smtp_port" name="smtp_port" value="{$detail.smtp_port}"
                                class="layui-input" autocomplete="off" placeholder="25">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="smtpUser" class="layui-form-label">SMTP账号:</label>
+                <label for="smtp_user" class="layui-form-label">SMTP账号:</label>
                 <div class="layui-input-block">
                     <div class="layui-col-md4">
-                        <input type="text" id="smtpUser" name="smtpUser" value="{$detail.smtpUser}"
+                        <input type="text" id="smtp_user" name="smtp_user" value="{$detail.smtp_user}"
                                class="layui-input" autocomplete="off">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="smtpPass" class="layui-form-label">SMTP密码:</label>
+                <label for="smtp_pass" class="layui-form-label">SMTP密码:</label>
                 <div class="layui-input-block">
                     <div class="layui-col-md4">
-                        <input type="text" id="smtpPass" name="smtpPass" value="{$detail.smtpPass}"
+                        <input type="text" id="smtp_pass" name="smtp_pass" value="{$detail.smtp_pass}"
                                class="layui-input" autocomplete="off">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="verifyType" class="layui-form-label">SMTP验证:</label>
+                <label for="verify_type" class="layui-form-label">SMTP验证:</label>
                 <div class="layui-input-block">
                     <div class="layui-col-md4">
-                        <select name="verifyType" id="verifyType">
+                        <select name="verify_type" id="verify_type">
                             <option value="">默认</option>
-                            <option value="tls" {if $detail.verifyType=="tls"}selected{/if}>TLS</option>
-                            <option value="ssl" {if $detail.verifyType=="ssl"}selected{/if}>SSL</option>
+                            <option value="tls" {if $detail.verify_type=="tls"}selected{/if}>TLS</option>
+                            <option value="ssl" {if $detail.verify_type=="ssl"}selected{/if}>SSL</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="fromUser" class="layui-form-label">发件人邮箱:</label>
+                <label for="from_user" class="layui-form-label">发件人邮箱:</label>
                 <div class="layui-input-block">
                     <div class="layui-col-md3">
-                        <input type="text" id="fromUser" name="fromUser" value="{$detail.fromUser}"
+                        <input type="text" id="from_user" name="from_user" value="{$detail.from_user}"
                                class="layui-input" autocomplete="off">
                     </div>
                     <div class="layui-form-mid" style="padding:0 0 0 5px !important; margin-top:4px;">

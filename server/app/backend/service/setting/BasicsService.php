@@ -51,9 +51,9 @@ class BasicsService extends Service
         // 登录配置
         $login = ConfigUtils::get('login');
         $detail['login'] = [
-            'forceMobile' => intval($login['forceMobile'] ?? 0),
-            'loginModes'  => $login['loginModes'] ?? [],
-            'loginOther'  => $login['loginOther'] ?? [],
+            'force_mobile' => intval($login['force_mobile'] ?? 0),
+            'login_modes'  => $login['login_modes'] ?? [],
+            'login_other'  => $login['login_other'] ?? [],
         ];
 
         return $detail;
@@ -68,17 +68,17 @@ class BasicsService extends Service
     public static function save(array $post): void
     {
         // 网站配置
-        ConfigUtils::set('website', 'favicon', $post['websiteFavicon'] ?? '', '网站图标');
-        ConfigUtils::set('website', 'title', $post['websiteTitle'] ?? '', '网站标题');
-        ConfigUtils::set('website', 'copyright', $post['websiteCopyright'] ?? '', '网站版权');
-        ConfigUtils::set('website', 'icp', $post['websiteIcp'] ?? '', 'ICP备案');
-        ConfigUtils::set('website', 'pcp', $post['websitePcp'] ?? '', '公安备案');
-        ConfigUtils::set('website', 'analyse', $post['websiteAnalyse'] ?? '', '统计代码');
+        ConfigUtils::set('website', 'favicon', $post['website_favicon'] ?? '', '网站图标');
+        ConfigUtils::set('website', 'title', $post['website_title'] ?? '', '网站标题');
+        ConfigUtils::set('website', 'icp', $post['website_icp'] ?? '', 'ICP备案');
+        ConfigUtils::set('website', 'pcp', $post['website_pcp'] ?? '', '公安备案');
+        ConfigUtils::set('website', 'analyse', $post['website_analyse'] ?? '', '统计代码');
+        ConfigUtils::set('website', 'copyright', $post['website_copyright'] ?? '', '网站版权');
 
         // 登录配置
-        ConfigUtils::set('login', 'forceMobile', $post['forceMobile'] ?? 0, '强制绑定手机');
-        ConfigUtils::set('login', 'loginModes', json_encode($post['loginModes'] ?? []), '通用登录方式');
-        ConfigUtils::set('login', 'loginOther', json_encode($post['loginOther'] ?? []), '第三方登录');
+        ConfigUtils::set('login', 'force_mobile', intval($post['force_mobile'] ?? 0), '强制绑定手机');
+        ConfigUtils::set('login', 'login_modes', json_encode($post['login_modes'] ?? []), '通用登录方式');
+        ConfigUtils::set('login', 'login_other', json_encode($post['login_other'] ?? []), '第三方登录');
     }
 
     /**

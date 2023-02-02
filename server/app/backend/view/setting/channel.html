@@ -25,33 +25,31 @@
                         <legend>微信小程序</legend>
                         <div class="layui-field-box">
                             <div class="layui-form-item">
-                                <label for="wxName" class="layui-form-label">小程序名称：</label>
+                                <label for="wx_name" class="layui-form-label">小程序名称：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="wxName" name="wxName" value="{$detail.wx.name}"
-                                           class="layui-input" autocomplete="off">
+                                    <input type="text" id="wx_name" name="wx_name" value="{$detail.wx.name}" class="layui-input" autocomplete="off">
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="wxOriginalId" class="layui-form-label">原始ID：</label>
+                                <label for="wx_original_id" class="layui-form-label">原始ID：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="wxOriginalId" name="wxOriginalId" value="{$detail.wx.originalId}"
-                                           class="layui-input" autocomplete="off">
+                                    <input type="text" id="wx_original_id" name="wx_original_id" value="{$detail.wx.original_id}" class="layui-input" autocomplete="off">
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="wxQrCode" class="layui-form-label">二维码：</label>
+                                <label for="wx_qr_code" class="layui-form-label">二维码：</label>
                                 <div class="layui-input-inline">
-                                    <div class="thumbnail" data-type="image" data-field="wxQrCode" data-limit="1">
+                                    <div class="thumbnail" data-type="image" data-field="wx_qr_code" data-limit="1">
                                         <div class="musters">
-                                            {if $detail.wx.qrCode}
+                                            {if $detail.wx.qr_code}
                                                 <div class="preview">
-                                                    <input type="hidden" id="wxQrCode" name="wxQrCode" value="{$detail.wx.qrCode}">
+                                                    <input type="hidden" id="wx_qr_code" name="wx_qr_code" value="{$detail.wx.qr_code}">
                                                     <i class="layui-icon layui-icon-close"></i>
-                                                    <img src="{$detail.wx.qrCode}" alt="img">
+                                                    <img src="{$detail.wx.qr_code}" alt="img">
                                                 </div>
                                             {/if}
                                         </div>
-                                        <div class="builder {if $detail.wx.qrCode}layui-hide{/if}">
+                                        <div class="builder {if $detail.wx.qr_code}layui-hide{/if}">
                                             <i class="layui-icon layui-icon-camera"></i>
                                             <p>二维码</p>
                                             <div class="mask">
@@ -68,15 +66,15 @@
                         <legend>开发者ID</legend>
                         <div class="layui-field-box">
                             <div class="layui-form-item">
-                                <label for="wxAppId" class="layui-form-label"><span class="asterisk">*</span>AppID：</label>
+                                <label for="wx_app_id" class="layui-form-label"><span class="asterisk">*</span>AppID：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="wxAppId" name="wxAppId" value="{$detail.wx.appId}" class="layui-input" autocomplete="off">
+                                    <input type="text" id="wx_app_id" name="wx_app_id" value="{$detail.wx.app_id}" class="layui-input" autocomplete="off">
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="wxAppSecret" class="layui-form-label"><span class="asterisk">*</span>AppSecret：</label>
+                                <label for="wx_app_secret" class="layui-form-label"><span class="asterisk">*</span>AppSecret：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="wxAppSecret" name="wxAppSecret" value="{$detail.wx.appSecret}" class="layui-input" autocomplete="off">
+                                    <input type="text" id="wx_app_secret" name="wx_app_secret" value="{$detail.wx.app_secret}" class="layui-input" autocomplete="off">
                                     <div class="layui-form-mid layui-word-aux">扫码登录微信小程序平台：开发 > 基本配置 > 开发者ID</div>
                                 </div>
                             </div>
@@ -89,34 +87,32 @@
                         <legend>微信公众号</legend>
                         <div class="layui-field-box">
                             <div class="layui-form-item">
-                                <label for="oaName" class="layui-form-label">公众号名称：</label>
+                                <label for="oa_name" class="layui-form-label">公众号名称：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="oaName" name="oaName" value="{$detail.oa.name}"
-                                            class="layui-input" autocomplete="off">
+                                    <input type="text" id="oa_name" name="oa_name" value="{$detail.oa.name}" class="layui-input" autocomplete="off">
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="oaOriginalId" class="layui-form-label">原始ID：</label>
+                                <label for="oa_original_id" class="layui-form-label">原始ID：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="oaOriginalId"  name="oaOriginalId" value="{$detail.oa.originalId}"
-                                           class="layui-input" autocomplete="off">
+                                    <input type="text" id="oa_original_id" name="oa_original_id" value="{$detail.oa.original_id}" class="layui-input" autocomplete="off">
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="oaQrCode" class="layui-form-label">二维码：</label>
+                                <label for="oa_qr_code" class="layui-form-label">二维码：</label>
                                 <div class="layui-input-inline">
                                     <div class="layui-input-inline">
-                                        <div class="thumbnail" data-type="image" data-field="oaQrCode" data-limit="1">
+                                        <div class="thumbnail" data-type="image" data-field="oa_qr_code" data-limit="1">
                                             <div class="musters">
-                                                {if $detail.oa.qrCode}
+                                                {if $detail.oa.qr_code}
                                                     <div class="preview">
-                                                        <input type="hidden" id="oaQrCode" name="oaQrCode" value="{$detail.oa.qrCode}">
+                                                        <input type="hidden" id="oa_qr_code" name="oa_qr_code" value="{$detail.oa.qr_code}">
                                                         <i class="layui-icon layui-icon-close"></i>
-                                                        <img src="{$detail.oa.qrCode}" alt="img">
+                                                        <img src="{$detail.oa.qr_code}" alt="img">
                                                     </div>
                                                 {/if}
                                             </div>
-                                            <div class="builder {if $detail.oa.qrCode}layui-hide{/if}">
+                                            <div class="builder {if $detail.oa.qr_code}layui-hide{/if}">
                                                 <i class="layui-icon layui-icon-camera"></i>
                                                 <p>二维码</p>
                                                 <div class="mask">
@@ -134,17 +130,15 @@
                         <legend>公众号开发者</legend>
                         <div class="layui-field-box">
                             <div class="layui-form-item">
-                                <label for="oaAppId" class="layui-form-label"><span class="asterisk">*</span>AppID：</label>
+                                <label for="oa_app_id" class="layui-form-label"><span class="asterisk">*</span>AppID：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="oaAppId" name="oaAppId" value="{$detail.oa.appId}"
-                                           class="layui-input" autocomplete="off">
+                                    <input type="text" id="oa_app_id" name="oa_app_id" value="{$detail.oa.app_id}" class="layui-input" autocomplete="off">
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="oaAppSecret" class="layui-form-label"><span class="asterisk">*</span>AppSecret：</label>
+                                <label for="oa_app_secret" class="layui-form-label"><span class="asterisk">*</span>AppSecret：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="oaAppSecret" name="oaAppSecret" value="{$detail.oa.appSecret}"
-                                           class="layui-input" autocomplete="off">
+                                    <input type="text" id="oa_app_secret" name="oa_app_secret" value="{$detail.oa.app_secret}" class="layui-input" autocomplete="off">
                                     <div class="layui-form-mid layui-word-aux">登录微信公众平台，点击开发>基本配置>公众号开发信息</div>
                                 </div>
                             </div>
@@ -157,17 +151,15 @@
                         <legend>微信开放平台</legend>
                         <div class="layui-field-box">
                             <div class="layui-form-item">
-                                <label for="opAppId" class="layui-form-label"><span class="asterisk">*</span>AppID：</label>
+                                <label for="op_app_id" class="layui-form-label"><span class="asterisk">*</span>AppID：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="opAppId" name="opAppId" value="{$detail.op.appId}"
-                                           class="layui-input" autocomplete="off">
+                                    <input type="text" id="op_app_id" name="op_app_id" value="{$detail.op.app_id}" class="layui-input" autocomplete="off">
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="opAppSecret" class="layui-form-label"><span class="asterisk">*</span>AppSecret：</label>
+                                <label for="op_app_secret" class="layui-form-label"><span class="asterisk">*</span>AppSecret：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="opAppSecret" name="opAppSecret" value="{$detail.op.appSecret}"
-                                           class="layui-input" autocomplete="off">
+                                    <input type="text" id="op_app_secret" name="op_app_secret" value="{$detail.op.app_secret}" class="layui-input" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -178,15 +170,14 @@
                      <div class="layui-form-item">
                          <label class="layui-form-label"><span class="asterisk">*</span>渠道状态：</label>
                          <div class="layui-input-inline">
-                             <input type="radio" name="h5Status" value="1" title="开启" {if $detail.h5.status==1}checked{/if}>
-                             <input type="radio" name="h5Status" value="0" title="关闭" {if $detail.h5.status==0}checked{/if}>
+                             <input type="radio" name="h5_status" value="1" title="开启" {if $detail.h5.status==1}checked{/if}>
+                             <input type="radio" name="h5_status" value="0" title="关闭" {if $detail.h5.status==0}checked{/if}>
                          </div>
                      </div>
                      <div class="layui-form-item">
-                         <label for="h5CloseUrl" class="layui-form-label">关闭页面：</label>
+                         <label for="h5_close_url" class="layui-form-label">关闭页面：</label>
                          <div class="layui-input-inline">
-                             <input type="text" id="h5CloseUrl" name="h5CloseUrl" value="{$detail.h5.closeUrl}"
-                                    class="layui-input" autocomplete="off">
+                             <input type="text" id="h5_close_url" name="h5_close_url" value="{$detail.h5.close_url}" class="layui-input" autocomplete="off">
                          </div>
                      </div>
                  </div>

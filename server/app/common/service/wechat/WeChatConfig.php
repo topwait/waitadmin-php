@@ -17,10 +17,10 @@ class WeChatConfig
      */
     public static function getWxConfig(): array
     {
-        $wxConfig = ConfigUtils::get('wxChannel');
+        $wxConfig = ConfigUtils::get('wx_channel');
         $detail['config'] = [
-            'app_id' => $wxConfig['appId'] ?? '',
-            'secret' => $wxConfig['appSecret'] ?? '',
+            'app_id' => $wxConfig['app_id'] ?? '',
+            'secret' => $wxConfig['app_secret'] ?? '',
             'http'   => [
                 'timeout' => 5.0,
                 'throw'   => true,
@@ -39,12 +39,12 @@ class WeChatConfig
      */
     public static function getOaConfig(): array
     {
-        $oaConfig = ConfigUtils::get('oaChannel');
+        $oaConfig = ConfigUtils::get('oa_channel');
         $detail['config'] = [
-            'app_id'  => $oaConfig['appId'] ?? '',
-            'secret'  => $oaConfig['appSecret'] ?? '',
-            'token'   => $oaConfig['token'] ?? '',
-            'aes_key' => $oaConfig['aesKey'] ?? '',
+            'app_id'  => $oaConfig['app_id']     ?? '',
+            'secret'  => $oaConfig['app_secret'] ?? '',
+            'token'   => $oaConfig['token']      ?? '',
+            'aes_key' => $oaConfig['aes_key']    ?? '',
             'http'    => [
                 'timeout' => 5.0,
                 'throw'   => true,
@@ -63,10 +63,10 @@ class WeChatConfig
      */
     public static function getOpConfig(): array
     {
-        $opConfig = ConfigUtils::get('opChannel');
+        $opConfig = ConfigUtils::get('op_channel');
         $detail['config'] = [
-            'app_id'  => $opConfig['appId']??'',
-            'secret'  => $opConfig['appSecret']??'',
+            'app_id'  => $opConfig['app_id']??'',
+            'secret'  => $opConfig['app_secret']??'',
             'http'    => [
                 'timeout' => 5.0,
                 'throw'   => true,
