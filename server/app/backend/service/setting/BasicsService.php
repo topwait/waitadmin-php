@@ -51,6 +51,7 @@ class BasicsService extends Service
         // 登录配置
         $login = ConfigUtils::get('login');
         $detail['login'] = [
+            'is_agreement' => intval($login['is_agreement'] ?? 0),
             'force_mobile' => intval($login['force_mobile'] ?? 0),
             'login_modes'  => $login['login_modes'] ?? [],
             'login_other'  => $login['login_other'] ?? [],
@@ -76,6 +77,7 @@ class BasicsService extends Service
         ConfigUtils::set('website', 'copyright', $post['website_copyright'] ?? '', '网站版权');
 
         // 登录配置
+        ConfigUtils::set('login', 'is_agreement', intval($post['is_agreement'] ?? 0), '显示登录协议');
         ConfigUtils::set('login', 'force_mobile', intval($post['force_mobile'] ?? 0), '强制绑定手机');
         ConfigUtils::set('login', 'login_modes', json_encode($post['login_modes'] ?? []), '通用登录方式');
         ConfigUtils::set('login', 'login_other', json_encode($post['login_other'] ?? []), '第三方登录');

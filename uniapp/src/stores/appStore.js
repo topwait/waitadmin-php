@@ -7,9 +7,9 @@ export const useAppStore = defineStore({
         return {
             config: {
                 login: {
-                    forceMobile: 0,
-                    loginModes: [],
-                    loginOther: []
+                    force_mobile: 0,
+                    login_modes: [],
+                    login_other: []
                 }
             }
         }

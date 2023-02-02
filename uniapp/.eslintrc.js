@@ -61,7 +61,7 @@ module.exports = {
         'arrow-spacing': 'warn',
         'array-bracket-spacing': 'warn',
         'brace-style': 'warn',
-        'camelcase': 'warn',
+        'camelcase': 'off',
         'indent': ['warn', 4],
         'max-depth': ['warn', 4],
         'max-statements': ['warn', 100],

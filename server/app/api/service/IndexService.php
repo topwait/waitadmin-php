@@ -24,9 +24,10 @@ class IndexService extends Service
         if (in_array('1', $login['login_modes']??[])) $loginModes[] = ['alias'=>'account', 'name'=>'账号登录'];
         if (in_array('2', $login['login_modes']??[])) $loginModes[] = ['alias'=>'mobile', 'name'=>'免密登录'];
         $detail['login'] = [
-            'forceMobile' => intval($login['force_mobile']??0),
-            'loginModes'  => $loginModes??[],
-            'loginOther'  => $loginOther??[],
+            'is_agreement' => intval($login['is_agreement']??0),
+            'force_mobile' => intval($login['force_mobile']??0),
+            'login_modes'  => $loginModes??[],
+            'login_other'  => $loginOther??[],
         ];
 
         return $detail;

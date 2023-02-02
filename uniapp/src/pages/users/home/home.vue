@@ -17,7 +17,7 @@
             </view>
         </view>
 
-       <w-service title="" grid="20%" :list="orders" />
+        <w-service title="" grid="20%" :list="orders" />
 
         <w-service title="我的服务" mod="col" grid="25%" :list="service" />
     </view>
@@ -29,10 +29,8 @@ import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
-const isLogin  = userStore.$state.isLogin
+const isLogin = userStore.$state.isLogin
 const userInfo = userStore.$state.userInfo
-
-console.log(isLogin)
 
 onShow(() => {
     userStore.getUserInfo()

@@ -92,6 +92,14 @@
             <div class="layui-card-header">登录设置</div>
             <div class="layui-card-body">
                 <div class="layui-form-item">
+                    <label class="layui-form-label w95"><span class="asterisk">*</span>显示登录协议:</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="is_agreement" value="1" title="开启" {if $login.is_agreement==1}checked{/if}>
+                        <input type="radio" name="is_agreement" value="0" title="关闭" {if $login.is_agreement==0}checked{/if}>
+                        <div class="layui-form-mid layui-word-aux" style="white-space:nowrap;">用户登录注册时是否显示服务协议和隐私政策阅读功能</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label w95"><span class="asterisk">*</span>强制绑定手机:</label>
                     <div class="layui-input-inline">
                         <input type="radio" name="force_mobile" value="1" title="开启" {if $login.force_mobile==1}checked{/if}>
