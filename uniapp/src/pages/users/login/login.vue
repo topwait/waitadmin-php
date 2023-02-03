@@ -132,11 +132,27 @@ const form = {
     password: ''
 }
 
+// 监听加载
 onLoad(async (options) => {
     if (userStore.isLogin) {
         return uni.reLaunch({
             url: '/pages/index/index'
         })
+    }
+})
+
+// 监听显示
+onShow(async () => {
+    try {
+        if (userStore.isLogin) {
+            uni.showLoading({
+                title: '请稍后...'
+            })
+            uni.hideLoading()
+            uni.navigateBack()
+        }
+    } catch (error) {
+        uni.hideLoading()
     }
 })
 

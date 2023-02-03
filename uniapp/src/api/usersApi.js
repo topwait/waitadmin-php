@@ -8,6 +8,11 @@ export function registerApi(params) {
     return uni.$u.http.post('login/register', params)
 }
 
+// 忘记密码
+export function forgetPwdApi(params) {
+    return uni.$u.http.post('login/forgetPwd', params)
+}
+
 // 用户信息
 export function getUserCenterApi() {
     return uni.$u.http.post('users/center')

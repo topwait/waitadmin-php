@@ -3,29 +3,30 @@
     <view class="layout-regist-widget">
         <view class="head"></view>
         <view class="form">
-            <u-form ref="uForm">
+            <u-form ref="uForm" :model="form">
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入手机号" />
+                    <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
                 </u-form-item>
                 <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入验证码" />
+                    <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
                     <template #right>
-                        <u-verification-code ref="uCode" seconds="60" />
+                        <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
                         <u-button
                             :plain="true"
                             type="primary"
                             hover-class="none"
                             size="mini"
                             shape="circle"
-                        >{{ '获取验证码' }}
+                            @click="onSendSms()"
+                        >{{ codeTips }}
                         </u-button>
                     </template>
                 </u-form-item>
                 <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="6~20位数字+字母或符号组合" />
+                    <u-input v-model="form.password" type="password" placeholder="6~20位数字+字母或符号组合" />
                 </u-form-item>
                 <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请再次确认新密码" />
+                    <u-input v-model="form.againPwd" type="password" placeholder="请再次确认新密码" />
                 </u-form-item>
             </u-form>
             <button class="button">重设密码</button>
@@ -34,17 +35,47 @@
 
 </template>
 
-<script>
-    export default {
-        data() {
-            return {
-                
-            }
-        },
-        methods: {
-            
-        }
+<script setup>
+import { forgetPwdApi } from '@/api/usersApi'
+    
+// 表单参数
+const form = {
+    code: '',
+    mobile: '',
+    password: '',
+    againPwd: ''
+}
+
+// 切换提示
+const codeTips = ref('')
+const uCodeRef = shallowRef()
+const codeChange = (text) => {
+    codeTips.value = text
+}
+
+// 发送短信
+const onSendSms = async () => {
+    if (checkUtil.isEmpty(form.account)) {
+        return uni.$u.toast('请输入手机号')
     }
+    if (checkUtil.isMobile(form.account)) {
+        return uni.$u.toast('手机号不合规')
+    }
+    if (uCodeRef.value?.canGetCode) {
+        await sendSmsApi({
+            scene: smsEnum.LOGIN,
+            mobile: form.mobile
+        })
+        uCodeRef.value?.start()
+    }
+}
+
+// 重置密码
+const onResetPwd = async () => {
+    forgetPwdApi(form).then(result => {
+        
+    })
+}
 </script>
 
 <style lang="scss">
