@@ -71,15 +71,5 @@ const onRegister = () => {
         background-color: #ffffff;
         box-shadow: 0 2px 14px 0 rgb(0 0 0 / 8%);
     }
-    .button {
-        margin-top: 40rpx;
-        padding: 2rpx 0;
-        width: 100%;
-        font-size: 32rpx;
-        border-radius: 50rpx;
-        text-align: center;
-        color: #ffffff;
-        background-color: #2979ff;
-    }
 }
 </style>
