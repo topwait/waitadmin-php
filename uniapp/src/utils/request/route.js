@@ -1,4 +1,6 @@
 import { useUserStore } from '@/stores/userStore'
+import cacheEnum from '@/enums/cacheEnum'
+import cacheUtil from '@/utils/cacheUtil'
 import PagesJSON from '@/pages.json'
 
 export default {
@@ -17,17 +19,18 @@ export default {
                     })
 
                     // 登录页面拦截
-                    if (currentRoute?.auth && !useUserStore.isLogin) {
+                    if (currentRoute?.auth && !cacheUtil.get(cacheEnum.TOKEN_KEY)) {
+                        console.log('来了吗')
                         uni.navigateTo({
                             url: '/pages/login/login'
                         })
                         return false
                     }
-                    
+
                     return e
                 },
                 fail(err) {
-                   throw {errMsg: err}
+                    throw new Error(err.Error)
                 }
             })
         })

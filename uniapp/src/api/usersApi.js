@@ -1,3 +1,8 @@
+// 退出系统
+export function LogoutApi() {
+    return uni.$u.http.post('login/logout')
+}
+
 // 登录系统
 export function loginApi(params) {
     return uni.$u.http.post('login/login', params)

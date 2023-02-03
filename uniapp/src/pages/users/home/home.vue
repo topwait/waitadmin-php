@@ -8,7 +8,7 @@
                         <view class="text-lg color-white">{{ userInfo.nickname }}</view>
                         <view class="text-xs color-lighter">ID: {{ userInfo.sn }}</view>
                     </view>
-                    <view v-else class="login" @click="onJump">点击登录</view>
+                    <view v-else class="login" @click="$go('/pages/users/login/login')">点击登录</view>
                 </view>
                 <view class="flex items-start">
                     <u-icon class="icon" name="bell" color="#ffffff" size="42" />
@@ -26,11 +26,11 @@
 <script setup>
 import { reactive } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
+import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
-const isLogin = userStore.$state.isLogin
-const userInfo = userStore.$state.userInfo
+const { userInfo, isLogin } = storeToRefs(userStore)
 
 onShow(() => {
     userStore.getUserInfo()
@@ -85,12 +85,6 @@ const service = reactive([
         'image': '../../../static/tabBar/tab_home_no.png'
     }
 ])
-
-const onJump = () => {
-    uni.navigateTo({
-        url: '/pages/users/login/login'
-    })
-}
 
 </script>
 

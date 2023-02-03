@@ -8,10 +8,7 @@ const userStore = useUserStore()
 
 onLaunch(async () => {
     await appStore.getSysConfig()
+    await appStore.h5Intercepts()
     await userStore.getUserInfo()
 })
 </script>
-
-<style lang="scss">
-
-</style>

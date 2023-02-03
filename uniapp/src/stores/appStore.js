@@ -6,6 +6,10 @@ export const useAppStore = defineStore({
     state: () => {
         return {
             config: {
+                h5: {
+                    status: 0,
+                    close_url: ''
+                },
                 login: {
                     force_mobile: 0,
                     login_modes: [],
@@ -15,12 +19,22 @@ export const useAppStore = defineStore({
         }
     },
     getters: {
+        h5ConfigVal: (state) => state.config.h5 || {},
         loginConfigVal: (state) => state.config.login || {}
     },
     actions: {
         async getSysConfig() {
             const result = await getSysConfigApi()
             this.config = result.data
+        },
+        h5Intercepts() {
+            // #ifdef H5
+            const { status, close_url } = this.h5ConfigVal
+            if (status === 1) {
+                if (close_url) return (location.href = close_url)
+                uni.reLaunch({ url: '/pages/empty/empty' })
+            }
+            // #endif
         }
     }
 })
