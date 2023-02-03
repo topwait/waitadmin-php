@@ -7,6 +7,34 @@
             }
         },
         {
+            "path" : "pages/login/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "登录",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
+            }
+            
+        }
+        ,{
+            "path" : "pages/login/regist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "注册",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
+            }
+        }
+        ,{
+            "path" : "pages/login/forget",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "忘记密码",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
+            }
+        },
+        {
             "path": "pages/users/home/home",
             "style": {
                 "navigationBarTitleText": "个人中心",
@@ -18,34 +46,6 @@
             "path": "pages/users/intro/intro",
             "style": {
                 "navigationBarTitleText": "个人简介",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
-            }
-        }
-        ,{
-            "path" : "pages/users/login/login",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "登录",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
-            }
-            
-        }
-        ,{
-            "path" : "pages/users/regist/regist",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "注册",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
-            }
-        }
-        ,{
-            "path" : "pages/users/forget/forget",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "忘记密码",
                 "navigationBarTextStyle": "white",
                 "navigationBarBackgroundColor": "#2979ff"
             }
