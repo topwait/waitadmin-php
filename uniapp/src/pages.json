@@ -13,6 +13,14 @@
                 "navigationBarTextStyle": "white",
                 "navigationBarBackgroundColor": "#2979ff"
             }
+        },
+        {
+            "path": "pages/users/intro/intro",
+            "style": {
+                "navigationBarTitleText": "个人简介",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
+            }
         }
         ,{
             "path" : "pages/users/login/login",

@@ -56,6 +56,16 @@ class LoginController extends Api
                 break;
         }
 
-        return AjaxUtils::success('', $response);
+        return AjaxUtils::success($response);
+    }
+
+    /**
+     * 退出系统
+     *
+     * @return Json
+     */
+    public function logout(): Json
+    {
+        return AjaxUtils::success();
     }
 }
