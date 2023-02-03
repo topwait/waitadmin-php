@@ -13,9 +13,17 @@ class LoginController extends Api
 {
     protected array $notNeedLogin = ['register', 'login'];
 
-    public function register()
+    /**
+     * 注册
+     *
+     * @return Json
+     * @throws Exception
+     * @author windy
+     */
+    public function register(): Json
     {
-
+        LoginService::register($this->request->post());
+        return AjaxUtils::success();
     }
 
     /**
@@ -28,7 +36,6 @@ class LoginController extends Api
     public function login(): Json
     {
         $post     = $this->request->post();
-        $terminal = intval($post['terminal']??1);
         $validate = new LoginValidate();
 
         $response = [];

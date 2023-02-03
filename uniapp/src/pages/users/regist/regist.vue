@@ -3,21 +3,21 @@
     <view class="layout-regist-widget">
         <view class="head"></view>
         <view class="form">
-            <u-form ref="uForm">
+            <u-form ref="uForm" :model="form">
                 <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入登录账号" />
+                    <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
                 </u-form-item>
                 <u-form-item left-icon="fingerprint" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="password" placeholder="请输入登录密码" />
+                    <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
                 </u-form-item>
                 <u-form-item left-icon="hourglass" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="password" placeholder="请再次确认密码" />
+                    <u-input v-model="form.againPwd" type="password" placeholder="请再次确认密码" />
                 </u-form-item>
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入手机号" />
+                    <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
                 </u-form-item>
                 <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input type="number" placeholder="请输入验证码" />
+                    <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
                     <template #right>
                         <u-verification-code ref="uCode" seconds="60" />
                         <u-button
@@ -31,14 +31,30 @@
                     </template>
                 </u-form-item>
             </u-form>
-            <button class="button">注册账号</button>
+            <w-button mt="40" @on-click="onRegister()">注册账号</w-button>
         </view>
     </view>
 
 </template>
 
 <script setup>
+import { registerApi } from '@/api/usersApi'
+    
+// 表单参数
+const form = {
+    code: '',
+    mobile: '',
+    account: '',
+    password: '',
+    againPwd: ''
+}
 
+// 注册账号
+const onRegister = () => {
+    registerApi(form).then(result => {
+        
+    })
+}
 </script>
 
 <style lang="scss">

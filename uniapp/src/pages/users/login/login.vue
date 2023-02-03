@@ -19,19 +19,20 @@
             <!-- 短信登录 -->
             <u-form v-if="loginWays === 'mobile'" ref="uForm" :model="form">
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.account" type="number" placeholder="请输入手机号" />
+                    <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
                 </u-form-item>
                 <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                     <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
                     <template #right>
-                        <u-verification-code ref="uCode" seconds="60" />
+                        <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
                         <u-button
                             :plain="true"
                             type="primary"
                             hover-class="none"
                             size="mini"
                             shape="circle"
-                        >{{ '获取验证码' }}
+                            @click="onSendSms()"
+                        >{{ codeTips }}
                         </u-button>
                     </template>
                 </u-form-item>
@@ -63,7 +64,7 @@
 
             <!-- 登录协议 -->
             <view v-if="isOpenAgreement" class="treaty">
-                <u-checkbox shape="circle" active-color="#2979ff" />
+                <u-checkbox v-model="isCheckAgreement" shape="circle" active-color="#2979ff" />
                 <text class="ml-10">已阅读并同意</text>
                 <text class="color-theme">《用户协议》</text>与
                 <text class="color-theme">《隐私协议》</text>
@@ -90,10 +91,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { onLoad, onShow } from '@dcloudio/uni-app'
+import { ref, computed, shallowRef } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import { loginApi } from '@/api/usersApi'
+import { sendSmsApi } from '@/api/indexApi'
+import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 import clientUtil from '@/utils/clientUtil'
 import toolUtil from '@/utils/toolUtil'
@@ -113,6 +117,7 @@ const tabsIndex = ref(0)
 const loginTabs = appStore.loginConfigVal.login_modes
 const loginAuth = appStore.loginConfigVal.login_other
 const loginWays = ref(loginTabs.length ? loginTabs[0].alias : '')
+const isCheckAgreement = ref(false)
 
 // 计算属性
 const isForceMobileUa = computed(() => appStore.loginConfigVal.force_mobile === 1)
@@ -122,8 +127,24 @@ const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other.lengt
 // 表单参数
 const form = {
     code: '',
+    mobile: '',
     account: '',
     password: ''
+}
+
+onLoad(async (options) => {
+    if (userStore.isLogin) {
+        return uni.reLaunch({
+            url: '/pages/index/index'
+        })
+    }
+})
+
+// 切换提示
+const codeTips = ref('')
+const uCodeRef = shallowRef()
+const codeChange = (text) => {
+    codeTips.value = text
 }
 
 // 切换登录
@@ -137,14 +158,31 @@ const wayInclude = (way) => {
     return loginAuth.includes(way)
 }
 
+// 发送短信
+const onSendSms = async () => {
+    if (checkUtil.isEmpty(form.account)) {
+        return uni.$u.toast('请输入手机号')
+    }
+    if (checkUtil.isMobile(form.account)) {
+        return uni.$u.toast('手机号不合规')
+    }
+    if (uCodeRef.value?.canGetCode) {
+        await sendSmsApi({
+            scene: smsEnum.LOGIN,
+            mobile: form.mobile
+        })
+        uCodeRef.value?.start()
+    }
+}
+
 // 普通登录
 const onSaLogin = (scene) => {
-    let param = {}
+    let params = {}
     if (scene === 'mobile') {
-        if (checkUtil.isEmpty(form.account)) {
+        if (checkUtil.isEmpty(form.mobile)) {
             return uni.$u.toast('请输入手机号')
         }
-        if (checkUtil.isMobile(form.account)) {
+        if (checkUtil.isMobile(form.mobile)) {
             return uni.$u.toast('手机号不合规')
         }
         if (checkUtil.isEmpty(form.code)) {
@@ -153,7 +191,7 @@ const onSaLogin = (scene) => {
         if (!checkUtil.isNumber(form.code) && form.code.length > 4) {
             return uni.$u.toast('错误的验证码')
         }
-        param = {scene: scene, code: form.code, mobile: form.account}
+        params = {scene: scene, code: form.code, mobile: form.mobile}
     } else {
         if (checkUtil.isEmpty(form.account)) {
             return uni.$u.toast('请输入登录账号')
@@ -161,15 +199,15 @@ const onSaLogin = (scene) => {
         if (checkUtil.isEmpty(form.password)) {
             return uni.$u.toast('请输入登录密码')
         }
-        param = {scene: scene, account: form.account, password: form.password}
+        params = {scene: scene, account: form.account, password: form.password}
     }
 
-    if (isForceMobileUa.value) {
+    if (isForceMobileUa.value && isCheckAgreement.value) {
         return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
     }
 
     uni.showLoading({title: '请稍后...'})
-    loginApi(param).then(result => {
+    loginApi(params).then(result => {
         __loginHandle(result)
     })
 }
