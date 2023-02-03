@@ -55,7 +55,7 @@
             </view>
 
             <!-- 登录按钮 -->
-            <w-button v-if="loginTabs.length" mt="40" @on-click="onSaLogin(loginMode)">登录</w-button>
+            <w-button v-if="loginTabs.length" mt="40" @on-click="onSaLogin(loginWays)">登录</w-button>
 
             <!-- 登录插图 -->
             <view v-if="!loginTabs.length" class="flex justify-center">
