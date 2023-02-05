@@ -383,7 +383,7 @@ page {
         .pc-#{$i} { padding: ($i + rpx) auto; }
         .pa-#{$i} { padding: 0 ($i + rpx); }
         .px-#{$i} { padding-right: $i + rpx; padding-left: $i + rpx; }
-        .py-#{$i} { padding-right: $i + rpx; padding-left: $i + rpx; }
+        .py-#{$i} { padding-top: $i + rpx; padding-bottom: $i + rpx; }
         .-px-#{$i} { padding-right: "-" + $i + rpx; padding-left: "-" + $i + rpx; }
         .-py-#{$i} { padding-top: "-" + $i + rpx; padding-bottom: "-" + $i + rpx; }
         .-p-#{$i} { padding: "-" + $i + rpx; }

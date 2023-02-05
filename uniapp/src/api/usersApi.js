@@ -1,5 +1,5 @@
 // 退出系统
-export function LogoutApi() {
+export function logoutApi() {
     return uni.$u.http.post('login/logout')
 }
 

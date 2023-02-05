@@ -2,7 +2,7 @@
 
     <view class="layout-login-widget">
         <view class="logo">
-            <image class="w-h-full rounded-c50" src="../../../static/logo.png" />
+            <image class="w-h-full rounded-c50" src="../../static/logo.png" />
         </view>
         <view class="form">
             <!-- 登录方式 -->
@@ -133,7 +133,7 @@ const form = {
 }
 
 // 监听加载
-onLoad(async (options) => {
+onLoad(async () => {
     if (userStore.isLogin) {
         return uni.reLaunch({
             url: '/pages/index/index'
@@ -218,11 +218,10 @@ const onSaLogin = (scene) => {
         params = {scene: scene, account: form.account, password: form.password}
     }
 
-    if (isForceMobileUa.value && isCheckAgreement.value) {
+    if (isForceMobileUa.value && !isCheckAgreement.value) {
         return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
     }
 
-    uni.showLoading({title: '请稍后...'})
     loginApi(params).then(result => {
         __loginHandle(result)
     })
@@ -248,7 +247,6 @@ const __loginHandle = (result) => {
 
     userStore.login(result.data.token)
     uni.$u.toast('登录成功')
-    uni.hideLoading()
 
     const pages = toolUtil.currentPage()
     if (pages.length > 1) {
@@ -258,6 +256,10 @@ const __loginHandle = (result) => {
                 const { onLoad, options } = prevPage
                 onLoad && onLoad(options)
             }
+        })
+    } else {
+        uni.reLaunch({
+            url: '/pages/index/index'
         })
     }
 }
