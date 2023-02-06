@@ -176,10 +176,10 @@ const wayInclude = (way) => {
 
 // 发送短信
 const onSendSms = async () => {
-    if (checkUtil.isEmpty(form.account)) {
+    if (checkUtil.isEmpty(form.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
-    if (checkUtil.isMobile(form.account)) {
+    if (checkUtil.isMobile(form.mobile)) {
         return uni.$u.toast('手机号不合规')
     }
     if (uCodeRef.value?.canGetCode) {

@@ -16,29 +16,30 @@ const install = (Vue) => {
     }
 
     // 响应拦截配置
-    Vue.config.globalProperties.$u.http.interceptor.response = (response, a) => {        
+    Vue.config.globalProperties.$u.http.interceptor.response = (response) => {
+        const result = response.data
         const { logout } = useUserStore()
-        switch (response.code) {
+        switch (result.code) {
             case errorEnum.SUCCESS:
-                return response
-            case errorEnum.CONTROL_ERROR:
+                return result
             case errorEnum.SYSTEM_ERROR:
-            case errorEnum.METHOD_ERROR:
             case errorEnum.PARAMS_ERROR:
+            case errorEnum.METHOD_ERROR:
+            case errorEnum.CONTROL_ERROR:
             case errorEnum.REQUEST_ERROR:
             case errorEnum.OPERATE_ERROR:
             case errorEnum.UPLOADS_ERROR:
             case errorEnum.PURVIEW_ERROR:
-                uni.$u.toast(response.msg)
-                return Promise.reject(response.msg)
-            case errorEnum.LOGIN_EMPTYS_ERROR:
+                uni.$u.toast(result.msg)
+                return Promise.reject(result.msg)
+            case errorEnum.LOGIN_EMPTY_ERROR:
             case errorEnum.LOGIN_EXPIRE_ERROR:
                 logout()
                 uni.navigateTo({url: '/pages/login/enroll'})
-                return Promise.reject()
-            default:
-                return response
+                break
         }
+
+        return result
     }
 }
 

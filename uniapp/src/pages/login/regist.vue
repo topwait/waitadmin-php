@@ -39,7 +39,8 @@
 
 <script setup>
 import { registerApi } from '@/api/usersApi'
-    
+import checkUtil from '@/utils/checkUtil'
+
 // 表单参数
 const form = {
     code: '',
@@ -51,9 +52,25 @@ const form = {
 
 // 注册账号
 const onRegister = () => {
-    registerApi(form).then(result => {
-        
-    })
+    if (checkUtil.isEmpty(form.account)) {
+        return uni.$u.toast('请输登录账号')
+    }
+    if (checkUtil.isEmpty(form.password)) {
+        return uni.$u.toast('请输登录密码')
+    }
+    if (checkUtil.isMobile(form.mobile)) {
+        return uni.$u.toast('手机号不合规')
+    }
+    if (checkUtil.isEmpty(form.code)) {
+        return uni.$u.toast('请输入验证码')
+    }
+    if (form.password !== form.againPwd) {
+        return uni.$u.toast('两次密码不一致')
+    }
+
+    await registerApi(form)
+    uni.$u.toast('注册成功')
+    uni.navigateBack()
 }
 </script>
 

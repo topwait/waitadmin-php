@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\BaseController;
+use app\common\enum\ErrorEnum;
 use app\common\exception\OperateException;
 use think\App;
 use think\facade\Cache;
@@ -94,12 +95,16 @@ class Api extends BaseController
 
         // 验证是否是尚未登陆状态
         if (empty($token)) {
-            throw new OperateException('缺少token参数');
+            $errCode = ErrorEnum::LOGIN_EMPTY_ERROR;
+            $errMsg = ErrorEnum::getMsgByCode($errCode);
+            throw new OperateException($errMsg, $errCode);
         }
 
         // 验证是否是尚未登陆状态
         if (!$userId) {
-            throw new OperateException('登录超时，请重新登录');
+            $errCode = ErrorEnum::LOGIN_EXPIRE_ERROR;
+            $errMsg = ErrorEnum::getMsgByCode($errCode);
+            throw new OperateException($errMsg, $errCode);
         }
 
         // 保存信息到全局属性

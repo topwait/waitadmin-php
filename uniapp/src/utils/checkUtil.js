@@ -96,7 +96,7 @@ export default {
     },
     // 是否是手机号
     isMobile(val) {
-        return /^0\d{2,3}-?\d{7,8}$/.test(val)
+        return /^1[3-9]\d{9}$/.test(val)
     },
     // 是否是邮箱号
     isEmail(val) {

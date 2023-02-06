@@ -72,9 +72,9 @@ const onSendSms = async () => {
 
 // 重置密码
 const onResetPwd = async () => {
-    forgetPwdApi(form).then(result => {
-        
-    })
+    await forgetPwdApi(form)
+    uni.$u.toast('操作成功')
+    uni.navigateBack()
 }
 </script>
 

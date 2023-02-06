@@ -33,6 +33,9 @@ class ErrorEnum
     const PURVIEW_ERROR   = 5700; // 权限不足
     const FOUNDER_ERROR   = 5800; // 空的数据
 
+    const LOGIN_EMPTY_ERROR = 8000;  // 登录令牌缺失
+    const LOGIN_EXPIRE_ERROR = 8100; // 登录令牌失效
+
     /**
      * 根据Code获取描述
      *
@@ -51,7 +54,10 @@ class ErrorEnum
             self::OPERATE_ERROR    => '操作错误',
             self::UPLOADS_ERROR    => '上传错误',
             self::PURVIEW_ERROR    => '权限不足',
-            self::FOUNDER_ERROR    => '失败查询'
+            self::FOUNDER_ERROR    => '失败查询',
+
+            self::LOGIN_EMPTY_ERROR   => '登录令牌缺失',
+            self::LOGIN_EXPIRE_ERROR  => '登录令牌失效'
         ];
 
         return $desc[$code] ?? '未知异常';
