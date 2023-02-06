@@ -10,7 +10,7 @@ class TokenWidget
     public static function login()
     {
         $session = [
-            'id' => 'like-admin:login:session:1',
+            'id' => 'admin:login:session:1',
             'createTime' => time(),
             'updateTime' => time(),
             'tokenLists' => [
