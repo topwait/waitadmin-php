@@ -1,7 +1,9 @@
 <template>
 
     <view class="layout-regist-widget">
-        <view class="head"></view>
+        <view class="head">
+            <view class="title">注册账号</view>
+        </view>
         <view class="form">
             <u-form ref="uForm" :model="form">
                 <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
@@ -41,6 +43,9 @@
 import { registerApi } from '@/api/usersApi'
 import checkUtil from '@/utils/checkUtil'
 
+// 设置标题
+uni.setNavigationBarTitle({title: ''})
+
 // 表单参数
 const form = {
     code: '',
@@ -51,15 +56,15 @@ const form = {
 }
 
 // 注册账号
-const onRegister = () => {
+const onRegister = async () => {
     if (checkUtil.isEmpty(form.account)) {
         return uni.$u.toast('请输登录账号')
     }
     if (checkUtil.isEmpty(form.password)) {
         return uni.$u.toast('请输登录密码')
     }
-    if (checkUtil.isMobile(form.mobile)) {
-        return uni.$u.toast('手机号不合规')
+    if (checkUtil.isEmpty(form.againPwd)) {
+        return uni.$u.toast('请输确认密码')
     }
     if (checkUtil.isEmpty(form.code)) {
         return uni.$u.toast('请输入验证码')
@@ -77,8 +82,14 @@ const onRegister = () => {
 <style lang="scss">
 .layout-regist-widget {
     .head {
-        height: 200rpx;
+        height: 240rpx;
         background-color: #2979ff;
+        .title {
+            font-size: 48rpx;
+            color: #ffffff;
+            text-align: center;
+            padding-top: 20rpx;
+        }
     }
     .form {
         margin: 20px;

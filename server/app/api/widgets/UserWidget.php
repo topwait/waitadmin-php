@@ -33,13 +33,14 @@ class UserWidget extends Service
         $openId   = $response['openid']   ?? '';
         $unionId  = $response['unionid']  ?? '';
 
-        // 验证用户
+        // 验证账号
         $modelUser = new User();
-        $where = array(['username'=>$account,'is_delete'=>0], ['mobile'=>$mobile,'is_delete'=>0]);
+        $where = array(['account'=>$account,'is_delete'=>0], ['mobile'=>$mobile,'is_delete'=>0]);
         if ($account && !$modelUser->field(['id'])->where($where[0])->findOrEmpty()->isEmpty()) {
             throw new OperateException('账号已被占用了');
         }
 
+        // 验证手机
         if ($mobile && !$modelUser->field(['id'])->where($where[1])->findOrEmpty()->isEmpty()) {
             throw new OperateException('手机已被占用了');
         }
@@ -49,11 +50,10 @@ class UserWidget extends Service
             // 创建用户
             $user = User::create([
                 'sn'              => $snCode,
-                'avatar'          => '',
-                'nickname'        => 'u'.$snCode,
-                'username'        => $account,
                 'mobile'          => $mobile,
+                'account'         => $account,
                 'password'        => $password,
+                'nickname'        => 'u'.$snCode,
                 'salt'            => make_rand_char(6),
                 'last_login_ip'   => request()->ip(),
                 'last_login_time' => time(),

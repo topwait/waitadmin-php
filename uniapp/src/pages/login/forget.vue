@@ -1,7 +1,9 @@
 <template>
 
     <view class="layout-regist-widget">
-        <view class="head"></view>
+        <view class="head">
+            <view class="title">重置密码</view>
+        </view>
         <view class="form">
             <u-form ref="uForm" :model="form">
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
@@ -36,7 +38,11 @@
 </template>
 
 <script setup>
+import { ref, computed, shallowRef } from 'vue'
 import { forgetPwdApi } from '@/api/usersApi'
+
+// 设置标题
+uni.setNavigationBarTitle({title: ''})
     
 // 表单参数
 const form = {
@@ -81,8 +87,14 @@ const onResetPwd = async () => {
 <style lang="scss">
 .layout-regist-widget {
     .head {
-        height: 200rpx;
+        height: 240rpx;
         background-color: #2979ff;
+        .title {
+            font-size: 48rpx;
+            color: #ffffff;
+            text-align: center;
+            padding-top: 20rpx;
+        }
     }
     .form {
         margin: 20px;

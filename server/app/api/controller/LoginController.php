@@ -22,9 +22,27 @@ class LoginController extends Api
      */
     public function register(): Json
     {
-        LoginService::register($this->request->post());
+        (new LoginValidate())->goCheck('register');
+
+        $result = LoginService::register($this->request->post(), $this->terminal);
+        return AjaxUtils::success($result);
+    }
+
+    /**
+     * 注册
+     *
+     * @return Json
+     * @throws Exception
+     * @author windy
+     */
+    public function forget(): Json
+    {
+        (new LoginValidate())->goCheck('forget');
+
+        LoginService::forgetPwd($this->request->post());
         return AjaxUtils::success();
     }
+
 
     /**
      * 登录
@@ -46,11 +64,12 @@ class LoginController extends Api
                 break;
             case 'mobile':
                 $validate->goCheck('mobile');
-                $response = LoginService::mobileLogin($post['mobile'], $post['code']);
+                $response = LoginService::mobileLogin($post['mobile'], $post['code'], $this->terminal);
                 break;
             case 'wx':
                 $validate->goCheck('wx');
-                $response = LoginService::wxLogin($post['code'], $this->terminal);
+                $phoneCode = $post['phoneCode']??'';
+                $response = LoginService::wxLogin($post['code'], $phoneCode, $this->terminal);
                 break;
             case 'oa':
                 break;

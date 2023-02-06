@@ -15,8 +15,15 @@ class LoginValidate extends Validate
     ];
 
     protected $scene = [
-        'wx'      => ['code', 'phoneCode'],
-        'mobile'  => ['code', 'mobile'],
-        'account' => ['account', 'password']
+        // 微信登录
+        'wx'        => ['code', 'phoneCode'],
+        // 短信登录
+        'mobile'    => ['code', 'mobile'],
+        // 账号登录
+        'account'   => ['account', 'password'],
+        // 重设密码
+        'forget'    => ['mobile', 'code', 'password'],
+        // 注册账号
+        'register'  => ['account', 'password', 'mobile', 'code']
     ];
 }

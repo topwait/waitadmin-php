@@ -50,8 +50,8 @@
 
             <!-- 注册重置 -->
             <view v-if="loginWays === 'account'" class="flex justify-between mt-30">
-                <view class="text-sm color-muted" @click="$go('/pages/users/regist/regist')">注册账号</view>
-                <view class="text-sm color-muted" @click="$go('/pages/users/forget/forget')">忘记密码?</view>
+                <view class="text-sm color-muted" @click="$go('/pages/login/regist')">注册账号</view>
+                <view class="text-sm color-muted" @click="$go('/pages/login/forget')">忘记密码?</view>
             </view>
 
             <!-- 登录按钮 -->
