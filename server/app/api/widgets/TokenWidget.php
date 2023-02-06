@@ -9,7 +9,20 @@ class TokenWidget
      */
     public static function login()
     {
-
+        $session = [
+            'id' => 'like-admin:login:session:1',
+            'createTime' => time(),
+            'updateTime' => time(),
+            'tokenLists' => [
+                [
+                    'value'         => 'OwCAnCJbE43siVV4TliYJy',
+                    'device'        => 1,
+                    'lastOpTime'    => time(),
+                    'lastUaBrowser' => time(),
+                    'lastIpAddress' => time()
+                ]
+            ]
+        ];
     }
 
     /**
