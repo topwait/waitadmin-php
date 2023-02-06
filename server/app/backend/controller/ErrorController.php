@@ -38,7 +38,7 @@ class ErrorController
      */
     public function __call($name, $arguments)
     {
-        $errCode = ErrorEnum::CONTROLLER_ERROR;
+        $errCode = ErrorEnum::CONTROl_ERROR;
         $message = ErrorEnum::getMsgByCode($errCode);
         throw new SystemException($message, $errCode);
     }

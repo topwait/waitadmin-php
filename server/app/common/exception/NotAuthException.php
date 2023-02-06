@@ -30,7 +30,7 @@ class NotAuthException extends BaseException
     public function __construct($message = "", $code = 0, $data = [], Throwable $previous = null)
     {
         $this->data     = $data;
-        $this->code     = $code    ?: ErrorEnum::NOT_PERM_ERROR;
+        $this->code     = $code    ?: ErrorEnum::PURVIEW_ERROR;
         $this->message  = $message ?: ErrorEnum::getMsgByCode($this->code);
         parent::__construct($this->message, $this->code, $previous);
     }
