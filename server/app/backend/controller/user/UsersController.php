@@ -83,12 +83,46 @@ class UsersController extends Backend
         if ($this->isAjaxPost()) {
             $ids = $this->request->post('ids');
             $gid = $this->request->post('gid');
-            UsersService::group($ids, intval($gid));
+            UsersService::setGroup($ids, intval($gid));
             return AjaxUtils::success();
         }
 
         return view('', [
             'groups' => GroupService::all()
         ]);
+    }
+
+    /**
+     * 在线的用户
+     *
+     * @return View|Json
+     * @author windy
+     */
+    public function line(): View|Json
+    {
+        if ($this->isAjaxGet()) {
+            $id = intval($this->request->get('id', 0));
+            $list = UsersService::line($id);
+            return AjaxUtils::success($list);
+        }
+
+        return view();
+    }
+
+    /**
+     * 踢下线用户
+     *
+     * @return Json
+     * @author windy
+     */
+    public function kickOut(): Json
+    {
+        if ($this->isAjaxGet()) {
+            $token= $this->request->get('token', '');
+            UsersService::kickOut($token);
+            return AjaxUtils::success();
+        }
+
+        return AjaxUtils::error();
     }
 }

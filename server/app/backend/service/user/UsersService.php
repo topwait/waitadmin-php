@@ -19,6 +19,7 @@ namespace app\backend\service\user;
 use app\common\basics\Service;
 use app\common\enum\GenderEnum;
 use app\common\model\user\User;
+use app\common\service\security\SecurityDriver;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
@@ -74,8 +75,8 @@ class UsersService extends Service
         foreach ($lists['data'] as &$item) {
             $item['avatar'] = UrlUtils::toAbsoluteUrl($item['avatar']);
             $item['sex']    = GenderEnum::getMsgByCode($item['sex']);
-            $item['email']  = $item['email'] ? $item['email'] : '-';
-            $item['groups'] = $item['groups'] ? $item['groups'] : '-';
+            $item['email']  = $item['email'] ?: '-';
+            $item['groups'] = $item['groups'] ?: '-';
         }
 
         return ['count'=>$lists['total'], 'list'=>$lists['data']];
@@ -111,11 +112,31 @@ class UsersService extends Service
      * @param int $gid   (分组ID)
      * @author windy
      */
-    public static function group(array $ids, int $gid): void
+    public static function setGroup(array $ids, int $gid): void
     {
         User::update([
             'group_id'    => $gid,
             'update_time' => time()
         ], [['id', 'in', $ids]]);
+    }
+
+    /**
+     * 在线的用户
+     *
+     * @param int $id
+     * @return array
+     * @author windy
+     */
+    public static function line(int $id): array
+    {
+        return SecurityDriver::getSessionInfo($id);
+    }
+
+    /**
+     * 踢下线用户
+     */
+    public static function kickOut(string $token)
+    {
+
     }
 }

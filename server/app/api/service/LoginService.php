@@ -130,8 +130,7 @@ class LoginService extends Service
         }
 
         // 登录账户
-        $userId = intval($userInfo['id']);
-        $token = SecurityDriver::login($userId, $terminal);
+        $token = SecurityDriver::login(intval($userInfo['id']), $terminal);
         return ['token'=>$token];
     }
 
@@ -173,7 +172,7 @@ class LoginService extends Service
         }
 
         // 登录账户
-        $token = UserWidget::grantToken(intval($userInfo['id']), $terminal);
+        $token = SecurityDriver::login(intval($userInfo['id']), $terminal);
         return ['token'=>$token];
     }
 
@@ -208,7 +207,7 @@ class LoginService extends Service
         }
 
         // 登录账户
-        $token = UserWidget::grantToken($userId, $terminal);
+        $token = SecurityDriver::login($userId, $terminal);
         return ['token'=>$token];
     }
 

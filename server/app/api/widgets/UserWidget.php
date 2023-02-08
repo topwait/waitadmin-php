@@ -151,19 +151,4 @@ class UserWidget extends Service
                 }
             })->findOrEmpty()->toArray();
     }
-
-    /**
-     * 生成令牌
-     *
-     * @param int $userId
-     * @param int $terminal
-     * @return string
-     */
-    public static function grantToken(int $userId, int $terminal): string
-    {
-        $token = make_md5_str(time().$userId);
-        $cacheKey = 'login:token:'.$terminal.':'.$token;
-        Cache::set($cacheKey, 1, 7200);
-        return $token;
-    }
 }

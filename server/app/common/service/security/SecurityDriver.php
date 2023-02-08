@@ -90,7 +90,7 @@ class SecurityDriver extends BaseService
         $session = json_encode($session);
         $timeout = self::$config['token-timeout'] == -1 ? null : self::$config['token-timeout'];
         Cache::set(self::_buildKey($id), $session, self::$config['token-timeout']);
-        if (self::$config['token-mode'] !== 'session') {
+        if (self::$config['token-pattern'] !== 'session') {
             Cache::set(self::_tokenKey($tokenVa), $id, $timeout);
         }
 
@@ -139,7 +139,7 @@ class SecurityDriver extends BaseService
     {
         self::initConfig();
 
-        if (self::$config['token-mode'] == 'session') {
+        if (self::$config['token-pattern'] == 'session') {
             $id = intval(session($token));
             $token = app('session')->getId();
         } else {
@@ -183,7 +183,7 @@ class SecurityDriver extends BaseService
     {
         self::initConfig();
 
-        if (self::$config['token-mode'] == 'session') {
+        if (self::$config['token-pattern'] == 'session') {
             $id = intval(session($token));
         } else {
             $id = intval(Cache::get(self::_tokenKey($token), 0));
@@ -264,5 +264,16 @@ class SecurityDriver extends BaseService
 
         $timeout = self::$config['token-timeout'] == -1 ? null : self::$config['token-timeout'];
         Cache::set(self::_buildKey($id), $session, $timeout);
+    }
+
+    /**
+     * 获取会话信息的列表
+     *
+     * @param int $id
+     * @return array
+     */
+    public static function getSessionInfo(int $id): array
+    {
+        return self::_session($id);
     }
 }

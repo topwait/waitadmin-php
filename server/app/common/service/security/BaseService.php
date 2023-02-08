@@ -2,6 +2,7 @@
 
 namespace app\common\service\security;
 
+use Exception;
 use think\facade\Cache;
 
 abstract class BaseService
@@ -15,7 +16,7 @@ abstract class BaseService
     {
         self::$config = [
             // Token的缓存标识: [多应用模式下区分缓存的方式]
-            'token-name'     => $config['token-name'] ?? 'api',
+            'token-name'     => $config['token-name'] ?? 'users',
             // Token的授权模式: [async=前后端分离, session=系统会话管理]
             'token-pattern'  => $config['token-pattern'] ?? 'async',
             // Token的过期时间: [-1=永久有效, 单位(秒), 默认30天]
