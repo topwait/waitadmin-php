@@ -118,7 +118,7 @@ class UsersController extends Backend
     public function kickOut(): Json
     {
         if ($this->isAjaxGet()) {
-            $token= $this->request->get('token', '');
+            $token = $this->request->get('token', '');
             UsersService::kickOut($token);
             return AjaxUtils::success();
         }
