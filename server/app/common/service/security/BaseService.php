@@ -2,73 +2,31 @@
 
 namespace app\common\service\security;
 
-
 use think\facade\Cache;
 
 abstract class BaseService
 {
-
-
-    /**
-     * 配置参数
-     * @var array
-     */
-    protected array $config = [];
+    protected static array $config = [];
 
     /**
-     * 构造器
-     *
-     * @param array $config
+     * 初始化配置
      */
-    public function __construct(array $config = [])
+    protected static function initConfig()
     {
-        $aConfig = config('security') ?? [];
-        $config = array_merge($aConfig, $config);
-        $this->config = [
-            'token-sign'       => $config['token-sign'] ?? 'api',      // token的标识
-            'token-name'       => $config['token-name'] ?? 'token',    // token的名称
-            'token-mode'       => $config['token-mode'] ?? 'async',    // token的模式
-            'token-timeout'    => $config['token-timeout'] ?? 2592000, // token有效期
-            'token-invalid'    => $config['token-invalid'] ?? -1,      // token无效期
-            'is-shared'        => $config['token-shared'] ?? false,    // token的共享
-            'is-concurrent'    => $config['token-concurrent'] ?? true  // token的并发
+        self::$config = [
+            // Token的缓存标识: [多应用模式下区分缓存的方式]
+            'token-name'     => $config['token-name'] ?? 'api',
+            // Token的授权模式: [async=前后端分离, session=系统会话管理]
+            'token-pattern'  => $config['token-pattern'] ?? 'async',
+            // Token的过期时间: [-1=永久有效, 单位(秒), 默认30天]
+            'token-timeout'  => $config['token-timeout'] ?? 2592000,
+            // Token的时效期限: [指定时间内无操作就视为token过期, 单位(秒)]
+            'token-invalid'  => $config['token-invalid'] ?? -1,
+            // 是否允许同一账号并发登录: [true=允许一起登录, false=新登录挤掉旧登录]
+            'is-concurrent'  => $config['token-concurrent'] ?? true,
+            // 多人登录同一账号共用令牌: [true=所有登录共用一个token, false=每次登录新建一个token]
+            'is-shared'      => $config['token-shared'] ?? false
         ];
-    }
-
-    /**
-     * 设置标识
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setTokenSign(string $name): static
-    {
-        $this->config['token-sign'] = $name;
-        return $this;
-    }
-
-    /**
-     * 设置名称
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setTokenName(string $name): static
-    {
-        $this->config['token-name'] = $name;
-        return $this;
-    }
-
-    /**
-     * 设置模式
-     *
-     * @param string $mode (模式: session/async)
-     * @return $this
-     */
-    public function setTokenModel(string $mode): static
-    {
-        $this->config['token-mode'] = $mode;
-        return $this;
     }
 
     /**
@@ -77,8 +35,12 @@ abstract class BaseService
      * @param int $id
      * @return string
      */
-    protected function _tokenVal(int $id): string
+    protected static function _tokenVal(int $id): string
     {
+        if (self::$config['token-pattern'] === 'session') {
+            return app('session')->getId();
+        }
+
         $length = 8;
         $str = '';
         $strPol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -99,10 +61,10 @@ abstract class BaseService
      * @param string $token
      * @return string
      */
-    protected function _tokenKey(string $token): string
+    protected static function _tokenKey(string $token): string
     {
-        if (!empty($this->config['token-name']) && $this->config['token-name']) {
-            return $this->config['token-name'] . ':' . 'login:token:' . $token;
+        if (!empty(self::$config['token-name']) && self::$config['token-name']) {
+            return self::$config['token-name'] . ':' . 'login:token:' . $token;
         }
         return 'login:token:' . $token;
     }
@@ -113,10 +75,10 @@ abstract class BaseService
      * @param int $id
      * @return string
      */
-    protected function _buildKey(int $id): string
+    protected static function _buildKey(int $id): string
     {
-        if (!empty($this->config['token-name']) && $this->config['token-name']) {
-            return $this->config['token-name'] . ':' . 'login:session:' . $id;
+        if (!empty(self::$config['token-name']) && self::$config['token-name']) {
+            return self::$config['token-name'] . ':' . 'login:session:' . $id;
         }
         return 'login:session:' . $id;
     }
@@ -127,7 +89,7 @@ abstract class BaseService
      * @param int $id
      * @return array
      */
-    protected function _session(int $id): array
+    protected static function _session(int $id): array
     {
         $cache = Cache::get(self::_buildKey($id));
         if (!$cache) {

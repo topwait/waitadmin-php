@@ -1,11 +1,10 @@
 <?php
 
 return [
-    'token-sign'       => 'api',
-    'token-name'       => 'token',
-    'token-mode'       => 'async',
+    'token-name'       => 'api',
+    'token-pattern'    => 'async',
     'token-timeout'    => 2592000,
     'token-invalid'    => -1,
     'is-shared'        => false,
-    'is-concurrent'    => true
+    'is-concurrent'    => false
 ];

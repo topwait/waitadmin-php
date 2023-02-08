@@ -18,8 +18,8 @@ namespace app\common\basics;
 use app\BaseController;
 use app\common\enum\ErrorEnum;
 use app\common\exception\OperateException;
+use app\common\service\security\SecurityDriver;
 use think\App;
-use think\facade\Cache;
 
 /**
  * 接口基类
@@ -83,8 +83,7 @@ class Api extends BaseController
     {
         $token    = strval(request()->header('token') ?? '');
         $terminal = intval(request()->header('terminal') ?? 0);
-        $cacheKey = 'login:token:'.$terminal.':'.$token;
-        $userId   = intval(Cache::get($cacheKey, 0));
+        $userId   = SecurityDriver::checkLogin($token);
 
         // 判断是否是免登录的方法
         if (in_array(request()->action(), $this->notNeedLogin)) {
@@ -107,7 +106,7 @@ class Api extends BaseController
             throw new OperateException($errMsg, $errCode);
         }
 
-        // 保存信息到全局属性
+        // 保存信息到全局的属性
         $this->userId   = $userId;
         $this->terminal = $terminal;
         return true;

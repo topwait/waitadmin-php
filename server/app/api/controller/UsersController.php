@@ -9,7 +9,7 @@ use think\response\Json;
 
 class UsersController extends Api
 {
-    protected array $notNeedLogin = ['center'];
+    protected array $notNeedLogin = [];
 
     /**
      * 个人中心

@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\api\service\LoginService;
 use app\api\validate\LoginValidate;
 use app\common\basics\Api;
+use app\common\service\security\SecurityDriver;
 use app\common\utils\AjaxUtils;
 use Exception;
 use think\response\Json;
@@ -85,6 +86,7 @@ class LoginController extends Api
      */
     public function logout(): Json
     {
+        SecurityDriver::logout($this->userId, $this->terminal);
         return AjaxUtils::success();
     }
 }
