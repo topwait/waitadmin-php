@@ -59,7 +59,7 @@ class UsersService extends Service
         $lists = $model->alias('u')
             ->field([
                 'ug.name as groups',
-                'u.id,u.sn,u.avatar,u.username,u.nickname',
+                'u.id,u.sn,u.avatar,u.account,u.nickname',
                 'u.mobile,u.email,u.sex,u.is_disable,u.create_time'
             ])
             ->leftJoin('user_group ug', 'ug.id=u.group_id')
@@ -127,9 +127,18 @@ class UsersService extends Service
      * @return array
      * @author windy
      */
+    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function line(int $id): array
     {
-        return SecurityDriver::getSessionInfo($id);
+        $array = [];
+        $lists = SecurityDriver::getSessionList($id);
+        foreach ($lists['tokenLists']??[] as $item) {
+            $item['id'] = $lists['id'];
+            $item['lastOpTime'] = date('Y-m-d H:i:s', $item['lastOpTime']);
+            $array[] = $item;
+        }
+
+        return ['count'=>count($array), 'list'=>$array];
     }
 
     /**
@@ -137,6 +146,6 @@ class UsersService extends Service
      */
     public static function kickOut(string $token)
     {
-
+        SecurityDriver::kickOutByToken($token);
     }
 }

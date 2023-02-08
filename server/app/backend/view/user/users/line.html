@@ -4,11 +4,11 @@
 <div class="container">
     <!-- 表格栏 -->
     <div class="layui-card">
-        <div class="layui-card-body wait-table-cell">
+        <div class="layui-card-body" style="padding: 0;">
             <table id="wait-table-list" lay-filter="wait-table-list"></table>
             <script type="text/html" id="table-operate">
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">
-                    <i class="layui-icon icon-detail"></i><span>详情</span>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="kick">
+                    <i class="layui-icon layui-icon-unlink"></i><span>下线</span>
                 </button>
             </script>
         </div>
@@ -22,28 +22,34 @@
         // 渲染表格
         let table = waitUtil.table({
             elem: '#wait-table-list'
-            ,url: '{:route("user.users/line")}'
+            ,url: '{:route("user.users/line")}?id=1'
+            ,toolbar: false
+            ,page: false
             ,cols: [[
-                {type:'checkbox', width:48},
-                {field:'id', title:'ID', width:60, align:'center', event:'id'},
-                {field:'info', title:'用户信息', width:270, templet:'#table-info'},
-                {field:'groups', title:'用户分组', align:'center', width:100},
-                {field:'username', title:'登录账号', align:'center', width:100},
-                {field:'email', title:'电子邮箱', align:'center', width:100},
-                {field:'sex', title:'性别', align:'center', width:60},
-                {field:'disable', title:'状态', align:'center', width:60, templet:'#table-disable'},
-                {field:'create_time', title:'创建时间', width:130, align:'center'},
-                {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
+                {field:'value', title:'令牌'},
+                {field:'device', title:'设备', align:'center', width:60},
+                {field:'lastIpAddress', title:'最后操作IP', align:'center', width:100},
+                {field:'lastOpTime', title:'最后操作时间', align:'center', width:160},
+                {field:'lastUaBrowser', title:'最后操作UA', align:'center', width:180},
+                {fixed:'right', title:'操作', width:80, align:'center', toolbar:'#table-operate'}
             ]]
         });
 
         // 逻辑事件
         waitUtil.event({
-            kick: function () {
-                let ids = waitUtil.checkbox();
-                if (!ids.length) {
-                    return layer.msg('请至少选择一项！', {icon: 2});
-                }
+            kick: function (obj) {
+                layer.confirm('确定要强制退出吗？', function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("user.users/kickOut")}',
+                        type: 'POST',
+                        data: {token: obj.data.value}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
             }
         });
 

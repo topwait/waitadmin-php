@@ -203,7 +203,7 @@ class SecurityDriver extends BaseService
      * @param string $token
      * @author windy
      */
-    public static function logoutByTokenValue(string $token)
+    public static function logoutByToken(string $token)
     {
         $id = intval(Cache::get(self::_tokenKey($token), 0));
         $session = self::_session($id);
@@ -227,7 +227,7 @@ class SecurityDriver extends BaseService
      * @param string $device
      * @author windy
      */
-    public static function kickOut(int $id, string $device='')
+    public static function kickOutById(int $id, string $device='')
     {
         $session = self::_session($id);
         if ($device) {
@@ -251,19 +251,24 @@ class SecurityDriver extends BaseService
      *
      * @param string $token
      */
-    public static function kickOutByTokenValue(string $token)
+    public static function kickOutByToken(string $token)
     {
+        self::initConfig();
+
         $id = intval(Cache::get(self::_tokenKey($token), 0));
         $session = self::_session($id);
 
-        foreach ($session['tokenLists']??[] as $item) {
-            if ($item['value'] !== $token) {
+        $loginArray = [];
+        foreach ($session['tokenLists']??[] as &$item) {
+            if ($item['value'] === $token) {
                 $item['kickOut'] = true;
             }
+            $loginArray[] = $item;
         }
 
+        $session['tokenLists'] = $loginArray;
         $timeout = self::$config['token-timeout'] == -1 ? null : self::$config['token-timeout'];
-        Cache::set(self::_buildKey($id), $session, $timeout);
+        Cache::set(self::_buildKey($id), json_encode($session), $timeout);
     }
 
     /**
@@ -272,8 +277,19 @@ class SecurityDriver extends BaseService
      * @param int $id
      * @return array
      */
-    public static function getSessionInfo(int $id): array
+    public static function getSessionList(int $id): array
     {
-        return self::_session($id);
+        self::initConfig();
+        $session = self::_session($id);
+
+        $loginArray = [];
+        foreach ($session['tokenLists']??[] as $item) {
+            if (!$item['kickOut']) {
+                $loginArray[] = $item;
+            }
+        }
+
+        $session['tokenLists'] = $loginArray;
+        return $session;
     }
 }

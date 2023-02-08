@@ -74,6 +74,9 @@
                 <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">
                     <i class="layui-icon icon-detail"></i><span>详情</span>
                 </button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="line">
+                    <i class="layui-icon layui-icon-website"></i><span>会话</span>
+                </button>
             </script>
         </div>
     </div>
@@ -103,15 +106,24 @@
                 {field:'groups', title:'用户分组', align:'center', width:100},
                 {field:'username', title:'登录账号', align:'center', width:100},
                 {field:'email', title:'电子邮箱', align:'center', width:100},
+                {field:'login', title:'登录数', align:'center', width:80},
                 {field:'sex', title:'性别', align:'center', width:60},
                 {field:'disable', title:'状态', align:'center', width:60, templet:'#table-disable'},
                 {field:'create_time', title:'创建时间', width:130, align:'center'},
-                {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
+                {fixed:'right', title:'操作', width:150, align:'center', toolbar:'#table-operate'}
             ]]
         });
 
         // 逻辑事件
         waitUtil.event({
+            line: function (obj) {
+                waitUtil.popup({
+                    title: '在线设备',
+                    url: '{:route("user.users/line")}?id='+obj.data.id,
+                    area: ['900px', '600px'],
+                    success: function (layero, index) {}
+                });
+            },
             detail: function (obj) {
                 waitUtil.popup({
                     title: '用户详情',
