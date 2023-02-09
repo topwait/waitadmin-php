@@ -71,6 +71,8 @@ class LoginController extends Api
                 $response = LoginService::wxLogin($post['code'], $phoneCode, $this->terminal);
                 break;
             case 'oa':
+                $validate->goCheck('oa');
+                $response = LoginService::oaLogin($post['code'], $this->terminal);
                 break;
         }
 
@@ -92,11 +94,14 @@ class LoginController extends Api
      * 公众号授权链接
      *
      * @return Json
+     * @throws Exception
      * @author windy
      */
     public function oaCodeUrl(): Json
     {
+        (new LoginValidate())->goCheck('url');
         $url = $this->request->get('url');
+
         $response = LoginService::oaCodeUrl($url);
         return AjaxUtils::success($response);
     }

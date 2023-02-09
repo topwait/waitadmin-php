@@ -210,9 +210,33 @@ class LoginService extends Service
         return ['token'=>$token];
     }
 
-    public static function oaLogin()
+    /**
+     * 公众号登录
+     *
+     * @param string $code
+     * @param int $terminal
+     * @return array
+     * @throws Exception
+     * @author windy
+     */
+    #[ArrayShape(['token' => "string"])]
+    public static function oaLogin(string $code, int $terminal): array
     {
+        // 微信授权
+        $response = WeChatService::oaAuth2session($code);
+        $response['terminal'] = $terminal;
 
+        // 验证账户
+        $userInfo = UserWidget::getUserAuthByResponse($response);
+        if (empty($userInfo)) {
+            $userId = UserWidget::createUser($response);
+        } else {
+            $userId = UserWidget::updateUser($response);
+        }
+
+        // 登录账户
+        $token = UserWidget::granToken($userId, $terminal);
+        return ['token'=>$token];
     }
 
     /**
@@ -220,12 +244,11 @@ class LoginService extends Service
      *
      * @param string $url
      * @return array
+     * @throws Exception
      */
     #[ArrayShape(['url' => "string"])]
     public static function oaCodeUrl(string $url): array
     {
-        $url = WeChatService::oaBuildAuthUrl($url);
-        return ['url'=>$url];
+        return ['url'=>WeChatService::oaBuildAuthUrl($url)];
     }
-
 }

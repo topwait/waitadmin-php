@@ -15,6 +15,10 @@ class LoginValidate extends Validate
     ];
 
     protected $scene = [
+        // 授权的链接
+        'url'       => ['url'],
+        // 公众号登录
+        'oa'        => ['code'],
         // 微信登录
         'wx'        => ['code', 'phoneCode'],
         // 短信登录

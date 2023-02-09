@@ -3,7 +3,9 @@
 namespace app\common\service\wechat;
 
 
-use EasyWeChat\MiniApp\Application;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\MiniApp\Application as MiniApplication;
+use EasyWeChat\OfficialAccount\Application as OfficialApplication;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -17,11 +19,104 @@ class WeChatService
      * 公众号登录凭证
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+     * @return array ['openid', 'unionid', 'access_token']
+     * @throws Exception
      * @author windy
      */
-    public static function oaAuth2session(string $code)
+    public static function oaAuth2session(string $code): array
     {
+        try {
+            $config = WeChatConfig::getOaConfig();
+            $app    = new OfficialApplication($config);
+            $oauth  = $app->getOauth();
 
+            $response = $oauth
+                ->scopes(['snsapi_userinfo'])
+                ->userFromCode($code)
+                ->getRaw();
+
+            if (!isset($response['openid']) || empty($response['openid'])) {
+                $error = $response['errcode'].'：'.$response['errmsg'];
+                throw new Exception($error);
+            }
+
+            return $response;
+        } catch (InvalidArgumentException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * 公众号链接生成
+     *
+     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+     * @param string $redirectUrl (重定向地址)
+     * @return string ['url']
+     * @throws Exception
+     */
+    public static function oaBuildAuthUrl(string $redirectUrl): string
+    {
+        try {
+            $config = WeChatConfig::getOaConfig();
+            $app    = new OfficialApplication($config);
+            $oauth  = $app->getOauth();
+
+            return $oauth->scopes(['snsapi_userinfo'])->redirect(urlencode($redirectUrl));
+        } catch (InvalidArgumentException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * 开发平台登录凭证
+     *
+     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+     * @return array ['openid', 'unionid', 'access_token']
+     * @throws Exception
+     * @author windy
+     */
+    public static function opAuth2session(string $code): array
+    {
+        try {
+            $config = WeChatConfig::getOpConfig();
+            $app    = new OfficialApplication($config);
+            $oauth  = $app->getOauth();
+
+            $response = $oauth
+                ->scopes(['snsapi_login'])
+                ->userFromCode($code)
+                ->getRaw();
+
+            if (!isset($response['openid']) || empty($response['openid'])) {
+                $error = $response['errcode'].'：'.$response['errmsg'];
+                throw new Exception($error);
+            }
+
+            return $response;
+        } catch (InvalidArgumentException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * 开发平台链接生成
+     *
+     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+     * @param string $redirectUrl (重定向地址)
+     * @return string ['url']
+     * @throws Exception
+     */
+    public static function opBuildAuthUrl(string $redirectUrl): string
+    {
+        try {
+            $config = WeChatConfig::getOpConfig();
+            $app    = new OfficialApplication($config);
+            $oauth  = $app->getOauth();
+
+            return $oauth->scopes(['snsapi_login'])->redirect(urlencode($redirectUrl));
+        } catch (InvalidArgumentException $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -37,7 +132,7 @@ class WeChatService
     {
         try {
             $config = WeChatConfig::getWxConfig();
-            $app = new Application($config);
+            $app = new MiniApplication($config);
             $api = $app->getClient();
             $response = $api->get('sns/jscode2session', [
                 'appid'      => $config['app_id'],
@@ -65,6 +160,7 @@ class WeChatService
      *
      * @document: https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/user-info/phone-number/getPhoneNumber.html
      * @param string $code (小程序生成的code)
+     * @return array ['countryCode', 'phoneNumber']
      * @throws Exception
      */
     #[ArrayShape(['countryCode' => "int", 'phoneNumber' => "int"])]
@@ -72,7 +168,7 @@ class WeChatService
     {
         try {
             $config = WeChatConfig::getWxConfig();
-            $app = new Application($config);
+            $app = new MiniApplication($config);
             $api = $app->getClient();
             $response = $api->postJson('/wxa/business/getuserphonenumber', [
                 'code' => $code
@@ -95,24 +191,4 @@ class WeChatService
         }
     }
 
-    /**
-     * 公众号链接生成
-     *
-     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-     * @param string $redirectUrl (重定向地址)
-     * @param string $scopes (应用授权作用域: snsapi_base=(不弹授权只取openId) / snsapi_userinfo=(弹出授权,取用户信息))
-     * @return string
-     */
-    public static function oaBuildAuthUrl(string $redirectUrl, string $scopes='snsapi_userinfo'): string
-    {
-        $config = WeChatConfig::getOaConfig();
-        $redirectUri = urlencode($redirectUrl);
-        return 'https://open.weixin.qq.com/connect/oauth2/authorize'
-            .'?appid=' . $config['app_id']
-            .'&redirect_uri=' . $redirectUri
-            .'&response_type=code'
-            .'&scope=' . $scopes
-            .'&state=' . time()
-            .'#wechat_redirect';
-    }
 }
