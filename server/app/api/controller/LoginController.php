@@ -11,7 +11,7 @@ use think\response\Json;
 
 class LoginController extends Api
 {
-    protected array $notNeedLogin = ['register', 'login'];
+    protected array $notNeedLogin = ['register', 'login', 'oaCodeUrl'];
 
     /**
      * 注册
@@ -29,7 +29,7 @@ class LoginController extends Api
     }
 
     /**
-     * 注册
+     * 忘记
      *
      * @return Json
      * @throws Exception
@@ -42,7 +42,6 @@ class LoginController extends Api
         LoginService::forgetPwd($this->request->post());
         return AjaxUtils::success();
     }
-
 
     /**
      * 登录
@@ -79,12 +78,26 @@ class LoginController extends Api
     }
 
     /**
-     * 退出系统
+     * 退出
      *
      * @return Json
+     * @author windy
      */
     public function logout(): Json
     {
         return AjaxUtils::success();
+    }
+
+    /**
+     * 公众号授权链接
+     *
+     * @return Json
+     * @author windy
+     */
+    public function oaCodeUrl(): Json
+    {
+        $url = $this->request->get('url');
+        $response = LoginService::oaCodeUrl($url);
+        return AjaxUtils::success($response);
     }
 }

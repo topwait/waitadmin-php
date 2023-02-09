@@ -184,7 +184,7 @@ class LoginService extends Service
      * @return array
      * @throws Exception
      */
-    #[ArrayShape(['token' => "int"])]
+    #[ArrayShape(['token' => "string"])]
     public static function wxLogin(string $code, string $phoneCode, int $terminal): array
     {
         // 微信授权
@@ -213,6 +213,19 @@ class LoginService extends Service
     public static function oaLogin()
     {
 
+    }
+
+    /**
+     * 公众号授权链接
+     *
+     * @param string $url
+     * @return array
+     */
+    #[ArrayShape(['url' => "string"])]
+    public static function oaCodeUrl(string $url): array
+    {
+        $url = WeChatService::oaBuildAuthUrl($url);
+        return ['url'=>$url];
     }
 
 }

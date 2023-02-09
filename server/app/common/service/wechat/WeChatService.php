@@ -97,9 +97,22 @@ class WeChatService
 
     /**
      * 公众号链接生成
+     *
+     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+     * @param string $redirectUrl (重定向地址)
+     * @param string $scopes (应用授权作用域: snsapi_base=(不弹授权只取openId) / snsapi_userinfo=(弹出授权,取用户信息))
+     * @return string
      */
-    public static function oaBuildAuthUrl()
+    public static function oaBuildAuthUrl(string $redirectUrl, string $scopes='snsapi_userinfo'): string
     {
-
+        $config = WeChatConfig::getOaConfig();
+        $redirectUri = urlencode($redirectUrl);
+        return 'https://open.weixin.qq.com/connect/oauth2/authorize'
+            .'?appid=' . $config['app_id']
+            .'&redirect_uri=' . $redirectUri
+            .'&response_type=code'
+            .'&scope=' . $scopes
+            .'&state=' . time()
+            .'#wechat_redirect';
     }
 }
