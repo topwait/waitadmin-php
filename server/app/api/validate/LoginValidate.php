@@ -7,11 +7,12 @@ use app\common\basics\Validate;
 class LoginValidate extends Validate
 {
     protected $rule = [
+        'url'       => 'require|url',
         'code'      => 'require|alphaDash',
-        'phoneCode' => 'alphaDash|max:200',
-        'mobile'    => 'require|mobile',
-        'account'   => 'require|alphaDash',
-        'password'  => 'require|min:6|max:20'
+        'wxCode'    => 'alphaDash|max:200',
+        'mobile'    => 'require|mobile|min:11|max:11',
+        'account'   => 'require|alphaDash|min:2|max:20',
+        'password'  => 'require|alphaDash|min:6|max:20'
     ];
 
     protected $scene = [
@@ -20,7 +21,7 @@ class LoginValidate extends Validate
         // 公众号登录
         'oa'        => ['code'],
         // 微信登录
-        'wx'        => ['code', 'phoneCode'],
+        'wx'        => ['code', 'wxCode'],
         // 短信登录
         'mobile'    => ['code', 'mobile'],
         // 账号登录

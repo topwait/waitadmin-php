@@ -27,11 +27,14 @@ class UserWidget extends Service
         // 接收参数
         $snCode   = make_rand_code(new User());
         $terminal = intval($response['terminal']);
-        $account  = $response['account']  ?? 'u'.$snCode;
-        $password = $response['password'] ?? '';
-        $mobile   = $response['mobile']   ?? '';
-        $openId   = $response['openid']   ?? '';
-        $unionId  = $response['unionid']  ?? '';
+        $avatar   = $response['avatarUrl'] ?? '';
+        $account  = $response['account']   ?? 'u'.$snCode;
+        $nickname = $response['nickname']  ?? 'u'.$snCode;
+        $password = $response['password']  ?? '';
+        $mobile   = $response['mobile']    ?? '';
+        $openId   = $response['openid']    ?? '';
+        $unionId  = $response['unionid']   ?? '';
+        $sex      = intval($response['sex'] ?? 0);
 
         // 验证账号
         $modelUser = new User();
@@ -53,7 +56,7 @@ class UserWidget extends Service
                 'mobile'          => $mobile,
                 'account'         => $account,
                 'password'        => $password,
-                'nickname'        => 'u'.$snCode,
+                'nickname'        => $nickname,
                 'salt'            => make_rand_char(6),
                 'last_login_ip'   => request()->ip(),
                 'last_login_time' => time(),

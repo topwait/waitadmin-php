@@ -3,6 +3,7 @@
 namespace app\common\command;
 
 use app\common\model\auth\AuthAdmin;
+use app\common\utils\FileUtils;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
@@ -176,10 +177,10 @@ class Wa extends Command
      */
     public function cleanSysCache(): void
     {
-        delete_dir(root_path().'runtime/cache/');
-        delete_dir(root_path().'runtime/api/');
-        delete_dir(root_path().'runtime/backend/');
-        delete_dir(root_path().'runtime/frontend/');
-        delete_dir(root_path().'runtime/generate/');
+        FileUtils::rmdir(root_path().'runtime/cache/');
+        FileUtils::rmdir(root_path().'runtime/api/');
+        FileUtils::rmdir(root_path().'runtime/backend/');
+        FileUtils::rmdir(root_path().'runtime/frontend/');
+        FileUtils::rmdir(root_path().'runtime/generate/');
     }
 }

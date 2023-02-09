@@ -19,10 +19,11 @@ class WeChatService
      * 公众号登录凭证
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-     * @return array ['openid', 'unionid', 'access_token']
+     * @return array ['openid', 'unionid', 'nickname', 'avatarUrl', 'sex']
      * @throws Exception
      * @author windy
      */
+    #[ArrayShape(['openid' => "string", 'unionid' => "string", 'nickname' => "string", 'avatarUrl' => "string", 'sex' => "int"])]
     public static function oaAuth2session(string $code): array
     {
         try {
@@ -40,7 +41,13 @@ class WeChatService
                 throw new Exception($error);
             }
 
-            return $response;
+            return [
+                'openid'    => $response['openid']     ?? '',
+                'unionid'   => $response['unionid']    ?? '',
+                'nickname'  => $response['nickname']   ?? '',
+                'avatarUrl' => $response['headimgurl'] ?? '',
+                'sex'       => intval($response['sex'] ?? 0),
+            ];
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
         }
@@ -51,7 +58,7 @@ class WeChatService
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @param string $redirectUrl (重定向地址)
-     * @return string ['url']
+     * @return string url
      * @throws Exception
      */
     public static function oaBuildAuthUrl(string $redirectUrl): string
@@ -61,7 +68,12 @@ class WeChatService
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
 
-            return $oauth->scopes(['snsapi_userinfo'])->redirect(urlencode($redirectUrl));
+            $state = md5(time().rand(10000, 99999));
+
+            return $oauth
+                ->withState($state)
+                ->scopes(['snsapi_userinfo'])
+                ->redirect($redirectUrl);
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
         }

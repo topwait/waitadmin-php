@@ -146,32 +146,6 @@ if (!function_exists('format_bytes')) {
     }
 }
 
-if (!function_exists('delete_dir')) {
-    /**
-     * 删除指定目录
-     *
-     * @param $path (绝对路径)
-     * @author windy
-     */
-    function delete_dir($path): void
-    {
-        if (is_dir($path)) {
-            $p = scandir($path);
-            foreach ($p as $val) {
-                if ($val != "." && $val != "..") {
-                    if (is_dir($path . $val)) {
-                        delete_dir($path . $val . '/');
-                        @rmdir($path . $val . '/');
-                    } else {
-                        unlink($path . $val);
-                    }
-                }
-            }
-            @rmdir($path);
-        }
-    }
-}
-
 if (!function_exists('curl_get')) {
     /**
      * 发起GET请求
