@@ -91,38 +91,4 @@ class UsersController extends Backend
             'groups' => GroupService::all()
         ]);
     }
-
-    /**
-     * 在线的用户
-     *
-     * @return View|Json
-     * @author windy
-     */
-    public function line(): View|Json
-    {
-        if ($this->isAjaxGet()) {
-            $id = intval($this->request->get('id', 0));
-            $list = UsersService::line($id);
-            return AjaxUtils::success($list);
-        }
-
-        return view();
-    }
-
-    /**
-     * 踢下线用户
-     *
-     * @return Json
-     * @author windy
-     */
-    public function kickOut(): Json
-    {
-        if ($this->isAjaxPost()) {
-            $token  = $this->request->post('token', '');
-            UsersService::kickOut($token);
-            return AjaxUtils::success();
-        }
-
-        return AjaxUtils::error();
-    }
 }

@@ -74,9 +74,6 @@
                 <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">
                     <i class="layui-icon icon-detail"></i><span>详情</span>
                 </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="line">
-                    <i class="layui-icon layui-icon-website"></i><span>会话</span>
-                </button>
             </script>
         </div>
     </div>
@@ -116,14 +113,6 @@
 
         // 逻辑事件
         waitUtil.event({
-            line: function (obj) {
-                waitUtil.popup({
-                    title: '在线设备',
-                    url: '{:route("user.users/line")}?id='+obj.data.id,
-                    area: ['900px', '600px'],
-                    success: function (layero, index) {}
-                });
-            },
             detail: function (obj) {
                 waitUtil.popup({
                     title: '用户详情',

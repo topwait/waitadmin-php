@@ -19,7 +19,6 @@ namespace app\backend\service\user;
 use app\common\basics\Service;
 use app\common\enum\GenderEnum;
 use app\common\model\user\User;
-use app\common\service\security\SecurityDriver;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
@@ -118,34 +117,5 @@ class UsersService extends Service
             'group_id'    => $gid,
             'update_time' => time()
         ], [['id', 'in', $ids]]);
-    }
-
-    /**
-     * 在线的用户
-     *
-     * @param int $id
-     * @return array
-     * @author windy
-     */
-    #[ArrayShape(['count' => "int", 'list' => "array"])]
-    public static function line(int $id): array
-    {
-        $array = [];
-        $lists = SecurityDriver::getSessionList($id);
-        foreach ($lists['tokenLists']??[] as $item) {
-            $item['id'] = $lists['id'];
-            $item['lastOpTime'] = date('Y-m-d H:i:s', $item['lastOpTime']);
-            $array[] = $item;
-        }
-
-        return ['count'=>count($array), 'list'=>$array];
-    }
-
-    /**
-     * 踢下线用户
-     */
-    public static function kickOut(string $token)
-    {
-        SecurityDriver::kickOutByToken($token);
     }
 }

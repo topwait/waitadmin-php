@@ -6,7 +6,6 @@ use app\api\widgets\UserWidget;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
-use app\common\service\security\SecurityDriver;
 use app\common\service\wechat\WeChatService;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
@@ -46,7 +45,7 @@ class LoginService extends Service
         ]);
 
         // 登录账号
-        $token = SecurityDriver::login($userId, $terminal);
+        $token = UserWidget::granToken($userId, $terminal);
         return ['token'=>$token];
     }
 
@@ -130,7 +129,7 @@ class LoginService extends Service
         }
 
         // 登录账户
-        $token = SecurityDriver::login(intval($userInfo['id']), $terminal);
+        $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
         return ['token'=>$token];
     }
 
@@ -172,7 +171,7 @@ class LoginService extends Service
         }
 
         // 登录账户
-        $token = SecurityDriver::login(intval($userInfo['id']), $terminal);
+        $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
         return ['token'=>$token];
     }
 
@@ -207,7 +206,7 @@ class LoginService extends Service
         }
 
         // 登录账户
-        $token = SecurityDriver::login($userId, $terminal);
+        $token = UserWidget::granToken($userId, $terminal);
         return ['token'=>$token];
     }
 
