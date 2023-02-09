@@ -229,11 +229,14 @@ const onSaLogin = (scene) => {
 
 // 微信登录
 const onWxLogin = async (e) => {
-    const wxCode = await toolUtil.obtainWxCode()
+    if (e.detail.errMsg !== 'getPhoneNumber:ok') {
+        return
+    }
+    const code = await toolUtil.obtainWxCode()
     loginApi({
         scene: 'wx',
-        code: wxCode,
-        phoneCode: e.detail.code
+        code: code,
+        wxCode: e.detail.code
     }).then(result => {
         __loginHandle(result)
     })

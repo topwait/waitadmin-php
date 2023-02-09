@@ -60,11 +60,11 @@ class ChannelService extends Service
      */
     public static function save(array $post): void
     {
-        ConfigUtils::set('wx_channel', 'name', $post['wxName']??'', '小程序名称');
-        ConfigUtils::set('wx_channel', 'app_id', $post['wxAppId']??'', 'AppID');
-        ConfigUtils::set('wx_channel', 'app_secret', $post['wxAppSecret']??'', 'AppSecret');
-        ConfigUtils::set('wx_channel', 'original_id', $post['wxOriginalId']??'', '原始ID');
-        ConfigUtils::set('wx_channel', 'qr_code', UrlUtils::toRelativeUrl($post['wxQrCode']??''), '二维码');
+        ConfigUtils::set('wx_channel', 'name', $post['wx_name']??'', '小程序名称');
+        ConfigUtils::set('wx_channel', 'app_id', $post['wx_app_id']??'', 'AppID');
+        ConfigUtils::set('wx_channel', 'app_secret', $post['wx_app_secret']??'', 'AppSecret');
+        ConfigUtils::set('wx_channel', 'original_id', $post['wx_original_id']??'', '原始ID');
+        ConfigUtils::set('wx_channel', 'qr_code', UrlUtils::toRelativeUrl($post['wx_qr_code']??''), '二维码');
 
         ConfigUtils::set('oa_channel', 'name', $post['oa_name']??'', '公众号名称');
         ConfigUtils::set('oa_channel', 'app_id', $post['oa_app_id']??'', 'AppID');

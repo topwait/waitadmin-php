@@ -140,26 +140,31 @@ class WeChatService
      * @throws Exception
      * @author windy
      */
+    #[ArrayShape(['session_key' => "string", 'openid' => "string", 'unionid' => "string"])]
     public static function wxJsCode2session(string $code): array
     {
         try {
             $config = WeChatConfig::getWxConfig();
             $app = new MiniApplication($config);
             $api = $app->getClient();
-            $response = $api->get('sns/jscode2session', [
+            $result = $api->get('sns/jscode2session', [
                 'appid'      => $config['app_id'],
                 "secret"     => $config['secret'],
                 "js_code"    => $code,
                 "grant_type" => 'authorization_code',
             ]);
 
-            $result = json_decode($response, true);
-            if (!isset($result['openid']) || empty($result['openid'])) {
-                $error = $result['errcode'].'：'.$result['errmsg'];
+            $response = json_decode($result, true);
+            if (!isset($response['openid']) || empty($response['openid'])) {
+                $error = $response['errcode'].'：'.$response['errmsg'];
                 throw new Exception($error);
             }
 
-            return (array) $result;
+            return [
+                'session_key' => $response['session_key'] ?? '',
+                'openid'      => $response['openid'] ?? '',
+                'unionid'     => $response['unionid'] ?? '',
+            ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         } catch (TransportExceptionInterface $e) {

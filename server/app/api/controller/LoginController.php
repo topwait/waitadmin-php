@@ -67,7 +67,7 @@ class LoginController extends Api
                 break;
             case 'wx':
                 $validate->goCheck('wx');
-                $phoneCode = $post['phoneCode']??'';
+                $phoneCode = $post['wxCode']??'';
                 $response = LoginService::wxLogin($post['code'], $phoneCode, $this->terminal);
                 break;
             case 'oa':

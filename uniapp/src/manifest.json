@@ -1,6 +1,6 @@
 {
-    "name" : "",
-    "appid" : "",
+    "name" : "Wait",
+    "appid" : "__UNI__0F254F5",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx16627806e7389a78",
+        "appid" : "",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,

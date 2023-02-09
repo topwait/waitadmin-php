@@ -179,21 +179,21 @@ class LoginService extends Service
      * 微信登录
      *
      * @param string $code (微信小程序编码)
-     * @param string $phoneCode (微信手机号编码)
+     * @param string $wxCode (微信手机号编码)
      * @param int $terminal (客户端[1=微信小程序, 2=微信公众号, 3=H5, 4=PC, 5=安卓, 6=苹果])
      * @return array
      * @throws Exception
      */
     #[ArrayShape(['token' => "string"])]
-    public static function wxLogin(string $code, string $phoneCode, int $terminal): array
+    public static function wxLogin(string $code, string $wxCode, int $terminal): array
     {
         // 微信授权
         $response = WeChatService::wxJsCode2session($code);
         $response['terminal'] = $terminal;
 
         // 获取手机
-        if ($phoneCode) {
-            $phoneArr = WeChatService::wxPhoneNumber($phoneCode);
+        if ($wxCode) {
+            $phoneArr = WeChatService::wxPhoneNumber($wxCode);
             $response['mobile'] = $phoneArr['phoneNumber'];
         }
 

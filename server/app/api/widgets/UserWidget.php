@@ -6,6 +6,7 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
+use app\common\utils\FileUtils;
 use Exception;
 use think\facade\Cache;
 
@@ -53,10 +54,12 @@ class UserWidget extends Service
             // 创建用户
             $user = User::create([
                 'sn'              => $snCode,
+                'avatar'          => $avatar,
                 'mobile'          => $mobile,
                 'account'         => $account,
                 'password'        => $password,
                 'nickname'        => $nickname,
+                'sex'             => $sex,
                 'salt'            => make_rand_char(6),
                 'last_login_ip'   => request()->ip(),
                 'last_login_time' => time(),
@@ -73,6 +76,15 @@ class UserWidget extends Service
                 'create_time' => time(),
                 'update_time' => time()
             ]);
+
+            // 下载头像
+            try {
+                if ($avatar) {
+                    $saveTo = 'storage/avatar/' . md5($user['id']) . 'jpg';
+                    FileUtils::download($avatar, public_path() . $saveTo);
+                    User::update(['avatar' => $saveTo], ['id'=>$user['id']]);
+                }
+            } catch (Exception) {}
 
             self::dbCommit();
             return intval($user['id']);
