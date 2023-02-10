@@ -33,7 +33,7 @@ class User extends Models
         'nickname'        => 'string',  //用户昵称
         'password'        => 'string',  //登录密码
         'salt'            => 'string',  //加密盐巴
-        'sex'             => 'int',     //用户性别
+        'gender'          => 'int',     //用户性别
         'mobile'          => 'string',  //电话号码
         'email'           => 'string',  //电子邮箱
         'last_login_ip'   => 'string',  //最后登录IP

@@ -22,4 +22,21 @@ class UsersController extends Api
         $result = UsersService::center($this->userId);
         return AjaxUtils::success($result);
     }
+
+    /**
+     * 个人信息
+     *
+     * @return Json
+     * @author windy
+     */
+    public function info(): Json
+    {
+        $result = UsersService::info($this->userId);
+        return AjaxUtils::success($result);
+    }
+
+    public function edit()
+    {
+
+    }
 }

@@ -19,6 +19,6 @@ export function forgetPwdApi(params) {
 }
 
 // 用户信息
-export function getUserCenterApi() {
-    return uni.$u.http.post('users/center')
+export function getUserInfoApi() {
+    return uni.$u.http.post('users/info')
 }

@@ -35,7 +35,7 @@ class UserWidget extends Service
         $mobile   = $response['mobile']    ?? '';
         $openId   = $response['openid']    ?? '';
         $unionId  = $response['unionid']   ?? '';
-        $sex      = intval($response['sex'] ?? 0);
+        $gender   = intval($response['gender'] ?? 0);
 
         // 验证账号
         $modelUser = new User();
@@ -59,7 +59,7 @@ class UserWidget extends Service
                 'account'         => $account,
                 'password'        => $password,
                 'nickname'        => $nickname,
-                'sex'             => $sex,
+                'gender'          => $gender,
                 'salt'            => make_rand_char(6),
                 'last_login_ip'   => request()->ip(),
                 'last_login_time' => time(),

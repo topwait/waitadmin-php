@@ -19,11 +19,11 @@ class WeChatService
      * 公众号登录凭证
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-     * @return array ['openid', 'unionid', 'nickname', 'avatarUrl', 'sex']
+     * @return array ['openid', 'unionid', 'nickname', 'avatarUrl', 'gender']
      * @throws Exception
      * @author windy
      */
-    #[ArrayShape(['openid' => "string", 'unionid' => "string", 'nickname' => "string", 'avatarUrl' => "string", 'sex' => "int"])]
+    #[ArrayShape(['openid' => "string", 'unionid' => "string", 'nickname' => "string", 'avatarUrl' => "string", 'gender' => "int"])]
     public static function oaAuth2session(string $code): array
     {
         try {
@@ -46,7 +46,7 @@ class WeChatService
                 'unionid'   => $response['unionid']    ?? '',
                 'nickname'  => $response['nickname']   ?? '',
                 'avatarUrl' => $response['headimgurl'] ?? '',
-                'sex'       => intval($response['sex'] ?? 0),
+                'gender'    => intval($response['sex'] ?? 0),
             ];
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
