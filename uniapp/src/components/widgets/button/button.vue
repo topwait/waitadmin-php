@@ -64,6 +64,7 @@ const onClick = () => {
     border-radius: 50rpx;
     text-align: center;
     color: #ffffff;
+    line-height: 2.2;
     background-color: $uni-bg-theme;
 }
 </style>

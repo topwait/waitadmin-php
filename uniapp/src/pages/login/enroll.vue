@@ -79,6 +79,7 @@
                         v-if="wayInclude(LoginAuthEnum.WX) && isWeixin"
                         open-type="getPhoneNumber"
                         @getphonenumber="onWxLogin"
+                        @click="onWxLogin"
                     >
                         <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
                     </button>
@@ -86,6 +87,34 @@
             </view>
             <!-- #endif -->
         </view>
+        
+        <u-popup v-model="showPopup" mode="bottom" border-radius="20">
+            <view class="py-30 text-center text-bm font-bold">绑定手机</view>
+            <view class="px-20 pt-20 pb-50 flex items-center" style="height: 100%; box-sizing: border-box;">
+                <u-form ref="uForm" :model="form" style="width: 100%;">
+                    <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
+                    </u-form-item>
+                    <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
+                        <template #right>
+                            <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
+                            <u-button
+                                :plain="true"
+                                type="primary"
+                                hover-class="none"
+                                size="mini"
+                                shape="circle"
+                                @click="onSendSms()"
+                            >{{ codeTips }}
+                            </u-button>
+                        </template>
+                    </u-form-item>
+                     <w-button mt="60">确认</w-button>
+                </u-form>
+            </view>
+        	
+        </u-popup>
     </view>
 
 </template>
@@ -101,12 +130,14 @@ import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 import clientUtil from '@/utils/clientUtil'
 import toolUtil from '@/utils/toolUtil'
+// #ifdef H5
+import wechatOa from '@/utils/wechat'
+// #endif
 
 const appStore = useAppStore()
 const userStore = useUserStore()
-// const isWeixin = clientUtil.isWeixin()
-const isWeixin = true
-
+const isWeixin = clientUtil.isWeixin()
+const showPopup = ref(false)
 
 // 枚举对象
 const LoginAuthEnum = {
@@ -135,12 +166,14 @@ const form = {
 }
 
 // 监听加载
-onLoad(async () => {
+onLoad(async (options) => {
     if (userStore.isLogin) {
         return uni.reLaunch({
             url: '/pages/index/index'
         })
     }
+    
+    onOaLogin(options.code)
 })
 
 // 监听显示
@@ -231,10 +264,7 @@ const onSaLogin = (scene) => {
 
 // 微信登录
 const onWxLogin = async (e) => {
-    // if (isForceMobileUa && e.detail.errMsg !== 'getPhoneNumber:ok') {
-    //     return false
-    // }
-
+    // #ifdef MP-WEIXIN
     const code = await toolUtil.obtainWxCode()
     loginApi({
         scene: 'wx',
@@ -242,11 +272,31 @@ const onWxLogin = async (e) => {
     }).then(result => {
         __loginHandle(result)
     })
+    // #endif
+    
+    // #ifdef H5
+    if (isWeixin) {
+        wechatOa.authUrl()
+    }
+    // #endif
+}
+
+// 公众号登录
+const onOaLogin = async (code) => {
+    // #ifdef H5
+    if (code) {
+        wechatOa.authLogin(code).then(result => {
+            __loginHandle(result)
+        })
+    }
+    // #endif
 }
 
 // 处理登录
 const __loginHandle = (result) => {
-    if (result.code !== 0) {
+    if (result.code === 1) {
+      showPopup.value = true  
+    } else if (result.code !== 0) {
         return uni.$u.toast(result.msg)
     }
 

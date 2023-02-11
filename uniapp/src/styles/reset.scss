@@ -10,6 +10,8 @@ page button {
     font-weight: normal;
     border-radius: 0;
     text-align: left;
+    line-height: normal;
     background-color: unset;
+    border: none;
     &::after { border: none; }
 }

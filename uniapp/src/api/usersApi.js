@@ -18,6 +18,12 @@ export function forgetPwdApi(params) {
     return uni.$u.http.post('login/forgetPwd', params)
 }
 
+// 公众号url
+export function getOaCodeUrlApi() {
+    const params = { url: location.href }
+    return uni.$u.http.get('login/oaCodeUrl', params)
+}
+
 // 用户信息
 export function getUserInfoApi() {
     return uni.$u.http.post('users/info')
