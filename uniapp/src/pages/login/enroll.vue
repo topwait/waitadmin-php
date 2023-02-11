@@ -265,10 +265,12 @@ const onSaLogin = (scene) => {
 // 微信登录
 const onWxLogin = async (e) => {
     // #ifdef MP-WEIXIN
+    const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
     loginApi({
         scene: 'wx',
-        code: code
+        code: code,
+        wxCode: wxCode
     }).then(result => {
         __loginHandle(result)
     })

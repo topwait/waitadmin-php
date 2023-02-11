@@ -164,7 +164,7 @@ class UserWidget extends Service
         $unionId  = $response['unionid'] ?? '';
 
         return (new UserAuth())->alias('au')
-            ->join('user u', 'au.user_id = U.id')
+            ->join('user u', 'au.user_id = u.id')
             ->where(['u.is_delete' => 0])
             ->where(function ($query) use ($openId, $unionId) {
                 $query->whereOr(['au.openid'=>$openId]);
