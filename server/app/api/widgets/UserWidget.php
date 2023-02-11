@@ -6,6 +6,7 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
+use app\common\utils\ConfigUtils;
 use app\common\utils\FileUtils;
 use Exception;
 use think\facade\Cache;
@@ -37,16 +38,22 @@ class UserWidget extends Service
         $unionId  = $response['unionid']   ?? '';
         $gender   = intval($response['gender'] ?? 0);
 
+        // 强制绑定
+        $forceMobile = ConfigUtils::get('login', 'force_mobile', 0);
+        if ($forceMobile && !$mobile) {
+            throw new OperateException('需绑定手机号', 1);
+        }
+
         // 验证账号
         $modelUser = new User();
         $where = array(['account'=>$account,'is_delete'=>0], ['mobile'=>$mobile,'is_delete'=>0]);
         if ($account && !$modelUser->field(['id'])->where($where[0])->findOrEmpty()->isEmpty()) {
-            throw new OperateException('账号已被占用了');
+            throw new OperateException('账号已被占用');
         }
 
         // 验证手机
         if ($mobile && !$modelUser->field(['id'])->where($where[1])->findOrEmpty()->isEmpty()) {
-            throw new OperateException('手机已被占用了');
+            throw new OperateException('手机已被占用');
         }
 
         self::dbStartTrans();

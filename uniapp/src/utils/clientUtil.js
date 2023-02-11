@@ -9,14 +9,16 @@ export default {
         // #ifndef MP-WEIXIN
         try {
             let ua = navigator.userAgent.toLowerCase()
-            if (ua.match(/MicroMessenger/i) === 'micromessenger') {
+            if (ua.match(/MicroMessenger/i)[0] === 'micromessenger') {
                 wxBoolean = true
+            } else {
+                wxBoolean = false
             }
-            wxBoolean = false
         } catch (e) {
             wxBoolean = false
         }
         // #endif
+        
         return wxBoolean
     },
     /**

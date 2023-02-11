@@ -104,7 +104,9 @@ import toolUtil from '@/utils/toolUtil'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
-const isWeixin = clientUtil.isWeixin()
+// const isWeixin = clientUtil.isWeixin()
+const isWeixin = true
+
 
 // 枚举对象
 const LoginAuthEnum = {
@@ -229,14 +231,14 @@ const onSaLogin = (scene) => {
 
 // 微信登录
 const onWxLogin = async (e) => {
-    if (e.detail.errMsg !== 'getPhoneNumber:ok') {
-        return
-    }
+    // if (isForceMobileUa && e.detail.errMsg !== 'getPhoneNumber:ok') {
+    //     return false
+    // }
+
     const code = await toolUtil.obtainWxCode()
     loginApi({
         scene: 'wx',
-        code: code,
-        wxCode: e.detail.code
+        code: code
     }).then(result => {
         __loginHandle(result)
     })

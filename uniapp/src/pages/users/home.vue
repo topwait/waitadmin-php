@@ -89,7 +89,7 @@ const service = reactive([
 
 <style lang="scss">
 .layout-header-widget {
-    min-height: 160rpx;
+    min-height: 180rpx;
     background: url("/static/bg_user.png");
     background-position: center right;
     background-repeat: no-repeat;
