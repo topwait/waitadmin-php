@@ -272,7 +272,11 @@ const onWxLogin = async (e) => {
         code: code,
         wxCode: wxCode
     }).then(result => {
-        __loginHandle(result)
+        if (result.code === 1) {
+            showPopup.value = true
+        } else {
+            __loginHandle(result)
+        }
     })
     // #endif
     
@@ -296,10 +300,9 @@ const onOaLogin = async (code) => {
 
 // 处理登录
 const __loginHandle = (result) => {
-    if (result.code === 1) {
-      showPopup.value = true  
-    } else if (result.code !== 0) {
-        return uni.$u.toast(result.msg)
+    if (result.code !== 0) {
+        uni.$u.toast(result.msg)
+        return false
     }
 
     userStore.login(result.data.token)
