@@ -19,7 +19,7 @@ class UsersService extends Service
     {
         $modelUser = new User();
         return $modelUser
-            ->field(['id,sn,account,nickname,avatar,mobile,email,sex'])
+            ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
@@ -36,7 +36,7 @@ class UsersService extends Service
     {
         $modelUser = new User();
         return $modelUser
-            ->field(['id,sn,account,nickname,avatar,mobile,email,sex'])
+            ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->withAttr(['isWeiChat' => function() use ($id) {

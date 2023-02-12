@@ -117,6 +117,7 @@ class UserWidget extends Service
         // 接收参数
         $userId   = intval($response['user_id']);
         $terminal = intval($response['terminal']);
+        $mobile   = $response['mobile']  ?? '';
         $openId   = $response['openid']  ?? '';
         $unionId  = $response['unionid'] ?? '';
 
@@ -124,8 +125,23 @@ class UserWidget extends Service
         $userInfo = (new User())->where(['id'=>$userId])->findOrEmpty()->toArray();
         $userAuth = (new UserAuth())->where(['user_id'=>$userId, 'terminal'=>$terminal])->findOrEmpty()->toArray();
 
+        // 验证手机
+        $modelUser = new User();
+        $where = array(['mobile', '=', $mobile], ['is_delete', '=',0], ['id', '<>', $userId]);
+        if ($mobile && !$modelUser->field(['id'])->where($where)->findOrEmpty()->isEmpty()) {
+            throw new OperateException('手机已被占用');
+        }
+
         self::dbStartTrans();
         try {
+            // 绑定手机
+            if ($mobile && !$userInfo['mobile']) {
+                User::update([
+                    'mobile' => $mobile,
+                    'update_time' => time()
+                ], ['id'=>$userId]);
+            }
+
             // 创建授权
             if (!$userAuth) {
                 UserAuth::create([

@@ -210,6 +210,7 @@ class LoginService extends Service
         if (empty($userInfo)) {
             $userId = UserWidget::createUser($response);
         } else {
+            $response['user_id'] = intval($userInfo['id']);
             $userId = UserWidget::updateUser($response);
         }
 
@@ -245,6 +246,7 @@ class LoginService extends Service
         if (empty($userInfo)) {
             $userId = UserWidget::createUser($response);
         } else {
+            $response['user_id'] = $userInfo['id'];
             $userId = UserWidget::updateUser($response);
         }
 

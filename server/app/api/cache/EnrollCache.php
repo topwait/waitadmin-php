@@ -11,15 +11,15 @@ class EnrollCache
      * 获取
      *
      * @param string $key
-     * @return mixed
+     * @return array
      */
-    public static function get(string $key): mixed
+    public static function get(string $key): array
     {
-        $ktt = self::$prefix . $key;
-        $val = cache($ktt);
+        $wor = self::$prefix . $key;
+        $val = cache($wor);
         if ($val) {
             self::delete($key);
-            return json_decode($val, true);
+            return $val;
         }
         return [];
     }

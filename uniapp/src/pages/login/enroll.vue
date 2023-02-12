@@ -110,7 +110,7 @@
                             </u-button>
                         </template>
                     </u-form-item>
-                    <w-button mt="60" @click="onUpLogin">确认</w-button>
+                    <w-button mt="60"  @on-click="onUpLogin">确认</w-button>
                 </u-form>
             </view>
         	
@@ -324,6 +324,7 @@ const onWxLogin = async (e) => {
         wxCode: wxCode
     }).then(result => {
         if (result.code === 1) {
+            phoneForm.sign = result.data.sign
             showPopup.value = true
         } else {
             __loginHandle(result)
@@ -343,7 +344,12 @@ const onOaLogin = async (code) => {
     // #ifdef H5
     if (code) {
         wechatOa.authLogin(code).then(result => {
-            __loginHandle(result)
+            if (result.code === 1) {
+                phoneForm.sign = result.data.sign
+                showPopup.value = true
+            } else {
+                __loginHandle(result)
+            }
         })
     }
     // #endif
