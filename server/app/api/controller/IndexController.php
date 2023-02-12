@@ -12,7 +12,7 @@ use think\response\Json;
  */
 class IndexController extends Api
 {
-    protected array $notNeedLogin = ['config', 'senSms'];
+    protected array $notNeedLogin = ['config', 'sendSms'];
 
     /**
      * 全局配置
