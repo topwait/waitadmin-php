@@ -12,7 +12,7 @@ use think\response\Json;
  */
 class IndexController extends Api
 {
-    protected array $notNeedLogin = ['config'];
+    protected array $notNeedLogin = ['config', 'senSms'];
 
     /**
      * 全局配置
@@ -24,5 +24,16 @@ class IndexController extends Api
     {
         $detail = IndexService::config();
         return AjaxUtils::success($detail);
+    }
+
+    /**
+     * 发送短信
+     *
+     * @return Json
+     * @author windy
+     */
+    public function sendSms(): Json
+    {
+        return AjaxUtils::success();
     }
 }

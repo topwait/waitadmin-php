@@ -91,22 +91,22 @@
         <u-popup v-model="showPopup" mode="bottom" border-radius="20">
             <view class="py-30 text-center text-bm font-bold">绑定手机</view>
             <view class="px-20 pt-20 pb-50 flex items-center" style="height: 100%; box-sizing: border-box;">
-                <u-form ref="uForm" :model="form" style="width: 100%;">
+                <u-form ref="uForm" :model="phoneForm" style="width: 100%;">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
+                        <u-input v-model="phoneForm.mobile" type="number" placeholder="请输入手机号" />
                     </u-form-item>
                     <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
+                        <u-input v-model="phoneForm.code" type="number" placeholder="请输入验证码" />
                         <template #right>
-                            <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
+                            <u-verification-code ref="uCodeRefByPhone" seconds="60" @change="codeChangeByPhone" />
                             <u-button
                                 :plain="true"
                                 type="primary"
                                 hover-class="none"
                                 size="mini"
                                 shape="circle"
-                                @click="onSendSms()"
-                            >{{ codeTips }}
+                                @click="onSendSmsByPhone"
+                            >{{ codeTipsByPhone }}
                             </u-button>
                         </template>
                     </u-form-item>
@@ -134,10 +134,10 @@ import toolUtil from '@/utils/toolUtil'
 import wechatOa from '@/utils/wechat'
 // #endif
 
+// 基础参数
 const appStore = useAppStore()
 const userStore = useUserStore()
 const isWeixin = clientUtil.isWeixin()
-const showPopup = ref(false)
 
 // 枚举对象
 const LoginAuthEnum = {
@@ -156,6 +156,13 @@ const isCheckAgreement = ref(false)
 const isForceMobileUa = computed(() => appStore.loginConfigVal.force_mobile === 1)
 const isOpenAgreement = computed(() => appStore.loginConfigVal.is_agreement === 1)
 const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other.length)
+
+// 绑定手机
+const showPopup = ref(false)
+const phoneForm = {
+    code: '',
+    mobile: ''
+}
 
 // 表单参数
 const form = {
@@ -191,26 +198,22 @@ onShow(async () => {
     }
 })
 
-// 切换提示
-const codeTips = ref('')
-const uCodeRef = shallowRef()
-const codeChange = (text) => {
-    codeTips.value = text
+// 验证码(登录)
+const codeTipsByLogin = ref('')
+const uCodeRefByLogin = shallowRef()
+const codeChangeByLogin = (text) => {
+    codeTipsByLogin.value = text
 }
 
-// 切换登录
-const tabChange = (e) => {
-    tabsIndex.value = e
-    loginWays.value = loginTabs[e].alias
+// 验证码(绑定)
+const codeTipsByPhone = ref('')
+const uCodeRefByPhone = shallowRef()
+const codeChangeByPhone = (text) => {
+    codeTipsByPhone.value = text
 }
 
-// 判断登录
-const wayInclude = (way) => {
-    return loginAuth.includes(way)
-}
-
-// 发送短信
-const onSendSms = async () => {
+// 发送短信(登录)
+const onSendSmsByLogin = async () => {
     if (checkUtil.isEmpty(form.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
@@ -224,6 +227,31 @@ const onSendSms = async () => {
         })
         uCodeRef.value?.start()
     }
+}
+
+// 发送短信(绑定)
+const onSendSmsByPhone = async () => {
+    if (checkUtil.isEmpty(phoneForm.mobile)) {
+        return uni.$u.toast('请输入手机号')
+    }
+    if (uCodeRefByPhone.value?.canGetCode) {
+        await sendSmsApi({
+            scene: smsEnum.LOGIN,
+            mobile: form.mobile
+        })
+        uCodeRefByPhone.value?.start()
+    }
+}
+
+// 切换登录
+const tabChange = (e) => {
+    tabsIndex.value = e
+    loginWays.value = loginTabs[e].alias
+}
+
+// 判断登录
+const wayInclude = (way) => {
+    return loginAuth.includes(way)
 }
 
 // 普通登录
