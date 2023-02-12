@@ -80,6 +80,7 @@
                         open-type="getPhoneNumber"
                         @getphonenumber="onWxLogin"
                         @click="onWxLogin"
+                        style="background-color: #ffffff;"
                     >
                         <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
                     </button>
@@ -87,9 +88,10 @@
             </view>
             <!-- #endif -->
         </view>
-        
+
         <u-popup v-model="showPopup" mode="bottom" border-radius="20">
             <view class="py-30 text-center text-bm font-bold">绑定手机</view>
+             <view class="text-center text-xs color-muted">您需绑定手机号完成登录操作</view>
             <view class="px-20 pt-20 pb-50 flex items-center" style="height: 100%; box-sizing: border-box;">
                 <u-form ref="uForm" :model="phoneForm" style="width: 100%;">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
@@ -110,7 +112,7 @@
                             </u-button>
                         </template>
                     </u-form-item>
-                    <w-button mt="60"  @on-click="onUpLogin">确认</w-button>
+                    <w-button mt="60" @on-click="onUpLogin">确认</w-button>
                 </u-form>
             </view>
         	
@@ -267,12 +269,22 @@ const wayInclude = (way) => {
 
 // 绑定登录
 const onUpLogin = () => {
+    if (checkUtil.isEmpty(phoneForm.mobile)) {
+        return uni.$u.toast('请输入手机号')
+    }
+    if (checkUtil.isEmpty(phoneForm.code)) {
+        return uni.$u.toast('请输入验证码')
+    }
+    
+    uni.showLoading({title: '请稍后...'})
     loginApi({
         scene: LoginSceneEnum.BIND,
         code: phoneForm.code,
         sign: phoneForm.sign,
         mobile: phoneForm.mobile
     }).then(result => {
+        showPopup.value = false
+        uni.hideLoading()
         __loginHandle(result)
     })
 }
@@ -316,6 +328,7 @@ const onSaLogin = (scene) => {
 // 微信登录
 const onWxLogin = async (e) => {
     // #ifdef MP-WEIXIN
+    uni.showLoading({title: '登录中...'})
     const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
     loginApi({
@@ -323,6 +336,7 @@ const onWxLogin = async (e) => {
         code: code,
         wxCode: wxCode
     }).then(result => {
+        uni.hideLoading()
         if (result.code === 1) {
             phoneForm.sign = result.data.sign
             showPopup.value = true

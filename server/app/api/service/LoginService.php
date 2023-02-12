@@ -192,13 +192,13 @@ class LoginService extends Service
     {
         // 短信验证
         if ($code != '12345') {
-            throw new OperateException('验证码错误');
+            throw new OperateException('验证码错误', 1);
         }
 
         // 登录数据
         $response = EnrollCache::get($sign);
         if (!$response) {
-            throw new OperateException('首次登录绑定手机号异常');
+            throw new OperateException('首次登录绑定手机号异常', 1);
         }
 
         // 设置参数
