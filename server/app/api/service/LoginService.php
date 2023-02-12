@@ -2,6 +2,7 @@
 
 namespace app\api\service;
 
+use app\api\cache\EnrollCache;
 use app\api\widgets\UserWidget;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
@@ -15,8 +16,8 @@ class LoginService extends Service
     /**
      * 注册账号
      *
-     * @param array $post
-     * @param int $terminal
+     * @param array $post   (参数)
+     * @param int $terminal (设备)
      * @return array
      * @throws OperateException
      * @throws Exception
@@ -52,7 +53,7 @@ class LoginService extends Service
     /**
      * 重置密码
      *
-     * @param array $post
+     * @param array $post (参数)
      * @throws OperateException
      * @author windy
      */
@@ -96,7 +97,7 @@ class LoginService extends Service
      *
      * @param $account  (账号)
      * @param $password (密码)
-     * @param $terminal (渠道)
+     * @param $terminal (设备)
      * @return array
      * @throws OperateException
      */
@@ -137,8 +138,8 @@ class LoginService extends Service
      * 短信登录
      *
      * @param string $mobile (手机号)
-     * @param string $code (验证码)
-     * @param int $terminal
+     * @param string $code   (验证码)
+     * @param int $terminal  (设备)
      * @return array
      * @throws OperateException
      * @author windy
@@ -177,10 +178,44 @@ class LoginService extends Service
 
     /**
      * 绑定登录
+     *
+     * @param string $mobile (手机号)
+     * @param string $code   (验证码)
+     * @param string $sign   (签名值)
+     * @param int $terminal  (设备)
+     * @return array
+     * @throws OperateException
+     * @throws Exception
      */
-    public static function bindLogin(string $mobile, string $code, string $sign, int $terminal)
+    #[ArrayShape(['token' => "string"])]
+    public static function bindLogin(string $mobile, string $code, string $sign, int $terminal): array
     {
+        // 短信验证
+        if ($code != '12345') {
+            throw new OperateException('验证码错误');
+        }
 
+        // 登录数据
+        $response = EnrollCache::get($sign);
+        if (!$response) {
+            throw new OperateException('首次登录绑定手机号异常');
+        }
+
+        // 设置参数
+        $response['terminal'] = $terminal;
+        $response['mobile'] = $mobile;
+
+        // 验证账户
+        $userInfo = UserWidget::getUserAuthByResponse($response);
+        if (empty($userInfo)) {
+            $userId = UserWidget::createUser($response);
+        } else {
+            $userId = UserWidget::updateUser($response);
+        }
+
+        // 登录账户
+        $token = UserWidget::granToken($userId, $terminal);
+        return ['token'=>$token];
     }
 
     /**

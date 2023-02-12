@@ -110,7 +110,7 @@
                             </u-button>
                         </template>
                     </u-form-item>
-                    <w-button mt="60" @click="onWxLogin">确认</w-button>
+                    <w-button mt="60" @click="onUpLogin">确认</w-button>
                 </u-form>
             </view>
         	
@@ -139,10 +139,20 @@ const appStore = useAppStore()
 const userStore = useUserStore()
 const isWeixin = clientUtil.isWeixin()
 
-// 枚举对象
+// 授权枚举
 const LoginAuthEnum = {
     WX: 1,
     QQ: 2
+}
+
+
+// 场景枚举
+const LoginSceneEnum = {
+    WX: 'wx',
+    OA: 'oa',
+    BIND: 'bind',
+    MOBILE: 'mobile',
+    ACCOUNT: 'account'
 }
 
 // 登录配置
@@ -257,13 +267,20 @@ const wayInclude = (way) => {
 
 // 绑定登录
 const onUpLogin = () => {
-    
+    loginApi({
+        scene: LoginSceneEnum.BIND,
+        code: phoneForm.code,
+        sign: phoneForm.sign,
+        mobile: phoneForm.mobile
+    }).then(result => {
+        __loginHandle(result)
+    })
 }
 
 // 普通登录
 const onSaLogin = (scene) => {
     let params = {}
-    if (scene === 'mobile') {
+    if (scene === LoginSceneEnum.MOBILE) {
         if (checkUtil.isEmpty(form.mobile)) {
             return uni.$u.toast('请输入手机号')
         }
@@ -302,7 +319,7 @@ const onWxLogin = async (e) => {
     const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
     loginApi({
-        scene: 'wx',
+        scene: LoginSceneEnum.WX,
         code: code,
         wxCode: wxCode
     }).then(result => {
