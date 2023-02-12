@@ -176,6 +176,14 @@ class LoginService extends Service
     }
 
     /**
+     * 绑定登录
+     */
+    public static function bindLogin(string $mobile, string $code, string $sign, int $terminal)
+    {
+
+    }
+
+    /**
      * 微信登录
      *
      * @param string $code (微信小程序编码)

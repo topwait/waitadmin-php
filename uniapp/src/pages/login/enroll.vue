@@ -105,12 +105,12 @@
                                 hover-class="none"
                                 size="mini"
                                 shape="circle"
-                                @click="onSendSmsByPhone"
+                                @click="sendSmsByPhone"
                             >{{ codeTipsByPhone }}
                             </u-button>
                         </template>
                     </u-form-item>
-                     <w-button mt="60">确认</w-button>
+                    <w-button mt="60" @click="onWxLogin">确认</w-button>
                 </u-form>
             </view>
         	
@@ -161,6 +161,7 @@ const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other.lengt
 const showPopup = ref(false)
 const phoneForm = {
     code: '',
+    sign: '',
     mobile: ''
 }
 
@@ -213,7 +214,7 @@ const codeChangeByPhone = (text) => {
 }
 
 // 发送短信(登录)
-const onSendSmsByLogin = async () => {
+const sendSmsByLogin = async () => {
     if (checkUtil.isEmpty(form.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
@@ -230,7 +231,7 @@ const onSendSmsByLogin = async () => {
 }
 
 // 发送短信(绑定)
-const onSendSmsByPhone = async () => {
+const sendSmsByPhone = async () => {
     if (checkUtil.isEmpty(phoneForm.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
@@ -244,14 +245,19 @@ const onSendSmsByPhone = async () => {
 }
 
 // 切换登录
-const tabChange = (e) => {
-    tabsIndex.value = e
-    loginWays.value = loginTabs[e].alias
+const tabChange = (index) => {
+    tabsIndex.value = index
+    loginWays.value = loginTabs[index].alias
 }
 
 // 判断登录
 const wayInclude = (way) => {
     return loginAuth.includes(way)
+}
+
+// 绑定登录
+const onUpLogin = () => {
+    
 }
 
 // 普通登录

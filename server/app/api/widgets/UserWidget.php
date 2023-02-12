@@ -2,6 +2,7 @@
 
 namespace app\api\widgets;
 
+use app\api\cache\EnrollCache;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
@@ -41,7 +42,9 @@ class UserWidget extends Service
         // 强制绑定
         $forceMobile = ConfigUtils::get('login', 'force_mobile', 0);
         if ($forceMobile && !$mobile) {
-            throw new OperateException('需绑定手机号', 1);
+            $data = ['sign'=>make_md5_str(time().make_rand_char(8))];
+            EnrollCache::set($data['sign'], $response);
+            throw new OperateException('需绑定手机号', 1, $data);
         }
 
         // 验证账号

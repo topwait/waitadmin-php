@@ -65,6 +65,11 @@ class LoginController extends Api
                 $validate->goCheck('mobile');
                 $response = LoginService::mobileLogin($post['mobile'], $post['code'], $this->terminal);
                 break;
+            case 'bind':
+                $validate->goCheck('bind');
+                $sign = $post['code'] ?? '';
+                $response = LoginService::mobileLogin($post['mobile'], $post['code'], $sign,  $this->terminal);
+                break;
             case 'wx':
                 $validate->goCheck('wx');
                 $phoneCode = $post['wxCode']??'';
