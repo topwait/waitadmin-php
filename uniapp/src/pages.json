@@ -47,6 +47,15 @@
                 "navigationBarBackgroundColor": "#2979ff"
             }
         }
+        ,{
+            "path" : "pages/article/article",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "资讯",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        }
     ],
     "globalStyle": {
         "navigationBarTextStyle": "black",
@@ -64,6 +73,12 @@
                 "iconPath": "static/tabBar/tab_home.png",
                 "selectedIconPath": "static/tabBar/tab_home_no.png",
                 "text": "首页"
+            },
+            {
+                "pagePath": "pages/article/article",
+                "iconPath": "static/tabBar/tab_category.png",
+                "selectedIconPath": "static/tabBar/tab_category_no.png",
+                "text": "资讯"
             },
             {
                 "pagePath": "pages/users/home",
