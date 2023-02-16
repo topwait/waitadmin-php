@@ -8,7 +8,6 @@
     />
     
     <z-paging ref="paging" v-model="dataList" @query="queryList"  auto-show-back-to-top>
-
         <view class="layout-article-widget">
             <view class="item">
                 <view class="flex justify-between">
