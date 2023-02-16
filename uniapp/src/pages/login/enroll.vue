@@ -78,9 +78,9 @@
                     <button
                         v-if="wayInclude(LoginAuthEnum.WX) && isWeixin"
                         open-type="getPhoneNumber"
+                        style="background-color: #ffffff;"
                         @getphonenumber="onWxLogin"
                         @click="onWxLogin"
-                        style="background-color: #ffffff;"
                     >
                         <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
                     </button>
@@ -91,7 +91,7 @@
 
         <u-popup v-model="showPopup" mode="bottom" border-radius="20">
             <view class="py-30 text-center text-bm font-bold">绑定手机</view>
-             <view class="text-center text-xs color-muted">您需绑定手机号完成登录操作</view>
+            <view class="text-center text-xs color-muted">您需绑定手机号完成登录操作</view>
             <view class="px-20 pt-20 pb-50 flex items-center" style="height: 100%; box-sizing: border-box;">
                 <u-form ref="uForm" :model="phoneForm" style="width: 100%;">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
@@ -115,7 +115,7 @@
                     <w-button mt="60" @on-click="onUpLogin">确认</w-button>
                 </u-form>
             </view>
-        	
+
         </u-popup>
     </view>
 
@@ -192,7 +192,7 @@ onLoad(async (options) => {
             url: '/pages/index/index'
         })
     }
-    
+
     onOaLogin(options.code)
 })
 
@@ -275,7 +275,7 @@ const onUpLogin = () => {
     if (checkUtil.isEmpty(phoneForm.code)) {
         return uni.$u.toast('请输入验证码')
     }
-    
+
     uni.showLoading({title: '请稍后...'})
     loginApi({
         scene: LoginSceneEnum.BIND,
@@ -345,7 +345,7 @@ const onWxLogin = async (e) => {
         }
     })
     // #endif
-    
+
     // #ifdef H5
     if (isWeixin) {
         wechatOa.authUrl()
