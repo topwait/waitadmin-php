@@ -4,12 +4,12 @@ export function getCategoryApi() {
 }
 
 // 获取文章列表
-export function getArticleApi() {
-    return uni.$u.http.get('article/lists')
+export function getArticleApi(params) {
+    return uni.$u.http.get('article/lists', params)
 }
 
 
 // 获取文章详情
-export function getDetailApi() {
-    return uni.$u.http.get('article/detail')
+export function getDetailApi(params) {
+    return uni.$u.http.get('article/detail', params)
 }

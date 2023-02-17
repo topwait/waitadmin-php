@@ -10,6 +10,7 @@ module.exports = {
     rules: {
         'unit-case': null,
         'indentation': 4,
+        'max-line-length': 200,
         'string-quotes': 'double',
         'color-hex-case': 'lower',
         'no-empty-source': null,

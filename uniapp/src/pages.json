@@ -48,10 +48,20 @@
             }
         }
         ,{
-            "path" : "pages/article/article",
+            "path" : "pages/article/lists",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "资讯",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff",
+                "disableScroll": true
+            }
+        }
+        ,{
+            "path" : "pages/article/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "资讯详情",
                 "navigationBarTextStyle": "black",
                 "navigationBarBackgroundColor": "#ffffff",
                 "disableScroll": true
@@ -76,7 +86,7 @@
                 "text": "首页"
             },
             {
-                "pagePath": "pages/article/article",
+                "pagePath": "pages/article/lists",
                 "iconPath": "static/tabBar/tab_category.png",
                 "selectedIconPath": "static/tabBar/tab_category_no.png",
                 "text": "资讯"

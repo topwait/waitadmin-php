@@ -9,7 +9,7 @@ page {
 
 /* Flex */
 .flex { display: flex; }
-.inline-flex { display: inline-flex; }
+.flex-inline { display: inline-flex; }
 .flex-none { flex: none; }
 .flex-auto { flex: 1 1 auto; }
 .flex-initial { flex: 0 1 auto; }
@@ -315,10 +315,10 @@ page {
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .truncate-clip { text-overflow: clip; }
 .truncate-ellipsis { text-overflow: ellipsis; }
-.truncate-line-1 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
-.truncate-line-2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-.truncate-line-3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-.truncate-line-4 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
+.truncate-line-1 { display: -webkit-box; overflow: hidden; text-overflow: ellipsis; word-break: break-all; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
+.truncate-line-2 { display: -webkit-box; overflow: hidden; text-overflow: ellipsis; word-break: break-all; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.truncate-line-3 { display: -webkit-box; overflow: hidden; text-overflow: ellipsis; word-break: break-all; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.truncate-line-4 { display: -webkit-box; overflow: hidden; text-overflow: ellipsis; word-break: break-all; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
 
 /* 垂直对齐 */
 .align-baseline { vertical-align: baseline; }

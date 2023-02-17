@@ -4,39 +4,37 @@
             <u-tabs-swiper
                 ref="uTabs"
                 inactive-color="#999999"
-                :list="list"
+                :list="tabs"
                 :current="current"
                 @change="tabChange"
             />
         </template>
         <swiper class="swiper" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
-            <swiper-item v-for="(item, index) in list" :key="index">
-                <slot name="content"></slot>
+            <swiper-item v-for="(item, i) in tabs" :key="i">
+                <slot name="content" :cur="i"></slot>
             </swiper-item>
         </swiper>
     </z-paging-swiper>
 </template>
 
 <script setup>
-import { getCurrentInstance, ref } from 'vue'
+import { getCurrentInstance, ref, defineEmits } from 'vue'
 
-defineProps({
-    list: {
+const props = defineProps({
+    tabs: {
         type: Array,
         default: () => { return [] }
-    },
-    key: {
-        type: Number,
-        default: () => 0
     }
 })
 
+const emit = defineEmits(['change'])
 const currentInstance = getCurrentInstance()
 const swiperCurrent = ref(0)
 const current = ref(0)
 
 const tabChange = (index) => {
     swiperCurrent.value = index
+    emit('change', {id: props.tabs[index].id, index: index})
 }
 
 const transition = (e) => {
@@ -46,6 +44,7 @@ const transition = (e) => {
 
 const animationfinish = (e) => {
     let index = e.detail.current
+    emit('change', {id: props.tabs[index].id, index: index})
     currentInstance.ctx.$refs.uTabs.setFinishCurrent(index)
     swiperCurrent.value = index
     current.value = index
