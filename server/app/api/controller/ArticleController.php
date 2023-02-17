@@ -28,9 +28,15 @@ class ArticleController extends Api
         return AjaxUtils::success($list);
     }
 
-    public function lists()
+    /**
+     * 文章列表
+     *
+     * @return Json
+     * @throws DbException
+     */
+    public function lists(): Json
     {
-        $list = ArticleService::lists();
+        $list = ArticleService::lists($this->request->get());
         return AjaxUtils::success($list);
     }
 

@@ -5,6 +5,7 @@ namespace app\api\service;
 use app\common\basics\Service;
 use app\common\model\content\Article;
 use app\common\model\content\ArticleCategory;
+use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -32,10 +33,23 @@ class ArticleService extends Service
         return $lists;
     }
 
-    public static function lists()
+    /**
+     * 文章列表
+     *
+     * @param array $get
+     * @return array
+     * @throws DbException
+     */
+    public static function lists(array $get): array
     {
+        $where = [];
+        if (empty($get['cid']) && $get['cid']) {
+            $where[] = ['cid', '=', intval($get['cid'])];
+        }
+
         $modelArticle = new Article();
-        $lists = $modelArticle->field(['id,image,title,intro'])
+        return $modelArticle->field(['id,image,title,intro'])
+            ->where($where)
             ->where(['is_delete'=>0])
             ->where(['is_show'=>1])
             ->order('id desc, browse desc')
@@ -44,8 +58,6 @@ class ArticleService extends Service
                 'list_rows' => $get['limit'] ?? 20,
                 'var_page'  => 'page'
             ])->toArray();
-
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
     }
 
     public static function detail()
