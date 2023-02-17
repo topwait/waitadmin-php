@@ -10,8 +10,8 @@
             />
         </template>
         <swiper :current="swiperCurrent" @transition="transition" @animationfinish="animations" style="height: 100%;">
-            <swiper-item v-for="(item, i) in tabList" :key="i">
-                <ArticlePagInList :cid="item.id" :tabIndex="current" :swiperIndex="i" />
+            <swiper-item v-for="(item, index) in tabList" :key="index">
+                <ArticlePagInList :cid="item.id" :tabIndex="index" :swiperIndex="swiperCurrent" />
             </swiper-item>
         </swiper>
     </z-paging-swiper>
@@ -33,7 +33,7 @@ onLoad(() => {
 })
 
 const tabChange = (e) => {
-    current.value = e
+    swiperCurrent.value = e
 }
 
 const transition = (e) => {

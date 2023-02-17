@@ -1,14 +1,16 @@
 <template>
     <z-paging
+        auto-show-back-to-top
         ref="paging"
         v-model="dataList"
+        :auto="swiperIndex === tabIndex"
         :data-key="swiperIndex"
         :fixed="false"
-        :auto="swiperIndex === tabIndex"
         @query="queryList"
+        height="100%"
     >
         <view class="layout-article-widget">
-            <view v-for="(item, i) in dataList" :key="i" class="item">
+            <view v-for="(item, index) in dataList" :key="index" class="item">
                 <view class="flex justify-between">
                     <u-image :lazy-load="true" width="240rpx" height="180rpx" :src="item.image" style="flex-shrink: 0;" />
                     <view class="flex flex-col justify-between ml-20">
@@ -30,21 +32,21 @@ import { ref, watch, nextTick } from 'vue'
 import { getArticleApi } from '@/api/articleApi'
 
 const paging = ref(null)
-const isFirst = ref(true)
+const isFirst = ref(false)
 const dataList = ref([])
 
 const props = defineProps({
     cid: {
         type: Number,
-        default: () => 0
+        default: () => { return 0 }
     },
     tabIndex: {
         type: Number,
-        default: () => 0
+        default: () => { return 0 }
     },
     swiperIndex: {
         type: Number,
-        default: () => 0
+        default: () => { return 0 }
     }
 })
 
@@ -52,9 +54,11 @@ watch(
     () => props.tabIndex,
     async () => {
         await nextTick()
-        if (props.tabIndex === props.swiperIndex && isFirst.value) {
-            isFirst.value = false
-            paging.value?.reload()
+        if (props.swiperIndex === props.tabIndex && isFirst.value) {
+            if (!isFirst.value) {
+                isFirst.value = false
+                paging.value?.reload()
+            }
         }
     },
     { immediate: true }
@@ -67,6 +71,7 @@ const queryList = async (pageNo, pageSize) => {
         pageSize
     }).then(res => {
         paging.value.complete(res.data.data)
+        isFirst.value = true
     }).catch(() => {
         paging.value.complete(false)
     })
