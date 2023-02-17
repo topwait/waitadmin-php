@@ -1,3 +1,4 @@
+* { touch-action: pan-y; }
 page {
     padding-bottom: env(safe-area-inset-bottom);
     font-size: 28rpx;
