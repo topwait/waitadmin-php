@@ -1,14 +1,14 @@
 <template>
     <view class="layout-detail-widget">
         <view class="header">
-            <view class="pb-30">压垮餐馆老板的最后一个稻草</view>
+            <view class="pb-30">{{ detail.title }}</view>
             <view class="flex justify-between">
-                <view class="text-xs font-thin color-muted">发布时间: 2022-05-11</view>
-                <view class="text-xs font-thin color-muted">55人浏览</view>
+                <view class="text-xs font-thin color-muted">发布时间: {{ detail.create_time }}</view>
+                <view class="text-xs font-thin color-muted">{{ detail.browse }}人浏览</view>
             </view>
         </view>
         <view class="content">
-			<u-parse :html="'a反反复复烦烦烦'"></u-parse>
+			<u-parse :html="detail.content"></u-parse>
         </view>
     </view>
 </template>
@@ -25,7 +25,8 @@ onLoad((options) => {
 })
 
 const queryArticleDetail = async (id) => {
-    detail.value = getDetailApi({ id })
+    const { data } = await getDetailApi({ id })
+    detail.value = data
 }
 </script>
 

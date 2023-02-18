@@ -72,7 +72,7 @@ class ArticleService extends Service
     {
         $modelArticle = new Article();
         return $modelArticle
-            ->field(['id,title,intro,content,create_time'])
+            ->field(['id,title,intro,content,browse,create_time'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrFail()
