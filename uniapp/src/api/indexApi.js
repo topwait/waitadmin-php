@@ -1,5 +1,3 @@
-// const http = uni.$u.http
-
 // 系统配置
 export function getSysConfigApi() {
     return uni.$u.http.get('index/config')
@@ -7,5 +5,5 @@ export function getSysConfigApi() {
 
 // 发送短信
 export function sendSmsApi(params) {
-    return uni.$u.http.get('index/sendSms', params)
+    return uni.$u.http.post('index/sendSms', params)
 }

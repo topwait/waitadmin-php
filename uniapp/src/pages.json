@@ -3,7 +3,7 @@
         {
             "path": "pages/index/index",
             "style": {
-                "navigationBarTitleText": "uni-app"
+                "navigationBarTitleText": "首页"
             }
         },
         {
@@ -76,7 +76,7 @@
     },
     "tabBar": {
         "color": "#666666",
-        "selectedColor": "#ff5058",
+        "selectedColor": "#2979ff",
         "backgroundColor": "#ffffff",
         "list": [
             {
@@ -87,8 +87,8 @@
             },
             {
                 "pagePath": "pages/article/lists",
-                "iconPath": "static/tabBar/tab_category.png",
-                "selectedIconPath": "static/tabBar/tab_category_no.png",
+                "iconPath": "static/tabBar/tab_community.png",
+                "selectedIconPath": "static/tabBar/tab_community_no.png",
                 "text": "资讯"
             },
             {

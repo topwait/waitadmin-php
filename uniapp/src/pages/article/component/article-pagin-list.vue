@@ -12,7 +12,7 @@
         <view class="layout-article-widget">
             <view v-for="(item, index) in dataList" :key="index" class="item" @click="$go('/pages/article/detail?id='+item.id)">
                 <u-image :lazy-load="true" width="240rpx" height="180rpx" :src="item.image" style="flex-shrink: 0;" />
-                <view class="flex flex-col justify-between ml-20">
+                <view class="flex flex-col justify-between px-20">
                     <view class="truncate-line-1 text-xl color-main font-medium">{{ item.title }}</view>
                     <view class="truncate-line-1 text-xs color-text">{{ item.intro }}</view>
                     <view class="flex justify-between">
@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, watch, nextTick } from 'vue'
-import { getArticleApi } from '@/api/articleApi'
+import { getArticleListApi } from '@/api/articleApi'
 
 const paging = ref(null)
 const isFirst = ref(true)
@@ -61,7 +61,7 @@ watch(
 )
 
 const queryList = async (pageNo, pageSize) => {
-    getArticleApi({
+    getArticleListApi({
         cid: props.cid,
         pageNo,
         pageSize

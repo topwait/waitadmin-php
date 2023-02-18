@@ -16,8 +16,6 @@
             </view>
         </view>
 
-        <w-service title="" grid="20%" :list="orders" />
-
         <w-service title="我的服务" mod="col" grid="25%" :list="service" />
     </view>
 </template>
@@ -35,56 +33,24 @@ onShow(() => {
     userStore.getUserInfo()
 })
 
-const orders = reactive([
-    {
-        'name': '待付款',
-        'image': '../../../static/tabBar/tab_category_no.png'
-    },
-    {
-        'name': '待发货',
-        'image': '../../../static/tabBar/tab_user_no.png'
-    },
-    {
-        'name': '待收货',
-        'image': '../../../static/tabBar/tab_cart_no.png'
-    },
-    {
-        'name': '评价',
-        'image': '../../../static/tabBar/tab_home_no.png'
-    },
-    {
-        'name': '退款售后',
-        'image': '../../../static/tabBar/tab_home_no.png'
-    }
-])
-
 const service = reactive([
     {
-        'name': '发票管理',
-        'image': '../../../static/tabBar/tab_category_no.png'
+        'name': '我的收藏',
+        'image': '/static/tools_collect.png'
     },
     {
-        'name': '我的管理',
-        'image': '../../../static/tabBar/tab_user_no.png'
+        'name': '个人设置',
+        'image': '/static/tools_help.png'
     },
     {
-        'name': '推广管理',
-        'image': '../../../static/tabBar/tab_cart_no.png'
+        'name': '联系客服',
+        'image': '/static/tools_service.png'
     },
     {
-        'name': '调整管理',
-        'image': '../../../static/tabBar/tab_home_no.png'
-    },
-    {
-        'name': '订单管理',
-        'image': '../../../static/tabBar/tab_home_no.png'
-    },
-    {
-        'name': '内容管理',
-        'image': '../../../static/tabBar/tab_home_no.png'
+        'name': '关于我们',
+        'image': '/static/tools_team.png'
     }
 ])
-
 </script>
 
 <style lang="scss">

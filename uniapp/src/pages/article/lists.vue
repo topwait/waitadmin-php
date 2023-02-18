@@ -20,7 +20,7 @@
 <script setup>
 import { ref, watch, nextTick, getCurrentInstance } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { getCategoryApi } from '@/api/articleApi'
+import { getArticleCateApi } from '@/api/articleApi'
 import ArticlePagInList from './component/article-pagin-list.vue'
 
 const tabList = ref([])
@@ -49,7 +49,7 @@ const animations = (e) => {
 }
 
 const queryCategory = async () => {
-    const { data } = await getCategoryApi()
+    const { data } = await getArticleCateApi()
     tabList.value = data
 }
 </script>

@@ -1,10 +1,11 @@
-* { touch-action: pan-y; }
+// * { touch-action: pan-y; }
 page {
     padding-bottom: env(safe-area-inset-bottom);
     font-size: 28rpx;
     font-family: "PingFang SC", Arial, "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     color: $uni-color-main;
     background-color: $uni-bg-pages;
+    padding-bottom: 20rpx;
 }
 
 /* Flex */
