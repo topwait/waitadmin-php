@@ -11,7 +11,7 @@
         </template>
         <swiper :current="swiperCurrent" @transition="transition" @animationfinish="animations" style="height: 100%;">
             <swiper-item v-for="(item, index) in tabList" :key="index">
-                <ArticlePagInList :cid="item.id" :tabIndex="index" :swiperIndex="swiperCurrent" />
+                <ArticlePagInList :cid="item.id" :tabIndex="current" :swiperIndex="index" />
             </swiper-item>
         </swiper>
     </z-paging-swiper>

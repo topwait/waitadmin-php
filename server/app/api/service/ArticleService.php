@@ -5,7 +5,6 @@ namespace app\api\service;
 use app\common\basics\Service;
 use app\common\model\content\Article;
 use app\common\model\content\ArticleCategory;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -60,8 +59,23 @@ class ArticleService extends Service
             ])->toArray();
     }
 
-    public static function detail()
+    /**
+     * 文章详情
+     *
+     * @param int $id
+     * @return array
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @author windy
+     */
+    public static function detail(int $id): array
     {
-
+        $modelArticle = new Article();
+        return $modelArticle
+            ->field(['id,title,intro,content,create_time'])
+            ->where(['id'=>$id])
+            ->where(['is_delete'=>0])
+            ->findOrFail()
+            ->toArray();
     }
 }

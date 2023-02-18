@@ -2,6 +2,7 @@
 
 namespace app\api\controller;
 
+
 use app\api\service\ArticleService;
 use app\common\basics\Api;
 use app\common\utils\AjaxUtils;
@@ -12,7 +13,7 @@ use think\response\Json;
 
 class ArticleController extends Api
 {
-    protected array $notNeedLogin = ['category', 'lists'];
+    protected array $notNeedLogin = ['category', 'lists', 'detail'];
 
     /**
      * 文章分类
@@ -21,6 +22,7 @@ class ArticleController extends Api
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @author windy
      */
     public function category(): Json
     {
@@ -33,6 +35,7 @@ class ArticleController extends Api
      *
      * @return Json
      * @throws DbException
+     * @author windy
      */
     public function lists(): Json
     {
@@ -40,8 +43,18 @@ class ArticleController extends Api
         return AjaxUtils::success($list);
     }
 
-    public function detail()
+    /**
+     * 文章详情
+     *
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @author windy
+     */
+    public function detail(): Json
     {
-
+        $id = intval($this->request->get('id'));
+        $detail = ArticleService::detail($id);
+        return AjaxUtils::success($detail);
     }
 }
