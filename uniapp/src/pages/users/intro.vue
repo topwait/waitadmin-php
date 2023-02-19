@@ -96,13 +96,13 @@
         <view class="popup-form-widget" v-if="popupType === 'changePwd'">
             <view class="title">修改密码</view>
             <u-form-item>
-                <u-input v-model="formValue" placeholder="请输入原始密码" :border="false" />
+                <u-input v-model="changePwdForm.oldPassword" placeholder="请输入原始密码" :border="false" />
             </u-form-item>
             <u-form-item>
-                <u-input v-model="formValue" placeholder="请输入新的密码" :border="false" />
+                <u-input v-model="changePwdForm.newPassword" placeholder="请输入新的密码" :border="false" />
             </u-form-item>
             <u-form-item>
-                <u-input v-model="formValue" placeholder="请再次确认密码" :border="false" />
+                <u-input v-model="changePwdForm.ackPassword" placeholder="请再次确认密码" :border="false" />
             </u-form-item>
             <view class="py-40">
                 <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
@@ -134,8 +134,10 @@
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { getUserInfoApi, postUserEditApi } from '@/api/usersApi.js'
+import { userInfoApi, userEditApi, changePwdApi } from '@/api/usersApi.js'
+import clientUtil from '@/utils/clientUtil'
 
+// 用户信息
 const userStore = useUserStore()
 const userInfo = ref({
     sn: '',
@@ -148,14 +150,24 @@ const userInfo = ref({
     isWeiChat: false
 })
 
+// 修改密码
+const changePwdForm = ref({
+    oldPassword: '',
+    newPassword: '',
+    ackPassword: ''
+})
+
+// 弹出参数
 const formValue = ref(null)
 const popupType = ref(null)
 const popupShow = ref(false)
 
+// 性别参数
 const genderPicker = ref(false)
 const genderListed = ref(['男', '女'])
 const genderEnumer = ref(['未知', '男', '女'])
 
+// 密码参数
 const pwdPicker = ref(false)
 const pwdListed = ref([{text: '修改密码'}, {text: '忘记密码'}])
 
@@ -166,7 +178,7 @@ onShow(() => {
 
 // 查询信息
 const queryUserInfo = async () => {
-    const res = await getUserInfoApi()
+    const res = await userInfoApi()
     userInfo.value = res.data
 }
 
@@ -204,11 +216,24 @@ const onGenderEdit = (value) => {
 }
 
 // 密码修改
-const onPasswordEdit = (index) => {
+const onPasswordEdit = async (index) => {
     switch (index) {
         case 0:
             popupType.value = 'changePwd'
             popupShow.value = true
+            if (checkUtil.isEmpty(changePwdForm.oldPassword)) {
+                return uni.$u.toast('请输入原始密码')
+            }
+            if (checkUtil.isEmpty(changePwdForm.newPassword)) {
+                return uni.$u.toast('请输入新的密码')
+            }
+            if (checkUtil.isEmpty(changePwdForm.ackPassword)) {
+                return uni.$u.toast('请输入确认密码')
+            }
+            if (changePwdForm.newPassword !== changePwdForm.ackPassword) {
+                return uni.$u.toast('两次不密码不一致')
+            }
+            await changePwdApi(changePwdForm)
             break
         case 1:
             popupType.value = 'forgetPwd'

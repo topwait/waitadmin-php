@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\api\service\LoginService;
 use app\api\validate\LoginValidate;
 use app\common\basics\Api;
+use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use Exception;
 use think\response\Json;
@@ -26,21 +27,6 @@ class LoginController extends Api
 
         $result = LoginService::register($this->request->post(), $this->terminal);
         return AjaxUtils::success($result);
-    }
-
-    /**
-     * 忘记
-     *
-     * @return Json
-     * @throws Exception
-     * @author windy
-     */
-    public function forget(): Json
-    {
-        (new LoginValidate())->goCheck('forget');
-
-        LoginService::forgetPwd($this->request->post());
-        return AjaxUtils::success();
     }
 
     /**
@@ -109,5 +95,32 @@ class LoginController extends Api
 
         $response = LoginService::oaCodeUrl($url);
         return AjaxUtils::success($response);
+    }
+
+    /**
+     * 修改密码
+     *
+     * @return Json
+     * @throws OperateException
+     * @author windy
+     */
+    public function changePwd(): Json
+    {
+        LoginService::changePwd($this->request->post(), $this->userId);
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @return Json
+     * @throws OperateException
+     */
+    public function forgetPwd(): Json
+    {
+        (new LoginValidate())->goCheck('forget');
+
+        LoginService::forgetPwd($this->request->post());
+        return AjaxUtils::success();
     }
 }

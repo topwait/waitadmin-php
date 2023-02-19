@@ -51,48 +51,6 @@ class LoginService extends Service
     }
 
     /**
-     * 重置密码
-     *
-     * @param array $post (参数)
-     * @throws OperateException
-     * @author windy
-     */
-    public static function forgetPwd(array $post)
-    {
-        // 接收参数
-        $code     = $post['code'];
-        $mobile   = $post['mobile'];
-        $password = $post['password'];
-
-        // 短信验证
-        if ($code != '12345') {
-            throw new OperateException('验证码错误');
-        }
-
-        // 查询账户
-        $modelUser = new User();
-        $userInfo = $modelUser->field(['id,mobile'])
-            ->where(['mobile'=>trim($mobile)])
-            ->where(['is_delete'=>0])
-            ->findOrEmpty()
-            ->toArray();
-
-        // 验证账户
-        if (!$userInfo) {
-            throw new OperateException('账号不存在!');
-        }
-
-        // 设置密码
-        $salt = make_rand_char(6);
-        $password = make_md5_str($password, $salt);
-        User::update([
-            'salt'        => $salt,
-            'password'    => $password,
-            'update_time' => time()
-        ], ['id'=>$userInfo['id']]);
-    }
-
-    /**
      * 账号登录
      *
      * @param $account  (账号)
@@ -295,5 +253,83 @@ class LoginService extends Service
     public static function oaCodeUrl(string $url): array
     {
         return ['url'=>WeChatService::oaBuildAuthUrl($url)];
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param array $post
+     * @param int $userId
+     * @throws OperateException
+     */
+    public static function changePwd(array $post, int $userId)
+    {
+        $newPassword = $post['newPassword']??'';
+        $oldPassword = $post['oldPassword']??'';
+
+        $modelUser = new User();
+        $user = $modelUser->field(['id,password,salt'])
+            ->where(['id'=>$userId])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        if (!$user) {
+            throw new OperateException('检测到用户已不存在!');
+        }
+
+        $originalPwd = make_md5_str($oldPassword, $user['salt']);
+        if ($oldPassword !== $originalPwd) {
+            throw new OperateException('检测到旧密码不正确!');
+        }
+
+        $salt = make_rand_char(6);
+        User::update([
+            'salt'        => $salt,
+            'password'    => make_md5_str($newPassword, $salt),
+            'update_time' => time()
+        ], ['id'=>$userId]);
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param array $post (参数)
+     * @throws OperateException
+     * @author windy
+     */
+    public static function forgetPwd(array $post)
+    {
+        // 接收参数
+        $code     = $post['code'];
+        $mobile   = $post['mobile'];
+        $password = $post['password'];
+
+        // 短信验证
+        if ($code != '12345') {
+            throw new OperateException('验证码错误');
+        }
+
+        // 查询账户
+        $modelUser = new User();
+        $userInfo = $modelUser->field(['id,mobile'])
+            ->where(['mobile'=>trim($mobile)])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证账户
+        if (!$userInfo) {
+            throw new OperateException('账号不存在!');
+        }
+
+        // 设置密码
+        $salt = make_rand_char(6);
+        $password = make_md5_str($password, $salt);
+        User::update([
+            'salt'        => $salt,
+            'password'    => $password,
+            'update_time' => time()
+        ], ['id'=>$userInfo['id']]);
     }
 }

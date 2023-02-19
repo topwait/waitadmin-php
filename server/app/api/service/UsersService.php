@@ -58,16 +58,19 @@ class UsersService extends Service
      * 用户编辑
      *
      * @param array $post
-     * @param int $id
+     * @param int $userId
      * @throws OperateException
      */
-    public static function edit(array $post, int $id)
+    public static function edit(array $post, int $userId)
     {
+        $scene = $post['scene'];
+        $value = $post['value'];
+
         $modelUser = new User();
-        switch ($post['scene']) {
+        switch ($scene) {
             case 'account':
                 $user = $modelUser->field(['id,account'])
-                    ->where(['account'=>$post['value']])
+                    ->where(['account'=>$value])
                     ->where(['is_delete'=>0])
                     ->findOrEmpty()
                     ->toArray();
@@ -76,11 +79,11 @@ class UsersService extends Service
                     throw new OperateException('该账号已被占用!');
                 }
 
-                User::update(['account'=>$post['value'], 'update_time'=>time()], ['id'=>$id]);
+                User::update(['account'=>$value, 'update_time'=>time()], ['id'=>$userId]);
                 break;
             case 'nickname':
                 $user = $modelUser->field(['id,nickname'])
-                    ->where(['nickname'=>$post['value']])
+                    ->where(['nickname'=>$value])
                     ->where(['is_delete'=>0])
                     ->findOrEmpty()
                     ->toArray();
@@ -89,14 +92,14 @@ class UsersService extends Service
                     throw new OperateException('该昵称已被占用!');
                 }
 
-                User::update(['nickname'=>$post['value'], 'update_time'=>time()], ['id'=>$id]);
+                User::update(['nickname'=>$value, 'update_time'=>time()], ['id'=>$userId]);
                 break;
             case 'gender':
-                User::update(['gender'=>$post['value'], 'update_time'=>time()], ['id'=>$id]);
+                User::update(['gender'=>$value, 'update_time'=>time()], ['id'=>$userId]);
                 break;
             case 'avatar':
-                $avatar = UrlUtils::toRelativeUrl($post['avatar']);
-                User::update(['avatar'=>$avatar, 'update_time'=>time()], ['id'=>$id]);
+                $avatar = UrlUtils::toRelativeUrl($value);
+                User::update(['avatar'=>$avatar, 'update_time'=>time()], ['id'=>$userId]);
                 break;
         }
     }

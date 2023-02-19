@@ -48,4 +48,6 @@ class UsersController extends Api
         UsersService::edit($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
+
+   
 }

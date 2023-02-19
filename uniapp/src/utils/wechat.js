@@ -1,6 +1,6 @@
 import weixin from 'weixin-js-sdk'
 import clientUtil from '@/utils/clientUtil'
-import { getOaCodeUrlApi, loginApi } from '@/api/usersApi'
+import { oaCodeUrlApi, loginApi } from '@/api/usersApi'
 
 const wechatOa = {
     getSignLink() {
@@ -10,7 +10,7 @@ const wechatOa = {
         return clientUtil.isAndroid() ? location.href.split('#')[0] : window.signLink
     },
     authUrl() {
-        getOaCodeUrlApi().then((res) => {
+        oaCodeUrlApi().then((res) => {
             location.href = res.data.url
         })
     },

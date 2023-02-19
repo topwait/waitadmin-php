@@ -1,8 +1,4 @@
 export default {
-    // 页面跳转工具
-    go() {
-        console.log('来了')
-    },
     /**
      * 提取微信编码
      */
