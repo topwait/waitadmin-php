@@ -39,4 +39,15 @@ class IndexService extends Service
 
         return $detail;
     }
+
+    /**
+     * 政策协议
+     *
+     * @return array
+     * @author windy
+     */
+    public static function policy(): array
+    {
+        return [];
+    }
 }

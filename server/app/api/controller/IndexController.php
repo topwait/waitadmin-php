@@ -27,6 +27,18 @@ class IndexController extends Api
     }
 
     /**
+     * 协议政策
+     *
+     * @return Json
+     * @author windy
+     */
+    public function policy(): Json
+    {
+        $detail = IndexService::policy();
+        return AjaxUtils::success($detail);
+    }
+
+    /**
      * 发送短信
      *
      * @return Json

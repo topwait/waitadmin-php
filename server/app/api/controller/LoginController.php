@@ -115,12 +115,49 @@ class LoginController extends Api
      *
      * @return Json
      * @throws OperateException
+     * @author windy
      */
     public function forgetPwd(): Json
     {
         (new LoginValidate())->goCheck('forget');
 
         LoginService::forgetPwd($this->request->post());
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 绑定微信
+     *
+     * @return Json
+     * @author windy
+     */
+    public function bindWeChat(): Json
+    {
+        LoginService::bindWeChat($this->request->post(), $this->userId);
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 绑定手机
+     *
+     * @return Json
+     * @author windy
+     */
+    public function bindMobile(): Json
+    {
+        LoginService::bindMobile($this->request->post(), $this->userId);
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 绑定邮箱
+     *
+     * @return Json
+     * @author windy
+     */
+    public function bindEmail(): Json
+    {
+        LoginService::bindEmail($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
 }

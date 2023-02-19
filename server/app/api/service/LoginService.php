@@ -58,6 +58,7 @@ class LoginService extends Service
      * @param $terminal (设备)
      * @return array
      * @throws OperateException
+     * @author windy
      */
     #[ArrayShape(['token' => "string"])]
     public static function accountLogin(string $account, string $password, int $terminal): array
@@ -144,6 +145,7 @@ class LoginService extends Service
      * @return array
      * @throws OperateException
      * @throws Exception
+     * @author windy
      */
     #[ArrayShape(['token' => "string"])]
     public static function bindLogin(string $mobile, string $code, string $sign, int $terminal): array
@@ -185,6 +187,7 @@ class LoginService extends Service
      * @param int $terminal (客户端[1=微信小程序, 2=微信公众号, 3=H5, 4=PC, 5=安卓, 6=苹果])
      * @return array
      * @throws Exception
+     * @author windy
      */
     #[ArrayShape(['token' => "string"])]
     public static function wxLogin(string $code, string $wxCode, int $terminal): array
@@ -261,6 +264,7 @@ class LoginService extends Service
      * @param array $post
      * @param int $userId
      * @throws OperateException
+     * @author windy
      */
     public static function changePwd(array $post, int $userId)
     {
@@ -331,5 +335,41 @@ class LoginService extends Service
             'password'    => $password,
             'update_time' => time()
         ], ['id'=>$userInfo['id']]);
+    }
+
+    /**
+     * 绑定微信
+     *
+     * @param array $post (参数)
+     * @param int $userId (用户ID)
+     * @author windy
+     */
+    public static function bindWeChat(array $post, int $userId)
+    {
+
+    }
+
+    /**
+     * 绑定手机
+     *
+     * @param array $post (参数)
+     * @param int $userId (用户ID)
+     * @author windy
+     */
+    public static function bindMobile(array $post, int $userId)
+    {
+
+    }
+
+    /**
+     * 绑定邮箱
+     *
+     * @param array $post (参数)
+     * @param int $userId (用户ID)
+     * @author windy
+     */
+    public static function bindEmail(array $post, int $userId)
+    {
+
     }
 }
