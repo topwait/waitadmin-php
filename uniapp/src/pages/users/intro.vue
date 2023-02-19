@@ -14,7 +14,7 @@
             </u-cell-item>
             <u-cell-item title="账号" :value="userInfo?.account" @click="onShowPopup('account')"/>
             <u-cell-item title="昵称" :value="userInfo?.nickname" @click="onShowPopup('nickname')" />
-            <u-cell-item title="性别" :value="userInfo?.gender" @click="onShowPopup('gender')" />
+            <u-cell-item title="性别" :value="genderEnumer[userInfo?.gender]" @click="onShowPopup('gender')" />
         </u-cell-group>
     </view>
 
@@ -66,7 +66,7 @@
     <u-action-sheet
         :list="pwdListed"
         v-model="pwdPicker"
-        @click="onPwdEdit"
+        @click="onPasswordEdit"
         :safe-area-inset-bottom="true"
     ></u-action-sheet>
     
@@ -76,20 +76,55 @@
         <view class="popup-form-widget" v-if="popupType === 'account'">
             <view class="title">修改账号</view>
             <u-form-item>
-                <u-input placeholder="请输入账号" :border="false" />
+                <u-input v-model="formValue" placeholder="请输入账号" :border="false" />
             </u-form-item>
             <view class="py-40">
-                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}">确定</u-button>
+                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
             </view>
         </view>
         <!-- 修改昵称 -->
         <view class="popup-form-widget" v-if="popupType === 'nickname'">
             <view class="title">修改昵称</view>
             <u-form-item>
-                <u-input placeholder="请输入昵称" :border="false" />
+                <u-input v-model="formValue" placeholder="请输入昵称" :border="false" />
             </u-form-item>
             <view class="py-40">
-                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}">确定</u-button>
+                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
+            </view>
+        </view>
+        <!-- 修改密码 -->
+        <view class="popup-form-widget" v-if="popupType === 'changePwd'">
+            <view class="title">修改密码</view>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="请输入原始密码" :border="false" />
+            </u-form-item>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="请输入新的密码" :border="false" />
+            </u-form-item>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="请再次确认密码" :border="false" />
+            </u-form-item>
+            <view class="py-40">
+                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
+            </view>
+        </view>
+        <!-- 忘记密码 -->
+        <view class="popup-form-widget" v-if="popupType === 'forgetPwd'">
+            <view class="title">忘记密码</view>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="请输入新的密码" :border="false" />
+            </u-form-item>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="请再次确认密码" :border="false" />
+            </u-form-item>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="绑定的手机号" :border="false" />
+            </u-form-item>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="验证码" :border="false" />
+            </u-form-item>
+            <view class="py-40">
+                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
             </view>
         </view>
     </u-popup>
@@ -99,7 +134,7 @@
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { getUserInfoApi } from '@/api/usersApi.js'
+import { getUserInfoApi, postUserEditApi } from '@/api/usersApi.js'
 
 const userStore = useUserStore()
 const userInfo = ref({
@@ -110,15 +145,16 @@ const userInfo = ref({
     mobile: '',
     email: '',
     gender: 0,
-    isWeiChat: false,
-    isPassword: false
+    isWeiChat: false
 })
 
+const formValue = ref(null)
 const popupType = ref(null)
 const popupShow = ref(false)
 
 const genderPicker = ref(false)
 const genderListed = ref(['男', '女'])
+const genderEnumer = ref(['未知', '男', '女'])
 
 const pwdPicker = ref(false)
 const pwdListed = ref([{text: '修改密码'}, {text: '忘记密码'}])
@@ -149,32 +185,54 @@ const onLogout = async () => {
 }
 
 // 更新用户
-const onUpdateUser = () => {
+const onUpdateUser = async () => {
+    await postUserEditApi({
+        scene: popupType.value,
+        value: formValue.value
+    })
 
+    queryUserInfo()
+    popupShow.value = false
+    popupType.value = null
+    formValue.value = null
 }
 
 // 性别修改
 const onGenderEdit = (value) => {
-    console.log(value)
+    formValue.value = value[0] + 1
+    onUpdateUser()
 }
 
 // 密码修改
-const onPwdEdit = () => {
-    
+const onPasswordEdit = (index) => {
+    switch (index) {
+        case 0:
+            popupType.value = 'changePwd'
+            popupShow.value = true
+            break
+        case 1:
+            popupType.value = 'forgetPwd'
+            popupShow.value = true
+            break
+    }
 }
 
 // 弹出窗口
 const onShowPopup = (type) => {
     switch (type) {
         case 'gender':
+            popupType.value = type
+            formValue.value = userInfo.gender
             genderPicker.value = true
             break
         case 'password':
+            popupType.value = type
             pwdPicker.value = true
             break
         default:
             popupType.value = type
             popupShow.value = true
+            formValue.value = userInfo.value[type]
     }
 }
 </script>

@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use app\api\service\UsersService;
 use app\common\basics\Api;
+use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
 
@@ -35,8 +36,16 @@ class UsersController extends Api
         return AjaxUtils::success($result);
     }
 
-    public function edit()
+    /**
+     * 编辑信息
+     *
+     * @return Json
+     * @throws OperateException
+     * @author windy
+     */
+    public function edit(): Json
     {
-
+        UsersService::edit($this->request->post(), $this->userId);
+        return AjaxUtils::success();
     }
 }

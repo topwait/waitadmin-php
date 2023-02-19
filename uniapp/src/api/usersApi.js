@@ -28,3 +28,8 @@ export function getOaCodeUrlApi() {
 export function getUserInfoApi() {
     return uni.$u.http.post('users/info')
 }
+
+// 用户编辑
+export function postUserEditApi(params) {
+    return uni.$u.http.post('users/edit', params)
+}

@@ -147,7 +147,6 @@ const LoginAuthEnum = {
     QQ: 2
 }
 
-
 // 场景枚举
 const LoginSceneEnum = {
     WX: 'wx',
