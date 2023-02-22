@@ -7,7 +7,7 @@ export default {
     isDevMode() {
         return import.meta.env.DEV
     },
-    // 生成模型
+    // 生产模型
     isProdMode() {
         return import.meta.env.PROD
     },
@@ -78,10 +78,6 @@ export default {
     isUndefined(val) {
         return typeof val !== 'undefined'
     },
-    // Undefined且Null
-    isNullAndUndefined(val) {
-        return this.isUndefined()(val) && this.isNull(val)
-    },
     // Undefined或Null
     isNullOrUndefined(val) {
         return this.isUndefined(val) || this.isNull(val)
@@ -89,10 +85,6 @@ export default {
     // Window类型
     isWindow(val) {
         return typeof window !== 'undefined' && this.is(val, 'Window')
-    },
-    // Element类型
-    isElement(val) {
-        return this.isObject(val) && !!val.tagName
     },
     // 是否是手机号
     isMobile(val) {

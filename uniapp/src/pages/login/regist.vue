@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { registerApi } from '@/api/usersApi'
+import { registerApi } from '@/api/loginApi'
 import checkUtil from '@/utils/checkUtil'
 
 // 设置标题

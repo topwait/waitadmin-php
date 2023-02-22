@@ -22,8 +22,8 @@
     <view class="mt-20">
         <u-cell-group>
             <u-cell-item title="登录密码" @click="onShowPopup('password')" />
-            <u-cell-item title="绑定微信" />
-            <u-cell-item title="绑定邮箱" />
+            <u-cell-item title="绑定微信" :value="'已绑定'" />
+            <u-cell-item title="绑定邮箱" :value="'115378438@qq.com'" />
             <u-cell-item title="绑定手机" :arrow="false">
                 <u-button
                     :plain="true"
@@ -66,7 +66,7 @@
     <u-action-sheet
         :list="pwdListed"
         v-model="pwdPicker"
-        @click="onPasswordEdit"
+        @click="onPwdPopup"
         :safe-area-inset-bottom="true"
     ></u-action-sheet>
     
@@ -105,7 +105,7 @@
                 <u-input v-model="changePwdForm.ackPassword" placeholder="请再次确认密码" :border="false" />
             </u-form-item>
             <view class="py-40">
-                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
+                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onPwdEdit()">确定</u-button>
             </view>
         </view>
         <!-- 忘记密码 -->
@@ -134,8 +134,9 @@
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { userInfoApi, userEditApi, changePwdApi } from '@/api/usersApi.js'
-import clientUtil from '@/utils/clientUtil'
+import { changePwdApi, forgetPwdApi } from '@/api/loginApi'
+import { userInfoApi, userEditApi } from '@/api/usersApi'
+import checkUtil from '@/utils/checkUtil'
 
 // 用户信息
 const userStore = useUserStore()
@@ -198,7 +199,7 @@ const onLogout = async () => {
 
 // 更新用户
 const onUpdateUser = async () => {
-    await postUserEditApi({
+    await userEditApi({
         scene: popupType.value,
         value: formValue.value
     })
@@ -216,24 +217,32 @@ const onGenderEdit = (value) => {
 }
 
 // 密码修改
-const onPasswordEdit = async (index) => {
+const onPwdEdit = async () => {
+    if (popupType.value === 'changePwd') {
+        if (checkUtil.isEmpty(changePwdForm.oldPassword)) {
+            return uni.$u.toast('请输入原始密码')
+        }
+        if (checkUtil.isEmpty(changePwdForm.newPassword)) {
+            return uni.$u.toast('请输入新的密码')
+        }
+        if (checkUtil.isEmpty(changePwdForm.ackPassword)) {
+            return uni.$u.toast('请输入确认密码')
+        }
+        if (changePwdForm.newPassword !== changePwdForm.ackPassword) {
+            return uni.$u.toast('两次不密码不一致')
+        }
+        await changePwdApi(changePwdForm)
+    } else {
+        await forgetPwdApi(changePwdForm)
+    }
+}
+
+// 密码弹窗
+const onPwdPopup = (index) => {
     switch (index) {
         case 0:
             popupType.value = 'changePwd'
             popupShow.value = true
-            if (checkUtil.isEmpty(changePwdForm.oldPassword)) {
-                return uni.$u.toast('请输入原始密码')
-            }
-            if (checkUtil.isEmpty(changePwdForm.newPassword)) {
-                return uni.$u.toast('请输入新的密码')
-            }
-            if (checkUtil.isEmpty(changePwdForm.ackPassword)) {
-                return uni.$u.toast('请输入确认密码')
-            }
-            if (changePwdForm.newPassword !== changePwdForm.ackPassword) {
-                return uni.$u.toast('两次不密码不一致')
-            }
-            await changePwdApi(changePwdForm)
             break
         case 1:
             popupType.value = 'forgetPwd'

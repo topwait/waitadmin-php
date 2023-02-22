@@ -39,7 +39,7 @@
 
 <script setup>
 import { ref, computed, shallowRef } from 'vue'
-import { forgetPwdApi } from '@/api/usersApi'
+import { forgetPwdApi } from '@/api/loginApi'
 
 // 设置标题
 uni.setNavigationBarTitle({title: ''})

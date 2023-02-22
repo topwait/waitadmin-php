@@ -7,6 +7,7 @@ use app\api\widgets\UserWidget;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
+use app\common\model\user\UserAuth;
 use app\common\service\wechat\WeChatService;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
@@ -268,8 +269,8 @@ class LoginService extends Service
      */
     public static function changePwd(array $post, int $userId)
     {
-        $newPassword = $post['newPassword']??'';
-        $oldPassword = $post['oldPassword']??'';
+        $newPassword = $post['newPassword'];
+        $oldPassword = $post['oldPassword'];
 
         $modelUser = new User();
         $user = $modelUser->field(['id,password,salt'])
@@ -342,11 +343,50 @@ class LoginService extends Service
      *
      * @param array $post (参数)
      * @param int $userId (用户ID)
+     * @throws OperateException
+     * @throws Exception
      * @author windy
      */
     public static function bindWeChat(array $post, int $userId)
     {
+        // 接收参数
+        $code = $post['code'];
 
+        // 微信授权
+        $response = WeChatService::wxJsCode2session($code);
+
+        // 验证账户
+        $modeUserAuth = new UserAuth();
+        $userAuth = $modeUserAuth->field(['id,openid,unionid,terminal'])
+            ->where(['id'=>$userId])
+            ->where(['terminal'=>1])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证绑定
+        if ($userAuth
+            && $userAuth['openid'] == $response['openid']
+            && $userAuth['unionid'] == $response['unionid']) {
+            throw new OperateException('已绑定,请勿重复操作!');
+        }
+
+        //更新授权
+        if ($userAuth) {
+            UserAuth::update([
+                'openid'      => $response['openid'] ?? $userAuth['openid'],
+                'unionid'     => $response['unionid'] ?? $userAuth['unionid'],
+                'update_time' => time(),
+            ], ['id'=>intval($userAuth['id'])]) ;
+        } else {
+            UserAuth::create([
+                'user_id'  => $userId,
+                'openid'   => $response['openid'],
+                'unionid'  => $response['unionid'],
+                'terminal' => 1,
+                'create_time' => time(),
+                'update_time' => time()
+            ]);
+        }
     }
 
     /**
@@ -354,11 +394,51 @@ class LoginService extends Service
      *
      * @param array $post (参数)
      * @param int $userId (用户ID)
+     * @throws OperateException
      * @author windy
      */
     public static function bindMobile(array $post, int $userId)
     {
+        // 接收参数
+        $mobile = $post['mobile'];
+        $code   = $post['code'];
 
+        // 短信验证
+        if ($code != '12345') {
+            throw new OperateException('验证码错误', 1);
+        }
+
+        // 查询用户
+        $modeUser = new UserAuth();
+        $user = $modeUser->field(['id,mobile'])
+            ->where(['id'=>$userId])
+            ->where(['is_delete'=>$userId])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证用户
+        if (!$user) {
+            throw new OperateException('检测到用户已不存在!');
+        }
+
+        // 查询手机
+        $mobileCheck = $modeUser->field(['id'])
+            ->where(['id', '<>', $userId])
+            ->where(['mobile'=>$mobile])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证手机
+        if ($mobileCheck) {
+            throw new OperateException('检测到手机号已被占用!');
+        }
+
+        // 更新信息
+        User::update([
+            'mobile' => $mobile,
+            'update_time' => time()
+        ], ['id'=>$userId]);
     }
 
     /**
@@ -366,10 +446,50 @@ class LoginService extends Service
      *
      * @param array $post (参数)
      * @param int $userId (用户ID)
+     * @throws OperateException
      * @author windy
      */
     public static function bindEmail(array $post, int $userId)
     {
+        // 接收参数
+        $email = $post['email'];
+        $code   = $post['code'];
 
+        // 短信验证
+        if ($code != '12345') {
+            throw new OperateException('验证码错误', 1);
+        }
+
+        // 查询用户
+        $modeUser = new UserAuth();
+        $user = $modeUser->field(['id,email'])
+            ->where(['id'=>$userId])
+            ->where(['is_delete'=>$userId])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证用户
+        if (!$user) {
+            throw new OperateException('检测到用户已不存在!');
+        }
+
+        // 查询邮箱
+        $emailCheck = $modeUser->field(['id'])
+            ->where(['id', '<>', $userId])
+            ->where(['email'=>$email])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证邮箱
+        if ($emailCheck) {
+            throw new OperateException('检测到邮箱号已被占用!');
+        }
+
+        // 更新信息
+        User::update([
+            'email' => $email,
+            'update_time' => time()
+        ], ['id'=>$userId]);
     }
 }

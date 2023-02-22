@@ -106,6 +106,8 @@ class LoginController extends Api
      */
     public function changePwd(): Json
     {
+        (new LoginValidate())->goCheck('changePwd');
+
         LoginService::changePwd($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
@@ -119,7 +121,7 @@ class LoginController extends Api
      */
     public function forgetPwd(): Json
     {
-        (new LoginValidate())->goCheck('forget');
+        (new LoginValidate())->goCheck('forgetPwd');
 
         LoginService::forgetPwd($this->request->post());
         return AjaxUtils::success();
@@ -129,10 +131,13 @@ class LoginController extends Api
      * 绑定微信
      *
      * @return Json
+     * @throws OperateException
      * @author windy
      */
     public function bindWeChat(): Json
     {
+        (new LoginValidate())->goCheck('bindWeChat');
+
         LoginService::bindWeChat($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
