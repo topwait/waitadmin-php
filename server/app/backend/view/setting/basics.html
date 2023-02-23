@@ -14,32 +14,6 @@
             <div class="layui-card-header">基础设置</div>
             <div class="layui-card-body">
                 <div class="layui-form-item">
-                    <label for="website_favicon" class="layui-form-label">网站图标:</label>
-                    <div class="layui-input-block">
-                        <div class="layui-col-md4">
-                            <div class="thumbnail" data-type="image" data-field="favicon" data-limit="1">
-                                <div class="musters">
-                                    {if $website.favicon}
-                                    <div class="preview">
-                                        <input type="hidden" id="website_favicon" name="website_favicon" value="{$website.favicon}">
-                                        <i class="layui-icon layui-icon-close"></i>
-                                        <img src="{$website.favicon}" alt="img">
-                                    </div>
-                                    {/if}
-                                </div>
-                                <div class="builder {if $website.favicon}layui-hide{/if}">
-                                    <i class="layui-icon layui-icon-camera"></i>
-                                    <p>上传图标</p>
-                                    <div class="mask">
-                                        <div class="item layui-auto">图库选择</div>
-                                        <div class="item layui-auto-call">本地上传</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label for="website_title" class="layui-form-label">网站名称:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
@@ -81,6 +55,84 @@
                         <div class="layui-col-md4">
                             <textarea id="website_analyse" name="website_analyse"
                                       class="layui-textarea" autocomplete="off">{$website.analyse}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="website_favicon" class="layui-form-label w95">Favicon图标:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <div class="thumbnail" data-type="image" data-field="favicon" data-limit="1">
+                                <div class="musters">
+                                    {if $website.favicon}
+                                    <div class="preview">
+                                        <input type="hidden" id="website_favicon" name="website_favicon" value="{$website.favicon}">
+                                        <i class="layui-icon layui-icon-close"></i>
+                                        <img src="{$website.favicon}" alt="img">
+                                    </div>
+                                    {/if}
+                                </div>
+                                <div class="builder {if $website.favicon}layui-hide{/if}">
+                                    <i class="layui-icon layui-icon-camera"></i>
+                                    <p>上传图标</p>
+                                    <div class="mask">
+                                        <div class="item layui-auto">图库选择</div>
+                                        <div class="item layui-auto-call">本地上传</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="website_favicon" class="layui-form-label w95">后台大LOGO:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <div class="thumbnail" data-type="image" data-field="favicon" data-limit="1">
+                                <div class="musters">
+                                    {if $website.favicon}
+                                    <div class="preview">
+                                        <input type="hidden" id="website_favicon12" name="website_favicon" value="{$website.favicon}">
+                                        <i class="layui-icon layui-icon-close"></i>
+                                        <img src="{$website.favicon}" alt="img">
+                                    </div>
+                                    {/if}
+                                </div>
+                                <div class="builder {if $website.favicon}layui-hide{/if}">
+                                    <i class="layui-icon layui-icon-camera"></i>
+                                    <p>上传图标</p>
+                                    <div class="mask">
+                                        <div class="item layui-auto">图库选择</div>
+                                        <div class="item layui-auto-call">本地上传</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="website_favicon" class="layui-form-label w95">后台小LOGO:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <div class="thumbnail" data-type="image" data-field="favicon" data-limit="1">
+                                <div class="musters">
+                                    {if $website.favicon}
+                                    <div class="preview">
+                                        <input type="hidden" id="website_favicon1442" name="website_favicon" value="{$website.favicon}">
+                                        <i class="layui-icon layui-icon-close"></i>
+                                        <img src="{$website.favicon}" alt="img">
+                                    </div>
+                                    {/if}
+                                </div>
+                                <div class="builder {if $website.favicon}layui-hide{/if}">
+                                    <i class="layui-icon layui-icon-camera"></i>
+                                    <p>上传图标</p>
+                                    <div class="mask">
+                                        <div class="item layui-auto">图库选择</div>
+                                        <div class="item layui-auto-call">本地上传</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

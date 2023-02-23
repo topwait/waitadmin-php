@@ -17,7 +17,7 @@ namespace app\backend\service\user;
 
 
 use app\common\basics\Service;
-use app\common\enum\GenderEnum;
+use app\common\enums\GenderEnum;
 use app\common\model\user\User;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;

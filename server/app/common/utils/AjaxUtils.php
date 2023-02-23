@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\common\utils;
 
 
-use app\common\enum\ErrorEnum;
+use app\common\enums\ErrorEnum;
 use JetBrains\PhpStorm\ArrayShape;
 use think\response\Json;
 

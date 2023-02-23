@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\BaseController;
-use app\common\enum\ErrorEnum;
+use app\common\enums\ErrorEnum;
 use app\common\exception\OperateException;
 use think\App;
 use think\facade\Cache;

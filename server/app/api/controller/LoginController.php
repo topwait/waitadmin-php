@@ -146,6 +146,7 @@ class LoginController extends Api
      * 绑定手机
      *
      * @return Json
+     * @throws OperateException
      * @author windy
      */
     public function bindMobile(): Json
@@ -158,6 +159,7 @@ class LoginController extends Api
      * 绑定邮箱
      *
      * @return Json
+     * @throws OperateException
      * @author windy
      */
     public function bindEmail(): Json

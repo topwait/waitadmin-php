@@ -15,7 +15,7 @@ declare (strict_types = 1);
 
 namespace app\common\basics;
 
-use app\common\enum\ErrorEnum;
+use app\common\enums\ErrorEnum;
 use JetBrains\PhpStorm\Pure;
 use think\exception\HttpResponseException;
 use think\Response;

@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app;
 
 
-use app\common\enum\ErrorEnum;
+use app\common\enums\ErrorEnum;
 use app\common\exception\BaseException;
 use app\common\model\sys\SysLog;
 use app\common\utils\AjaxUtils;

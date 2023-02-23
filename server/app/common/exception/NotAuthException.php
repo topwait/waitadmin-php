@@ -16,7 +16,7 @@
 namespace app\common\exception;
 
 
-use app\common\enum\ErrorEnum;
+use app\common\enums\ErrorEnum;
 use Throwable;
 
 /**
