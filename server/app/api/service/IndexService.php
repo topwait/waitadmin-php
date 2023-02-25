@@ -4,6 +4,7 @@ namespace app\api\service;
 
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
+use app\common\utils\UrlUtils;
 
 /**
  * 主页服务类
@@ -31,10 +32,12 @@ class IndexService extends Service
         ];
 
         // H5配置
-        $h5Config = ConfigUtils::get('h5_channel');
+        $h5Config = ConfigUtils::get('h5');
         $detail['h5'] = [
+            'title'     => $h5Config['title']??'',
+            'logo'      => UrlUtils::toAbsoluteUrl($h5Config['logo']??''),
             'status'    => intval($h5Config['status']??0),
-            'close_url' => $h5Config['close_url']??''
+            'close_url' => strval($h5Config['close_url']??'')
         ];
 
         return $detail;

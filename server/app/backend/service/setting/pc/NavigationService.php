@@ -13,50 +13,41 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\backend\service\setting;
-
+namespace app\backend\service\setting\pc;
 
 use app\common\basics\Service;
-use app\common\model\DevBanner;
-use JetBrains\PhpStorm\ArrayShape;
+use app\common\model\DevNavigation;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 
 /**
- * 轮播图服务类
+ * 导航服务类
  *
- * Class BannerService
+ * Class NavigationService
  * @package app\backend\service\setting
  */
-class BannerService extends Service
+class NavigationService extends Service
 {
     /**
-     * 轮播图列表
+     * 导航列表
      *
-     * @param array $get
      * @return array
      * @throws DbException
      * @author windy
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
-    public static function lists(array $get): array
+    public static function lists(): array
     {
-        $model = new DevBanner();
-        $lists = $model->withoutField('is_delete,delete_time')
+        $model = new DevNavigation();
+        return $model
+            ->withoutField('is_delete,delete_time')
             ->where(['is_delete'=>0])
             ->order('sort desc, id desc')
-            ->paginate([
-                'page'      => $get['page']  ?? 1,
-                'list_rows' => $get['limit'] ?? 20,
-                'var_page'  => 'page'
-            ])->toArray();
-
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+            ->select()->toArray();
     }
 
     /**
-     * 轮播图编辑
+     * 导航详情
      *
      * @param int $id
      * @return array
@@ -66,28 +57,27 @@ class BannerService extends Service
      */
     public static function detail(int $id): array
     {
-        $model = new DevBanner();
+        $model = new DevNavigation();
         return $model->withoutField('is_delete,delete_time')
-            ->where(['is_delete'=>0])
             ->where(['id'=>intval($id)])
+            ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
     }
 
     /**
-     * 轮播图新增
+     * 导航新增
      *
      * @param array $post
      * @author windy
      */
     public static function add(array $post): void
     {
-        DevBanner::create([
-            'position'    => $post['position'],
-            'title'       => $post['title'],
-            'image'       => $post['image'],
-            'target'      => $post['target'],
-            'url'         => $post['url']  ?? '',
+        DevNavigation::create([
+            'pid'         => $post['pid'],
+            'name'        => $post['name'],
+            'target'      => $post['target'] ?? '_self',
+            'url'         => $post['url'] ?? '',
             'sort'        => $post['sort'] ?? 0,
             'is_disable'  => $post['is_disable'],
             'is_delete'   => 0,
@@ -97,19 +87,18 @@ class BannerService extends Service
     }
 
     /**
-     * 轮播图编辑
+     * 导航编辑
      *
      * @param array $post
      * @author windy
      */
-    public static function edit(array $post): void
+    public static function edit(array $post)
     {
-        DevBanner::update([
-            'position'    => $post['position'],
-            'title'       => $post['title'],
-            'image'       => $post['image'],
-            'target'      => $post['target'],
-            'url'         => $post['url']  ?? '',
+        DevNavigation::update([
+            'pid'         => $post['pid'],
+            'name'        => $post['name'],
+            'target'      => $post['target'] ?? '_self',
+            'url'         => $post['url'] ?? '',
             'sort'        => $post['sort'] ?? 0,
             'is_disable'  => $post['is_disable'],
             'update_time' => time()
@@ -117,16 +106,16 @@ class BannerService extends Service
     }
 
     /**
-     * 轮播图删除
+     * 导航删除
      *
-     * @param array $ids
+     * @param int $id
      * @author windy
      */
-    public static function del(array $ids): void
+    public static function del(int $id)
     {
-        DevBanner::update([
+        DevNavigation::update([
             'is_delete'   => 1,
             'delete_time' => time()
-        ], [['id', 'in', $ids]]);
+        ], ['id'=>intval($id)]);
     }
 }

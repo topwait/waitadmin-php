@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\utils;
 
 
+use Exception;
 use FilesystemIterator;
 use JetBrains\PhpStorm\Pure;
 use RecursiveIteratorIterator;
@@ -242,10 +243,9 @@ class FileUtils
      * @return string
      * @author windy
      */
-    #[Pure]
     public static function getFileExt(string $path): string
     {
-        return strtolower(substr(strrchr($path,'.'),1));
+        return strrchr($path,'.') ? strtolower(substr(strrchr($path,'.'),1)) : '';
     }
 
     /**

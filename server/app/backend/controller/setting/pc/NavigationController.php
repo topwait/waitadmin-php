@@ -13,7 +13,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\backend\controller\setting;
+namespace app\backend\controller\setting\pc;
 
 
 use app\backend\service\setting\NavigationService;

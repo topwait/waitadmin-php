@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\common\service\storage\engine;
 
-
 use Exception;
 use JetBrains\PhpStorm\Pure;
 use Qiniu\Auth;
@@ -71,15 +70,32 @@ class Qiniu
     }
 
     /**
-     * 远程上传
+     * 本地上传
      *
-     * @author windy
-     * @param string $url
-     * @param string|null $key
-     * @return void
+     * @param string $path (根路径)
+     * @param string $key  (键名)
      * @throws Exception
      */
-    public function fetch(string $url, string $key = null): void
+    public function putFile(string $path, string $key)
+    {
+        $upMgr = new UploadManager();
+        $token = $this->auth->uploadToken($this->config['bucket']);
+        list(, $err) = $upMgr->putFile($token, $key, $path);
+
+        if ($err !== null) {
+            throw new Exception($err->message);
+        }
+    }
+
+    /**
+     * 远程上传
+     *
+     * @param string $url
+     * @param string $key
+     * @throws Exception
+     * @author windy
+     */
+    public function fetch(string $url, string $key): void
     {
         $bcMgr = new BucketManager($this->auth);
         list(, $err) = $bcMgr->fetch($url, $this->config['bucket'], $key);
@@ -89,12 +105,12 @@ class Qiniu
     }
 
     /**
-     * 文件上传
+     * 文件删除
      *
-     * @author windy
-     * @param string $url
-     * @return void
+     *
+     * @param string $url (地址)
      * @throws Exception
+     * @author windy
      */
     public function delete(string $url): void
     {

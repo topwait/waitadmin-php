@@ -16,7 +16,6 @@
                 <li class="layui-this">微信小程序</li>
                 <li>微信公众号</li>
                 <li>微信开发平台</li>
-                <li>H5端</li>
             </ul>
             <div class="layui-tab-content">
                 <!-- 1、微信小程序 -->
@@ -165,22 +164,6 @@
                         </div>
                     </fieldset>
                 </div>
-                <!-- 4、H5 -->
-                 <div class="layui-tab-item">
-                     <div class="layui-form-item">
-                         <label class="layui-form-label"><span class="asterisk">*</span>渠道状态：</label>
-                         <div class="layui-input-inline">
-                             <input type="radio" name="h5_status" value="1" title="开启" {if $detail.h5.status==1}checked{/if}>
-                             <input type="radio" name="h5_status" value="0" title="关闭" {if $detail.h5.status==0}checked{/if}>
-                         </div>
-                     </div>
-                     <div class="layui-form-item">
-                         <label for="h5_close_url" class="layui-form-label">关闭页面：</label>
-                         <div class="layui-input-inline">
-                             <input type="text" id="h5_close_url" name="h5_close_url" value="{$detail.h5.close_url}" class="layui-input" autocomplete="off">
-                         </div>
-                     </div>
-                 </div>
                 <!-- 6、保存 -->
                 <div class="layui-form-item">
                     <div class="layui-input-block">

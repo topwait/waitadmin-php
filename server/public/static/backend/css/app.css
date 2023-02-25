@@ -129,7 +129,7 @@ body,a,dl,dt,dd,li,img {cursor: url('../images/default/cursor.cur'), auto !impor
 .thumbnail .multi-upload-attach .preview {margin-right: 15px;}
 .thumbnail .builder {position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 90px; height: 90px; margin-right: 15px; border: 1px dashed #e2e2e2; background: #fafafa;}
 .thumbnail .builder i {font-size: 40px; color: #5a5858;}
-.thumbnail .builder p {font-size: 12px; color: #5a5858;}
+.thumbnail .builder p {font-size: 12px; color: #5a5858; padding-top: 8px;}
 .thumbnail .builder:hover .mask {visibility: visible;}
 .thumbnail .builder .mask {visibility: hidden; position: absolute; z-index: 9999; display: flex; align-items: center; flex-direction: column; width: 100%; height: 100%;background-color: rgba(0,0,0,.76);}
 .thumbnail .builder .mask .item {display: flex; align-items: center; justify-content: center; color: #fff; width: 100%; height: 50%; box-sizing: border-box;}

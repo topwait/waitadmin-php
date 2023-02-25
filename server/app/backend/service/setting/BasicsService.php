@@ -15,11 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\service\setting;
 
-
 use app\common\basics\Service;
-use app\common\exception\SystemException;
-use app\common\service\mail\MailDriver;
 use app\common\utils\ConfigUtils;
+use app\common\utils\UrlUtils;
+use Exception;
 
 /**
  * 网站配置服务类
@@ -37,24 +36,39 @@ class BasicsService extends Service
      */
     public static function detail(): array
     {
-        // 网站配置
+        // 基础配置
         $website = ConfigUtils::get('website');
         $detail['website'] = [
-            'title'     => $website['title']   ?? '',
-            'favicon'   => $website['favicon'] ?? '',
             'copyright' => $website['copyright'] ?? '',
-            'icp'       => $website['icp']     ?? '',
-            'pcp'       => $website['pcp']     ?? '',
-            'analyse'   => $website['analyse'] ?? ''
+            'icp'       => $website['icp']       ?? '',
+            'pcp'       => $website['pcp']       ?? '',
+            'analyse'   => $website['analyse']   ?? ''
         ];
 
-        // 登录配置
-        $login = ConfigUtils::get('login');
-        $detail['login'] = [
-            'is_agreement' => intval($login['is_agreement'] ?? 0),
-            'force_mobile' => intval($login['force_mobile'] ?? 0),
-            'login_modes'  => $login['login_modes'] ?? [],
-            'login_other'  => $login['login_other'] ?? [],
+        // 后台端配置
+        $backend = ConfigUtils::get('backend');
+        $detail['backend'] = [
+            'title'        => $backend['title']   ?? '',
+            'side_lg_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_lg_logo'] ?? '')),
+            'side_xs_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_xs_logo'] ?? ''))
+        ];
+
+        // 电脑端配置
+        $pc = ConfigUtils::get('pc');
+        $detail['pc'] = [
+            'title'       => $pc['title']   ?? '',
+            'keywords'    => $pc['keywords']   ?? '',
+            'description' => $pc['description']   ?? '',
+            'logo'        => UrlUtils::toAbsoluteUrl(strval($pc['logo'] ?? '')),
+        ];
+
+        // 移动端配置
+        $h5 = ConfigUtils::get('h5');
+        $detail['h5'] = [
+            'title'     => $h5['title'] ?? '',
+            'logo'      => UrlUtils::toAbsoluteUrl(strval($h5['logo'] ?? '')),
+            'status'    => intval($h5['status'] ?? 0),
+            'close_url' => strval($h5['close_url'] ?? ''),
         ];
 
         return $detail;
@@ -64,43 +78,38 @@ class BasicsService extends Service
      * 基本配置保存
      *
      * @param array $post
+     * @throws Exception
      * @author windy
      */
     public static function save(array $post): void
     {
-        // 网站配置
-        ConfigUtils::set('website', 'favicon', $post['website_favicon'] ?? '', '网站图标');
-        ConfigUtils::set('website', 'title', $post['website_title'] ?? '', '网站标题');
-        ConfigUtils::set('website', 'icp', $post['website_icp'] ?? '', 'ICP备案');
-        ConfigUtils::set('website', 'pcp', $post['website_pcp'] ?? '', '公安备案');
-        ConfigUtils::set('website', 'analyse', $post['website_analyse'] ?? '', '统计代码');
-        ConfigUtils::set('website', 'copyright', $post['website_copyright'] ?? '', '网站版权');
+        // 基础配置
+        ConfigUtils::setItem('website', [
+            'icp'       => $post['website_icp']       ?? '',
+            'pcp'       => $post['website_pcp']       ?? '',
+            'analyse'   => $post['website_analyse']   ?? '',
+            'copyright' => $post['website_copyright'] ?? ''
+        ]);
 
-        // 登录配置
-        ConfigUtils::set('login', 'is_agreement', intval($post['is_agreement'] ?? 0), '显示登录协议');
-        ConfigUtils::set('login', 'force_mobile', intval($post['force_mobile'] ?? 0), '强制绑定手机');
-        ConfigUtils::set('login', 'login_modes', json_encode($post['login_modes'] ?? []), '通用登录方式');
-        ConfigUtils::set('login', 'login_other', json_encode($post['login_other'] ?? []), '第三方登录');
-    }
+        // 后台端配置
+        ConfigUtils::setItem('backend', [
+            'title'        => $post['backend_title']       ?? '',
+            'side_lg_logo' => UrlUtils::toRelativeUrl($post['backend_side_lg_logo'] ?? ''),
+            'side_xs_logo' => UrlUtils::toRelativeUrl($post['backend_side_xs_logo'] ?? '')
+        ]);
 
-    /**
-     * 邮件测试发送
-     *
-     * @param string $recipient
-     * @throws SystemException
-     * @author windy
-     */
-    public static function testEmail(string $recipient)
-    {
-        try {
-            $mailDriver = new MailDriver();
-            $mailDriver
-                ->addAddress($recipient)
-                ->subject('邮件测试发送标题')
-                ->body('邮件测试内容~~~')
-                ->send();
-        } catch (\Exception $e) {
-            throw new SystemException(mb_substr($e->getMessage(), 0, 40));
-        }
+        // 后台端配置
+        ConfigUtils::setItem('pc', [
+            'title'       => $post['pc_title']       ?? '',
+            'keywords'    => $post['pc_keywords']    ?? '',
+            'description' => $post['pc_description'] ?? '',
+            'logo' => UrlUtils::toRelativeUrl($post['pc_logo'] ?? '')
+        ]);
+
+        // 后台端配置
+        ConfigUtils::setItem('h5', [
+            'h5'   => $post['h5_title'] ?? '',
+            'logo' => UrlUtils::toRelativeUrl($post['h5_logo'] ?? '')
+        ]);
     }
 }
