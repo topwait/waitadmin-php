@@ -39,36 +39,36 @@ class BasicsService extends Service
         // 基础配置
         $website = ConfigUtils::get('website');
         $detail['website'] = [
-            'copyright' => $website['copyright'] ?? '',
-            'icp'       => $website['icp']       ?? '',
-            'pcp'       => $website['pcp']       ?? '',
-            'analyse'   => $website['analyse']   ?? ''
+            'copyright' => $website['copyright']??'',
+            'icp'       => $website['icp']??'',
+            'pcp'       => $website['pcp']??'',
+            'analyse'   => $website['analyse']??''
         ];
 
         // 后台端配置
         $backend = ConfigUtils::get('backend');
         $detail['backend'] = [
-            'title'        => $backend['title']   ?? '',
-            'side_lg_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_lg_logo'] ?? '')),
-            'side_xs_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_xs_logo'] ?? ''))
+            'title'        => $backend['title']??'',
+            'side_lg_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_lg_logo']??'')),
+            'side_xs_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_xs_logo']??''))
         ];
 
         // 电脑端配置
         $pc = ConfigUtils::get('pc');
         $detail['pc'] = [
-            'title'       => $pc['title']   ?? '',
-            'keywords'    => $pc['keywords']   ?? '',
-            'description' => $pc['description']   ?? '',
-            'logo'        => UrlUtils::toAbsoluteUrl(strval($pc['logo'] ?? '')),
+            'title'       => $pc['title']??'',
+            'keywords'    => $pc['keywords']??'',
+            'description' => $pc['description']??'',
+            'logo'        => UrlUtils::toAbsoluteUrl(strval($pc['logo']??'')),
         ];
 
         // 移动端配置
         $h5 = ConfigUtils::get('h5');
         $detail['h5'] = [
-            'title'     => $h5['title'] ?? '',
-            'logo'      => UrlUtils::toAbsoluteUrl(strval($h5['logo'] ?? '')),
-            'status'    => intval($h5['status'] ?? 0),
-            'close_url' => strval($h5['close_url'] ?? ''),
+            'title'     => $h5['title']??'',
+            'logo'      => UrlUtils::toAbsoluteUrl(strval($h5['logo']??'')),
+            'status'    => intval($h5['status']??0),
+            'close_url' => strval($h5['close_url']??''),
         ];
 
         return $detail;
@@ -85,31 +85,33 @@ class BasicsService extends Service
     {
         // 基础配置
         ConfigUtils::setItem('website', [
-            'icp'       => $post['website_icp']       ?? '',
-            'pcp'       => $post['website_pcp']       ?? '',
-            'analyse'   => $post['website_analyse']   ?? '',
-            'copyright' => $post['website_copyright'] ?? ''
+            'icp'       => $post['website_icp']??'',
+            'pcp'       => $post['website_pcp']??'',
+            'analyse'   => $post['website_analyse']??'',
+            'copyright' => $post['website_copyright']??''
         ]);
 
         // 后台端配置
         ConfigUtils::setItem('backend', [
-            'title'        => $post['backend_title']       ?? '',
-            'side_lg_logo' => UrlUtils::toRelativeUrl($post['backend_side_lg_logo'] ?? ''),
-            'side_xs_logo' => UrlUtils::toRelativeUrl($post['backend_side_xs_logo'] ?? '')
+            'title'        => $post['backend_title']??'',
+            'side_lg_logo' => UrlUtils::toRelativeUrl($post['backend_side_lg_logo']??''),
+            'side_xs_logo' => UrlUtils::toRelativeUrl($post['backend_side_xs_logo']??'')
         ]);
 
         // 后台端配置
         ConfigUtils::setItem('pc', [
-            'title'       => $post['pc_title']       ?? '',
-            'keywords'    => $post['pc_keywords']    ?? '',
-            'description' => $post['pc_description'] ?? '',
-            'logo' => UrlUtils::toRelativeUrl($post['pc_logo'] ?? '')
+            'title'       => $post['pc_title']??'',
+            'keywords'    => $post['pc_keywords']??'',
+            'description' => $post['pc_description']??'',
+            'logo' => UrlUtils::toRelativeUrl($post['pc_logo']??'')
         ]);
 
         // 后台端配置
         ConfigUtils::setItem('h5', [
-            'h5'   => $post['h5_title'] ?? '',
-            'logo' => UrlUtils::toRelativeUrl($post['h5_logo'] ?? '')
+            'title'     => $post['h5_title']??'',
+            'logo'      => UrlUtils::toRelativeUrl($post['h5_logo']??''),
+            'status'    => $post['h5_status']??0,
+            'close_url' => $post['h5_close_url']??'',
         ]);
     }
 }

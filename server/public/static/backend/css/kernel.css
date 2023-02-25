@@ -32,7 +32,7 @@ body,a,dl,dt,dd,li,img {cursor: url('../images/default/cursor.cur'), auto !impor
 .wait-sidebar .wait-menu-item {padding: 2px 0;}
 .wait-sidebar .wait-menu-item > a {position: relative; display: block; height: 44px; line-height: 44px; padding-left: 36px; padding-right: 15px; color: rgba(255, 255, 255, 0.7); border-left: 3px solid transparent; transition: 0.1s cubic-bezier(0.145, 0.045, 0.355, 1);}
 .wait-sidebar .wait-menu-item > a > i {position: absolute; top: 50%; left: 15px; margin-top: -22px; font-size: 16px;}
-.wait-sidebar .wait-menu-item > a > cite {font-size: 14px; overflow:hidden; white-space: nowrap; text-overflow: ellipsis;}
+.wait-sidebar .wait-menu-item > a > cite {font-size: 15px; overflow:hidden; white-space: nowrap; text-overflow: ellipsis;}
 .wait-sidebar .wait-menu-item > a.active {color: #fff; background: #009688; }
 .wait-sidebar .wait-menu-item > a:hover {color: #fff; border-left: #009688 3px solid;}
 
