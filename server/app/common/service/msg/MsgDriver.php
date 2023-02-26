@@ -17,11 +17,8 @@ class MsgDriver
      * @param array $params 参数
      * @author windy
      */
-    public static function send(array $params): void
+    public static function send(int $scene, array $params=[]): void
     {
-        $scene = (int)$params['scene'];
-        $param = (array)$params['param'];
-
         $noticeSetting = new NoticeSetting();
         $template = $noticeSetting
             ->where(['is_delete'=>0])
@@ -30,11 +27,11 @@ class MsgDriver
             ->toArray();
 
         if (isset($template['ems_template']['status']) and $template['ems_template']['status'] == 1) {
-            (new EmsMsgService())->send($scene, $param, $template);
+            (new EmsMsgService())->send($scene, $params, $template);
         }
 
         if (isset($template['sms_template']['status']) and $template['sms_template']['status'] == 1) {
-            (new SmsMsgService())->send($scene, $param, $template);
+            (new SmsMsgService())->send($scene, $params, $template);
         }
     }
 

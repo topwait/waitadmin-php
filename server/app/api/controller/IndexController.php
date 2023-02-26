@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use app\api\service\IndexService;
 use app\common\basics\Api;
+use app\common\service\msg\MsgDriver;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
 
@@ -46,6 +47,14 @@ class IndexController extends Api
      */
     public function sendSms(): Json
     {
+        $scene  = $this->request->post('scene');
+        $mobile = $this->request->post('mobile');
+
+        MsgDriver::send(intval($scene), [
+            'mobile' => $mobile,
+            'code'   => make_rand_code(6)
+        ]);
+
         return AjaxUtils::success();
     }
 }

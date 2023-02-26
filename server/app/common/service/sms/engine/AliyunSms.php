@@ -66,7 +66,7 @@ class AliyunSms
     public function send(): bool
     {
         try {
-            AlibabaCloud::accessKeyClient($this->config['accessKeyId'], $this->config['accessKeySecret'])
+            AlibabaCloud::accessKeyClient($this->config['access_key_id'], $this->config['access_secret'])
                 ->regionId('cn-hangzhou')
                 ->asDefaultClient();
 

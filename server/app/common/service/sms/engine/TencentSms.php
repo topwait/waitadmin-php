@@ -67,7 +67,7 @@ class TencentSms
     public function send(): bool
     {
         try {
-            $cred = new Credential($this->config['secretId'], $this->config['secretKey']);
+            $cred = new Credential($this->config['secret_id'], $this->config['secret_key']);
             $httpProfile = new HttpProfile();
             $httpProfile->setEndpoint('sms.tencentcloudapi.com');
             $clientProfile = new ClientProfile();
