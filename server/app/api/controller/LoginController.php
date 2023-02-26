@@ -48,7 +48,7 @@ class LoginController extends Api
                 $response = LoginService::accountLogin($post['account'], $post['password'], $this->terminal);
                 break;
             case 'mobile':
-//                $validate->goCheck('mobile');
+                $validate->goCheck('mobile');
                 $response = LoginService::mobileLogin($post['mobile'], $post['code'], $this->terminal);
                 break;
             case 'bind':

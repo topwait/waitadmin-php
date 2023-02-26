@@ -66,21 +66,23 @@ class LoginValidate extends Validate
         return $this->only(['mobile', 'code', 'password']);
     }
 
-//    protected $scene = [
-//        // 授权的链接
-//        'url'       => ['url'],
-//        // 公众号登录
-//        'oa'        => ['code'],
-//        // 微信登录
-//        'wx'        => ['code', 'wxCode'],
-//        // 绑定登录
-//        'bind'      => ['mobile', 'code', 'sign'],
-//        // 短信登录
-//        'mobile'    => ['mobile', 'code'],
-//        // 账号登录
-//        'account'   => ['account', 'password'],
-//
-//        // 重设密码
-//        'bindWeChat' => ['code'],
-//    ];
+    /**
+     * 登录场景
+     *
+     * @var string[][]
+     */
+    protected $scene = [
+        // 授权的链接
+        'url'       => ['url'],
+        // 公众号登录
+        'oa'        => ['code'],
+        // 微信登录
+        'wx'        => ['code', 'wxCode'],
+        // 绑定登录
+        'bind'      => ['mobile', 'code', 'sign'],
+        // 短信登录
+        'mobile'    => ['mobile', 'code'],
+        // 账号登录
+        'account'   => ['account', 'password']
+    ];
 }
