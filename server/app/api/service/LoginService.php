@@ -5,9 +5,11 @@ namespace app\api\service;
 use app\api\cache\EnrollCache;
 use app\api\widgets\UserWidget;
 use app\common\basics\Service;
+use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
+use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
@@ -108,8 +110,8 @@ class LoginService extends Service
     public static function mobileLogin(string $mobile, string $code, int $terminal): array
     {
         // 短信验证
-        if ($code != '12345') {
-            throw new OperateException('验证码错误');
+        if (!MsgDriver::checkCode(NoticeEnum::SCENE_LOGIN, $code)) {
+            throw new OperateException('验证码错误!');
         }
 
         // 查询账户

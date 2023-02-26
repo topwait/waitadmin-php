@@ -24,15 +24,15 @@
                 <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                     <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
                     <template #right>
-                        <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
+                        <u-verification-code ref="uCodeRefByLogin" seconds="60" @change="codeChangeByLogin" />
                         <u-button
                             :plain="true"
                             type="primary"
                             hover-class="none"
                             size="mini"
                             shape="circle"
-                            @click="onSendSms()"
-                        >{{ codeTips }}
+                            @click="sendSmsByLogin()"
+                        >{{ codeTipsByLogin }}
                         </u-button>
                     </template>
                 </u-form-item>
@@ -229,15 +229,12 @@ const sendSmsByLogin = async () => {
     if (checkUtil.isEmpty(form.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
-    if (checkUtil.isMobile(form.mobile)) {
-        return uni.$u.toast('手机号不合规')
-    }
-    if (uCodeRef.value?.canGetCode) {
+    if (uCodeRefByLogin.value?.canGetCode) {
         await sendSmsApi({
             scene: smsEnum.LOGIN,
             mobile: form.mobile
         })
-        uCodeRef.value?.start()
+        uCodeRefByLogin.value?.start()
     }
 }
 
@@ -295,13 +292,10 @@ const onSaLogin = (scene) => {
         if (checkUtil.isEmpty(form.mobile)) {
             return uni.$u.toast('请输入手机号')
         }
-        if (checkUtil.isMobile(form.mobile)) {
-            return uni.$u.toast('手机号不合规')
-        }
         if (checkUtil.isEmpty(form.code)) {
             return uni.$u.toast('请输入验证码')
         }
-        if (!checkUtil.isNumber(form.code) && form.code.length > 4) {
+        if (!checkUtil.isNumber(form.code) && form.code.length > 6) {
             return uni.$u.toast('错误的验证码')
         }
         params = {scene: scene, code: form.code, mobile: form.mobile}

@@ -52,7 +52,7 @@ class IndexController extends Api
 
         MsgDriver::send(intval($scene), [
             'mobile' => $mobile,
-            'code'   => make_rand_code(6)
+            'code'   => make_rand_code(null, '', 6)
         ]);
 
         return AjaxUtils::success();

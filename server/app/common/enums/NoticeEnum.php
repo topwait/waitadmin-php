@@ -20,5 +20,5 @@ class NoticeEnum
     const SENDER_MNP = 4; //小程序类型
     const SENDER_OA  = 5; //公众号类型
 
-    const SCENE_LOGIN = 101;
+    const SCENE_LOGIN = 101; // 登录手机验证码
 }
