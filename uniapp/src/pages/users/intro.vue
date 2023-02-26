@@ -22,18 +22,39 @@
     <view class="mt-20">
         <u-cell-group>
             <u-cell-item title="登录密码" @click="onShowPopup('password')" />
-            <u-cell-item title="绑定微信" :value="'已绑定'" />
-            <u-cell-item title="绑定邮箱" :value="'115378438@qq.com'" />
-            <u-cell-item title="绑定手机" :arrow="false">
+            <u-cell-item title="绑定微信">
                 <u-button
+                     :plain="true"
+                     type="primary"
+                     hover-class="none"
+                     size="mini"
+                     shape="circle"
+                     @click="onBindWeChat()"
+                 >{{ '绑定微信' }}
+                 </u-button>
+            </u-cell-item>
+            <u-cell-item title="绑定邮箱" >
+                <u-button
+                     :plain="true"
+                     type="primary"
+                     hover-class="none"
+                     size="mini"
+                     shape="circle"
+                     @click="onShowPopup('email')"
+                 >{{ '绑定邮箱' }}
+                 </u-button>
+            </u-cell-item>
+            <u-cell-item title="绑定手机">
+               <u-button v-if="!userInfo?.mobile"
                     :plain="true"
                     type="primary"
                     hover-class="none"
                     size="mini"
                     shape="circle"
-                    @click="onSendSms()"
-                >{{ '绑定手机号' }}
+                    @click="onShowPopup('mobile')"
+                >{{ '绑定手机' }}
                 </u-button>
+                <button v-else class="text-right color-muted">18927154977</button>
             </u-cell-item>
         </u-cell-group>
     </view>
@@ -92,6 +113,56 @@
                 <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
             </view>
         </view>
+        <!-- 绑定邮箱 -->
+        <view class="popup-form-widget" v-if="popupType === 'email'">
+            <view class="title">绑定手机</view>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="请输入邮箱号" :border="false" />
+            </u-form-item>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="验证码" :border="false" />
+                <template #right>
+                    <u-verification-code ref="uCodeRefByForgetPwd" seconds="60" @change="codeChangeByForgetPwd" />
+                    <u-button
+                        :plain="true"
+                        type="primary"
+                        hover-class="none"
+                        size="mini"
+                        shape="circle"
+                        @click="onSendSms('forgetPwd')"
+                    >{{ codeTipsByForgetPwd }}
+                    </u-button>
+                </template>
+            </u-form-item>
+            <view class="py-40">
+                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
+            </view>
+        </view>
+        <!-- 绑定手机 -->
+        <view class="popup-form-widget" v-if="popupType === 'mobile'">
+            <view class="title">绑定手机</view>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="请输入手机号" :border="false" />
+            </u-form-item>
+            <u-form-item>
+                <u-input v-model="formValue" placeholder="验证码" :border="false" />
+                <template #right>
+                    <u-verification-code ref="uCodeRefByForgetPwd" seconds="60" @change="codeChangeByForgetPwd" />
+                    <u-button
+                        :plain="true"
+                        type="primary"
+                        hover-class="none"
+                        size="mini"
+                        shape="circle"
+                        @click="onSendSms('forgetPwd')"
+                    >{{ codeTipsByForgetPwd }}
+                    </u-button>
+                </template>
+            </u-form-item>
+            <view class="py-40">
+                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
+            </view>
+        </view>
         <!-- 修改密码 -->
         <view class="popup-form-widget" v-if="popupType === 'changePwd'">
             <view class="title">修改密码</view>
@@ -122,6 +193,18 @@
             </u-form-item>
             <u-form-item>
                 <u-input v-model="formValue" placeholder="验证码" :border="false" />
+                <template #right>
+                    <u-verification-code ref="uCodeRefByForgetPwd" seconds="60" @change="codeChangeByForgetPwd" />
+                    <u-button
+                        :plain="true"
+                        type="primary"
+                        hover-class="none"
+                        size="mini"
+                        shape="circle"
+                        @click="onSendSms('forgetPwd')"
+                    >{{ codeTipsByForgetPwd }}
+                    </u-button>
+                </template>
             </u-form-item>
             <view class="py-40">
                 <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
@@ -131,11 +214,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { changePwdApi, forgetPwdApi } from '@/api/loginApi'
 import { userInfoApi, userEditApi } from '@/api/usersApi'
+import { changePwdApi, forgetPwdApi, bindWeChatApi, bindMobileApi, bindEmailApi } from '@/api/loginApi'
+import toolUtil from '@/utils/toolUtil'
 import checkUtil from '@/utils/checkUtil'
 
 // 用户信息
@@ -177,10 +261,31 @@ onShow(() => {
     queryUserInfo()
 })
 
+// 验证码(忘记密码)
+const codeTipsByForgetPwd = ref('')
+const uCodeRefByForgetPwd = shallowRef()
+const codeChangeByForgetPwd = (text) => {
+    codeTipsByForgetPwd.value = text
+}
+
 // 查询信息
 const queryUserInfo = async () => {
     const res = await userInfoApi()
     userInfo.value = res.data
+}
+
+// 发送短信
+const onSendSms = async (type) => {
+    if (checkUtil.isEmpty(form.mobile)) {
+        return uni.$u.toast('请输入手机号')
+    }
+    if (uCodeRefByForgetPwd.value?.canGetCode) {
+        await sendSmsApi({
+            scene: smsEnum.LOGIN,
+            mobile: form.mobile
+        })
+        uCodeRefByForgetPwd.value?.start()
+    }
 }
 
 // 退出登录
@@ -195,6 +300,24 @@ const onLogout = async () => {
             }
         }
     })
+}
+
+// 绑定微信
+const onBindWeChat = async () => {
+    const code = await toolUtil.obtainWxCode()
+    await bindWeChatApi({code: code})
+    queryUserInfo()
+    
+}
+
+// 绑定手机
+const onBindMobile = async () => {
+    
+}
+
+// 绑定邮箱
+const onBindEmail = async () => {
+    
 }
 
 // 更新用户

@@ -28,3 +28,18 @@ export function oaCodeUrlApi() {
     const params = { url: location.href }
     return uni.$u.http.get('login/oaCodeUrl', params)
 }
+
+// 绑定微信
+export function bindWeChatApi(params) {
+    return uni.$u.http.post('login/bindWeChat', params)
+}
+
+// 绑定手机
+export function bindMobileApi(params) {
+    return uni.$u.http.post('login/bindMobile', params)
+}
+
+// 绑定邮箱
+export function bindEmailApi(params) {
+    return uni.$u.http.post('login/bindEmail', params)
+}
