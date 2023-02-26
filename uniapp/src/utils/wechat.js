@@ -1,6 +1,6 @@
 import weixin from 'weixin-js-sdk'
 import clientUtil from '@/utils/clientUtil'
-import { oaCodeUrlApi, loginApi } from '@/api/usersApi'
+import { oaCodeUrlApi, loginApi } from '@/api/loginApi'
 
 const wechatOa = {
     getSignLink() {

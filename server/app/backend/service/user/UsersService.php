@@ -41,7 +41,7 @@ class UsersService extends Service
      * @throws DbException
      * @author windy
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
+    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -59,7 +59,7 @@ class UsersService extends Service
             ->field([
                 'ug.name as groups',
                 'u.id,u.sn,u.avatar,u.account,u.nickname',
-                'u.mobile,u.email,u.sex,u.is_disable,u.create_time'
+                'u.mobile,u.email,u.gender,u.is_disable,u.create_time'
             ])
             ->leftJoin('user_group ug', 'ug.id=u.group_id')
             ->where(self::$searchWhere)
@@ -73,7 +73,7 @@ class UsersService extends Service
 
         foreach ($lists['data'] as &$item) {
             $item['avatar'] = UrlUtils::toAbsoluteUrl($item['avatar']);
-            $item['sex']    = GenderEnum::getMsgByCode($item['sex']);
+            $item['gender'] = GenderEnum::getMsgByCode($item['gender']);
             $item['email']  = $item['email'] ?: '-';
             $item['groups'] = $item['groups'] ?: '-';
         }
@@ -94,7 +94,7 @@ class UsersService extends Service
     {
         $model = new User();
         $detail = $model->field(true)
-            ->where(['id'=>intval($id)])
+            ->where(['id'=> $id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
