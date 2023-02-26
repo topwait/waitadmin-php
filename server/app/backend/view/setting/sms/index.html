@@ -1,10 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{extend name="common/layout" /}
 
-</body>
-</html>
+{block name="body"}
+<div class="container">
+    <!-- 表格栏 -->
+    <div class="layui-card">
+        <div class="layui-card-header">短信设置</div>
+        <div class="layui-card-body wait-table-cell">
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+            <script type="text/html" id="table-image">
+                <img src="{{d.image}}" alt="图标">
+            </script>
+            <script type="text/html" id="table-enable">
+                {{#  if(d.enable === 1){ }}
+                <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="启用"></i></span>
+                {{# } else { }}
+                <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-operate">
+                <button type="button" class="layui-btn layui-btn-default layui-btn-xs" lay-event="set">配置</button>
+            </script>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function() {
+
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("setting.sms/index")}'
+            ,toolbar: false
+            ,page: false
+            ,cols: [[
+                {field:"image", title:"图标", align:"center", width:150, templet:"#table-image"},
+                {field:"name", title:"短信渠道", align:"center", width:120},
+                {field:"desc", title:"渠道描述", align:"center", width:320},
+                {field:"enable", title:"状态", align:"center", width:70, templet:"#table-enable"},
+                {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
+            ]]
+        });
+
+        // 逻辑事件
+        waitUtil.event({
+            set: function (obj) {
+                console.log(obj)
+                waitUtil.popup({
+                    title: '编辑',
+                    url: '{:route("setting.sms/save")}?alias='+obj.data.alias,
+                    area: ['500px', '430px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data) {
+                            waitUtil.locking(this);
+                            data.field['alias'] = obj.data.alias;
+                            waitUtil.ajax({
+                                url: '{:route("setting.sms/save")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                waitUtil.locking(this);
+                                if (res.code === 0) {
+                                    table.reload();
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+{/block}
