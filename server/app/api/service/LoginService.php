@@ -36,7 +36,7 @@ class LoginService extends Service
         $password = $post['password'];
 
         // 短信验证
-        if ($code != '12345') {
+        if (!MsgDriver::checkCode(NoticeEnum::REGISTER, $code)) {
             throw new OperateException('验证码错误');
         }
 
@@ -110,7 +110,7 @@ class LoginService extends Service
     public static function mobileLogin(string $mobile, string $code, int $terminal): array
     {
         // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::SCENE_LOGIN, $code)) {
+        if (!MsgDriver::checkCode(NoticeEnum::LOGIN, $code)) {
             throw new OperateException('验证码错误!');
         }
 
@@ -151,10 +151,10 @@ class LoginService extends Service
      * @author windy
      */
     #[ArrayShape(['token' => "string"])]
-    public static function bindLogin(string $mobile, string $code, string $sign, int $terminal): array
+    public static function baLogin(string $mobile, string $code, string $sign, int $terminal): array
     {
         // 短信验证
-        if ($code != '12345') {
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code)) {
             throw new OperateException('验证码错误', 1);
         }
 
@@ -313,7 +313,7 @@ class LoginService extends Service
         $password = $post['password'];
 
         // 短信验证
-        if ($code != '12345') {
+        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, $code)) {
             throw new OperateException('验证码错误');
         }
 
@@ -406,7 +406,7 @@ class LoginService extends Service
         $code   = $post['code'];
 
         // 短信验证
-        if ($code != '12345') {
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code)) {
             throw new OperateException('验证码错误', 1);
         }
 
@@ -458,7 +458,7 @@ class LoginService extends Service
         $code   = $post['code'];
 
         // 短信验证
-        if ($code != '12345') {
+        if (MsgDriver::checkCode(NoticeEnum::BIND_EMAIL, $code)) {
             throw new OperateException('验证码错误', 1);
         }
 

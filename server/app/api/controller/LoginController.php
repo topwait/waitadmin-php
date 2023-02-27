@@ -68,7 +68,7 @@ class LoginController extends Api
             case 'ba':
                 $validate->goCheck('ba');
                 $sign = $post['sign'] ?? '';
-                $response = LoginService::bindLogin($post['mobile'], $post['code'], $sign,  $this->terminal);
+                $response = LoginService::baLogin($post['mobile'], $post['code'], $sign,  $this->terminal);
                 break;
         }
 
