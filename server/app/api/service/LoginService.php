@@ -269,11 +269,13 @@ class LoginService extends Service
      * @throws OperateException
      * @author windy
      */
-    public static function changePwd(array $post, int $userId)
+    public static function changePwd(array $post, int $userId): void
     {
+        // 接收参数
         $newPassword = $post['newPassword'];
         $oldPassword = $post['oldPassword'];
 
+        // 查询账户
         $modelUser = new User();
         $user = $modelUser->field(['id,password,salt'])
             ->where(['id'=>$userId])
@@ -281,15 +283,18 @@ class LoginService extends Service
             ->findOrEmpty()
             ->toArray();
 
+        // 验证账户
         if (!$user) {
             throw new OperateException('检测到用户已不存在!');
         }
 
+        // 验证密码
         $originalPwd = make_md5_str($oldPassword, $user['salt']);
-        if ($oldPassword !== $originalPwd) {
+        if ($user['password'] !== $originalPwd) {
             throw new OperateException('检测到旧密码不正确!');
         }
 
+        // 更新密码
         $salt = make_rand_char(6);
         User::update([
             'salt'        => $salt,
@@ -305,7 +310,7 @@ class LoginService extends Service
      * @throws OperateException
      * @author windy
      */
-    public static function forgetPwd(array $post)
+    public static function forgetPwd(array $post): void
     {
         // 接收参数
         $code     = $post['code'];
@@ -349,7 +354,7 @@ class LoginService extends Service
      * @throws Exception
      * @author windy
      */
-    public static function bindWeChat(array $post, int $userId)
+    public static function bindWeChat(array $post, int $userId): void
     {
         // 接收参数
         $code = $post['code'];
@@ -399,7 +404,7 @@ class LoginService extends Service
      * @throws OperateException
      * @author windy
      */
-    public static function bindMobile(array $post, int $userId)
+    public static function bindMobile(array $post, int $userId): void
     {
         // 接收参数
         $mobile = $post['mobile'];
@@ -451,7 +456,7 @@ class LoginService extends Service
      * @throws OperateException
      * @author windy
      */
-    public static function bindEmail(array $post, int $userId)
+    public static function bindEmail(array $post, int $userId): void
     {
         // 接收参数
         $email = $post['email'];
