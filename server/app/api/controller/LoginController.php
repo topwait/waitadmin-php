@@ -10,9 +10,12 @@ use app\common\utils\AjaxUtils;
 use Exception;
 use think\response\Json;
 
+/**
+ * 登录管理
+ */
 class LoginController extends Api
 {
-    protected array $notNeedLogin = ['register', 'login', 'oaCodeUrl'];
+    protected array $notNeedLogin = ['register', 'login', 'oaCodeUrl', 'forgetPwd'];
 
     /**
      * 注册
@@ -41,6 +44,8 @@ class LoginController extends Api
         $post     = $this->request->post();
         $validate = new LoginValidate();
 
+        $validate->goCheck('scene');
+
         $response = [];
         switch ($post['scene']) {
             case 'account':
@@ -51,11 +56,6 @@ class LoginController extends Api
                 $validate->goCheck('mobile');
                 $response = LoginService::mobileLogin($post['mobile'], $post['code'], $this->terminal);
                 break;
-            case 'bind':
-                $validate->goCheck('bind');
-                $sign = $post['sign'] ?? '';
-                $response = LoginService::bindLogin($post['mobile'], $post['code'], $sign,  $this->terminal);
-                break;
             case 'wx':
                 $validate->goCheck('wx');
                 $phoneCode = $post['wxCode']??'';
@@ -64,6 +64,11 @@ class LoginController extends Api
             case 'oa':
                 $validate->goCheck('oa');
                 $response = LoginService::oaLogin($post['code'], $this->terminal);
+                break;
+            case 'ba':
+                $validate->goCheck('ba');
+                $sign = $post['sign'] ?? '';
+                $response = LoginService::bindLogin($post['mobile'], $post['code'], $sign,  $this->terminal);
                 break;
         }
 
@@ -151,6 +156,8 @@ class LoginController extends Api
      */
     public function bindMobile(): Json
     {
+        (new LoginValidate())->goCheck('bindMobile');
+
         LoginService::bindMobile($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
@@ -164,6 +171,8 @@ class LoginController extends Api
      */
     public function bindEmail(): Json
     {
+        (new LoginValidate())->goCheck('bindEmail');
+
         LoginService::bindEmail($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
