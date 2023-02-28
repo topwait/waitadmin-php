@@ -112,7 +112,7 @@
                             </u-button>
                         </template>
                     </u-form-item>
-                    <w-button mt="60" @on-click="onUpLogin">确认</w-button>
+                    <w-button pt="60" @on-click="onUpLogin">确认</w-button>
                 </u-form>
             </view>
 

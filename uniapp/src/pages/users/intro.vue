@@ -23,29 +23,19 @@
         <u-cell-group>
             <u-cell-item title="登录密码" @click="onShowPopup('password')" />
             <u-cell-item title="绑定微信">
-                <u-button
-                     :plain="true"
-                     type="primary"
-                     hover-class="none"
-                     size="mini"
-                     shape="circle"
-                     @click="onBindWeChat()"
-                 >{{ '绑定微信' }}
-                 </u-button>
+                 <button
+                     class="text-right color-muted button-hover"
+                     @click="onBindWeChat">{{ userInfo?.isWeiChat ? '已绑定' : '未绑定' }}
+                 </button>
             </u-cell-item>
             <u-cell-item title="绑定邮箱" >
-                <u-button
-                     :plain="true"
-                     type="primary"
-                     hover-class="none"
-                     size="mini"
-                     shape="circle"
-                     @click="onShowPopup('email')"
-                 >{{ '绑定邮箱' }}
-                 </u-button>
+                <button
+                    class="text-right color-muted button-hover"
+                    @click="onBindEmail">{{ userInfo?.email ? userInfo?.email : '未绑定' }}
+                </button>
             </u-cell-item>
             <u-cell-item title="绑定手机">
-                <button 
+                <button
                     class="text-right color-muted button-hover"
                     open-type="getPhoneNumber"
                     @getphonenumber="onBindMobile"
@@ -86,7 +76,7 @@
         @click="onPwdPopup"
         :safe-area-inset-bottom="true"
     ></u-action-sheet>
-    
+
     <!-- 弹窗部件 -->
     <u-popup v-model="popupShow" mode="center" border-radius="12" :closeable="true">
         <!-- 修改昵称 -->
@@ -95,9 +85,7 @@
             <u-form-item>
                 <u-input v-model="formValue" placeholder="请输入账号" :border="false" />
             </u-form-item>
-            <view class="py-40">
-                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
-            </view>
+            <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
         </view>
         <!-- 修改昵称 -->
         <view class="popup-form-widget" v-if="popupType === 'nickname'">
@@ -105,9 +93,7 @@
             <u-form-item>
                 <u-input v-model="formValue" placeholder="请输入昵称" :border="false" />
             </u-form-item>
-            <view class="py-40">
-                <u-button type="primary" shape="circle" size="medium" :custom-style="{width: '100%'}" @click="onUpdateUser()">确定</u-button>
-            </view>
+            <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
         </view>
         <!-- 绑定邮箱 -->
         <view class="popup-form-widget" v-if="popupType === 'email'">
@@ -130,7 +116,7 @@
                     </u-button>
                 </template>
             </u-form-item>
-            <w-button mt="30" mb="30" @on-click="onUpdateUser()">确定</w-button>
+            <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
         </view>
         <!-- 绑定手机 -->
         <view class="popup-form-widget" v-if="popupType === 'mobile'">
@@ -153,7 +139,7 @@
                     </u-button>
                 </template>
             </u-form-item>
-            <w-button mt="30" mb="30" @on-click="onBindMobile">确定</w-button>
+            <w-button pt="30" pb="30" @on-click="onBindMobile">确定</w-button>
         </view>
         <!-- 修改密码 -->
         <view class="popup-form-widget" v-if="popupType === 'changePwd'">
@@ -167,7 +153,7 @@
             <u-form-item>
                 <u-input v-model="changePwdForm.ackPassword" placeholder="请再次确认密码" :border="false" />
             </u-form-item>
-            <w-button mt="30" mb="30" @on-click="onPwdEdit()">确定</w-button>
+            <w-button pt="30" pb="30" @on-click="onPwdEdit()">确定</w-button>
         </view>
         <!-- 忘记密码 -->
         <view class="popup-form-widget" v-if="popupType === 'forgetPwd'">
@@ -196,7 +182,7 @@
                     </u-button>
                 </template>
             </u-form-item>
-            <w-button mt="30" mb="30" @on-click="onPwdEdit()">确定</w-button>
+            <w-button pt="30" pb="30" @on-click="onPwdEdit()">确定</w-button>
         </view>
     </u-popup>
 </template>
@@ -245,6 +231,12 @@ const forgetPwdForm = ref({
 const bindMobileForm = ref({
     type: '',
     mobile: '',
+    code: ''
+})
+
+// 绑定邮箱参数
+const bindEmailForm = ref({
+    email: '',
     code: ''
 })
 
@@ -374,7 +366,17 @@ const onBindMobile = async (e) => {
 
 // 绑定邮箱
 const onBindEmail = async () => {
+    if (!popupShow.value) {
+        onShowPopup('email')
+        return true
+    }
     
+    await bindEmailApi()
+    
+    popupShow.value = false
+    popupType.value = null
+    uni.$u.toast('绑定成功')
+    queryUserInfo()
 }
 
 // 更新用户

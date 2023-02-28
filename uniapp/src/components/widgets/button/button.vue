@@ -1,19 +1,19 @@
 <template>
     <block v-if="mod === 'normal'">
-        <button
-            class="button"
-            :class="[
-                mt?('mt-'+mt):'',
-                mb?('mb-'+mb):'',
-                bgColor?bgColor:'']"
-            @click="onClick"
-        >
-            <slot></slot>
-        </button>
+        <view :class="[pt?('pt-'+pt):'', pb?('pb-'+pb):'']">
+            <button
+                class="button"
+                :class="[bgColor?bgColor:'']"
+                @click="onClick"
+            >
+                <slot></slot>
+            </button>
+        </view>
+       
     </block>
 
     <block v-if="mod === 'together'">
-        <view class="flex" :class="[mt?('mt-'+mt):'', mb?('mb-'+mb):'']">
+        <view class="flex" :class="[pt?('pt-'+mt):'', pb?('pb-'+mb):'']">
             <button class="button rounded-tr-0 rounded-br-0">
                 <slot name="left"></slot>
             </button>
@@ -34,12 +34,12 @@ defineProps({
         default: () => 'normal'
     },
     // 顶部边距
-    mt: {
+    pt: {
         type: String,
         default: () => null
     },
     // 底部边距
-    mb: {
+    pb: {
         type: String,
         default: () => null
     },

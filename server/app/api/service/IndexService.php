@@ -3,6 +3,8 @@
 namespace app\api\service;
 
 use app\common\basics\Service;
+use app\common\exception\SystemException;
+use app\common\service\mail\MailDriver;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 
@@ -52,5 +54,19 @@ class IndexService extends Service
     public static function policy(): array
     {
         return [];
+    }
+
+    public static function sendEmail(int $scene, string $email)
+    {
+        try {
+            $mailDriver = new MailDriver();
+            $mailDriver
+                ->addAddress($email)
+                ->subject('邮件测试发送标题')
+                ->body('邮件测试内容~~~')
+                ->send();
+        } catch (\Exception $e) {
+            throw new SystemException(mb_substr($e->getMessage(), 0, 40));
+        }
     }
 }
