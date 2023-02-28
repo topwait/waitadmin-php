@@ -97,26 +97,26 @@
         </view>
         <!-- 绑定邮箱 -->
         <view class="popup-form-widget" v-if="popupType === 'email'">
-            <view class="title">绑定邮箱</view>
+            <view class="title">{{ userInfo?.mobile ? '变更邮箱' : '绑定邮箱' }}</view>
             <u-form-item>
-                <u-input v-model="formValue" placeholder="请输入邮箱号" :border="false" />
+                <u-input v-model="bindEmailForm.email" placeholder="请输入邮箱号" :border="false" />
             </u-form-item>
             <u-form-item>
-                <u-input v-model="formValue" placeholder="验证码" :border="false" />
+                <u-input v-model="bindEmailForm.code" placeholder="验证码" :border="false" />
                 <template #right>
-                    <u-verification-code ref="uCodeRefByForgetPwd" seconds="60" @change="codeChangeByForgetPwd" />
+                    <u-verification-code ref="uCodeRefByBindEmail" seconds="60" @change="codeChangeByBindEmail" />
                     <u-button
                         :plain="true"
                         type="primary"
                         hover-class="none"
                         size="mini"
                         shape="circle"
-                        @click="onSendSms('forgetPwd')"
-                    >{{ codeTipsByForgetPwd }}
+                        @click="onSendSms('bindEmail')"
+                    >{{ codeTipsByBindEmail }}
                     </u-button>
                 </template>
             </u-form-item>
-            <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
+            <w-button pt="30" pb="30" @on-click="onBindEmail()">确定</w-button>
         </view>
         <!-- 绑定手机 -->
         <view class="popup-form-widget" v-if="popupType === 'mobile'">
@@ -191,7 +191,7 @@
 import { ref, shallowRef } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { sendSmsApi } from '@/api/indexApi'
+import { sendSmsApi, sendEmailApi } from '@/api/indexApi'
 import { userInfoApi, userEditApi } from '@/api/usersApi'
 import { changePwdApi, forgetPwdApi, bindWeChatApi, bindMobileApi, bindEmailApi } from '@/api/loginApi'
 import smsEnum from '@/enums/smsEnum'
@@ -273,6 +273,13 @@ const codeChangeByBindMobile = (text) => {
     codeTipsByBindMobile.value = text
 }
 
+// 验证码(绑定邮箱)
+const codeTipsByBindEmail = ref('')
+const uCodeRefByBindEmail = shallowRef()
+const codeChangeByBindEmail = (text) => {
+    codeTipsByBindEmail.value = text
+}
+
 // 查询信息
 const queryUserInfo = async () => {
     userInfo.value = await userInfoApi()
@@ -304,8 +311,17 @@ const onSendSms = async (type) => {
                 })
                 uCodeRefByBindMobile.value?.start()
             }
-        default:
-            break;
+        case 'bindEmail':
+            if (checkUtil.isEmpty(bindEmailForm.value.email)) {
+                return uni.$u.toast('请输入邮箱号')
+            }
+            if (uCodeRefByBindEmail.value?.canGetCode) {
+                await sendEmailApi({
+                    scene: smsEnum.BIND_EMAIL,
+                    email: bindEmailForm.value.email
+                })
+                uCodeRefByBindEmail.value?.start()
+            }
     }
 }
 
@@ -369,6 +385,14 @@ const onBindEmail = async () => {
     if (!popupShow.value) {
         onShowPopup('email')
         return true
+    }
+
+    if (checkUtil.isEmpty(bindEmailForm.value.mobile)) {
+        return uni.$u.toast('请输入邮箱号')
+    }
+    
+    if (checkUtil.isEmpty(bindEmailForm.value.code)) {
+        return uni.$u.toast('请输入验证码')
     }
     
     await bindEmailApi()
