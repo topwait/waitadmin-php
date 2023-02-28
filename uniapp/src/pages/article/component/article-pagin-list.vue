@@ -66,7 +66,7 @@ const queryList = async (pageNo, pageSize) => {
         pageNo,
         pageSize
     }).then(res => {
-        paging.value.complete(res.data.data)
+        paging.value.complete(res.data)
         isFirst.value = true
     }).catch(() => {
         paging.value.complete(false)

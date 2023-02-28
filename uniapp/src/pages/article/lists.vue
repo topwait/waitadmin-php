@@ -49,7 +49,6 @@ const animations = (e) => {
 }
 
 const queryCategory = async () => {
-    const { data } = await getArticleCateApi()
-    tabList.value = data
+    tabList.value = await getArticleCateApi()
 }
 </script>

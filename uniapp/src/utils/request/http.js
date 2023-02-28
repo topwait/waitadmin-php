@@ -4,6 +4,9 @@ import errorEnum from '@/enums/errorEnum'
 import clientUtil from '@/utils/clientUtil'
 
 const install = (Vue) => {
+    // 数据处理
+    let isResults = false
+    
     // 参数配置
     Vue.config.globalProperties.$u.http.setConfig(config)
 
@@ -12,6 +15,7 @@ const install = (Vue) => {
         const userStore = useUserStore()
         config.header.token = userStore.$state.token
         config.header.terminal = clientUtil.fetchClient()
+        isResults = config.header.isResults || false
         return config
     }
 
@@ -21,7 +25,7 @@ const install = (Vue) => {
         const { logout } = useUserStore()
         switch (result.code) {
             case errorEnum.SUCCESS:
-                return result
+                return isResults ? result : result.data
             case errorEnum.SYSTEM_ERROR:
             case errorEnum.PARAMS_ERROR:
             case errorEnum.METHOD_ERROR:
@@ -31,7 +35,7 @@ const install = (Vue) => {
             case errorEnum.UPLOADS_ERROR:
             case errorEnum.PURVIEW_ERROR:
                 uni.$u.toast(result.msg)
-                return Promise.reject(result.msg)
+                break
             case errorEnum.LOGIN_EMPTY_ERROR:
             case errorEnum.LOGIN_EXPIRE_ERROR:
                 logout()

@@ -160,12 +160,12 @@ class LoginValidate extends Validate
     public function sceneForgetPwd(): LoginValidate
     {
         $this->field = [
-            'mobile'   => '手机号',
-            'code'     => '验证码',
-            'password' => '新密码'
+            'mobile'      => '手机号',
+            'code'        => '验证码',
+            'newPassword' => '新密码'
         ];
-        return $this->only(['password', 'mobile', 'code'])
-            ->append('password', 'require|alphaNum|min:6|max:20')
+        return $this->only(['newPassword', 'mobile', 'code'])
+            ->append('newPassword', 'require|alphaDash|min:6|max:20')
             ->append('mobile', 'require|mobile|min:11|max:11')
             ->append('code', 'require|alphaDash|max:6');
     }
@@ -190,9 +190,17 @@ class LoginValidate extends Validate
      */
     public function sceneBindMobile(): LoginValidate
     {
-        return $this->only(['mobile', 'code'])
-            ->append('mobile', 'require|mobile|min:11|max:11')
-            ->append('code', 'require|alphaDash|max:6');
+        $type = request()->post('type')??'';
+        if ($type === 'code') {
+            return $this->only(['code', 'type'])
+                ->append('code', 'require|alphaDash|max:200')
+                ->append('type', 'require|in:change,bind,code');
+        } else {
+            return $this->only(['mobile', 'code', 'type'])
+                ->append('mobile', 'require|mobile|min:11|max:11')
+                ->append('code', 'require|alphaDash|max:6')
+                ->append('type', 'require|in:change,bind,code');
+        }
     }
 
     /**

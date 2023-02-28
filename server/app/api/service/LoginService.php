@@ -262,6 +262,48 @@ class LoginService extends Service
     }
 
     /**
+     * 重置密码
+     *
+     * @param array $post (参数)
+     * @throws OperateException
+     * @author windy
+     */
+    public static function forgetPwd(array $post): void
+    {
+        // 接收参数
+        $code     = $post['code'];
+        $mobile   = $post['mobile'];
+        $password = $post['newPassword'];
+
+        // 短信验证
+        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, $code)) {
+            throw new OperateException('验证码错误');
+        }
+
+        // 查询账户
+        $modelUser = new User();
+        $userInfo = $modelUser->field(['id,mobile'])
+            ->where(['mobile'=>trim($mobile)])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证账户
+        if (!$userInfo) {
+            throw new OperateException('账号不存在!');
+        }
+
+        // 设置密码
+        $salt = make_rand_char(6);
+        $password = make_md5_str($password, $salt);
+        User::update([
+            'salt'        => $salt,
+            'password'    => $password,
+            'update_time' => time()
+        ], ['id'=>$userInfo['id']]);
+    }
+
+    /**
      * 修改密码
      *
      * @param array $post
@@ -301,48 +343,6 @@ class LoginService extends Service
             'password'    => make_md5_str($newPassword, $salt),
             'update_time' => time()
         ], ['id'=>$userId]);
-    }
-
-    /**
-     * 重置密码
-     *
-     * @param array $post (参数)
-     * @throws OperateException
-     * @author windy
-     */
-    public static function forgetPwd(array $post): void
-    {
-        // 接收参数
-        $code     = $post['code'];
-        $mobile   = $post['mobile'];
-        $password = $post['password'];
-
-        // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, $code)) {
-            throw new OperateException('验证码错误');
-        }
-
-        // 查询账户
-        $modelUser = new User();
-        $userInfo = $modelUser->field(['id,mobile'])
-            ->where(['mobile'=>trim($mobile)])
-            ->where(['is_delete'=>0])
-            ->findOrEmpty()
-            ->toArray();
-
-        // 验证账户
-        if (!$userInfo) {
-            throw new OperateException('账号不存在!');
-        }
-
-        // 设置密码
-        $salt = make_rand_char(6);
-        $password = make_md5_str($password, $salt);
-        User::update([
-            'salt'        => $salt,
-            'password'    => $password,
-            'update_time' => time()
-        ], ['id'=>$userInfo['id']]);
     }
 
     /**
@@ -402,21 +402,30 @@ class LoginService extends Service
      * @param array $post (参数)
      * @param int $userId (用户ID)
      * @throws OperateException
+     * @throws Exception
      * @author windy
      */
     public static function bindMobile(array $post, int $userId): void
     {
         // 接收参数
-        $mobile = $post['mobile'];
-        $code   = $post['code'];
+        $mobile = $post['mobile']??'';
+        $code   = $post['code']??'';
+        $type   = $post['type']??'';
 
-        // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code)) {
-            throw new OperateException('验证码错误', 1);
+        if ($type === 'code') {
+            // 微信验证
+            $phoneArr = WeChatService::wxPhoneNumber($code);
+            $mobile = $phoneArr['phoneNumber'];
+        } else {
+            // 短信验证
+            $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
+            if (!MsgDriver::checkCode($nCode, $code)) {
+                throw new OperateException('验证码错误');
+            }
         }
 
         // 查询用户
-        $modeUser = new UserAuth();
+        $modeUser = new User();
         $user = $modeUser->field(['id,mobile'])
             ->where(['id'=>$userId])
             ->where(['is_delete'=>$userId])

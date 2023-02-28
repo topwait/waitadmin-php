@@ -103,21 +103,6 @@ class LoginController extends Api
     }
 
     /**
-     * 修改密码
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function changePwd(): Json
-    {
-        (new LoginValidate())->goCheck('changePwd');
-
-        LoginService::changePwd($this->request->post(), $this->userId);
-        return AjaxUtils::success();
-    }
-
-    /**
      * 忘记密码
      *
      * @return Json
@@ -129,6 +114,21 @@ class LoginController extends Api
         (new LoginValidate())->goCheck('forgetPwd');
 
         LoginService::forgetPwd($this->request->post());
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 修改密码
+     *
+     * @return Json
+     * @throws OperateException
+     * @author windy
+     */
+    public function changePwd(): Json
+    {
+        (new LoginValidate())->goCheck('changePwd');
+
+        LoginService::changePwd($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
 

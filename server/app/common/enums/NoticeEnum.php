@@ -27,9 +27,4 @@ class NoticeEnum
     const BIND_MOBILE   = 105; // 绑定手机验证码
     const BIND_EMAIL    = 106; // 绑定邮箱验证码
 
-
-
-
-
-
 }

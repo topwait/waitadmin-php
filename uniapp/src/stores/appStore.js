@@ -24,8 +24,7 @@ export const useAppStore = defineStore({
     },
     actions: {
         async getSysConfig() {
-            const result = await getSysConfigApi()
-            this.config = result.data
+            this.config = await getSysConfigApi()
         },
         h5Intercepts() {
             // #ifdef H5

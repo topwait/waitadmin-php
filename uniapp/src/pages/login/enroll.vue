@@ -329,7 +329,6 @@ const onWxLogin = async (e) => {
         code: code,
         wxCode: wxCode
     }).then(result => {
-        uni.hideLoading()
         if (result.code === 1) {
             phoneForm.sign = result.data.sign
             showPopup.value = true
