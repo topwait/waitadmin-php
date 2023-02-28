@@ -4,8 +4,6 @@ namespace app\api\controller;
 
 use app\api\service\IndexService;
 use app\common\basics\Api;
-use app\common\exception\SystemException;
-use app\common\service\mail\MailDriver;
 use app\common\service\msg\MsgDriver;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
@@ -71,7 +69,10 @@ class IndexController extends Api
         $scene = $this->request->post('scene');
         $email = $this->request->post('email');
 
-
+        MsgDriver::send(intval($scene), [
+            'email' => $email,
+            'code'  => make_rand_code(null, '', 6)
+        ]);
 
         return AjaxUtils::success();
     }
