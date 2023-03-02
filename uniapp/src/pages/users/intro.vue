@@ -4,7 +4,7 @@
         <u-cell-group>
             <u-cell-item :arrow="false">
                 <view class="flex flex-col items-center justify-center">
-                    <u-avatar :src="userInfo?.avatar" mode="circle" size="100" class="h-100" />
+                    <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
                     <view class="mt-6 text-xs color-muted">点击修改头像</view>
                 </view>
             </u-cell-item>
@@ -12,8 +12,8 @@
                 <text class="u-margin-right-10">{{ userInfo?.sn }}</text>
                 <u-icon name="lock" size="28" color="#999" />
             </u-cell-item>
-            <u-cell-item title="账号" :value="userInfo?.account" @click="onShowPopup('account')"/>
-            <u-cell-item title="昵称" :value="userInfo?.nickname" @click="onShowPopup('nickname')" />
+            <u-cell-item title="账号" :value="userInfo.account" @click="onShowPopup('account')" />
+            <u-cell-item title="昵称" :value="userInfo.nickname" @click="onShowPopup('nickname')" />
             <u-cell-item title="性别" :value="genderEnumer[userInfo?.gender]" @click="onShowPopup('gender')" />
         </u-cell-group>
     </view>
@@ -23,15 +23,17 @@
         <u-cell-group>
             <u-cell-item title="登录密码" @click="onShowPopup('password')" />
             <u-cell-item title="绑定微信">
-                 <button
-                     class="text-right color-muted button-hover"
-                     @click="onBindWeChat">{{ userInfo?.isWeiChat ? '已绑定' : '未绑定' }}
-                 </button>
-            </u-cell-item>
-            <u-cell-item title="绑定邮箱" >
                 <button
                     class="text-right color-muted button-hover"
-                    @click="onBindEmail">{{ userInfo?.email ? userInfo?.email : '未绑定' }}
+                    @click="onBindWeChat"
+                >{{ userInfo?.isWeiChat ? '已绑定' : '未绑定' }}
+                </button>
+            </u-cell-item>
+            <u-cell-item title="绑定邮箱">
+                <button
+                    class="text-right color-muted button-hover"
+                    @click="onShowPopup('email')"
+                >{{ userInfo?.email ? userInfo?.email : '未绑定' }}
                 </button>
             </u-cell-item>
             <u-cell-item title="绑定手机">
@@ -39,7 +41,8 @@
                     class="text-right color-muted button-hover"
                     open-type="getPhoneNumber"
                     @getphonenumber="onBindMobile"
-                    @click="onBindMobile">{{ userInfo?.mobile ? userInfo?.mobile : '未绑定' }}
+                    @click="onBindMobile"
+                >{{ userInfo.mobile ? userInfo?.mobile : '未绑定' }}
                 </button>
             </u-cell-item>
         </u-cell-group>
@@ -61,8 +64,8 @@
 
     <!-- 性别修改 -->
     <u-picker
-        mode="selector"
         v-model="genderPicker"
+        mode="selector"
         confirm-color="#4173FF"
         :default-selector="[0]"
         :range="genderListed"
@@ -71,133 +74,39 @@
 
     <!-- 密码修改 -->
     <u-action-sheet
-        :list="pwdListed"
         v-model="pwdPicker"
-        @click="onPwdPopup"
+        :list="pwdListed"
         :safe-area-inset-bottom="true"
-    ></u-action-sheet>
+        @click="onPwdPopup"
+    />
 
     <!-- 弹窗部件 -->
     <u-popup v-model="popupShow" mode="center" border-radius="12" :closeable="true">
-        <!-- 修改昵称 -->
-        <view class="popup-form-widget" v-if="popupType === 'account'">
-            <view class="title">修改账号</view>
-            <u-form-item>
-                <u-input v-model="formValue" placeholder="请输入账号" :border="false" />
-            </u-form-item>
-            <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
-        </view>
-        <!-- 修改昵称 -->
-        <view class="popup-form-widget" v-if="popupType === 'nickname'">
-            <view class="title">修改昵称</view>
-            <u-form-item>
-                <u-input v-model="formValue" placeholder="请输入昵称" :border="false" />
-            </u-form-item>
-            <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
-        </view>
-        <!-- 绑定邮箱 -->
-        <view class="popup-form-widget" v-if="popupType === 'email'">
-            <view class="title">{{ userInfo?.mobile ? '变更邮箱' : '绑定邮箱' }}</view>
-            <u-form-item>
-                <u-input v-model="bindEmailForm.email" placeholder="请输入邮箱号" :border="false" />
-            </u-form-item>
-            <u-form-item>
-                <u-input v-model="bindEmailForm.code" placeholder="验证码" :border="false" />
-                <template #right>
-                    <u-verification-code ref="uCodeRefByBindEmail" seconds="60" @change="codeChangeByBindEmail" />
-                    <u-button
-                        :plain="true"
-                        type="primary"
-                        hover-class="none"
-                        size="mini"
-                        shape="circle"
-                        @click="onSendSms('bindEmail')"
-                    >{{ codeTipsByBindEmail }}
-                    </u-button>
-                </template>
-            </u-form-item>
-            <w-button pt="30" pb="30" @on-click="onBindEmail()">确定</w-button>
-        </view>
-        <!-- 绑定手机 -->
-        <view class="popup-form-widget" v-if="popupType === 'mobile'">
-            <view class="title">{{ userInfo?.mobile ? '变更手机' : '绑定手机' }}</view>
-            <u-form-item>
-                <u-input v-model="bindMobileForm.mobile" placeholder="请输入手机号" :border="false" />
-            </u-form-item>
-            <u-form-item>
-                <u-input v-model="bindMobileForm.code" placeholder="验证码" :border="false" />
-                <template #right>
-                    <u-verification-code ref="uCodeRefByBindMobile" seconds="60" @change="codeChangeByBindMobile" />
-                    <u-button
-                        :plain="true"
-                        type="primary"
-                        hover-class="none"
-                        size="mini"
-                        shape="circle"
-                        @click="onSendSms('bindMobile')"
-                    >{{ codeTipsByBindMobile }}
-                    </u-button>
-                </template>
-            </u-form-item>
-            <w-button pt="30" pb="30" @on-click="onBindMobile">确定</w-button>
-        </view>
-        <!-- 修改密码 -->
-        <view class="popup-form-widget" v-if="popupType === 'changePwd'">
-            <view class="title">修改密码</view>
-            <u-form-item>
-                <u-input type="password" v-model="changePwdForm.oldPassword" placeholder="请输入原始密码" :border="false" />
-            </u-form-item>
-            <u-form-item>
-                <u-input v-model="changePwdForm.newPassword" placeholder="请输入新的密码" :border="false" />
-            </u-form-item>
-            <u-form-item>
-                <u-input v-model="changePwdForm.ackPassword" placeholder="请再次确认密码" :border="false" />
-            </u-form-item>
-            <w-button pt="30" pb="30" @on-click="onPwdEdit()">确定</w-button>
-        </view>
-        <!-- 忘记密码 -->
-        <view class="popup-form-widget" v-if="popupType === 'forgetPwd'">
-            <view class="title">忘记密码</view>
-            <u-form-item>
-                <u-input v-model="forgetPwdForm.newPassword" placeholder="请输入新的密码" :border="false" />
-            </u-form-item>
-            <u-form-item>
-                <u-input v-model="forgetPwdForm.ackPassword" placeholder="请再次确认密码" :border="false" />
-            </u-form-item>
-            <u-form-item>
-                <u-input v-model="forgetPwdForm.mobile" placeholder="绑定的手机号" :border="false" />
-            </u-form-item>
-            <u-form-item>
-                <u-input v-model="forgetPwdForm.code" placeholder="验证码" :border="false" />
-                <template #right>
-                    <u-verification-code ref="uCodeRefByForgetPwd" seconds="60" @change="codeChangeByForgetPwd" />
-                    <u-button
-                        :plain="true"
-                        type="primary"
-                        hover-class="none"
-                        size="mini"
-                        shape="circle"
-                        @click="onSendSms('forgetPwd')"
-                    >{{ codeTipsByForgetPwd }}
-                    </u-button>
-                </template>
-            </u-form-item>
-            <w-button pt="30" pb="30" @on-click="onPwdEdit()">确定</w-button>
+        <view class="popup-form-widget">
+            <BindEmail v-if="popupType === 'email'" :value="userInfo.email" @close="onClosePopup" />
+            <BindMobile v-if="popupType === 'mobile'" :value="userInfo.mobile" @close="onClosePopup" />
+            <ChangeAccount v-if="popupType === 'account'" :value="userInfo.account" @close="onClosePopup" />
+            <ChangeNickname v-if="popupType === 'nickname'" :value="userInfo.nickname" @close="onClosePopup" />
+            <ChangePassword v-if="popupType === 'changePwd'" :value="userInfo.password" @close="onClosePopup" />
+            <ForgetPassword v-if="popupType === 'forgetPwd'" :value="userInfo.password" @close="onClosePopup" />
         </view>
     </u-popup>
 </template>
 
 <script setup>
-import { ref, shallowRef } from 'vue'
+import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { sendSmsApi, sendEmailApi } from '@/api/indexApi'
 import { userInfoApi, userEditApi } from '@/api/usersApi'
-import { changePwdApi, forgetPwdApi, bindWeChatApi, bindMobileApi, bindEmailApi } from '@/api/loginApi'
-import smsEnum from '@/enums/smsEnum'
+import { bindWeChatApi } from '@/api/loginApi'
 import toolUtil from '@/utils/toolUtil'
-import checkUtil from '@/utils/checkUtil'
-import clientUtil from '@/utils/clientUtil'
+
+import BindEmail from './component/bind-email'
+import BindMobile from './component/bind-mobile'
+import ChangeAccount from './component/change-account'
+import ChangeNickname from './component/change-nickname'
+import ChangePassword from './component/change-password'
+import ForgetPassword from './component/forget-password'
 
 // 用户信息数据
 const userStore = useUserStore()
@@ -210,34 +119,6 @@ const userInfo = ref({
     email: '',
     gender: 0,
     isWeiChat: false
-})
-
-// 修改密码参数
-const changePwdForm = ref({
-    oldPassword: '',
-    newPassword: '',
-    ackPassword: ''
-})
-
-// 忘记密码参数
-const forgetPwdForm = ref({
-    newPassword: '',
-    ackPassword: '',
-    mobile: '',
-    code: ''
-})
-
-// 绑定手机参数
-const bindMobileForm = ref({
-    type: '',
-    mobile: '',
-    code: ''
-})
-
-// 绑定邮箱参数
-const bindEmailForm = ref({
-    email: '',
-    code: ''
 })
 
 // 弹出参数
@@ -259,70 +140,9 @@ onShow(() => {
     queryUserInfo()
 })
 
-// 验证码(忘记密码)
-const codeTipsByForgetPwd = ref('')
-const uCodeRefByForgetPwd = shallowRef()
-const codeChangeByForgetPwd = (text) => {
-    codeTipsByForgetPwd.value = text
-}
-
-// 验证码(绑定手机)
-const codeTipsByBindMobile = ref('')
-const uCodeRefByBindMobile = shallowRef()
-const codeChangeByBindMobile = (text) => {
-    codeTipsByBindMobile.value = text
-}
-
-// 验证码(绑定邮箱)
-const codeTipsByBindEmail = ref('')
-const uCodeRefByBindEmail = shallowRef()
-const codeChangeByBindEmail = (text) => {
-    codeTipsByBindEmail.value = text
-}
-
 // 查询信息
 const queryUserInfo = async () => {
     userInfo.value = await userInfoApi()
-}
-
-// 发送短信
-const onSendSms = async (type) => {
-    switch (type) {
-        case 'forgetPwd':
-            if (checkUtil.isEmpty(forgetPwdForm.value.mobile)) {
-                return uni.$u.toast('请输入手机号')
-            }
-            if (uCodeRefByForgetPwd.value?.canGetCode) {
-                await sendSmsApi({
-                    scene: smsEnum.FORGET_PWD,
-                    mobile: forgetPwdForm.value.mobile
-                })
-                uCodeRefByForgetPwd.value?.start()
-            }
-            break;
-        case 'bindMobile':
-            if (checkUtil.isEmpty(bindMobileForm.value.mobile)) {
-                return uni.$u.toast('请输入手机号')
-            }
-            if (uCodeRefByBindMobile.value?.canGetCode) {
-                await sendSmsApi({
-                    scene: smsEnum.BIND_MOBILE,
-                    mobile: bindMobileForm.value.mobile
-                })
-                uCodeRefByBindMobile.value?.start()
-            }
-        case 'bindEmail':
-            if (checkUtil.isEmpty(bindEmailForm.value.email)) {
-                return uni.$u.toast('请输入邮箱号')
-            }
-            if (uCodeRefByBindEmail.value?.canGetCode) {
-                await sendEmailApi({
-                    scene: smsEnum.BIND_EMAIL,
-                    email: bindEmailForm.value.email
-                })
-                uCodeRefByBindEmail.value?.start()
-            }
-    }
 }
 
 // 退出登录
@@ -339,176 +159,72 @@ const onLogout = async () => {
     })
 }
 
+// 性别修改
+const onGenderEdit = async (value) => {
+    await userEditApi({
+        scene: popupType.value,
+        value: value[0] + 1
+    })
+}
+
 // 绑定微信
 const onBindWeChat = async () => {
     const code = await toolUtil.obtainWxCode()
     await bindWeChatApi({code: code})
     queryUserInfo()
-    
+
 }
 
 // 绑定手机
-const onBindMobile = async (e) => {
-    if (e === undefined || !e.detail.code) {
-        if (!popupShow.value) {
-            onShowPopup('mobile')
-            return true
-        }
-
-        if (checkUtil.isEmpty(bindMobileForm.value.mobile)) {
-            return uni.$u.toast('请输入手机号')
-        }
-
-        if (checkUtil.isEmpty(bindMobileForm.value.code)) {
-            return uni.$u.toast('请输入验证码')
-        }
-       
-        bindMobileForm.value.type = userInfo?.mobile ? 'change' : 'bind'
-        await bindMobileApi(bindMobileForm.value)
-        
-        popupShow.value = false
-        popupType.value = null
-        uni.$u.toast('绑定成功')
-        queryUserInfo()
-    } else {
-        await bindMobileApi({
-            type: bindMobileForm.value.type,
-            code: e.detail.code
-        })
-        uni.$u.toast('绑定成功')
-        queryUserInfo()
-    }
-}
-
-// 绑定邮箱
-const onBindEmail = async () => {
-    if (!popupShow.value) {
-        onShowPopup('email')
-        return true
-    }
-
-    if (checkUtil.isEmpty(bindEmailForm.value.mobile)) {
-        return uni.$u.toast('请输入邮箱号')
-    }
-    
-    if (checkUtil.isEmpty(bindEmailForm.value.code)) {
-        return uni.$u.toast('请输入验证码')
-    }
-    
-    await bindEmailApi()
-    
-    popupShow.value = false
-    popupType.value = null
-    uni.$u.toast('绑定成功')
-    queryUserInfo()
-}
-
-// 更新用户
-const onUpdateUser = async () => {
-    await userEditApi({
-        scene: popupType.value,
-        value: formValue.value
-    })
-
-    queryUserInfo()
-    popupShow.value = false
-    popupType.value = null
-    formValue.value = null
-}
-
-// 性别修改
-const onGenderEdit = (value) => {
-    formValue.value = value[0] + 1
-    onUpdateUser()
-}
-
-// 密码修改
-const onPwdEdit = async () => {
-    if (popupType.value === 'changePwd') {
-        if (checkUtil.isEmpty(changePwdForm.value.oldPassword)) {
-            return uni.$u.toast('请输入原始密码')
-        }
-        if (checkUtil.isEmpty(changePwdForm.value.newPassword)) {
-            return uni.$u.toast('请输入新的密码')
-        }
-        if (checkUtil.isEmpty(changePwdForm.value.ackPassword)) {
-            return uni.$u.toast('请输入确认密码')
-        }
-        if (changePwdForm.value.newPassword !== changePwdForm.value.ackPassword) {
-            return uni.$u.toast('两次不密码不一致')
-        }
-
-        await changePwdApi(changePwdForm.value)
-        uni.$u.toast('修改成功')
-
-        popupType.value = null
-        popupShow.value = false
-        return true
-    } else {
-        if (checkUtil.isEmpty(forgetPwdForm.value.newPassword)) {
-            return uni.$u.toast('请输入新的密码')
-        }
-        if (checkUtil.isEmpty(forgetPwdForm.value.ackPassword)) {
-            return uni.$u.toast('请输入确认密码')
-        }
-        if (forgetPwdForm.value.newPassword !== forgetPwdForm.value.ackPassword) {
-            return uni.$u.toast('两次不密码不一致')
-        }
-        if (checkUtil.isEmpty(forgetPwdForm.value.mobile)) {
-            return uni.$u.toast('请输入手机号')
-        }
-        if (checkUtil.isEmpty(forgetPwdForm.value.code)) {
-            return uni.$u.toast('请输入验证码')
-        }
-
-        await forgetPwdApi(forgetPwdForm.value)
-        uni.$u.toast('重置成功')
-        
-        popupType.value = null
-        popupShow.value = false
-        return true
+const onBindMobile = (e) => {
+    if (!e.detail.code) {
+        onShowPopup('mobile')
     }
 }
 
 // 密码弹窗
 const onPwdPopup = (index) => {
     switch (index) {
-        case 0:
-            popupType.value = 'changePwd'
-            popupShow.value = true
-            break
-        case 1:
-            popupType.value = 'forgetPwd'
-            popupShow.value = true
-            break
+    case 0:
+        popupType.value = 'changePwd'
+        popupShow.value = true
+        break
+    case 1:
+        popupType.value = 'forgetPwd'
+        popupShow.value = true
+        break
+    default:
     }
 }
 
 // 弹出窗口
 const onShowPopup = (type) => {
     switch (type) {
-        case 'gender':
-            popupType.value = type
-            formValue.value = userInfo.gender
-            genderPicker.value = true
-            break
-        case 'password':
-            popupType.value = type
-            pwdPicker.value = true
-            changePwdForm.value = {oldPassword: '', newPassword: '', ackPassword: ''}
-            forgetPwdForm.value = {newPassword: '', ackPassword: '', mobile: '', code: ''}
-            break
-        default:
-            popupType.value = type
-            popupShow.value = true
-            formValue.value = userInfo.value[type]
+    case 'gender':
+        popupType.value = type
+        formValue.value = userInfo.value.gender
+        genderPicker.value = true
+        break
+    case 'password':
+        popupType.value = type
+        pwdPicker.value = true
+        break
+    default:
+        popupType.value = type
+        popupShow.value = true
     }
+}
+
+// 关闭窗口
+const onClosePopup = () => {
+    popupShow.value = false
+    popupType.value = null
 }
 </script>
 
 <style lang="scss">
 .logout {
-    margin: 0 30px; 
+    margin: 0 30px;
     padding: 40rpx 0;
 }
 .button-hover {
@@ -516,14 +232,15 @@ const onShowPopup = (type) => {
     background-color: unset;
 }
 .popup-form-widget {
-    width: 85vw;
     padding: 0 30rpx;
+    width: 85vw;
     border-radius: 14rpx;
     background-color: #ffffff;
-    .title {
-        text-align: center;
-        font-size: 28rpx;
+    :deep(.title) {
         padding: 22rpx;
+        font-size: 28rpx;
+        font-weight: bold;
+        text-align: center;
     }
 }
 </style>

@@ -44,7 +44,7 @@ class MailDriver
      * 发件人
      * @var array
      */
-    private array $form;
+    private array $form = [];
 
     /**
      * 初始化

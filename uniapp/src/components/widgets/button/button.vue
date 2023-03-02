@@ -9,7 +9,6 @@
                 <slot></slot>
             </button>
         </view>
-       
     </block>
 
     <block v-if="mod === 'together'">
