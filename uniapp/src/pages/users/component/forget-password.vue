@@ -1,16 +1,16 @@
 <template>
     <view class="title">忘记密码</view>
     <u-form-item>
-        <u-input v-model="forgetPwdForm.newPassword" placeholder="请输入新的密码" :border="false" />
+        <u-input v-model="form.newPassword" placeholder="请输入新的密码" :border="false" />
     </u-form-item>
     <u-form-item>
-        <u-input v-model="forgetPwdForm.ackPassword" placeholder="请再次确认密码" :border="false" />
+        <u-input v-model="form.ackPassword" placeholder="请再次确认密码" :border="false" />
     </u-form-item>
     <u-form-item>
-        <u-input v-model="forgetPwdForm.mobile" placeholder="绑定的手机号" :border="false" />
+        <u-input v-model="form.mobile" placeholder="绑定的手机号" :border="false" />
     </u-form-item>
     <u-form-item>
-        <u-input v-model="forgetPwdForm.code" placeholder="验证码" :border="false" />
+        <u-input v-model="form.code" placeholder="验证码" :border="false" />
         <template #right>
             <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
             <u-button
@@ -19,7 +19,7 @@
                 hover-class="none"
                 size="mini"
                 shape="circle"
-                @click="onSendSms('forgetPwd')"
+                @click="onSendSms()"
             >{{ codeTips }}
             </u-button>
         </template>

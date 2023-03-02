@@ -9,6 +9,7 @@
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
 import { userEditApi } from '@/api/usersApi'
+import checkUtil from '@/utils/checkUtil'
 
 // 定义事件s
 const emit = defineEmits(['close'])
@@ -33,11 +34,20 @@ watch(() => props.value,
 
 // 更新用户
 const onUpdateUser = async () => {
+    if (checkUtil.isEmpty(formValue.value)) {
+        return uni.$u.toast('账号不允许为空')
+    }
+    
+    if (props.value === formValue.value) {
+        return uni.$u.toast('账号未发生改变')
+    }
+    
     await userEditApi({
         scene: 'account',
         value: formValue.value
     })
 
+    uni.$u.toast('修改成功')
     emit('close')
 }
 </script>

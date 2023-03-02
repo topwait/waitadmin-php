@@ -14,7 +14,7 @@
             </u-cell-item>
             <u-cell-item title="账号" :value="userInfo.account" @click="onShowPopup('account')" />
             <u-cell-item title="昵称" :value="userInfo.nickname" @click="onShowPopup('nickname')" />
-            <u-cell-item title="性别" :value="genderEnumer[userInfo?.gender]" @click="onShowPopup('gender')" />
+            <u-cell-item title="性别" :value="genderEnumer[userInfo.gender]" @click="onShowPopup('gender')" />
         </u-cell-group>
     </view>
 
@@ -26,14 +26,14 @@
                 <button
                     class="text-right color-muted button-hover"
                     @click="onBindWeChat"
-                >{{ userInfo?.isWeiChat ? '已绑定' : '未绑定' }}
+                >{{ userInfo.isWeiChat ? '已绑定' : '未绑定' }}
                 </button>
             </u-cell-item>
             <u-cell-item title="绑定邮箱">
                 <button
                     class="text-right color-muted button-hover"
                     @click="onShowPopup('email')"
-                >{{ userInfo?.email ? userInfo?.email : '未绑定' }}
+                >{{ userInfo.email ? userInfo?.email : '未绑定' }}
                 </button>
             </u-cell-item>
             <u-cell-item title="绑定手机">
@@ -67,7 +67,7 @@
         v-model="genderPicker"
         mode="selector"
         confirm-color="#4173FF"
-        :default-selector="[0]"
+        :default-selector="[genderIndex]"
         :range="genderListed"
         @confirm="onGenderEdit"
     />
@@ -100,6 +100,7 @@ import { useUserStore } from '@/stores/userStore'
 import { userInfoApi, userEditApi } from '@/api/usersApi'
 import { bindWeChatApi } from '@/api/loginApi'
 import toolUtil from '@/utils/toolUtil'
+import clientUtil from '@/utils/clientUtil'
 
 import BindEmail from './component/bind-email'
 import BindMobile from './component/bind-mobile'
@@ -108,7 +109,7 @@ import ChangeNickname from './component/change-nickname'
 import ChangePassword from './component/change-password'
 import ForgetPassword from './component/forget-password'
 
-// 用户信息数据
+// 用户数据
 const userStore = useUserStore()
 const userInfo = ref({
     sn: '',
@@ -121,12 +122,12 @@ const userInfo = ref({
     isWeiChat: false
 })
 
-// 弹出参数
-const formValue = ref(null)
+// 弹窗参数
 const popupType = ref(null)
 const popupShow = ref(false)
 
 // 性别参数
+const genderIndex = ref(0)
 const genderPicker = ref(false)
 const genderListed = ref(['男', '女'])
 const genderEnumer = ref(['未知', '男', '女'])
@@ -165,14 +166,32 @@ const onGenderEdit = async (value) => {
         scene: popupType.value,
         value: value[0] + 1
     })
+
+    uni.$u.toast('修改成功')
+    queryUserInfo()
 }
 
 // 绑定微信
 const onBindWeChat = async () => {
-    const code = await toolUtil.obtainWxCode()
-    await bindWeChatApi({code: code})
-    queryUserInfo()
-
+    let status = false
+    uni.showModal({
+        content: '是否绑定微信？',
+        confirmColor: '#4173FF',
+        success: ({ cancel }) => {
+            if (!cancel) {
+                if (!clientUtil.isWeixin()) {
+                    return uni.$u.toast('当前浏览器不支持绑定')
+                }
+                status = true
+            }
+        }
+    })
+    
+    if (status) {
+        const code = await toolUtil.obtainWxCode()
+        await bindWeChatApi({code: code})
+        queryUserInfo()
+    }
 }
 
 // 绑定手机
@@ -201,8 +220,9 @@ const onPwdPopup = (index) => {
 const onShowPopup = (type) => {
     switch (type) {
     case 'gender':
+        const sex = userInfo.value.gender
         popupType.value = type
-        formValue.value = userInfo.value.gender
+        genderIndex.value = sex ? sex-1 : sex
         genderPicker.value = true
         break
     case 'password':
@@ -219,6 +239,7 @@ const onShowPopup = (type) => {
 const onClosePopup = () => {
     popupShow.value = false
     popupType.value = null
+    queryUserInfo()
 }
 </script>
 

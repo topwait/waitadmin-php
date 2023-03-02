@@ -55,7 +55,7 @@
             </view>
 
             <!-- 登录按钮 -->
-            <w-button v-if="loginTabs.length" mt="40" @on-click="onSaLogin(loginWays)">登录</w-button>
+            <w-button v-if="loginTabs.length" pt="40" @on-click="onSaLogin(loginWays)">登录</w-button>
 
             <!-- 登录插图 -->
             <view v-if="!loginTabs.length" class="flex justify-center">
@@ -115,7 +115,6 @@
                     <w-button pt="60" @on-click="onUpLogin">确认</w-button>
                 </u-form>
             </view>
-
         </u-popup>
     </view>
 
