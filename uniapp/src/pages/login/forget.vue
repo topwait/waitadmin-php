@@ -25,13 +25,13 @@
                     </template>
                 </u-form-item>
                 <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.password" type="password" placeholder="6~20位数字+字母或符号组合" />
+                    <u-input v-model="form.newPassword" type="password" placeholder="6~20位数字+字母或符号组合" />
                 </u-form-item>
                 <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.againPwd" type="password" placeholder="请再次确认新密码" />
+                    <u-input v-model="form.ackPassword" type="password" placeholder="请再次确认新密码" />
                 </u-form-item>
             </u-form>
-            <button class="button">重设密码</button>
+            <w-button pt="60" @on-click="onPwdEdit()">重设密码</w-button>
         </view>
     </view>
 
@@ -47,15 +47,15 @@ uni.setNavigationBarTitle({title: ''})
 
 // 表单参数
 const form = {
-    code: '',
+    newPassword: '',
+    ackPassword: '',
     mobile: '',
-    password: '',
-    againPwd: ''
+    code: ''
 }
 
-// 切换提示
+// 验证码值
 const codeTips = ref('')
-const uCodeRef = shallowRef()
+const uCodeRef = ref()
 const codeChange = (text) => {
     codeTips.value = text
 }
@@ -65,9 +65,11 @@ const onSendSms = async () => {
     if (checkUtil.isEmpty(form.account)) {
         return uni.$u.toast('请输入手机号')
     }
+
     if (checkUtil.isMobile(form.account)) {
         return uni.$u.toast('手机号不合规')
     }
+
     if (uCodeRef.value?.canGetCode) {
         await sendSmsApi({
             scene: smsEnum.LOGIN,
@@ -77,11 +79,21 @@ const onSendSms = async () => {
     }
 }
 
-// 重置密码
+// 密码修改
 const onResetPwd = async () => {
-    await forgetPwdApi(form)
-    uni.$u.toast('操作成功')
-    uni.navigateBack()
+    if (checkUtil.isEmpty(form.value.newPassword)) {
+        return uni.$u.toast('请输入新的密码')
+    }
+    if (checkUtil.isEmpty(form.value.ackPassword)) {
+        return uni.$u.toast('请输入确认密码')
+    }
+    if (form.value.newPassword !== form.value.ackPassword) {
+        return uni.$u.toast('两次不密码不一致')
+    }
+
+    await forgetPwdApi(form.value)
+    uni.$u.toast('修改成功')
+    emit('close')
 }
 </script>
 

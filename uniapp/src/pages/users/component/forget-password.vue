@@ -32,7 +32,7 @@
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
 import { sendSmsApi } from '@/api/indexApi'
-import { changePwdApi } from '@/api/loginApi'
+import { forgetPwdApi } from '@/api/loginApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -86,9 +86,6 @@ const onSendSms = async () => {
 
 // 密码修改
 const onPwdEdit = async () => {
-    if (checkUtil.isEmpty(form.value.oldPassword)) {
-        return uni.$u.toast('请输入原始密码')
-    }
     if (checkUtil.isEmpty(form.value.newPassword)) {
         return uni.$u.toast('请输入新的密码')
     }
@@ -99,7 +96,7 @@ const onPwdEdit = async () => {
         return uni.$u.toast('两次不密码不一致')
     }
 
-    await changePwdApi(form.value)
+    await forgetPwdApi(form.value)
     uni.$u.toast('修改成功')
     emit('close')
 }
