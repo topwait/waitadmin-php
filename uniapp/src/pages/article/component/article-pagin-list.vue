@@ -1,13 +1,13 @@
 <template>
     <z-paging
-        auto-show-back-to-top
         ref="paging"
         v-model="dataList"
+        auto-show-back-to-top
         :auto="swiperIndex === tabIndex"
         :data-key="swiperIndex"
         :fixed="false"
-        @query="queryList"
         height="100%"
+        @query="queryList"
     >
         <view class="layout-article-widget">
             <view v-for="(item, index) in dataList" :key="index" class="item" @click="$go('/pages/article/detail?id='+item.id)">
@@ -36,15 +36,21 @@ const dataList = ref([])
 const props = defineProps({
     cid: {
         type: Number,
-        default: () => { return 0 }
+        default: () => {
+            return 0
+        }
     },
     tabIndex: {
         type: Number,
-        default: () => { return 0 }
+        default: () => {
+            return 0
+        }
     },
     swiperIndex: {
         type: Number,
-        default: () => { return 0 }
+        default: () => {
+            return 0
+        }
     }
 })
 

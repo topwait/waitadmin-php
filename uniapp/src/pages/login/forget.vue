@@ -38,12 +38,13 @@
 </template>
 
 <script setup>
-import { ref, computed, shallowRef } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { forgetPwdApi } from '@/api/loginApi'
+import checkUtil from '@/utils/checkUtil'
 
 // 设置标题
 uni.setNavigationBarTitle({title: ''})
-    
+
 // 表单参数
 const form = {
     code: '',
@@ -90,10 +91,10 @@ const onResetPwd = async () => {
         height: 240rpx;
         background-color: #2979ff;
         .title {
-            font-size: 48rpx;
-            color: #ffffff;
-            text-align: center;
             padding-top: 20rpx;
+            font-size: 48rpx;
+            text-align: center;
+            color: #ffffff;
         }
     }
     .form {

@@ -186,7 +186,7 @@ const onBindWeChat = async () => {
             }
         }
     })
-    
+
     if (status) {
         const code = await toolUtil.obtainWxCode()
         await bindWeChatApi({code: code})
@@ -222,7 +222,7 @@ const onShowPopup = (type) => {
     case 'gender':
         const sex = userInfo.value.gender
         popupType.value = type
-        genderIndex.value = sex ? sex-1 : sex
+        genderIndex.value = sex ? sex - 1 : sex
         genderPicker.value = true
         break
     case 'password':

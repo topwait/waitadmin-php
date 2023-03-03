@@ -9,16 +9,16 @@
                 @change="tabChange"
             />
         </template>
-        <swiper :current="swiperCurrent" @transition="transition" @animationfinish="animations" style="height: 100%;">
+        <swiper :current="swiperCurrent" style="height: 100%;" @transition="transition" @animationfinish="animations">
             <swiper-item v-for="(item, index) in tabList" :key="index">
-                <ArticlePagInList :cid="item.id" :tabIndex="current" :swiperIndex="index" />
+                <ArticlePagInList :cid="item.id" :tab-index="current" :swiper-index="index" />
             </swiper-item>
         </swiper>
     </z-paging-swiper>
 </template>
 
 <script setup>
-import { ref, watch, nextTick, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { getArticleCateApi } from '@/api/articleApi'
 import ArticlePagInList from './component/article-pagin-list.vue'

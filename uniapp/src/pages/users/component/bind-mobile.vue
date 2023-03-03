@@ -1,23 +1,25 @@
 <template>
     <view class="title">{{ value ? '变更手机' : '绑定手机' }}</view>
-    <u-form-item>
-        <u-input v-model="form.mobile" placeholder="请输入新手机号" :border="false" />
-    </u-form-item>
-    <u-form-item>
-        <u-input v-model="form.code" placeholder="验证码" :border="false" />
-        <template #right>
-            <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
-            <u-button
-                :plain="true"
-                type="primary"
-                hover-class="none"
-                size="mini"
-                shape="circle"
-                @click="onSendSms()"
-            >{{ codeTips }}
-            </u-button>
-        </template>
-    </u-form-item>
+    <u-form ref="uForm" :model="form">
+        <u-form-item>
+            <u-input v-model="form.mobile" placeholder="请输入新手机号" :border="false" />
+        </u-form-item>
+        <u-form-item>
+            <u-input v-model="form.code" placeholder="验证码" :border="false" />
+            <template #right>
+                <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
+                <u-button
+                    :plain="true"
+                    type="primary"
+                    hover-class="none"
+                    size="mini"
+                    shape="circle"
+                    @click="onSendSms()"
+                >{{ codeTips }}
+                </u-button>
+            </template>
+        </u-form-item>
+    </u-form>
     <w-button pt="30" pb="30" @on-click="onBindMobile">确定</w-button>
 </template>
 

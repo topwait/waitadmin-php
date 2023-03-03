@@ -85,10 +85,10 @@ const onRegister = async () => {
         height: 240rpx;
         background-color: #2979ff;
         .title {
-            font-size: 48rpx;
-            color: #ffffff;
-            text-align: center;
             padding-top: 20rpx;
+            font-size: 48rpx;
+            text-align: center;
+            color: #ffffff;
         }
     }
     .form {

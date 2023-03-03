@@ -1,8 +1,10 @@
 <template>
     <view class="title">修改昵称</view>
-    <u-form-item>
-        <u-input v-model="formValue" placeholder="请输入昵称" :border="false" />
-    </u-form-item>
+    <u-form ref="uForm">
+        <u-form-item>
+            <u-input v-model="formValue" placeholder="请输入昵称" :border="false" />
+        </u-form-item>
+    </u-form>
     <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
 </template>
 
@@ -37,7 +39,7 @@ const onUpdateUser = async () => {
     if (checkUtil.isEmpty(formValue.value)) {
         return uni.$u.toast('昵称不允许为空')
     }
-    
+
     if (props.value === formValue.value) {
         return uni.$u.toast('昵称未发生改变')
     }

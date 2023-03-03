@@ -8,7 +8,7 @@
             </view>
         </view>
         <view class="content">
-			<u-parse :html="detail.content"></u-parse>
+            <u-parse :html="detail.content" />
         </view>
     </view>
 </template>
@@ -34,11 +34,11 @@ const queryArticleDetail = async (id) => {
 page { background: #ffffff; }
 .layout-detail-widget {
     .header {
+        padding: 30rpx;
         font-size: 36rpx;
         font-weight: bold;
-        color: #333333;
-        padding: 30rpx;
         border-bottom: 1rpx solid #f2f2f2;
+        color: #333333;
     }
     .content {
         margin: 30rpx 20rpx;

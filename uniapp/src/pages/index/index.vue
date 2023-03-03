@@ -1,15 +1,15 @@
 <template>
-    <view >
+    <view>
         <view class="banner">
             <u-swiper
                 :list="banner"
-                mode='round'
+                mode="round"
                 height="300"
             />
         </view>
-        
+
         <w-service title="" grid="25%" :list="orders" />
-        
+
         <view class="layout-news-widget">
             <view v-for="(item, index) in 10" :key="index" class="item" @click="$go('/pages/article/detail?id='+item.id)">
                 <u-image :lazy-load="true" width="240rpx" height="180rpx" :src="'https://cdn.uviewui.com/uview/swiper/1.jpg'" style="flex-shrink: 0;" />
@@ -23,7 +23,7 @@
                 </view>
             </view>
         </view>
-     </view>
+    </view>
 </template>
 
 <script setup>

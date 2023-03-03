@@ -1,23 +1,25 @@
 <template>
     <view class="title">{{ value ? '变更邮箱' : '绑定邮箱' }}</view>
-    <u-form-item>
-        <u-input v-model="form.email" placeholder="请输入邮箱号" :border="false" />
-    </u-form-item>
-    <u-form-item>
-        <u-input v-model="form.code" placeholder="验证码" :border="false" />
-        <template #right>
-            <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
-            <u-button
-                :plain="true"
-                type="primary"
-                hover-class="none"
-                size="mini"
-                shape="circle"
-                @click="onSendEmail()"
-            >{{ codeTips }}
-            </u-button>
-        </template>
-    </u-form-item>
+    <u-form ref="uForm" :model="form">
+        <u-form-item>
+            <u-input v-model="form.email" placeholder="请输入邮箱号" :border="false" />
+        </u-form-item>
+        <u-form-item>
+            <u-input v-model="form.code" placeholder="验证码" :border="false" />
+            <template #right>
+                <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
+                <u-button
+                    :plain="true"
+                    type="primary"
+                    hover-class="none"
+                    size="mini"
+                    shape="circle"
+                    @click="onSendEmail()"
+                >{{ codeTips }}
+                </u-button>
+            </template>
+        </u-form-item>
+    </u-form>
     <w-button pt="30" pb="30" @on-click="onBindEmail()">确定</w-button>
 </template>
 

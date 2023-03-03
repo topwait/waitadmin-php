@@ -1,8 +1,10 @@
 <template>
     <view class="title">修改账号</view>
-    <u-form-item>
-        <u-input v-model="formValue" placeholder="请输入账号" :border="false" />
-    </u-form-item>
+    <u-form ref="uForm">
+        <u-form-item>
+            <u-input v-model="formValue" placeholder="请输入账号" :border="false" />
+        </u-form-item>
+    </u-form>
     <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
 </template>
 
@@ -37,11 +39,11 @@ const onUpdateUser = async () => {
     if (checkUtil.isEmpty(formValue.value)) {
         return uni.$u.toast('账号不允许为空')
     }
-    
+
     if (props.value === formValue.value) {
         return uni.$u.toast('账号未发生改变')
     }
-    
+
     await userEditApi({
         scene: 'account',
         value: formValue.value
