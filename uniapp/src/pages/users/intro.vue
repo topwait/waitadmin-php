@@ -3,10 +3,12 @@
     <view class="mt-20">
         <u-cell-group>
             <u-cell-item :arrow="false">
-                <view class="flex flex-col items-center justify-center">
-                    <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
-                    <view class="mt-6 text-xs color-muted">点击修改头像</view>
-                </view>
+                <button open-type="chooseAvatar" @chooseavatar="onUploadAvatar" @click="onUploadAvatar" style="height: 100%;background-color: unset;">
+                    <view class="flex flex-col items-center justify-center">
+                        <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
+                        <view class="mt-6 text-xs color-muted">点击修改头像</view>
+                    </view>
+                </button>
             </u-cell-item>
             <u-cell-item title="ID" :arrow="false">
                 <text class="u-margin-right-10">{{ userInfo?.sn }}</text>
@@ -156,6 +158,22 @@ const onLogout = async () => {
                 userStore.logout()
                 uni.redirectTo({ url: '/pages/login/enroll' })
             }
+        }
+    })
+}
+
+const onUploadAvatar = async () => {
+    uni.chooseImage({
+        success: (chooseImageRes) => {
+            const tempFilePaths = chooseImageRes.tempFilePaths;
+            uploadFile(tempFilePaths[0], 'avatar').then(result => {
+                if (result.code === 0) {
+                    that.form.avatar = result.data.image
+                    that.onEdit('avatar')
+                } else {
+                    that.$showToast(result.msg)
+                }
+            })
         }
     })
 }

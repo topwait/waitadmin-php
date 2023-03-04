@@ -34,10 +34,43 @@ export default {
             })
         })
     },
-    // 获取当前页面
+    /**
+     * 获取当前页面
+     */
     currentPage() {
         const pages = getCurrentPages()
         const currentPage = pages[pages.length - 1]
         return currentPage || {}
+    },
+    /**
+     * 上传文件资源
+     *
+     * @param {String} path
+     * @param {String} dir
+     */
+    uploadFile(path, dir) {
+        return new Promise((resolve, reject) => {
+            uni.uploadFile({
+                name: 'iFile',
+                url: `${import.meta.env.VITE_APP_BASE_URL}/upload/image`,
+                filePath: path,
+                header: {token: ''},
+                formData: {
+                    'dir': dir
+                },
+                fileType: 'image',
+                success: res => {
+                    let data = JSON.parse(res.data);
+                    if (data.code == 0) {
+                        resolve(data);
+                    } else {
+                        reject()
+                    }
+                },
+                fail: (err) => {
+                    reject(err)
+                }
+            })
+        })
     }
 }

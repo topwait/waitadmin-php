@@ -55,7 +55,7 @@
             </view>
 
             <!-- 登录按钮 -->
-            <w-button pt="40" :load="loadButton"  @on-click="onSaLogin(loginWays)">登录</w-button>
+            <w-button pt="40" :load="loading" @on-click="onSaLogin(loginWays)">登录</w-button>
 
             <!-- 登录协议 -->
             <view v-if="isOpenAgreement" class="treaty">
@@ -122,6 +122,7 @@ import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import { loginApi } from '@/api/loginApi'
 import { sendSmsApi } from '@/api/indexApi'
+import { useLock } from '@/hooks/useLock'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 import clientUtil from '@/utils/clientUtil'
@@ -232,6 +233,7 @@ const sendSmsByLogin = async () => {
             mobile: form.mobile
         })
         uCodeRefByLogin.value?.start()
+        return uni.$u.toast('发送成功')
     }
 }
 
@@ -246,6 +248,7 @@ const sendSmsByPhone = async () => {
             mobile: form.mobile
         })
         uCodeRefByPhone.value?.start()
+        return uni.$u.toast('发送成功')
     }
 }
 
@@ -282,6 +285,7 @@ const onUpLogin = () => {
 }
 
 // 普通登录
+const { loading, methodAPI:$loginApi } = useLock(loginApi)
 const onSaLogin = (scene) => {
     let params = {}
     if (scene === LoginSceneEnum.MOBILE) {
@@ -309,12 +313,8 @@ const onSaLogin = (scene) => {
         return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
     }
 
-    loadButton.value = true
-    loginApi(params).then(async result => {
+    $loginApi(params).then(async result => {
         __loginHandle(result)
-        setTimeout(() => {
-            loadButton.value = false
-        }, 500)
     })
 }
 
