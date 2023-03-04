@@ -89,9 +89,11 @@ const onPwdEdit = async () => {
     if (checkUtil.isEmpty(form.value.newPassword)) {
         return uni.$u.toast('请输入新的密码')
     }
+
     if (checkUtil.isEmpty(form.value.ackPassword)) {
         return uni.$u.toast('请输入确认密码')
     }
+
     if (form.value.newPassword !== form.value.ackPassword) {
         return uni.$u.toast('两次不密码不一致')
     }

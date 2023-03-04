@@ -31,7 +31,7 @@
                     <u-input v-model="form.ackPassword" type="password" placeholder="请再次确认新密码" />
                 </u-form-item>
             </u-form>
-            <w-button pt="60" @on-click="onPwdEdit()">重设密码</w-button>
+            <w-button pt="60" @on-click="onResetPwd()">重设密码</w-button>
         </view>
     </view>
 
@@ -39,19 +39,21 @@
 
 <script setup>
 import { ref, shallowRef } from 'vue'
+import { sendSmsApi } from '@/api/indexApi'
 import { forgetPwdApi } from '@/api/loginApi'
+import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
 // 设置标题
 uni.setNavigationBarTitle({title: ''})
 
 // 表单参数
-const form = {
+const form = ref({
     newPassword: '',
     ackPassword: '',
     mobile: '',
     code: ''
-}
+})
 
 // 验证码值
 const codeTips = ref('')
@@ -62,18 +64,14 @@ const codeChange = (text) => {
 
 // 发送短信
 const onSendSms = async () => {
-    if (checkUtil.isEmpty(form.account)) {
+    if (checkUtil.isEmpty(form.value.mobile)) {
         return uni.$u.toast('请输入手机号')
-    }
-
-    if (checkUtil.isMobile(form.account)) {
-        return uni.$u.toast('手机号不合规')
     }
 
     if (uCodeRef.value?.canGetCode) {
         await sendSmsApi({
             scene: smsEnum.LOGIN,
-            mobile: form.mobile
+            mobile: form.value.mobile
         })
         uCodeRef.value?.start()
     }
@@ -84,16 +82,18 @@ const onResetPwd = async () => {
     if (checkUtil.isEmpty(form.value.newPassword)) {
         return uni.$u.toast('请输入新的密码')
     }
+
     if (checkUtil.isEmpty(form.value.ackPassword)) {
         return uni.$u.toast('请输入确认密码')
     }
+
     if (form.value.newPassword !== form.value.ackPassword) {
         return uni.$u.toast('两次不密码不一致')
     }
 
     await forgetPwdApi(form.value)
     uni.$u.toast('修改成功')
-    emit('close')
+    uni.navigateBack()
 }
 </script>
 

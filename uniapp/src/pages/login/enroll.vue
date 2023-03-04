@@ -55,12 +55,7 @@
             </view>
 
             <!-- 登录按钮 -->
-            <w-button v-if="loginTabs.length" pt="40" @on-click="onSaLogin(loginWays)">登录</w-button>
-
-            <!-- 登录插图 -->
-            <view v-if="!loginTabs.length" class="flex justify-center">
-                <u-image width="300rpx" height="300rpx" src="https://img.zcool.cn/community/0108c75972fc5da8012193a369015f.png@1280w_1l_2o_100sh.png" mode="" />
-            </view>
+            <w-button pt="40" :load="loadButton"  @on-click="onSaLogin(loginWays)">登录</w-button>
 
             <!-- 登录协议 -->
             <view v-if="isOpenAgreement" class="treaty">
@@ -139,6 +134,9 @@ import wechatOa from '@/utils/wechat'
 const appStore = useAppStore()
 const userStore = useUserStore()
 const isWeixin = clientUtil.isWeixin()
+
+// 按钮加载
+const loadButton = ref(false)
 
 // 授权枚举
 const LoginAuthEnum = {
@@ -279,7 +277,6 @@ const onUpLogin = () => {
         mobile: phoneForm.mobile
     }).then(result => {
         showPopup.value = false
-        uni.hideLoading()
         __loginHandle(result)
     })
 }
@@ -312,8 +309,12 @@ const onSaLogin = (scene) => {
         return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
     }
 
-    loginApi(params).then(result => {
+    loadButton.value = true
+    loginApi(params).then(async result => {
         __loginHandle(result)
+        setTimeout(() => {
+            loadButton.value = false
+        }, 500)
     })
 }
 

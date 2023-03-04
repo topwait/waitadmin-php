@@ -12,7 +12,7 @@
                 <u-form-item left-icon="fingerprint" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                     <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
                 </u-form-item>
-                <u-form-item left-icon="hourglass" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                <u-form-item left-icon="fingerprint" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                     <u-input v-model="form.againPwd" type="password" placeholder="请再次确认密码" />
                 </u-form-item>
                 <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
@@ -28,18 +28,21 @@
                             hover-class="none"
                             size="mini"
                             shape="circle"
+                            @click="onSendSms()"
                         >{{ '获取验证码' }}
                         </u-button>
                     </template>
                 </u-form-item>
             </u-form>
-            <w-button mt="40" @on-click="onRegister()">注册账号</w-button>
+            <w-button pt="60" @on-click="onRegister()">注册账号</w-button>
         </view>
     </view>
 
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { sendSmsApi } from '@/api/indexApi'
 import { registerApi } from '@/api/loginApi'
 import checkUtil from '@/utils/checkUtil'
 
@@ -47,29 +50,55 @@ import checkUtil from '@/utils/checkUtil'
 uni.setNavigationBarTitle({title: ''})
 
 // 表单参数
-const form = {
+const form = ref({
     code: '',
     mobile: '',
     account: '',
     password: '',
     againPwd: ''
+})
+
+// 验证码值
+const codeTips = ref('')
+const uCodeRef = ref()
+const codeChange = (text) => {
+    codeTips.value = text
+}
+
+// 发送短信
+const onSendSms = async () => {
+    if (checkUtil.isEmpty(form.value.mobile)) {
+        return uni.$u.toast('请输入手机号')
+    }
+
+    if (uCodeRef.value?.canGetCode) {
+        await sendSmsApi({
+            scene: smsEnum.LOGIN,
+            mobile: form.value.mobile
+        })
+        uCodeRef.value?.start()
+    }
 }
 
 // 注册账号
 const onRegister = async () => {
-    if (checkUtil.isEmpty(form.account)) {
+    if (checkUtil.isEmpty(form.value.account)) {
         return uni.$u.toast('请输登录账号')
     }
-    if (checkUtil.isEmpty(form.password)) {
+
+    if (checkUtil.isEmpty(form.value.password)) {
         return uni.$u.toast('请输登录密码')
     }
-    if (checkUtil.isEmpty(form.againPwd)) {
+
+    if (checkUtil.isEmpty(form.value.againPwd)) {
         return uni.$u.toast('请输确认密码')
     }
-    if (checkUtil.isEmpty(form.code)) {
+
+    if (checkUtil.isEmpty(form.value.code)) {
         return uni.$u.toast('请输入验证码')
     }
-    if (form.password !== form.againPwd) {
+
+    if (form.password !== form.value.againPwd) {
         return uni.$u.toast('两次密码不一致')
     }
 

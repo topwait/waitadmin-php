@@ -10,6 +10,7 @@ export function createApp() {
     const pinia = createPinia()
     const app = createSSRApp(App)
     app.config.globalProperties.$go = route.go
+    app.config.globalProperties.$sleep = route.sleep
     app.use(pinia)
     app.use(uView)
     app.use(uHttp)

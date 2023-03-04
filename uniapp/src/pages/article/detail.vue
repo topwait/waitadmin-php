@@ -25,8 +25,7 @@ onLoad((options) => {
 })
 
 const queryArticleDetail = async (id) => {
-    const { data } = await getArticleDetailApi({ id })
-    detail.value = data
+    detail.value = await getArticleDetailApi({ id })
 }
 </script>
 
