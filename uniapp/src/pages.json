@@ -48,7 +48,7 @@
             }
         }
         ,{
-            "path" : "pages/article/lists",
+            "path" : "pages/article/list",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "资讯",
@@ -80,7 +80,7 @@
         "backgroundColor": "#ffffff",
         "list": [
             {"pagePath": "pages/index/index"},
-            {"pagePath": "pages/article/lists"},
+            {"pagePath": "pages/article/list"},
             {"pagePath": "pages/users/home"}
         ]
     },

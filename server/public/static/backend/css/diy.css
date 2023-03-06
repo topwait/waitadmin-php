@@ -1,0 +1,296 @@
+@charset "UTF-8";
+* { -webkit-box-sizing: border-box; box-sizing: border-box;}
+::-moz-selection { background: #009688; color: #FFF; }
+::selection { background: #159b76; color: #FFF; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { border-radius: 10px; background-color: #bdbdbd; -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); }
+.container {
+    margin: 15px;
+    padding: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: #FFFFFF;
+}
+.divider-line {
+    height: 0;
+    margin: 15px auto;
+    overflow: hidden;
+    border-top: 1px #ccc dashed;
+}
+
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+.col-baseline { align-items: baseline; }
+.col-center { align-items: center; }
+.col-top { align-items: flex-start; }
+.col-bottom { align-items: flex-end; }
+.col-stretch { align-items:stretch; }
+.row-center { justify-content: center; }
+.row-left { justify-content: flex-start; }
+.row-right { justify-content: flex-end; }
+.row-between { justify-content: space-between; }
+.row-around { justify-content: space-around; }
+
+.line-h20 {line-height: 20px;}
+.line-h22 {line-height: 22px;}
+.line-h24 {line-height: 24px;}
+.line-h26 {line-height: 26px;}
+.line-h28 {line-height: 28px;}
+.line-h30 {line-height: 30px;}
+
+.over-line-1 {display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden;}
+.over-line-2 {display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;}
+.over-line-3 {display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;}
+.over-line-4 {display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden;}
+
+/**====================== 工具模块 ============================= **/
+#diyView { display: flex; align-items: flex-start; justify-content: flex-start; }
+#diyView .diy-menu { width: 274px; min-width: 274px; user-select: none; padding: 0 5px; transition: all 0.3s; border: 1px solid #ddd; border-radius: 3px; background: #fdfdfd; }
+#diyView .diy-menu .navs { padding: 10px 5px; border-bottom: 1px dotted #ddd; }
+#diyView .diy-menu .navs .title { font-size: 12px; color: #999; margin: 10px 0; }
+#diyView .diy-menu .navs .components::after { content: ""; display: block; visibility: hidden; clear: both; }
+#diyView .diy-menu .navs nav { float: left; width: 74px; padding: 3px 0; margin: 5px; box-sizing: border-box; border: 1px solid #dddddd; transition: All 0.3s ease-in-out; background: #f4f4f4; }
+#diyView .diy-menu .navs nav p { text-align: center; font-size: 12px; color: #424242; height: 19px; line-height: 19px; }
+#diyView .diy-menu .navs nav p.item-icon { height: 28px; line-height: 28px; }
+#diyView .diy-menu .navs nav p.item-icon i { font-size: 18px; }
+#diyView .diy-menu .navs nav:hover { color: #009688; cursor: pointer; transition: All 0.3s; border: 1px solid #009688; background: #FFFFFF;  }
+#diyView .diy-menu .navs nav:active { box-shadow: inset 1px 3px 5px rgba(0, 0, 0, 0.2); }
+#diyView .diy-menu .action { margin: 15px 0; text-align: right; position: relative; }
+
+
+/**====================== DIY手机模块 ============================= **/
+/** 导航栏样式 **/
+#diyView .diy-phone { width: 375px; min-width: 375px; margin: 0 30px; box-sizing: border-box; border-radius: 3px; border: 1px solid #ddd; background: #f3f3f3; }
+#diyView .diy-phone .phone-navBar { width: 100%; height: 66px; text-align: center; }
+#diyView .diy-phone .phone-navBar h4 { padding-top: 32px; font-size: 14px; font-weight: normal; white-space: nowrap; }
+
+/**====================== 编辑模块 ============================= **/
+#diyView .diy-editor {
+    position: relative;
+    z-index: 200;
+    width: 400px;
+    height: auto;
+    text-align: left;
+    padding: 20px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fdfdfd;
+}
+#diyView .diy-editor:after {
+    position: absolute;
+    top: 25px;
+    left: -9px;
+    z-index: 100;
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: #fdfdfd;
+    transform: rotate(135deg);
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+/** 重置表单样式 **/
+.diy-editor .layui-form-item { margin-bottom: 10px; margin-right: 25px; }
+.diy-editor .layui-form-label { padding: 5px 0; font-size: 12px; color: #666; }
+.diy-editor .layui-input-block { margin-left: 90px; min-height: 30px; }
+.diy-editor .layui-input { font-size: 12px; color: #5e6166; height: 30px; }
+.diy-editor .layui-form-mid { font-size: 12px; padding: 5px 0 !important; }
+.diy-editor .layui-form input[type=checkbox],
+.diy-editor .layui-form input[type=radio],
+.diy-editor .layui-form select { display: block; }
+.diy-editor input[type=color] {
+    width: 65px;
+    height: 26px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 4px;
+    border: 1px solid #efefef;
+    background: #FFFFFF;
+}
+.diy-editor select {
+    border-radius: 2px;
+    margin: 0;
+    border: 1px solid #eceef1;
+    box-shadow: none;
+    font-size: 12px;
+    width: 100%;
+    padding: 0 6px;
+    height: 30px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+/** 自定义板块样式 **/
+.layui-plate-item .item {
+    height: auto;
+    padding: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    border: 1px solid #e7eaec;
+    background: #FFFFFF;
+}
+.layui-plate-item .item .item-delete {
+    height: 0;
+    width: 100%;
+    display: block;
+    position: relative;
+}
+.layui-plate-item .item .item-delete:before {
+    content: "×";
+    text-decoration: none;
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    text-align: center;
+    line-height: 14px;
+    color: #fff;
+    cursor: pointer;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.3);
+    border-radius: 16px;
+    top: -6px;
+    right: -6px;
+    z-index: 10;
+}
+.layui-plate-item .item .item-image {
+    position: relative;
+    float: left;
+    height: 68px;
+    width: auto;
+    min-width: 40px;
+    max-width: 220px;
+    margin-right: 10px;
+    border: 1px solid #e7eaec;
+    background: #eee;
+}
+.layui-plate-item .item .item-image img { height: 68px; width: 125px; max-width: 220px; display: block; }
+.layui-plate-item .item .item-form { height: auto; display: block; overflow: hidden; }
+.layui-plate-item .item .item-input-group { display: flex; margin-top: 10px; margin-bottom: 0; }
+.layui-plate-item .item .item-input-group:first-child { margin-top: 0; }
+
+/** 自定义选框样式 **/
+.diy-editor .radio-inline,
+.diy-editor .checkbox-inline {
+    float: left;
+    display: flex;
+    font-size: 12px;
+    color: #666;
+    cursor: pointer;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 20px;
+}
+.diy-editor input[type=radio],
+.diy-editor input[type=checkbox] {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    outline: 0;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-top: 6px;
+    border-radius: 18px;
+    border: 1px solid #e0e0e0;
+    background: #FFFFFF;
+    vertical-align: middle;
+    box-sizing: border-box;
+    appearance: none;
+    transition-duration: 300ms;
+    transition-property: border-color;
+}
+.diy-editor input[type=radio]:checked{
+    border: 2px solid #009688;
+    background: #FFFFFF;
+}
+.diy-editor input[type=radio]:checked:before {
+    content: " ";
+    position: absolute;
+    top: 2px;
+    display: inline-block;
+    margin-left:2px;
+    height:8px;
+    width: 8px;
+    border-radius: 50%;
+    background: #009688;
+}
+.diy-editor input[type=checkbox] { border-radius: 2px; }
+.diy-editor input[type=checkbox]:checked { border-color: #009688;; background: #009688; }
+.diy-editor input[type=checkbox]:checked:before {
+    content: " ";
+    position: absolute;
+    top: 3px;
+    display: inline-block;
+    margin-left:2px;
+    height: 3px;
+    width: 7px;
+    border-width: 2px 2px 0 0;
+    border-color: #fff;
+    border-style: solid;
+    transform: rotate(135deg);
+}
+
+/* input滑块 */
+.diy-editor input[type=range] {
+    outline: none;
+    height: 3px;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    background: -webkit-linear-gradient(#61bd12, #61bd12) no-repeat, #ddd;
+}
+.diy-editor input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    position: relative;
+    height: 15px;
+    width: 15px;
+    border: 1px solid #d3d3d3;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+}
+.diy-editor .display-value {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 13px !important;
+    color: #656565;
+}
+
+/** 自定义按钮样式 **/
+.diy-editor .btn-resetColor {
+    font-size: 12px;
+    padding: 5px 12px;
+    color: #444;
+    cursor: pointer;
+    outline: none;
+    margin-left: -4px;
+    vertical-align: top;
+    border: 1px solid #efefef;
+    border-left: none;
+    background: #fdfdfd;
+}
+.diy-editor .btn-default {
+    cursor: pointer;
+    color: #6b6b6b;
+    text-align: center;
+    font-size: 12px;
+    white-space: nowrap;
+    padding: 6px 12px;
+    border: 1px solid #efefef;
+    transition: background-color 0.3s;
+    background: #fdfdfd !important;
+}
+.diy-editor .btn-outline { border-left: none; }
+
+/** 行内模块 **/
+.layui-form-column { display: flex; height: auto; padding: 5px; box-sizing: border-box; }
+.layui-column-block { display: flex; flex-wrap: wrap; }
+.layui-column-module { position: relative; padding: 10px; margin-right: 20px; background: #f7fafc; }
+.layui-column-module img { width: 50px; height: 50px; }
+.layui-column-module .item-delete { position: absolute; top: -6px; right: -6px; height: 16px;
+    width: 16px; line-height: 16px; color: #fff; border-radius: 50%; text-align: center;
+    cursor: pointer; font-size: 12px; background: rgba(153, 153, 153, 0.7);
+    transition: background-color .3s ease-out, border-color .3s ease-out;
+}
