@@ -1,30 +1,27 @@
 import { defineStore } from 'pinia'
 import { getSysConfigApi } from '@/api/indexApi'
+import toolUtil from '@/utils/toolUtil'
 
 export const useAppStore = defineStore({
     id: 'appStore',
     state: () => {
         return {
             config: {
-                h5: {
-                    status: 0,
-                    close_url: ''
-                },
-                login: {
-                    force_mobile: 0,
-                    login_modes: [],
-                    login_other: []
-                }
+                h5: {},
+                login: {},
+                tabBar: []
             }
         }
     },
     getters: {
         h5ConfigVal: (state) => state.config.h5 || {},
-        loginConfigVal: (state) => state.config.login || {}
+        loginConfigVal: (state) => state.config.login || {},
+        tabBarConfigVal: (state) => state.config.tabBar || []
     },
     actions: {
         async getSysConfig() {
             this.config = await getSysConfigApi()
+            toolUtil.setTabBar()
         },
         h5Intercepts() {
             // #ifdef H5

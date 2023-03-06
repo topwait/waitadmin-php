@@ -7,6 +7,7 @@ const appStore = useAppStore()
 const userStore = useUserStore()
 
 onLaunch(async () => {
+    uni.hideTabBar({animation: false})
     await appStore.getSysConfig()
     await appStore.h5Intercepts()
     await userStore.getUserInfo()

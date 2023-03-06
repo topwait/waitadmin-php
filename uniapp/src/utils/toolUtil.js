@@ -1,3 +1,4 @@
+import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import clientUtil from '@/utils/clientUtil'
 
@@ -78,5 +79,57 @@ export default {
                 }
             })
         })
+    },
+    // 渲染底部导航
+    setTabBar() {
+        const appStore = useAppStore()
+        const diyBottomNav = appStore.tabBarConfigVal
+        
+        // 设置导航文本颜色
+        // uni.setTabBarStyle({
+        //     color: config.diyBottomStyle.unselectedColor,
+        //     selectedColor: config.diyBottomStyle.selectedColor,
+        // })
+        
+        // APP端导航渲染
+        // #ifdef APP-PLUS
+        diyBottomNav.forEach((item, index) => {
+            uni.downloadFile({
+              url: item.iconPath,
+              success: res => {
+                uni.setTabBarItem({
+                    index,
+                    text: item.text,
+                    iconPath: res.tempFilePath,
+                })
+              }
+            })
+            uni.downloadFile({
+              url: item.selectedIconPath,
+              success: res => {
+                uni.setTabBarItem({
+                    index,
+                    text: item.text,
+                    selectedIconPath: res.tempFilePath,
+                })
+              }
+            })
+        })
+        // #endif
+        
+        // 非APP端导航渲染
+        // #ifndef APP-PLUS
+        diyBottomNav.forEach((item, index) => {
+            uni.setTabBarItem({
+                index,
+                text: item.text,
+                iconPath: item.iconPath,
+                selectedIconPath: item.selectedIconPath
+            })
+        })
+        // #endif
+        
+        // 显示底部导航栏
+        uni.showTabBar()
     }
 }
