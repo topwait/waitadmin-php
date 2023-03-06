@@ -92,7 +92,7 @@ class StorageDriver
         $dir   = ($dir && str_ends_with($dir, '/')) ? $dir : $dir.'/';
         $dir   = ($dir && str_starts_with($dir, '/')) ? $dir : '/'.$dir;
         $disks = trim(config('filesystem.disks.public.url'), '/');
-        $disks = $disks . $dir. $type . '/';
+        $disks = $disks . $dir;
 
         $detail['info'] = [
             'type'     => $type,

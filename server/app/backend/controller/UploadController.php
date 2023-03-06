@@ -41,8 +41,10 @@ class UploadController extends Backend
     {
         $type = $this->request->get('type');
         $cid  = $this->request->post('cid', 0);
-        $res  = UploadService::upload($type, intval($cid), $this->adminId);
-        return AjaxUtils::success('上传成功', $res);
+
+        $path = 'attach/'.$type.'/';
+        $result = UploadService::storage($type, $path, intval($cid), $this->adminId);
+        return AjaxUtils::success('上传成功', $result);
     }
 
     /**
@@ -55,7 +57,7 @@ class UploadController extends Backend
     public function temporary(): Json
     {
         $type = $this->request->get('type');
-        $res  = UploadService::temporary($type);
-        return AjaxUtils::success('上传成功', $res);
+        $result = UploadService::temporary($type);
+        return AjaxUtils::success('上传成功', $result);
     }
 }

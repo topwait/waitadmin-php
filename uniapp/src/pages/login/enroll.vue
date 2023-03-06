@@ -197,10 +197,6 @@ onLoad(async (options) => {
 onShow(async () => {
     try {
         if (userStore.isLogin) {
-            uni.showLoading({
-                title: '请稍后...'
-            })
-            uni.hideLoading()
             uni.navigateBack()
         }
     } catch (error) {

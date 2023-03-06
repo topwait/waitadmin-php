@@ -4,32 +4,33 @@ namespace app\api\controller;
 
 use app\api\service\UploadService;
 use app\common\basics\Api;
+use app\common\exception\UploadException;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
 
+/**
+ * 上传管理
+ */
 class UploadController extends Api
 {
     /**
-     * 上传图片
+     * 上传文件
      *
      * @return Json
+     * @throws UploadException
      * @author windy
      */
-    public function image(): Json
+    public function file(): Json
     {
-        $result = UploadService::image();
-        return AjaxUtils::success($result);
-    }
+        $type = $this->request->post('type');
+        $dir  = $this->request->post('dir');
 
-    /**
-     * 上传视频
-     *
-     * @return Json
-     * @author windy
-     */
-    public function video(): Json
-    {
-        $result = UploadService::image();
+        if ($dir === 'temporary') {
+            $result = UploadService::temporary($type);
+        } else {
+            $result = UploadService::storage($type, $dir);
+        }
+
         return AjaxUtils::success($result);
     }
 }

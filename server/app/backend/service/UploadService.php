@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service;
 
-
 use app\common\basics\Service;
 use app\common\enums\AttachEnum;
 use app\common\exception\UploadException;
@@ -39,14 +38,15 @@ class UploadService extends Service
      * 附件上传
      *
      * @param string $type (类型: image/video)
+     * @param string $path (存储目录)
      * @param int $cid (所属分类)
      * @param int $uid (所属用户)
      * @return array
      * @throws UploadException
      * @author windy
      */
-    #[ArrayShape(['id' => "mixed", 'name' => "mixed", 'ext' => "mixed", 'size' => "mixed", 'url' => "string"])]
-    public static function upload(string $type, int $cid, int $uid): array
+    #[ArrayShape(['id' => "int", 'name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
+    public static function storage(string $type, string $path, int $cid, int $uid): array
     {
         try {
             // 存储引擎
@@ -55,7 +55,7 @@ class UploadService extends Service
 
             // 上传调用
             $storageDriver = new StorageDriver(['engine'=>$engine, 'params'=>$params]);
-            $fileInfo = $storageDriver->upload($type, 'attach');
+            $fileInfo = $storageDriver->upload($type, $path);
 
             // 记录信息
             $attach = Attach::create([

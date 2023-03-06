@@ -1,3 +1,6 @@
+import { useUserStore } from '@/stores/userStore'
+import clientUtil from '@/utils/clientUtil'
+
 export default {
     /**
      * 提取微信编码
@@ -45,24 +48,27 @@ export default {
     /**
      * 上传文件资源
      *
-     * @param {String} path
-     * @param {String} dir
+     * @param {String} path (本地文件路径)
+     * @param {String} type (类型: image/video)
+     * @param {String} dir  (要上传到那个目录)
      */
-    uploadFile(path, dir) {
+    uploadFile(path, type, dir) {
+        const userStore = useUserStore()
+        const token = userStore.$state.token
+        const terminal = clientUtil.fetchClient()
+        
         return new Promise((resolve, reject) => {
             uni.uploadFile({
-                name: 'iFile',
-                url: `${import.meta.env.VITE_APP_BASE_URL}/upload/image`,
+                name: 'file',
+                url: `${import.meta.env.VITE_APP_BASE_URL}/upload/file`,
                 filePath: path,
-                header: {token: ''},
-                formData: {
-                    'dir': dir
-                },
-                fileType: 'image',
+                header: {token, terminal},
+                formData: {'type': type, 'dir': dir},
+                fileType: type,
                 success: res => {
-                    let data = JSON.parse(res.data);
-                    if (data.code == 0) {
-                        resolve(data);
+                    let result = JSON.parse(res.data)
+                    if (result.code == 0) {
+                        resolve(result.data);
                     } else {
                         reject()
                     }

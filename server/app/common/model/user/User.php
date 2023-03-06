@@ -17,6 +17,7 @@ namespace app\common\model\user;
 
 
 use app\common\basics\Models;
+use app\common\utils\UrlUtils;
 
 /**
  * 用户模型
@@ -44,4 +45,18 @@ class User extends Models
         'update_time'     => 'int',     //更新时间
         'delete_time'     => 'int'      //删除时间
     ];
+
+    /**
+     * 头像路径转绝对
+     *
+     * @param $value
+     * @return string
+     */
+    public function getAvatarAttr($value): string
+    {
+        if ($value) {
+            return UrlUtils::toAbsoluteUrl($value);
+        }
+        return '';
+    }
 }

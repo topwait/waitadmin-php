@@ -6,7 +6,9 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
+use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
+use http\Url;
 
 class UsersService extends Service
 {
@@ -98,8 +100,12 @@ class UsersService extends Service
                 User::update(['gender'=>$value, 'update_time'=>time()], ['id'=>$userId]);
                 break;
             case 'avatar':
+                $ext    = FileUtils::getFileExt($value);
                 $avatar = UrlUtils::toRelativeUrl($value);
-                User::update(['avatar'=>$avatar, 'update_time'=>time()], ['id'=>$userId]);
+                $source = UrlUtils::toRoot($avatar);
+                $target = 'storage/avatar/user/'.date('Ymd').'/'.md5($userId).'.'.$ext;
+                FileUtils::move($source, UrlUtils::toRoot($target));
+                User::update(['avatar'=>$target, 'update_time'=>time()], ['id'=>$userId]);
                 break;
         }
     }

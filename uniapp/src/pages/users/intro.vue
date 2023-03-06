@@ -3,7 +3,7 @@
     <view class="mt-20">
         <u-cell-group>
             <u-cell-item :arrow="false">
-                <button open-type="chooseAvatar" @chooseavatar="onUploadAvatar" @click="onUploadAvatar" style="height: 100%;background-color: unset;">
+                <button open-type="chooseAvatar" @chooseavatar="onUploadAvatar" @tap="onUploadAvatar" style="height: 100%;background-color: unset;">
                     <view class="flex flex-col items-center justify-center">
                         <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
                         <view class="mt-6 text-xs color-muted">点击修改头像</view>
@@ -14,27 +14,27 @@
                 <text class="u-margin-right-10">{{ userInfo?.sn }}</text>
                 <u-icon name="lock" size="28" color="#999" />
             </u-cell-item>
-            <u-cell-item title="账号" :value="userInfo.account" @click="onShowPopup('account')" />
-            <u-cell-item title="昵称" :value="userInfo.nickname" @click="onShowPopup('nickname')" />
-            <u-cell-item title="性别" :value="genderEnumer[userInfo.gender]" @click="onShowPopup('gender')" />
+            <u-cell-item title="账号" :value="userInfo.account" @tap="onShowPopup('account')" />
+            <u-cell-item title="昵称" :value="userInfo.nickname" @tap="onShowPopup('nickname')" />
+            <u-cell-item title="性别" :value="genderEnumer[userInfo.gender]" @tap="onShowPopup('gender')" />
         </u-cell-group>
     </view>
 
     <!-- 绑定信息 -->
     <view class="mt-20">
         <u-cell-group>
-            <u-cell-item title="登录密码" @click="onShowPopup('password')" />
+            <u-cell-item title="登录密码" @tap="onShowPopup('password')" />
             <u-cell-item title="绑定微信">
                 <button
                     class="text-right color-muted button-hover"
-                    @click="onBindWeChat"
+                    @tap="onBindWeChat()"
                 >{{ userInfo.isWeiChat ? '已绑定' : '未绑定' }}
                 </button>
             </u-cell-item>
             <u-cell-item title="绑定邮箱">
                 <button
                     class="text-right color-muted button-hover"
-                    @click="onShowPopup('email')"
+                    @tap="onShowPopup('email')"
                 >{{ userInfo.email ? userInfo?.email : '未绑定' }}
                 </button>
             </u-cell-item>
@@ -43,7 +43,7 @@
                     class="text-right color-muted button-hover"
                     open-type="getPhoneNumber"
                     @getphonenumber="onBindMobile"
-                    @click="onBindMobile"
+                    @tap="onBindMobile"
                 >{{ userInfo.mobile ? userInfo?.mobile : '未绑定' }}
                 </button>
             </u-cell-item>
@@ -79,7 +79,7 @@
         v-model="pwdPicker"
         :list="pwdListed"
         :safe-area-inset-bottom="true"
-        @click="onPwdPopup"
+        @tap="onPwdPopup"
     />
 
     <!-- 弹窗部件 -->
@@ -162,18 +162,23 @@ const onLogout = async () => {
     })
 }
 
-const onUploadAvatar = async () => {
+// 上传头像
+const onUploadAvatar = () => {
     uni.chooseImage({
-        success: (chooseImageRes) => {
-            const tempFilePaths = chooseImageRes.tempFilePaths;
-            uploadFile(tempFilePaths[0], 'avatar').then(result => {
-                if (result.code === 0) {
-                    that.form.avatar = result.data.image
-                    that.onEdit('avatar')
-                } else {
-                    that.$showToast(result.msg)
-                }
+        success: async (chooseImageRes) => {
+            uni.showLoading({title: '上传中...'})
+            const tempFilePaths = chooseImageRes.tempFilePaths
+            const data = await toolUtil.uploadFile(tempFilePaths[0], 'image', 'temporary')
+            await userEditApi({
+                scene: 'avatar',
+                value: data.url
             })
+
+            await queryUserInfo()
+            setTimeout(() => {
+               uni.hideLoading()
+               uni.$u.toast('修改成功') 
+            }, 500)
         }
     })
 }
