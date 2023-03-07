@@ -8,6 +8,9 @@ use app\common\utils\AjaxUtils;
 use think\response\Json;
 use think\response\View;
 
+/**
+ * 底部导航装饰
+ */
 class DiyTabbarController extends Backend
 {
     /**

@@ -1,0 +1,150 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <div class="layui-card layui-form">
+        <div class="layui-card-body">
+            <!-- 表格栏-->
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+            <!-- 工具栏 -->
+            <script type="text/html" id="toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm layui-btn-default" lay-event="add">新增功能</button>
+                </div>
+            </script>
+            <!-- 图标 -->
+            <script type="text/html" id="table-image">
+                <img src="{{d.image}}" alt="img" style="width:30px; height:30px;">
+            </script>
+            <!-- 类型 -->
+            <script type="text/html" id="table-type">
+                {{# if (d.link_type == 1) { }}
+                <button class="layui-btn layui-btn-xs">商城模块</button>
+                {{# } else { }}
+                <button class="layui-btn layui-btn-xs layui-btn-warm">自定链接</button>
+                {{# } }}
+            </script>
+            <!-- 状态 -->
+            <script type="text/html" id="table-status">
+                <input type="checkbox" name="is_like" lay-filter="switch-status"
+                       data-id={{d.id}} lay-skin="switch" lay-text="是|否"
+                       {{# if(d.is_show==1){ }} checked {{# } }}>
+            </script>
+            <!-- 操作 -->
+            <script type="text/html" id="operate">
+                <button type="button" class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</button>
+            </script>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['table'], function() {
+        let table = layui.table;
+
+        // 渲染表格
+        waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: "{:route('decor.diyUser/index')}"
+            ,cols: [[
+                {field:'id', title:'ID', width:80, align:'center'},
+                {field:'name', title:'功能名称', width:100},
+                {field:'image', title:'功能图标', width:90, align:'center', templet:'#table-image'},
+                {field:'link_type', title:'链接类型', width:120, align:'center', templet:'#table-type'},
+                {field:'link_url', title:'链接地址', width:150},
+                {field:'status', title:'是否显示', width:120, align:'center', templet:'#table-status'},
+                {fixed:'right', title:'操作', toolbar:'#operate', width:150, align:'center'},
+            ]]
+        });
+
+        // 逻辑事件
+        waitUtil.event({
+            add: function () {
+                waitUtil.popup({
+                    title: '新增我的功能',
+                    url: '{:url("diy.Me/status")}',
+                    area: ['500px', '530px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.locking(this);
+                            if (!data.field.image) {
+                                return layer.msg('请选择图标');
+                            }
+                            waitUtil.ajax({
+                                url: '{:url("diy.Me/status")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then(() => {
+                                waitUtil.unlock(this);
+                                table.reload({where: [], page: {curr: 1}});
+                                layer.close(index);
+                            });
+                        });
+                    }
+                });
+            },
+            edit: function (obj) {
+                waitUtil.popup({
+                    title: '编辑我的功能',
+                    url: '{:url("diy.Me/status")}'+obj.data.id,
+                    area: ['500px', '530px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.locking(this);
+                            if (!data.field.image) {
+                                return layer.msg('请选择图标');
+                            }
+                            data.field['id'] = obj.data.id;
+                            waitUtil.ajax({
+                                url: '{:url("diy.Me/status")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                wait.unlock(this);
+                                if (res.code === 0) {
+                                    layer.msg(res.msg, {icon: 1, time: 1000});
+                                    table.reload('wait-table-lists');
+                                    layer.close(index);
+                                } else {
+                                    layer.msg(res.msg, {icon: 2, time: 1000});
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            del: function (obj) {
+                layer.confirm('确定删除该功能吗？', function(index) {
+                    waitUtil.ajax({
+                        url: '{:url("diy.Me/status")}',
+                        type: 'POST',
+                        data: {'id': obj.data.id}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            layer.msg(res.msg, {icon: 1, time: 1000});
+                            table.reload('wait-table-lists');
+                        }
+                        layer.close(index)
+                    });
+                });
+            },
+            change: function (obj) {
+                let id = obj.elem.attributes['data-id'].nodeValue;
+                waitUtil.ajax({
+                    url: '{:url("diy.Me/status")}',
+                    type: 'POST',
+                    data: {'id': id}
+                }).then((res) => {
+                    if (res.code === 1)  {
+                        table.reload('wait-table-lists');
+                        layer.msg(res.msg, {icon: 2, time: 1000});
+                    }
+                });
+            }
+        });
+    });
+</script>
+{/block}

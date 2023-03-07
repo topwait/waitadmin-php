@@ -13,22 +13,16 @@
 {block name="body"}
 <div class="container">
     <div class="layui-card layui-form">
-        <div class="layui-card-body" >
+        <div class="layui-card-body">
             <div style="display: flex;">
                 <div class="phone">
                     <div class="bottom">
-                        <div class="item">
-                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                            <div>首页</div>
-                        </div>
-                        <div class="item">
-                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                            <div>首页</div>
-                        </div>
-                        <div class="item">
-                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                            <div>首页</div>
-                        </div>
+                        {volist name="list" id="vo"}
+                            <div class="item">
+                                <img src="{$vo.iconPath}" alt="icon">
+                                <div>{$vo.text}</div>
+                            </div>
+                        {/volist}
                     </div>
                 </div>
                 <div class="editor">
@@ -86,11 +80,10 @@
 
 {block name="js"}
 <script>
-    layui.use(['form', 'colorpicker', 'element'], function() {
+    layui.use(['form', 'colorpicker'], function() {
         let $ = layui.$;
         let form = layui.form;
         let colorpicker = layui.colorpicker;
-        let element = layui.element;
 
         // 默认颜色
         colorpicker.render({
