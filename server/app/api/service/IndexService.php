@@ -41,25 +41,9 @@ class IndexService extends Service
         ];
 
         // 底部导航
-        $detail['tabBar'] =  [
-            [
-                'text'       =>  '首页',
-                'pagePath'   => '/pages/index/index',
-                'iconPath'   => UrlUtils::toAbsoluteUrl('storage/config/tabBar/tab_home.png'),
-                'selectedIconPath' => UrlUtils::toAbsoluteUrl('storage/config/tabBar/tab_home_no.png')
-            ],
-            [
-                'text'     =>  '资讯',
-                'pagePath'     => '/pages/article/lists',
-                'iconPath' => UrlUtils::toAbsoluteUrl('storage/config/tabBar/tab_community.png'),
-                'selectedIconPath' => UrlUtils::toAbsoluteUrl('storage/config/tabBar/tab_community_no.png')
-            ],
-            [
-                'text'     =>  '我的',
-                'pagePath' => '/pages/users/home',
-                'iconPath' => UrlUtils::toAbsoluteUrl('storage/config/tabBar/tab_user.png'),
-                'selectedIconPath' => UrlUtils::toAbsoluteUrl('storage/config/tabBar/tab_user_no.png')
-            ]
+        $detail['tabBar'] = [
+            'style' => ConfigUtils::get('diy', 'tab_bar_style', []),
+            'list'  => ConfigUtils::get('diy', 'tab_bar_list', [])
         ];
 
         return $detail;

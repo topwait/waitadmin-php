@@ -83,14 +83,15 @@ export default {
     // 渲染底部导航
     setTabBar() {
         const appStore = useAppStore()
-        const diyBottomNav = appStore.tabBarConfigVal
-        
+        const diyBottomStyle = appStore.tabBarConfigVal.style
+        const diyBottomNav = appStore.tabBarConfigVal.list
+
         // 设置导航文本颜色
-        // uni.setTabBarStyle({
-        //     color: config.diyBottomStyle.unselectedColor,
-        //     selectedColor: config.diyBottomStyle.selectedColor,
-        // })
-        
+        uni.setTabBarStyle({
+            color: diyBottomStyle.unselectedColor,
+            selectedColor: diyBottomStyle.selectedColor
+        })
+
         // APP端导航渲染
         // #ifdef APP-PLUS
         diyBottomNav.forEach((item, index) => {
@@ -116,7 +117,7 @@ export default {
             })
         })
         // #endif
-        
+
         // 非APP端导航渲染
         // #ifndef APP-PLUS
         diyBottomNav.forEach((item, index) => {
@@ -128,7 +129,7 @@ export default {
             })
         })
         // #endif
-        
+
         // 显示底部导航栏
         uni.showTabBar()
     }

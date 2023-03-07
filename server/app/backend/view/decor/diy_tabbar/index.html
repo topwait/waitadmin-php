@@ -1,0 +1,170 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    .phone {position: relative; width: 360px; min-width: 360px; height: 615px; color: #333; margin-right: 25px; border: 1px solid #ddd; background-color: #f7f7f7;}
+    .phone .bottom {position: absolute; bottom: 0;width: 100%;height: 50px; display: flex; justify-content: space-between; border: 2px solid #4a5dff; box-sizing: border-box; background-color: #ffffff;}
+    .phone .bottom .item {display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%;}
+    .phone .bottom .item img {width: 22px; height: 22px;}
+    .editor {width: 460px; max-width: 460px;}
+</style>
+{/block}
+
+{block name="body"}
+<div class="container">
+    <div class="layui-card layui-form">
+        <div class="layui-card-body" >
+            <div style="display: flex;">
+                <div class="phone">
+                    <div class="bottom">
+                        <div class="item">
+                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
+                            <div>首页</div>
+                        </div>
+                        <div class="item">
+                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
+                            <div>首页</div>
+                        </div>
+                        <div class="item">
+                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
+                            <div>首页</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="editor">
+                    <fieldset class="layui-elem-field">
+                        <legend>样式设置</legend>
+                        <div class="layui-field-box">
+                            <div class="layui-form-item">
+                                <label for="unselectedColorInput" class="layui-form-label" style="width:58px; padding:9px 0;">默认颜色:</label>
+                                <div class="layui-input-block" style="margin-left:70px;">
+                                    <div id="unselectedColor"></div>
+                                    <div class="layui-inline">
+                                        <input type="text" id="unselectedColorInput" name="unselectedColor"
+                                               class="layui-input" value="{$style.unselectedColor}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="selectedColorInput" class="layui-form-label" style="width:58px; padding:9px 0;">选中颜色:</label>
+                                <div class="layui-input-block" style="margin-left:70px;">
+                                    <div id="selectedColor"></div>
+                                    <div class="layui-inline">
+                                        <input type="text" id="selectedColorInput" name="selectedColor"
+                                               class="layui-input" value="{$style.selectedColor}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="layui-elem-field" style="margin-top:30px;">
+                        <legend>导航设置</legend>
+                        <div class="layui-field-box wait-table-cell">
+                            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+                            <script type="text/html" id="table-text">
+                                <label><input type="text" name="text" class="layui-input" value="{{d.text}}"></label>
+                            </script>
+                            <script type="text/html" id="table-selected">
+                                <img class="upload" src="{{d.selectedIconPath}}" alt="img" style="width:30px; height:30px;">
+                            </script>
+                            <script type="text/html" id="table-unselected">
+                                <img class="upload" src="{{d.iconPath}}" alt="img" style="width:30px; height:30px;">
+                            </script>
+                        </div>
+                    </fieldset>
+
+                    <div style="margin-top:20px;">
+                        <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['form', 'colorpicker', 'element'], function() {
+        let $ = layui.$;
+        let form = layui.form;
+        let colorpicker = layui.colorpicker;
+        let element = layui.element;
+
+        // 默认颜色
+        colorpicker.render({
+            elem: '#unselectedColor',
+            color: '{$style.unselectedColor}'
+            ,change: function(color){
+                $("input[name=unselectedColor]").val(color);
+            }
+        });
+
+        // 选中颜色
+        colorpicker.render({
+            elem: '#selectedColor',
+            color: '{$style.selectedColor}'
+            ,change: function(color){
+                $("input[name=selectedColor]").val(color);
+            }
+        });
+
+        // 渲染表格
+        waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("decor.diyTabBar/index")}'
+            ,toolbar: false
+            ,page: false
+            ,cols: [[
+                {field:'text', title:'名称', templet:'#table-text', width:240},
+                {field:'selected', title:'选中图标', width:90, align:'center', templet:'#table-selected'},
+                {field:'unselected', title:'未选图标', width:90, align:'center', templet:'#table-unselected'}
+            ]]
+        });
+
+        // 提交表单
+        form.on('submit(addForm)', function(data){
+            layer.confirm('确定保存当前配置吗?', function(index) {
+                layer.close(index);
+
+                // 样式设置
+                let style = {
+                    selectedColor: data.field['selectedColor'],
+                    unselectedColor: data.field['unselectedColor'],
+                };
+
+                // 导航设置
+                let list = [];
+                let trElems = $('.layui-table tbody tr');
+                trElems.each(function () {
+                    let tdElem = $(this).find('td')
+                    let text = $(tdElem[0]).find('input').val();
+                    let selected = $(tdElem[1]).find('img').attr('src');
+                    let unselected = $(tdElem[2]).find('img').attr('src');
+                    list.push({
+                        text: text,
+                        iconPath: unselected,
+                        selectedIconPath: selected
+                    });
+                })
+
+                // 提交保存
+                waitUtil.ajax({
+                    url: '{:route("decor.DiyTabbar/save")}',
+                    type: 'POST',
+                    data: {style: style, list: list}
+                });
+            });
+        });
+
+        // 上传图片
+        $(document).on('click', '.upload', function () {
+            let that = $(this);
+            waitUtil.uploader().then(data => {
+                $(that).attr('src', data[0].url);
+            });
+        });
+    });
+</script>
+{/block}
