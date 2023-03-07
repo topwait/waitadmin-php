@@ -23,7 +23,7 @@ class DiyTabbarController extends Backend
             return AjaxUtils::success($result['list']);
         }
 
-        return view('', ['style'=>$result['style']]);
+        return view('', $result);
     }
 
     /**
