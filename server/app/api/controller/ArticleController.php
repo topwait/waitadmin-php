@@ -16,6 +16,8 @@ declare (strict_types = 1);
 namespace app\api\controller;
 
 use app\api\service\ArticleService;
+use app\api\validate\ArticleValidate;
+use app\api\validate\IDMustValidate;
 use app\common\basics\Api;
 use app\common\utils\AjaxUtils;
 use think\db\exception\DataNotFoundException;
@@ -54,6 +56,8 @@ class ArticleController extends Api
      */
     public function lists(): Json
     {
+        (new ArticleValidate())->goCheck();
+
         $list = ArticleService::lists($this->request->get());
         return AjaxUtils::success($list);
     }
@@ -68,6 +72,8 @@ class ArticleController extends Api
      */
     public function detail(): Json
     {
+        (new IDMustValidate())->goCheck();
+
         $id = intval($this->request->get('id'));
         $detail = ArticleService::detail($id);
         return AjaxUtils::success($detail);

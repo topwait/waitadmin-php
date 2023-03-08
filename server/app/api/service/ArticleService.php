@@ -62,9 +62,14 @@ class ArticleService extends Service
             $where[] = ['cid', '=', intval($get['cid'])];
         }
 
+        self::setSearch([
+            '%like%' => ['keyword@title']
+        ]);
+
         $modelArticle = new Article();
         return $modelArticle->field(['id,image,title,intro'])
             ->where($where)
+            ->where(self::$searchWhere)
             ->where(['is_delete'=>0])
             ->where(['is_show'=>1])
             ->order('id desc, browse desc')

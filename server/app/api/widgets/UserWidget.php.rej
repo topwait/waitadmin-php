@@ -1,8 +1,0 @@
-diff a/server/app/api/widgets/UserWidget.php b/server/app/api/widgets/UserWidget.php	(rejected hunks)
-@@ -151,5 +151,4 @@
-                 }
-             })->findOrEmpty()->toArray();
-     }
--    public static function grantToken(int $userId, int $terminal): string
- }
-\ No newline at end of file
