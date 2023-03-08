@@ -45,14 +45,14 @@
             "path": "pages/user/intro",
             "style": {
                 "navigationBarTitleText": "个人简介",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff"
             }
         },
         {
             "path": "pages/article/list",
             "style": {
-                "navigationBarTitleText": "资讯",
+                "navigationBarTitleText": "资讯列表",
                 "navigationBarTextStyle": "black",
                 "navigationBarBackgroundColor": "#ffffff",
                 "disableScroll": true
@@ -71,8 +71,16 @@
             "path": "pages/other/about",
             "style": {
                 "navigationBarTitleText": "关于我们",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        },
+        {
+            "path": "pages/other/policy",
+            "style": {
+                "navigationBarTitleText": "政策协议",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff"
             }
         },
         {

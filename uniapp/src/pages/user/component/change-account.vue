@@ -10,7 +10,7 @@
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
-import { userEditApi } from '@/api/usersApi'
+import { userEditApi } from '@/api/userApi'
 import checkUtil from '@/utils/checkUtil'
 
 // 定义事件s
