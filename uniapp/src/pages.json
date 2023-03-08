@@ -48,25 +48,48 @@
                 "navigationBarTextStyle": "white",
                 "navigationBarBackgroundColor": "#2979ff"
             }
-        }
-        ,{
-            "path" : "pages/article/list",
-            "style" :                                                                                    
-            {
+        },
+        {
+            "path": "pages/article/list",
+            "style": {
                 "navigationBarTitleText": "资讯",
                 "navigationBarTextStyle": "black",
                 "navigationBarBackgroundColor": "#ffffff",
                 "disableScroll": true
             }
-        }
-        ,{
-            "path" : "pages/article/detail",
-            "style" :                                                                                    
-            {
+        },
+        {
+            "path": "pages/article/detail",
+            "style": {
                 "navigationBarTitleText": "资讯详情",
                 "navigationBarTextStyle": "black",
                 "navigationBarBackgroundColor": "#ffffff",
                 "disableScroll": true
+            }
+        },
+        {
+            "path": "pages/article/collect",
+            "style": {
+                "navigationBarTitleText": "资讯收藏",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff",
+                "disableScroll": true
+            }
+        },
+        {
+            "path": "pages/other/about",
+            "style": {
+                "navigationBarTitleText": "关于我们",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
+            }
+        },
+        {
+            "path": "pages/other/customer",
+            "style": {
+                "navigationBarTitleText": "联系客服",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
             }
         }
     ],
@@ -81,9 +104,15 @@
         "selectedColor": "#2979ff",
         "backgroundColor": "#ffffff",
         "list": [
-            {"pagePath": "pages/index/index"},
-            {"pagePath": "pages/article/list"},
-            {"pagePath": "pages/user/home"}
+            {
+                "pagePath": "pages/index/index"
+            },
+            {
+                "pagePath": "pages/article/list"
+            },
+            {
+                "pagePath": "pages/user/home"
+            }
         ]
     },
     "easycom": {

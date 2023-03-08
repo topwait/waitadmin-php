@@ -1,6 +1,6 @@
 <template>
-    <view class="layout-service-widget" v-if="list">
-        <view class="service-header" v-if="title">
+    <view v-if="list" class="layout-service-widget">
+        <view v-if="title" class="service-header">
             <view>{{ title }}</view>
             <view v-if="more">
                 <text class="text-sm font-normal color-text">{{ moreName }}</text>
@@ -9,14 +9,27 @@
         </view>
 
         <view v-if="mod === 'row'" class="service-mould">
-            <button v-for="(item, index) in list" :key="index" class="service-apply-item" :style="{ width: grid }" hover-class="none">
+            <button
+                v-for="(item, index) in list"
+                :key="index"
+                class="service-apply-item"
+                :style="{ width: grid }"
+                hover-class="none"
+                @tap="$go(item.link)"
+            >
                 <image :class="'mc-0 w-h-'+(iconSize||'60')" :src="item.image" />
                 <view class="mt-10 leading-tight text-xs color-main" :style="textStyle">{{ item.name }}</view>
             </button>
         </view>
 
         <view v-if="mod === 'col'" class="service-lists">
-            <button v-for="(item, index) in list" :key="index" class="service-apply-item" hover-class="none">
+            <button
+                v-for="(item, index) in list"
+                :key="index"
+                class="service-apply-item"
+                hover-class="none"
+                @tap="$go(item.link)"
+            >
                 <image :class="'w-h-'+(iconSize||'48')" :src="item.image" />
                 <view class="flex-1 ml-20 text-left color-main" :style="textStyle">{{ item.name }}</view>
                 <u-icon name="arrow-right" color="#666666" size="16" />
@@ -40,17 +53,17 @@ defineProps({
     // 渲染更多
     more: {
         type: Boolean,
-        default: () => false 
+        default: () => false
     },
     // 渲染标题
     title: {
-       type: String,
-       default: () => null 
+        type: String,
+        default: () => null
     },
     // 更多文案
     moreName: {
         type: String,
-        default: () => '' 
+        default: () => ''
     },
     // 图标大小
     iconSize: {

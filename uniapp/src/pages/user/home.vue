@@ -36,19 +36,23 @@ onShow(() => {
 const service = reactive([
     {
         'name': '我的收藏',
-        'image': '/static/tools_collect.png'
+        'image': '/static/tools_collect.png',
+        'link': '/pages/article/collect'
     },
     {
         'name': '个人设置',
-        'image': '/static/tools_help.png'
+        'image': '/static/tools_help.png',
+        'link': '/pages/user/intro'
     },
     {
         'name': '联系客服',
-        'image': '/static/tools_service.png'
+        'image': '/static/tools_service.png',
+        'link': '/pages/other/customer'
     },
     {
         'name': '关于我们',
-        'image': '/static/tools_team.png'
+        'image': '/static/tools_team.png',
+        'link': '/pages/other/about'
     }
 ])
 </script>
