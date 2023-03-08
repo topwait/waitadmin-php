@@ -11,14 +11,17 @@
         <w-service title="" grid="25%" :list="orders" />
 
         <view class="layout-news-widget">
-            <view v-for="(item, index) in 10" :key="index" class="item" @click="$go('/pages/article/detail?id='+item.id)">
-                <u-image :lazy-load="true" width="240rpx" height="180rpx" :src="'https://cdn.uviewui.com/uview/swiper/1.jpg'" style="flex-shrink: 0;" />
-                <view class="flex flex-col justify-between px-20">
-                    <view class="truncate-line-1 text-xl color-main font-medium">呱呱呱呱呱呱呱呱呱</view>
-                    <view class="truncate-line-1 text-xs color-text">gggggggg</view>
-                    <view class="flex justify-between">
-                        <view class="text-xs color-muted">2022-09-30 11:32:01</view>
-                        <view class="text-xs color-muted">45人浏览</view>
+            <view class="title">最新资讯</view>
+            <view class="list">
+                <view v-for="(item, index) in 10" :key="index" class="item" @click="$go('/pages/article/detail?id='+item.id)">
+                    <u-image :lazy-load="true" width="240rpx" height="180rpx" :src="'https://cdn.uviewui.com/uview/swiper/1.jpg'" style="flex-shrink: 0;" />
+                    <view class="flex flex-col justify-between px-20">
+                        <view class="truncate-line-1 text-xl color-main font-medium">呱呱呱呱呱呱呱呱呱</view>
+                        <view class="truncate-line-1 text-xs color-text">gggggggg</view>
+                        <view class="flex justify-between">
+                            <view class="text-xs color-muted">2022-09-30 11:32:01</view>
+                            <view class="text-xs color-muted">45人浏览</view>
+                        </view>
                     </view>
                 </view>
             </view>
@@ -66,6 +69,12 @@ const orders = ref([
     margin: 20rpx;
     border-radius: 14rpx;
     background-color: #ffffff;
+    .title {
+        font-size: 34rpx;
+        font-weight: bold;
+        color: #333333;
+        padding: 30rpx 10rpx 0 20rpx;
+    }
     .item {
         display: flex;
         flex: 1;
