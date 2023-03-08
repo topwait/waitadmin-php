@@ -80,7 +80,9 @@ export default {
             })
         })
     },
-    // 渲染底部导航
+    /**
+     * 渲染底部导航
+     */
     setTabBar() {
         const appStore = useAppStore()
         const diyBottomStyle = appStore.tabBarConfigVal.style

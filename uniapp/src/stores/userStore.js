@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { userInfoApi } from '@/api/usersApi'
+import { userInfoApi } from '@/api/userApi'
 import cacheEnum from '@/enums/cacheEnum'
 import cacheUtil from '@/utils/cacheUtil'
 

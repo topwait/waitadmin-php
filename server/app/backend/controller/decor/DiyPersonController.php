@@ -7,7 +7,7 @@ use app\common\utils\AjaxUtils;
 use think\response\Json;
 use think\response\View;
 
-class DiyUserController extends Backend
+class DiyPersonController extends Backend
 {
     /**
      * 个人中心装饰

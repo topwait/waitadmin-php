@@ -45,6 +45,10 @@ class IndexService extends Service
             'style' => ConfigUtils::get('diy', 'tab_bar_style', []),
             'list'  => ConfigUtils::get('diy', 'tab_bar_list', [])
         ];
+        foreach ($detail['tabBar']['list'] as &$item) {
+            $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
+            $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
+        }
 
         return $detail;
     }

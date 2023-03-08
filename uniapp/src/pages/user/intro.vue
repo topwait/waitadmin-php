@@ -99,7 +99,7 @@
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { userInfoApi, userEditApi } from '@/api/usersApi'
+import { userInfoApi, userEditApi } from '@/api/userApi'
 import { bindWeChatApi } from '@/api/loginApi'
 import toolUtil from '@/utils/toolUtil'
 import clientUtil from '@/utils/clientUtil'

@@ -11,6 +11,9 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\response\Json;
 
+/**
+ * 文章管理
+ */
 class ArticleController extends Api
 {
     protected array $notNeedLogin = ['category', 'lists', 'detail'];

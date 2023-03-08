@@ -8,7 +8,7 @@ use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
 
-class UsersController extends Api
+class UserController extends Api
 {
     protected array $notNeedLogin = [];
 
