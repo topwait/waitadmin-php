@@ -1,7 +1,8 @@
 <template>
+    <!-- 轮播图片 -->
     <view class="banner">
         <view class="diy-swiper">
-            <image class="bgImage" src="http://waitadmin.local/storage/attach/image/20230308/163821f08e2434efe414bb5d05546.png"/>
+            <image class="bgImage" src="http://admin.waitshop.cn/storage/attach/image/20230308/18322503a9af8f575420ea8e06988.png"/>
             <u-swiper
                 :list="banner"
                 class="swiper"
@@ -12,8 +13,10 @@
         </view>
     </view>
 
+    <!-- 推荐服务 -->
     <w-service title="" grid="25%" :list="orders" />
 
+    <!-- 最新资讯 -->
     <view class="layout-news-widget">
         <view class="title">最新资讯</view>
         <view class="list">

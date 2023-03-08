@@ -1,13 +1,29 @@
 <?php
+// +----------------------------------------------------------------------
+// | WaitAdmin快速开发后台管理系统
+// +----------------------------------------------------------------------
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
+// +----------------------------------------------------------------------
+// | Author: WaitAdmin Team <2474369941@qq.com>
+// +----------------------------------------------------------------------
+declare (strict_types = 1);
 
 namespace app\api\controller;
 
-use app\api\service\UsersService;
+use app\api\service\UserService;
 use app\common\basics\Api;
 use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
 
+/**
+ * 用户管理
+ */
 class UserController extends Api
 {
     protected array $notNeedLogin = [];
@@ -20,7 +36,7 @@ class UserController extends Api
      */
     public function center(): Json
     {
-        $result = UsersService::center($this->userId);
+        $result = UserService::center($this->userId);
         return AjaxUtils::success($result);
     }
 
@@ -32,7 +48,7 @@ class UserController extends Api
      */
     public function info(): Json
     {
-        $result = UsersService::info($this->userId);
+        $result = UserService::info($this->userId);
         return AjaxUtils::success($result);
     }
 
@@ -45,7 +61,7 @@ class UserController extends Api
      */
     public function edit(): Json
     {
-        UsersService::edit($this->request->post(), $this->userId);
+        UserService::edit($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
 
