@@ -6,6 +6,9 @@ use app\api\service\IndexService;
 use app\common\basics\Api;
 use app\common\service\msg\MsgDriver;
 use app\common\utils\AjaxUtils;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\response\Json;
 
 /**
@@ -13,7 +16,21 @@ use think\response\Json;
  */
 class IndexController extends Api
 {
-    protected array $notNeedLogin = ['config', 'sendSms'];
+    protected array $notNeedLogin = ['index', 'config', 'sendSms'];
+
+    /**
+     * 首页数据
+     *
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
+    public function index(): Json
+    {
+        $detail = IndexService::index();
+        return AjaxUtils::success($detail);
+    }
 
     /**
      * 全局配置

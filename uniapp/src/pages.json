@@ -3,7 +3,9 @@
         {
             "path": "pages/index/index",
             "style": {
-                "navigationBarTitleText": "首页"
+                "navigationBarTitleText": "WaitAdmin开源系统",
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#2979ff"
             }
         },
         {

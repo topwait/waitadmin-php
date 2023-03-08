@@ -3,14 +3,43 @@
 namespace app\api\service;
 
 use app\common\basics\Service;
+use app\common\model\content\Article;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 主页服务类
  */
 class IndexService extends Service
 {
+    /**
+     * 首页数据
+     *
+     * @return array
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @author windy
+     */
+    public static function index(): array
+    {
+        // 文章列表
+        $modelArticle = new Article();
+        $detail['article'] = $modelArticle
+            ->field(['id,title,image,intro,browse,create_time'])
+            ->where(['is_show'=>1])
+            ->where(['is_delete'=>0])
+            ->order('is_recommend desc, id desc')
+            ->limit(15)
+            ->select()
+            ->toArray();
+
+        return $detail;
+    }
+
     /**
      * 全局配置
      *
