@@ -11,7 +11,7 @@
                     <view v-else class="login" @tap="$go('/pages/login/enroll')">点击登录</view>
                 </view>
                 <view class="flex items-start">
-                    <u-icon class="icon" name="setting" color="#ffffff" size="42" @tap="$go('/pages/users/intro')" />
+                    <u-icon class="icon" name="setting" color="#ffffff" size="42" @tap="$go('/pages/user/intro')" />
                 </view>
             </view>
         </view>
@@ -34,11 +34,6 @@ onShow(() => {
 })
 
 const service = reactive([
-    {
-        'name': '我的收藏',
-        'image': '/static/tools_collect.png',
-        'link': '/pages/article/collect'
-    },
     {
         'name': '个人设置',
         'image': '/static/tools_help.png',

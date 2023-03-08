@@ -68,15 +68,6 @@
             }
         },
         {
-            "path": "pages/article/collect",
-            "style": {
-                "navigationBarTitleText": "资讯收藏",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff",
-                "disableScroll": true
-            }
-        },
-        {
             "path": "pages/other/about",
             "style": {
                 "navigationBarTitleText": "关于我们",
@@ -88,8 +79,8 @@
             "path": "pages/other/customer",
             "style": {
                 "navigationBarTitleText": "联系客服",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff"
             }
         }
     ],
