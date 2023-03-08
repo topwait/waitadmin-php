@@ -1,13 +1,13 @@
 <?php
 
-namespace app\backend\service\decor;
+namespace app\backend\service\diy;
 
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
 
-class DiyTabbarService extends Service
+class TabbarService extends Service
 {
     /**
      * 底部导航详情

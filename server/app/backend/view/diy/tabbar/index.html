@@ -106,7 +106,7 @@
         // 渲染表格
         waitUtil.table({
             elem: '#wait-table-list'
-            ,url: '{:route("decor.diyTabBar/index")}'
+            ,url: '{:route("diy.tabbar/index")}'
             ,toolbar: false
             ,page: false
             ,cols: [[
@@ -144,7 +144,7 @@
 
                 // 提交保存
                 waitUtil.ajax({
-                    url: '{:route("decor.DiyTabbar/save")}',
+                    url: '{:route("diy.tabbar/save")}',
                     type: 'POST',
                     data: {style: style, list: list}
                 });

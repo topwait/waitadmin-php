@@ -19,9 +19,9 @@
             <!-- 类型 -->
             <script type="text/html" id="table-type">
                 {{# if (d.link_type == 1) { }}
-                <button class="layui-btn layui-btn-xs">商城模块</button>
+                <button class="layui-btn layui-btn-xs layui-btn-warm">固定模块</button>
                 {{# } else { }}
-                <button class="layui-btn layui-btn-xs layui-btn-warm">自定链接</button>
+                <button class="layui-btn layui-btn-xs layui-btn-primary">自定链接</button>
                 {{# } }}
             </script>
             <!-- 状态 -->
@@ -31,9 +31,13 @@
                        {{# if(d.is_show==1){ }} checked {{# } }}>
             </script>
             <!-- 操作 -->
-            <script type="text/html" id="operate">
-                <button type="button" class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</button>
+            <script type="text/html" id="table-operate">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit">
+                    <i class="layui-icon icon-edit"></i>
+                </button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
+                    <i class="layui-icon icon-del"></i>
+                </button>
             </script>
         </div>
     </div>
@@ -42,21 +46,20 @@
 
 {block name="js"}
 <script>
-    layui.use(['table'], function() {
-        let table = layui.table;
+    layui.use(function() {
 
         // 渲染表格
-        waitUtil.table({
+        let table = waitUtil.table({
             elem: '#wait-table-list'
-            ,url: "{:route('decor.diyUser/index')}"
+            ,url: "{:route('diy.person/index')}"
             ,cols: [[
-                {field:'id', title:'ID', width:80, align:'center'},
-                {field:'name', title:'功能名称', width:100},
+                {field:'id', title:'ID', width:60, align:'center'},
+                {field:'name', title:'功能名称', width:120},
                 {field:'image', title:'功能图标', width:90, align:'center', templet:'#table-image'},
-                {field:'link_type', title:'链接类型', width:120, align:'center', templet:'#table-type'},
-                {field:'link_url', title:'链接地址', width:150},
-                {field:'status', title:'是否显示', width:120, align:'center', templet:'#table-status'},
-                {fixed:'right', title:'操作', toolbar:'#operate', width:150, align:'center'},
+                {field:'link_type', title:'链接类型', width:100, align:'center', templet:'#table-type'},
+                {field:'sort', title:'排序', width:80, align:'center'},
+                {field:'status', title:'是否显示', width:100, align:'center', templet:'#table-status'},
+                {fixed:'right', title:'操作', toolbar:'#table-operate', width:90, align:'center'},
             ]]
         });
 
@@ -64,8 +67,8 @@
         waitUtil.event({
             add: function () {
                 waitUtil.popup({
-                    title: '新增我的功能',
-                    url: '{:url("diy.Me/status")}',
+                    title: '新增',
+                    url: '{:route("diy.person/add")}',
                     area: ['500px', '530px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data){
@@ -74,7 +77,7 @@
                                 return layer.msg('请选择图标');
                             }
                             waitUtil.ajax({
-                                url: '{:url("diy.Me/status")}',
+                                url: '{:route("diy.person/add")}',
                                 type: 'POST',
                                 data: data.field
                             }).then(() => {
@@ -88,8 +91,8 @@
             },
             edit: function (obj) {
                 waitUtil.popup({
-                    title: '编辑我的功能',
-                    url: '{:url("diy.Me/status")}'+obj.data.id,
+                    title: '编辑',
+                    url: '{:route("diy.person/edit")}?id='+obj.data.id,
                     area: ['500px', '530px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data){
@@ -99,34 +102,26 @@
                             }
                             data.field['id'] = obj.data.id;
                             waitUtil.ajax({
-                                url: '{:url("diy.Me/status")}',
+                                url: '{:route("diy.person/edit")}',
                                 type: 'POST',
                                 data: data.field
-                            }).then((res) => {
-                                wait.unlock(this);
-                                if (res.code === 0) {
-                                    layer.msg(res.msg, {icon: 1, time: 1000});
-                                    table.reload('wait-table-lists');
-                                    layer.close(index);
-                                } else {
-                                    layer.msg(res.msg, {icon: 2, time: 1000});
-                                }
+                            }).then(() => {
+                                waitUtil.unlock(this);
+                                table.reload();
+                                layer.close(index);
                             });
                         });
                     }
                 });
             },
             del: function (obj) {
-                layer.confirm('确定删除该功能吗？', function(index) {
+                layer.confirm('确定要删除此项数据吗？', function(index) {
                     waitUtil.ajax({
-                        url: '{:url("diy.Me/status")}',
+                        url: '{:route("diy.person/del")}',
                         type: 'POST',
                         data: {'id': obj.data.id}
-                    }).then((res) => {
-                        if (res.code === 0) {
-                            layer.msg(res.msg, {icon: 1, time: 1000});
-                            table.reload('wait-table-lists');
-                        }
+                    }).then(() => {
+                        table.reload();
                         layer.close(index)
                     });
                 });
@@ -134,14 +129,11 @@
             change: function (obj) {
                 let id = obj.elem.attributes['data-id'].nodeValue;
                 waitUtil.ajax({
-                    url: '{:url("diy.Me/status")}',
+                    url: '{:route("diy.person/status")}',
                     type: 'POST',
                     data: {'id': id}
-                }).then((res) => {
-                    if (res.code === 1)  {
-                        table.reload('wait-table-lists');
-                        layer.msg(res.msg, {icon: 2, time: 1000});
-                    }
+                }).then(() => {
+                    table.reload();
                 });
             }
         });

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\backend\controller\decor;
+namespace app\backend\controller\diy;
 
-use app\backend\service\decor\DiyTabbarService;
+use app\backend\service\diy\TabbarService;
 use app\common\basics\Backend;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
@@ -11,7 +11,7 @@ use think\response\View;
 /**
  * 底部导航装饰
  */
-class DiyTabbarController extends Backend
+class TabbarController extends Backend
 {
     /**
      * 底部导航页面
@@ -21,7 +21,7 @@ class DiyTabbarController extends Backend
      */
     public function index(): View|Json
     {
-        $result = DiyTabbarService::detail();
+        $result = TabbarService::detail();
         if ($this->isAjaxGet()) {
             return AjaxUtils::success($result['list']);
         }
@@ -38,7 +38,7 @@ class DiyTabbarController extends Backend
     public function save(): Json
     {
         if ($this->isAjaxPost()) {
-            DiyTabbarService::save($this->request->post());
+            TabbarService::save($this->request->post());
             return AjaxUtils::success();
         }
 
