@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\user;
 
-
 use app\backend\service\user\GroupService;
 use app\backend\service\user\UsersService;
 use app\common\basics\Backend;
@@ -32,7 +31,7 @@ use think\response\View;
  * Class UsersController
  * @package app\backend\controller\user
  */
-class UsersController extends Backend
+class UserController extends Backend
 {
     /**
      * 用户列表

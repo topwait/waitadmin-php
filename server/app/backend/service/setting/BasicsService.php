@@ -22,9 +22,6 @@ use Exception;
 
 /**
  * 网站配置服务类
- *
- * Class BasicsService
- * @package app\admin\service\setting
  */
 class BasicsService extends Service
 {

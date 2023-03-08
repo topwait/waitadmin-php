@@ -24,9 +24,6 @@ use think\response\Json;
 
 /**
  * 上传管理
- *
- * Class UploadController
- * @package app\admin\controller
  */
 class UploadController extends Backend
 {

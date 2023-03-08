@@ -27,9 +27,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 用户管理服务类
- *
- * Class UsersService
- * @package app\backend\service\user
  */
 class UsersService extends Service
 {

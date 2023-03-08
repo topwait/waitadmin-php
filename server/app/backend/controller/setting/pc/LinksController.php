@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\setting;
 
-
 use app\backend\service\setting\LinksService;
 use app\backend\validate\PageValidate;
 use app\backend\validate\setting\LinksValidate;

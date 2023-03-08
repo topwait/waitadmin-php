@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\auth;
 
-
 use app\common\basics\Validate;
 
 /**
  * 角色参数验证器
- *
- * Class RoleValidate
- * @package app\admin\validate\auth
  */
 class RoleValidate extends Validate
 {

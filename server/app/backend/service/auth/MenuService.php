@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service\auth;
 
-
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthMenu;
@@ -28,9 +27,6 @@ use think\facade\Config;
 
 /**
  * 菜单服务类
- *
- * Class MenuService
- * @package app\admin\service\auth
  */
 class MenuService extends Service
 {

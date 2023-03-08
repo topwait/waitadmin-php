@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\system;
 
-
 use app\common\basics\Validate;
 
 /**
  * 系统缓存清除参数
- *
- * Class ClearValidate
- * @package app\backend\validate\system
  */
 class ClearValidate extends Validate
 {

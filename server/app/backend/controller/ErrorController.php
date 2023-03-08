@@ -15,16 +15,12 @@ declare (strict_types = 1);
 
 namespace app\backend\controller;
 
-
 use app\common\enums\ErrorEnum;
 use app\common\exception\SystemException;
 use think\response\View;
 
 /**
  * 错误管理
- *
- * Class ErrorController
- * @package app\admin\controller
  */
 class ErrorController
 {

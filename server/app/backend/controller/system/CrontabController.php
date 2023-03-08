@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\system;
 
-
 use app\backend\service\system\CrontabService;
 use app\backend\validate\PageValidate;
 use app\backend\validate\system\CrontabValidate;
@@ -29,9 +28,6 @@ use think\response\View;
 
 /**
  * 系统计划任务管理
- *
- * Class CrontabController
- * @package app\admin\controller\system
  */
 class CrontabController extends Backend
 {

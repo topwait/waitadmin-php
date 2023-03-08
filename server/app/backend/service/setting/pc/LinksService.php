@@ -13,8 +13,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\backend\service\setting;
-
+namespace app\backend\service\setting\pc;
 
 use app\common\basics\Service;
 use app\common\model\DevLinks;
@@ -25,9 +24,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 友情链接服务类
- *
- * Class BannerService
- * @package app\backend\service\setting
  */
 class LinksService extends Service
 {

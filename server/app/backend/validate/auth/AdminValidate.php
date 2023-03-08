@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\auth;
 
-
 use app\common\basics\Validate;
 
 /**
  * 管理员参数验证器
- *
- * Class AdminValidate
- * @package app\admin\validate\auth
  */
 class AdminValidate extends Validate
 {

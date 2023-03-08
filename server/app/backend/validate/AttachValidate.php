@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate;
 
-
 use app\common\basics\Validate;
 
 /**
  * 附件参数验证器
- *
- * Class AttachValidate
- * @package app\backend\validate
  */
 class AttachValidate extends Validate
 {

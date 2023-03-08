@@ -15,16 +15,12 @@ declare (strict_types = 1);
 
 namespace app\backend\service\setting;
 
-
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 存储配置服务类
- *
- * Class StorageService
- * @package app\admin\service\setting
  */
 class StorageService extends Service
 {
@@ -34,7 +30,7 @@ class StorageService extends Service
      * @return array
      * @author windy
      */
-    #[ArrayShape(['default' => "mixed|string", 'local' => "array", 'qiniu' => "string[]", 'aliyun' => "string[]", 'qcloud' => "string[]"])]
+    #[ArrayShape(['default' => "string", 'local' => "array", 'qiniu' => "string[]", 'aliyun' => "string[]", 'qcloud' => "string[]"])]
     public static function detail(): array
     {
         $config = ConfigUtils::get('storage');

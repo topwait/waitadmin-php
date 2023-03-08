@@ -27,9 +27,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 主页服务类
- *
- * Class IndexService
- * @package app\admin\service
  */
 class IndexService extends Service
 {

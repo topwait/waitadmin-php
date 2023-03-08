@@ -28,9 +28,6 @@ use think\facade\Filesystem;
 
 /**
  * 上传服务类
- *
- * Class UploadService
- * @package app\backend\service
  */
 class UploadService extends Service
 {

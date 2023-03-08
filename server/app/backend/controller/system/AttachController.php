@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\system;
 
-
 use app\backend\service\AttachService;
 use app\common\basics\Backend;
 use think\db\exception\DataNotFoundException;
@@ -25,9 +24,6 @@ use think\response\View;
 
 /**
  * 系统附件
- *
- * Class AttachController
- * @package app\admin\controller\system
  */
 class AttachController extends Backend
 {

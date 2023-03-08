@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate;
 
-
 use app\common\basics\Validate;
 
 /**
  * ID参数验证器
- *
- * Class IDMustValidate
- * @package app\admin\validate
  */
 class IDMustValidate extends Validate
 {

@@ -26,9 +26,6 @@ use think\response\View;
 
 /**
  * 登录管理
- *
- * Class LoginController
- * @package app\admin\controller
  */
 class LoginController extends Backend
 {

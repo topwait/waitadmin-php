@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\setting;
 
-
 use app\backend\service\setting\WatermarkService;
 use app\common\basics\Backend;
 use app\common\utils\AjaxUtils;
@@ -24,9 +23,6 @@ use think\response\View;
 
 /**
  * 水印配置管理
- *
- * Class WatermarkController
- * @package app\admin\controller\setting
  */
 class WatermarkController extends Backend
 {

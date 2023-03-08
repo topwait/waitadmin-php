@@ -24,9 +24,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 轮播图服务类
- *
- * Class BannerService
- * @package app\backend\service\setting
  */
 class BannerService extends Service
 {

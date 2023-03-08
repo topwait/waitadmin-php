@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\system;
 
-
 use app\common\basics\Validate;
 
 /**
  * 计划任务参数验证器
- *
- * Class CrontabValidate
- * @package app\admin\validate\system
  */
 class CrontabValidate extends Validate
 {

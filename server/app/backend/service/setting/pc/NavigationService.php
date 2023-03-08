@@ -23,9 +23,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 导航服务类
- *
- * Class NavigationService
- * @package app\backend\service\setting
  */
 class NavigationService extends Service
 {

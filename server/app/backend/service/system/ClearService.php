@@ -15,15 +15,11 @@ declare (strict_types = 1);
 
 namespace app\backend\service\system;
 
-
 use app\common\basics\Service;
 use app\common\utils\FileUtils;
 
 /**
  * 系统缓存清除服务类
- *
- * Class ClearService
- * @package app\admin\service\system
  */
 class ClearService extends Service
 {

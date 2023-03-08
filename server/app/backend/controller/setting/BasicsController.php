@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\setting;
 
-
 use app\backend\service\setting\BasicsService;
 use app\common\basics\Backend;
 use app\common\exception\OperateException;
@@ -26,9 +25,6 @@ use think\response\View;
 
 /**
  * 基础配置管理
- *
- * Class BasicsController
- * @package app\admin\controller\setting
  */
 class BasicsController extends Backend
 {

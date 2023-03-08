@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\auth;
 
-
 use app\backend\service\auth\MenuService;
 use app\backend\service\auth\RoleService;
 use app\backend\validate\auth\RoleValidate;
@@ -33,9 +32,6 @@ use think\response\View;
 
 /**
  * 角色管理
- *
- * Class RoleController
- * @package app\admin\controller\auth
  */
 class RoleController extends Backend
 {

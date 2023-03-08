@@ -26,9 +26,6 @@ use think\response\View;
 
 /**
  * 主页管理
- *
- * Class IndexController
- * @package app\admin\controller
  */
 class IndexController extends Backend
 {

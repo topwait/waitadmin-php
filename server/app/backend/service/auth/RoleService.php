@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service\auth;
 
-
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;
@@ -31,9 +30,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 角色服务类
- *
- * Class RoleService
- * @package app\admin\service\auth
  */
 class RoleService extends Service
 {

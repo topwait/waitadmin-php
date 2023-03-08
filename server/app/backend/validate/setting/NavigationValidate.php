@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\setting;
 
-
 use app\common\basics\Validate;
 
 /**
  * 导航参数验证器
- *
- * Class NavigationValidate
- * @package app\backend\validate\setting
  */
 class NavigationValidate extends Validate
 {
