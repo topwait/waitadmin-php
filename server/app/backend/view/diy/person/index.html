@@ -3,7 +3,7 @@
 {block name="style"}
 <style>
     .phone {position: relative; width: 360px; min-width: 360px; height: 615px; color: #333; margin-right: 25px; border: 1px solid #ddd; background-color: #f7f7f7;}
-    .phone .bottom {position: absolute; bottom: 0;width: 100%;height: 50px; display: flex; justify-content: space-between; border: 2px solid #4a5dff; box-sizing: border-box; background-color: #ffffff;}
+    .phone .bottom {position: absolute; bottom: 0;width: 100%;height: 50px; display: flex; justify-content: space-between; box-sizing: border-box; background-color: #ffffff;}
     .phone .bottom .item {display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%;}
     .phone .bottom .item img {width: 22px; height: 22px;}
     .phone .bottom .item .text {line-height: 1.6;}
@@ -24,19 +24,21 @@
     .phone .header .other .layui-icon {font-size: 22px; color: #ffffff; padding: 0 10px;}
 
     .editor {position: relative; z-index: 200; width: 400px; height: auto; text-align: left; padding: 20px 10px; border: 1px solid #ddd; border-radius: 5px; background: #fdfdfd;}
+    .editor:after {position: absolute; top: 25px; left: -9px; z-index: 100; content: ""; display: block; width: 15px; height: 15px; background: #fdfdfd; transform: rotate(135deg); border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;}
     .editor .list .item {position: relative; display: flex; align-items: center; height: auto; padding: 10px; overflow: hidden; margin-bottom: 10px; border-radius: 3px; border: 1px solid #e7eaec; background: #ffffff;}
-    .editor .list .item .layui-icon {position: absolute; top: 4px; right: 4px; color: #fff; font-size: 12px; line-height: 1; padding: 3px; border-radius: 50%; background: rgba(0,0,0,0.3);}
+    .editor .list .item:hover  .layui-icon {display: block;}
+    .editor .list .item .layui-icon {display: none; position: absolute; top: 4px; right: 4px; color: #fff; font-size: 12px; line-height: 1; padding: 3px; border-radius: 50%; background: rgba(0,0,0,0.3);}
     .editor .list .item .layui-icon:hover {background: rgba(0,0,0,0.7);}
     .editor .list .item img {width: 74px; height: 74px; border-radius: 50%;}
     .editor .list .item .form {flex: 1; margin-left: 10px;}
     .editor .list .item .form label:first-child input {margin-bottom: 8px;}
-    .editor .btn-default {cursor: pointer; color: #6b6b6b; text-align: center; font-size: 12px; white-space: nowrap; padding: 6px 12px; border: 1px solid #efefef; transition: background-color 0.3s; background: #fdfdfd !important;}
+    .editor .add-btn {cursor: pointer; color: #6b6b6b; text-align: center; font-size: 12px; white-space: nowrap; padding: 6px 12px; border: 1px solid #efefef; transition: background-color 0.3s; background: #fdfdfd !important;}
 </style>
 {/block}
 
 {block name="body"}
 <div class="container">
-    <div class="layui-card layui-form">
+    <div class="layui-card">
         <div class="layui-card-body">
             <div style="display: flex;">
                 <div class="phone">
@@ -88,12 +90,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="editor">
+                <div class="editor layui-form">
                     <div class="layui-form-item">
                         <label class="layui-form-label">排版样式</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="sex" value="男" title="横排">
-                            <input type="radio" name="sex" value="女" title="竖排" checked>
+                            <input type="radio" name="layout" value="row" title="横排">
+                            <input type="radio" name="layout" value="col" title="竖排" checked>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -102,7 +104,7 @@
                             <input type="text" id="title" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="list">
+                    <div class="list" id="serviceDrag">
                         <div class="item">
                             <i class="layui-icon layui-icon-close"></i>
                             <img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">
@@ -115,12 +117,15 @@
                             <i class="layui-icon layui-icon-close"></i>
                             <img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">
                             <div class="form">
-                                <label><input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
-                                <label><input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                                <label><input type="text" name="title" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>
+                                <label><input type="text" name="title" placeholder="请选择链接" autocomplete="off" class="layui-input"></label>
                             </div>
                         </div>
                     </div>
-                    <div class="btn-default">添加一个</div>
+                    <div class="add-btn">添加一个</div>
+                    <div style="margin-top:20px;">
+                        <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,97 +134,71 @@
 {/block}
 
 {block name="js"}
+<script src="__BACKEND__/js/sortable.min.js"></script>
 <script>
-    layui.use(function() {
+    layui.use(['form'], function() {
+        let $ = layui.$;
+        let form = layui.form;
 
-        // 渲染表格
-        let table = waitUtil.table({
-            elem: '#wait-table-list'
-            ,url: "{:route('diy.person/index')}"
-            ,cols: [[
-                {field:'id', title:'ID', width:60, align:'center'},
-                {field:'name', title:'功能名称', width:120},
-                {field:'image', title:'功能图标', width:90, align:'center', templet:'#table-image'},
-                {field:'link_type', title:'链接类型', width:100, align:'center', templet:'#table-type'},
-                {field:'sort', title:'排序', width:80, align:'center'},
-                {field:'status', title:'是否显示', width:100, align:'center', templet:'#table-status'},
-                {fixed:'right', title:'操作', toolbar:'#table-operate', width:90, align:'center'},
-            ]]
+        // 拖动效果
+        let el = document.getElementById('serviceDrag');
+        Sortable.create(el, {
+            animation: 150,
+            ghostClass: 'blue-background-class',
         });
 
-        // 逻辑事件
-        waitUtil.event({
-            add: function () {
-                waitUtil.popup({
-                    title: '新增',
-                    url: '{:route("diy.person/add")}',
-                    area: ['500px', '530px'],
-                    success: function (layero, index) {
-                        layero.layui.form.on('submit(addForm)', function(data){
-                            waitUtil.locking(this);
-                            if (!data.field.image) {
-                                return layer.msg('请选择图标');
-                            }
-                            waitUtil.ajax({
-                                url: '{:route("diy.person/add")}',
-                                type: 'POST',
-                                data: data.field
-                            }).then(() => {
-                                waitUtil.unlock(this);
-                                table.reload({where: [], page: {curr: 1}});
-                                layer.close(index);
-                            });
-                        });
-                    }
-                });
-            },
-            edit: function (obj) {
-                waitUtil.popup({
-                    title: '编辑',
-                    url: '{:route("diy.person/edit")}?id='+obj.data.id,
-                    area: ['500px', '530px'],
-                    success: function (layero, index) {
-                        layero.layui.form.on('submit(addForm)', function(data){
-                            waitUtil.locking(this);
-                            if (!data.field.image) {
-                                return layer.msg('请选择图标');
-                            }
-                            data.field['id'] = obj.data.id;
-                            waitUtil.ajax({
-                                url: '{:route("diy.person/edit")}',
-                                type: 'POST',
-                                data: data.field
-                            }).then(() => {
-                                waitUtil.unlock(this);
-                                table.reload();
-                                layer.close(index);
-                            });
-                        });
-                    }
-                });
-            },
-            del: function (obj) {
-                layer.confirm('确定要删除此项数据吗？', function(index) {
-                    waitUtil.ajax({
-                        url: '{:route("diy.person/del")}',
-                        type: 'POST',
-                        data: {'id': obj.data.id}
-                    }).then(() => {
-                        table.reload();
-                        layer.close(index)
-                    });
-                });
-            },
-            change: function (obj) {
-                let id = obj.elem.attributes['data-id'].nodeValue;
-                waitUtil.ajax({
-                    url: '{:route("diy.person/status")}',
-                    type: 'POST',
-                    data: {'id': id}
-                }).then(() => {
-                    table.reload();
-                });
+        // 创建模块
+        $(document).on('click', '.add-btn', function () {
+            let html = '<div class="item">';
+            html += '<i class="layui-icon layui-icon-close"></i>';
+            html += '<img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">';
+            html += '<div class="form">';
+            html += '<label><input type="text" name="title" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>';
+            html += '<label><input type="text" name="title" placeholder="请选择链接" autocomplete="off" class="layui-input"></label>';
+            html += '</div></div>';
+            $(this).prev().append(html)
+        });
+
+        // 删除模块
+        $(document).on('click', '.editor .item .layui-icon-close', function () {
+            if ($('.editor .list .item').length <= 1) {
+                return layer.msg('请至少保留一个', {icon: 2});
             }
+            $(this).parent().remove();
+        })
+
+        // 选择图标
+        $(document).on('click', '.editor .item img', function () {
+            let that = $(this);
+            waitUtil.uploader().then(data => {
+                $(that).attr('src', data[0].url);
+            });
+        });
+
+        form.on('submit(addForm)', function(data) {
+            layer.confirm('确定保存当前配置吗?', function(index) {
+                layer.close(index);
+
+                let listData = [];
+                let baseData = {
+                    layout: data.field['layout'],
+                    title: data.field['title'],
+                }
+
+                let itemArr = $(this).parents('.editor').find('.list .item');
+                itemArr.each(function () {
+                    let image = $(this).find('img').attr('src');
+                    let title = $(this).find("input[name='title']").val();
+                    let link  = $(this).find("input[name='link']").val();
+                    listData.push({image: image, title: title, link:link});
+                });
+
+                waitUtil.ajax({
+                    url: '{:route("diy.person/save")}',
+                    type: 'POST',
+                    data: {base: baseData, list: listData}
+                });
+            });
         });
     });
 </script>
