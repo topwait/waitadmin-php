@@ -95,7 +95,7 @@
         // 渲染表格
         let table = waitUtil.table({
             elem: '#wait-table-list'
-            ,url: '{:route("user.users/index")}'
+            ,url: '{:route("user.user/index")}'
             ,cols: [[
                 {type:'checkbox', width:48},
                 {field:'id', title:'ID', width:60, align:'center', event:'id'},
@@ -116,7 +116,7 @@
             detail: function (obj) {
                 waitUtil.popup({
                     title: '用户详情',
-                    url: '{:route("user.users/detail")}?id='+obj.data.id,
+                    url: '{:route("user.user/detail")}?id='+obj.data.id,
                     area: ['650px', '500px'],
                     success: function (layero, index) {}
                 });
@@ -128,13 +128,13 @@
                 }
                 waitUtil.popup({
                     title: '设置分组',
-                    url: '{:route("user.users/group")}',
+                    url: '{:route("user.user/group")}',
                     area: ['350px', '400px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
                             waitUtil.locking(this);
                             waitUtil.ajax({
-                                url: '{:route("user.users/group")}',
+                                url: '{:route("user.user/group")}',
                                 type: 'POST',
                                 data: {ids: ids, gid: data.field['id']}
                             }).then((res) => {
