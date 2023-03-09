@@ -61,9 +61,9 @@ class PersonService extends Service
         }
 
         ConfigUtils::set('diy', 'person', [
-            'style' => [
-                'layout' => $post['layout']??'row',
-                'title'  => $post['title']??''
+            'base' => [
+                'layout' => $post['base']['layout']??'row',
+                'title'  => $post['base']['title']??''
             ],
             'list' => $list
         ]);

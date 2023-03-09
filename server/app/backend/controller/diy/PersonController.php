@@ -35,7 +35,8 @@ class PersonController extends Backend
     public function index(): View
     {
         return view('', [
-            'detail' => PersonService::detail()
+            'detail' => PersonService::detail(),
+            'jsonp'  => json_encode(PersonService::detail())
         ]);
     }
 
