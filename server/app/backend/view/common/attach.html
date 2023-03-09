@@ -98,16 +98,16 @@
     <!-- 目录模板 -->
     <script id="folder" type="text/html">
         <li data-id="-1" class="active">
-            <img  src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <img  src="__BACKEND__/images/folder.png" alt="icon">
             <span>全部</span>
         </li>
         <li data-id="0">
-            <img src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <img src="__BACKEND__/images/folder.png" alt="icon">
             <span>未分组</span>
         </li>
         {{#  layui.each(d, function(index, item){ }}
         <li data-id="{{ item.id }}">
-            <img src="__BACKEND__/images/ic_folder.png" alt="icon">
+            <img src="__BACKEND__/images/folder.png" alt="icon">
             <span title="{{ item.name }}">{{ item.name }}</span>
             <div class="dropdown">
                 <span>···</span>

@@ -6,7 +6,6 @@
     .phone .bottom {position: absolute; bottom: 0;width: 100%;height: 50px; display: flex; justify-content: space-between; border: 2px solid #4a5dff; box-sizing: border-box; background-color: #ffffff;}
     .phone .bottom .item {display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%;}
     .phone .bottom .item img {width: 22px; height: 22px;}
-    .editor {width: 460px; max-width: 460px;}
 </style>
 {/block}
 
@@ -15,6 +14,7 @@
     <div class="layui-card layui-form">
         <div class="layui-card-body">
             <div style="display: flex;">
+                <!-- 手机端 -->
                 <div class="phone">
                     <div class="bottom">
                         {volist name="list" id="vo"}
@@ -25,7 +25,9 @@
                         {/volist}
                     </div>
                 </div>
+                <!-- 编辑器 -->
                 <div class="editor">
+                    <!-- 样式设置 -->
                     <fieldset class="layui-elem-field">
                         <legend>样式设置</legend>
                         <div class="layui-field-box">
@@ -51,7 +53,7 @@
                             </div>
                         </div>
                     </fieldset>
-
+                    <!-- 导航设置 -->
                     <fieldset class="layui-elem-field" style="margin-top:30px;">
                         <legend>导航设置</legend>
                         <div class="layui-field-box wait-table-cell">
@@ -67,7 +69,7 @@
                             </script>
                         </div>
                     </fieldset>
-
+                    <!-- 提交按钮 -->
                     <div style="margin-top:20px;">
                         <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
                     </div>

@@ -6,7 +6,31 @@
     .phone .bottom {position: absolute; bottom: 0;width: 100%;height: 50px; display: flex; justify-content: space-between; border: 2px solid #4a5dff; box-sizing: border-box; background-color: #ffffff;}
     .phone .bottom .item {display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%;}
     .phone .bottom .item img {width: 22px; height: 22px;}
-    .editor {width: 460px; max-width: 460px;}
+    .phone .bottom .item .text {line-height: 1.6;}
+
+    .phone .service {margin: 10px; border-radius: 4px; background-color: #ffffff;}
+    .phone .service .service-header {display: flex; align-items: center; justify-content: space-between; padding: 15px 10px 5px; font-size: 15px; font-weight: 600; color: #282828;}
+    .phone .service .service-mould {display: flex; align-items: center; flex-wrap: wrap; padding: 7px 0;}
+    .phone .service .service-mould .item {display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 9px 0; width: 25%;}
+    .phone .service .service-mould .item img {width: 30px; height: 30px;}
+
+    .phone .top-bar {position: relative; min-height: 70px; background: url("/static/backend/images/diy/phone-top-white.png") center center / contain no-repeat #2979ff;}
+    .phone .top-bar .title {position: absolute; bottom: 10px; left: 155px; font-size: 14px; color: #ffffff;}
+    .phone .header {display: flex; justify-content: space-between; background-color: #2979ff;}
+    .phone .header .user {display: flex; align-items: center; padding: 6px 15px 20px 15px; color: #ffffff;}
+    .phone .header .user .avatar {width: 60px; height: 60px; border-radius: 50%;}
+    .phone .header .user .login {margin-left: 10px; padding: 4px; width: 85px; font-size: 14px; border: 1px solid #ffffff; border-radius: 25px; text-align: center; color: #ffffff;}
+    .phone .header .other {padding-top: 15px; }
+    .phone .header .other .layui-icon {font-size: 22px; color: #ffffff; padding: 0 10px;}
+
+    .editor {position: relative; z-index: 200; width: 400px; height: auto; text-align: left; padding: 20px 10px; border: 1px solid #ddd; border-radius: 5px; background: #fdfdfd;}
+    .editor .list .item {position: relative; display: flex; align-items: center; height: auto; padding: 10px; overflow: hidden; margin-bottom: 10px; border-radius: 3px; border: 1px solid #e7eaec; background: #ffffff;}
+    .editor .list .item .layui-icon {position: absolute; top: 4px; right: 4px; color: #fff; font-size: 12px; line-height: 1; padding: 3px; border-radius: 50%; background: rgba(0,0,0,0.3);}
+    .editor .list .item .layui-icon:hover {background: rgba(0,0,0,0.7);}
+    .editor .list .item img {width: 74px; height: 74px; border-radius: 50%;}
+    .editor .list .item .form {flex: 1; margin-left: 10px;}
+    .editor .list .item .form label:first-child input {margin-bottom: 8px;}
+    .editor .btn-default {cursor: pointer; color: #6b6b6b; text-align: center; font-size: 12px; white-space: nowrap; padding: 6px 12px; border: 1px solid #efefef; transition: background-color 0.3s; background: #fdfdfd !important;}
 </style>
 {/block}
 
@@ -16,59 +40,87 @@
         <div class="layui-card-body">
             <div style="display: flex;">
                 <div class="phone">
-                    <div class="phone">
-                        <div class="bottom">
+                    <div class="top-bar">
+                        <div class="title">个人中心</div>
+                    </div>
+                    <div class="header">
+                        <div class="user">
+                            <img class="avatar" src="__BACKEND__/images/default/avatar.png" alt="avatar">
+                            <div class="login">立即登录</div>
+                        </div>
+                        <div class="other">
+                            <i class="layui-icon icon-setup-fill"></i>
+                        </div>
+                    </div>
+                    <div class="service">
+                        <div class="service-header">我的服务</div>
+                        <div class="service-mould">
                             <div class="item">
-                                <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                                <div>首页</div>
+                                <img src="https://b2ctests.waitshop.cn/static/images/diy/client/index/navbar_seckill.png" alt="ico">
+                                <div>我的钱包</div>
                             </div>
                             <div class="item">
-                                <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                                <div>资讯</div>
+                                <img src="https://b2ctests.waitshop.cn/static/images/diy/client/index/navbar_seckill.png" alt="ico">
+                                <div>我的钱包</div>
                             </div>
                             <div class="item">
-                                <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                                <div>我的</div>
+                                <img src="https://b2ctests.waitshop.cn/static/images/diy/client/index/navbar_seckill.png" alt="ico">
+                                <div>我的钱包</div>
+                            </div>
+                            <div class="item">
+                                <img src="https://b2ctests.waitshop.cn/static/images/diy/client/index/navbar_seckill.png" alt="ico">
+                                <div>我的钱包</div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <!-- 表格栏-->
-                    <table id="wait-table-list" lay-filter="wait-table-list"></table>
-                    <!-- 工具栏 -->
-                    <script type="text/html" id="toolbar">
-                        <div class="layui-btn-container">
-                            <button class="layui-btn layui-btn-sm layui-btn-default" lay-event="add">新增功能</button>
+                    <div class="bottom">
+                        <div class="item">
+                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
+                            <div class="text">首页</div>
                         </div>
-                    </script>
-                    <!-- 图标 -->
-                    <script type="text/html" id="table-image">
-                        <img src="{{d.image}}" alt="img" style="width:30px; height:30px;">
-                    </script>
-                    <!-- 类型 -->
-                    <script type="text/html" id="table-type">
-                        {{# if (d.link_type == 1) { }}
-                            <button class="layui-btn layui-btn-xs layui-btn-warm">固定模块</button>
-                        {{# } else { }}
-                            <button class="layui-btn layui-btn-xs layui-btn-primary">自定链接</button>
-                        {{# } }}
-                    </script>
-                    <!-- 状态 -->
-                    <script type="text/html" id="table-status">
-                        <input type="checkbox" name="is_like" lay-filter="switch-status"
-                               data-id={{d.id}} lay-skin="switch" lay-text="是|否"
-                               {{# if(d.is_show==1){ }} checked {{# } }}>
-                    </script>
-                    <!-- 操作 -->
-                    <script type="text/html" id="table-operate">
-                        <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit">
-                            <i class="layui-icon icon-edit"></i>
-                        </button>
-                        <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
-                            <i class="layui-icon icon-del"></i>
-                        </button>
-                    </script>
+                        <div class="item">
+                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
+                            <div class="text">资讯</div>
+                        </div>
+                        <div class="item">
+                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
+                            <div class="text">我的</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="editor">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排版样式</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sex" value="男" title="横排">
+                            <input type="radio" name="sex" value="女" title="竖排" checked>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="title" class="layui-form-label">标题名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="title" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div class="item">
+                            <i class="layui-icon layui-icon-close"></i>
+                            <img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">
+                            <div class="form">
+                                <label><input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                                <label><input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="layui-icon layui-icon-close"></i>
+                            <img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">
+                            <div class="form">
+                                <label><input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                                <label><input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-default">添加一个</div>
                 </div>
             </div>
         </div>
