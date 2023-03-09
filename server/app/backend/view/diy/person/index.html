@@ -2,28 +2,7 @@
 
 {block name="style"}
 <style>
-    .phone {position: relative; width: 360px; min-width: 360px; height: 615px; color: #333; margin-right: 25px; border: 1px solid #ddd; background-color: #f7f7f7;}
-    .phone .bottom {position: absolute; bottom: 0;width: 100%;height: 50px; display: flex; justify-content: space-between; box-sizing: border-box; background-color: #ffffff;}
-    .phone .bottom .item {display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%;}
-    .phone .bottom .item img {width: 22px; height: 22px;}
-    .phone .bottom .item .text {line-height: 1.6;}
-
-    .phone .service {margin: 10px; border-radius: 4px; background-color: #ffffff;}
-    .phone .service .service-header {display: flex; align-items: center; justify-content: space-between; padding: 15px 10px 5px; font-size: 15px; font-weight: 600; color: #282828;}
-    .phone .service .service-mould {display: flex; align-items: center; flex-wrap: wrap; padding: 7px 0;}
-    .phone .service .service-mould .item {display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 9px 0; width: 25%;}
-    .phone .service .service-mould .item .name {height: 22px;}
-    .phone .service .service-mould .item img {width: 30px; height: 30px;}
-
-    .phone .top-bar {position: relative; min-height: 70px; background: url("/static/backend/images/diy/phone-top-white.png") center center / contain no-repeat #2979ff;}
-    .phone .top-bar .title {position: absolute; bottom: 10px; left: 155px; font-size: 14px; color: #ffffff;}
-    .phone .header {display: flex; justify-content: space-between; background-color: #2979ff;}
-    .phone .header .user {display: flex; align-items: center; padding: 6px 15px 20px 15px; color: #ffffff;}
-    .phone .header .user .avatar {width: 60px; height: 60px; border-radius: 50%;}
-    .phone .header .user .login {margin-left: 10px; padding: 4px; width: 85px; font-size: 14px; border: 1px solid #ffffff; border-radius: 25px; text-align: center; color: #ffffff;}
-    .phone .header .other {padding-top: 15px; }
-    .phone .header .other .layui-icon {font-size: 22px; color: #ffffff; padding: 0 10px;}
-
+    .layui-card-body {display: flex !important;}
     .editor {position: relative; z-index: 200; width: 400px; height: auto; text-align: left; padding: 20px 10px; border: 1px solid #ddd; border-radius: 5px; background: #fdfdfd;}
     .editor:after {position: absolute; top: 25px; left: -9px; z-index: 100; content: ""; display: block; width: 15px; height: 15px; background: #fdfdfd; transform: rotate(135deg); border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;}
     .editor .list .item {position: relative; display: flex; align-items: center; height: auto; padding: 10px; overflow: hidden; margin-bottom: 10px; border-radius: 3px; border: 1px solid #e7eaec; background: #ffffff;}
@@ -39,86 +18,45 @@
 {/block}
 
 {block name="body"}
-<div class="container">
+<div class="container layui-form">
     <div class="layui-card">
         <div class="layui-card-body">
-            <div style="display: flex;">
-                <div class="phone">
-                    <div class="top-bar">
-                        <div class="title">个人中心</div>
-                    </div>
-                    <div class="header">
-                        <div class="user">
-                            <img class="avatar" src="__BACKEND__/images/default/avatar.png" alt="avatar">
-                            <div class="login">立即登录</div>
-                        </div>
-                        <div class="other">
-                            <i class="layui-icon icon-setup-fill"></i>
-                        </div>
-                    </div>
-                    <script id="serviceTpl" type="text/html">
-                        <div class="service">
-                            <div class="service-header">{{ d.base.title }}</div>
-                            <div class="service-mould">
-                                {{#  layui.each(d.list, function(index, item){ }}
-                                    <div class="item">
-                                        <img src="{{ item.image }}" alt="ico">
-                                        <div class="name">{{ item.name }}</div>
-                                    </div>
-                                {{#  }); }}
-                            </div>
-                        </div>
-                    </script>
-                    <view id="serviceView"></view>
-                    <div class="bottom">
-                        <div class="item">
-                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                            <div class="text">首页</div>
-                        </div>
-                        <div class="item">
-                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                            <div class="text">资讯</div>
-                        </div>
-                        <div class="item">
-                            <img src="http://waitadmin.local/storage/config/tabBar/tab_home.png" alt="icon">
-                            <div class="text">我的</div>
-                        </div>
+            {include file="diy/person/phone" /}
+            <div class="editor">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">排版样式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="layout" value="row" title="横排" {if $detail.base.layout=='row'}checked{/if}>
+                        <input type="radio" name="layout" value="col" title="竖排" {if $detail.base.layout=='col'}checked{/if}>
                     </div>
                 </div>
-                <div class="editor layui-form">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">排版样式</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="layout" value="row" title="横排" {if $detail.base.layout=='row'}checked{/if}>
-                            <input type="radio" name="layout" value="col" title="竖排" {if $detail.base.layout=='col'}checked{/if}>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label for="title" class="layui-form-label">标题名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="title" name="title" value="{$detail.base.title}" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="list" id="serviceDrag">
-                        {volist name="detail.list??[]" id="vo"}
-                            <div class="item">
-                                <i class="layui-icon layui-icon-close"></i>
-                                <div class="icon">
-                                    <img src="{$vo.image}" alt="icon">
-                                </div>
-                                <div class="form">
-                                    <label><input type="text" name="name" value="{$vo.name}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
-                                    <label><input type="text" name="link" value="{$vo.link}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
-                                </div>
-                            </div>
-                        {/volist}
-                    </div>
-                    <div class="add-btn">添加一个</div>
-                    <div style="margin-top:20px;">
-                        <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存</button>
+                <div class="layui-form-item">
+                    <label for="title" class="layui-form-label">标题名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="title" name="title" value="{$detail.base.title}" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
+                <div class="list" id="serviceDrag">
+                    {volist name="detail.list??[]" id="vo"}
+                        <div class="item">
+                            <i class="layui-icon layui-icon-close"></i>
+                            <div class="icon">
+                                <img src="{$vo.image}" alt="icon">
+                            </div>
+                            <div class="form">
+                                <label><input type="text" name="name" value="{$vo.name}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                                <label><input type="text" name="link" value="{$vo.link}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                            </div>
+                        </div>
+                    {/volist}
+                </div>
+                <div class="add-btn">添加一个</div>
             </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <button class="layui-btn layui-btn-default" lay-submit="" lay-filter="addForm">保存配置</button>
         </div>
     </div>
 </div>
@@ -127,10 +65,11 @@
 {block name="js"}
 <script src="__BACKEND__/js/sortable.min.js"></script>
 <script>
-    layui.use(['form', 'laytpl'], function() {
+    layui.use(['form', 'laytpl', 'carousel'], function() {
         let $ = layui.$;
         let form = layui.form;
         let laytpl = layui.laytpl;
+        let carousel = layui.carousel;
 
         function renderService(data) {
             let getTpl = document.getElementById("serviceTpl").innerHTML;
@@ -140,13 +79,30 @@
             });
         }
 
+        function renderCarousel(data) {
+            let getTpl = document.getElementById("carouselTpl").innerHTML;
+            let view = document.getElementById('carouselView');
+            laytpl(getTpl).render(data, function(html){
+                view.innerHTML = html;
+            });
+        }
+
+        // 初始化值
+        renderCarousel([]);
         renderService(JSON.parse('{$jsonp|raw}'));
+        carousel.render({elem: '#adv' ,width: '100%' ,arrow: 'none' ,height: 120 ,indicator: 'none'});
 
         // 拖动效果
         let el = document.getElementById('serviceDrag');
         Sortable.create(el, {
             animation: 150,
             ghostClass: 'blue-background-class',
+        });
+
+        // 切换模块
+        $(document).on('click', '.phone-diy', function () {
+            $('.phone-diy').removeClass('on');
+            $(this).addClass('on');
         });
 
         // 创建模块
@@ -179,16 +135,13 @@
             });
         });
 
+        // 提交表单
         form.on('submit(addForm)', function(data) {
             const that = $(this)
             layer.confirm('确定保存当前配置吗?', function(index) {
                 layer.close(index);
-
                 let listData = [];
-                let baseData = {
-                    layout: data.field['layout'],
-                    title: data.field['title'],
-                }
+                let baseData = data.field;
 
                 let itemArr = that.parents('.editor').find('.list .item');
                 itemArr.each(function () {

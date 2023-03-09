@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\controller\diy;
 
 use app\backend\service\diy\PersonService;
+use app\backend\service\diy\TabbarService;
 use app\common\basics\Backend;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
@@ -36,7 +37,8 @@ class PersonController extends Backend
     {
         return view('', [
             'detail' => PersonService::detail(),
-            'jsonp'  => json_encode(PersonService::detail())
+            'jsonp'  => json_encode(PersonService::detail()),
+            'tabBar' => TabbarService::detail()
         ]);
     }
 
