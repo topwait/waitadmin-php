@@ -12,6 +12,7 @@
     .phone .service .service-header {display: flex; align-items: center; justify-content: space-between; padding: 15px 10px 5px; font-size: 15px; font-weight: 600; color: #282828;}
     .phone .service .service-mould {display: flex; align-items: center; flex-wrap: wrap; padding: 7px 0;}
     .phone .service .service-mould .item {display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 9px 0; width: 25%;}
+    .phone .service .service-mould .item .name {height: 22px;}
     .phone .service .service-mould .item img {width: 30px; height: 30px;}
 
     .phone .top-bar {position: relative; min-height: 70px; background: url("/static/backend/images/diy/phone-top-white.png") center center / contain no-repeat #2979ff;}
@@ -62,7 +63,7 @@
                                 {{#  layui.each(d.list, function(index, item){ }}
                                     <div class="item">
                                         <img src="{{ item.image }}" alt="ico">
-                                        <div>{{ item.name }}</div>
+                                        <div class="name">{{ item.name }}</div>
                                     </div>
                                 {{#  }); }}
                             </div>
@@ -88,14 +89,14 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">排版样式</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="layout" value="row" title="横排">
-                            <input type="radio" name="layout" value="col" title="竖排" checked>
+                            <input type="radio" name="layout" value="row" title="横排" {if $detail.base.layout=='row'}checked{/if}>
+                            <input type="radio" name="layout" value="col" title="竖排" {if $detail.base.layout=='col'}checked{/if}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label for="title" class="layui-form-label">标题名称</label>
                         <div class="layui-input-block">
-                            <input type="text" id="title" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                            <input type="text" id="title" name="title" value="{$detail.base.title}" placeholder="请输入标题" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="list" id="serviceDrag">
@@ -131,11 +132,15 @@
         let form = layui.form;
         let laytpl = layui.laytpl;
 
-        let getTpl = document.getElementById("serviceTpl").innerHTML;
-        let view = document.getElementById('serviceView');
-        laytpl(getTpl).render(JSON.parse('{$jsonp|raw}'), function(html){
-            view.innerHTML = html;
-        });
+        function renderService(data) {
+            let getTpl = document.getElementById("serviceTpl").innerHTML;
+            let view = document.getElementById('serviceView');
+            laytpl(getTpl).render(data, function(html){
+                view.innerHTML = html;
+            });
+        }
+
+        renderService(JSON.parse('{$jsonp|raw}'));
 
         // 拖动效果
         let el = document.getElementById('serviceDrag');
@@ -198,6 +203,8 @@
                     type: 'POST',
                     data: {base: baseData, list: listData}
                 });
+
+                renderService({base: baseData, list: listData});
             });
         });
     });
