@@ -65,7 +65,7 @@ class ConfigUtils
         if ($key) {
             $value = $cacheData[$type][$key] ?? null;
 
-            if ($value !== null) {
+            if ($value !== null && $value !== '') {
                 $json = json_decode($value, true);
                 if (json_last_error() === JSON_ERROR_NONE) {
                     $value = $json;

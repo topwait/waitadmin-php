@@ -29,7 +29,8 @@
     .editor .list .item:hover  .layui-icon {display: block;}
     .editor .list .item .layui-icon {display: none; position: absolute; top: 4px; right: 4px; color: #fff; font-size: 12px; line-height: 1; padding: 3px; border-radius: 50%; background: rgba(0,0,0,0.3);}
     .editor .list .item .layui-icon:hover {background: rgba(0,0,0,0.7);}
-    .editor .list .item img {width: 74px; height: 74px; border-radius: 50%;}
+    .editor .list .item .icon {width: 50px; height: 50px; border-radius: 50%; border: 1px #eee dashed;}
+    .editor .list .item img {width: 100%; height: 100%; border-radius: 50%;}
     .editor .list .item .form {flex: 1; margin-left: 10px;}
     .editor .list .item .form label:first-child input {margin-bottom: 8px;}
     .editor .add-btn {cursor: pointer; color: #6b6b6b; text-align: center; font-size: 12px; white-space: nowrap; padding: 6px 12px; border: 1px solid #efefef; transition: background-color 0.3s; background: #fdfdfd !important;}
@@ -105,22 +106,18 @@
                         </div>
                     </div>
                     <div class="list" id="serviceDrag">
-                        <div class="item">
-                            <i class="layui-icon layui-icon-close"></i>
-                            <img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">
-                            <div class="form">
-                                <label><input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
-                                <label><input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                        {volist name="detail.list??[]" id="vo"}
+                            <div class="item">
+                                <i class="layui-icon layui-icon-close"></i>
+                                <div class="icon">
+                                    <img src="{$vo.image}" alt="icon">
+                                </div>
+                                <div class="form">
+                                    <label><input type="text" name="name" value="{$vo.name}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                                    <label><input type="text" name="link" value="{$vo.link}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="item">
-                            <i class="layui-icon layui-icon-close"></i>
-                            <img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">
-                            <div class="form">
-                                <label><input type="text" name="title" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>
-                                <label><input type="text" name="title" placeholder="请选择链接" autocomplete="off" class="layui-input"></label>
-                            </div>
-                        </div>
+                        {/volist}
                     </div>
                     <div class="add-btn">添加一个</div>
                     <div style="margin-top:20px;">
@@ -151,10 +148,12 @@
         $(document).on('click', '.add-btn', function () {
             let html = '<div class="item">';
             html += '<i class="layui-icon layui-icon-close"></i>';
+            html += '<div class="icon">'
             html += '<img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">';
+            html += '</div>'
             html += '<div class="form">';
-            html += '<label><input type="text" name="title" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>';
-            html += '<label><input type="text" name="title" placeholder="请选择链接" autocomplete="off" class="layui-input"></label>';
+            html += '<label><input type="text" name="name" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>';
+            html += '<label><input type="text" name="link" placeholder="请选择链接" autocomplete="off" class="layui-input"></label>';
             html += '</div></div>';
             $(this).prev().append(html)
         });
@@ -176,6 +175,7 @@
         });
 
         form.on('submit(addForm)', function(data) {
+            const that = $(this)
             layer.confirm('确定保存当前配置吗?', function(index) {
                 layer.close(index);
 
@@ -185,12 +185,12 @@
                     title: data.field['title'],
                 }
 
-                let itemArr = $(this).parents('.editor').find('.list .item');
+                let itemArr = that.parents('.editor').find('.list .item');
                 itemArr.each(function () {
                     let image = $(this).find('img').attr('src');
-                    let title = $(this).find("input[name='title']").val();
+                    let name  = $(this).find("input[name='name']").val();
                     let link  = $(this).find("input[name='link']").val();
-                    listData.push({image: image, title: title, link:link});
+                    listData.push({image: image, name: name, link:link});
                 });
 
                 waitUtil.ajax({

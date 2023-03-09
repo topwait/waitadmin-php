@@ -27,71 +27,32 @@ use think\response\View;
 class PersonController extends Backend
 {
     /**
-     * 功能列表
+     * 装修数据详情
      *
-     * @return View|Json
+     * @return View
      * @author windy
      */
-    public function index(): View|Json
+    public function index(): View
     {
-        if ($this->isAjaxGet()) {
-            $list = PersonService::lists();
-            return AjaxUtils::success($list);
-        }
-
-        return view();
-    }
-
-    /**
-     * 功能新增
-     *
-     * @return Json|View
-     * @author windy
-     */
-    public function add(): View|Json
-    {
-        if ($this->isAjaxPost()) {
-            PersonService::add($this->request->post());
-            return AjaxUtils::success();
-        }
-
-        return view();
-    }
-
-    /**
-     * 功能编辑
-     *
-     * @return Json|View
-     * @author windy
-     */
-    public function edit(): View|Json
-    {
-        if ($this->isAjaxPost()) {
-            PersonService::edit($this->request->post());
-            return AjaxUtils::success();
-        }
-
-        $id = intval($this->request->get('id'));
-
         return view('', [
-            'detail' => PersonService::detail($id)
+            'detail' => PersonService::detail()
         ]);
     }
 
     /**
-     * 功能删除
+     * 装修数据保存
      *
      * @return Json
      * @author windy
      */
-    public function del(): Json
+    public function save(): Json
     {
         if ($this->isAjaxPost()) {
-            $id = intval($this->request->post('id'));
-            PersonService::del($id);
+            PersonService::save($this->request->post());
             return AjaxUtils::success();
         }
 
         return AjaxUtils::error();
     }
+
 }
