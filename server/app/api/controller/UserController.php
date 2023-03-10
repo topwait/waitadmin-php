@@ -26,7 +26,19 @@ use think\response\Json;
  */
 class UserController extends Api
 {
-    protected array $notNeedLogin = [];
+    protected array $notNeedLogin = ['design'];
+
+    /**
+     * 装修布局
+     *
+     * @return Json
+     * @author windy
+     */
+    public function design(): Json
+    {
+        $result = UserService::design();
+        return AjaxUtils::success($result);
+    }
 
     /**
      * 个人中心
@@ -64,6 +76,4 @@ class UserController extends Api
         UserService::edit($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
-
-   
 }

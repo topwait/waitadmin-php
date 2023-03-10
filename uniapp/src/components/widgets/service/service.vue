@@ -13,7 +13,7 @@
                 v-for="(item, index) in list"
                 :key="index"
                 class="service-apply-item"
-                :style="{ width: grid }"
+                :style="{ width: gridWidth }"
                 hover-class="none"
                 @tap="$go(item.link)"
             >
@@ -39,16 +39,18 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
     // 渲染模式: [row/col]
     mod: {
         type: String,
         default: () => 'row'
     },
-    // 渲染网格: [20%/25%]
+    // 渲染网格: [1/2/3/4/5]
     grid: {
-        type: String,
-        default: () => '25%'
+        type: [String, Number],
+        default: () => '4'
     },
     // 渲染更多
     more: {
@@ -80,6 +82,12 @@ defineProps({
         type: Array,
         default: () => []
     }
+})
+
+
+const gridWidth = computed(() => {
+    let arr = {1: '100%', 2: '50%', 3:'33.33%', 4:'25%', 5:'20%'}
+    return arr[parseInt(props.grid)]
 })
 </script>
 

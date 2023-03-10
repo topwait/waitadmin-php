@@ -16,40 +16,54 @@
             </view>
         </view>
 
-        <w-service title="我的服务" mod="col" grid="25%" :list="service" />
+        <w-service 
+            :mod="diyService.base?.layout" 
+            :title="diyService.base?.title" 
+            :grid="diyService.base?.layout" 
+            :list="diyService?.list" 
+        />
+        
+        <w-adv :list="diyAdv?.list" />
     </view>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/userStore'
+import { userDesignApi, userCenterApi } from '@/api/userApi'
 
 const userStore = useUserStore()
-const { userInfo, isLogin } = storeToRefs(userStore)
+const { isLogin } = storeToRefs(userStore)
 
-onShow(() => {
-    userStore.getUserInfo()
-})
+const userInfo = ref({})
+const diyAdv = ref({})
+const diyService = ref({})
 
-const service = reactive([
-    {
-        'name': '个人设置',
-        'image': '/static/tools_help.png',
-        'link': '/pages/user/intro'
+const list = ref([{
+        image: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
+        title: '昨夜星辰昨夜风，画楼西畔桂堂东'
     },
     {
-        'name': '联系客服',
-        'image': '/static/tools_service.png',
-        'link': '/pages/other/customer'
+        image: 'https://cdn.uviewui.com/uview/swiper/2.jpg',
+        title: '身无彩凤双飞翼，心有灵犀一点通'
     },
     {
-        'name': '关于我们',
-        'image': '/static/tools_team.png',
-        'link': '/pages/other/about'
+        image: 'https://cdn.uviewui.com/uview/swiper/3.jpg',
+        title: '谁念西风独自凉，萧萧黄叶闭疏窗，沉思往事立残阳'
     }
 ])
+
+onShow(async () => {
+    const diyItems = await userDesignApi()
+    diyAdv.value = diyItems.adv
+    diyService.value = diyItems.service
+    
+    if (isLogin.value) {
+        userInfo.value = await userCenterApi()
+    }
+})
 </script>
 
 <style lang="scss">

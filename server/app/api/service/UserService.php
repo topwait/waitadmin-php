@@ -19,6 +19,7 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
+use app\common\utils\ConfigUtils;
 use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 
@@ -27,6 +28,40 @@ use app\common\utils\UrlUtils;
  */
 class UserService extends Service
 {
+    /**
+     * 装修布局
+     *
+     * @return array
+     * @author windy
+     */
+    public static function design(): array
+    {
+        $data = [];
+        $detail = ConfigUtils::get('diy', 'person');
+        foreach ($detail as $type => &$item) {
+            $data[$type]['base'] = match ($type) {
+                'adv' => [
+                    'open' => intval($item['base']['open'] ?? '0')
+                ],
+                'service' => [
+                    'layout' => $item['base']['layout'] ?? 'row',
+                    'title'  => $item['base']['title'] ?? '',
+                    'number' => $item['base']['number'] ?? 4,
+                ]
+            };
+
+            foreach ($item['list'] as $value) {
+                $data[$type]['list'][] = [
+                    'image' => UrlUtils::toAbsoluteUrl($value['image']??''),
+                    'name'  => $value['name']??'',
+                    'link'  => $value['link']??'',
+                ];
+            }
+        }
+
+        return $data;
+    }
+
     /**
      * 个人中心
      *
