@@ -4,6 +4,7 @@
             :list="advList" 
             :height="200"
             :title="false"
+            :border-radius="14"
             indicator-pos="none"
         />
     </view>
