@@ -39,8 +39,7 @@
             <i class="layui-icon icon-setup-fill"></i>
         </div>
     </div>
-    <div id="serviceView"></div>
-    <div id="carouselView"></div>
+    <div id="phoneView"></div>
     <div class="bottom">
         {volist name="tabBar.list" id="vo"}
             <div class="item">
@@ -51,28 +50,27 @@
     </div>
 </div>
 
-<script id="serviceTpl" type="text/html">
-    <div class="phone-diy on">
+<script id="phoneTpl" type="text/html">
+    <div class="phone-diy on" data-type="service">
         <div class="phone-service">
-            <div class="service-header">{{ d.base.title }}</div>
+            <div class="service-header">{{ d.service.base.title }}</div>
             <div class="service-mould">
-                {{#  layui.each(d.list, function(index, item){ }}
-                <div class="item">
-                    <img src="{{ item.image }}" alt="ico">
-                    <div class="name">{{ item.name }}</div>
-                </div>
+                {{#  layui.each(d.service.list, function(index, item){ }}
+                    <div class="item">
+                        <img src="{{ item.image }}" alt="ico">
+                        <div class="name">{{ item.name }}</div>
+                    </div>
                 {{#  }); }}
             </div>
         </div>
     </div>
-</script>
 
-<script id="carouselTpl" type="text/html">
-    <div class="phone-diy" style="margin-top: 10px; padding: 0 10px;">
+    <div class="phone-diy" data-type="adv" style="margin-top: 10px; padding: 0 10px;">
         <div class="layui-carousel" id="adv">
             <div carousel-item>
-                <div><img src="https://likeadmin-java.yixiangonline.com//api/static/ad01.jpg" alt=""></div>
-                <div><img src="https://likeadmin-java.yixiangonline.com//api/static/ad01.jpg" alt=""></div>
+                {{#  layui.each(d.adv.list, function(index, item){ }}
+                    <img src="{{ item.image }}" alt="img">
+                {{#  }); }}
             </div>
         </div>
     </div>

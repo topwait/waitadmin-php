@@ -6,11 +6,14 @@
     .editor {position: relative; z-index: 200; width: 400px; height: auto; text-align: left; padding: 20px 10px; border: 1px solid #ddd; border-radius: 5px; background: #fdfdfd;}
     .editor:after {position: absolute; top: 25px; left: -9px; z-index: 100; content: ""; display: block; width: 15px; height: 15px; background: #fdfdfd; transform: rotate(135deg); border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;}
     .editor .list .item {position: relative; display: flex; align-items: center; height: auto; padding: 10px; overflow: hidden; margin-bottom: 10px; border-radius: 3px; border: 1px solid #e7eaec; background: #ffffff;}
-    .editor .list .item:hover  .layui-icon {display: block;}
-    .editor .list .item .layui-icon {display: none; position: absolute; top: 4px; right: 4px; color: #fff; font-size: 12px; line-height: 1; padding: 3px; border-radius: 50%; background: rgba(0,0,0,0.3);}
-    .editor .list .item .layui-icon:hover {background: rgba(0,0,0,0.7);}
-    .editor .list .item .icon {width: 50px; height: 50px; border-radius: 50%; border: 1px #eee dashed;}
-    .editor .list .item img {width: 100%; height: 100%; border-radius: 50%;}
+    .editor .list .item:hover .close {display: block;}
+    .editor .list .item .layui-icon-close {display: none; position: absolute; top: 4px; right: 4px; color: #fff; font-size: 12px; line-height: 1; padding: 3px; border-radius: 50%; background: rgba(0,0,0,0.3);}
+    .editor .list .item .layui-icon-close:hover {background: rgba(0,0,0,0.7);}
+    .editor .list .item .icon {position: relative; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border: 1px #dcdfe6 dashed; background-color: #f8f8f8;}
+    .editor .list .item .icon .layui-icon-close {top: -9px; right: -6px;}
+    .editor .list .item .icon:hover .select {display: block;}
+    .editor .list .item .icon.big {width: 100px; height: 80px;}
+    .editor .list .item img {max-width: 100%; max-height: 100%;}
     .editor .list .item .form {flex: 1; margin-left: 10px;}
     .editor .list .item .form label:first-child input {margin-bottom: 8px;}
     .editor .add-btn {cursor: pointer; color: #6b6b6b; text-align: center; font-size: 12px; white-space: nowrap; padding: 6px 12px; border: 1px solid #efefef; transition: background-color 0.3s; background: #fdfdfd !important;}
@@ -21,31 +24,61 @@
 <div class="container layui-form">
     <div class="layui-card">
         <div class="layui-card-body">
+            <!-- 手机演示 -->
             {include file="diy/person/phone" /}
-            <div class="editor">
+
+            <!-- 服务设置 -->
+            <div class="editor service" data-type="service">
                 <div class="layui-form-item">
                     <label class="layui-form-label">排版样式</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="layout" value="row" title="横排" {if $detail.base.layout=='row'}checked{/if}>
-                        <input type="radio" name="layout" value="col" title="竖排" {if $detail.base.layout=='col'}checked{/if}>
+                        <input type="radio" name="service_layout" value="row" title="横排" {if $detail.service.base.layout=='row'}checked{/if}>
+                        <input type="radio" name="service_layout" value="col" title="竖排" {if $detail.service.base.layout=='col'}checked{/if}>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="title" class="layui-form-label">标题名称</label>
+                    <label for="service_title" class="layui-form-label">标题名称</label>
                     <div class="layui-input-block">
-                        <input type="text" id="title" name="title" value="{$detail.base.title}" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" id="service_title" name="service_title" value="{$detail.service.base.title}"
+                               placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="list" id="serviceDrag">
-                    {volist name="detail.list??[]" id="vo"}
+                    {volist name="detail.service.list??[]" id="vo"}
                         <div class="item">
-                            <i class="layui-icon layui-icon-close"></i>
+                            <i class="layui-icon layui-icon-close close"></i>
                             <div class="icon">
                                 <img src="{$vo.image}" alt="icon">
                             </div>
                             <div class="form">
                                 <label><input type="text" name="name" value="{$vo.name}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
                                 <label><input type="text" name="link" value="{$vo.link}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
+                            </div>
+                        </div>
+                    {/volist}
+                </div>
+                <div class="add-btn">添加一个</div>
+            </div>
+
+            <!-- 轮播设置 -->
+            <div class="editor adv layui-hide" data-type="adv">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否启用</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="adv_open" value="1" title="开启" {if $detail.adv.base.open==1}checked{/if}>
+                        <input type="radio" name="adv_open" value="0" title="关闭" {if $detail.adv.base.open==0}checked{/if}>
+                    </div>
+                </div>
+                <div class="list" id="saDrag">
+                    {volist name="detail.adv.list??[]" id="vo"}
+                        <div class="item">
+                            <i class="layui-icon layui-icon-close"></i>
+                            <div class="icon big">
+                                <img src="{$vo.image}" alt="icon">
+                            </div>
+                            <div class="form">
+                                <label><input type="text" name="name" value="{$vo.name}" placeholder="图片名称" autocomplete="off" class="layui-input"></label>
+                                <label><input type="text" name="link" value="{$vo.link}" placeholder="图片链接" autocomplete="off" class="layui-input"></label>
                             </div>
                         </div>
                     {/volist}
@@ -72,25 +105,16 @@
         let carousel = layui.carousel;
 
         function renderService(data) {
-            let getTpl = document.getElementById("serviceTpl").innerHTML;
-            let view = document.getElementById('serviceView');
-            laytpl(getTpl).render(data, function(html){
-                view.innerHTML = html;
-            });
-        }
-
-        function renderCarousel(data) {
-            let getTpl = document.getElementById("carouselTpl").innerHTML;
-            let view = document.getElementById('carouselView');
+            let getTpl = document.getElementById("phoneTpl").innerHTML;
+            let view = document.getElementById('phoneView');
             laytpl(getTpl).render(data, function(html){
                 view.innerHTML = html;
             });
         }
 
         // 初始化值
-        renderCarousel([]);
         renderService(JSON.parse('{$jsonp|raw}'));
-        carousel.render({elem: '#adv' ,width: '100%' ,arrow: 'none' ,height: 120 ,indicator: 'none'});
+        carousel.render({elem: '#adv', width: '100%', arrow: 'none', height: 120, indicator: 'none'});
 
         // 拖动效果
         let el = document.getElementById('serviceDrag');
@@ -102,15 +126,24 @@
         // 切换模块
         $(document).on('click', '.phone-diy', function () {
             $('.phone-diy').removeClass('on');
+            $('.editor').addClass('layui-hide');
             $(this).addClass('on');
+
+            let type = $(this).attr('data-type');
+            $('.editor.'+type).removeClass('layui-hide');
         });
 
         // 创建模块
         $(document).on('click', '.add-btn', function () {
+            let type = $(this).parents('.editor').attr('data-type');
+            let ico = type === 'service' ? '' : ' big';
+
             let html = '<div class="item">';
+            html += '<i class="layui-icon layui-icon-close close"></i>';
+            html += '<div class="icon'+ico+'">'
+            html += '<img src="" alt="" style="display: none;">';
+            html += '<i class="layui-icon layui-icon-addition"></i>';
             html += '<i class="layui-icon layui-icon-close"></i>';
-            html += '<div class="icon">'
-            html += '<img src="https://b2ctests.waitshop.cn/static/images/diy/diy_circular.png" alt="">';
             html += '</div>'
             html += '<div class="form">';
             html += '<label><input type="text" name="name" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>';
@@ -120,7 +153,7 @@
         });
 
         // 删除模块
-        $(document).on('click', '.editor .item .layui-icon-close', function () {
+        $(document).on('click', '.editor .item .close', function () {
             if ($('.editor .list .item').length <= 1) {
                 return layer.msg('请至少保留一个', {icon: 2});
             }
@@ -128,36 +161,68 @@
         })
 
         // 选择图标
-        $(document).on('click', '.editor .item img', function () {
+        $(document).on('click', '.editor .item .icon', function (e) {
+            e.preventDefault()
+
             let that = $(this);
             waitUtil.uploader().then(data => {
-                $(that).attr('src', data[0].url);
+                let imgNode = $(that).find('img');
+                imgNode.attr('src', data[0].url);
+                imgNode.show();
+                $(that).children('.layui-icon-addition').hide();
+                $(that).children('.layui-icon-close').addClass('select');
             });
+        });
+
+        // 删除图标
+        $(document).on('click', '.editor .item .icon .layui-icon-close', function (e) {
+            e.stopPropagation();
+            $(this).parent().children('img').eq(0).attr('src', '');
+            $(this).parent().children('.layui-icon-addition').show();
+            $(this).parent().children('.layui-icon-close').removeClass('select');
         });
 
         // 提交表单
         form.on('submit(addForm)', function(data) {
-            const that = $(this)
             layer.confirm('确定保存当前配置吗?', function(index) {
                 layer.close(index);
-                let listData = [];
-                let baseData = data.field;
+                let listData = {};
+                $('.editor').each(function () {
+                    let type    = $(this).attr('data-type');
+                    let results = {}
 
-                let itemArr = that.parents('.editor').find('.list .item');
-                itemArr.each(function () {
-                    let image = $(this).find('img').attr('src');
-                    let name  = $(this).find("input[name='name']").val();
-                    let link  = $(this).find("input[name='link']").val();
-                    listData.push({image: image, name: name, link:link});
+                    switch (type) {
+                        case 'service':
+                            results['base'] = {
+                                'layout': data.field['service_layout'],
+                                'title': data.field['service_title'],
+                            }
+                            break;
+                        case 'adv':
+                            results['base'] = {
+                                'open': data.field['adv_open']
+                            }
+                    }
+
+                    let list = [];
+                    $(this).find('.list .item').each(function () {
+                        let image = $(this).find('img').attr('src');
+                        let name  = $(this).find("input[name='name']").val();
+                        let link  = $(this).find("input[name='link']").val();
+                        list.push({image: image, name: name, link:link});
+                    });
+
+                    results['list'] = list;
+                    listData[type] = results;
                 });
-
+console.log(listData)
                 waitUtil.ajax({
                     url: '{:route("diy.person/save")}',
                     type: 'POST',
-                    data: {base: baseData, list: listData}
+                    data: listData
                 });
 
-                renderService({base: baseData, list: listData});
+                // renderService(listData);
             });
         });
     });
