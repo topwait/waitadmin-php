@@ -57,7 +57,15 @@
                         <div class="item">
                             <i class="layui-icon layui-icon-close close"></i>
                             <div class="icon">
-                                <img src="{$vo.image}" alt="icon">
+                                {if !$vo.image}
+                                    <img src="{$vo.image}" alt="icon" style="display: none;">
+                                    <i class="layui-icon layui-icon-addition"></i>
+                                    <i class="layui-icon layui-icon-close"></i>
+                                {else}
+                                    <img src="{$vo.image}" alt="icon">
+                                    <i class="layui-icon layui-icon-addition" style="display: none;"></i>
+                                    <i class="layui-icon layui-icon-close select"></i>
+                                {/if}
                             </div>
                             <div class="form">
                                 <label><input type="text" name="name" value="{$vo.name}" placeholder="请输入标题" autocomplete="off" class="layui-input"></label>
