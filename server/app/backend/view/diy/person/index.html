@@ -37,6 +37,14 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">排版数量</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="number" value="3" title="3" {if $detail.service.base.number=='3'}checked{/if}>
+                        <input type="radio" name="number" value="4" title="4" {if $detail.service.base.number=='4'}checked{/if}>
+                        <input type="radio" name="number" value="5" title="5" {if $detail.service.base.number=='5'}checked{/if}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label for="service_title" class="layui-form-label">标题名称</label>
                     <div class="layui-input-block">
                         <input type="text" id="service_title" name="service_title" value="{$detail.service.base.title}"
@@ -69,7 +77,11 @@
                         <input type="radio" name="adv_open" value="0" title="关闭" {if $detail.adv.base.open==0}checked{/if}>
                     </div>
                 </div>
-                <div class="list" id="saDrag">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片设置</label>
+                    <div class="layui-form-mid layui-word-aux">最多添加5张，建议图片尺寸：750px*200px</div>
+                </div>
+                <div class="list" id="advDrag">
                     {volist name="detail.adv.list??[]" id="vo"}
                         <div class="item">
                             <i class="layui-icon layui-icon-close"></i>
@@ -117,11 +129,10 @@
         carousel.render({elem: '#adv', width: '100%', arrow: 'none', height: 120, indicator: 'none'});
 
         // 拖动效果
-        let el = document.getElementById('serviceDrag');
-        Sortable.create(el, {
-            animation: 150,
-            ghostClass: 'blue-background-class',
-        });
+        let elService = document.getElementById('serviceDrag');
+        let elAdv = document.getElementById('advDrag');
+        Sortable.create(elService, {animation: 150, ghostClass: 'blue-background-class',});
+        Sortable.create(elAdv, {animation: 150, ghostClass: 'blue-background-class',});
 
         // 切换模块
         $(document).on('click', '.phone-diy', function () {
@@ -196,6 +207,7 @@
                             results['base'] = {
                                 'layout': data.field['service_layout'],
                                 'title': data.field['service_title'],
+                                'number': data.field['number']
                             }
                             break;
                         case 'adv':
@@ -215,14 +227,14 @@
                     results['list'] = list;
                     listData[type] = results;
                 });
-console.log(listData)
+
                 waitUtil.ajax({
                     url: '{:route("diy.person/save")}',
                     type: 'POST',
                     data: listData
                 });
-
-                // renderService(listData);
+console.log(listData)
+                renderService(listData);
             });
         });
     });

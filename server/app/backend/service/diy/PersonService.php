@@ -18,7 +18,6 @@ namespace app\backend\service\diy;
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
-use JetBrains\PhpStorm\NoReturn;
 
 /**
  * 个人中心装修服务类
@@ -33,14 +32,30 @@ class PersonService extends Service
      */
     public static function detail(): array
     {
+        $data = [];
         $detail = ConfigUtils::get('diy', 'person');
-        foreach ($detail as &$item) {
-            foreach ($item['list'] as &$val) {
-                $val['image'] = UrlUtils::toAbsoluteUrl($val['image']);
+        foreach ($detail as $type => &$item) {
+            $data[$type]['base'] = match ($type) {
+                'service' => [
+                    'layout' => $item['base']['layout'] ?? 'row',
+                    'title'  => $item['base']['title'] ?? '',
+                    'number' => $item['base']['number'] ?? 4,
+                ],
+                'adv' => [
+                    'open' => intval($item['base']['open'] ?? '0')
+                ],
+            };
+
+            foreach ($item['list'] as $value) {
+                $data[$type]['list'][] = [
+                    'image' => UrlUtils::toAbsoluteUrl($value['image']??''),
+                    'name'  => $value['name']??'',
+                    'link'  => $value['link']??'',
+                ];
             }
         }
 
-        return $detail;
+        return $data;
     }
 
     /**
@@ -56,6 +71,7 @@ class PersonService extends Service
             $data[$type]['base'] = match ($type) {
                 'service' => [
                     'layout' => $item['base']['layout'] ?? 'row',
+                    'number'  => $item['base']['number'] ?? 4,
                     'title'  => $item['base']['title'] ?? ''
                 ],
                 'adv' => [

@@ -20,6 +20,9 @@
     .phone-service .service-header {display: flex; align-items: center; justify-content: space-between; padding: 15px 10px 5px; font-size: 15px; font-weight: 600; color: #282828;}
     .phone-service .service-mould {display: flex; align-items: center; flex-wrap: wrap; padding: 7px 0;}
     .phone-service .service-mould .item {display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 9px 0; width: 25%;}
+    .phone-service .service-mould .item.scale3 {width: 33.33%}
+    .phone-service .service-mould .item.scale4 {width: 25%}
+    .phone-service .service-mould .item.scale5 {width: 20%}
     .phone-service .service-mould .item .name {height: 22px;}
     .phone-service .service-mould .item img {width: 30px; height: 30px;}
 
@@ -56,7 +59,7 @@
             <div class="service-header">{{ d.service.base.title }}</div>
             <div class="service-mould">
                 {{#  layui.each(d.service.list, function(index, item){ }}
-                    <div class="item">
+                    <div class="item scale{{ d.service.base.number }}">
                         <img src="{{ item.image }}" alt="ico">
                         <div class="name">{{ item.name }}</div>
                     </div>
