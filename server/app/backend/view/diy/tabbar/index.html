@@ -6,6 +6,10 @@
     .phone .bottom {position: absolute; bottom: 0;width: 100%;height: 50px; display: flex; justify-content: space-between; border: 2px solid #4a5dff; box-sizing: border-box; background-color: #ffffff;}
     .phone .bottom .item {display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%;}
     .phone .bottom .item img {width: 22px; height: 22px;}
+    .phone .scale2 {width: 50%}
+    .phone .scale3 {width: 33.33%}
+    .phone .scale4 {width: 25%}
+    .phone .scale5 {width: 20%}
 </style>
 {/block}
 
@@ -18,7 +22,7 @@
                 <div class="phone">
                     <div class="bottom">
                         {volist name="list" id="vo"}
-                            <div class="item">
+                            <div class="item scale{php}echo count($list);{/php}">
                                 <img src="{$vo.iconPath}" alt="icon">
                                 <div>{$vo.text}</div>
                             </div>

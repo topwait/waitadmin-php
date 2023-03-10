@@ -9,7 +9,8 @@
     .editor .list .item:hover .close {display: block;}
     .editor .list .item .layui-icon-close {display: none; position: absolute; top: 4px; right: 4px; color: #fff; font-size: 12px; line-height: 1; padding: 3px; border-radius: 50%; background: rgba(0,0,0,0.3);}
     .editor .list .item .layui-icon-close:hover {background: rgba(0,0,0,0.7);}
-    .editor .list .item .icon {position: relative; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border: 1px #dcdfe6 dashed; background-color: #f8f8f8;}
+    .editor .list .item .icon {position: relative; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; border: 1px #dcdfe6 dashed; background-color: #f8f8f8;}
+    .editor .list .item .icon .layui-icon-addition {font-size: 24px; color: #999;}
     .editor .list .item .icon .layui-icon-close {top: -9px; right: -6px;}
     .editor .list .item .icon:hover .select {display: block;}
     .editor .list .item .icon.big {width: 100px; height: 80px;}
@@ -37,7 +38,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">排版数量</label>
+                    <label class="layui-form-label" lay-tips="注意: 此参数在“竖排”时不会生效">排版数量</label>
                     <div class="layui-input-block">
                         <input type="radio" name="number" value="3" title="3" {if $detail.service.base.number=='3'}checked{/if}>
                         <input type="radio" name="number" value="4" title="4" {if $detail.service.base.number=='4'}checked{/if}>
@@ -84,9 +85,17 @@
                 <div class="list" id="advDrag">
                     {volist name="detail.adv.list??[]" id="vo"}
                         <div class="item">
-                            <i class="layui-icon layui-icon-close"></i>
+                            <i class="layui-icon layui-icon-close close"></i>
                             <div class="icon big">
-                                <img src="{$vo.image}" alt="icon">
+                                {if !$vo.image}
+                                    <img src="{$vo.image}" alt="icon" style="display: none;">
+                                    <i class="layui-icon layui-icon-addition"></i>
+                                    <i class="layui-icon layui-icon-close"></i>
+                                {else}
+                                    <img src="{$vo.image}" alt="icon">
+                                    <i class="layui-icon layui-icon-addition" style="display: none;"></i>
+                                    <i class="layui-icon layui-icon-close select"></i>
+                                {/if}
                             </div>
                             <div class="form">
                                 <label><input type="text" name="name" value="{$vo.name}" placeholder="图片名称" autocomplete="off" class="layui-input"></label>
@@ -121,6 +130,7 @@
             let view = document.getElementById('phoneView');
             laytpl(getTpl).render(data, function(html){
                 view.innerHTML = html;
+                carousel.render({elem: '#adv', width: '100%', arrow: 'none', height: 120, indicator: 'none'});
             });
         }
 
@@ -147,11 +157,19 @@
         // 创建模块
         $(document).on('click', '.add-btn', function () {
             let type = $(this).parents('.editor').attr('data-type');
-            let ico = type === 'service' ? '' : ' big';
+            let size = '';
+
+            if (type === 'adv') {
+                size = ' big';
+                let itemArr = $(this).parents('.editor').find('.list .item');
+                if (itemArr.length > 4) {
+                    return layer.msg('您已超出规定的5个元素!', {icon: 2})
+                }
+            }
 
             let html = '<div class="item">';
             html += '<i class="layui-icon layui-icon-close close"></i>';
-            html += '<div class="icon'+ico+'">'
+            html += '<div class="icon'+size+'">'
             html += '<img src="" alt="" style="display: none;">';
             html += '<i class="layui-icon layui-icon-addition"></i>';
             html += '<i class="layui-icon layui-icon-close"></i>';
@@ -165,16 +183,16 @@
 
         // 删除模块
         $(document).on('click', '.editor .item .close', function () {
-            if ($('.editor .list .item').length <= 1) {
-                return layer.msg('请至少保留一个', {icon: 2});
+            let itemArr = $(this).parents('.editor').find('.list .item');
+            if (itemArr.length <= 1) {
+                return layer.msg('请至少保留1个元素', {icon: 2});
             }
             $(this).parent().remove();
-        })
+        });
 
         // 选择图标
         $(document).on('click', '.editor .item .icon', function (e) {
             e.preventDefault()
-
             let that = $(this);
             waitUtil.uploader().then(data => {
                 let imgNode = $(that).find('img');
@@ -189,6 +207,7 @@
         $(document).on('click', '.editor .item .icon .layui-icon-close', function (e) {
             e.stopPropagation();
             $(this).parent().children('img').eq(0).attr('src', '');
+            $(this).parent().children('img').eq(0).hide();
             $(this).parent().children('.layui-icon-addition').show();
             $(this).parent().children('.layui-icon-close').removeClass('select');
         });
@@ -198,42 +217,52 @@
             layer.confirm('确定保存当前配置吗?', function(index) {
                 layer.close(index);
                 let listData = {};
-                $('.editor').each(function () {
-                    let type    = $(this).attr('data-type');
-                    let results = {}
 
-                    switch (type) {
-                        case 'service':
-                            results['base'] = {
-                                'layout': data.field['service_layout'],
-                                'title': data.field['service_title'],
-                                'number': data.field['number']
-                            }
-                            break;
-                        case 'adv':
-                            results['base'] = {
-                                'open': data.field['adv_open']
-                            }
-                    }
+                // 读取数据
+                try {
+                    $('.editor').each(function () {
+                        let type    = $(this).attr('data-type');
+                        let itemArr = $(this).find('.list .item');
+                        let results = {}
 
-                    let list = [];
-                    $(this).find('.list .item').each(function () {
-                        let image = $(this).find('img').attr('src');
-                        let name  = $(this).find("input[name='name']").val();
-                        let link  = $(this).find("input[name='link']").val();
-                        list.push({image: image, name: name, link:link});
+                        switch (type) {
+                            case 'service':
+                                results['base'] = {
+                                    'layout': data.field['service_layout'],
+                                    'title': data.field['service_title'],
+                                    'number': data.field['number']
+                                }
+                                break;
+                            case 'adv':
+                                results['base'] = {'open': data.field['adv_open']}
+                                if (itemArr.length > 5) {
+                                    throw new Error('抱歉元素不能超出5个');
+                                }
+                        }
+
+                        let list = [];
+                        itemArr.each(function () {
+                            let image = $(this).find('img').attr('src');
+                            let name  = $(this).find("input[name='name']").val();
+                            let link  = $(this).find("input[name='link']").val();
+                            list.push({image: image, name: name, link:link});
+                        });
+
+                        results['list'] = list;
+                        listData[type] = results;
                     });
+                } catch (e) {
+                    return layer.msg(e.message, {icon: 2});
+                }
 
-                    results['list'] = list;
-                    listData[type] = results;
-                });
-
+                // 保存数据
                 waitUtil.ajax({
                     url: '{:route("diy.person/save")}',
                     type: 'POST',
                     data: listData
                 });
-console.log(listData)
+
+                // 渲染数据
                 renderService(listData);
             });
         });
