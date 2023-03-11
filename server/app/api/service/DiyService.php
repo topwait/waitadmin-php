@@ -6,6 +6,7 @@ use app\common\basics\Service;
 use app\common\utils\AjaxUtils;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 装修服务类
@@ -17,9 +18,23 @@ class DiyService extends Service
 
     }
 
-    public function tie()
+    /**
+     * 联系客服装修
+     *
+     * @return array
+     * @author widy
+     */
+    #[ArrayShape(['title' => "string", 'datetime' => "string", 'mobile' => "string", 'qq' => "string", 'image' => "string"])]
+    public static function tie(): array
     {
-
+        $detail = ConfigUtils::get('diy', 'contact');
+        return [
+            'title'    => $detail['title']??'',
+            'datetime' => $detail['datetime']??'',
+            'mobile'   => $detail['mobile']??'',
+            'qq'       => $detail['qq']??'',
+            'image'    => UrlUtils::toAbsoluteUrl($detail['image']??'')
+        ];
     }
 
     /**

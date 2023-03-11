@@ -17,9 +17,16 @@ class DiyController
 
     }
 
-    public function tie()
+    /**
+     * 联系客服装修
+     *
+     * @return Json
+     * @author windy
+     */
+    public function tie(): Json
     {
-
+        $result = DiyService::tie();
+        return AjaxUtils::success($result);
     }
 
     /**
