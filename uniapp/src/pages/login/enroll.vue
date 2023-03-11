@@ -2,7 +2,7 @@
 
     <view class="layout-login-widget">
         <view class="logo">
-            <image class="w-h-full rounded-c50" src="../../static/logo.png" />
+            <image lazy-load="true" class="w-h-full rounded-c50" :src="loginLogo" />
         </view>
         <view class="form">
             <!-- 登录方式 -->
@@ -156,6 +156,7 @@ const LoginSceneEnum = {
 
 // 登录配置
 const tabsIndex = ref(0)
+const loginLogo = ref(appStore.h5ConfigVal.logo)
 const loginTabs = appStore.loginConfigVal.login_modes
 const loginAuth = appStore.loginConfigVal.login_other
 const loginWays = ref(loginTabs.length ? loginTabs[0].alias : '')
@@ -268,7 +269,6 @@ const onUpLogin = () => {
         return uni.$u.toast('请输入验证码')
     }
 
-    uni.showLoading({title: '请稍后...'})
     loginApi({
         scene: LoginSceneEnum.BIND,
         code: phoneForm.code,
@@ -317,7 +317,6 @@ const onSaLogin = (scene) => {
 // 微信登录
 const onWxLogin = async (e) => {
     // #ifdef MP-WEIXIN
-    uni.showLoading({title: '登录中...'})
     const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
     loginApi({
@@ -365,7 +364,9 @@ const __loginHandle = (result) => {
     }
 
     userStore.login(result.data.token)
-    uni.$u.toast('登录成功')
+    setTimeout(() => {
+        uni.$u.toast('登录成功')
+    }, 100)
 
     const pages = toolUtil.currentPage()
     if (pages.length > 1) {

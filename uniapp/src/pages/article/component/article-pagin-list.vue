@@ -3,7 +3,7 @@
         ref="paging"
         v-model="dataList"
         auto-show-back-to-top
-        :auto="swiperIndex === tabIndex"
+        :auto="false"
         :data-key="swiperIndex"
         :fixed="false"
         height="100%"
@@ -14,10 +14,10 @@
                 <u-image :lazy-load="true" width="240rpx" height="180rpx" :src="item.image" style="flex-shrink: 0;" />
                 <view class="flex flex-col justify-between px-20">
                     <view class="truncate-line-1 text-xl color-main font-medium">{{ item.title }}</view>
-                    <view class="truncate-line-1 text-xs color-text">{{ item.intro }}</view>
+                    <view class="truncate-line-2 text-xs color-text">{{ item.intro }}</view>
                     <view class="flex justify-between">
-                        <view class="text-xs color-muted">2022-09-30 11:32:01</view>
-                        <view class="text-xs color-muted">45人浏览</view>
+                        <view class="text-xs color-muted">{{ item.create_time }}</view>
+                        <view class="text-xs color-muted">{{ item.browse }}人浏览</view>
                     </view>
                 </view>
             </view>
@@ -30,37 +30,32 @@ import { ref, watch, nextTick } from 'vue'
 import { getArticleListApi } from '@/api/articleApi'
 
 const paging = ref(null)
-const isFirst = ref(true)
+const isFirst = ref(false)
 const dataList = ref([])
 
 const props = defineProps({
     cid: {
         type: Number,
-        default: () => {
-            return 0
-        }
+        default: 0
     },
     tabIndex: {
         type: Number,
-        default: () => {
-            return 0
-        }
+        default: 0
     },
     swiperIndex: {
         type: Number,
-        default: () => {
-            return 0
-        }
+        default: 0
     }
 })
 
 watch(
     () => props.tabIndex,
-    async () => {
+    async (newVal) => {
         await nextTick()
-        if (props.swiperIndex === props.tabIndex && isFirst.value) {
-            isFirst.value = false
-            paging.value?.reload()
+        if (newVal === props.swiperIndex) {
+            if (!isFirst.value) {
+                paging.value?.reload()
+            }
         }
     },
     { immediate: true }

@@ -19,6 +19,7 @@ use app\common\basics\Service;
 use app\common\model\content\Article;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
+use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -102,8 +103,10 @@ class IndexService extends Service
      * @return array
      * @author windy
      */
+    #[ArrayShape(['content' => "string"])]
     public static function policy(string $type): array
     {
-        return ConfigUtils::get('policy', $type, '');
+        $value = ConfigUtils::get('policy', $type, '');
+        return ['content'=>$value];
     }
 }

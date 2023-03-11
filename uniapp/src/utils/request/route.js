@@ -1,16 +1,39 @@
 import cacheEnum from '@/enums/cacheEnum'
 import cacheUtil from '@/utils/cacheUtil'
+import toolUtil from '@/utils/toolUtil'
 import PagesJSON from '@/pages.json'
 
 export default {
-    go(url) {
-        return uni.navigateTo({ url: url })
+    go(url, type) {
+        if (type === undefined) {
+            const path = url === undefined ? '' : url.trim('/')
+            if (toolUtil.tarBarList().includes(path)) {
+                type = 'tab'
+            } else {
+                type = 'to'
+            }
+        }
+
+        switch (type) {
+            case 'to':
+                return uni.navigateTo({ url: url })
+            case 'tab':
+                return uni.switchTab({ url: url})
+            case 'back':
+                if (url === undefined) {
+                    return uni.navigateBack({})
+                }
+                return uni.navigateBack({ url: url})
+        }
     },
     intercept() {
         const list = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab']
         list.forEach((item) => {
             uni.addInterceptor(item, {
                 invoke(e) {
+                    if (!e.url) {
+                        return false
+                    }
                     // 提取页面路径
                     const url = e.url.split('?')[0]
                     const currentRoute = routes().find((item) => {

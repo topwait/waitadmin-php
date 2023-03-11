@@ -8,6 +8,11 @@ export function getSysConfigApi() {
     return uni.$u.http.get('index/config')
 }
 
+// 政策协议
+export function getPolicyApi(params) {
+    return uni.$u.http.get('index/policy', {type: params.type})
+}
+
 // 发送短信
 export function sendSmsApi(params) {
     return uni.$u.http.post('index/sendSms', params)

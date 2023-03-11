@@ -7,24 +7,31 @@
 <script setup>
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
+import { getPolicyApi } from '@/api/indexApi'
 
-const content = '呵护额和未婚夫和文化'
+const content = ref('')
 
 onLoad((options) => {
     switch (options.type) {
         case 'service':
             uni.setNavigationBarTitle({title: '服务协议'})
+            queryPolicy('service')
             break
         case 'privacy':
             uni.setNavigationBarTitle({title: '隐私政策'})
-            break
-        case 'ensure':
-            uni.setNavigationBarTitle({title: '售后保障'})
+            queryPolicy('privacy')
             break
         default:
             uni.setNavigationBarTitle({title: '政策协议'})
     }
 })
+
+const queryPolicy = async (type) => {
+    try {
+        const data = await getPolicyApi({type: type})
+        content.value = data.content
+    } catch (e) {}
+} 
 
 </script>
 

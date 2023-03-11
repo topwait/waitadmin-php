@@ -67,7 +67,7 @@ class ArticleService extends Service
         ]);
 
         $modelArticle = new Article();
-        return $modelArticle->field(['id,image,title,intro'])
+        return $modelArticle->field(['id,image,title,intro,browse,create_time'])
             ->where($where)
             ->where(self::$searchWhere)
             ->where(['is_delete'=>0])

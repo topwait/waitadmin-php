@@ -39,6 +39,16 @@ export default {
         })
     },
     /**
+     * 获取底部导航
+     */
+    tarBarList() {
+        return [
+            'pages/index/index', 
+            'pages/article/list', 
+            'pages/user/home'
+        ]
+    },
+    /**
      * 获取当前页面
      */
     currentPage() {
@@ -84,6 +94,12 @@ export default {
      * 渲染底部导航
      */
     setTabBar() {
+        const currUrl = this.currentPage().route
+        const mainUrl = this.tarBarList()
+        if (currUrl && !mainUrl.includes(currUrl)) {
+            return
+        }
+
         const appStore = useAppStore()
         const diyBottomStyle = appStore.tabBarConfigVal.style
         const diyBottomNav = appStore.tabBarConfigVal.list

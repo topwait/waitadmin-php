@@ -13,6 +13,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import toolUtil from '@/utils/toolUtil'
 
 const props = defineProps({
     list: {
@@ -43,7 +44,11 @@ const advList = computed(() => {
 
 const onJump = (index) => {
     const url = advList.value[index].link
-    uni.navigateTo({url: url})
+    if (toolUtil.tarBarList().includes(url.trim('/'))) {
+        uni.switchTab({ url: url})
+    } else {
+        uni.navigateTo({url: url})
+    }
 }
 </script>
 
