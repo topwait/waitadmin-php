@@ -65,7 +65,8 @@ class IndexController extends Api
      */
     public function policy(): Json
     {
-        $detail = IndexService::policy();
+        $type = $this->request->get('type');
+        $detail = IndexService::policy($type);
         return AjaxUtils::success($detail);
     }
 

@@ -98,11 +98,12 @@ class IndexService extends Service
     /**
      * 政策协议
      *
+     * @param string $type (类型: service/privacy)
      * @return array
      * @author windy
      */
-    public static function policy(): array
+    public static function policy(string $type): array
     {
-        return [];
+        return ConfigUtils::get('policy', $type, '');
     }
 }
