@@ -44,12 +44,16 @@ const onUpdateUser = async () => {
         return uni.$u.toast('昵称未发生改变')
     }
 
-    await userEditApi({
-        scene: 'nickname',
-        value: formValue.value
-    })
+    try {
+        await userEditApi({
+            scene: 'nickname',
+            value: formValue.value
+        })
+    } catch (e) { return }
 
-    uni.$u.toast('修改成功')
     emit('close')
+    setTimeout(() => {
+        uni.$u.toast('修改成功')
+    }, 100)
 }
 </script>

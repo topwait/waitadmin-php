@@ -145,7 +145,9 @@ onShow(() => {
 
 // 查询信息
 const queryUserInfo = async () => {
-    userInfo.value = await userInfoApi()
+    try {
+        userInfo.value = await userInfoApi()
+    } catch (e) {}
 }
 
 // 退出登录
@@ -173,8 +175,11 @@ const onUploadAvatar = () => {
                 scene: 'avatar',
                 value: data.url
             })
+            
+            try {
+                await queryUserInfo()
+            } catch (e) { return }
 
-            await queryUserInfo()
             setTimeout(() => {
                uni.hideLoading()
                uni.$u.toast('修改成功') 
@@ -212,7 +217,9 @@ const onBindWeChat = async () => {
 
     if (status) {
         const code = await toolUtil.obtainWxCode()
-        await bindWeChatApi({code: code})
+        try {
+            await bindWeChatApi({code: code})
+        } catch (e) { return }
         queryUserInfo()
     }
 }

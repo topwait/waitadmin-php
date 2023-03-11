@@ -35,12 +35,12 @@ const install = (Vue) => {
             case errorEnum.UPLOADS_ERROR:
             case errorEnum.PURVIEW_ERROR:
                 uni.$u.toast(result.msg)
-                break
+                return Promise.reject(result)
             case errorEnum.LOGIN_EMPTY_ERROR:
             case errorEnum.LOGIN_EXPIRE_ERROR:
                 logout()
                 uni.navigateTo({url: '/pages/login/enroll'})
-                break
+                return Promise.reject(result)
         }
 
         return result

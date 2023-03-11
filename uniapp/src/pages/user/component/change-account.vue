@@ -43,13 +43,17 @@ const onUpdateUser = async () => {
     if (props.value === formValue.value) {
         return uni.$u.toast('账号未发生改变')
     }
+    
+    try {
+        await userEditApi({
+            scene: 'account',
+            value: formValue.value
+        })
+    } catch (e) { return }
 
-    await userEditApi({
-        scene: 'account',
-        value: formValue.value
-    })
-
-    uni.$u.toast('修改成功')
     emit('close')
+    setTimeout(() => {
+        uni.$u.toast('绑定成功')
+    }, 100)
 }
 </script>

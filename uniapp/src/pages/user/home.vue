@@ -43,13 +43,15 @@ const diyAdv = ref({})
 const diyService = ref({})
 
 onShow(async () => {
-    const diyItems = await diyMeApi()
-    diyAdv.value = diyItems.adv
-    diyService.value = diyItems.service
-    
-    if (isLogin.value) {
-        userInfo.value = await userCenterApi()
-    }
+    try {
+        const diyItems = await diyMeApi()
+        diyAdv.value = diyItems.adv
+        diyService.value = diyItems.service
+        
+        if (isLogin.value) {
+            userInfo.value = await userCenterApi()
+        }
+    } catch (e) {}
 })
 </script>
 

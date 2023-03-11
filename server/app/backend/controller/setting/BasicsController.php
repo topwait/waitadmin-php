@@ -20,6 +20,7 @@ use app\common\basics\Backend;
 use app\common\exception\OperateException;
 use app\common\exception\SystemException;
 use app\common\utils\AjaxUtils;
+use Exception;
 use think\response\Json;
 use think\response\View;
 
@@ -43,6 +44,7 @@ class BasicsController extends Backend
      * 基本配置保存
      *
      * @return Json
+     * @throws Exception
      * @author windy
      */
     public function save(): Json

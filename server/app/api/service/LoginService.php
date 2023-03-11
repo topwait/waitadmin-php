@@ -126,7 +126,7 @@ class LoginService extends Service
     public static function mobileLogin(string $mobile, string $code, int $terminal): array
     {
         // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::LOGIN, $code)) {
+        if (!MsgDriver::checkCode(NoticeEnum::LOGIN, intval($code))) {
             throw new OperateException('验证码错误!');
         }
 
@@ -170,8 +170,8 @@ class LoginService extends Service
     public static function baLogin(string $mobile, string $code, string $sign, int $terminal): array
     {
         // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code)) {
-            throw new OperateException('验证码错误', 1);
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, intval($code))) {
+            throw new OperateException('验证码错误');
         }
 
         // 登录数据
@@ -292,7 +292,7 @@ class LoginService extends Service
         $password = $post['newPassword'];
 
         // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, $code)) {
+        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, intval($code))) {
             throw new OperateException('验证码错误');
         }
 
@@ -435,7 +435,7 @@ class LoginService extends Service
         } else {
             // 短信验证
             $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
-            if (!MsgDriver::checkCode($nCode, $code)) {
+            if (!MsgDriver::checkCode($nCode, intval($code))) {
                 throw new OperateException('验证码错误');
             }
         }
@@ -485,18 +485,18 @@ class LoginService extends Service
     {
         // 接收参数
         $email = $post['email'];
-        $code   = $post['code'];
+        $code  = intval($post['code']);
 
         // 短信验证
-        if (MsgDriver::checkCode(NoticeEnum::BIND_EMAIL, $code)) {
-            throw new OperateException('验证码错误', 1);
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_EMAIL, $code)) {
+            throw new OperateException('验证码错误');
         }
 
         // 查询用户
-        $modeUser = new UserAuth();
+        $modeUser = new User();
         $user = $modeUser->field(['id,email'])
             ->where(['id'=>$userId])
-            ->where(['is_delete'=>$userId])
+            ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
 
@@ -507,7 +507,7 @@ class LoginService extends Service
 
         // 查询邮箱
         $emailCheck = $modeUser->field(['id'])
-            ->where(['id', '<>', $userId])
+            ->where([['id', '<>', $userId]])
             ->where(['email'=>$email])
             ->where(['is_delete'=>0])
             ->findOrEmpty()

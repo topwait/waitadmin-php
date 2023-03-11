@@ -62,8 +62,13 @@ const onPwdEdit = async () => {
         return uni.$u.toast('两次不密码不一致')
     }
 
-    await changePwdApi(form.value)
-    uni.$u.toast('修改成功')
+    try {
+        await changePwdApi(form.value)
+    } catch (e) { return }
+
     emit('close')
+    setTimeout(() => {
+        uni.$u.toast('修改成功')
+    }, 100)
 }
 </script>

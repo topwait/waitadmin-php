@@ -119,7 +119,7 @@ class UserService extends Service
                 $ext    = FileUtils::getFileExt($value);
                 $avatar = UrlUtils::toRelativeUrl($value);
                 $source = UrlUtils::toRoot($avatar);
-                $target = 'storage/avatar/user/'.date('Ymd').'/'.md5($userId).'.'.$ext;
+                $target = 'storage/avatar/user/'.date('Ymd').'/'.md5((string)$userId).'.'.$ext;
                 FileUtils::move($source, UrlUtils::toRoot($target));
                 User::update(['avatar'=>$target, 'update_time'=>time()], ['id'=>$userId]);
                 break;

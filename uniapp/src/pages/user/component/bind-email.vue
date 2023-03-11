@@ -14,7 +14,7 @@
                     hover-class="none"
                     size="mini"
                     shape="circle"
-                    @click="onSendEmail()"
+                    @tap="onSendEmail()"
                 >{{ codeTips }}
                 </u-button>
             </template>
@@ -85,10 +85,15 @@ const onBindEmail = async () => {
     if (checkUtil.isEmpty(form.value.code)) {
         return uni.$u.toast('请输入验证码')
     }
+    
+    try {
+        await bindEmailApi(form.value)
+    } catch (e) { return }
 
-    await bindEmailApi()
-    uni.$u.toast('绑定成功')
     emit('close')
+    setTimeout(() => {
+        uni.$u.toast('绑定成功')
+    }, 100)
 }
 
 </script>

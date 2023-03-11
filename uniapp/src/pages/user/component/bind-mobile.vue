@@ -82,16 +82,26 @@ const onBindMobile = async (e) => {
         }
 
         form.value.type = props.value ? 'change' : 'bind'
-        await bindMobileApi(form.value)
-        uni.$u.toast('绑定成功')
+        try {
+            await bindMobileApi(form.value)
+        } catch (e) { return }
+
         emit('close')
+        setTimeout(() => {
+            uni.$u.toast('绑定成功')
+        }, 100)
     } else {
-        await bindMobileApi({
-            type: form.value.type,
-            code: e.detail.code
-        })
-        uni.$u.toast('绑定成功')
+        try {
+            await bindMobileApi({
+                type: form.value.type,
+                code: e.detail.code
+            })
+        } catch (e) { return }
+
         emit('close')
+        setTimeout(() => {
+            uni.$u.toast('绑定成功')
+        }, 100)
     }
 }
 </script>
