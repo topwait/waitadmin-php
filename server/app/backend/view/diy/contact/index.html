@@ -58,37 +58,45 @@
                         <div class="layui-form-item">
                             <label for="title" class="layui-form-label">客服标题</label>
                             <div class="layui-input-block">
-                                <input type="text" id="title" name="title"
-                                       placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                <input type="text" id="title" name="title" value="{$detail.title}"
+                                       placeholder="请输入客服标题" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label for="datetime" class="layui-form-label">服务时间</label>
                             <div class="layui-input-block">
-                                <input type="text" id="datetime" name="datetime"
-                                       placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                <input type="text" id="datetime" name="datetime" value="{$detail.datetime}"
+                                       placeholder="请输入服务时间" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label for="mobile" class="layui-form-label">联系电话</label>
                             <div class="layui-input-block">
-                                <input type="text" id="mobile" name="mobile"
-                                       placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                <input type="text" id="mobile" name="mobile" value="{$detail.mobile}"
+                                       placeholder="请输入联系电话" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label for="qq" class="layui-form-label">联系QQ</label>
                             <div class="layui-input-block">
-                                <input type="text" id="qq" name="qq"
-                                       placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                <input type="text" id="qq" name="qq" value="{$detail.qq}"
+                                       placeholder="请输入联系QQ" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">二维码图</label>
                             <div class="layui-input-block">
                                 <div class="thumbnail" data-type="image" data-limit="1">
-                                    <div class="musters"></div>
-                                    <div class="builder layui-auto">
+                                    <div class="musters">
+                                        {if $detail.image}
+                                            <div class="preview">
+                                                <input type="hidden" id="image" name="image" value="{$detail.image}">
+                                                <i class="layui-icon layui-icon-close"></i>
+                                                <img src="{$detail.image}" alt="img">
+                                            </div>
+                                        {/if}
+                                    </div>
+                                    <div class="builder layui-auto {if $detail.image}layui-hide{/if}">
                                         <i class="layui-icon layui-icon-camera"></i>
                                         <p>二维码</p>
                                     </div>
@@ -122,7 +130,7 @@
             });
         }
 
-        renderTpl(JSON.parse('{$detail|raw}'));
+        renderTpl(JSON.parse('{$jsonp|raw}'));
 
         // 提交表单
         form.on('submit(addForm)', function(data){

@@ -21,8 +21,10 @@ class ContactController extends Backend
      */
     public function index(): View
     {
+        $detail = ContactService::detail();
         return view('', [
-            'detail' => json_encode(ContactService::detail()),
+            'detail' => $detail,
+            'jsonp' => json_encode($detail),
         ]);
     }
 
