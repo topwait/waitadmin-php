@@ -32,7 +32,8 @@ import { reactive, ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/userStore'
-import { userDesignApi, userCenterApi } from '@/api/userApi'
+import { diyMeApi } from '@/api/diyApi'
+import { userCenterApi } from '@/api/userApi'
 
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
@@ -42,7 +43,7 @@ const diyAdv = ref({})
 const diyService = ref({})
 
 onShow(async () => {
-    const diyItems = await userDesignApi()
+    const diyItems = await diyMeApi()
     diyAdv.value = diyItems.adv
     diyService.value = diyItems.service
     

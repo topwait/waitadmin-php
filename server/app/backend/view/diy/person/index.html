@@ -134,7 +134,7 @@
         let carousel = layui.carousel;
 
         function renderService(data) {
-            let getTpl = document.getElementById("phoneTpl").innerHTML;
+            let getTpl = document.getElementById('phoneTpl').innerHTML;
             let view = document.getElementById('phoneView');
             laytpl(getTpl).render(data, function(html){
                 view.innerHTML = html;

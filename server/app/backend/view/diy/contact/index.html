@@ -1,0 +1,142 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    .layui-card-body {display: flex !important;}
+    .phone {position: relative; width: 360px; min-width: 360px; height: 615px; color: #333; margin-right: 25px; border: 1px solid #ddd; background-color: #f7f7f7;}
+    .phone .customer {display: flex; flex-direction: column; align-items: center; margin: 20px; padding: 50px 0; border-radius: 6px; background-color: #ffffff;}
+    .phone .customer .image {display: flex; align-items: center; justify-content: center; width: 140px; height: 140px; background-color: #f8f8f8;}
+    .phone .customer .image i {font-size: 32px; color: #999;}
+    .phone .customer .text {font-size: 15px; font-weight: 500; margin-top: 10px;}
+    .phone .customer .info {margin-top: 20px; color: #666;}
+    .phone .customer .info div {margin: 4px 0;}
+    .phone .customer .btn {margin-top: 30px; padding: 10px 0; color: #fff; width: 200px; text-align: center; border-radius: 30px; background-color: #3b91ff;}
+
+    .editor {width: 400px;}
+    .editor .layui-form-label {width: 55px;}
+    .editor .layui-input-block {margin-left: 85px;}
+</style>
+{/block}
+
+{block name="body"}
+<div class="container layui-form">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!-- 手机端 -->
+            <script id="phoneTpl" type="text/html">
+                <div class="phone">
+                    <div class="customer">
+                        <div class="image">
+                            {{#  if(d.image){ }}
+                                <img src="{{ d.image }}" alt="img">
+                            {{#  } else { }}
+                                <i class="layui-icon layui-icon-picture"></i>
+                            {{#  } }}
+                        </div>
+                        <div class="text">{{ d.title }}</div>
+                        <div class="info">
+                            {{#  if(d.datetime){ }}
+                                <div class="datetime">服务时间：{{ d.datetime }}</div>
+                            {{#  } }}
+                            {{#  if(d.qq){ }}
+                                <div class="mobile">客服电话：{{ d.qq }}</div>
+                            {{#  } }}
+                            {{#  if(d.qq){ }}
+                                <div class="mobile">联系Q Q：{{ d.qq }}</div>
+                            {{#  } }}
+                        </div>
+                        <div class="btn">保存二维码</div>
+                    </div>
+                </div>
+            </script>
+            <div id="phoneView"></div>
+            <!-- 编辑器 -->
+            <div class="editor">
+                <fieldset class="layui-elem-field">
+                    <legend>客服设置</legend>
+                    <div class="layui-field-box">
+                        <div class="layui-form-item">
+                            <label for="title" class="layui-form-label">客服标题</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="title" name="title"
+                                       placeholder="请输入标题" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="datetime" class="layui-form-label">服务时间</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="datetime" name="datetime"
+                                       placeholder="请输入标题" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="mobile" class="layui-form-label">联系电话</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="mobile" name="mobile"
+                                       placeholder="请输入标题" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="qq" class="layui-form-label">联系QQ</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="qq" name="qq"
+                                       placeholder="请输入标题" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">二维码图</label>
+                            <div class="layui-input-block">
+                                <div class="thumbnail" data-type="image" data-limit="1">
+                                    <div class="musters"></div>
+                                    <div class="builder layui-auto">
+                                        <i class="layui-icon layui-icon-camera"></i>
+                                        <p>二维码</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- 提交按钮 -->
+                <div style="margin-top:20px;">
+                    <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['form', 'laytpl'], function() {
+        let form = layui.form;
+        let laytpl = layui.laytpl;
+
+        function renderTpl(data) {
+            let getTpl = document.getElementById('phoneTpl').innerHTML;
+            let view = document.getElementById('phoneView');
+            laytpl(getTpl).render(data, function(html){
+                view.innerHTML = html;
+            });
+        }
+
+        renderTpl(JSON.parse('{$detail|raw}'));
+
+        // 提交表单
+        form.on('submit(addForm)', function(data){
+            layer.confirm('确定保存当前配置吗?', function(index) {
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '{:route("diy.contact/save")}',
+                    type: 'POST',
+                    data: data.field
+                });
+
+                renderTpl(data.field)
+            });
+        });
+    });
+</script>
+{/block}

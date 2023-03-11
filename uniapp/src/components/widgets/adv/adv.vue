@@ -6,6 +6,7 @@
             :title="false"
             :border-radius="14"
             indicator-pos="none"
+            @click="onJump"
         />
     </view>
 </template>
@@ -39,6 +40,11 @@ const advList = computed(() => {
     })
     return data
 })
+
+const onJump = (index) => {
+    const url = advList.value[index].link
+    uni.navigateTo({url: url})
+}
 </script>
 
 <style lang="scss">
