@@ -3,8 +3,8 @@
         <view class="header">
             <view class="pb-30">{{ detail.title }}</view>
             <view class="flex justify-between">
-                <view class="text-xs font-thin color-muted">发布时间: {{ detail.create_time }}</view>
-                <view class="text-xs font-thin color-muted">{{ detail.browse }}人浏览</view>
+                <view class="text-xs font-thin color-main">发布时间: {{ detail.create_time }}</view>
+                <view class="text-xs font-thin color-main">{{ detail.browse }}人浏览</view>
             </view>
         </view>
         <view class="content">
