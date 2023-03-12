@@ -97,7 +97,7 @@ class UsersService extends Service
             ->toArray();
 
         $detail['avatar'] = UrlUtils::toAbsoluteUrl($detail['avatar']);
-        $detail['sex']    = GenderEnum::getMsgByCode($detail['sex']);
+        $detail['gender'] = GenderEnum::getMsgByCode($detail['gender']);
         return $detail;
     }
 

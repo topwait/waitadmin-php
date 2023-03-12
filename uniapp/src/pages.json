@@ -63,8 +63,7 @@
             "style": {
                 "navigationBarTitleText": "资讯详情",
                 "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff",
-                "disableScroll": true
+                "navigationBarBackgroundColor": "#ffffff"
             }
         },
         {

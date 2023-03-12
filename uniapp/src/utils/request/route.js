@@ -6,7 +6,7 @@ import PagesJSON from '@/pages.json'
 export default {
     go(url, type) {
         if (type === undefined) {
-            const path = url === undefined ? '' : url.trim('/')
+            const path = url === undefined ? '' : url.replace('/', '')
             if (toolUtil.tarBarList().includes(path)) {
                 type = 'tab'
             } else {
