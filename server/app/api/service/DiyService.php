@@ -31,9 +31,39 @@ class DiyService extends Service
      * @return array
      * @author windy
      */
+    #[ArrayShape(['bgHead' => "string", 'banner' => "array[]", 'nav' => "array[]"])]
     public static function index(): array
     {
-        return [];
+        // 此处只是临时使用的数据,以后可接入diy功能
+        return [
+            'bgHead' => UrlUtils::toAbsoluteUrl('/static/common/init/bgHead.png'),
+            'banner' => [
+                ['image' => UrlUtils::toAbsoluteUrl('/static/common/init/banner01.jpg')],
+                ['image' => UrlUtils::toAbsoluteUrl('/static/common/init/banner02.jpg')],
+            ],
+            'nav' => [
+                [
+                    'name'=>'资讯中心',
+                    'image'=>UrlUtils::toAbsoluteUrl('/static/common/init/ic_article.png'),
+                    'link'=>''
+                ],
+                [
+                    'name'  => '我的收藏',
+                    'image' => UrlUtils::toAbsoluteUrl('/static/common/init/ic_collect.png'),
+                    'link'  => ''
+                ],
+                [
+                    'name'  =>'个人设置',
+                    'image' => UrlUtils::toAbsoluteUrl('/static/common/init/ic_user.png'),
+                    'link'  => ''
+                ],
+                [
+                    'name'  => '关于我们',
+                    'image' => UrlUtils::toAbsoluteUrl('/static/common/init/ic_about.png'),
+                    'link'  => ''
+                ],
+            ]
+        ];
     }
 
     /**

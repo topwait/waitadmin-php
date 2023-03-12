@@ -2,9 +2,9 @@
     <!-- 轮播图片 -->
     <view class="banner">
         <view class="diy-swiper">
-            <image class="bgImage" src="http://admin.waitshop.cn/storage/attach/image/20230308/18322503a9af8f575420ea8e06988.png"/>
+            <image class="bgImage" :src="diyItem.bgHead"/>
             <u-swiper
-                :list="banner"
+                :list="diyItem?.banner"
                 class="swiper"
                 mode="round"
                 height="300"
@@ -14,7 +14,7 @@
     </view>
 
     <!-- 推荐服务 -->
-    <w-service grid="25%" :list="orders" />
+    <w-service grid="25%" :list="diyItem.nav" />
 
     <!-- 最新资讯 -->
     <view class="layout-news-widget">
@@ -38,40 +38,15 @@
 <script setup>
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
+import { diyIndexApi } from '@/api/diyApi'
 import { getIndexApi } from '@/api/indexApi'
 
+const diyItem = ref([])
 const article = ref([])
-const banner = ref([
-    {
-        image: 'https://b2ctests.waitshop.cn/static/images/diy/client/index/banner01.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-    },
-    {
-        image: 'https://b2ctests.waitshop.cn/static/images/diy/client/index/banner02.png',
-        title: '身无彩凤双飞翼，心有灵犀一点通'
-    },
-])
-
-const orders = ref([
-    {
-        'name': '资讯中心',
-        'image': '/static/send.png'
-    },
-    {
-        'name': '我的收藏',
-        'image': '/static/tou.png'
-    },
-    {
-        'name': '个人设置',
-        'image': '/static/serve.png'
-    },
-    {
-        'name': '关于我们',
-        'image': '/static/tuijain.png'
-    }
-])
 
 onShow(async () => {
+    diyItem.value = await diyIndexApi()
+
     const data = await getIndexApi()
     article.value = data.article
 })
