@@ -13,3 +13,9 @@ onLaunch(async () => {
     await userStore.getUserInfo()
 })
 </script>
+
+<style lang="scss">
+// #ifdef H5
+* { touch-action: pan-y; }
+// #endif
+</style>

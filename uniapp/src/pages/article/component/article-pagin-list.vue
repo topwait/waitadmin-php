@@ -58,7 +58,10 @@ watch(
         await nextTick()
         if (newVal === props.swiperIndex) {
             if (!isFirst.value) {
-                paging.value?.reload()
+                uni.showLoading({title: '加载中...'})
+                setTimeout(() => {
+                    paging.value?.reload()
+                }, 5)
             }
         }
     },
@@ -74,12 +77,15 @@ watch(
 )
 
 const queryList = async (pageNo, pageSize) => {
-    getArticleListApi({
+    const params = {
         cid: props.cid,
-        keyword: props.keyword,
         pageNo,
         pageSize
-    }).then(res => {
+    }
+    if (props.keyword) {
+        params.keyword = props.keyword
+    }
+    getArticleListApi(params).then(res => {
         paging.value.complete(res.data)
         isFirst.value = true
     }).catch(() => {
