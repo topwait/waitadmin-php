@@ -1,6 +1,7 @@
 <template>
     <z-paging-swiper>
         <template #top>
+            <ArticleSearchInput />
             <u-tabs-swiper
                 ref="uTabs"
                 inactive-color="#999999"
@@ -22,6 +23,7 @@ import { ref, getCurrentInstance } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { getArticleCateApi } from '@/api/articleApi'
 import ArticlePagInList from './component/article-pagin-list.vue'
+import ArticleSearchInput from './component/article-search-input'
 
 const tabList = ref([])
 const current = ref(0)
