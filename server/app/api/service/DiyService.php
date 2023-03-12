@@ -55,7 +55,7 @@ class DiyService extends Service
                 [
                     'name'  => '联系我们',
                     'image' => UrlUtils::toAbsoluteUrl('/static/common/init/ic_contact.png'),
-                    'link'  => ''
+                    'link'  => '/pages/other/customer'
                 ],
                 [
                     'name'  => '关于我们',
