@@ -14,7 +14,7 @@
     </view>
 
     <!-- 推荐服务 -->
-    <w-service title="" grid="25%" :list="orders" />
+    <w-service grid="25%" :list="orders" />
 
     <!-- 最新资讯 -->
     <view class="layout-news-widget">

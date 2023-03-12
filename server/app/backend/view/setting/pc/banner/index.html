@@ -48,7 +48,7 @@
         // 渲染表格
         let table = waitUtil.table({
             elem: '#wait-table-list'
-            ,url: '{:route("setting.banner/index")}'
+            ,url: '{:route("setting.pc.banner/index")}'
             ,cols: [[
                 {type:'checkbox', width:48},
                 {field:'id', title:'ID', width:60, align:'center', event:'id'},
@@ -69,13 +69,13 @@
             add: function () {
                 waitUtil.popup({
                     title: '新增',
-                    url: '{:route("setting.banner/add")}',
+                    url: '{:route("setting.pc.banner/add")}',
                     area: ['500px', '550px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
                             waitUtil.locking(this);
                             waitUtil.ajax({
-                                url: '{:route("setting.banner/add")}',
+                                url: '{:route("setting.pc.banner/add")}',
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
@@ -92,14 +92,14 @@
             edit: function (obj) {
                 waitUtil.popup({
                     title: '编辑',
-                    url: '{:route("setting.banner/edit")}?id='+obj.data.id,
+                    url: '{:route("setting.pc.banner/edit")}?id='+obj.data.id,
                     area: ['500px', '550px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
                             waitUtil.locking(this);
                             data.field['id'] = obj.data.id;
                             waitUtil.ajax({
-                                url: '{:route("setting.banner/edit")}',
+                                url: '{:route("setting.pc.banner/edit")}',
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
@@ -117,7 +117,7 @@
                 layer.confirm('确定要删除此项数据吗？', function(index) {
                     layer.close(index);
                     waitUtil.ajax({
-                        url: '{:route("setting.banner/del")}',
+                        url: '{:route("setting.pc.banner/del")}',
                         type: 'POST',
                         data: {ids: [obj.data.id]}
                     }).then((res) => {
