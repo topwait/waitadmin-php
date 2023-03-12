@@ -1,7 +1,7 @@
 <template>
     <z-paging-swiper>
         <template #top>
-            <ArticleSearchInput />
+            <ArticleSearchInput @search="onSearch" />
             <u-tabs-swiper
                 ref="uTabs"
                 inactive-color="#999999"
@@ -12,7 +12,12 @@
         </template>
         <swiper :current="swiperCurrent" style="height: 100%;" @transition="transition" @animationfinish="animations">
             <swiper-item v-for="(item, index) in tabList" :key="index">
-                <ArticlePagInList :cid="item.id" :tab-index="current" :swiper-index="index" />
+                <ArticlePagInList 
+                    :cid="item.id"
+                    :keyword="keyword"
+                    :tab-index="current" 
+                    :swiper-index="index" 
+                />
             </swiper-item>
         </swiper>
     </z-paging-swiper>
@@ -29,10 +34,15 @@ const tabList = ref([])
 const current = ref(0)
 const swiperCurrent = ref(0)
 const currentInstance = getCurrentInstance()
+const keyword = ref('')
 
 onLoad(() => {
     queryCategory()
 })
+
+const onSearch = (e) => {
+    keyword.value = e.keyword
+}
 
 const tabChange = (e) => {
     swiperCurrent.value = e

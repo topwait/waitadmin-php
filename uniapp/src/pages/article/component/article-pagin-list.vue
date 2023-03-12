@@ -38,6 +38,10 @@ const props = defineProps({
         type: Number,
         default: 0
     },
+    keyword: {
+        type: String,
+        default: ''
+    },
     tabIndex: {
         type: Number,
         default: 0
@@ -61,9 +65,18 @@ watch(
     { immediate: true }
 )
 
+watch(
+    () => props.keyword,
+    async () => {
+        await nextTick()
+        paging.value?.reload()
+    }
+)
+
 const queryList = async (pageNo, pageSize) => {
     getArticleListApi({
         cid: props.cid,
+        keyword: props.keyword,
         pageNo,
         pageSize
     }).then(res => {
