@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\api\widgets;
 
 use app\api\cache\EnrollCache;
+use app\api\cache\TokenCache;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
@@ -23,7 +24,6 @@ use app\common\model\user\UserAuth;
 use app\common\utils\ConfigUtils;
 use app\common\utils\FileUtils;
 use Exception;
-use think\facade\Cache;
 
 /**
  * 用户服务装置
@@ -216,8 +216,7 @@ class UserWidget extends Service
     public static function granToken(int $userId, int $terminal): string
     {
         $token = make_md5_str(time().$userId);
-        $cacheKey = 'login:token:'.$terminal.':'.$token;
-        Cache::set($cacheKey, $userId, 7200);
+        TokenCache::set($userId, $terminal, $token);
         return $token;
     }
 }

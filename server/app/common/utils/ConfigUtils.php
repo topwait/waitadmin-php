@@ -30,7 +30,7 @@ class ConfigUtils
     /**
      * 系统配置缓存键
      */
-    private const SYSTEM_CONFIG_KEY = 'system:configs';
+    private const SYSTEM_CONFIG_KEY = 'sys:config';
 
     /**
      * 配置读取

@@ -112,7 +112,7 @@ class MenuController extends Backend
     {
         if ($this->isAjaxPost()) {
             (new MenuValidate())->idCheck();
-            MenuService::del($this->request->post('id'));
+            MenuService::del(intval($this->request->post('id')));
             return AjaxUtils::success();
         }
 
