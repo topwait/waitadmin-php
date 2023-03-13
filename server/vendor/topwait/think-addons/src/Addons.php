@@ -27,7 +27,7 @@ abstract class Addons
      * 构造函数
      *
      * Addons constructor.
-     * @param \think\App $app
+     * @param App $app
      */
     public function __construct(App $app)
     {
@@ -55,13 +55,13 @@ abstract class Addons
     /**
      * 加载模板输出
      *
-     * @author wait
-     * @param string $template     模板文件名
-     * @param array $vars          模板输出变量
-     * @return false|mixed|string  响应模板内容
-     * @throws \think\Exception
+     * @param string $template 模板文件名
+     * @param array $vars      模板输出变量
+     * @return string          响应模板内容
+     * @throws \Exception
+     * @author windy
      */
-    protected function fetch($template = '', $vars = [])
+    protected function fetch(string $template = '', array $vars = []): string
     {
         return $this->view->fetch($template, $vars);
     }
@@ -69,12 +69,12 @@ abstract class Addons
     /**
      * 渲染内容输出
      *
-     * @author wait
-     * @param  string $content 模板内容
-     * @param  array  $vars    模板输出变量
-     * @return mixed
+     * @param string $content 模板内容
+     * @param array $vars    模板输出变量
+     * @return string
+     * @author windy
      */
-    protected function display($content = '', $vars = [])
+    protected function display(string $content = '', array $vars = []): string
     {
         return $this->view->display($content, $vars);
     }
@@ -82,12 +82,12 @@ abstract class Addons
     /**
      * 模板变量赋值
      *
-     * @author wait
-     * @param  mixed $name  要显示的模板变量
-     * @param  mixed $value 变量的值
+     * @param string $name  要显示的模板变量
+     * @param string $value 变量的值
      * @return $this
+     * @author windy
      */
-    protected function assign($name, $value = '')
+    protected function assign(string $name, string $value = ''): Addons
     {
         $this->view->assign([$name => $value]);
         return $this;
@@ -95,24 +95,25 @@ abstract class Addons
 
     /**
      * 初始化模板引擎
+     *
      * @access protected
      * @param  array|string $engine 引擎参数
      * @return $this
+     * @author windy
      */
-    protected function engine($engine)
+    protected function engine($engine): Addons
     {
         $this->view->engine($engine);
-
         return $this;
     }
 
     /**
      * 插件标识信息
      *
-     * @author wait
      * @return string
+     * @author windy
      */
-    final protected function getName()
+    final protected function getName(): string
     {
         $class = get_class($this);
         list(, $name, ) = explode('\\', $class);
@@ -123,10 +124,10 @@ abstract class Addons
     /**
      * 插件基础信息
      *
-     * @author wait
      * @return array
+     * @author windy
      */
-    final public function getInfo()
+    final public function getInfo(): array
     {
         $info = Config::get($this->addonInfo, []);
         if ($info) {
@@ -141,17 +142,17 @@ abstract class Addons
             $info = array_merge($info, $fIni);
         }
         Config::set($info, $this->addonInfo);
-        return isset($info) ? $info : [];
+        return $info ?? [];
     }
 
     /**
      * 获取配置信息
      *
-     * @author wait
      * @param bool $type 是否获取完整配置
      * @return array
+     * @author windy
      */
-    final public function getConfig($type = false)
+    final public function getConfig(bool $type): array
     {
         $config = Config::get($this->addonConfig, []);
         if ($config) {
@@ -164,7 +165,7 @@ abstract class Addons
             if ($type) {
                 return $tempArr;
             }
-            foreach ($temp_arr as $key => $value) {
+            foreach ($tempArr as $key => $value) {
                 $config[$key] = $value['value'];
             }
             unset($tempArr);
@@ -177,12 +178,12 @@ abstract class Addons
     /**
      * 设置插件信息数据
      *
-     * @author wait
-     * @param $name (键名)
+     * @param string $name (键名)
      * @param array $value (值)
      * @return array
+     * @author windy
      */
-    final public function setInfo($name = '', $value = [])
+    final public function setInfo(string $name = '', array $value = []): array
     {
         if (empty($name)) {
             $name = $this->getName();

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace think\addons;
 
+use Exception;
+use FilesystemIterator;
 use think\Console;
 use think\Route;
 use think\facade\Config;
@@ -13,6 +15,7 @@ use think\addons\middleware\Addons;
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use UnexpectedValueException;
 
 class Service extends \think\Service
 {
@@ -128,25 +131,25 @@ class Service extends \think\Service
     /**
      * 自动加载
      */
-    private function autoload(): bool
+    private function autoload(): void
     {
         // 钩子是否自动载入
         if (!Config::get('addons.autoload', true)) {
-            return true;
+            return;
         }
 
         // 插件钩子写入配置
         $config = Config::get('addons');
-        $base = get_class_methods("\\think\\Addons");
+        $base = get_class_methods('\\think\\Addons');
         $base = array_merge($base, ['init', 'initialize', 'install', 'uninstall', 'enabled', 'disabled']);
         foreach (glob($this->getAddonsPath() . '*/*.php') as $addonsFile) {
             $info = pathinfo($addonsFile);
             $name = pathinfo($info['dirname'], PATHINFO_FILENAME);
             if (strtolower($info['filename']) === 'plugin') {
-                $methods = (array)get_class_methods("\\addons\\" . $name . "\\" . $info['filename']);
+                $methods = (array)get_class_methods('\\addons\\' . $name . '\\' . $info['filename']);
                 $hooks = array_diff($methods, $base);
                 foreach ($hooks as $hook) {
-                    if (!isset($config['hooks'][$hook])) {
+                    if (!isset($config['hooks'][$hook]) || empty($config['hooks'][$hook])) {
                         $config['hooks'][$hook] = [];
                     }
                     if (is_string($config['hooks'][$hook])) {
@@ -160,7 +163,6 @@ class Service extends \think\Service
         }
 
         Config::set($config, 'addons');
-        return true;
     }
 
     /**
@@ -255,17 +257,17 @@ class Service extends \think\Service
             }
 
             $moduleDir = $this->addonsPath . $addonName . DS;
-            foreach (scandir($moduleDir) as $mdir) {
-                if (in_array($mdir, ['.', '..'])) {
+            foreach (scandir($moduleDir) as $mDir) {
+                if (in_array($mDir, ['.', '..'])) {
                     continue;
                 }
 
-                if(is_file($this->addonsPath . $addonName . DS . $mdir)) {
+                if(is_file($this->addonsPath . $addonName . DS . $mDir)) {
                     continue;
                 }
 
-                $addonRouteFile = $this->addonsPath . $addonName . DS . $mdir . DS . 'route.php';
-                $addonsRouteDir = $this->addonsPath . $addonName . DS . $mdir . DS . 'route' . DS;
+                $addonRouteFile = $this->addonsPath . $addonName . DS . $mDir . DS . 'route.php';
+                $addonsRouteDir = $this->addonsPath . $addonName . DS . $mDir . DS . 'route' . DS;
                 if (file_exists($addonsRouteDir) && is_dir($addonsRouteDir)) {
                     $files = glob($addonsRouteDir . '*.php');
                     foreach ($files as $file) {
@@ -317,20 +319,24 @@ class Service extends \think\Service
 
                 $appConfigs = ['common.php', 'middleware.php', 'provider.php', 'event.php'];
                 if (in_array($name, $appConfigs)) {
-                    if (is_file($this->addonsPath . DS . 'common.php')) {
-                        include_once $this->addonsPath . DS . 'common.php';
+                    $appCommonPath = $this->addonsPath . DS . 'common.php';
+                    if (is_file($appCommonPath)) {
+                        include_once $appCommonPath;
                     }
 
-                    if (is_file($this->addonsPath . DS . 'middleware.php')) {
-                        $app->middleware->import(include $this->addonsPath . DS . 'middleware.php', 'route');
+                    $appMiddlewarePath = $this->addonsPath . DS . 'middleware.php';
+                    if (is_file($appMiddlewarePath)) {
+                        $app->middleware->import(include $appMiddlewarePath, 'route');
                     }
 
-                    if (is_file($this->addonsPath . DS . 'provider.php')) {
-                        $app->bind(include $this->addonsPath . DS . 'provider.php');
+                    $appProviderPath = $this->addonsPath . DS . 'provider.php';
+                    if (is_file($appProviderPath)) {
+                        $app->bind(include $appProviderPath);
                     }
 
-                    if (is_file($this->addonsPath . DS . 'event.php')) {
-                        $app->loadEvent(include $this->addonsPath . DS . 'event.php');
+                    $appEventPath = $this->addonsPath . DS . 'event.php';
+                    if (is_file($appEventPath)) {
+                        $app->loadEvent(include $appEventPath);
                     }
 
                     $commands = [];
@@ -377,20 +383,24 @@ class Service extends \think\Service
 
                 $moduleConfigs = ['common.php', 'middleware.php', 'provider.php', 'event.php', 'config'];
                 if (in_array($modName, $moduleConfigs)) {
-                    if (is_file($this->addonsPath . $module . DS . 'common.php')) {
-                        include_once $this->addonsPath . $module . DS . 'common.php';
+                    $modCommonPath = $this->addonsPath . $module . DS . 'common.php';
+                    if (is_file($modCommonPath)) {
+                        include_once $modCommonPath;
                     }
 
-                    if (is_file($this->addonsPath . $module . DS . 'middleware.php')) {
-                        $app->middleware->import(include $this->addonsPath . $module . DS . 'middleware.php', 'route');
+                    $modMiddlewarePath = $this->addonsPath . $module . DS . 'middleware.php';
+                    if (is_file($modMiddlewarePath)) {
+                        $app->middleware->import(include $modMiddlewarePath, 'route');
                     }
 
-                    if (is_file($this->addonsPath . $module . DS . 'provider.php')) {
-                        $app->bind(include $this->addonsPath . $module . DS . 'provider.php');
+                    $modProviderPath = $this->addonsPath . $module . DS . 'provider.php';
+                    if (is_file($modProviderPath)) {
+                        $app->bind(include $modProviderPath);
                     }
 
-                    if (is_file($this->addonsPath . $module . DS . 'event.php')) {
-                        $app->loadEvent(include $this->addonsPath . $module . DS . 'event.php');
+                    $modEventPath = $this->addonsPath . $module . DS . 'event.php';
+                    if (is_file($modEventPath)) {
+                        $app->loadEvent(include $modEventPath);
                     }
 
                     $commands = [];
@@ -442,14 +452,14 @@ class Service extends \think\Service
 
         foreach (
             $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+                new RecursiveDirectoryIterator($source, FilesystemIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::SELF_FIRST
             ) as $item
         ) {
             if ($item->isDir()) {
-                $sontDir = $target . $iterator->getSubPathName();
-                if (!is_dir($sontDir)) {
-                    mkdir($sontDir, 0755, true);
+                $sonDir = $target . $iterator->getSubPathName();
+                if (!is_dir($sonDir)) {
+                    mkdir($sonDir, 0755, true);
                 }
             } else {
                 $to = rtrim(rtrim($target, '\\'), '/');
@@ -462,34 +472,29 @@ class Service extends \think\Service
      * 删除目录
      *
      * @param string $dir (目录路径)
-     * @return bool
      * @author windy
      */
-    private static function deleteDir(string $dir): bool
+    private static function deleteDir(string $dir): void
     {
         // 验证是否目录
-        if(!is_dir($dir)) return true;
+        if(!is_dir($dir)) {
+            return;
+        }
 
         // 递归删除文件
         $dh=opendir($dir);
         while ($file=readdir($dh)) {
             if($file!="." && $file!="..") {
-                $fullpath=$dir."/".$file;
-                if(!is_dir($fullpath)) {
-                    @unlink($fullpath);
+                $fullPath=$dir."/".$file;
+                if(!is_dir($fullPath)) {
+                    @unlink($fullPath);
                 } else {
-                    self::deleteDir($fullpath);
+                    self::deleteDir($fullPath);
                 }
             }
         }
         closedir($dh);
-
-        // 删除当前目录
-        if(@rmdir($dir)) {
-            return true;
-        } else {
-            return false;
-        }
+        @rmdir($dir);
     }
 
     /**
@@ -506,11 +511,7 @@ class Service extends \think\Service
                 @rmdir($dir);
                 self::removeEmptyDir(dirname($dir));
             }
-        } catch (\UnexpectedValueException $e) {
-
-        } catch (\Exception $e) {
-
-        }
+        } catch (UnexpectedValueException | Exception $e) {}
     }
 
     /**
@@ -527,7 +528,7 @@ class Service extends \think\Service
 
         $config = [];
         if (is_file($addonConfigFile)) {
-            $config = (array)json_decode(file_get_contents($addonConfigFile), true);
+            $config = (array) json_decode(file_get_contents($addonConfigFile), true);
         }
 
         $config = array_merge($config, $changed);
@@ -560,7 +561,7 @@ class Service extends \think\Service
      * @return string
      * @author windy
      */
-    public static function getAddonsDirs(string $name)
+    public static function getAddonsDirs(string $name): string
     {
         return app()->getRootPath() . 'addons' . DS . $name . DS;
     }
@@ -633,11 +634,11 @@ class Service extends \think\Service
     /**
      * 安装插件应用
      *
-     * @param string $name
-     * @param false $isDelete
+     * @param string $name (名称)
+     * @param false $isDelete (是否删除)
      * @author windy
      */
-    public static function installAddonsApp(string $name, $isDelete = false): void
+    public static function installAddonsApp(string $name, bool $isDelete = false): void
     {
         // 刷新插件配置缓存
         $files = self::getGlobalAddonsFiles($name);
@@ -666,7 +667,7 @@ class Service extends \think\Service
     /**
      * 卸载插件应用
      *
-     * @param string $name
+     * @param string $name (名称)
      * @author windy
      */
     public static function uninstallAddonsApp(string $name): void
