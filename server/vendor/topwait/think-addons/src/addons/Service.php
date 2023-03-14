@@ -23,7 +23,7 @@ class Service extends \think\Service
      * 插件路径
      * @var string
      */
-    protected $addonsPath;
+    protected string $addonsPath;
 
     /**
      * 注册服务
@@ -197,7 +197,7 @@ class Service extends \think\Service
 
         // 直接执行钩子
         if (isset($hooks['AddonsInit'])) {
-            foreach ($hooks['AddonsInit'] as $k => $v) {
+            foreach ($hooks['AddonsInit'] as $v) {
                 Event::trigger('AddonsInit', $v);
             }
         }
@@ -272,11 +272,11 @@ class Service extends \think\Service
                     $files = glob($addonsRouteDir . '*.php');
                     foreach ($files as $file) {
                         if (file_exists($file)) {
-                            $this->loadRoutesFrom($file);;
+                            $this->loadRoutesFrom($file);
                         }
                     }
                 } elseif (file_exists($addonRouteFile) && is_file($addonRouteFile)) {
-                    $this->loadRoutesFrom($addonRouteFile);;
+                    $this->loadRoutesFrom($addonRouteFile);
                 }
             }
         }
@@ -347,7 +347,7 @@ class Service extends \think\Service
                         if ($files) {
                             foreach ($files as $file) {
                                 if (file_exists($file)) {
-                                    if (substr($file, -11) == 'console.php') {
+                                    if (str_ends_with($file, 'console.php')) {
                                         $commandsConfig = include_once $file;
                                         isset($commandsConfig['commands']) && $commands = array_merge($commands, $commandsConfig['commands']);
                                         !empty($commands) && Console::starting(function (Console $console) use ($commands) {
@@ -411,7 +411,7 @@ class Service extends \think\Service
                         if($files){
                             foreach ($files as $file) {
                                 if (file_exists($file)) {
-                                    if (substr($file,-11) != 'console.php') {
+                                    if (!str_ends_with($file, 'console.php')) {
                                         $app->config->load($file, pathinfo($file, PATHINFO_FILENAME));
                                     } else {
                                         $commandsConfig = include_once $file;
@@ -506,12 +506,12 @@ class Service extends \think\Service
     private static function removeEmptyDir(string $dir)
     {
         try {
-            $isDirEmpty = !(new \FilesystemIterator($dir))->valid();
+            $isDirEmpty = !(new FilesystemIterator($dir))->valid();
             if ($isDirEmpty) {
                 @rmdir($dir);
                 self::removeEmptyDir(dirname($dir));
             }
-        } catch (UnexpectedValueException | Exception $e) {}
+        } catch (UnexpectedValueException | Exception) {}
     }
 
     /**
@@ -647,7 +647,7 @@ class Service extends \think\Service
         }
 
         // 复制应用到全局位
-        foreach (['app', 'public'] as $k => $dir) {
+        foreach (['app', 'public'] as $dir) {
             $sourceDir = self::getAddonsDirs($name) . $dir;
             $targetDir = app()->getBasePath();
 
@@ -679,7 +679,7 @@ class Service extends \think\Service
 
         // 把散布在全局的文件复制回插件目录
         if ($addonRc && isset($addonRc['files']) && is_array($addonRc['files'])) {
-            foreach ($addonRc['files'] as $index => $item) {
+            foreach ($addonRc['files'] as $item) {
                 // 避免不同服务器路径不一样
                 $item = str_replace(['/', '\\'], DS, $item);
                 $path = root_path() . $item;

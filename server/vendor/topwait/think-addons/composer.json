@@ -9,11 +9,11 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=8.0.0",
         "topthink/framework": "^6.0.12",
         "topthink/think-view": "^1.0",
         "topthink/think-helper": "^3.1",
-        "symfony/var-exporter": "^4.4.13"
+        "symfony/var-exporter": "^5.4.10"
     },
     "autoload": {
         "psr-4": {

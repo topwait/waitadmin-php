@@ -9,19 +9,19 @@ use think\facade\View;
 abstract class Addons
 {
     // APP容器
-    protected $app;
+    protected App $app;
     // 请求对象
-    protected $request;
+    protected Request $request;
     // 插件路径
-    protected $addonPath;
+    protected string $addonPath;
     // 插件标识
-    protected $name;
+    protected string $name;
     // 视图模型
-    protected $view;
+    protected mixed $view;
     // 插件配置
-    protected $addonConfig;
+    protected string $addonConfig;
     // 插件信息
-    protected $addonInfo;
+    protected string $addonInfo;
 
     /**
      * 构造函数
@@ -97,11 +97,11 @@ abstract class Addons
      * 初始化模板引擎
      *
      * @access protected
-     * @param  array|string $engine 引擎参数
+     * @param array|string $engine 引擎参数
      * @return $this
      * @author windy
      */
-    protected function engine($engine): Addons
+    protected function engine(array|string $engine): Addons
     {
         $this->view->engine($engine);
         return $this;

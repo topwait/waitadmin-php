@@ -18,7 +18,7 @@ class Route
      * @param string $module
      * @return mixed
      */
-    public static function execute(string $module = 'frontend')
+    public static function execute(string $module = 'frontend'): mixed
     {
         $app = app();
         $request    = $app->request;
@@ -28,7 +28,7 @@ class Route
 
         // 适配单层应用
         $addonsPath = app()->getRootPath() . 'addons' . DS;
-        $AddonCheck = strpos($request->pathinfo(), 'addons') === 0;
+        $AddonCheck = str_starts_with($request->pathinfo(), 'addons');
         $modulePath = $addonsPath . $addon . DS . ($module? ($module . DS):'');
         if (!is_dir($modulePath) || ($AddonCheck && !$action)) {
             $module = '';
@@ -46,7 +46,7 @@ class Route
 
         // 设置请求操作
         $request->addon = $addon;
-        $request->setController("{$module}.{$controller}")->setAction($action);
+        $request->setController("$module.$controller")->setAction($action);
 
         // 验证是否可用
         $info = get_addons_info($addon);

@@ -6,7 +6,6 @@ use think\Console;
 use think\facade\Config;
 use think\facade\Event;
 use think\facade\Route;
-use think\facade\App;
 use think\facade\Db;
 use think\helper\Str;
 use think\addons\Service;
@@ -30,7 +29,7 @@ spl_autoload_register(function ($class) {
     $class = ltrim($class, '\\');
     $rootPath  = app()->getRootPath();
     $namespace = 'addons';
-    if (strpos($class, $namespace) === 0) {
+    if (str_starts_with($class, $namespace)) {
         $class = substr($class, strlen($namespace));
         $path  = '';
         if (($pos = strripos($class, '\\')) !== false) {
@@ -61,7 +60,7 @@ if (!function_exists('httpType')) {
     function httpType(): string
     {
         $domain = request()->domain();
-        if (strpos($domain, 'https://') === 0) {
+        if (str_starts_with($domain, 'https://')) {
             return 'https://';
         }
 
@@ -76,9 +75,10 @@ if (!function_exists('httpDomain')) {
      * @return string|string[]
      * @author windy
      */
-    function httpDomain() {
+    function httpDomain(): array|string
+    {
         $domain = request()->domain();
-        if (strpos($domain, 'https://') === 0) {
+        if (str_starts_with($domain, 'https://')) {
             return str_replace('https://', '', $domain);
         }
         return str_replace('http:'.'//', '', $domain);
@@ -112,7 +112,7 @@ if (!function_exists('addons_url')) {
      * @return Url
      * @author windy
      */
-    function addons_url(string $url = '', array $param = [], $suffix = true, $domain = false): Url
+    function addons_url(string $url = '', array $param = [], bool|string $suffix = true, bool|string $domain = false): Url
     {
         $request = app('request');
         if (!is_array($param)) {
@@ -131,7 +131,6 @@ if (!function_exists('addons_url')) {
             $url = parse_url($url);
             if (isset($url['scheme'])) {
                 $addons     = strtolower($url['scheme']);
-                $module     = lcfirst(array_pop($route));
                 $controller = trim($url['host']);
                 $action     = trim($url['path'], '/');
             } else {
@@ -178,10 +177,10 @@ if (!function_exists('get_addons_instance')) {
      * 获取插件的单例
      *
      * @param string $name 插件名
-     * @return mixed|null
+     * @return mixed
      * @author windy
      */
-    function get_addons_instance(string $name)
+    function get_addons_instance(string $name): mixed
     {
         static $_addons = [];
         if (isset($_addons[$name])) {
@@ -265,7 +264,7 @@ if (!function_exists('get_addons_list')) {
      */
     function get_addons_list(): array
     {
-        $service = new Service(App::instance());
+        $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
         foreach (scandir($addonsPath) as $name) {
             if (in_array($name, ['.', '..'])) {
@@ -329,25 +328,28 @@ if (!function_exists('set_addons_info')) {
      */
     function set_addons_info($name, $array): bool
     {
-        $service = new Service(App::instance());
+        $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
 
         // 插件列表
         $file  = $addonsPath . $name . DIRECTORY_SEPARATOR . 'service.ini';
         $addon = get_addons_instance($name);
         $array = $addon->setInfo($name, $array);
-        //$array['status'] ? $addon->enabled() : $addon->disabled();
+
         if (!isset($array['name']) || !isset($array['title']) || !isset($array['version'])) {
             throw new Exception("Failed to write plugin config");
         }
+
         $res = array();
         foreach ($array as $key => $val) {
             if (is_array($val)) {
                 $res[] = "[$key]";
-                foreach ($val as $k => $v)
-                    $res[] = "$k = " . (is_numeric($v) ? $v : $v);
-            } else
-                $res[] = "$key = " . (is_numeric($val) ? $val : $val);
+                foreach ($val as $k => $v) {
+                    $res[] = "$k = " . (is_numeric($v) ? intval($v) : $v);
+                }
+            } else {
+                $res[] = "$key = " . (is_numeric($val) ? intval($val) : $val);
+            }
         }
 
         if ($handle = fopen($file, 'w')) {
@@ -372,12 +374,12 @@ if (!function_exists('set_addons_config')) {
      */
     function set_addons_config($name, $array): bool
     {
-        $service = new Service(App::instance());
+        $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
 
         $file = $addonsPath . $name . DIRECTORY_SEPARATOR . 'config.php';
         if (!is_really_writable($file)) {
-            throw new \Exception(lang("addons.php File does not have write permission"));
+            throw new Exception(lang("addons.php File does not have write permission"));
         }
 
         if ($handle = fopen($file, 'w')) {
@@ -502,7 +504,7 @@ if (!function_exists('install_addons_sql')) {
      */
     function install_addons_sql(string $name): bool
     {
-        $service = new Service(App::instance());
+        $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
         $sqlFile = $addonsPath . $name . DS . 'install.sql';
         if (is_file($sqlFile)) {
@@ -513,10 +515,14 @@ if (!function_exists('install_addons_sql')) {
                 if(preg_match('/.*;$/', trim($sql))) {
                     $sql = preg_replace('/(\/\*(\s|.)*?\*\/);/','',$sql);
                     $sql = str_replace('__PREFIX__', config('database.connections.mysql.prefix'),$sql);
-                    if(strpos($sql,'CREATE TABLE')!==false || strpos($sql,'INSERT INTO')!==false || strpos($sql,'ALTER TABLE')!==false || strpos($sql,'DROP TABLE')!==false){
+                    if(str_contains($sql, 'CREATE TABLE')
+                        || str_contains($sql, 'INSERT INTO')
+                        || str_contains($sql, 'ALTER TABLE')
+                        || str_contains($sql, 'DROP TABLE'))
+                    {
                         try {
                             Db::execute($sql);
-                        } catch (\Exception $e) {
+                        } catch (Exception $e) {
                             throw new Exception($e->getMessage());
                         }
                     }
@@ -540,18 +546,18 @@ if (!function_exists('uninstall_addons_sql')) {
      */
     function uninstall_addons_sql($name): bool
     {
-        $service = new Service(App::instance());
+        $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
         $sqlFile = $addonsPath . $name . DS . 'uninstall.sql';
         if (is_file($sqlFile)) {
             $sql = file_get_contents($sqlFile);
             $sql = str_replace('__PREFIX__', config('database.connections.mysql.prefix'),$sql);
             $sql = explode("\r\n",$sql);
-            foreach ($sql as $k=>$v){
-                if(strpos(strtolower($v),'drop table')!==false){
+            foreach ($sql as $v){
+                if(str_contains(strtolower($v), 'drop table')){
                     try {
                         Db::execute($v);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         throw new Exception($e->getMessage());
                     }
                 }
@@ -587,7 +593,7 @@ if (!function_exists('get_target_assets_dir')) {
      */
     function get_target_assets_dir(string $name): string
     {
-        return app()->getRootPath() . "public".DS."static".DS."addons".DS."{$name}".DS;
+        return app()->getRootPath() . "public".DS."static".DS."addons".DS."$name".DS;
     }
 }
 
