@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller;
 
-
 use app\backend\service\IndexService;
 use app\common\basics\Backend;
 use app\common\utils\ArrayUtils;
@@ -43,6 +42,7 @@ class IndexController extends Backend
         $detail = IndexService::index($this->adminId);
         return view('index', [
             'menus'     => ArrayUtils::toTreeJson($detail['menus']),
+            'config'    => $detail['config'],
             'adminUser' => $detail['adminUser']
         ]);
     }

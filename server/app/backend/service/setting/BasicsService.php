@@ -46,8 +46,7 @@ class BasicsService extends Service
         $backend = ConfigUtils::get('backend');
         $detail['backend'] = [
             'title'        => $backend['title']??'',
-            'side_lg_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_lg_logo']??'')),
-            'side_xs_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_xs_logo']??''))
+            'side_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_logo']??''))
         ];
 
         // 电脑端配置
@@ -91,8 +90,7 @@ class BasicsService extends Service
         // 后台端配置
         ConfigUtils::setItem('backend', [
             'title'        => $post['backend_title']??'',
-            'side_lg_logo' => UrlUtils::toRelativeUrl($post['backend_side_lg_logo']??''),
-            'side_xs_logo' => UrlUtils::toRelativeUrl($post['backend_side_xs_logo']??'')
+            'side_logo' => UrlUtils::toRelativeUrl($post['backend_side_logo']??'')
         ]);
 
         // 后台端配置

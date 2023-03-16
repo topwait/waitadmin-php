@@ -66,42 +66,20 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="backend_side_lg_logo" class="layui-form-label"><span class="asterisk">*</span>大侧图标:</label>
+                    <label for="backend_side_logo" class="layui-form-label"><span class="asterisk">*</span>侧边图标:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <div class="thumbnail" data-type="image" data-field="backend_side_lg_logo" data-limit="1">
+                            <div class="thumbnail" data-type="image" data-field="backend_side_logo" data-limit="1">
                                 <div class="musters">
-                                    {if $backend.side_lg_logo}
+                                    {if $backend.side_logo}
                                         <div class="preview">
-                                            <input type="hidden" id="backend_side_lg_logo" name="backend_side_lg_logo" value="{$backend.side_lg_logo}">
+                                            <input type="hidden" id="backend_side_logo" name="backend_side_logo" value="{$backend.side_logo}">
                                             <i class="layui-icon layui-icon-close"></i>
-                                            <img src="{$backend.side_lg_logo}" alt="img">
+                                            <img src="{$backend.side_logo}" alt="img">
                                         </div>
                                     {/if}
                                 </div>
-                                <div class="builder layui-auto {if $backend.side_lg_logo}layui-hide{/if}">
-                                    <i class="layui-icon layui-icon-camera"></i>
-                                    <p>上传图标</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="backend_side_xs_logo" class="layui-form-label"><span class="asterisk">*</span>小侧图标:</label>
-                    <div class="layui-input-block">
-                        <div class="layui-col-md4">
-                            <div class="thumbnail" data-type="image" data-field="backend_side_xs_logo" data-limit="1">
-                                <div class="musters">
-                                    {if $backend.side_xs_logo}
-                                        <div class="preview">
-                                            <input type="hidden" id="backend_side_xs_logo" name="backend_side_xs_logo" value="{$backend.side_xs_logo}">
-                                            <i class="layui-icon layui-icon-close"></i>
-                                            <img src="{$backend.side_xs_logo}" alt="img">
-                                        </div>
-                                    {/if}
-                                </div>
-                                <div class="builder layui-auto {if $backend.side_xs_logo}layui-hide{/if}">
+                                <div class="builder layui-auto {if $backend.side_logo}layui-hide{/if}">
                                     <i class="layui-icon layui-icon-camera"></i>
                                     <p>上传图标</p>
                                 </div>

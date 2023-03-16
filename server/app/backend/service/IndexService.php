@@ -21,6 +21,8 @@ use app\common\model\auth\AuthAdmin;
 use app\common\model\auth\AuthMenu;
 use app\common\model\auth\AuthPerm;
 use app\common\model\content\Article;
+use app\common\utils\ConfigUtils;
+use app\common\utils\UrlUtils;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -66,6 +68,11 @@ class IndexService extends Service
             ->where(['id'=>$adminId])
             ->findOrEmpty()
             ->toArray();
+
+        $sideLogo = ConfigUtils::get('backend', 'side_logo', '');
+        $detail['config'] = [
+            'side_logo' => UrlUtils::toAbsoluteUrl($sideLogo)
+        ];
 
         return $detail;
     }
