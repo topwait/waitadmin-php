@@ -76,7 +76,7 @@ abstract class Frontend extends BaseController
             ->select()->toArray();
 
         View::assign('seo', ConfigUtils::get('seo'));
-        View::assign('website', ConfigUtils::get('website'));
+        View::assign('website', ConfigUtils::get('pc'));
         View::assign('navigation', ArrayUtils::toTreeJson($navigationData));
     }
 }

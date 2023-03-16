@@ -47,7 +47,7 @@ class ChannelService extends Service
                 'qr_code'     => UrlUtils::toAbsoluteUrl($wxChannel['qr_code'] ?? ''),
             ],
             'oa' => [
-                'name'       => $oaChannel['name']         ?? '',
+                'name'        => $oaChannel['name']         ?? '',
                 'app_id'      => $oaChannel['app_id']      ?? '',
                 'app_secret'  => $oaChannel['app_secret']  ?? '',
                 'original_id' => $oaChannel['original_id'] ?? '',

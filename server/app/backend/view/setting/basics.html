@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="website_pcp" class="layui-form-label"><span class="asterisk">*</span>公安备案:</label>
+                    <label for="website_pcp" class="layui-form-label">公安备案:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
                             <input type="text" id="website_pcp" name="website_pcp"
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="website_analyse" class="layui-form-label"><span class="asterisk">*</span>统计代码:</label>
+                    <label for="website_analyse" class="layui-form-label">统计代码:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
                             <textarea id="website_analyse" name="website_analyse"
@@ -60,7 +60,7 @@
                     <label for="backend_title" class="layui-form-label"><span class="asterisk">*</span>后台标题:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <input type="text" id="backend_title" name="website_title"
+                            <input type="text" id="backend_title" name="backend_title"
                                    value="{$backend.title}" class="layui-input" autocomplete="off">
                         </div>
                     </div>
@@ -95,36 +95,7 @@
             <div class="layui-card-header">H5端设置</div>
             <div class="layui-card-body">
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>站点状态：</label>
-                    <div class="layui-input-block">
-                        <div class="layui-col-md4">
-                            <input type="radio" name="h5_status" value="1" title="开启" {if $h5.status==1}checked{/if}>
-                            <input type="radio" name="h5_status" value="0" title="关闭" {if $h5.status==0}checked{/if}>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="h5_close_url" class="layui-form-label" lay-tips="站点关闭后访问的页面路径">
-                        <span class="asterisk">*</span>关闭页面：
-                    </label>
-                    <div class="layui-input-block">
-                        <div class="layui-col-md4">
-                            <input type="text" id="h5_close_url" name="h5_close_url"
-                                   value="{$h5.close_url}" class="layui-input" autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="h5_title" class="layui-form-label"><span class="asterisk">*</span>H5端标题:</label>
-                    <div class="layui-input-block">
-                        <div class="layui-col-md4">
-                            <input type="text" id="h5_title" name="h5_title"
-                                   value="{$h5.title}" class="layui-input" autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="h5_logo" class="layui-form-label"><span class="asterisk">*</span>H5端图标:</label>
+                    <label for="h5_logo" class="layui-form-label"><span class="asterisk">*</span>H5端logo:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
                             <div class="thumbnail" data-type="image" data-field="h5_logo" data-limit="1">
@@ -145,6 +116,35 @@
                         </div>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label for="h5_title" class="layui-form-label"><span class="asterisk">*</span>H5端标题:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="h5_title" name="h5_title"
+                                   value="{$h5.title}" class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="asterisk">*</span>站点状态：</label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="radio" name="h5_status" value="1" title="开启" {if $h5.status==1}checked{/if} lay-filter="h5_status">
+                            <input type="radio" name="h5_status" value="0" title="关闭" {if $h5.status==0}checked{/if} lay-filter="h5_status">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item h5_status" {if $h5.status==1}style="display:none;"{/if}>
+                    <label for="h5_close_url" class="layui-form-label" lay-tips="站点关闭后访问的页面路径">
+                        <span class="asterisk">*</span>关闭页面：
+                    </label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="h5_close_url" name="h5_close_url" placeholder="关闭后显示的页面链接"
+                                   value="{$h5.close_url}" class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -156,7 +156,7 @@
                     <label for="pc_title" class="layui-form-label"><span class="asterisk">*</span>网站标题:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                            <input type="text" id="pc_title" name="frontend_title"
+                            <input type="text" id="pc_title" name="pc_title"
                                    value="{$pc.title}" class="layui-input" autocomplete="off">
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                     <label for="pc_description" class="layui-form-label"><span class="asterisk">*</span>网站描述:</label>
                     <div class="layui-input-block">
                         <div class="layui-col-md4">
-                             <textarea id="pc_description" name="frontend_description"
+                             <textarea id="pc_description" name="pc_description"
                                        class="layui-textarea" autocomplete="off">{$pc.description}</textarea>
                         </div>
                     </div>
@@ -220,6 +220,7 @@
 <script>
     layui.use('form', function () {
         let form = layui.form;
+        let $ = layui.$;
 
         form.on('submit(addForm)', function(data) {
             let that = this;
@@ -233,6 +234,15 @@
                     data: data.field
                 });
             });
+        });
+
+        form.on('radio(h5_status)', function (data) {
+            let node = $('.h5_status');
+            if (parseInt(data.value ) === 1) {
+                node.hide();
+            } else {
+                node.show();
+            }
         });
     });
 </script>
