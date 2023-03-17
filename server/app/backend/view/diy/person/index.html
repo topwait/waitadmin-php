@@ -144,7 +144,14 @@
 
         // 初始化值
         renderService(JSON.parse('{$jsonp|raw}'));
-        carousel.render({elem: '#adv', width: '100%', arrow: 'none', height: 120, indicator: 'none'});
+        carousel.render({
+            elem: '#adv',
+            width: '100%',
+            arrow: 'none',
+            height: 120,
+            interval: 8000,
+            indicator: 'none'
+        });
 
         // 拖动效果
         let elService = document.getElementById('serviceDrag');

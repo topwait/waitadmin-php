@@ -28,7 +28,7 @@
     .phone-service .service-lists .item img {width: 24px; height: 24px; vertical-align: top; margin-right: 6px;}
     .phone-service .service-lists .item .name {flex: 1;}
 
-    .phone-service #adv img {width: 100%; height: 100%;}
+    .phone-service #adv img {width: 100%; height: 100%; }
 </style>
 
 <div class="phone">
@@ -86,7 +86,7 @@
         <div class="layui-carousel" id="adv">
             <div carousel-item>
                 {{#  layui.each(d.adv.list, function(index, item){ }}
-                    <img src="{{ item.image }}" alt="img">
+                    <img src="{{ item.image }}" alt="img" style="border-radius: 4px;">
                 {{#  }); }}
             </div>
         </div>

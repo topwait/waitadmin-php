@@ -31,15 +31,17 @@ class TabbarService extends Service
     #[ArrayShape(['style' => "array", 'list' => "array"])]
     public static function detail(): array
     {
-        (array) $style = ConfigUtils::get('diy', 'tab_bar_style', [
-            'selectedColor'   => '#000000',
-            'unselectedColor' => '#000000'
-        ]);
+        $config = ConfigUtils::get('diy', 'tabbar', []);
+        $style = [
+            'selectedColor'   => $config['style']['selectedColor'] ?? '#2979ff',
+            'unselectedColor' => $config['style']['unselectedColor'] ?? '##333333'
+        ];
 
-        (array) $list  = ConfigUtils::get('diy', 'tab_bar_list', []);
-        foreach ($list as &$item) {
+        $list = [];
+        foreach ($config['list']??[] as $item) {
             $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']);
             $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']);
+            $list[] = $item;
         }
 
         return ['style'=>$style, 'list'=>$list];
@@ -62,12 +64,12 @@ class TabbarService extends Service
             ];
         }
 
-        ConfigUtils::setItem('diy', [
-            'tab_bar_list'  => json_encode($list),
-            'tab_bar_style' => json_encode([
+        ConfigUtils::set('diy', 'tabbar', [
+            'style' => [
                 'selectedColor'   => $post['style']['selectedColor']??'',
                 'unselectedColor' => $post['style']['unselectedColor']??''
-            ])
+            ],
+            'list' => $list
         ]);
     }
 }
