@@ -42,14 +42,7 @@ class BasicsService extends Service
             'analyse'   => $website['analyse']??''
         ];
 
-        // 后台端配置
-        $backend = ConfigUtils::get('backend');
-        $detail['backend'] = [
-            'title'        => $backend['title']??'',
-            'side_logo' => UrlUtils::toAbsoluteUrl(strval($backend['side_logo']??''))
-        ];
-
-        // 电脑端配置
+        // PC端配置
         $pc = ConfigUtils::get('pc');
         $detail['pc'] = [
             'title'       => $pc['title']??'',
@@ -58,7 +51,7 @@ class BasicsService extends Service
             'logo'        => UrlUtils::toAbsoluteUrl(strval($pc['logo']??'')),
         ];
 
-        // 移动端配置
+        // H5端配置
         $h5 = ConfigUtils::get('h5');
         $detail['h5'] = [
             'title'     => $h5['title']??'',
@@ -87,13 +80,7 @@ class BasicsService extends Service
             'copyright' => $post['website_copyright']??''
         ]);
 
-        // 后台端配置
-        ConfigUtils::setItem('backend', [
-            'title'        => $post['backend_title']??'',
-            'side_logo' => UrlUtils::toRelativeUrl($post['backend_side_logo']??'')
-        ]);
-
-        // 后台端配置
+        // PC端配置
         ConfigUtils::setItem('pc', [
             'title'       => $post['pc_title']??'',
             'keywords'    => $post['pc_keywords']??'',
@@ -101,7 +88,7 @@ class BasicsService extends Service
             'logo' => UrlUtils::toRelativeUrl($post['pc_logo']??'')
         ]);
 
-        // 后台端配置
+        // H5端配置
         ConfigUtils::setItem('h5', [
             'title'     => $post['h5_title']??'',
             'logo'      => UrlUtils::toRelativeUrl($post['h5_logo']??''),

@@ -52,44 +52,6 @@
             </div>
         </div>
 
-        <!-- 后台端设置 -->
-        <div class="layui-card">
-            <div class="layui-card-header">后台端设置</div>
-            <div class="layui-card-body">
-                <div class="layui-form-item">
-                    <label for="backend_title" class="layui-form-label"><span class="asterisk">*</span>后台标题:</label>
-                    <div class="layui-input-block">
-                        <div class="layui-col-md4">
-                            <input type="text" id="backend_title" name="backend_title"
-                                   value="{$backend.title}" class="layui-input" autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="backend_side_logo" class="layui-form-label"><span class="asterisk">*</span>侧边图标:</label>
-                    <div class="layui-input-block">
-                        <div class="layui-col-md4">
-                            <div class="thumbnail" data-type="image" data-field="backend_side_logo" data-limit="1">
-                                <div class="musters">
-                                    {if $backend.side_logo}
-                                        <div class="preview">
-                                            <input type="hidden" id="backend_side_logo" name="backend_side_logo" value="{$backend.side_logo}">
-                                            <i class="layui-icon layui-icon-close"></i>
-                                            <img src="{$backend.side_logo}" alt="img">
-                                        </div>
-                                    {/if}
-                                </div>
-                                <div class="builder layui-auto {if $backend.side_logo}layui-hide{/if}">
-                                    <i class="layui-icon layui-icon-camera"></i>
-                                    <p>上传图标</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- H5端设置 -->
         <div class="layui-card">
             <div class="layui-card-header">H5端设置</div>

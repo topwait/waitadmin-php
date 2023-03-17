@@ -135,7 +135,7 @@
                 layer.confirm(`确定要删除选中的${ids.length}项数据吗？`, function(index) {
                     layer.close(index);
                     waitUtil.ajax({
-                        url: '{:route("setting.banner/del")}',
+                        url: '{:route("setting.pc.banner/del")}',
                         type: 'POST',
                         data: {ids: ids}
                     }).then((res) => {

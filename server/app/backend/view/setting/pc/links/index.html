@@ -49,7 +49,7 @@
         // 渲染表格
         let table = waitUtil.table({
             elem: '#wait-table-list'
-            ,url: '{:route("setting.links/index")}'
+            ,url: '{:route("setting.pc.links/index")}'
             ,cols: [[
                 {type:'checkbox', width:48},
                 {field:'id', title:'ID', width:60, align:'center', event:'id'},
@@ -68,13 +68,13 @@
             add: function () {
                 waitUtil.popup({
                     title: '新增',
-                    url: '{:route("setting.links/add")}',
+                    url: '{:route("setting.pc.links/add")}',
                     area: ['500px', '400px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
                             waitUtil.locking(this);
                             waitUtil.ajax({
-                                url: '{:route("setting.links/add")}',
+                                url: '{:route("setting.pc.links/add")}',
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
@@ -91,7 +91,7 @@
             edit: function (obj) {
                 waitUtil.popup({
                     title: '编辑',
-                    url: '{:route("setting.links/edit")}?id='+obj.data.id,
+                    url: '{:route("setting.pc.links/edit")}?id='+obj.data.id,
                     area: ['500px', '400px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
@@ -116,7 +116,7 @@
                 layer.confirm('确定要删除此项数据吗？', function(index) {
                     layer.close(index);
                     waitUtil.ajax({
-                        url: '{:route("setting.links/del")}',
+                        url: '{:route("setting.pc.links/del")}',
                         type: 'POST',
                         data: {ids: [obj.data.id]}
                     }).then((res) => {
@@ -134,7 +134,7 @@
                 layer.confirm(`确定要删除选中的${ids.length}项数据吗？`, function(index) {
                     layer.close(index);
                     waitUtil.ajax({
-                        url: '{:route("setting.links/del")}',
+                        url: '{:route("setting.pc.links/del")}',
                         type: 'POST',
                         data: {ids: ids}
                     }).then((res) => {

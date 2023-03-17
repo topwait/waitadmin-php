@@ -50,7 +50,7 @@
             ,treeExpand: true
             ,id: 'wait-table-list'
             ,elem: '#wait-table-list'
-            ,url: '{:route("setting.navigation/index")}'
+            ,url: '{:route("setting.pc.navigation/index")}'
             ,toolbar: '#toolbar'
             ,defaultToolbar: ['filter', 'exports', 'print']
             ,cols: [[
@@ -69,13 +69,13 @@
             add: function () {
                 waitUtil.popup({
                     title: '新增',
-                    url: '{:route("setting.navigation/add")}',
+                    url: '{:route("setting.pc.navigation/add")}',
                     area: ['500px', '470px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
                             waitUtil.locking(this);
                             waitUtil.ajax({
-                                url: '{:route("setting.navigation/add")}',
+                                url: '{:route("setting.pc.navigation/add")}',
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
@@ -92,14 +92,14 @@
             edit: function (obj) {
                 waitUtil.popup({
                     title: '编辑',
-                    url: '{:route("setting.navigation/edit")}?id='+obj.data.id,
+                    url: '{:route("setting.pc.navigation/edit")}?id='+obj.data.id,
                     area: ['500px', '470px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
                             waitUtil.locking(this);
                             data.field['id'] = obj.data.id;
                             waitUtil.ajax({
-                                url: '{:route("setting.navigation/edit")}',
+                                url: '{:route("setting.pc.navigation/edit")}',
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
@@ -117,7 +117,7 @@
                 layer.confirm('确定要删除此项数据吗？', function(index) {
                     layer.close(index);
                     waitUtil.ajax({
-                        url: '{:route("setting.navigation/del")}',
+                        url: '{:route("setting.pc.navigation/del")}',
                         type: 'POST',
                         data: {id: obj.data.id}
                     }).then((res) => {

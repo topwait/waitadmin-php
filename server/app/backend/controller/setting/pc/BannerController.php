@@ -29,9 +29,6 @@ use think\response\View;
 
 /**
  * 轮播图配置管理
- *
- * Class BannerController
- * @package app\backend\controller\setting
  */
 class BannerController extends Backend
 {

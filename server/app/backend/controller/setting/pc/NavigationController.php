@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\controller\setting\pc;
 
 
-use app\backend\service\setting\NavigationService;
+use app\backend\service\setting\pc\NavigationService;
 use app\backend\validate\setting\NavigationValidate;
 use app\common\basics\Backend;
 use app\common\utils\AjaxUtils;
@@ -27,9 +27,6 @@ use think\response\View;
 
 /**
  * 导航配置管理
- *
- * Class NavigationController
- * @package app\backend\controller\setting
  */
 class NavigationController extends Backend
 {

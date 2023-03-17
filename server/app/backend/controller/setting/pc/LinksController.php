@@ -13,9 +13,9 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\backend\controller\setting;
+namespace app\backend\controller\setting\pc;
 
-use app\backend\service\setting\LinksService;
+use app\backend\service\setting\pc\LinksService;
 use app\backend\validate\PageValidate;
 use app\backend\validate\setting\LinksValidate;
 use app\common\basics\Backend;
@@ -28,9 +28,6 @@ use think\response\View;
 
 /**
  * 友情链接配置管理
- *
- * Class LinksController
- * @package app\backend\controller\setting
  */
 class LinksController extends Backend
 {
