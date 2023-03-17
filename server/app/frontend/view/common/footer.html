@@ -1,12 +1,12 @@
 <div class="layout-global-footer">
     <div class="container">
         <p>
-            {$website.website_copyright??''}
-            {if $website.website_icp??''}
-                | <a href="https://beian.miit.gov.cn/" rel="nofollow" target="_blank">{$website.website_icp}</a>
+            {$website.copyright??''}
+            {if $website.icp??''}
+                | <a href="https://beian.miit.gov.cn/" rel="nofollow" target="_blank">{$website.icp}</a>
             {/if}
-            {if $website.website_pcp??''}
-                | <a href="https://beian.miit.gov.cn/" rel="nofollow" target="_blank">{$website.website_pcp}</a>
+            {if $website.pcp??''}
+                | <a href="https://beian.miit.gov.cn/" rel="nofollow" target="_blank">{$website.pcp}</a>
             {/if}
         </p>
     </div>

@@ -48,6 +48,10 @@ class BannerService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
+        foreach ($lists['data'] as &$item) {
+            $item['position'] = DevBanner::positionEnum(intval($item['position']));
+        }
+
         return ['count'=>$lists['total'], 'list'=>$lists['data']];
     }
 

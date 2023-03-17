@@ -37,6 +37,7 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 
 /** 友链布局 **/
 .layout-global-link {margin-top: 15px;}
+.layout-global-link .layui-card-header {font-weight: bold;}
 .layout-global-link ul {margin-top: 15px;}
 .layout-global-link ul:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
 .layout-global-link ul li {float: left; margin: 0 25px 10px 0;}
@@ -51,8 +52,8 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 
 /** 轮播样式 **/
 .index-modular-carousel {width: 810px; height: 360px;}
-.index-modular-feature #indexCarousel {width: 100%; height: 360px;}
-.index-modular-feature #indexCarousel img {width: 100%; height: 100%;}
+.index-modular-carousel #indexCarousel {width: 100%; height: 360px;}
+.index-modular-carousel #indexCarousel img {width: 100%; height: 100%;}
 
 /** 特色模块 **/
 .index-modular-feature {margin-top: 15px;}
@@ -65,6 +66,7 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 
 /** 贴图模块 **/
 .index-modular-sticker {margin-top: 15px;}
+.index-modular-sticker .layui-card-header {font-weight: bold;}
 .index-modular-sticker ul {display: flex; flex-wrap: wrap;}
 .index-modular-sticker ul li {float: left; width: 50%; margin-top: 15px; height: 72px;}
 .index-modular-sticker ul li > a {float: left; display: block; width: 72px; height: 72px; margin-right: 10px;}
@@ -79,6 +81,7 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 
 /** 列表模块 **/
 .index-modular-lists {margin-top: 15px;}
+.index-modular-lists .layui-card-header {font-weight: bold;}
 .index-modular-lists ul li {padding: 20px 0; border-bottom: 1px solid #f6f6f6;}
 .index-modular-lists ul li:last-child {border: none;}
 .index-modular-lists ul li:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
@@ -89,10 +92,10 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 .index-modular-lists .empty p {margin-top: 20px;}
 .index-modular-lists .region-right {float: left; width: 560px;}
 .index-modular-lists .region-right h3 a {display: block; font-size: 18px; color: #333333; height: 25px; line-height: 25px; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
-.index-modular-lists .region-right h3 a:hover {color: #345dcd; text-decoration: underline;}
+.index-modular-lists .region-right h3 a:hover {color: #345dcd;}
 .index-modular-lists .region-right p.intro {height: 42px; line-height: 20px; font-size: 14px; color: #999999; margin-top: 5px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;}
 .index-modular-lists .region-right .tags {margin: 9px 0;}
-.index-modular-lists .region-right .tags span {font-size: 14px; color: #3A67E4; padding: 4px 8px; margin-right: 10px; background: rgba(58, 103, 228, 0.1);}
+.index-modular-lists .region-right .tags span {font-size: 14px; color: #3A67E4; padding: 4px 8px; margin-right: 10px; border-radius: 1px; background: rgba(58, 103, 228, 0.1);}
 .index-modular-lists .region-right .footer {height: 18px; line-height: 18px; font-size: 13px; color: #a7a7a7; margin-top: 5px;}
 .index-modular-lists .region-right .footer span {margin-right: 30px;}
 .index-modular-lists #paging {text-align: right; margin-top: 10px}
@@ -115,6 +118,7 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 
 /** 浮现模块 **/
 .index-modular-emerge ul {padding-top: 4px;}
+.index-modular-emerge .layui-card-header {font-weight: bold;}
 .index-modular-emerge li {padding-bottom: 19px;}
 .index-modular-emerge li:last-child {padding-bottom: 0;}
 .index-modular-emerge li a {display: block; height: 20px; line-height: 20px; font-size: 14px; color: #333333; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
@@ -123,6 +127,7 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 
 /** 精品模块 **/
 .index-modular-boutique {margin-top: 15px;}
+.index-modular-boutique .layui-card-header {font-weight: bold;}
 .index-modular-boutique ul li {padding-bottom: 20px;}
 .index-modular-boutique ul li:last-child {padding-bottom: 0;}
 .index-modular-boutique ul li:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
@@ -134,13 +139,14 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 
 /** 排名模块 **/
 .index-modular-ranking {margin-top: 15px;}
+.index-modular-ranking .layui-card-header {font-weight: bold;}
 .index-modular-ranking ul li span {width: 40px; height: 61px; font-size: 36px; line-height: 61px; font-family: Mangal; font-weight: bold; color: #dbdbdb; margin-right: 10px;}
 .index-modular-ranking ul li a {display: inline-block; width: 279px; height: 40px; line-height: 20px; font-size: 14px; color: #333333; vertical-align: text-bottom;}
 .index-modular-ranking ul li a:hover {color: #345dcd;}
 
 /** 广告模块 **/
 .index-modular-adv {margin-top: 15px;}
-.index-modular-adv img {width: 100%;}
+.index-modular-adv img {width: 100%; margin-bottom: 10px; border-radius: 2px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);}
 
 /** 用户布局 **/
 .layout-global-users {margin-top: 15px;}

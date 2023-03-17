@@ -20,6 +20,7 @@ use app\backend\service\setting\pc\BannerService;
 use app\backend\validate\PageValidate;
 use app\backend\validate\setting\BannerValidate;
 use app\common\basics\Backend;
+use app\common\model\DevBanner;
 use app\common\utils\AjaxUtils;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -64,7 +65,9 @@ class BannerController extends Backend
             return AjaxUtils::success();
         }
 
-        return view();
+        return view('', [
+            'position' => DevBanner::positionEnum()
+        ]);
     }
 
     /**
@@ -85,7 +88,8 @@ class BannerController extends Backend
 
         $id = intval($this->request->get('id'));
         return view('', [
-            'detail' => BannerService::detail($id)
+            'detail'   => BannerService::detail($id),
+            'position' => DevBanner::positionEnum()
         ]);
     }
 

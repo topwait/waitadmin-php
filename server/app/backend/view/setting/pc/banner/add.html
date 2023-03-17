@@ -9,7 +9,9 @@
             <label for="position" class="layui-form-label"><span class="asterisk">*</span>轮播位置：</label>
             <div class="layui-input-block">
                 <select id="position" name="position" lay-verify="required|number">
-                    <option value="1" selected>主页轮播</option>
+                    {foreach $position as $key=>$val }
+                        <option value="{$key}">{$val}</option>
+                    {/foreach}
                 </select>
             </div>
         </div>
@@ -27,13 +29,9 @@
             <div class="layui-input-block">
                 <div class="thumbnail" data-type="image" data-limit="1">
                     <div class="musters"></div>
-                    <div class="builder">
+                    <div class="builder layui-auto">
                         <i class="layui-icon layui-icon-camera"></i>
                         <p>上传图片</p>
-                        <div class="mask">
-                            <div class="item layui-auto">图库选择</div>
-                            <div class="item layui-auto-call">本地上传</div>
-                        </div>
                     </div>
                 </div>
             </div>
