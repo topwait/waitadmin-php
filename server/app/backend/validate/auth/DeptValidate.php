@@ -20,9 +20,6 @@ use app\common\basics\Validate;
 
 /**
  * 部门参数验证器
- *
- * Class DeptValidate
- * @package app\admin\validate\auth
  */
 class DeptValidate extends Validate
 {

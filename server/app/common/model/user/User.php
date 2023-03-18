@@ -17,12 +17,10 @@ namespace app\common\model\user;
 
 
 use app\common\basics\Models;
+use app\common\utils\UrlUtils;
 
 /**
  * 用户模型
- *
- * Class User
- * @package app\common\model\user
  */
 class User extends Models
 {
@@ -32,11 +30,11 @@ class User extends Models
         'group_id'        => 'int',     //分组
         'sn'              => 'string',  //编号
         'avatar'          => 'string',  //用户头像
+        'account'         => 'string',  //用户账号
         'nickname'        => 'string',  //用户昵称
-        'username'        => 'string',  //用户账号
         'password'        => 'string',  //登录密码
         'salt'            => 'string',  //加密盐巴
-        'sex'             => 'int',     //用户性别
+        'gender'          => 'int',     //用户性别
         'mobile'          => 'string',  //电话号码
         'email'           => 'string',  //电子邮箱
         'last_login_ip'   => 'string',  //最后登录IP
@@ -47,4 +45,18 @@ class User extends Models
         'update_time'     => 'int',     //更新时间
         'delete_time'     => 'int'      //删除时间
     ];
+
+    /**
+     * 头像路径转绝对
+     *
+     * @param $value
+     * @return string
+     */
+    public function getAvatarAttr($value): string
+    {
+        if ($value) {
+            return UrlUtils::toAbsoluteUrl($value);
+        }
+        return '';
+    }
 }

@@ -19,6 +19,7 @@ use app\BaseController;
 use app\common\model\DevNavigation;
 use app\common\utils\ArrayUtils;
 use app\common\utils\ConfigUtils;
+use app\common\utils\UrlUtils;
 use think\App;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -75,7 +76,10 @@ abstract class Frontend extends BaseController
             ->order('sort desc, id desc')
             ->select()->toArray();
 
-        View::assign('seo', ConfigUtils::get('seo'));
+        $pcConfig = ConfigUtils::get('pc');
+        $pcConfig['logo'] = UrlUtils::toAbsoluteUrl($pcConfig['logo']??'');
+
+        View::assign('pc', $pcConfig);
         View::assign('website', ConfigUtils::get('website'));
         View::assign('navigation', ArrayUtils::toTreeJson($navigationData));
     }

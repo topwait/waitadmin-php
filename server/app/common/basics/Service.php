@@ -16,6 +16,8 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 
+use app\common\model\sys\SysConfig;
+
 /**
  * 服务类基类
  *
@@ -24,6 +26,12 @@ namespace app\common\basics;
  */
 class Service
 {
+    /**
+     * 模型实例
+     * @var object
+     */
+    private static object $model;
+
     /**
      * 错误信息
      * @var string
@@ -65,6 +73,37 @@ class Service
     }
 
     /**
+     * 事务开启
+     *
+     * @author windy
+     */
+    protected static function dbStartTrans(): void
+    {
+        self::$model = new SysConfig();
+        self::$model->startTrans();
+    }
+
+    /**
+     * 事务提交
+     *
+     * @author windy
+     */
+    protected static function dbCommit(): void
+    {
+        self::$model->commit();
+    }
+
+    /**
+     * 事务回滚
+     *
+     * @author windy
+     */
+    protected static function dbRollback(): void
+    {
+        self::$model->rollback();
+    }
+
+    /**
      * 设置搜索条件
      * PS: 参数名@字段名: user@U.sn
      *
@@ -72,7 +111,7 @@ class Service
      * @return array
      * @author windy
      */
-    public static function setSearch(array $search): array
+    protected static function setSearch(array $search): array
     {
         $params = request()->param();
         if (empty($search)) {

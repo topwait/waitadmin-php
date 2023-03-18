@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\system;
 
-
 use app\backend\service\system\LogService;
 use app\backend\validate\IDMustValidate;
 use app\backend\validate\PageValidate;
@@ -29,9 +28,6 @@ use think\response\View;
 
 /**
  * 系统日志管理
- *
- * Class JournalController
- * @package app\admin\controller\system
  */
 class LogController extends Backend
 {

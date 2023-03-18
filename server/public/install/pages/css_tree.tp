@@ -26,7 +26,7 @@ body,a,dl,dt,dd,li,img {cursor: url('../images/default/cursor.cur'), auto !impor
 .wait-sidebar::-webkit-scrollbar {width: 0;}
 .wait-sidebar {position: absolute; top: 0; left: 0; bottom: 0; z-index: 3000; width: 200px; overflow: auto; overflow-x: hidden; background-color: #20222a;}
 .wait-sidebar ul {margin-top: 50px;}
-.wait-sidebar .logo {position: fixed; z-index: 2100; width: 200px; height: 50px; line-height: 50px; text-align: center; box-shadow: 0 1px 1px 0 rgba(0,0,0,0.15); background-color: #20222a;}
+.wait-sidebar .logo {position: fixed; z-index: 2100; width: 200px; height: 50px; line-height: 50px; text-align: center; box-shadow: 0 1px 1px 0 rgba(0,0,0,0.15); background: #20222a url(../images/side_lg_logo.png) no-repeat center;}
 .wait-sidebar .logo img {max-width: 200px; max-height: 200px; vertical-align: middle;}
 .wait-sidebar .logo span {color: #fff; font-size: 18px;}
 .wait-sidebar .wait-menu-item a {position: relative; display: block; overflow: hidden; color: #bababc; font-size: 14px; height: 40px; line-height: 40px; padding: 6px 13px 6px 38px; border-left: 4px solid transparent;}
@@ -51,7 +51,7 @@ body,a,dl,dt,dd,li,img {cursor: url('../images/default/cursor.cur'), auto !impor
 .wait-sidebar .wait-menu-item .wait-second-menu dl dd a:hover {color: #ffffff;}
 
 /* 收缩菜单 */
-.wait-side-shrink .wait-sidebar .logo {width: 60px; background: #20222a url(../images/default/logo.png) no-repeat center;}
+.wait-side-shrink .wait-sidebar .logo {width: 60px; background: #20222a url(../images/side_xs_logo.png) no-repeat center;}
 .wait-side-shrink .wait-sidebar .logo img {display: none;}
 .wait-side-shrink .wait-sidebar .logo span {display: none;}
 .wait-side-shrink .wait-header .layui-layout-left {left: 60px;}
@@ -178,6 +178,7 @@ body[data-theme="white"] .wait-sidebar .wait-menu-item .wait-second-menu dd.on:h
 body[data-theme="white"] .wait-sidebar .wait-menu-item .wait-second-menu dd.on {color: #ffffff; background-color: #3b91ff;}
 body[data-theme="white"] .wait-loading .ball-loader>span {background-color: #3b91ff;}
 body[data-theme="white"] .wait-load .loader:after {background-color: #3b91ff;}
+body[data-theme="white"] .wait-side-shrink .wait-sidebar .logo {background: #ffffff url(../images/side_sm_logo.png) no-repeat center;}
 /** 主题: 经典绿色 **/
 body[data-theme="classic-green"] .wait-sidebar {background-color: #344058;}
 body[data-theme="classic-green"] .wait-sidebar .logo {background-color: #344058;}

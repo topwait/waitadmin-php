@@ -1,0 +1,94 @@
+<style>
+    .phone .top-bar {position: relative; min-height: 70px; background: url("/static/backend/images/diy/phone-top-white.png") center center / contain no-repeat #2979ff;}
+    .phone .top-bar .title {position: absolute; bottom: 10px; left: 155px; font-size: 14px; color: #ffffff;}
+    .phone .header {display: flex; justify-content: space-between; background-color: #2979ff;}
+    .phone .header .user {display: flex; align-items: center; padding: 6px 15px 20px 15px; color: #ffffff;}
+    .phone .header .user .avatar {width: 60px; height: 60px; border-radius: 50%;}
+    .phone .header .user .login {margin-left: 10px; padding: 4px; width: 85px; font-size: 14px; border: 1px solid #ffffff; border-radius: 25px; text-align: center; color: #ffffff;}
+    .phone .header .other {padding-top: 15px; }
+    .phone .header .other .layui-icon {font-size: 22px; color: #ffffff; padding: 0 10px;}
+
+    .phone {position: relative; width: 360px; min-width: 360px; height: 700px; color: #333; margin-right: 25px; border: 1px solid #ddd; background-color: #f7f7f7;}
+    .phone .bottom {position: absolute; bottom: 0;width: 100%;height: 50px; display: flex; justify-content: space-between; box-sizing: border-box; background-color: #ffffff;}
+    .phone .bottom .item {display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%;}
+    .phone .bottom .item img {width: 22px; height: 22px;}
+    .phone .bottom .item .text {line-height: 1.6;}
+
+    #phoneView {height: 494px; padding: 10px 0; box-sizing: border-box; overflow: hidden; overflow-y: auto;}
+    .phone-diy {border: 2px rgb(220, 223, 230) dashed;}
+    .phone-diy.on {border: 2px #2979ff dashed;}
+    .phone-service {margin: 0 10px; border-radius: 4px; background-color: #ffffff;}
+    .phone-service .service-header {display: flex; align-items: center; justify-content: space-between; padding: 15px 10px 5px; font-size: 15px; font-weight: 600; color: #282828;}
+    .phone-service .service-mould {display: flex; align-items: center; flex-wrap: wrap; padding: 7px 0;}
+    .phone-service .service-mould .item {display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 9px 0;}
+    .phone-service .service-mould .item .name {height: 22px;}
+    .phone-service .service-mould .item img {width: 30px; height: 30px;}
+    .phone-service .service-lists {display: flex; flex-direction: column;}
+    .phone-service .service-lists .item {display: flex; align-items: center; padding: 0 10px; height: 50px; border-bottom: 1px solid #f6f6f6;}
+    .phone-service .service-lists .item img {width: 24px; height: 24px; vertical-align: top; margin-right: 6px;}
+    .phone-service .service-lists .item .name {flex: 1;}
+
+    .phone-service #adv img {width: 100%; height: 100%; }
+</style>
+
+<div class="phone">
+    <div class="top-bar">
+        <div class="title">个人中心</div>
+    </div>
+    <div class="header">
+        <div class="user">
+            <img class="avatar" src="__BACKEND__/images/default/avatar.png" alt="avatar">
+            <div class="login">立即登录</div>
+        </div>
+        <div class="other">
+            <i class="layui-icon icon-setup-fill"></i>
+        </div>
+    </div>
+    <div id="phoneView"></div>
+    <div class="bottom">
+        {volist name="tabBar.list" id="vo"}
+            <div class="item scale{php}echo count($tabBar['list']);{/php}">
+                <img src="{$vo.iconPath}" alt="icon">
+                <div class="text">{$vo.text}</div>
+            </div>
+        {/volist}
+    </div>
+</div>
+
+<script id="phoneTpl" type="text/html">
+    <div class="phone-diy on" data-type="service">
+        <div class="phone-service">
+            <div class="service-header">{{ d.service.base.title }}</div>
+            {{#  if(d.service.base.layout === 'row'){ }}
+                <div class="service-mould">
+                    {{#  layui.each(d.service.list, function(index, item){ }}
+                        <div class="item wait-w-scale-{{ d.service.base.number }}">
+                            <img src="{{ item.image }}" alt="ico">
+                            <div class="name">{{ item.name }}</div>
+                        </div>
+                    {{#  }); }}
+                </div>
+            {{#  } else { }}
+                <div class="service-lists">
+                    {{#  layui.each(d.service.list, function(index, item){ }}
+                        <div class="item">
+                            <img src="{{ item.image }}" alt="ico">
+                            <div class="name">{{ item.name }}</div>
+                            <i class="layui-icon layui-icon-right"></i>
+                        </div>
+                    {{#  }); }}
+                </div>
+            {{#  } }}
+        </div>
+    </div>
+
+    <div class="phone-diy" data-type="adv" style="margin-top: 10px; padding: 0 10px;">
+        <div class="layui-carousel" id="adv">
+            <div carousel-item>
+                {{#  layui.each(d.adv.list, function(index, item){ }}
+                    <img src="{{ item.image }}" alt="img" style="border-radius: 4px;">
+                {{#  }); }}
+            </div>
+        </div>
+    </div>
+</script>

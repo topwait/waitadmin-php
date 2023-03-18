@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\auth;
 
-
 use app\backend\service\auth\DeptService;
 use app\backend\validate\auth\DeptValidate;
 use app\common\basics\Backend;
@@ -30,9 +29,6 @@ use think\response\View;
 
 /**
  * 部门管理
- *
- * Class DeptController
- * @package app\admin\controller\auth
  */
 class DeptController extends Backend
 {

@@ -23,9 +23,6 @@ use think\facade\Cache;
 
 /**
  * 登录服务类
- *
- * Class LoginService
- * @package app\admin\service
  */
 class LoginService extends Service
 {

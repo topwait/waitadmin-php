@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app;
 
 
-use app\common\enum\ErrorEnum;
+use app\common\enums\ErrorEnum;
 use app\common\exception\BaseException;
 use app\common\model\sys\SysLog;
 use app\common\utils\AjaxUtils;
@@ -117,7 +117,7 @@ class ExceptionHandle extends Handle
             $this->errCode = $e->getCode();
             $this->errData = $e->data;
         } elseif ($e instanceof ModelNotFoundException) {
-            $this->errCode = ErrorEnum::NOT_DATA_ERROR;
+            $this->errCode = ErrorEnum::FOUNDER_ERROR;
             $this->errMsg  = ErrorEnum::getMsgByCode($this->errCode);
         } elseif ($e instanceof HttpResponseException) {
             if (is_array($e->getResponse()->getData())) {
@@ -129,7 +129,7 @@ class ExceptionHandle extends Handle
 
         // 自定义的异常处理抛出
         if ($this->errCode) {
-            if ($request->isAjax()) {
+            if ($request->isAjax() || $this->app->http->getName() === 'api') {
                 return AjaxUtils::error(
                     $this->errMsg,
                     $this->errCode,
@@ -144,7 +144,7 @@ class ExceptionHandle extends Handle
         }
 
         // 其他错误交给系统处理
-        if ($request->isAjax()) {
+        if ($request->isAjax() || $this->app->http->getName() === 'api') {
             $this->errCode = ErrorEnum::SYSTEM_ERROR;
             return AjaxUtils::error(
                 $e->getMessage(),

@@ -94,7 +94,11 @@
                 </div>
             </div>
             <div class="index-modular-adv">
-                <img src="__FRONTEND__/images/ad.png" alt="adv">
+                {volist name="adv" id="vo"}
+                    <a href="{$vo.url}" target="{$vo.target}" title="{$vo.title}">
+                        <img src="{$vo.image}" alt="{$vo.title}">
+                    </a>
+                {/volist}
             </div>
         </div>
     </div>
@@ -108,7 +112,7 @@
             <div class="layui-card-body">
                 <ul>
                     {volist name="links" id="vo"}
-                        <li><a href="{$vo.title}" target="{$vo.target}" title="{$vo.title}">{$vo.title}</a></li>
+                        <li><a href="{$vo.url}" target="{$vo.target}" title="{$vo.title}">{$vo.title}</a></li>
                     {/volist}
                 </ul>
             </div>

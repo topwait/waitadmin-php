@@ -60,14 +60,15 @@ if (!function_exists('make_md5_str')) {
      * 生成MD5加密串
      *
      * @param string $str (未加密字符)
+     * @param string $salt (加密的盐)
      * @return string     (已加密字符)
      * @author windy
      */
     #[Pure]
-    function make_md5_str(string $str): string
+    function make_md5_str(string $str, string $salt=''): string
     {
         $baseStr = md5('CORRECT');
-        return md5($baseStr . $str);
+        return md5($baseStr . $str . $salt);
     }
 }
 
@@ -95,6 +96,35 @@ if (!function_exists('make_rand_char')) {
     }
 }
 
+if (!function_exists('make_rand_code')) {
+    /**
+     * 生成随机编码值
+     *
+     * @param $model (模型实体)
+     * @param string $field (字符串名称)
+     * @param int $length (生成长度)
+     * @param string $prefix (生成前缀)
+     * @return string
+     */
+    function make_rand_code($model, string $field = 'sn', int $length = 8, string $prefix = ''): string
+    {
+        $rand_str = '';
+        for ($i = 0; $i < $length; $i++) {
+            $rand_str .= mt_rand(0, 9);
+        }
+
+        if ($model == null) {
+            return $prefix . $rand_str;
+        }
+
+        $code = $prefix . $rand_str;
+        if ($model->where([$field => $code])->findOrEmpty()->toArray()) {
+            return make_rand_code($model, $field, $length);
+        }
+        return $code;
+    }
+}
+
 if (!function_exists('format_bytes')) {
     /**
      * 将字节转换为可读文本
@@ -113,32 +143,6 @@ if (!function_exists('format_bytes')) {
             $size /= 1024;
         }
         return round($size, $precision) . $delimiter . $units[$i];
-    }
-}
-
-if (!function_exists('delete_dir')) {
-    /**
-     * 删除指定目录
-     *
-     * @param $path (绝对路径)
-     * @author windy
-     */
-    function delete_dir($path): void
-    {
-        if (is_dir($path)) {
-            $p = scandir($path);
-            foreach ($p as $val) {
-                if ($val != "." && $val != "..") {
-                    if (is_dir($path . $val)) {
-                        delete_dir($path . $val . '/');
-                        @rmdir($path . $val . '/');
-                    } else {
-                        unlink($path . $val);
-                    }
-                }
-            }
-            @rmdir($path);
-        }
     }
 }
 

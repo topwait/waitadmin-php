@@ -1,0 +1,90 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <!-- 表格栏 -->
+    <div class="layui-card">
+        <div class="layui-card-header">通知设置</div>
+        <div class="layui-card-body wait-table-cell">
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+            <script type="text/html" id="table-sysStatus">
+                {{#  if(d.sysStatus === 1){ }}
+                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                {{# } else { }}
+                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-emsStatus">
+                {{#  if(d.emsStatus === 1){ }}
+                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                {{# } else { }}
+                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-smsStatus">
+                {{#  if(d.smsStatus === 1){ }}
+                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                {{# } else { }}
+                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-operate">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit">
+                    <i class="layui-icon icon-setup-fill"></i>
+                </button>
+            </script>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function() {
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("setting.notice/index")}'
+            ,toolbar: false
+            ,cols: [[
+                {field:'id', title:'ID', width:60, align:'center', event:'id'},
+                {field:'name', title:'通知场景', width:170, align:'left'},
+                {field:'scene', title:'场景编号', width:90, align:'center'},
+                {field:'type', title:'通知类型', width:90, align:'center'},
+                {field:'sysStatus', title:'系统', width:60, align:'center', templet:'#table-sysStatus'},
+                {field:'emsStatus', title:'邮件', width:60, align:'center', templet:'#table-emsStatus'},
+                {field:'smsStatus', title:'短信', width:60, align:'center', templet:'#table-smsStatus'},
+                {fixed:'right', title:'操作', width:70, align:'center', toolbar:'#table-operate'}
+            ]]
+        });
+
+        // 逻辑事件
+        waitUtil.event({
+            edit: function (obj) {
+                waitUtil.popup({
+                    title: '编辑',
+                    url: '{:route("setting.notice/edit")}?id='+obj.data.id,
+                    area: ['500px', '550px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data) {
+                            waitUtil.locking(this);
+                            data.field['id'] = obj.data.id;
+                            waitUtil.ajax({
+                                url: '{:route("setting.notice/edit")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                waitUtil.locking(this);
+                                if (res.code === 0) {
+                                    table.reload();
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+{/block}

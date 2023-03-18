@@ -41,4 +41,25 @@ class DevBanner extends Models
         'update_time'  => 'int',     //更新时间
         'delete_time'  => 'int'      //删除时间
     ];
+
+    /**
+     * 轮播位置枚举
+     *
+     * @param int $pos
+     * @return array|string
+     * @author windy
+     */
+    public static function positionEnum(int $pos = 0): array|string
+    {
+        $list = [
+            1 => '首页轮播',
+            2 => '侧边广告'
+        ];
+
+        if (!$pos) {
+            return $list;
+        }
+
+        return $list[$pos];
+    }
 }

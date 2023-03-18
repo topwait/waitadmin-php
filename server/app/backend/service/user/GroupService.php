@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service\user;
 
-
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\UserGroup;
@@ -26,9 +25,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 用户分组服务类
- *
- * Class GroupService
- * @package app\backend\service\user
  */
 class GroupService extends Service
 {

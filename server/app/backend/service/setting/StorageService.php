@@ -15,16 +15,12 @@ declare (strict_types = 1);
 
 namespace app\backend\service\setting;
 
-
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 存储配置服务类
- *
- * Class StorageService
- * @package app\admin\service\setting
  */
 class StorageService extends Service
 {
@@ -34,7 +30,7 @@ class StorageService extends Service
      * @return array
      * @author windy
      */
-    #[ArrayShape(['default' => "mixed|string", 'local' => "array", 'qiniu' => "string[]", 'aliyun' => "string[]", 'qcloud' => "string[]"])]
+    #[ArrayShape(['default' => "string", 'local' => "array", 'qiniu' => "string[]", 'aliyun' => "string[]", 'qcloud' => "string[]"])]
     public static function detail(): array
     {
         $config = ConfigUtils::get('storage');
@@ -71,21 +67,21 @@ class StorageService extends Service
      */
     public static function save(array $post): void
     {
-        ConfigUtils::set('storage', 'default', $post['storage'] ?? 'local', '存储引擎');
-        ConfigUtils::set('storage', 'local', [], '本地存储');
+        ConfigUtils::set('storage', 'default', $post['storage'] ?? 'local');
+        ConfigUtils::set('storage', 'local', []);
         ConfigUtils::set('storage', 'qiniu', [
             'bucket'    => $post['qiniu_bucket'] ?? '',
             'accessKey' => $post['qiniu_ak'] ?? '',
             'secretKey' => $post['qiniu_sk'] ?? '',
             'domain'    => $post['qiniu_domain'] ?? '',
-        ], '七牛存储');
+        ]);
 
         ConfigUtils::set('storage', 'aliyun', [
             'bucket'    => $post['aliyun_bucket'] ?? '',
             'accessKey' => $post['aliyun_ak'] ?? '',
             'secretKey' => $post['aliyun_sk'] ?? '',
             'domain'    => $post['aliyun_domain'] ?? '',
-        ], '阿里存储');
+        ]);
 
         ConfigUtils::set('storage', 'qcloud', [
             'bucket'    => $post['qcloud_bucket'] ?? '',
@@ -93,6 +89,6 @@ class StorageService extends Service
             'accessKey' => $post['qcloud_ak'] ?? '',
             'secretKey' => $post['qcloud_sk'] ?? '',
             'domain'    => $post['qcloud_domain'] ?? '',
-        ], '腾讯存储');
+        ]);
     }
 }

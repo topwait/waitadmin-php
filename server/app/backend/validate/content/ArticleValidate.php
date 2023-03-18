@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\content;
 
-
 use app\common\basics\Validate;
 
 /**
  * 文章参数验证器
- *
- * Class ArchivesValidate
- * @package app\backend\validate\content
  */
 class ArticleValidate extends Validate
 {

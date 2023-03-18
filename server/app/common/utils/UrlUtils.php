@@ -47,7 +47,7 @@ class UrlUtils
             $url = '/' . $url;
         }
 
-        if (str_starts_with($url, '/static')) {
+        if (str_starts_with($url, '/static') || str_starts_with($url, '/temporary')) {
             return request()->domain() . $url;
         }
 
@@ -57,7 +57,7 @@ class UrlUtils
         } else {
             $config = ConfigUtils::get('storage', $engine, []);
             $domain = $config['domain'] ?? '';
-            return $domain . $url;
+            return rtrim($domain, '/') . $url;
         }
     }
 

@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\utils;
 
 
+use Exception;
 use FilesystemIterator;
 use JetBrains\PhpStorm\Pure;
 use RecursiveIteratorIterator;
@@ -158,6 +159,23 @@ class FileUtils
     }
 
     /**
+     * 下载文件到本地目录
+     *
+     * @param string $url (远程链接)
+     * @param String $saveTo (保存路径)
+     */
+    public static function download(string $url, String $saveTo)
+    {
+        $basePath = str_replace(basename($url), '', $url);
+        if (!file_exists(base_path($basePath))) {
+            mkdir(base_path($basePath), 0775, true);
+        }
+
+        $content = file_get_contents($url);
+        file_put_contents($saveTo, $content);
+    }
+
+    /**
      * 获取目录的大小
      *
      * @param string $dir (目录)
@@ -225,10 +243,9 @@ class FileUtils
      * @return string
      * @author windy
      */
-    #[Pure]
     public static function getFileExt(string $path): string
     {
-        return strtolower(substr(strrchr($path,'.'),1));
+        return strrchr($path,'.') ? strtolower(substr(strrchr($path,'.'),1)) : '';
     }
 
     /**

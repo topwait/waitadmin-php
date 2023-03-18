@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\common\service\storage;
 
-
 use app\backend\service\setting\WatermarkService;
 use app\common\utils\UrlUtils;
 use Exception;
@@ -48,15 +47,34 @@ class StorageDriver
     }
 
     /**
+     * 上传验证
+     *
+     * @param string $type (类型: image/video/package/document)
+     * @author windy
+     */
+    public function validates(string $type): void
+    {
+        $limit = match ($type) {
+            'image'    => config('project.uploader.image')    ?? ['size' => 10485760, 'ext' => ['png', 'jpg', 'jpeg', 'gif', 'ico', 'bmp']],
+            'video'    => config('project.uploader.video')    ?? ['size' => 31457280, 'ext' => ['mp4', 'mp3', 'avi', 'flv', 'rmvb', 'mov']],
+            'package'  => config('project.uploader.package')  ?? ['size' => 31457280, 'ext' => ['zip', 'rar', 'iso', '7z', 'tar', 'gz', 'arj', 'bz2']],
+            'document' => config('project.uploader.document') ?? ['size' => 31457280, 'ext' => ['txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'pem']],
+            default => ['size' => 4194304, 'ext' => ['png', 'jpg', 'jpeg', 'gif', 'ico', 'mp4', 'mov', 'avi', 'flv']],
+        };
+
+        $fileExt = implode(',', $limit['ext']);
+        validate(['file' => 'fileSize:'.$limit['size'] . '|fileExt:'.$fileExt])->check(request()->file());
+    }
+
+    /**
      * 上传文件
      *
      * @param string $type (类型: image/video/package/document)
-     * @param string $dir  (目录: attach)
+     * @param string $dir  (目录: attach/article/config)
      * @return array
      * @throws Exception
      * @author windy
      */
-    #[ArrayShape(['type' => "string", 'ext' => "mixed", 'size' => "mixed", 'mime' => "mixed", 'name' => "mixed", 'realPath' => "mixed", 'fileName' => "string"])]
     public function upload(string $type, string $dir=''): array
     {
         $file = request()->file('file');
@@ -74,9 +92,9 @@ class StorageDriver
         $dir   = ($dir && str_ends_with($dir, '/')) ? $dir : $dir.'/';
         $dir   = ($dir && str_starts_with($dir, '/')) ? $dir : '/'.$dir;
         $disks = trim(config('filesystem.disks.public.url'), '/');
-        $disks = $disks . $dir. $type . '/';
+        $disks = $disks . $dir;
 
-        $fileInfo = [
+        $detail['info'] = [
             'type'     => $type,
             'ext'      => $extension,
             'size'     => $file->getSize(),
@@ -86,40 +104,55 @@ class StorageDriver
             'fileName' => $disks . $this->buildSaveName($file->getRealPath(), $extension)
         ];
 
-        $this->watermark($fileInfo);
+        $this->watermark($detail['info']);
 
-        $this->engine->upload($fileInfo);
+        $this->engine->upload($detail['info']);
 
-        return $fileInfo;
+        return $detail['info'];
     }
 
     /**
-     * 上传验证
+     * 本地上传
      *
+     * @param string $url (路径)
+     * @param string $key (键值)
      * @author windy
-     * @param string $type (类型: image/video/package/document)
      */
-    public function validates(string $type): void
+    public function putFile(string $url, string $key)
     {
-        $limit = match ($type) {
-            'image'    => config('project.uploader.image')    ?? ['size' => 10485760, 'ext' => ['png', 'jpg', 'jpeg', 'gif', 'ico', 'bmp']],
-            'video'    => config('project.uploader.video')    ?? ['size' => 31457280, 'ext' => ['mp4', 'mp3', 'avi', 'flv', 'rmvb', 'mov']],
-            'package'  => config('project.uploader.package')  ?? ['size' => 31457280, 'ext' => ['zip', 'rar', 'iso', '7z', 'tar', 'gz', 'arj', 'bz2']],
-            'document' => config('project.uploader.document') ?? ['size' => 31457280, 'ext' => ['txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'pem']],
-            default => ['size' => 4194304, 'ext' => ['png', 'jpg', 'jpeg', 'gif', 'ico', 'mp4', 'mov', 'avi', 'flv']],
-        };
+        $this->engine->putFile($url, $key);
+    }
 
-        $fileExt = implode(',', $limit['ext']);
-        validate(['file' => 'fileSize:'.$limit['size'] . '|fileExt:'.$fileExt])->check(request()->file());
+    /**
+     * 远程上传
+     *
+     * @param string $url (地址)
+     * @param string $key (键值)
+     * @author windy
+     */
+    public function fetch(string $url, string $key)
+    {
+        $this->engine->fetch($url, $key);
+    }
+
+    /**
+     * 文件删除
+     *
+     * @param string $url (地址)
+     * @author windy
+     */
+    public function delete(string $url)
+    {
+        $this->engine->delete($url);
     }
 
     /**
      * 生成文件名
      *
-     * @author windy
      * @param string $realPath (临时路径)
      * @param string $ext      (文件后缀)
      * @return string          (日期名称)
+     *  @author windy
      */
     public function buildSaveName(string $realPath, string $ext): string
     {
@@ -170,10 +203,10 @@ class StorageDriver
     /**
      * 取存储引擎
      *
-     * @author windy
      * @param string|null $storage (引擎名称)
      * @return mixed
      * @throws Exception
+     * @author windy
      */
     private function getEngineClass(string $storage=null): mixed
     {

@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\common\service\storage\engine;
 
-
 use OSS\Core\OssException;
 use OSS\OssClient;
 
@@ -51,10 +50,9 @@ class Aliyun
     /**
      * 文件上传
      *
-     * @author windy
      * @param array $fileInfo (文件信息)
-     * @return void
      * @throws OssException
+     * @author windy
      */
     public function upload(array $fileInfo): void
     {
@@ -66,12 +64,25 @@ class Aliyun
     }
 
     /**
+     * 本地上传
+     *
+     * @param string $path
+     * @param string $key
+     * @throws OssException
+     */
+    public function putFile(string $path, string $key): void
+    {
+        $this->ossClient->uploadFile($this->config['bucket'], $key, $path);
+    }
+
+    /**
      * 远程上传
      *
      * @param string $url
-     * @param string|null $key
+     * @param string $key
+     * @author windy
      */
-    public function fetch(string $url, string $key=null): void
+    public function fetch(string $url, string $key): void
     {
         $content = file_get_contents($url);
         $this->ossClient->putObject(
@@ -84,9 +95,8 @@ class Aliyun
     /**
      * 文件删除
      *
-     * @author windy
      * @param string $url
-     * @return void
+     * @author windy
      */
     public function delete(string $url): void
     {

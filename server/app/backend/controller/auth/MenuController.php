@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\auth;
 
-
 use app\backend\service\auth\MenuService;
 use app\backend\validate\auth\MenuValidate;
 use app\common\basics\Backend;
@@ -30,9 +29,6 @@ use think\response\View;
 
 /**
  * 菜单管理
- *
- * Class MenuController
- * @package app\admin\controller\auth
  */
 class MenuController extends Backend
 {
@@ -116,7 +112,7 @@ class MenuController extends Backend
     {
         if ($this->isAjaxPost()) {
             (new MenuValidate())->idCheck();
-            MenuService::del($this->request->post('id'));
+            MenuService::del(intval($this->request->post('id')));
             return AjaxUtils::success();
         }
 

@@ -20,9 +20,6 @@ use app\common\basics\Validate;
 
 /**
  * 菜单参数验证器
- *
- * Class MenuValidate
- * @package app\admin\validate\auth
  */
 class MenuValidate extends Validate
 {

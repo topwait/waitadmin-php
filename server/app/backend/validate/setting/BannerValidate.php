@@ -20,9 +20,6 @@ use app\common\basics\Validate;
 
 /**
  * 轮播图参数验证器
- *
- * Class BannerValidate
- * @package app\backend\validate\setting
  */
 class BannerValidate extends Validate
 {

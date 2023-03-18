@@ -12,7 +12,7 @@ class Addons
      * app对象
      * @var App
      */
-    protected $app;
+    protected App $app;
 
     /**
      * 构造函数
@@ -32,7 +32,7 @@ class Addons
      * @param Closure $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): mixed
     {
         hook('addon_middleware', $request);
         return $next($request);

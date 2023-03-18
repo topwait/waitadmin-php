@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\content;
 
-
 use app\backend\service\content\ArticleService;
 use app\backend\service\content\CategoryService;
 use app\backend\validate\content\ArticleValidate;
@@ -31,9 +30,6 @@ use think\response\View;
 
 /**
  * 文章管理
- *
- * Class ArticleController
- * @package app\backend\controller\content
  */
 class ArticleController extends Backend
 {

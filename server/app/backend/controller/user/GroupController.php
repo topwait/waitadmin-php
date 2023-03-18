@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\user;
 
-
 use app\backend\service\user\GroupService;
 use app\backend\validate\PageValidate;
 use app\backend\validate\user\GroupValidate;
@@ -30,9 +29,6 @@ use think\response\View;
 
 /**
  * 用户分组管理
- *
- * Class GroupController
- * @package app\backend\controller\user
  */
 class GroupController extends Backend
 {

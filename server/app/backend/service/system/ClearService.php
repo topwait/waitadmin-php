@@ -15,14 +15,11 @@ declare (strict_types = 1);
 
 namespace app\backend\service\system;
 
-
 use app\common\basics\Service;
+use app\common\utils\FileUtils;
 
 /**
  * 系统缓存清除服务类
- *
- * Class ClearService
- * @package app\admin\service\system
  */
 class ClearService extends Service
 {
@@ -45,31 +42,31 @@ class ClearService extends Service
         foreach ($post['type'] as $type) {
             switch (intval($type)) {
                 case 1: //系统缓存
-                    delete_dir(root_path().'runtime/cache/');
+                    FileUtils::rmdir(root_path().'runtime/cache/');
                     foreach ($dirs as $dir) {
-                        delete_dir($dir.'/cache/');
+                        FileUtils::rmdir($dir.'/cache/');
                     }
                     break;
                 case 2: //登录缓存
-                    delete_dir(root_path().'runtime/session/');
+                    FileUtils::rmdir(root_path().'runtime/session/');
                     foreach ($dirs as $dir) {
-                        delete_dir($dir.'/session/');
+                        FileUtils::rmdir($dir.'/session/');
                     }
                     break;
                 case 3: //模板缓存
-                    delete_dir(public_path().'runtime/temp/');
+                    FileUtils::rmdir(public_path().'runtime/temp/');
                     foreach ($dirs as $dir) {
-                        delete_dir($dir.'/temp/');
+                        FileUtils::rmdir($dir.'/temp/');
                     }
                     break;
                 case 4: //日志文件
-                    delete_dir(root_path().'runtime/log/');
+                    FileUtils::rmdir(root_path().'runtime/log/');
                     foreach ($dirs as $dir) {
-                        delete_dir($dir.'/log/');
+                        FileUtils::rmdir($dir.'/log/');
                     }
                     break;
                 case 5: //临时图片
-                    delete_dir(root_path().'public/storage/temp/');
+                    FileUtils::rmdir(root_path().'public/storage/temp/');
                     break;
             }
         }

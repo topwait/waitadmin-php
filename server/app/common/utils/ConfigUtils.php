@@ -30,44 +30,7 @@ class ConfigUtils
     /**
      * 系统配置缓存键
      */
-    private const SYSTEM_CONFIG_KEY = 'system:configs';
-
-    /**
-     * 配置设置
-     *
-     * @param string $type (类型)
-     * @param string $key (键名)
-     * @param mixed $value (键值)
-     * @param string $remarks (备注)
-     * @author windy
-     */
-    public static function set(string $type, string $key, mixed $value, string $remarks=''): void
-    {
-        Cache::delete(self::SYSTEM_CONFIG_KEY);
-        if (is_array($value)) {
-            $value = json_encode($value);
-        }
-
-        $model = new SysConfig();
-        if ($model->where(['type'=>$type, 'key'=>$key])->findOrEmpty()->isEmpty()) {
-            SysConfig::create([
-                'type'        => $type,
-                'key'         => $key,
-                'value'       => $value,
-                'remarks'     => $remarks,
-                'create_time' => time(),
-                'update_time' => time()
-            ]);
-        } else {
-            SysConfig::update([
-                'type'        => $type,
-                'key'         => $key,
-                'value'       => $value,
-                'remarks'     => $remarks,
-                'update_time' => time()
-            ], ['type'=>$type, 'key'=>$key]);
-        }
-    }
+    private const SYSTEM_CONFIG_KEY = 'sys:config';
 
     /**
      * 配置读取
@@ -102,9 +65,11 @@ class ConfigUtils
         if ($key) {
             $value = $cacheData[$type][$key] ?? null;
 
-            $json = json_decode($value, true);
-            if (json_last_error() === JSON_ERROR_NONE) {
-                $value = $json;
+            if ($value !== null && $value !== '') {
+                $json = json_decode($value, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $value = $json;
+                }
             }
 
             if ($value === null && $default !== null) {
@@ -115,10 +80,76 @@ class ConfigUtils
         }
 
         $data = $cacheData[$type] ?? null;
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                if ($v == null) {
+                    $data[$k] = $v;
+                    continue;
+                }
+                $json = json_decode($v, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $data[$k] = $json;
+                }
+            }
+        }
+
         if ($data === null && $default !== null) {
             return $default;
         }
 
         return $data;
+    }
+
+    /**
+     * 配置设置
+     *
+     * @param string $type (类型)
+     * @param string $key (键名)
+     * @param mixed $value (键值)
+     * @param string $remarks (备注)
+     * @author windy
+     */
+    public static function set(string $type, string $key, mixed $value, string $remarks=''): void
+    {
+        Cache::delete(self::SYSTEM_CONFIG_KEY);
+        if (is_array($value)) {
+            $value = json_encode($value);
+        }
+
+        $model = new SysConfig();
+        if ($model->where(['type'=>$type, 'key'=>$key])->findOrEmpty()->isEmpty()) {
+            SysConfig::create([
+                'type'        => $type,
+                'key'         => $key,
+                'value'       => $value,
+                'remarks'     => $remarks,
+                'create_time' => time(),
+                'update_time' => time()
+            ]);
+        } else {
+            $data = [
+                'type'        => $type,
+                'key'         => $key,
+                'value'       => $value,
+                'update_time' => time()
+            ];
+            if ($remarks) {
+                $data['remarks'] = $remarks;
+            }
+            SysConfig::update($data, ['type'=>$type, 'key'=>$key]);
+        }
+    }
+
+    /**
+     * 配置(数组)
+     *
+     * @param string $type   (类型)
+     * @param array $results (集合)
+     */
+    public static function setItem(string $type, array $results)
+    {
+        foreach ($results as $key => $value) {
+            self::set($type, $key, $value);
+        }
     }
 }

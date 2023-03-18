@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\system;
 
-
 use app\backend\service\system\ClearService;
 use app\backend\validate\system\ClearValidate;
 use app\common\basics\Backend;
@@ -25,9 +24,6 @@ use think\response\View;
 
 /**
  * 系统缓存清除管理
- *
- * Class ClearController
- * @package app\admin\controller\system
  */
 class ClearController extends Backend
 {

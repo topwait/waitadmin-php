@@ -1,0 +1,134 @@
+{extend name="common/layout" /}
+
+{block name="bodyStyle"}<body style="background: #f5f7f9;">{/block}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content" style="padding: 15px;">
+
+        <!-- 模板信息 -->
+        <div class="layui-card">
+            <div class="layui-card-header">模板信息</div>
+            <div class="layui-card-body">
+                <!-- 通知名称 -->
+                <div class="layui-form-item" style="margin-bottom: 0;">
+                    <label class="layui-form-label">通知名称：</label>
+                    <div class="layui-input-block" style="line-height: 37px;">{$detail.name??''}</div>
+                </div>
+                <!-- 通知类型 -->
+                <div class="layui-form-item" style="margin-bottom: 0;">
+                    <label class="layui-form-label">通知类型：</label>
+                    <div class="layui-input-block" style="line-height: 37px;">{$detail.is_captcha==1?'验证码':'消息型'}</div>
+                </div>
+                <!-- 通知端口 -->
+                <div class="layui-form-item" style="margin-bottom: 0;">
+                    <label class="layui-form-label">通知端口：</label>
+                    <div class="layui-input-block" style="line-height: 37px;">{$detail.get_client==1?'用户端':'平台端'}</div>
+                </div>
+                <!-- 通知描述 -->
+                <div class="layui-form-item" style="margin-bottom: 0;">
+                    <label class="layui-form-label">通知描述：</label>
+                    <div class="layui-input-block" style="line-height: 37px;">{$detail.remarks??'-'}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 系统通知 -->
+        {if isset($detail.sys_template.status)}
+            <div class="layui-card">
+                <div class="layui-card-header">系统通知</div>
+                <div class="layui-card-body">
+                    <!-- 是否开启 -->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="asterisk">*</span>是否开启：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sys_status" value="1" title="是" {if $detail.sys_template.status==1}checked{/if}>
+                            <input type="radio" name="sys_status" value="0" title="否" {if $detail.sys_template.status==0}checked{/if}>
+                        </div>
+                    </div>
+                    <!-- 通知内容 -->
+                    <div class="layui-form-item">
+                        <label for="sys_content" class="layui-form-label"><span class="asterisk">*</span>通知内容：</label>
+                        <div class="layui-input-block">
+                            <div class="layui-col-sm4">
+                                <textarea name="sys_content" id="sys_content" class="layui-textarea" lay-verType="tips" lay-verify="required">{$detail.sys_template.content}</textarea>
+                                <div class="layui-form-mid layui-word-aux">支持嵌入场景变量，复制场景变量的值填入即可生效</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/if}
+
+        <!-- 邮件通知 -->
+        {if isset($detail.ems_template.status)}
+            <div class="layui-card">
+                <div class="layui-card-header">邮件通知</div>
+                <div class="layui-card-body">
+                    <!-- 是否开启 -->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="asterisk">*</span>是否开启：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="ems_status" value="1" title="是" {if $detail.ems_template.status==1}checked{/if}>
+                            <input type="radio" name="ems_status" value="0" title="否" {if $detail.ems_template.status==0}checked{/if}>
+                        </div>
+                    </div>
+                    <!-- 通知内容 -->
+                    <div class="layui-form-item">
+                        <label for="ems_content" class="layui-form-label"><span class="asterisk">*</span>通知内容：</label>
+                        <div class="layui-input-block">
+                            <div class="layui-col-sm4">
+                                <textarea name="sys_content" id="ems_content" class="layui-textarea" lay-verType="tips" lay-verify="required">{$detail.ems_template.content}</textarea>
+                                <div class="layui-form-mid layui-word-aux">支持嵌入场景变量，复制场景变量的值填入即可生效</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/if}
+
+        <!-- 短信通知 -->
+        {if isset($detail.sms_template.status)}
+            <div class="layui-card">
+                <div class="layui-card-header">短信通知</div>
+                <div class="layui-card-body">
+                    <!-- 是否开启 -->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="asterisk">*</span>是否开启：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sms_status" value="1" title="是" {if $detail.sms_template.status==1}checked{/if}>
+                            <input type="radio" name="sms_status" value="0" title="否" {if $detail.sms_template.status==0}checked{/if}>
+                        </div>
+                    </div>
+                    <!-- 模板编号 -->
+                    <div class="layui-form-item">
+                        <label for="sms_code" class="layui-form-label"><span class="asterisk">*</span>模板编号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="sms_code" name="sms_code" value="{$detail.sms_template.template_code??''}"
+                                   autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+                        </div>
+                    </div>
+                    <!-- 短信内容 -->
+                    <div class="layui-form-item">
+                        <label for="sms_content" class="layui-form-label"><span class="asterisk">*</span>短信内容：</label>
+                        <div class="layui-input-block">
+                            <div class="layui-col-sm4">
+                                <textarea name="sms_content" id="sms_content" class="layui-textarea" lay-verType="tips" lay-verify="required">{$detail.sms_template.content}</textarea>
+                                <div class="layui-form-mid layui-word-aux">支持嵌入场景变量，复制场景变量的值填入即可生效</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/if}
+
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

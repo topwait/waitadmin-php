@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace think\addons;
 
-use think\Console;
-use think\facade\Lang;
 use think\facade\Request;
 use think\helper\Str;
 use think\facade\Event;
@@ -20,7 +18,7 @@ class Route
      * @param string $module
      * @return mixed
      */
-    public static function execute($module = 'frontend')
+    public static function execute(string $module = 'frontend'): mixed
     {
         $app = app();
         $request    = $app->request;
@@ -30,7 +28,7 @@ class Route
 
         // 适配单层应用
         $addonsPath = app()->getRootPath() . 'addons' . DS;
-        $AddonCheck = strpos($request->pathinfo(), 'addons') === 0 ? true : false;
+        $AddonCheck = str_starts_with($request->pathinfo(), 'addons');
         $modulePath = $addonsPath . $addon . DS . ($module? ($module . DS):'');
         if (!is_dir($modulePath) || ($AddonCheck && !$action)) {
             $module = '';
@@ -48,7 +46,7 @@ class Route
 
         // 设置请求操作
         $request->addon = $addon;
-        $request->setController("{$module}.{$controller}")->setAction($action);
+        $request->setController("$module.$controller")->setAction($action);
 
         // 验证是否可用
         $info = get_addons_info($addon);
@@ -119,134 +117,4 @@ class Route
         return call_user_func_array($call, $vars);
     }
 
-    /**
-     * 加载配置
-     */
-    private static function loadApp()
-    {
-        $addonsPath = app()->getRootPath() . 'addons' . DS;
-        $app   = app();
-        $rules = explode('/', $app->request->url());
-        $rules = array_splice($rules, 2, count($rules)-1);
-        $addon  = $app->request->route('addon')  ?? '';
-        $module = $app->request->route('module') ?? '';
-
-        // 加载插件应用级配置
-        if (is_dir($addonsPath . $addon)) {
-            foreach (scandir($addonsPath . $addon) as $name) {
-                if (in_array($name, ['.', '..', 'public', 'view', 'middleware'])) {
-                    continue;
-                }
-
-                $appConfigs = ['common.php', 'middleware.php', 'provider.php', 'event.php'];
-                if (in_array($name, $appConfigs)) {
-                    if (is_file($addonsPath . $addon . DS . 'common.php')) {
-                        include_once $addonsPath . $addon . DS . 'common.php';
-                    }
-
-                    if (is_file($addonsPath . $addon . DS . 'middleware.php')) {
-                        $app->middleware->import(include $addonsPath . $addon . DS . 'middleware.php', 'route');
-                    }
-
-                    if (is_file($addonsPath . $addon . DS . 'provider.php')) {
-                        $app->bind(include $addonsPath . $addon . DS . 'provider.php');
-                    }
-
-                    if (is_file($addonsPath . $addon . DS . 'event.php')) {
-                        $app->loadEvent(include $addonsPath . $addon . DS . 'event.php');
-                    }
-
-                    $commands = [];
-                    $addonsConfigDir = $addonsPath . $addon . DS . 'config' . DS;
-                    if (is_dir($addonsConfigDir)) {
-                        $files = [];
-                        $files = array_merge($files, glob($addonsConfigDir . '*' . $app->getConfigExt()));
-                        if ($files) {
-                            foreach ($files as $file) {
-                                if (file_exists($file)) {
-                                    if (substr($file, -11) == 'console.php') {
-                                        $commandsConfig = include_once $file;
-                                        isset($commandsConfig['commands']) && $commands = array_merge($commands, $commandsConfig['commands']);
-                                        !empty($commands) && Console::starting(function (Console $console) use ($commands) {
-                                            $console->addCommands($commands);
-                                        });
-                                    } else {
-                                        $app->config->load($file, pathinfo($file, PATHINFO_FILENAME));
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    $addonsLangDir = $addonsPath . $addon . DS . 'lang' . DS;
-                    if (is_dir($addonsLangDir)) {
-                        $files = glob($addonsLangDir . $app->lang->defaultLangSet() . '.php');
-                        foreach ($files as $file) {
-                            if (file_exists($file)) {
-                                Lang::load([$file]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // 加载插件模块级配置
-        if (is_dir($addonsPath . $addon . DS . $module)) {
-            foreach (scandir($addonsPath . $addon . DS . $module) as $modName) {
-                if (in_array($modName, ['.', '..', 'public', 'view'])) {
-                    continue;
-                }
-
-                $moduleConfigs = ['common.php', 'middleware.php', 'provider.php', 'event.php', 'config'];
-                if (in_array($modName, $moduleConfigs)) {
-                    if (is_file($addonsPath . $addon . DS . $module . DS . 'common.php')) {
-                        include_once $addonsPath . $addon . DS . $module . DS . 'common.php';
-                    }
-
-                    if (is_file($addonsPath . $addon . DS . $module . DS . 'middleware.php')) {
-                        $app->middleware->import(include $addonsPath . $addon . DS . $module . DS . 'middleware.php', 'route');
-                    }
-
-                    if (is_file($addonsPath . $addon . DS . $module . DS . 'provider.php')) {
-                        $app->bind(include $addonsPath . $addon . DS . $module . DS . 'provider.php');
-                    }
-
-                    if (is_file($addonsPath . $addon . DS . $module . DS . 'event.php')) {
-                        $app->loadEvent(include $addonsPath . $addon . DS . $module . DS . 'event.php');
-                    }
-
-                    $commands = [];
-                    $moduleConfigDir = $addonsPath . $addon . DS . $module . DS . 'config' . DS;
-                    if (is_dir($moduleConfigDir)) {
-                        $files = [];
-                        $files = array_merge($files, glob($moduleConfigDir . '*' . $app->getConfigExt()));
-                        if($files){
-                            foreach ($files as $file) {
-                                if (file_exists($file)) {
-                                    if (substr($file,-11) != 'console.php') {
-                                        $app->config->load($file, pathinfo($file, PATHINFO_FILENAME));
-                                    } else {
-                                        $commandsConfig = include_once $file;
-                                        isset($commandsConfig['commands']) && $commands = array_merge($commands, $commandsConfig['commands']);
-                                        !empty($commands) && Console::starting(function (Console $console) use($commands) {$console->addCommands($commands);});
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    $addonsLangDir = $addonsPath . $addon . DS . $module . DS . 'lang' . DS;
-                    if (is_dir($addonsLangDir)) {
-                        $files = glob($addonsLangDir . $app->lang->defaultLangSet() . '.php');
-                        foreach ($files as $file) {
-                            if (file_exists($file)) {
-                                Lang::load([$file]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

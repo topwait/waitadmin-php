@@ -53,9 +53,7 @@
 
     <!-- 菜单区域 -->
     <div class="wait-sidebar">
-        <div class="logo">
-            <img src="__BACKEND__/images/logo.png" alt="waitadmin">
-        </div>
+        <div class="logo"></div>
         <ul>
             {volist name="menus" id="vo" key="k"}
             {if !$vo.children}
@@ -86,7 +84,7 @@
                                     </a>
                                     <dl>
                                         {volist name="$item.children" id="sub"}
-                                        <dd><a lay-id="{$item.id}" lay-attr="{:route($item.perms)}">{$item.title}</a></dd>
+                                            <dd><a lay-id="{$sub.id}" lay-attr="{:route($sub.perms)}">{$sub.title}</a></dd>
                                         {/volist}
                                     </dl>
                                 </dd>

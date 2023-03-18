@@ -15,16 +15,12 @@ declare (strict_types = 1);
 
 namespace app\backend\controller;
 
-
-use app\common\enum\ErrorEnum;
+use app\common\enums\ErrorEnum;
 use app\common\exception\SystemException;
 use think\response\View;
 
 /**
  * 错误管理
- *
- * Class ErrorController
- * @package app\admin\controller
  */
 class ErrorController
 {
@@ -38,7 +34,7 @@ class ErrorController
      */
     public function __call($name, $arguments)
     {
-        $errCode = ErrorEnum::CONTROLLER_ERROR;
+        $errCode = ErrorEnum::CONTROl_ERROR;
         $message = ErrorEnum::getMsgByCode($errCode);
         throw new SystemException($message, $errCode);
     }

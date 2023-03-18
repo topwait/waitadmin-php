@@ -54,6 +54,7 @@
 
     <script>
         layui.use(['form'], function () {
+            let $ = layui.$;
             let form = layui.form;
 
             let theme = waitCache.getItem('theme');
@@ -68,8 +69,9 @@
 
             // 监听提交登录
             form.on('submit(loginSubmit)', function(data) {
+                const that = $(this)
                 rememberPass();
-                waitUtil.locking(this);
+                waitUtil.locking(that);
                 waitUtil.ajax({
                     url: '{:route("login/check")}',
                     type: 'POST',
@@ -77,7 +79,6 @@
                     fulShow: false,
                     errShow: false
                 }).then((res) => {
-                    waitUtil.unlock(this);
                     if (res.code === 0) {
                         layer.msg(res.msg, {icon: 1, time: 1000}, function () {
                             location.href = '{:route("index")}'
@@ -86,6 +87,10 @@
                         layer.msg(res.msg, {icon: 2, time: 1000});
                         $('.login-captcha').trigger('click');
                     }
+
+                    setTimeout(function () {
+                        waitUtil.unlock(that);
+                    }, 1500)
                 });
             });
 

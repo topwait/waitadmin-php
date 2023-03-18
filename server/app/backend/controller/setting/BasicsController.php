@@ -15,20 +15,17 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\setting;
 
-
 use app\backend\service\setting\BasicsService;
 use app\common\basics\Backend;
 use app\common\exception\OperateException;
 use app\common\exception\SystemException;
 use app\common\utils\AjaxUtils;
+use Exception;
 use think\response\Json;
 use think\response\View;
 
 /**
  * 基础配置管理
- *
- * Class BasicsController
- * @package app\admin\controller\setting
  */
 class BasicsController extends Backend
 {
@@ -47,31 +44,13 @@ class BasicsController extends Backend
      * 基本配置保存
      *
      * @return Json
+     * @throws Exception
      * @author windy
      */
     public function save(): Json
     {
         if ($this->isAjaxPost()) {
             BasicsService::save($this->request->post());
-            return AjaxUtils::success();
-        }
-
-        return AjaxUtils::error();
-    }
-
-    /**
-     * 邮件测试发送
-     *
-     * @return Json
-     * @throws SystemException
-     * @author windy
-     */
-    public function testEmail(): Json
-    {
-        if ($this->isAjaxPost()) {
-            $post = $this->request->post();
-            $this->validate($post, ['recipient'=>'require|email']);
-            BasicsService::testEmail($post['recipient']);
             return AjaxUtils::success();
         }
 

@@ -44,6 +44,7 @@ class IndexController extends Frontend
         return view('', [
             'links'    => IndexService::getLinks(),
             'banner'   => IndexService::getBanner(1),
+            'adv'      => IndexService::getBanner(2),
             'topping'  => ArticleService::recommend('topping', 6),
             'everyday' => ArticleService::recommend('everyday', 8),
             'lately'   => ArticleService::recommend('lately', 8),

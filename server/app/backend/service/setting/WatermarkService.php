@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service\setting;
 
-
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
 use app\common\utils\FileUtils;
@@ -23,9 +22,6 @@ use app\common\utils\UrlUtils;
 
 /**
  * 水印配置服务类
- *
- * Class WatermarkService
- * @package app\admin\service\setting
  */
 class WatermarkService extends Service
 {

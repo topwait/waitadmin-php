@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\setting;
 
-
 use app\common\basics\Validate;
 
 /**
  * 友情链接参数验证器
- *
- * Class LinksValidate
- * @package app\backend\validate\setting
  */
 class LinksValidate extends Validate
 {

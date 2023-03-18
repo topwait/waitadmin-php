@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate;
 
-
 use app\common\basics\Validate;
 
 /**
  * 分页参数验证器
- *
- * Class PageValidate
- * @package app\admin\validate
  */
 class PageValidate extends Validate
 {

@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\user;
 
-
 use app\common\basics\Validate;
 
 /**
  * 用户分组参数验证器
- *
- * Class GroupValidate
- * @package app\backend\validate\user
  */
 class GroupValidate extends Validate
 {

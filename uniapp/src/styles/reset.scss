@@ -1,0 +1,17 @@
+view { box-sizing: border-box; }
+image { vertical-align: middle; }
+page button {
+    overflow: unset;
+    margin: 0;
+    margin-right: 0;
+    margin-left: 0;
+    padding: 0;
+    font-size: 28rpx;
+    font-weight: normal;
+    border-radius: 0;
+    text-align: left;
+    line-height: normal;
+    background-color: unset;
+    border: none;
+    &::after { border: none; }
+}

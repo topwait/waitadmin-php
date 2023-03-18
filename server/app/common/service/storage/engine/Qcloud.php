@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\common\service\storage\engine;
 
-
 use Qcloud\Cos\Client;
 
 /**
@@ -46,25 +45,41 @@ class Qcloud
      *
      * @author windy
      * @param array $fileInfo (文件信息)
-     * @return void
+     * @author windy
      */
     public function upload(array $fileInfo): void
     {
         $this->cosClient->putObject([
             'Bucket' => $this->config['bucket'],
             'Key'    => $fileInfo['fileName'],
-            'Body'   => fopen('', 'rb')
+            'Body'   => fopen($fileInfo['realPath'], 'rb')
+        ]);
+    }
+
+    /**
+     * 本地上传
+     *
+     * @param string $path (地址)
+     * @param string $key  (键名)
+     * @author windy
+     */
+    public function putFile(string $path, string $key): void
+    {
+        $this->cosClient->putObject([
+            'Bucket' => $this->config['bucket'],
+            'Key'    => $key,
+            'Body'   => fopen($path, 'rb')
         ]);
     }
 
     /**
      * 远程上传
      *
+     * @param string $url (地址)
+     * @param string $key (键名)
      * @author windy
-     * @param string $url
-     * @param string $key
      */
-    public function fetch(string $url, string $key)
+    public function fetch(string $url, string $key): void
     {
         $this->cosClient->putObject([
             'Bucket' => $this->config['bucket'],
@@ -76,10 +91,10 @@ class Qcloud
     /**
      * 文件删除
      *
+     * @param string $url (地址)
      * @author windy
-     * @param string $url
      */
-    public function delete(string $url)
+    public function delete(string $url): void
     {
         $this->cosClient->deleteObject(array(
             'Bucket' => $this->config['bucket'],

@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\content;
 
-
 use app\backend\service\content\CategoryService;
 use app\backend\validate\content\CategoryValidate;
 use app\backend\validate\PageValidate;
@@ -30,9 +29,6 @@ use think\response\View;
 
 /**
  * 文章分类管理
- *
- * Class CategoryController
- * @package app\backend\controller\content
  */
 class CategoryController extends Backend
 {

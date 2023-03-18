@@ -1,0 +1,64 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 短信渠道 -->
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label"><span class="asterisk">*</span>短信渠道：</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" value="{$detail.name ?? ''}"  autocomplete="off"
+                       disabled readonly class="layui-input layui-disabled" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 短信签名 -->
+        <div class="layui-form-item">
+            <label for="sing" class="layui-form-label"><span class="asterisk">*</span>短信签名：</label>
+            <div class="layui-input-block">
+                <input type="text" id="sing" name="sign" value="{$detail.params.sign ?? ''}"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- appId -->
+        <div class="layui-form-item">
+            <label for="app_id" class="layui-form-label"><span class="asterisk">*</span>appId：</label>
+            <div class="layui-input-block">
+                <input type="text" id="app_id" name="app_id" value="{$detail.params.app_id ?? ''}"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- secretId -->
+        <div class="layui-form-item">
+            <label for="secret_id" class="layui-form-label"><span class="asterisk">*</span>secretId：</label>
+            <div class="layui-input-block">
+                <input type="text" id="secret_id" name="secret_id" value="{$detail.params.secret_id ?? ''}"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- secretKey -->
+        <div class="layui-form-item">
+            <label for="secret_key" class="layui-form-label"><span class="asterisk">*</span>secretKey：</label>
+            <div class="layui-input-block">
+                <input type="text" id="secret_key" name="secret_key" value="{$detail.params.secret_key ?? ''}"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+
+        <!-- 状态 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="enable" value="1" title="启用" {if $detail.enable===1}checked{/if}>
+                <input type="radio" name="enable" value="0" title="禁用" {if $detail.enable===0}checked{/if}>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

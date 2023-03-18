@@ -20,9 +20,6 @@ use app\common\basics\Validate;
 
 /**
  * 文章类目参数验证器
- *
- * Class CategoryValidate
- * @package app\backend\validate\content
  */
 class CategoryValidate extends Validate
 {

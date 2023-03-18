@@ -1,0 +1,94 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 轮播位置 -->
+        <div class="layui-form-item">
+            <label for="position" class="layui-form-label"><span class="asterisk">*</span>轮播位置：</label>
+            <div class="layui-input-block">
+                <select id="position" name="position" lay-verify="required|number">
+                    {foreach $position as $key=>$val }
+                        <option value="{$key}" {if $detail.position==$key}selected{/if}>{$val}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <!-- 轮播标题 -->
+        <div class="layui-form-item">
+            <label for="title" class="layui-form-label"><span class="asterisk">*</span>轮播标题：</label>
+            <div class="layui-input-block">
+                <input type="text" id="title" name="title" value="{$detail.title}"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 轮播图片 -->
+        <div class="layui-form-item">
+            <label for="image" class="layui-form-label">轮播图片：</label>
+            <div class="layui-input-block">
+                <div class="thumbnail" data-type="image" data-limit="1">
+                    <div class="musters">
+                        {if $detail.image}
+                        <div class="preview">
+                            <input type="hidden" id="image" name="image" value="{$detail.image}">
+                            <i class="layui-icon layui-icon-close"></i>
+                            <img src="{$detail.image}" alt="img">
+                        </div>
+                        {/if}
+                    </div>
+                    <div class="builder {if $detail.image}layui-hide{/if}">
+                        <i class="layui-icon layui-icon-camera"></i>
+                        <p>上传封面</p>
+                        <div class="mask">
+                            <div class="item layui-auto">图库选择</div>
+                            <div class="item layui-auto-call">本地上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 跳转方式 -->
+        <div class="layui-form-item">
+            <label for="target" class="layui-form-label"><span class="asterisk">*</span>跳转方式：</label>
+            <div class="layui-input-block">
+                <select id="target" name="target" lay-verify="required" lay-search>
+                    <option value="_self" {if $detail.target=='_self'}selected{/if}>_self</option>
+                    <option value="_blank" {if $detail.target=='_blank'}selected{/if}>_blank</option>
+                    <option value="_parent" {if $detail.target=='_parent'}selected{/if}>_parent</option>
+                    <option value="_top" {if $detail.target=='_top'}selected{/if}>_top</option>
+                </select>
+            </div>
+        </div>
+        <!-- 跳转链接 -->
+        <div class="layui-form-item">
+            <label for="url" class="layui-form-label">跳转链接：</label>
+            <div class="layui-input-block">
+                <input type="text" id="url" name="url" value="{$detail.url}" class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <!-- 排序编号 -->
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">排序编号：</label>
+            <div class="layui-input-block">
+                <input type="number" id="sort" name="sort" value="{$detail.sort}"
+                       autocomplete="off" class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+        <!-- 是否禁用 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否禁用：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_disable" value="1" title="是" {if $detail.is_disable==1}checked{/if}>
+                <input type="radio" name="is_disable" value="0" title="否" {if $detail.is_disable==0}checked{/if}>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

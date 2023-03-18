@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\auth;
 
-
 use app\backend\service\auth\AdminService;
 use app\backend\service\auth\DeptService;
 use app\backend\service\auth\PostService;
@@ -35,9 +34,6 @@ use think\response\View;
 
 /**
  * 管理员管理
- *
- * Class AdminController
- * @package app\admin\controller\auth
  */
 class AdminController extends Backend
 {

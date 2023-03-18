@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\setting;
 
-
 use app\backend\service\setting\StorageService;
 use app\common\basics\Backend;
 use app\common\utils\AjaxUtils;
@@ -24,9 +23,6 @@ use think\response\View;
 
 /**
  * 存储配置管理
- *
- * Class StorageController
- * @package app\admin\controller\setting
  */
 class StorageController extends Backend
 {

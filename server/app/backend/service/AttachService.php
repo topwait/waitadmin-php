@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service;
 
-
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\attach\Attach;
@@ -27,9 +26,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 附件服务类
- *
- * Class AttachService
- * @package app\admin\service
  */
 class AttachService extends Service
 {

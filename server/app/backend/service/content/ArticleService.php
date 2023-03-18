@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service\content;
 
-
 use app\common\basics\Service;
 use app\common\model\content\Article;
 use app\common\utils\AttachUtils;
@@ -26,9 +25,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 文章服务类
- *
- * Class ArchivesService
- * @package app\backend\content\service
  */
 class ArticleService extends Service
 {
@@ -39,7 +35,7 @@ class ArticleService extends Service
      * @throws DbException
      * @author windy
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
+    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(): array
     {
         self::setSearch([

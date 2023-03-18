@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service\system;
 
-
 use app\common\basics\Service;
 use app\common\model\sys\SysLog;
 use JetBrains\PhpStorm\ArrayShape;
@@ -25,9 +24,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 系统日志服务类
- *
- * Class LogService
- * @package app\admin\service\system
  */
 class LogService extends Service
 {

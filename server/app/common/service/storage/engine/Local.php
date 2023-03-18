@@ -15,7 +15,7 @@ declare (strict_types = 1);
 
 namespace app\common\service\storage\engine;
 
-
+use app\common\utils\FileUtils;
 use think\facade\Filesystem;
 
 /**
@@ -56,14 +56,25 @@ class Local
     }
 
     /**
+     * 本地上传
+     *
+     * @param string $path (地址)
+     * @param string $key  (键名)
+     */
+    public function putFile(string $path, string $key): void
+    {
+        FileUtils::copy($path, $key);
+    }
+
+    /**
      * 远程上传
      *
-     * @param string $url
-     * @param string|null $key
+     * @param string $url (地址)
+     * @param string $key (键名)
      * @return void
      *@author windy
      */
-    public function fetch(string $url, string $key=null): void
+    public function fetch(string $url, string $key=''): void
     {
         $content = file_get_contents($url);
         file_put_contents($key, $content);

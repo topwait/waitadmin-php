@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\auth;
 
-
 use app\backend\service\auth\PostService;
 use app\backend\validate\auth\PostValidate;
 use app\backend\validate\PageValidate;
@@ -30,9 +29,6 @@ use think\response\View;
 
 /**
  * 岗位管理
- *
- * Class PostController
- * @package app\admin\controller\auth
  */
 class PostController extends Backend
 {

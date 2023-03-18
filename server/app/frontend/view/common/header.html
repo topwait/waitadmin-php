@@ -1,7 +1,7 @@
 <div class="layout-global-header">
     <div class="navigation">
         <div class="container">
-            <a class="logo"><img src="__FRONTEND__/images/logo.png" alt="logo"></a>
+            <a class="logo"><img src="{$pc.logo??''}" alt="logo"></a>
             <ul>
                 {volist name="navigation" id="vo"}
                     {if !$vo.children}

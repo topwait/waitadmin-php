@@ -15,7 +15,7 @@ declare (strict_types = 1);
 
 namespace app\common\basics;
 
-use app\common\enum\ErrorEnum;
+use app\common\enums\ErrorEnum;
 use JetBrains\PhpStorm\Pure;
 use think\exception\HttpResponseException;
 use think\Response;
@@ -94,9 +94,8 @@ class Validate extends \think\Validate
     /**
      * 编辑场景验证器
      *
-     * @author windy
      * @param array $data
-     * @return void
+     * @author windy
      */
     public function editCheck(array $data=[])
     {
@@ -107,9 +106,9 @@ class Validate extends \think\Validate
     /**
      * 验证正整数规则
      *
-     * @author windy
      * @param $value(需验证的值)
      * @return bool
+     * @author windy
      */
     #[Pure]
     protected function posInteger($value): bool
@@ -123,10 +122,10 @@ class Validate extends \think\Validate
     /**
      * 验证最小值规则
      *
-     * @author windy
      * @param $value (需验证的值)
      * @param $rule (规则值)
      * @return bool
+     * @author windy
      */
     protected function minValue($value, $rule): bool
     {
@@ -140,10 +139,10 @@ class Validate extends \think\Validate
     /**
      * 验证最大值规则
      *
-     * @author windy
      * @param $value (需验证的值)
      * @param $rule (规则值)
      * @return bool
+     * @author windy
      */
     protected function maxValue($value, $rule): bool
     {

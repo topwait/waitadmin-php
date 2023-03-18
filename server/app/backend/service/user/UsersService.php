@@ -17,7 +17,7 @@ namespace app\backend\service\user;
 
 
 use app\common\basics\Service;
-use app\common\enum\GenderEnum;
+use app\common\enums\GenderEnum;
 use app\common\model\user\User;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
@@ -27,9 +27,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 用户管理服务类
- *
- * Class UsersService
- * @package app\backend\service\user
  */
 class UsersService extends Service
 {
@@ -41,7 +38,7 @@ class UsersService extends Service
      * @throws DbException
      * @author windy
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
+    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -58,8 +55,8 @@ class UsersService extends Service
         $lists = $model->alias('u')
             ->field([
                 'ug.name as groups',
-                'u.id,u.sn,u.avatar,u.username,u.nickname',
-                'u.mobile,u.email,u.sex,u.is_disable,u.create_time'
+                'u.id,u.sn,u.avatar,u.account,u.nickname',
+                'u.mobile,u.email,u.gender,u.is_disable,u.create_time'
             ])
             ->leftJoin('user_group ug', 'ug.id=u.group_id')
             ->where(self::$searchWhere)
@@ -73,9 +70,9 @@ class UsersService extends Service
 
         foreach ($lists['data'] as &$item) {
             $item['avatar'] = UrlUtils::toAbsoluteUrl($item['avatar']);
-            $item['sex']    = GenderEnum::getMsgByCode($item['sex']);
-            $item['email']  = $item['email'] ? $item['email'] : '-';
-            $item['groups'] = $item['groups'] ? $item['groups'] : '-';
+            $item['gender'] = GenderEnum::getMsgByCode($item['gender']);
+            $item['email']  = $item['email'] ?: '-';
+            $item['groups'] = $item['groups'] ?: '-';
         }
 
         return ['count'=>$lists['total'], 'list'=>$lists['data']];
@@ -94,13 +91,13 @@ class UsersService extends Service
     {
         $model = new User();
         $detail = $model->field(true)
-            ->where(['id'=>intval($id)])
+            ->where(['id'=> $id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
 
         $detail['avatar'] = UrlUtils::toAbsoluteUrl($detail['avatar']);
-        $detail['sex']    = GenderEnum::getMsgByCode($detail['sex']);
+        $detail['gender'] = GenderEnum::getMsgByCode($detail['gender']);
         return $detail;
     }
 
@@ -111,7 +108,7 @@ class UsersService extends Service
      * @param int $gid   (分组ID)
      * @author windy
      */
-    public static function group(array $ids, int $gid): void
+    public static function setGroup(array $ids, int $gid): void
     {
         User::update([
             'group_id'    => $gid,
