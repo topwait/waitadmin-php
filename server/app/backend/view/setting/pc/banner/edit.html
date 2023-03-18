@@ -9,7 +9,9 @@
             <label for="position" class="layui-form-label"><span class="asterisk">*</span>轮播位置：</label>
             <div class="layui-input-block">
                 <select id="position" name="position" lay-verify="required|number">
-                    <option value="1" selected>主页轮播</option>
+                    {foreach $position as $key=>$val }
+                        <option value="{$key}" {if $detail.position==$key}selected{/if}>{$val}</option>
+                    {/foreach}
                 </select>
             </div>
         </div>

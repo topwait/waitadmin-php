@@ -84,9 +84,13 @@ class IndexService extends Service
         ];
 
         // 底部导航
+        $tabBar = ConfigUtils::get('diy', 'tabbar', []);
         $detail['tabBar'] = [
-            'style' => ConfigUtils::get('diy', 'tab_bar_style', []),
-            'list'  => ConfigUtils::get('diy', 'tab_bar_list', [])
+            'style' => [
+                'selectedColor'   => $tabBar['style']['selectedColor'] ?? '#2979ff',
+                'unselectedColor' => $tabBar['style']['unselectedColor'] ?? '##333333'
+            ],
+            'list' => $tabBar['list'] ?? []
         ];
         foreach ($detail['tabBar']['list'] as &$item) {
             $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');

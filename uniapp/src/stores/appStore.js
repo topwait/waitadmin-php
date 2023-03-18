@@ -26,7 +26,7 @@ export const useAppStore = defineStore({
         h5Intercepts() {
             // #ifdef H5
             const { status, close_url } = this.h5ConfigVal
-            if (status === 1) {
+            if (status === 0) {
                 if (close_url) return (location.href = close_url)
                 uni.reLaunch({ url: '/pages/empty/empty' })
             }

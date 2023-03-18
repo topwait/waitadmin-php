@@ -94,8 +94,11 @@
                 </div>
             </div>
             <div class="index-modular-adv">
-                <img src="__COMMON__/init/gd01.jpg" alt="adv">
-                <img src="__COMMON__/init/gd02.jpg" alt="adv">
+                {volist name="adv" id="vo"}
+                    <a href="{$vo.url}" target="{$vo.target}" title="{$vo.title}">
+                        <img src="{$vo.image}" alt="{$vo.title}">
+                    </a>
+                {/volist}
             </div>
         </div>
     </div>
