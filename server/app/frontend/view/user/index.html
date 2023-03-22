@@ -1,0 +1,65 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="layout-global-users">
+    <div class="container">
+        <div class="left-sidebar">
+            <div class="member">
+                <div class="avatar">
+                    <img src="__COMMON__/avatar.png" alt="img">
+                </div>
+                <div class="name">
+                    <a href="#">king</a>
+                </div>
+                <div class="sign"><p>这家伙很懒什么也没有留下~</p></div>
+                <div class="nums">
+                    <p>
+                        <span class="num">0</span>
+                        <span class="item">余额</span>
+                    </p>
+                    <p>
+                        <span class="num">339</span>
+                        <span class="item">收藏</span>
+                    </p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <ul class="menu">
+                <li class="active">
+                    <a href="javascript:" data-url="/frontend/user/account">
+                        <i class="layui-icon layui-icon-username"></i><span>账号</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:" data-url="/frontend/user/collect">
+                        <i class="layui-icon layui-icon-rate"></i><span>收藏</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:" data-url="/frontend/user/collect">
+                        <i class="layui-icon layui-icon-notice"></i><span>消息</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <iframe class="right-iframe" src="/frontend/user/account" frameborder="0" scrolling="no"></iframe>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function () {
+        let $ = layui.$;
+        $(document).ready(function() {
+            $(document).on('click', '.left-sidebar .menu li', function(event) {
+                $('.left-sidebar ul.menu li').removeClass('active');
+                $(this).addClass('active');
+                event.preventDefault();
+                let url = $(this).children('a').attr('data-url');
+                $('.right-iframe').attr('src', url);
+            });
+        });
+    });
+</script>
+{/block}

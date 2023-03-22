@@ -15,16 +15,37 @@ declare (strict_types = 1);
 
 namespace app\frontend\controller;
 
-
 use app\common\basics\Frontend;
+use think\response\View;
 
 /**
  * 用户管理
- *
- * Class UsersController
- * @package app\frontend\controller
  */
-class UsersController extends Frontend
+class UserController extends Frontend
 {
+    /**
+     * 个人中心
+     *
+     * @return View
+     * @author windy
+     */
+    public function index(): View
+    {
+        return view();
+    }
 
+    public function update(): View
+    {
+        return view();
+    }
+
+    public function account(): View
+    {
+        return view();
+    }
+
+    public function collect(): View
+    {
+        return view();
+    }
 }

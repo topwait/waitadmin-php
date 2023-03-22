@@ -1,0 +1,89 @@
+{extend name="common/layoutUser" /}
+
+{block name="body"}
+<div class="user-modular-account">
+    <div class="user-modular-title">帐户设置</div>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+            <li>修改头像</li>
+            <li>修改密码</li>
+        </ul>
+        <div class="layui-tab-content">
+            <!-- 基本信息 -->
+            <div class="layui-tab-item layui-show">
+                <div class="information">
+                    <div class="list">
+                        <span>个性签名</span>
+                        <p class="sign">这家伙很懒什么都没有留下~~~!</p>
+                        <button lay-event="sign">修改签名</button>
+                    </div>
+                    <div class="list">
+                        <span>绑定邮箱</span>
+                        <p>tinyants@163.com</p>
+                        <button lay-event="email">修改邮箱</button>
+                    </div>
+                    <div class="list">
+                        <span>绑定手机</span>
+                        <p>18927154977</p>
+                        <button lay-event="mobile">修改手机</button>
+                    </div>
+                </div>
+                <div class="generalize">
+                    <h2>概括</h2>
+                    <ul>
+                        <li><em>用户账号:</em>admin</li>
+                        <li><em>用户身份:</em>管理员</li>
+                        <li><em>注册时间:</em>2022-11-02 17:27</li>
+                        <li><em>更新时间:</em>2022-11-02 17:27</li>
+                        <li><em>最后访问:</em>2022-11-02 17:27</li>
+                        <li><em>登 录 i p:</em>127.0.0.1</li>
+                        <li class="clear"></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 修改头像 -->
+            <div class="layui-tab-item">
+                <div class="avatar">
+                    <div class="explain"></div>
+                    <div class="upload">
+                        <div class="wrapper">
+                            <img src="https://www.waitoline.top/static/frontend/images/t6.png" alt="avatar" lay-event="uploadAvatar">
+                        </div>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="saveAvatar">确认修改</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!-- 修改密码 -->
+            <div class="layui-tab-item">
+                <form class="layui-form password">
+                    <div class="layui-form-item">
+                        <label for="oldPwd" class="layui-form-label">当前密码:</label>
+                        <div class="layui-input-inline">
+                            <input type="password" id="oldPwd" name="oldPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">现在使用的密码</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="newPwd" class="layui-form-label">新的密码:</label>
+                        <div class="layui-input-inline">
+                            <input type="password" id="newPwd" name="newPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">新密码6~18个字符</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="costPwd" class="layui-form-label">重复密码:</label>
+                        <div class="layui-input-inline">
+                            <input type="password" id="costPwd" name="costPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">与新密码保持一致</div>
+                    </div>
+                    <a href="javascript:" class="layui-btn btn layui-btn-normal" lay-filter="changeSubmit" lay-submit="">确定</a>
+                    <a href="javascript:" class="layui-btn layui-btn-primary">重置</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

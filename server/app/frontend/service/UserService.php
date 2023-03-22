@@ -24,7 +24,7 @@ use app\common\basics\Service;
  * Class UsersService
  * @package app\frontend\service
  */
-class UsersService extends Service
+class UserService extends Service
 {
 
 }

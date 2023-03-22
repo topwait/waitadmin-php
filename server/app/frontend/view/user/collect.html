@@ -1,0 +1,26 @@
+{extend name="common/layoutUser" /}
+
+{block name="body"}
+<div class="user-modular-collect">
+    <div class="user-modular-title">收藏管理</div>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">文章</li>
+            <li>插件</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <table id="wait-table-article" lay-filter="wait-table-article"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table id="wait-table-plugin" lay-filter="wait-table-plugin"></table>
+            </div>
+        </div>
+        <script type="text/html" id="table-operate">
+            <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
+                <i class="layui-icon layui-icon-delete" lay-tips="删除"></i>
+            </button>
+        </script>
+    </div>
+</div>
+{/block}
