@@ -19,6 +19,8 @@ namespace app\frontend\service;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
+use app\common\model\user\UserAuth;
+use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 use app\frontend\validate\UserValidate;
 
@@ -39,14 +41,18 @@ class UserService extends Service
      */
     public static function info(int $userId): array
     {
-        $model = new User();
-        $user = $model->withoutField('password,salt,is_disable,is_delete,delete_time')
+        $modelUser = new User();
+        $user = $modelUser->withoutField('password,salt,is_disable,is_delete,delete_time')
             ->where(['id'=> $userId])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
 
-        $user['avatar'] = UrlUtils::toAbsoluteUrl($user['avatar']);
+        $modelUserAuth = new UserAuth();
+        $userAuth = $modelUserAuth->where(['user_id'=>$userId])->findOrEmpty()->toArray();
+
+        $user['isWeChat'] = (bool) $userAuth;
+        $user['avatar']   = UrlUtils::toAbsoluteUrl($user['avatar']);
         $user['last_login_time'] = date('Y-m-d H:i:s', $user['last_login_time']);
         return $user;
     }
@@ -82,8 +88,8 @@ class UserService extends Service
      */
     public static function binding(array $post, int $userId): void
     {
-        $model = new User();
-        $user = $model->withoutField('password,salt,is_disable,is_delete,delete_time')
+        $modelUser = new User();
+        $user = $modelUser->withoutField('is_disable,is_delete,delete_time')
             ->where(['id'=> $userId])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
@@ -93,16 +99,20 @@ class UserService extends Service
             throw new OperateException('账号疑是丢失,请刷新页面!');
         }
 
-        switch ($post['type']) {
+        switch ($post['field']) {
             case 'email':
                 (new UserValidate())->goCheck('changeEmail');
+
                 if ($user['email'] === strtolower(trim($post['email']))) {
                     throw new OperateException('与原邮箱一致,修改失败!');
                 }
-                (new User())->checkDataAlreadyExist([
-                    ['email', '=', strtolower(trim($post['email']))],
-                    ['is_delete', '=', 0]
-                ], '该邮箱已绑定其他账号!');
+
+                if (!$modelUser->field(['id'])
+                    ->where(['email' => strtolower(trim($post['email']))])
+                    ->where(['is_delete' => 0])
+                    ->findOrEmpty()
+                    ->isEmpty()
+                ) { throw new OperateException('该邮箱已绑定其他账号!'); }
 
                 User::update([
                     'email'        => strtolower(trim($post['email'])),
@@ -111,30 +121,51 @@ class UserService extends Service
                 break;
             case 'mobile':
                 (new UserValidate())->goCheck('changeMobile');
+
                 if ($user['mobile'] === strtolower(trim($post['mobile']))) {
                     throw new OperateException('与原手机一致,修改失败!');
                 }
 
-                (new User())->checkDataAlreadyExist([
-                    ['mobile', '=', strtolower(trim($post['mobile']))],
-                    ['is_delete', '=', 0]
-                ], '该手机已绑定其他账号!');
+                if (!$modelUser->field(['id'])
+                    ->where(['mobile' => strtolower(trim($post['mobile']))])
+                    ->where(['is_delete' => 0])
+                    ->findOrEmpty()
+                    ->isEmpty()
+                ) { throw new OperateException('该手机已绑定其他账号!'); }
 
                 User::update([
-                    'email'        => strtolower(trim($post['mobile'])),
-                    'update_time'  => time()
+                    'mobile'      => strtolower(trim($post['mobile'])),
+                    'update_time' => time()
                 ], ['id'=>$userId]);
                 break;
             case 'password':
                 (new UserValidate())->goCheck('changePassword');
+
+                $oldPwd = make_md5_str($post['oldPwd'], $user['salt']);
+                if ($user['password'] && $user['password'] !== $oldPwd) {
+                    throw new OperateException('旧密码校验错误!');
+                }
+
                 $salt = make_rand_char(5);
-                $pwd  = make_md5_str(trim($post['password']).$salt);
+                $pwd  = make_md5_str(trim($post['newPwd']), $salt);
                 User::update([
-                    'salt'         => $salt,
-                    'password'     => $pwd,
-                    'update_time'  => time()
+                    'salt'        => $salt,
+                    'password'    => $pwd,
+                    'update_time' => time()
                 ], ['id'=>$userId]);
                 break;
+            case 'avatar':
+               $avatar = UrlUtils::toRelativeUrl($post['avatar']);
+               if ($user['avatar'] !== $avatar) {
+                   $ext    = FileUtils::getFileExt($avatar);
+                   $source = UrlUtils::toRoot($avatar);
+                   $target = 'storage/avatar/user/'.date('Ymd').'/'.md5((string)$userId).'.'.$ext;
+                   FileUtils::move($source, UrlUtils::toRoot($target));
+                   User::update(['avatar'=>$target, 'update_time'=>time()], ['id'=>$userId]);
+               }
+               break;
+            default:
+                throw new OperateException('不被支持的操作!');
         }
     }
 }

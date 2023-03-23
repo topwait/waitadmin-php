@@ -35,7 +35,9 @@ class UserController extends Frontend
      */
     public function index(): View
     {
-        return view();
+        return view('', [
+            'detail' => UserService::info($this->userId)
+        ]);
     }
 
     /**

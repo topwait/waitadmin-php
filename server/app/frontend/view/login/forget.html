@@ -1,0 +1,98 @@
+{extend name="common/layoutBase" /}
+
+{block name="body"}
+<div class="layout-global-login">
+    <div class="container">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <h2>重置密码</h2>
+                <div class="layui-form layui-form-pane">
+                    <form method="post">
+                        <div class="layui-form-item">
+                            <label for="username" class="layui-form-label">登录账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="username" name="username" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="password" class="layui-form-label">登录密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" id="password" name="password" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="confirm_password" class="layui-form-label">确认密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" id="confirm_password" name="confirm_password" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="mobile" class="layui-form-label">手机号码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="mobile" name="mobile" lay-verify="phone" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="phoneCode" class="layui-form-label">验证码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="phoneCode" name="vercode" required="" lay-verify="required" placeholder="请输入手机短信验证码" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid" style="padding: 0!important;">
+                                <button type="button" class="layui-btn layui-btn-normal" id="getPhoneCode">获取验证码</button>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="captcha" class="layui-form-label">图形码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="captcha" name="captcha" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid" style="padding: 0 !important;">
+                                <img src="/captcha.html" class="login-captcha"
+                                     onclick="this.src='/captcha.html?'+Math.random()"
+                                     width="115px" height="38px" alt="点击刷新验证码">
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="position: relative; left: -10px; height: 32px;">
+                            <input type="checkbox" name="agreement" lay-skin="primary" title="" checked="">
+                            <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+                                <i class="layui-icon layui-icon-ok"></i>
+                            </div>
+                            <a href="/instructions/terms.html" target="_blank" style="position: relative; top: 4px; left: 0; color: #999; font-size:14px;">同意用户服务条款</a>
+                        </div>
+                        <div class="layui-form-item">
+                            <a class="layui-btn layui-btn-normal" lay-filter="registerSubmit" lay-submit="">立即注册</a>
+                            <a class="layui-btn layui-btn-normal" href="/frontend/login/login">已有帐号?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['form'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+
+        // 监听提交注册
+        form.on('submit(registerSubmit)', function(data) {
+            waitUtil.ajax({
+                url: '/frontend/login/register',
+                type: 'POST',
+                data: data.field
+            }).then((res) => {
+                if (res.code === 0) {
+                    layer.msg(res.msg, {icon: 1, time: 1000}, function () {
+                        location.href = '/'
+                    });
+                } else {
+                    $('.login-captcha').trigger('click');
+                }
+            });
+        });
+    });
+</script>
+{/block}

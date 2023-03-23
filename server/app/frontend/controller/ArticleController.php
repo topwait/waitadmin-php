@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\frontend\controller;
 
-
 use app\common\basics\Frontend;
 use app\frontend\service\ArticleService;
 use think\db\exception\DataNotFoundException;

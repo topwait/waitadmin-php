@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\frontend\service;
 
-
 use app\common\basics\Service;
 use app\common\model\content\Article;
 use app\common\model\content\ArticleCategory;
@@ -41,7 +40,7 @@ class ArticleService extends Service
     public static function category(int $cid): mixed
     {
         $model = new ArticleCategory();
-        $name = $model->where(['id'=>intval($cid)])->value('name');
+        $name = $model->where(['id'=> $cid])->value('name');
         return $name ? $name : '文章列表';
     }
 

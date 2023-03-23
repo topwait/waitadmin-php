@@ -7,18 +7,18 @@ use app\common\basics\Validate;
 class UserValidate extends Validate
 {
     protected $rule = [
-        'type'   => 'require',
+        'field'  => 'require',
         'sign'   => 'require',
         'email'  => 'require|email',
         'mobile' => 'require|mobile',
         'newPwd' => 'require|min:6|max:18',
-        'oldPwd' => 'require|min:6|max:18'
+        'oldPwd' => 'min:6|max:18'
     ];
 
     protected $scene = [
-        'changeSign'     => ['type', 'sign'],
-        'changeEmail'    => ['type', 'email'],
-        'changeMobile'   => ['type', 'mobile'],
-        'changePassword' => ['type', 'newPwd', 'oldPwd'],
+        'changeSign'     => ['field', 'sign'],
+        'changeEmail'    => ['field', 'email'],
+        'changeMobile'   => ['field', 'mobile'],
+        'changePassword' => ['field', 'newPwd', 'oldPwd'],
     ];
 }

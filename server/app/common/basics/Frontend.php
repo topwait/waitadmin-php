@@ -17,6 +17,7 @@ namespace app\common\basics;
 
 use app\BaseController;
 use app\common\model\DevNavigation;
+use app\common\utils\AjaxUtils;
 use app\common\utils\ArrayUtils;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
@@ -34,7 +35,20 @@ use think\facade\View;
  */
 abstract class Frontend extends BaseController
 {
+    /**
+     * 用户ID
+     */
     protected int $userId = 1;
+
+    /**
+     * 用户信息
+     */
+    protected array $userInfo;
+
+    /**
+     * 不校验登录的方法
+     */
+    protected array $notNeedLogin = [];
 
     /**
      * 构造方法
@@ -48,6 +62,14 @@ abstract class Frontend extends BaseController
     public function __construct(App $app)
     {
         parent::__construct($app);
+
+        if (!$this->isLogin()) {
+            if ($this->request->isAjax()) {
+                AjaxUtils::error('尚未登录,请登录后再操作!');
+            }
+
+            $this->redirect('/frontend/login/login', 302);
+        }
 
         $this->setValues();
 
@@ -84,5 +106,30 @@ abstract class Frontend extends BaseController
         View::assign('pc', $pcConfig);
         View::assign('website', ConfigUtils::get('website'));
         View::assign('navigation', ArrayUtils::toTreeJson($navigationData));
+    }
+
+    /**
+     * 验证登录
+     *
+     * @author windy
+     * @return bool
+     */
+    protected function isLogin(): bool
+    {
+        $userInfo = session('userInfo');
+        if (in_array(request()->action(), $this->notNeedLogin)) {
+            if ($userInfo) {
+                $this->userInfo = $userInfo;
+                $this->userId = intval($userInfo['id']);
+            }
+            return true;
+        } else {
+            if ($userInfo) {
+                $this->userInfo = $userInfo;
+                $this->userId = intval($userInfo['id']);
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -6,12 +6,12 @@
         <div class="left-sidebar">
             <div class="member">
                 <div class="avatar">
-                    <img src="__COMMON__/avatar.png" alt="img">
+                    <img src="{$detail.avatar}" alt="avatar">
                 </div>
                 <div class="name">
-                    <a href="#">king</a>
+                    <a href="#">{$detail.nickname}</a>
                 </div>
-                <div class="sign"><p>这家伙很懒什么也没有留下~</p></div>
+                <div class="sign"><p>{$detail.sign ? $detail.sign : '这家伙很懒什么也没有留下~'}</p></div>
                 <div class="nums">
                     <p>
                         <span class="num">0</span>
