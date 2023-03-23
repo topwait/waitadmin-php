@@ -34,6 +34,8 @@ use think\facade\View;
  */
 abstract class Frontend extends BaseController
 {
+    protected int $userId = 1;
+
     /**
      * 构造方法
      *

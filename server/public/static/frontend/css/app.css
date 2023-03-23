@@ -1,11 +1,4 @@
-html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
-.container {width: 1200px; margin: 0 auto;}
-@keyframes page-fade-in {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-}
-
-/** 头部布局 **/
+/** 布局头部 **/
 .layout-global-header .navigation {height: 50px; background: #3a67e4;}
 .layout-global-header .navigation .container {display: flex;}
 .layout-global-header .navigation .logo {display: flex; align-items: center; width: 160px; height: 50px;}
@@ -22,20 +15,20 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 .layout-global-header .navigation ul li dl dd:hover {background: #fcfbfb; }
 .layout-global-header .navigation ul li dl dd a {font-size: 14px; color: #333333; padding: 0;}
 
-/** 页脚布局 **/
+/** 布局页脚 **/
 .layout-global-footer {width: 1200px; margin: 30px auto;}
 .layout-global-footer p {height: 17px; text-align: center; font-size: 12px; line-height: 17px; color: #a7a7a7;}
 .layout-global-footer p a {color: #a7a7a7;}
 .layout-global-footer p a:hover {text-decoration: underline;}
 
-/** 面包布局 **/
+/** 布局导航 **/
 .layout-global-crumbs .navigation {padding: 12px 15px; margin-top: 15px; background-color: #ffffff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);}
 .layout-global-crumbs .navigation a {font-size: 14px; color: #333;}
 .layout-global-crumbs .navigation a:hover {color: #345dcd; }
 .layout-global-crumbs .navigation a:last-child {color: #999; font-size: 13px;}
 .layout-global-crumbs .navigation a:last-child:hover {color: #999; cursor: default;}
 
-/** 友链布局 **/
+/** 布局友链 **/
 .layout-global-link {margin-top: 15px;}
 .layout-global-link .layui-card-header {font-weight: bold;}
 .layout-global-link ul {margin-top: 15px;}
@@ -44,11 +37,13 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 .layout-global-link ul li a {display: block; height: 20px; font-size: 14px; line-height: 20px; color: #333333;}
 .layout-global-link ul li a:hover {color: #345dcd; cursor: pointer; text-decoration: underline;}
 
-/** 主体布局 **/
+/** 布局主体 **/
 .layout-global-main {margin-top: 15px;}
 .layout-global-main .container {display: flex;}
 .layout-global-main .main-layout-section {width: 810px; min-width: 810px; margin-right: 20px;}
 .layout-global-main .main-layout-aside {width: 370px;}
+
+/** ===================== 【首页样式】 ===================== **/
 
 /** 轮播样式 **/
 .index-modular-carousel {width: 810px; height: 360px;}
@@ -140,7 +135,7 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 /** 排名模块 **/
 .index-modular-ranking {margin-top: 15px;}
 .index-modular-ranking .layui-card-header {font-weight: bold;}
-.index-modular-ranking ul li span {width: 40px; height: 61px; font-size: 36px; line-height: 61px; font-family: Mangal; font-weight: bold; color: #dbdbdb; margin-right: 10px;}
+.index-modular-ranking ul li span {width: 40px; height: 61px; font-size: 36px; line-height: 61px; font-family: Mangal, serif; font-weight: bold; color: #dbdbdb; margin-right: 10px;}
 .index-modular-ranking ul li a {display: inline-block; width: 279px; height: 40px; line-height: 20px; font-size: 14px; color: #333333; vertical-align: text-bottom;}
 .index-modular-ranking ul li a:hover {color: #345dcd;}
 
@@ -148,28 +143,30 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 .index-modular-adv {margin-top: 15px;}
 .index-modular-adv img {width: 100%; margin-bottom: 10px; border-radius: 2px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);}
 
+/** ===================== 【用户样式】 ===================== **/
+
 /** 用户布局 **/
-.layout-global-users {margin-top: 15px;}
-.layout-global-users .left-sidebar {float: left; width: 200px; height: 700px; background-color: #ffffff;}
-.layout-global-users .right-iframe {float: left; width: 980px; height: 700px; margin-left: 20px; background-color: #ffffff;}
-.layout-global-users .left-sidebar ul.menu {margin-top: 20px;}
-.layout-global-users .left-sidebar ul.menu li {height: 48px; width: 160px; margin: 0 auto 8px;}
-.layout-global-users .left-sidebar ul.menu li a {position: relative; display: block; height: 48px; font-size: 16px; line-height: 48px; color: #787d82; padding-left: 64px; text-align: left;}
-.layout-global-users .left-sidebar ul.menu li a i {font-weight: bold; padding-right: 3px; position: absolute; left: 24px; top: 0; font-size: 20px; color: #93999f; line-height: 48px;}
-.layout-global-users .left-sidebar ul.menu li.active a {color: #fff; background: #3a67e4; border-radius: 8px 0 0 8px;}
-.layout-global-users .left-sidebar ul.menu li.active a i {color: #fff;}
-.layout-global-users .left-sidebar ul.menu li.active a:after {display: block; content: ""; position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-top: 24px solid #fff; border-bottom: 24px solid #fff; border-left: 15px solid transparent;}
-.layout-global-users .left-sidebar .member .avatar {width: 100%; height: 120px; display: block; text-align: center;}
-.layout-global-users .left-sidebar .member .avatar {padding-top: 10px;}
-.layout-global-users .left-sidebar .member .avatar img {width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; }
-.layout-global-users .left-sidebar .member .name {width: 100%; height: 24px; margin: 10px 0; text-align: center;}
-.layout-global-users .left-sidebar .member .name a {display: inline-block; font-size: 16px;}
-.layout-global-users .left-sidebar .member .sign {padding: 0 5px; margin: 10px auto; text-align: center; font-size: 12px; line-height: 20px; color: #999; font-weight: 300;}
-.layout-global-users .left-sidebar .member .nums {display: block; margin-top: 15px; padding: 10px; border-top: 1px solid #EFEFEF; border-bottom: 1px solid #EFEFEF;}
-.layout-global-users .left-sidebar .member .nums p {width: 85px; display: inline-block; border-right: 1px solid #efefef;}
-.layout-global-users .left-sidebar .member .nums p:nth-child(2) {border-right: none;}
-.layout-global-users .left-sidebar .member .nums p .num {display: block; text-align: center; font-size: 18px; }
-.layout-global-users .left-sidebar .member .nums p .item {margin-top: 10px; display: block; height: 14px; line-height: 14px; text-align: center; font-size: 14px; color: #999;}
+.layout-global-user {margin-top: 15px;}
+.layout-global-user .left-sidebar {float: left; width: 200px; height: 700px; background-color: #ffffff;}
+.layout-global-user .right-iframe {float: left; width: 980px; height: 700px; margin-left: 20px; background-color: #ffffff;}
+.layout-global-user .left-sidebar ul.menu {margin-top: 20px;}
+.layout-global-user .left-sidebar ul.menu li {height: 48px; width: 160px; margin: 0 auto 8px;}
+.layout-global-user .left-sidebar ul.menu li a {position: relative; display: block; height: 48px; font-size: 16px; line-height: 48px; color: #787d82; padding-left: 64px; text-align: left;}
+.layout-global-user .left-sidebar ul.menu li a i {font-weight: bold; padding-right: 3px; position: absolute; left: 24px; top: 0; font-size: 20px; color: #93999f; line-height: 48px;}
+.layout-global-user .left-sidebar ul.menu li.active a {color: #fff; background: #3a67e4; border-radius: 8px 0 0 8px;}
+.layout-global-user .left-sidebar ul.menu li.active a i {color: #fff;}
+.layout-global-user .left-sidebar ul.menu li.active a:after {display: block; content: ""; position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-top: 24px solid #fff; border-bottom: 24px solid #fff; border-left: 15px solid transparent;}
+.layout-global-user .left-sidebar .member .avatar {width: 100%; height: 120px; display: block; text-align: center;}
+.layout-global-user .left-sidebar .member .avatar {padding-top: 10px;}
+.layout-global-user .left-sidebar .member .avatar img {width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; }
+.layout-global-user .left-sidebar .member .name {width: 100%; height: 24px; margin: 10px 0; text-align: center;}
+.layout-global-user .left-sidebar .member .name a {display: inline-block; font-size: 16px;}
+.layout-global-user .left-sidebar .member .sign {padding: 0 5px; margin: 10px auto; text-align: center; font-size: 12px; line-height: 20px; color: #999; font-weight: 300;}
+.layout-global-user .left-sidebar .member .nums {display: block; margin-top: 15px; padding: 10px; border-top: 1px solid #EFEFEF; border-bottom: 1px solid #EFEFEF;}
+.layout-global-user .left-sidebar .member .nums p {width: 85px; display: inline-block; border-right: 1px solid #efefef;}
+.layout-global-user .left-sidebar .member .nums p:nth-child(2) {border-right: none;}
+.layout-global-user .left-sidebar .member .nums p .num {display: block; text-align: center; font-size: 18px; }
+.layout-global-user .left-sidebar .member .nums p .item {margin-top: 10px; display: block; height: 14px; line-height: 14px; text-align: center; font-size: 14px; color: #999;}
 
 /** 用户标题 **/
 .user-modular-title {padding: 15px 0; height: 26px; line-height: 26px; text-align: center; font-size: 18px; font-weight: 600; color: #575757;}
@@ -177,28 +174,22 @@ html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
 
 /** 用户账号 **/
 .user-modular-account {padding: 0 20px; background-color: #fff;}
-.user-modular-account .information {margin-top: 10px; width: 600px;}
-.user-modular-account .information .list {margin-bottom: 20px;}
-.user-modular-account .information .list span {margin-right: 15px; height: 30px; font-size: 17px; color: #666;}
-.user-modular-account .information .list p {display: inline-block; font-size: 18px;}
-.user-modular-account .information .list button {display: inline-block; margin-top: 2px; margin-left: 10px; padding: 0 10px; height: 26px; line-height: 26px; font-size: 14px; color: #fff; text-align: center; cursor: pointer; border: none; background-color: #3a67e4;}
-.user-modular-account .information .list .sign {height: 40px;line-height: 40px;padding: 10px;font-size: 16px;background: #ececec;}
-.user-modular-account .generalize {margin-top: 50px;}
-.user-modular-account .generalize h2 {margin-bottom: 10px; padding: 10px 0; border-bottom: 1px solid #efefef; font-size: 17px;}
-.user-modular-account .generalize ul:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
-.user-modular-account .generalize ul li.clear {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
-.user-modular-account .generalize ul li {float: left; margin-right: 10px; padding: 10px 0; min-width: 340px;  max-width: 454px; height: 22px; line-height: 22px; font-size: 17px; color: #666;}
-.user-modular-account .generalize ul li em {padding-right: 10px; display: inline-block; max-width: 135px; min-width: 85px; text-align: left; font-style: normal;}
-.user-modular-account .avatar {margin-top: 20px;}
+.user-modular-account .layui-tab-title li {font-weight: bold; color: #575757;}
+.user-modular-account .information .layui-form-label {color: #666 !important;}
+.user-modular-account .information .layui-input-inline {width: 300px !important;}
+.user-modular-account .avatar {margin: 50px 0;}
 .user-modular-account .avatar:after {content: ''; height: 0; line-height: 0; display: block; visibility: hidden; clear: both;}
-.user-modular-account .avatar .explain {float: left; margin-right: 30px; width: 260px; height: 190px; background: url(../images/zz.png) no-repeat center center;}
+.user-modular-account .avatar .explain {float: left; width: 260px; height: 130px; background: url(../images/zz.png) no-repeat center center;}
 .user-modular-account .avatar .upload {float: left; width: 130px; height: 190px; text-align: center;}
 .user-modular-account .avatar .upload .wrapper {width: 130px; height: 130px; border-radius: 50%; margin-bottom: 20px;}
 .user-modular-account .avatar .upload .wrapper img {width: 100%; height: 100%; border-radius: 50%; background: #eee;}
-.user-modular-account .password {margin-top: 20px;}
-.user-modular-account .password .layui-input-inline {width: 280px;}
-.user-modular-account .password .layui-form-label {font-size: 14px; color: #333;}
-.user-modular-account .password a.btn {margin-left: 110px;}
+.user-modular-account .binding li {display: flex; height: 98px; box-sizing: border-box; border-bottom: 1px solid #eee;}
+.user-modular-account .binding li .icon {width: 60px; font-size: 36px; color: #d9dde1; padding-left: 24px; padding-top: 10px;}
+.user-modular-account .binding li i {color: #b5b6b7; border: 1px solid #ccc; border-radius: 50px; padding: 2px; background: #fff; width: 160px; margin: 0 auto;}
+.user-modular-account .binding li .info {flex: 1; color: #93999f; font-size: 14px; padding-top: 20px;}
+.user-modular-account .binding li .info p {height: 30px; line-height: 30px;}
+.user-modular-account .binding li .info span {font-weight: bold; color: #000;}
+.user-modular-account .binding li .update {padding-top: 20px;}
 
 /** 用户收藏 **/
 .user-modular-collect {padding: 0 20px; background-color: #fff;}

@@ -1,0 +1,122 @@
+{extend name="common/layoutUser" /}
+
+{block name="style"}
+<style>
+    .wait-body-content .layui-form-label {width: 90px; padding: 9px 0;}
+    .wait-body-content .layui-input-block {margin-left: 90px;}
+    .wait-body-content .flex-wrap {display: flex; align-items: center;}
+</style>
+{/block}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        {if $field=='mobile'}
+            <!-- 手机号 -->
+            <div class="layui-form-item">
+                <label for="mobile" class="layui-form-label"><span class="asterisk">*</span>手机号：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="mobile" name="mobile" value="{$value}" placeholder="请输入手机号"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required|mobile">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="code" class="layui-form-label"><span class="asterisk">*</span>验证码：</label>
+                <div class="layui-input-block flex-wrap">
+                    <input type="text" id="code" name="code" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input">
+                    <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="send" style="margin-left: 10px">获取验证码</button>
+                </div>
+            </div>
+        {/if}
+        {if $field=='email'}
+            <!-- 电子邮箱 -->
+            <div class="layui-form-item">
+                <label for="email" class="layui-form-label"><span class="asterisk">*</span>电子邮箱：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="email" name="email" value="{$value}" placeholder="请输入邮箱号"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required|email">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="code" class="layui-form-label"><span class="asterisk">*</span>验证码：</label>
+                <div class="layui-input-block flex-wrap">
+                    <input type="text" id="code" name="code" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input">
+                    <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="send" style="margin-left: 10px">获取验证码</button>
+                </div>
+            </div>
+        {/if}
+        {if $field=='password'}
+            <!-- 修改密码 -->
+            <div class="layui-form-item">
+                <label for="old_password" class="layui-form-label"><span class="asterisk">*</span>旧的密码：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="old_password" name="old_password" placeholder="请输入"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required|email">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="password" class="layui-form-label"><span class="asterisk">*</span>新的密码：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="password" name="password" placeholder="6~18位的新密码"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required|email">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="ok_password" class="layui-form-label"><span class="asterisk">*</span>确认密码：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="ok_password" name="ok_password" placeholder="请输入"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required|email">
+                </div>
+            </div>
+        {/if}
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function () {
+        let $ = layui.$;
+
+        $(document).on('click', '#send', function () {
+            let that = $(this);
+            waitUtil.locking(this);
+            waitUtil.ajax({
+                url: '/frontend/index/sendEmail',
+                type: 'POST',
+                data: {field: 'email'}
+            }).then((res) => {
+                waitUtil.locking(this);
+                if (res.code === 0) {
+                    timing(that);
+                }
+            });
+        });
+
+        function timing(that) {
+            let time = 10;
+            that.html(time+'秒后可再次发送');
+            that.addClass('layui-btn-forbid');
+            let timer = setInterval(function () {
+                time = time - 1;
+                if (time>=0) {
+                    that.html(time + '秒后可再次发送');
+                } else {
+                    that.html('获取验证码');
+                    clearInterval(timer);
+                    that.removeClass('layui-btn-forbid');
+
+                }
+            }, 1000);
+        }
+
+    });
+</script>
+{/block}

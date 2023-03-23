@@ -1,0 +1,54 @@
+/** 全局样式 **/
+html,body {background: #f6f6f6; animation: page-fade-in 1s forwards;}
+i,em {font-style: normal;}
+.asterisk {padding-right: 2px; color: red;}
+.container {width: 1200px; margin: 0 auto;}
+.table-image-wrap {width: 24px; height: 24px;}
+.table-image-wrap img {width: 100%; height: 100%;}
+@keyframes page-fade-in {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+/** 弹窗样式 **/
+.wait-body-content {position: absolute; top: 0; left: 0; right: 0; bottom: 48px; overflow-y: auto; padding: 10px 20px 0 10px; background-color: #fff;}
+.wait-body-footer {position: fixed; z-index: 800; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px; background: #ecf0f1;}
+.wait-body-footer a {height: 28px; line-height: 28px; margin: 5px 5px 0; padding: 7px 15px; border: 1px solid #dedede; background-color: #fff; color: #333; border-radius: 2px;}
+.wait-body-footer a:hover {opacity: 0.8;}
+.wait-body-footer a.layui-layer-btn0 {color: #fff; background-color: #1e9fff; border-color: #1e9fff;}
+.layui-layer-wait .layui-layer-title {color: #fff; height: 45px; line-height: 45px; border-bottom: none; background: #2c3e50;}
+.layui-layer-wait .layui-layer-title ~ .layui-layer-setwin {top: 0; height: 45px;}
+.layui-layer-wait .layui-layer-title ~ .layui-layer-setwin > a {height: 45px; line-height: 45px; display: inline-block;}
+.layui-layer-wait .layui-layer-setwin {position: absolute; right: 15px; *right: 0; top: 17px; font-size: 0; line-height: initial;}
+.layui-layer-wait .layui-layer-setwin > a {background: none;}
+.layui-layer-wait .layui-layer-setwin > a cite { display: none;}
+.layui-layer-wait .layui-layer-setwin a {position: relative; width: 16px; height: 16px; margin-left: 10px; font-size: 12px;_overflow: hidden;}
+.layui-layer-wait .layui-layer-btn a, .layui-layer-dialog .layui-layer-ico, .layui-layer-setwin a {display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
+.layui-layer-wait .layui-layer-setwin .layui-layer-close1 {cursor: pointer; background-position: 1px -40px;}
+.layui-layer-wait .layui-layer-setwin .layui-layer-close1:before {content: "\e838";}
+.layui-layer-wait .layui-layer-setwin .layui-layer-max:before {content: "\e839";}
+.layui-layer-wait .layui-layer-setwin .layui-layer-min:before {content: "\e840";}
+.layui-layer-wait .layui-layer-setwin > a:before {font-family: "layui-icon", serif; font-size: 14px; color: #fff;}
+
+/** 按钮样式 **/
+.layui-btn-gloomy  {background-color: #444c69;}
+.layui-btn-danger  {background-color: #f56c6c;}
+.layui-btn-default {background-color: #3b91ff;}
+.layui-btn-forbid,
+.layui-btn-forbid:hover {cursor: not-allowed; opacity: 0.65; pointer-events: none;}
+
+/** 搜索样式 **/
+.layui-search {padding-top: 5px; background: #fff;}
+.layui-search .layui-form-item {padding: 10px 15px;}
+.layui-search .layui-form-label {padding: 9px 0; width: auto;}
+.layui-search .layui-sm-select.layui-input-inline {width: auto;}
+.layui-search .layui-sm-select .layui-unselect {width: 110px;}
+.layui-search .layui-input-inline.keywords {width: 292px;}
+.layui-search .layui-input-inline.keywords .layui-inline:first-child {width: 100px; margin-right: 0;}
+.layui-search .layui-input-inline.keywords .layui-inline:last-child{margin-right: 0;}
+
+/** 表格样式 **/
+.layui-table-view .layui-btn-container .layui-btn i {font-size: 12px; padding: 0;}
+.layui-table-view .layui-table-cell .layui-btn-xs {padding: 0 2px; margin: 0;}
+.layui-table-view .layui-table-cell .layui-btn-xs span {padding: 0 2px;}
+.layui-table-view .layui-table-header th {font-size: 13px; font-weight: bold;}

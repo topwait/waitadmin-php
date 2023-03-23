@@ -16,6 +16,10 @@ declare (strict_types = 1);
 namespace app\frontend\controller;
 
 use app\common\basics\Frontend;
+use app\common\exception\OperateException;
+use app\common\utils\AjaxUtils;
+use app\frontend\service\UserService;
+use think\response\Json;
 use think\response\View;
 
 /**
@@ -34,14 +38,46 @@ class UserController extends Frontend
         return view();
     }
 
-    public function update(): View
+    /**
+     * 账号更新
+     *
+     * @return Json
+     * @author windy
+     */
+    public function update(): Json
     {
-        return view();
+        if ($this->isAjaxPost()) {
+            UserService::update($this->request->post(), $this->userId);
+            return AjaxUtils::success();
+        }
+
+        return AjaxUtils::error();
+    }
+
+    /**
+     * 账号绑定
+     *
+     * @throws OperateException
+     */
+    public function binding(): View|Json
+    {
+        if ($this->isAjaxPost()) {
+            UserService::binding($this->request->post(), $this->userId);
+            return AjaxUtils::success();
+        }
+
+        $get = $this->request->get();
+        return view('', [
+            'field' => $get['field'] ?? '',
+            'value' => $get['value'] ?? ''
+        ]);
     }
 
     public function account(): View
     {
-        return view();
+        return view('', [
+            'detail' => UserService::info($this->userId)
+        ]);
     }
 
     public function collect(): View

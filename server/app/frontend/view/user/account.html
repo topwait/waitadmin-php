@@ -7,40 +7,54 @@
         <ul class="layui-tab-title">
             <li class="layui-this">基本信息</li>
             <li>修改头像</li>
-            <li>修改密码</li>
+            <li>账号绑定</li>
         </ul>
         <div class="layui-tab-content">
             <!-- 基本信息 -->
             <div class="layui-tab-item layui-show">
-                <div class="information">
-                    <div class="list">
-                        <span>个性签名</span>
-                        <p class="sign">这家伙很懒什么都没有留下~~~!</p>
-                        <button lay-event="sign">修改签名</button>
+                <form class="layui-form information">
+                    <div class="layui-form-item">
+                        <label for="account" class="layui-form-label">登录账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="account" value="{$detail.account}"
+                                   autocomplete="off" readonly class="layui-input layui-disabled">
+                        </div>
                     </div>
-                    <div class="list">
-                        <span>绑定邮箱</span>
-                        <p>tinyants@163.com</p>
-                        <button lay-event="email">修改邮箱</button>
+                    <div class="layui-form-item">
+                        <label for="register" class="layui-form-label">注册时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="register" value="{$detail.create_time}"
+                                   autocomplete="off" readonly class="layui-input layui-disabled">
+                        </div>
                     </div>
-                    <div class="list">
-                        <span>绑定手机</span>
-                        <p>18927154977</p>
-                        <button lay-event="mobile">修改手机</button>
+                    <div class="layui-form-item">
+                        <label for="nickname" class="layui-form-label">用户昵称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="nickname" name="nickname" value="{$detail.nickname}"
+                                   autocomplete="off" class="layui-input">
+                        </div>
                     </div>
-                </div>
-                <div class="generalize">
-                    <h2>概括</h2>
-                    <ul>
-                        <li><em>用户账号:</em>admin</li>
-                        <li><em>用户身份:</em>管理员</li>
-                        <li><em>注册时间:</em>2022-11-02 17:27</li>
-                        <li><em>更新时间:</em>2022-11-02 17:27</li>
-                        <li><em>最后访问:</em>2022-11-02 17:27</li>
-                        <li><em>登 录 i p:</em>127.0.0.1</li>
-                        <li class="clear"></li>
-                    </ul>
-                </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户性别</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="gender" value="0" title="保密" {if $detail.gender==0}checked{/if}>
+                            <input type="radio" name="gender" value="1" title="男" {if $detail.gender==1}checked{/if}>
+                            <input type="radio" name="gender" value="2" title="女" {if $detail.gender==2}checked{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="sign" class="layui-form-label">个性签名</label>
+                        <div class="layui-input-inline">
+                            <textarea id="sign" name="sign" placeholder="这家伙很懒什么都没有留下~" class="layui-textarea">{$detail.sign??''}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-inline">
+                            <button type="button" class="layui-btn layui-btn-normal" lay-filter="updateSubmit" lay-submit>确认修改</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <!-- 修改头像 -->
             <div class="layui-tab-item">
@@ -48,42 +62,153 @@
                     <div class="explain"></div>
                     <div class="upload">
                         <div class="wrapper">
-                            <img src="https://www.waitoline.top/static/frontend/images/t6.png" alt="avatar" lay-event="uploadAvatar">
+                            <img src="{$detail.avatar}" alt="avatar" lay-event="uploadAvatar">
                         </div>
-                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="saveAvatar">确认修改</button>
+                        <button type="button" class="layui-btn layui-btn-normal" lay-event="saveAvatar">确认修改</button>
                     </div>
                     <div class="clearfix"></div>
                 </div>
             </div>
-            <!-- 修改密码 -->
+            <!-- 账号绑定 -->
             <div class="layui-tab-item">
-                <form class="layui-form password">
-                    <div class="layui-form-item">
-                        <label for="oldPwd" class="layui-form-label">当前密码:</label>
-                        <div class="layui-input-inline">
-                            <input type="password" id="oldPwd" name="oldPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <ul class="binding">
+                    <li>
+                        <div class="icon">
+                            <i class="layui-icon layui-icon-email"></i>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">现在使用的密码</div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label for="newPwd" class="layui-form-label">新的密码:</label>
-                        <div class="layui-input-inline">
-                            <input type="password" id="newPwd" name="newPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        <div class="info">
+                            <p><span>邮箱  </span><em style="color:red;">未绑定</em></p>
+                            <p>可用邮箱加密码登录php中文网，可用邮箱找回密码</p>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">新密码6~18个字符</div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label for="costPwd" class="layui-form-label">重复密码:</label>
-                        <div class="layui-input-inline">
-                            <input type="password" id="costPwd" name="costPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        <div class="update">
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="email">更改</a>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">与新密码保持一致</div>
-                    </div>
-                    <a href="javascript:" class="layui-btn btn layui-btn-normal" lay-filter="changeSubmit" lay-submit="">确定</a>
-                    <a href="javascript:" class="layui-btn layui-btn-primary">重置</a>
-                </form>
+                    </li>
+                    <li>
+                        <div class="icon">
+                            <i class="layui-icon layui-icon-cellphone"></i>
+                        </div>
+                        <div class="info">
+                            <p><span>手机  </span><em>189****54877 已绑定</em></p>
+                            <p>可用手机号加密码登录本网站系统</p>
+                        </div>
+                        <div class="update">
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="mobile">更改</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon">
+                            <i class="layui-icon layui-icon-vercode"></i>
+                        </div>
+                        <div class="info">
+                            <p><span>密码  </span><em>****** 已设置</em></p>
+                            <p>可用邮箱加密码登录php中文网，可用邮箱找回密码</p>
+                        </div>
+                        <div class="update">
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="password">更改</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['form'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+
+        // 监听事件
+        waitUtil.event({
+            'email': function () {
+                let that = $(this);
+                let content = that.prev().html();
+                content = content === '无' ? '' : content;
+                waitUtil.popup({
+                    title: '绑定邮箱',
+                    url: '/frontend/user/binding?field=email&value='+content,
+                    area: ['320px', '220px'],
+                    maxmin: false,
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.ajax({
+                                url: '/frontend/user/update',
+                                type: 'POST',
+                                data: {field: 'email', mobile: data.field['email'], code: data.field['code']}
+                            }).then((res) => {
+                                if (res.code === 0) {
+                                    that.prev().html(text.trim());
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            'mobile': function () {
+                let that = $(this);
+                let content = that.prev().html();
+                content = content === '无' ? '' : content;
+                waitUtil.popup({
+                    title: '绑定手机号',
+                    url: '/frontend/user/binding?field=mobile&value='+content,
+                    area: ['320px', '220px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.ajax({
+                                url: '/frontend/user/binding',
+                                type: 'POST',
+                                data: {field: 'mobile', mobile: data.field['mobile'], code: data.field['code']}
+                            }).then((res) => {
+                                if (res.code === 0) {
+                                    that.prev().html(text.trim());
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            'password': function () {
+                let that = $(this);
+                let content = that.prev().html();
+                content = content === '无' ? '' : content;
+                waitUtil.popup({
+                    title: '修改密码',
+                    url: '/frontend/user/binding?field=password&value='+content,
+                    area: ['320px', '300px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.ajax({
+                                url: '/frontend/user/binding',
+                                type: 'POST',
+                                data: {field: 'mobile', mobile: data.field['mobile'], code: data.field['code']}
+                            }).then((res) => {
+                                if (res.code === 0) {
+                                    that.prev().html(text.trim());
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        })
+
+        // 账号更新
+        form.on('submit(updateSubmit)', function(data) {
+            layer.confirm('您确定要进行更新吗？', function(index) {
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '/frontend/user/update',
+                    type: 'POST',
+                    data: data.field
+                });
+            });
+        });
+    });
+</script>
 {/block}
