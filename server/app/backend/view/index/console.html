@@ -3,41 +3,45 @@
 {block name="style"}
 <style>
     /** 数据预览 **/
-    .wait-preview .layui-card {-webkit-box-shadow: 0 0 20px rgba(0,0,0,.08); box-shadow: 0 0 20px rgba(0,0,0,.08); border-radius: 5px;}
-    .wait-preview .subject {padding: 20px; position: relative; width: 100%; box-sizing: border-box;}
-    .wait-preview .subject .icons {display: inline-block; vertical-align: middle; }
-    .wait-preview .subject .icons img {width: 60px;}
-    .wait-preview .subject .textarea {display: inline-block; vertical-align: middle; padding-left: 20px;}
-    .wait-preview .subject .stat-text {color: #455a64; font-size: 24px; padding-bottom: 5px;}
-    .wait-preview .subject .stat-heading {color: #99abb4; }
-    .wait-data-view {height: 332px !important;}
-    .wait-data-view > *[carousel-item]:before {display: none;}
-    .wait-data-view > *[carousel-item] > div {height: 332px;}
-    @media screen and (max-width: 768px){
-        .wait-preview .subject .icons img {width: 50px;}
-        .wait-preview .subject .stat-text {font-size: 22px;}
-        .wait-preview .subject .textarea  {padding-left: 15px;}
+    .wait-preview .layui-card { border-radius: 5px; box-shadow: 0 0 20px rgba(0, 0, 0, .08); }
+    .wait-preview .subject { position: relative; padding: 20px; width: 100%; box-sizing: border-box; }
+    .wait-preview .subject .icons { display: inline-block; vertical-align: middle; }
+    .wait-preview .subject .icons img { width: 60px; }
+    .wait-preview .subject .textarea { display: inline-block; vertical-align: middle; padding-left: 20px; }
+    .wait-preview .subject .stat-text { padding-bottom: 5px; font-size: 24px; color: #455a64; }
+    .wait-preview .subject .stat-heading { color: #99abb4; }
+    .wait-data-view { height: 332px !important; }
+    .wait-data-view > *[carousel-item]::before { display: none; }
+    .wait-data-view > *[carousel-item] > div { height: 332px; }
+
+    @media screen and (max-width: 768px) {
+        .wait-preview .subject .icons img { width: 50px; }
+        .wait-preview .subject .stat-text { font-size: 22px; }
+        .wait-preview .subject .textarea { padding-left: 15px; }
     }
+
     /* 快捷方式 */
     .wait-shortcut li { text-align: center; }
-    .wait-shortcut li .layui-icon { display: inline-block; width: 100%; height: 60px; line-height: 60px; text-align: center; border-radius: 2px; font-size: 30px; background-color: #F8F8F8; color: #333; transition: all .3s; -webkit-transition: all .3s; }
-    .wait-shortcut li cite { position: relative; top: 2px; display: block; color: #666; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; font-size: 14px; }
+    .wait-shortcut li .layui-icon { display: inline-block; width: 100%; height: 60px; font-size: 30px; border-radius: 2px; text-align: center; color: #333333; background-color: #f8f8f8; transition: all 0.3s; transition: all 0.3s; line-height: 60px; }
+    .wait-shortcut li cite { position: relative; top: 2px; display: block; overflow: hidden; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; color: #666666; }
     .wait-shortcut li:hover .layui-icon { background-color: #f2f2f2; }
     .wait-shortcut li a { display: block; }
+
     /* 待办事项 */
-    .wait-backlog ul li a {display: block; padding: 10px 15px; background-color: #f8f8f8; color: #999; border-radius: 2px; transition: all .3s; -webkit-transition: all .3s; }
-    .wait-backlog ul li a h3 {padding-bottom: 10px; font-size: 12px; }
-    .wait-backlog ul li a p cite {font-style: normal; font-size: 30px; font-weight: 400; color: #009688;}
-    .wait-backlog ul li a:hover {background-color: #f2f2f2; color: #888;}
+    .wait-backlog ul li a { display: block; padding: 10px 15px; border-radius: 2px; color: #999999; background-color: #f8f8f8; transition: all 0.3s; }
+    .wait-backlog ul li a h3 { padding-bottom: 10px; font-size: 12px; }
+    .wait-backlog ul li a p cite { font-style: normal; font-size: 30px; font-weight: 400; color: #009688; }
+    .wait-backlog ul li a:hover { color: #888888; background-color: #f2f2f2; }
+
     /* 热门排名 */
-    .wait-ranking.layui-card-body {min-height: 333px;}
-    .wait-ranking .li {display:flex; align-items:center;}
-    .wait-ranking .li img {width:30px; height:30px;}
-    .wait-ranking .li p {height:20px; margin-left:5px;}
-    .wait-ranking .tips {display: block; width: 25px; height: 25px; color: #333; border-radius: 2px; background: #f5f5f5; font-weight: 400; font-size: 12px; line-height: 25px; text-align: center; }
-    .wait-ranking table tr:nth-child(1) .tips {background: rgb(248, 96, 86); color: rgb(255, 255, 255);}
-    .wait-ranking table tr:nth-child(2) .tips {background: rgb(252, 141, 46); color: rgb(255, 255, 255);}
-    .wait-ranking table tr:nth-child(3) .tips {background: rgb(252, 188, 46); color: rgb(255, 255, 255);}
+    .wait-ranking.layui-card-body { min-height: 333px; }
+    .wait-ranking .li { display: flex; align-items: center; }
+    .wait-ranking .li img { width: 30px; height: 30px; }
+    .wait-ranking .li p { margin-left: 5px; height: 20px; }
+    .wait-ranking .tips { display: block; width: 25px; height: 25px; font-size: 12px; font-weight: 400; border-radius: 2px; text-align: center; color: #333333; background: #f5f5f5; line-height: 25px; }
+    .wait-ranking table tr:nth-child(1) .tips { color: rgb(255 255 255); background: rgb(248 96 86); }
+    .wait-ranking table tr:nth-child(2) .tips { color: rgb(255 255 255); background: rgb(252 141 46); }
+    .wait-ranking table tr:nth-child(3) .tips { color: rgb(255 255 255); background: rgb(252 188 46); }
 </style>
 {/block}
 
@@ -302,10 +306,10 @@
 <script>
     //区块轮播切换
     layui.use(['element', 'carousel'], function () {
-        let $ = layui.$
-            ,carousel = layui.carousel
-            ,element = layui.element
-            ,device = layui.device();
+        let $ = layui.$;
+        let carousel = layui.carousel;
+        let element = layui.element;
+        let device = layui.device();
 
         $('.layui-carousel').each(function () {
             let that = $(this);
@@ -323,7 +327,8 @@
     });
 
     // 快捷事件
-    $(document).on('click', '.quick-event li a', function () {
+    layui.$(document).on('click', '.quick-event li a', function () {
+        let $ = layui.$;
         let layAttr = $(this).attr('lay-attr');
         let layText = $(this).find('cite').text();
         if ($(this).find('h3').length>0) {

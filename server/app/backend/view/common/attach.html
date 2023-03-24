@@ -3,58 +3,63 @@
 {block name="style"}
 <style>
     /** 容器 **/
-    .file-container {display: flex; justify-content: space-between; width: 100%; position: absolute; top: 0; bottom: 0; padding-bottom: 50px;}
-    ::-webkit-scrollbar {display: none; width: 6px; height: 6px;}
-    ::-webkit-scrollbar-thumb {border-radius: 10px;background-color: #e1e1e1;}
+    .file-container { position: absolute; top: 0; bottom: 0; display: flex; justify-content: space-between; padding-bottom: 50px; width: 100%; }
+    ::-webkit-scrollbar { display: none; width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { border-radius: 10px; background-color: #e1e1e1; }
+
     /** 目录 **/
-    .file-container .folder {position: relative; display: flex; flex-direction: column; width: 180px; padding-top: 10px;}
-    .file-container .folder ul::-webkit-scrollbar {display: block;}
-    .file-container .folder ul {flex: 1; overflow: hidden; overflow-y: auto;}
-    .file-container .folder ul li {display: flex; align-items: center; justify-content: space-between; padding: 0 15px; height: 36px; font-size: 13px; color: #666666;}
-    .file-container .folder ul li img {width: 20px; height: 16px; margin-right: 0.7rem;}
-    .file-container .folder ul li > span {display: flex; flex: 1; margin-right: 0.5rem;  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
-    .file-container .folder ul li.active {background: #edefff;}
-    .file-container .folder ul li:hover  {background: #f5f7fa;}
-    .file-container .folder ul li .dropdown:hover dl{display: block;}
-    .file-container .folder ul li .dropdown dl {display: none; position: absolute; top: 36px; right: -15px; z-index: 10000; width: 88px; text-align: center; padding: 5px 0; box-shadow: #ccc 0 0 10px; border-radius: 2px; background-color: #fff;}
-    .file-container .folder ul li .dropdown dl dd {height: 32px; line-height: 32px;}
-    .file-container .folder ul li .dropdown dl dd:hover {color: #4a5dff; background-color: #edefff;}
-    .file-container .folder ul li .dropdown dl:before {position: absolute; top: -16px;; left: 44px; z-index: 12; width: 0; height: 0; padding: 0; display: block; content: ''; box-sizing: content-box; border-bottom: 8px solid #FFFFFF; border-top: 8px solid transparent; border-left: 8px solid transparent; border-right: 8px solid transparent;}
-    .file-container .folder .footer {position: absolute; bottom: -50px; width: 100%; height: 50px; display: flex;align-items: center; justify-content: center; border-top: 1px solid #f2f2f2; border-right: 1px solid #f2f2f2;}
+    .file-container .folder { position: relative; display: flex; flex-direction: column; padding-top: 10px; width: 180px; }
+    .file-container .folder ul::-webkit-scrollbar { display: block; }
+    .file-container .folder ul { flex: 1; overflow: hidden; overflow-y: auto; }
+    .file-container .folder ul li { display: flex; align-items: center; justify-content: space-between; padding: 0 15px; height: 36px; font-size: 13px; color: #666666; }
+    .file-container .folder ul li img { margin-right: 0.7rem; width: 20px; height: 16px; }
+    .file-container .folder ul li > span { display: flex; flex: 1; overflow: hidden; margin-right: 0.5rem; text-overflow: ellipsis; white-space: nowrap; }
+    .file-container .folder ul li.active { background: #edefff; }
+    .file-container .folder ul li:hover { background: #f5f7fa; }
+    .file-container .folder ul li .dropdown:hover dl { display: block; }
+    .file-container .folder ul li .dropdown dl { position: absolute; top: 36px; right: -15px; z-index: 10000; display: none; padding: 5px 0; width: 88px; border-radius: 2px; text-align: center; background-color: #ffffff; box-shadow: #cccccc 0 0 10px; }
+    .file-container .folder ul li .dropdown dl dd { height: 32px; line-height: 32px; }
+    .file-container .folder ul li .dropdown dl dd:hover { color: #4a5dff; background-color: #edefff; }
+    .file-container .folder ul li .dropdown dl::before { position: absolute; top: -16px; left: 44px; z-index: 12; display: block; padding: 0; width: 0; height: 0; border-top: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 8px solid #ffffff; border-left: 8px solid transparent; content: ""; box-sizing: content-box; }
+    .file-container .folder .footer { position: absolute; bottom: -50px; display: flex; align-items: center; justify-content: center; width: 100%; height: 50px; border-top: 1px solid #f2f2f2; border-right: 1px solid #f2f2f2; }
+
     /** 搜索 **/
-    .file-container .attach .header {display: flex; align-items: center; justify-content: space-between; padding: 6px 15px; border-bottom: 1px solid #f2f2f2;}
-    .file-container .attach .header .search {display: flex;}
-    .file-container .attach .header .search input:focus {border-color: #eee !important;}
-    .file-container .attach .header .search input {height: 30px; border-color: #eee; border-top-right-radius: 0; border-bottom-right-radius: 0;}
-    .file-container .attach .header .search button {border-color: #eee; background: #f5f7fa; border-top-left-radius: 0; border-bottom-left-radius: 0}
+    .file-container .attach .header { display: flex; align-items: center; justify-content: space-between; padding: 6px 15px; border-bottom: 1px solid #f2f2f2; }
+    .file-container .attach .header .search { display: flex; }
+    .file-container .attach .header .search input:focus { border-color: #eeeeee !important; }
+    .file-container .attach .header .search input { height: 30px; border-color: #eeeeee; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+    .file-container .attach .header .search button { border-color: #eeeeee; background: #f5f7fa; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+
     /** 文件 **/
-    .file-container .attach {flex: 1; border-left: 1px solid #f6f6f6; border-right: 1px solid #f6f6f6;}
-    .file-container .attach .subject {display: flex; padding: 5px 10px; box-sizing: border-box; height: calc(100% - 44px); overflow: hidden; overflow-y: auto;}
-    .file-container .attach .subject:hover::-webkit-scrollbar{display: block;}
-    .file-container .attach .subject ul::after{content: ""; display: block; visibility: hidden; clear: both;}
-    .file-container .attach .subject ul li {position: relative; float: left; padding: 10px; margin: 5px; border-radius: 6px; border: 1px solid rgba(0, 0, 0, 0.05); -webkit-transition: All 0.2s ease-in-out; -moz-transition: All 0.2s ease-in-out; -o-transition: All 0.2s ease-in-out; transition: All 0.2s ease-in-out;}
-    .file-container .attach .subject ul li:hover {border: 1px solid #ccc;}
-    .file-container .attach .subject ul li img {width: 98px; height: 98px;}
-    .file-container .attach .subject ul li video {width: 98px; height: 98px;}
-    .file-container .attach .subject ul li p {margin: 5px 0 0 0; width: 98px; font-size: 13px; text-align: center; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
-    .file-container .attach .subject ul li:after {display: none; content: "\e605"; font-family: "layui-icon",serif; font-size: 26px; font-weight: bold; line-height: 125px; text-align: center; color: #fff; position: absolute; top: 0; bottom: 0; left: 0; right: 0; border-radius: 4px; background: rgba(0, 0, 0, 0.5);}
-    .file-container .attach .subject ul li.active:after{display: block;}
-    .file-container .attach .footer {display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: fixed; bottom: 0; left: 181px; right: 0; height: 50px; text-align: center; border-top: 1px solid #f2f2f2; background: #FFFFFF;}
+    .file-container .attach { flex: 1; border-right: 1px solid #f6f6f6; border-left: 1px solid #f6f6f6; }
+    .file-container .attach .subject { display: flex; overflow: hidden; overflow-y: auto; padding: 5px 10px; height: calc(100% - 44px); box-sizing: border-box; }
+    .file-container .attach .subject:hover::-webkit-scrollbar { display: block; }
+    .file-container .attach .subject ul::after { display: block; clear: both; visibility: hidden; content: ""; }
+    .file-container .attach .subject ul li { position: relative; float: left; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, .05); border-radius: 6px; transition: all 0.2s ease-in-out; }
+    .file-container .attach .subject ul li:hover { border: 1px solid #cccccc; }
+    .file-container .attach .subject ul li img { width: 98px; height: 98px; }
+    .file-container .attach .subject ul li video { width: 98px; height: 98px; }
+    .file-container .attach .subject ul li p { overflow: hidden; margin: 5px 0 0; width: 98px; font-size: 13px; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+    .file-container .attach .subject ul li::after { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: none; font-size: 26px; font-family: layui-icon, serif; font-weight: bold; border-radius: 4px; text-align: center; color: #ffffff; background: rgba(0, 0, 0, .5); content: "\e605"; line-height: 125px; }
+    .file-container .attach .subject ul li.active::after { display: block; }
+    .file-container .attach .footer { position: fixed; right: 0; bottom: 0; left: 181px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 50px; border-top: 1px solid #f2f2f2; text-align: center; background: #ffffff; }
+
     /** 选择 **/
-    .file-container .select {width: 125px;}
-    .file-container .select .header {display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 10px;}
-    .file-container .select .header span:first-child {font-size: 14px; color: #666666;}
-    .file-container .select .header span:last-child {color: #ea5455;}
-    .file-container .select ul {display: flex; flex-direction: column; align-items: center;}
-    .file-container .select ul li {position: relative; width: 90px; height: 90px; border: 1px solid #f2f2f2; margin-bottom: 10px;}
-    .file-container .select ul li img {width: 100%; height: 100%;}
-    .file-container .select ul li video {width: 100%; height: 100%;}
-    .file-container .select ul li:hover i {visibility: visible;}
-    .file-container .select ul li i {font-size: 12px; color: #fff; cursor: pointer; position: absolute; top: -10px; right: -6px; visibility: hidden; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: hsla(0, 0%, 60%, .6);}
+    .file-container .select { width: 125px; }
+    .file-container .select .header { display: flex; align-items: center; justify-content: space-between; padding: 0 10px; height: 50px; }
+    .file-container .select .header span:first-child { font-size: 14px; color: #666666; }
+    .file-container .select .header span:last-child { color: #ea5455; }
+    .file-container .select ul { display: flex; align-items: center; flex-direction: column; }
+    .file-container .select ul li { position: relative; margin-bottom: 10px; width: 90px; height: 90px; border: 1px solid #f2f2f2; }
+    .file-container .select ul li img { width: 100%; height: 100%; }
+    .file-container .select ul li video { width: 100%; height: 100%; }
+    .file-container .select ul li:hover i { visibility: visible; }
+    .file-container .select ul li i { position: absolute; top: -10px; right: -6px; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; font-size: 12px; border-radius: 50%; color: #ffffff; background: hsla(0, 0%, 60%, .6); visibility: hidden; cursor: pointer; }
+
     /** 空的 **/
-    .file-container .empty {flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; overflow: hidden; text-align: center; color: #ccc;}
-    .file-container .empty i {font-size: 180px; }
-    .file-container .empty p {text-align: center; width: 180px;}
+    .file-container .empty { display: flex; flex: 1; align-items: center; flex-direction: column; justify-content: center; overflow: hidden; padding: 15px; text-align: center; color: #cccccc; }
+    .file-container .empty i { font-size: 180px; }
+    .file-container .empty p { width: 180px; text-align: center; }
 </style>
 {/block}
 
@@ -171,6 +176,7 @@
     let limit   = 1;
     let urlArr  = [];
     layui.use(['laytpl', 'laypage', 'upload'], function () {
+        let $ = layui.$;
         let laytpl  = layui.laytpl;
         let laypage = layui.laypage;
         let upload  = layui.upload;
