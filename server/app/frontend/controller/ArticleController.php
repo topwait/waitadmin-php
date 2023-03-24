@@ -30,6 +30,8 @@ use think\response\View;
  */
 class ArticleController extends Frontend
 {
+    protected array $notNeedLogin = ['lists', 'detail'];
+
     /**
      * 文章列表
      *

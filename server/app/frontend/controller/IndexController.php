@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\frontend\controller;
 
-
 use app\common\basics\Frontend;
 use app\common\service\msg\MsgDriver;
 use app\common\utils\AjaxUtils;
@@ -35,6 +34,8 @@ use think\response\View;
  */
 class IndexController extends Frontend
 {
+    protected array $notNeedLogin = ['index', 'sendSms', 'sendEmail'];
+
     /**
      * @return View
      * @throws DataNotFoundException
