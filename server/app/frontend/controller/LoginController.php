@@ -29,7 +29,15 @@ use think\response\View;
  */
 class LoginController extends Frontend
 {
-    protected array $notNeedLogin = ['login', 'register'];
+    protected array $notNeedLogin = ['index', 'login', 'register'];
+
+    public function index(): View
+    {
+        $get = $this->request->get();
+        return view('', [
+            'scene' => $get['scene']
+        ]);
+    }
 
     /**
      * 注册账号

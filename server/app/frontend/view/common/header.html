@@ -2,7 +2,7 @@
     <div class="navigation">
         <div class="container">
             <a class="logo"><img src="{$pc.logo??''}" alt="logo"></a>
-            <ul>
+            <ul class="nav">
                 {volist name="navigation" id="vo"}
                     {if !$vo.children}
                         <li class="{:think\\facade\\Request::url()==$vo.url?'active':''}">
@@ -19,6 +19,12 @@
                         </li>
                     {/if}
                 {/volist}
+            </ul>
+            <ul class="side">
+                <li class="sign-in">
+                    <a href="javascript:" id="js-enroll-btn">登录</a> /
+                    <a href="javascript:" id="js-signup-btn">注册</a>
+                </li>
             </ul>
         </div>
     </div>
