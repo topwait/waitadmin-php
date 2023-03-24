@@ -1,118 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{$pc.title??'首页'}</title>
-    <meta name="keywords" content="{$pc.keywords??''}">
-    <meta name="description" content="{$pc.description??''}">
-    <link rel="stylesheet" href="__FRONTEND__/js/layui/css/layui.css">
-    <link rel="stylesheet" href="__FRONTEND__/font/iconfont.css">
-    <link rel="stylesheet" href="__FRONTEND__/css/basis.css">
-    <link rel="stylesheet" href="__FRONTEND__/css/app.css">
-</head>
-<body style="background: #fff;">
-    <div class="layout-global-session">
-        {if $scene == 'login'}
-            <div class="layui-tab layui-tab-brief">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">账号登录</li>
-                    <li>验证码登录</li>
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
-                        <form class="layui-form">
-                            <label><input type="text" name="account" autocomplete="off" placeholder="请输入登录手机号/邮箱" class="layui-input"></label>
-                            <label><input type="password" name="password" autocomplete="off" placeholder="请输入密码" class="layui-input"></label>
-                            <div class="control">
-                                <a href="javascript:" class="forget">忘记密码?</a>
+{extend name="common/layoutEasy" /}
+
+{block name="body"}
+<div class="layout-global-session">
+    {if $scene == 'login'}
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">账号登录</li>
+                <li>验证码登录</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form class="layui-form">
+                        <label><input type="text" name="account" autocomplete="off" placeholder="请输入登录手机号/邮箱" class="layui-input"></label>
+                        <label><input type="password" name="password" autocomplete="off" placeholder="请输入密码" class="layui-input"></label>
+                        <div class="control">
+                            <a href="javascript:" class="forget">忘记密码?</a>
+                        </div>
+                        <a href="javascript:" class="enroll">登录</a>
+                        <a href="javascript:" class="signup">快速注册</a>
+                        <div class="empower">
+                            <i class="layui-icon layui-icon-login-wechat"></i>
+                        </div>
+                        <div class="agreement">
+                            <input type="checkbox" name="agreement" lay-skin="primary" title="" checked="">
+                            <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+                                <i class="layui-icon layui-icon-ok"></i>
                             </div>
-                            <a href="javascript:" class="enroll">登录</a>
-                            <a href="javascript:" class="signup">快速注册</a>
-                            <div class="empower">
-                                <i class="layui-icon layui-icon-login-wechat"></i>
+                            <a href="javascript:">
+                                已阅读并同意
+                                <span>《用户协议》</span> 与
+                                <span>《隐私协议》</span>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-tab-item">
+                    <form class="layui-form">
+                        <label class="phone">
+                            <em class="area_code">+86</em>
+                            <input type="text" name="account" autocomplete="off" placeholder="短信登录仅限中国大陆用户" class="layui-input">
+                        </label>
+                        <label class="verify">
+                            <em class="get_code">获取验证码</em>
+                            <input type="text" name="code" autocomplete="off" placeholder="请输入正确验证码" class="layui-input">
+                        </label>
+                        <div class="control">
+                            <a href="javascript:" class="forget">忘记密码?</a>
+                        </div>
+                        <a href="javascript:" class="enroll">登录</a>
+                        <a href="javascript:" class="signup">快速注册</a>
+                        <div class="empower">
+                            <i class="layui-icon layui-icon-login-wechat"></i>
+                        </div>
+                        <div class="agreement">
+                            <input type="checkbox" name="agreement" lay-skin="primary" title="" checked="">
+                            <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+                                <i class="layui-icon layui-icon-ok"></i>
                             </div>
-                            <div class="agreement">
-                                <input type="checkbox" name="agreement" lay-skin="primary" title="" checked="">
-                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
-                                    <i class="layui-icon layui-icon-ok"></i>
-                                </div>
-                                <a href="javascript:">
-                                    已阅读并同意
-                                    <span>《用户协议》</span> 与
-                                    <span>《隐私协议》</span>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="layui-tab-item">
-                        <form class="layui-form">
-                            <label class="phone">
-                                <em class="area_code">+86</em>
-                                <input type="text" name="account" autocomplete="off" placeholder="短信登录仅限中国大陆用户" class="layui-input">
-                            </label>
-                            <label class="verify">
-                                <em class="get_code">获取验证码</em>
-                                <input type="text" name="code" autocomplete="off" placeholder="请输入正确验证码" class="layui-input">
-                            </label>
-                            <div class="control">
-                                <a href="javascript:" class="forget">忘记密码?</a>
-                            </div>
-                            <a href="javascript:" class="enroll">登录</a>
-                            <a href="javascript:" class="signup">快速注册</a>
-                            <div class="empower">
-                                <i class="layui-icon layui-icon-login-wechat"></i>
-                            </div>
-                            <div class="agreement">
-                                <input type="checkbox" name="agreement" lay-skin="primary" title="" checked="">
-                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
-                                    <i class="layui-icon layui-icon-ok"></i>
-                                </div>
-                                <a href="javascript:">
-                                    已阅读并同意
-                                    <span>《用户协议》</span> 与
-                                    <span>《隐私协议》</span>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+                            <a href="javascript:">
+                                已阅读并同意
+                                <span>《用户协议》</span> 与
+                                <span>《隐私协议》</span>
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
-        {/if}
+        </div>
+    {/if}
 
-        {if $scene == 'register'}
-            <div class="reg ">
-                <h1 class="black-title">快速注册</h1>
-                <form class="layui-form">
-                    <label><input type="text" name="account" autocomplete="off" placeholder="账号/手机号/邮箱" class="layui-input"></label>
-                    <label><input type="password" name="password" autocomplete="off" placeholder="请输入密码" class="layui-input"></label>
-                    <div class="control">
-                        <a href="javascript:" class="forget">忘记密码?</a>
+    {if $scene == 'register'}
+        <div class="reg ">
+            <h1 class="black-title">快速注册</h1>
+            <form class="layui-form">
+                <label><input type="text" name="account" autocomplete="off" placeholder="账号/手机号/邮箱" class="layui-input"></label>
+                <label><input type="password" name="password" autocomplete="off" placeholder="请输入密码" class="layui-input"></label>
+                <div class="control">
+                    <a href="javascript:" class="forget">忘记密码?</a>
+                </div>
+                <a href="javascript:" class="enroll">立即注册</a>
+                <a href="javascript:" class="enroll-k">返回登录</a>
+                <div class="empower">
+                    <i class="layui-icon layui-icon-login-wechat"></i>
+                </div>
+                <div class="agreement">
+                    <input type="checkbox" name="agreement" lay-skin="primary" title="" checked="">
+                    <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+                        <i class="layui-icon layui-icon-ok"></i>
                     </div>
-                    <a href="javascript:" class="enroll">立即注册</a>
-                    <a href="javascript:" class="enroll-k">返回登录</a>
-                    <div class="empower">
-                        <i class="layui-icon layui-icon-login-wechat"></i>
-                    </div>
-                    <div class="agreement">
-                        <input type="checkbox" name="agreement" lay-skin="primary" title="" checked="">
-                        <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
-                            <i class="layui-icon layui-icon-ok"></i>
-                        </div>
-                        <a href="javascript:">
-                            已阅读并同意
-                            <span>《用户协议》</span> 与
-                            <span>《隐私协议》</span>
-                        </a>
-                    </div>
-                </form>
-            </div>
-        {/if}
-    </div>
-
-    <!-- 脚本 -->
-    <script src="__COMMON__/js/jquery.min.js"></script>
-    <script src="__COMMON__/js/cache.min.js"></script>
-    <script src="__FRONTEND__/js/layui/layui.js"></script>
-    <script src="__FRONTEND__/js/utils.min.js"></script>
-</body>
-</html>
+                    <a href="javascript:">
+                        已阅读并同意
+                        <span>《用户协议》</span> 与
+                        <span>《隐私协议》</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    {/if}
+</div>
+{/block}

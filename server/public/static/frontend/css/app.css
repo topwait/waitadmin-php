@@ -45,17 +45,6 @@
 .layout-global-main .main-layout-section { margin-right: 20px; width: 810px; min-width: 810px; }
 .layout-global-main .main-layout-aside { width: 370px; }
 
-/** 布局登录 **/
-.layout-global-login { margin-top: 30px; }
-.layout-global-login h2 { margin: 10px 0 20px; padding-bottom: 15px; height: 26px; font-size: 18px; font-weight: 600; border-bottom: 2px dashed #f1f1f1; color: #575757; line-height: 26px; }
-.layout-global-login .code { height: 38px; }
-.layout-global-login form .layui-input-block { margin-left: 80px; }
-.layout-global-login form .layui-form-label { width: 100px; font-size: 14px; font-weight: 600; color: #666666; }
-.layout-global-login .registerNow { display: inline-block; font-size: 13px; color: #999999; }
-.layout-global-login .registerNow a { font-size: 13px; color: #ff5f33; }
-.layout-global-login .forgetPassword { display: inline-block; padding-left: 105px; }
-.layout-global-login .forgetPassword a { font-size: 13px; color: #666666; }
-
 /** ===================== 【首页样式】 ===================== **/
 
 /** 轮播样式 **/
@@ -218,7 +207,7 @@
 .wait-empty .layui-layer-title { display: none; }
 .wait-empty iframe { height: 432px !important; border-radius: 4px !important;  display: inherit; }
 
-.layout-global-session { padding: 0 32px; }
+.layout-global-session { padding: 0 32px; background-color: #fff; }
 .layout-global-session .layui-tab { margin: 0; }
 .layout-global-session .layui-tab-title { padding: 10px 0; border-bottom-style: none; border-bottom-width: 0; }
 .layout-global-session .layui-tab-title li { padding: 0; height: 40px; font-size: 18px; font-weight: bold; color: #787d82; }
