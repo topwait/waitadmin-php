@@ -15,12 +15,11 @@ declare (strict_types = 1);
 
 namespace app\frontend\controller;
 
-use app\backend\validate\LoginValidate;
 use app\common\basics\Frontend;
 use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use app\frontend\service\LoginService;
-use app\frontend\validate\RegisterValidate;
+use app\frontend\validate\LoginValidate;
 use think\response\Json;
 use think\response\View;
 
@@ -31,29 +30,18 @@ class LoginController extends Frontend
 {
     protected array $notNeedLogin = ['index', 'login', 'register'];
 
+    /**
+     * 弹出页面
+     *
+     * @return View
+     * @author windy
+     */
     public function index(): View
     {
         $get = $this->request->get();
         return view('', [
             'scene' => $get['scene']
         ]);
-    }
-
-    /**
-     * 注册账号
-     *
-     * @return Json|View
-     * @author windy
-     */
-    public function register(): View|Json
-    {
-        if ($this->isAjaxPost()) {
-            (new RegisterValidate())->goCheck();
-            LoginService::register($this->request->post());
-            return AjaxUtils::success('注册成功');
-        }
-
-        return view();
     }
 
     /**
@@ -66,20 +54,64 @@ class LoginController extends Frontend
     public function login(): View|Json
     {
         if ($this->isAjaxPost()) {
-            (new LoginValidate())->goCheck();
-            LoginService::login($this->request->post());
-            return AjaxUtils::success('登录成功');
+            $post     = $this->request->post();
+            $validate = new LoginValidate();
+            $validate->goCheck('scene');
+
+            $response = [];
+            switch ($post['scene']) {
+                case 'account':
+                    $validate->goCheck('account');
+                    $response = LoginService::accountLogin($post['account'], $post['password'], $this->terminal);
+                    break;
+                case 'mobile':
+                    $validate->goCheck('mobile');
+                    $response = LoginService::mobileLogin($post['mobile'], $post['code'], $this->terminal);
+                    break;
+            }
+
+            return AjaxUtils::success($response);
         }
 
         return view();
     }
 
+    /**
+     * 注册账号
+     *
+     * @return Json|View
+     * @throws OperateException
+     * @author windy
+     */
+    public function register(): View|Json
+    {
+        if ($this->isAjaxPost()) {
+            (new LoginValidate())->goCheck('register');
+
+            LoginService::register($this->request->post(), $this->terminal);
+            return AjaxUtils::success('注册成功');
+        }
+
+        return view();
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @return View|Json
+     * @throws OperateException
+     * @author windy
+     */
     public function forget(): View|Json
     {
         if ($this->isAjaxPost()) {
-            return AjaxUtils::success('重置成功');
+            (new LoginValidate())->goCheck('forgetPwd');
+
+            LoginService::forgetPwd($this->request->post());
+            return AjaxUtils::success();
         }
 
         return view();
     }
+
 }

@@ -2,82 +2,179 @@
 
 namespace app\frontend\service;
 
+use app\api\widgets\UserWidget;
 use app\common\basics\Service;
+use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
-use app\common\utils\UrlUtils;
+use app\common\service\msg\MsgDriver;
+use Exception;
+use JetBrains\PhpStorm\ArrayShape;
 
 class LoginService extends Service
 {
     /**
      * 注册账号
      *
-     * @param array $post
+     * @param array $post   (参数)
+     * @param int $terminal (设备)
+     * @return array
+     * @throws OperateException
+     * @throws Exception
      * @author windy
      */
-    public static function register(array $post): void
+    #[ArrayShape(['token' => "string"])]
+    public static function register(array $post, int $terminal): array
     {
-        $salt     = make_rand_char(5);
-        $password = make_md5_str($post['password'], $salt);
-        $user = User::create([
-            'mobile'      => trim($post['mobile']),
-            'nickname'    => trim($post['nickname']),
-            'username'    => trim($post['username']),
-            'password'    => trim($password),
-            'salt'        => $salt,
-            'last_login_ip'   => request()->ip(),
-            'last_login_time' => time(),
-            'create_time'     => time(),
-            'update_time'     => time()
+        // 接收参数
+        $code     = $post['code'];
+        $mobile   = $post['mobile'];
+        $account  = $post['account'] ?? '';
+        $password = $post['password'] ?? '';
+
+        // 短信验证
+        if (!MsgDriver::checkCode(NoticeEnum::REGISTER, $code)) {
+            throw new OperateException('验证码错误!');
+        }
+
+        // 创建账号
+        $userId = UserWidget::createUser([
+            'mobile'   => trim($mobile),
+            'account'  => trim($account),
+            'password' => trim($password),
+            'terminal' => $terminal
         ]);
 
-        $userInfo = (new User())
-            ->withoutField('is_delete,update_time,delete_time')
-            ->where('id', $user['id'])
-            ->where(['is_delete'=>0])
-            ->findOrEmpty()
-            ->toArray();
-
-        $userInfo['avatar'] = UrlUtils::toAbsoluteUrl($userInfo['avatar']);
-        session('userInfo', $userInfo);
+        // 登录账号
+        $token = UserWidget::granToken($userId, $terminal);
+        return ['token'=>$token];
     }
 
     /**
-     * 登录账号
+     * 账号登录
      *
-     * @param array $post
+     * @param $account  (账号)
+     * @param $password (密码)
+     * @param $terminal (设备)
+     * @return array
      * @throws OperateException
      * @author windy
      */
-    public static function login(array $post): void
+    #[ArrayShape(['token' => "string"])]
+    public static function accountLogin(string $account, string $password, int $terminal): array
     {
-        $model = new User();
-        $user = $model->withoutField('is_delete,update_time,delete_time')
-            ->where('account|mobile|email', $post['account'])
+        // 查询账户
+        $modelUser = new User();
+        $userInfo = $modelUser
+            ->field(['id,account,password,salt,is_disable'])
+            ->where(['account'=>$account])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
 
-        if (!$user) {
-            throw new OperateException('账号或密码错误了!');
+        // 验证账户
+        if (!$userInfo) {
+            throw new OperateException('账号不存在了!');
         }
 
-        $password = make_md5_str($post['password'], $user['salt']);
-        if ($password !== $user['password']) {
-            throw new OperateException('账号或密码错误了!');
+        // 验证密码
+        $password = make_md5_str($password, $userInfo['salt']);
+        if ($userInfo['password'] !== $password) {
+            throw new OperateException('账号或密码错误!');
         }
 
-        if ($user['is_disable']) {
-            throw new OperateException('账号或密码错误了!');
+        // 验证状态
+        if ($userInfo['is_disable']) {
+            throw new OperateException('账号已被禁用!');
         }
 
-        User::update([
-            'last_login_ip'   => request()->ip(),
-            'last_login_time' => time()
-        ], ['id'=>$user['id']]);
-
-
-        $user['avatar'] = UrlUtils::toAbsoluteUrl($user['avatar']);
-        session('userInfo', $user);
+        // 登录账户
+        $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
+        return ['token'=>$token];
     }
+
+    /**
+     * 短信登录
+     *
+     * @param string $mobile (手机号)
+     * @param string $code   (验证码)
+     * @param int $terminal  (设备)
+     * @return array
+     * @throws OperateException
+     * @author windy
+     */
+    #[ArrayShape(['token' => "string"])]
+    public static function mobileLogin(string $mobile, string $code, int $terminal): array
+    {
+        // 短信验证
+        if (!MsgDriver::checkCode(NoticeEnum::LOGIN, intval($code))) {
+            throw new OperateException('验证码错误了!');
+        }
+
+        // 查询账户
+        $modelUser = new User();
+        $userInfo = $modelUser
+            ->field(['id,mobile,is_disable'])
+            ->where(['mobile'=>$mobile])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证账户
+        if (!$userInfo) {
+            throw new OperateException('账号不存在了!');
+        }
+
+        // 验证状态
+        if ($userInfo['is_disable']) {
+            throw new OperateException('账号已被禁用!');
+        }
+
+        // 登录账户
+        $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
+        return ['token'=>$token];
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param array $post (参数)
+     * @throws OperateException
+     * @author windy
+     */
+    public static function forgetPwd(array $post): void
+    {
+        // 接收参数
+        $code     = $post['code'];
+        $mobile   = $post['mobile'];
+        $password = $post['newPassword'];
+
+        // 短信验证
+        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, intval($code))) {
+            throw new OperateException('验证码错误!');
+        }
+
+        // 查询账户
+        $modelUser = new User();
+        $userInfo = $modelUser->field(['id,username,mobile'])
+            ->where(['mobile'=>trim($mobile)])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证账户
+        if (!$userInfo) {
+            throw new OperateException('账号不存在!');
+        }
+
+        // 设置密码
+        $salt = make_rand_char(6);
+        $password = make_md5_str($password, $salt);
+        User::update([
+            'salt'        => $salt,
+            'password'    => $password,
+            'update_time' => time()
+        ], ['id'=>$userInfo['id']]);
+    }
+
 }

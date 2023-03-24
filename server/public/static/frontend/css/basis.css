@@ -1,8 +1,6 @@
 /** 全局样式 **/
-html,
-body { background: #f6f6f6; animation: page-fade-in 1s forwards; }
-i,
-em { font-style: normal; }
+body { background: #f6f6f6; }
+i, em { font-style: normal; }
 .asterisk { padding-right: 2px; color: red; }
 .container { margin: 0 auto; width: 1200px; }
 .table-image-wrap { width: 24px; height: 24px; }

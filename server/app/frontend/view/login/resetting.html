@@ -1,0 +1,28 @@
+<div class="register">
+    <h1 class="black-title">重置密码</h1>
+    <form class="layui-form">
+        <label class="phone">
+            <em class="area_code">+86</em>
+            <input type="text" name="mobile" autocomplete="off" placeholder="短信登录仅限中国大陆用户"
+                   class="layui-input" lay-verType="tips" lay-verify="required">
+        </label>
+        <label class="verify">
+            <em class="get_code">获取验证码</em>
+            <input type="text" name="code" autocomplete="off" placeholder="请输入验证码"
+                   class="layui-input" lay-verType="tips" lay-verify="required|number">
+        </label>
+        <label>
+            <input type="password" name="password" autocomplete="off"
+                   placeholder="请输入8-20位字母、数字或字符"
+                   class="layui-input" lay-verType="tips" lay-verify="required">
+        </label>
+        <label>
+            <input type="password" name="ok_password" autocomplete="off" placeholder="再次确认密码"
+                   class="layui-input" lay-verType="tips" lay-verify="required">
+        </label>
+        <a href="javascript:" class="confirm">提交</a>
+        <div class="go">
+            <a href="javascript:" class="jump">返回账号登录</a>
+        </div>
+    </form>
+</div>
