@@ -1,13 +1,17 @@
-
-layui.define(["jquery", "form"], function (exports) {
+layui.define(['jquery', 'form'], function (exports) {
     let $    = layui.$;
     let form = layui.form;
 
     let ojb = {
-        init: function (province_lay_filte,city_lay_filte,district_lay_filte,province_name,city_name,district_name,province_id,city_id,district_id) {
+        init: function (
+            province_filter, city_filter, district_filter,
+            province_name, city_name, district_name,
+            province_id, city_id, district_id
+        ) {
+
             function areaSelect(data, element) {
                 let html = '';
-                for (var i in data) {
+                for (let i in data) {
                     html += "<option value=" + data[i]['id'] + ">" + data[i]['name'] + "</option>";
                 }
                 $(element).html(html);
@@ -35,16 +39,16 @@ layui.define(["jquery", "form"], function (exports) {
                 form.render('select');
             }
 
-            form.on('select('+province_lay_filte+')', function (data) {
+            form.on('select('+province_filter+')', function (data) {
                 let first_id = areaSelect(getAreaChildren(data['value']), $("[name='"+city_name+"']"));
                 areaSelect(getAreaChildren(first_id), $("[name='"+district_name+"']"));
             });
 
-            form.on('select('+city_lay_filte+')', function (data) {
+            form.on('select('+city_filter+')', function (data) {
                 areaSelect(getAreaChildren(data['value']), $("[name='"+district_name+"']"));
             });
         }
     };
 
-    exports("selectArea", ojb);
+    exports('selectArea', ojb);
 });
