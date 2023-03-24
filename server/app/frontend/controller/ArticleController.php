@@ -24,9 +24,6 @@ use think\response\View;
 
 /**
  * 文章管理
- *
- * Class ArticleController
- * @package app\frontend\controller
  */
 class ArticleController extends Frontend
 {
