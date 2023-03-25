@@ -41,12 +41,12 @@ class MsgDriver
      * 验证Code
      *
      * @param int $scene
-     * @param int $code
+     * @param string $code
      * @return bool
      */
-    public static function checkCode(int $scene, int $code): bool
+    public static function checkCode(int $scene, string $code): bool
     {
-        $modelNoticeRecord =  new NoticeRecord();
+        $modelNoticeRecord = new NoticeRecord();
         $noticeRecord = $modelNoticeRecord->field(['id,scene,code,expire_time'])
             ->where(['scene'=>$scene])
             ->where(['status'=>1])

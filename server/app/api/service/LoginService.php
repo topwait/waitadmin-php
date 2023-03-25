@@ -126,7 +126,7 @@ class LoginService extends Service
     public static function mobileLogin(string $mobile, string $code, int $terminal): array
     {
         // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::LOGIN, intval($code))) {
+        if (!MsgDriver::checkCode(NoticeEnum::LOGIN, $code)) {
             throw new OperateException('验证码错误!');
         }
 
@@ -292,7 +292,7 @@ class LoginService extends Service
         $password = $post['newPassword'];
 
         // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, intval($code))) {
+        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, $code)) {
             throw new OperateException('验证码错误');
         }
 
@@ -435,7 +435,7 @@ class LoginService extends Service
         } else {
             // 短信验证
             $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
-            if (!MsgDriver::checkCode($nCode, intval($code))) {
+            if (!MsgDriver::checkCode($nCode, $code)) {
                 throw new OperateException('验证码错误');
             }
         }
@@ -485,7 +485,7 @@ class LoginService extends Service
     {
         // 接收参数
         $email = $post['email'];
-        $code  = intval($post['code']);
+        $code  = $post['code'];
 
         // 短信验证
         if (!MsgDriver::checkCode(NoticeEnum::BIND_EMAIL, $code)) {

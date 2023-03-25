@@ -28,7 +28,7 @@ use think\response\View;
  */
 class LoginController extends Frontend
 {
-    protected array $notNeedLogin = ['index', 'login', 'register'];
+    protected array $notNeedLogin = ['index', 'login', 'register', 'forgetPwd'];
 
     /**
      * 弹出页面
@@ -98,11 +98,11 @@ class LoginController extends Frontend
     /**
      * 忘记密码
      *
-     * @return View|Json
+     * @return Json
      * @throws OperateException
      * @author windy
      */
-    public function forget(): View|Json
+    public function forgetPwd(): Json
     {
         if ($this->isAjaxPost()) {
             (new LoginValidate())->goCheck('forgetPwd');
@@ -111,7 +111,7 @@ class LoginController extends Frontend
             return AjaxUtils::success();
         }
 
-        return view();
+        return AjaxUtils::error();
     }
 
 }

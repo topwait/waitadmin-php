@@ -31,6 +31,17 @@ class LoginService extends Service
         $mobile   = $post['mobile'];
         $account  = $post['account'] ?? '';
         $password = $post['password'] ?? '';
+        $modelUser = new User();
+
+        // 手机验证
+        if (!$modelUser->where(['mobile'=>trim($mobile)])->findOrEmpty()->isEmpty()) {
+            throw new OperateException('手机已被占用!');
+        }
+
+        // 账号验证
+        if (!$modelUser->where(['account'=>trim($account)])->findOrEmpty()->isEmpty()) {
+            throw new OperateException('账号已被占用!');
+        }
 
         // 短信验证
         if (!MsgDriver::checkCode(NoticeEnum::REGISTER, $code)) {
@@ -107,7 +118,7 @@ class LoginService extends Service
     public static function mobileLogin(string $mobile, string $code, int $terminal): array
     {
         // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::LOGIN, intval($code))) {
+        if (!MsgDriver::checkCode(NoticeEnum::LOGIN, $code)) {
             throw new OperateException('验证码错误了!');
         }
 
@@ -149,15 +160,21 @@ class LoginService extends Service
         $mobile   = $post['mobile'];
         $password = $post['newPassword'];
 
-        // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, intval($code))) {
+        // 验证类型
+        $field = 'mobile';
+        if (!preg_match('/^1[3456789]\d{9}$/', $mobile)) {
+            $field = 'email';
+        }
+
+        // 编码验证
+        if (!MsgDriver::checkCode(NoticeEnum::FORGET_PWD, $code)) {
             throw new OperateException('验证码错误!');
         }
 
         // 查询账户
         $modelUser = new User();
-        $userInfo = $modelUser->field(['id,username,mobile'])
-            ->where(['mobile'=>trim($mobile)])
+        $userInfo = $modelUser->field(['id,account,mobile'])
+            ->where([$field=>trim($mobile)])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();

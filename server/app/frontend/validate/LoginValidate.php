@@ -104,9 +104,18 @@ class LoginValidate extends Validate
             'code'        => '验证码',
             'newPassword' => '新密码'
         ];
+
+        $rule    = 'require|mobile|min:11|max:11';
+        $value   = request()->post('mobile');
+        $pattern = '/^1[3456789]\d{9}$/';
+        if (!preg_match($pattern, $value)) {
+            $this->field['mobile'] = '邮箱号';
+            $rule = 'require|email';
+        }
+
         return $this->only(['newPassword', 'mobile', 'code'])
             ->append('newPassword', 'require|alphaDash|min:6|max:20')
-            ->append('mobile', 'require|mobile|min:11|max:11')
+            ->append('mobile', $rule)
             ->append('code', 'require|alphaDash|max:6');
     }
 }
