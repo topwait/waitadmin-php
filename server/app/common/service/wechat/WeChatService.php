@@ -125,7 +125,7 @@ class WeChatService
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
 
-            return $oauth->scopes(['snsapi_login'])->redirect(urlencode($redirectUrl));
+            return $oauth->scopes(['snsapi_login'])->redirect($redirectUrl);
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
         }

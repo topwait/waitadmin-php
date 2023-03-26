@@ -241,9 +241,10 @@
             },
             'bindWx': function () {
                 waitUtil.ajax({
-                    url: '/frontend/login/opCodeUrl?url=http://saas.xgy.tv',
+                    url: '/frontend/login/opCodeUrl?url=https://waitadmin.cn',
                     type: 'GET',
                 }).then((res) => {
+                    console.info(res.data.url)
                     location.href = res.data.url
                 });
             }
