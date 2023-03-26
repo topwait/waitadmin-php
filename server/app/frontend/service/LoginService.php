@@ -8,6 +8,7 @@ use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\service\msg\MsgDriver;
+use app\common\service\wechat\WeChatService;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -18,13 +19,11 @@ class LoginService extends Service
      *
      * @param array $post   (参数)
      * @param int $terminal (设备)
-     * @return array
      * @throws OperateException
      * @throws Exception
      * @author windy
      */
-    #[ArrayShape(['token' => "string"])]
-    public static function register(array $post, int $terminal): array
+    public static function register(array $post, int $terminal)
     {
         // 接收参数
         $code     = $post['code'];
@@ -57,8 +56,7 @@ class LoginService extends Service
         ]);
 
         // 登录账号
-        $token = UserWidget::granToken($userId, $terminal);
-        return ['token'=>$token];
+        session('userId', $userId);
     }
 
     /**
@@ -66,13 +64,10 @@ class LoginService extends Service
      *
      * @param $account  (账号)
      * @param $password (密码)
-     * @param $terminal (设备)
-     * @return array
      * @throws OperateException
      * @author windy
      */
-    #[ArrayShape(['token' => "string"])]
-    public static function accountLogin(string $account, string $password, int $terminal): array
+    public static function accountLogin(string $account, string $password)
     {
         // 查询账户
         $modelUser = new User();
@@ -100,8 +95,7 @@ class LoginService extends Service
         }
 
         // 登录账户
-        $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
-        return ['token'=>$token];
+        session('userId', $userInfo['id']);
     }
 
     /**
@@ -109,13 +103,10 @@ class LoginService extends Service
      *
      * @param string $mobile (手机号)
      * @param string $code   (验证码)
-     * @param int $terminal  (设备)
-     * @return array
      * @throws OperateException
      * @author windy
      */
-    #[ArrayShape(['token' => "string"])]
-    public static function mobileLogin(string $mobile, string $code, int $terminal): array
+    public static function mobileLogin(string $mobile, string $code)
     {
         // 短信验证
         if (!MsgDriver::checkCode(NoticeEnum::LOGIN, $code)) {
@@ -142,8 +133,46 @@ class LoginService extends Service
         }
 
         // 登录账户
-        $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
-        return ['token'=>$token];
+        session('userId', $userInfo['id']);
+    }
+
+    /**
+     * PC微信登录
+     *
+     * @param string $code
+     * @param int $terminal
+     * @throws Exception
+     * @author windy
+     */
+    public static function opLogin(string $code, int $terminal)
+    {
+        // 微信授权
+        $response = WeChatService::oaAuth2session($code);
+        $response['terminal'] = $terminal;
+
+        // 验证账户
+        $userInfo = UserWidget::getUserAuthByResponse($response);
+        if (empty($userInfo)) {
+            $userId = UserWidget::createUser($response);
+        } else {
+            $userId = UserWidget::updateUser($response);
+        }
+
+        // 登录账户
+        session('userId', $userId);
+    }
+
+    /**
+     * PC微信授权链接
+     *
+     * @param string $url
+     * @return array
+     * @throws Exception
+     */
+    #[ArrayShape(['url' => "string"])]
+    public static function opCodeUrl(string $url): array
+    {
+        return ['url'=>WeChatService::opBuildAuthUrl($url)];
     }
 
     /**

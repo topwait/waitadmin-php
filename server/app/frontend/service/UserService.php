@@ -15,11 +15,12 @@ declare (strict_types = 1);
 
 namespace app\frontend\service;
 
-
 use app\common\basics\Service;
+use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
+use app\common\service\msg\MsgDriver;
 use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 use app\frontend\validate\UserValidate;
@@ -101,14 +102,20 @@ class UserService extends Service
 
         switch ($post['field']) {
             case 'email':
-                (new UserValidate())->goCheck('changeEmail');
+                (new UserValidate())->goCheck('email');
+                $email = strtolower(trim($post['email']));
+                $code  = strtolower(trim($post['code']));
 
-                if ($user['email'] === strtolower(trim($post['email']))) {
-                    throw new OperateException('与原邮箱一致,修改失败!');
+                if ($user['email'] === $email) {
+                    throw new OperateException('不能与原邮箱一致!');
+                }
+
+                if (!MsgDriver::checkCode(NoticeEnum::BIND_EMAIL, $code)) {
+                    throw new OperateException('验证码错误!');
                 }
 
                 if (!$modelUser->field(['id'])
-                    ->where(['email' => strtolower(trim($post['email']))])
+                    ->where(['email' => $email])
                     ->where(['is_delete' => 0])
                     ->findOrEmpty()
                     ->isEmpty()
@@ -120,34 +127,42 @@ class UserService extends Service
                 ], ['id'=>$userId]);
                 break;
             case 'mobile':
-                (new UserValidate())->goCheck('changeMobile');
+                (new UserValidate())->goCheck('mobile');
+                $mobile = strtolower(trim($post['mobile']));
+                $code   = strtolower(trim($post['code']));
 
-                if ($user['mobile'] === strtolower(trim($post['mobile']))) {
-                    throw new OperateException('与原手机一致,修改失败!');
+                if ($user['mobile'] === $mobile) {
+                    throw new OperateException('不能与原手机一致!');
+                }
+
+                if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code)) {
+                    throw new OperateException('验证码错误!');
                 }
 
                 if (!$modelUser->field(['id'])
-                    ->where(['mobile' => strtolower(trim($post['mobile']))])
+                    ->where(['mobile' => $mobile])
                     ->where(['is_delete' => 0])
                     ->findOrEmpty()
                     ->isEmpty()
                 ) { throw new OperateException('该手机已绑定其他账号!'); }
 
                 User::update([
-                    'mobile'      => strtolower(trim($post['mobile'])),
+                    'mobile'      => $mobile,
                     'update_time' => time()
                 ], ['id'=>$userId]);
                 break;
             case 'password':
-                (new UserValidate())->goCheck('changePassword');
+                (new UserValidate())->goCheck('password');
+                $newPassword = $post['newPassword'];
+                $oldPassword = $post['oldPassword'];
 
-                $oldPwd = make_md5_str($post['oldPwd'], $user['salt']);
+                $oldPwd = make_md5_str($oldPassword, $user['salt']);
                 if ($user['password'] && $user['password'] !== $oldPwd) {
                     throw new OperateException('旧密码校验错误!');
                 }
 
                 $salt = make_rand_char(5);
-                $pwd  = make_md5_str(trim($post['newPwd']), $salt);
+                $pwd  = make_md5_str(trim($newPassword), $salt);
                 User::update([
                     'salt'        => $salt,
                     'password'    => $pwd,

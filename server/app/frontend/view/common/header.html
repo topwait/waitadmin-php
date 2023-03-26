@@ -20,11 +20,26 @@
                     {/if}
                 {/volist}
             </ul>
-            <ul class="side">
-                <li class="sign-in">
-                    <a href="javascript:" id="js-enroll-btn">登录</a> /
-                    <a href="javascript:" id="js-signup-btn">注册</a>
-                </li>
+            <ul class="layui-nav">
+                {if !$Request.session.userId}
+                    <li class="sign-in">
+                        <a href="javascript:" id="js-enroll-btn">登录</a> /
+                        <a href="javascript:" id="js-signup-btn">注册</a>
+                    </li>
+                {else}
+                    <li class="layui-nav-item">
+                        <a class="layui-nav-avatar">
+                            <cite>king</cite>
+                            <img src="__COMMON__/images/avatar.png" alt="avatar">
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="/frontend/user/index">个人中心</a></dd>
+                            <dd><a href="/frontend/user/index">我的收藏</a></dd>
+                            <hr style="margin:5px 0;" />
+                            <dd><a href="#" style="text-align:center;">退出</a></dd>
+                        </dl>
+                    </li>
+                {/if}
             </ul>
         </div>
     </div>

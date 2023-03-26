@@ -43,11 +43,6 @@ abstract class Frontend extends BaseController
     protected int $userId = 1;
 
     /**
-     * 用户信息
-     */
-    protected array $userInfo;
-
-    /**
      * 不校验登录的方法
      */
     protected array $notNeedLogin = [];
@@ -70,7 +65,7 @@ abstract class Frontend extends BaseController
                 AjaxUtils::error('尚未登录,请登录后再操作!');
             }
 
-            $this->redirect('/frontend/login/login', 302);
+            $this->redirect('/frontend/login/index', 302);
         }
 
         $this->setValues();
@@ -118,17 +113,15 @@ abstract class Frontend extends BaseController
      */
     protected function isLogin(): bool
     {
-        $userInfo = session('userInfo');
+        $userId = session('userId');
         if (in_array(request()->action(), $this->notNeedLogin)) {
-            if ($userInfo) {
-                $this->userInfo = $userInfo;
-                $this->userId = intval($userInfo['id']);
+            if ($userId) {
+                $this->userId = intval($userId);
             }
             return true;
         } else {
-            if ($userInfo) {
-                $this->userInfo = $userInfo;
-                $this->userId = intval($userInfo['id']);
+            if ($userId) {
+                $this->userId = intval($userId);
                 return true;
             }
             return false;

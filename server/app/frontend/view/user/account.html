@@ -51,7 +51,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"></label>
                         <div class="layui-input-inline">
-                            <button type="button" class="layui-btn layui-btn-normal" lay-filter="updateSubmit" lay-submit>确认修改</button>
+                            <button type="button" class="layui-btn layui-btn-default" lay-filter="updateSubmit" lay-submit>确认修改</button>
                         </div>
                     </div>
                 </form>
@@ -65,7 +65,7 @@
                             <input type="hidden" id="avatar" name="avatar" value="{$detail.avatar}">
                             <img src="{$detail.avatar}" alt="avatar" id="uploadAvatar">
                         </div>
-                        <button type="button" class="layui-btn layui-btn-normal" lay-filter="saveAvatar" lay-submit>确认修改</button>
+                        <button type="button" class="layui-btn layui-btn-default" lay-filter="saveAvatar" lay-submit>确认修改</button>
                     </div>
                     <div class="clearfix"></div>
                 </form>
@@ -142,7 +142,7 @@
                             <p>可使用微信扫码快速登录</p>
                         </div>
                         <div class="update">
-                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="password">{$detail.isWeChat ? '更改' : '绑定'}</a>
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindWx">{$detail.isWeChat ? '更改' : '绑定'}</a>
                         </div>
                     </li>
                 </ul>
@@ -211,12 +211,12 @@
                         layero.layui.form.on('submit(addForm)', function(data) {
                             const that = $(this);
                             waitUtil.locking(that);
-                            if (data.field['password'].length < 6 || data.field['password'].length > 18) {
+                            if (data.field['newPassword'].length < 6 || data.field['newPassword'].length > 18) {
                                 waitUtil.unlock(that);
                                 return layer.msg('密码必须是6~18个字符内');
                             }
 
-                            if (data.field['password'] !== data.field['ok_password']) {
+                            if (data.field['newPassword'] !== data.field['okPassword']) {
                                 waitUtil.unlock(that);
                                 return layer.msg('两次密码输入不一致');
                             }
@@ -226,8 +226,8 @@
                                 type: 'POST',
                                 data: {
                                     field: 'password',
-                                    newPwd: data.field['password'],
-                                    oldPwd: data.field['old_password']
+                                    newPassword: data.field['newPassword'],
+                                    oldPassword: data.field['oldPassword']
                                 }
                             }).then((res) => {
                                 waitUtil.unlock(that);
@@ -237,6 +237,14 @@
                             });
                         });
                     }
+                });
+            },
+            'bindWx': function () {
+                waitUtil.ajax({
+                    url: '/frontend/login/opCodeUrl?url=http://saas.xgy.tv',
+                    type: 'GET',
+                }).then((res) => {
+                    location.href = res.data.url
                 });
             }
         });

@@ -170,7 +170,7 @@ class LoginService extends Service
     public static function baLogin(string $mobile, string $code, string $sign, int $terminal): array
     {
         // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, intval($code))) {
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code)) {
             throw new OperateException('验证码错误');
         }
 

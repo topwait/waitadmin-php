@@ -20,6 +20,7 @@ use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use app\frontend\service\LoginService;
 use app\frontend\validate\LoginValidate;
+use Exception;
 use think\response\Json;
 use think\response\View;
 
@@ -28,7 +29,7 @@ use think\response\View;
  */
 class LoginController extends Frontend
 {
-    protected array $notNeedLogin = ['index', 'login', 'register', 'forgetPwd'];
+    protected array $notNeedLogin = ['index', 'login', 'register', 'opCodeUrl', 'forgetPwd'];
 
     /**
      * 弹出页面
@@ -42,38 +43,6 @@ class LoginController extends Frontend
         return view('', [
             'scene' => $get['scene']
         ]);
-    }
-
-    /**
-     * 登录系统
-     *
-     * @return Json|View
-     * @throws OperateException
-     * @author windy
-     */
-    public function login(): View|Json
-    {
-        if ($this->isAjaxPost()) {
-            $post     = $this->request->post();
-            $validate = new LoginValidate();
-            $validate->goCheck('scene');
-
-            $response = [];
-            switch ($post['scene']) {
-                case 'account':
-                    $validate->goCheck('account');
-                    $response = LoginService::accountLogin($post['account'], $post['password'], $this->terminal);
-                    break;
-                case 'mobile':
-                    $validate->goCheck('mobile');
-                    $response = LoginService::mobileLogin($post['mobile'], $post['code'], $this->terminal);
-                    break;
-            }
-
-            return AjaxUtils::success($response);
-        }
-
-        return view();
     }
 
     /**
@@ -93,6 +62,57 @@ class LoginController extends Frontend
         }
 
         return view();
+    }
+
+    /**
+     * 登录系统
+     *
+     * @return Json|View
+     * @throws OperateException
+     * @throws Exception
+     * @author windy
+     */
+    public function login(): View|Json
+    {
+        if ($this->isAjaxPost()) {
+            $post     = $this->request->post();
+            $validate = new LoginValidate();
+            $validate->goCheck('scene');
+
+            switch ($post['scene']) {
+                case 'account':
+                    $validate->goCheck('account');
+                    LoginService::accountLogin($post['account'], $post['password']);
+                    break;
+                case 'mobile':
+                    $validate->goCheck('mobile');
+                    LoginService::mobileLogin($post['mobile'], $post['code']);
+                    break;
+                case 'op':
+                    $validate->goCheck('op');
+                    LoginService::opLogin($post, $this->terminal);
+            }
+
+            return AjaxUtils::success('登录成功');
+        }
+
+        return view();
+    }
+
+    /**
+     * PC微信授权链接
+     *
+     * @return Json
+     * @throws Exception
+     * @author windy
+     */
+    public function opCodeUrl(): Json
+    {
+        (new LoginValidate())->goCheck('url');
+        $url = $this->request->get('url');
+
+        $response = LoginService::opCodeUrl($url);
+        return AjaxUtils::success($response);
     }
 
     /**
