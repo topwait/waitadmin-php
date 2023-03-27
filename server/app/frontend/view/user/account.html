@@ -89,7 +89,7 @@
                             <p>邮箱号用于接收网站重要的信息通知</p>
                         </div>
                         <div class="update">
-                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="email">{$detail.email ? '更改' : '绑定'}</a>
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindEmail">{$detail.email ? '更改' : '绑定'}</a>
                         </div>
                     </li>
                     <li>
@@ -108,7 +108,7 @@
                             <p>手机号可用于登录或者密码找回等</p>
                         </div>
                         <div class="update">
-                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="mobile">{$detail.mobile ? '更改' : '绑定'}</a>
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindMobile">{$detail.mobile ? '更改' : '绑定'}</a>
                         </div>
                     </li>
                     <li>
@@ -123,7 +123,7 @@
                             <p>密码很重要请谨慎保管不要泄露</p>
                         </div>
                         <div class="update">
-                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="password">更改</a>
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="changePwd">更改</a>
                         </div>
                     </li>
                     <li>
@@ -184,7 +184,7 @@
                                 url: '/frontend/user/binding',
                                 type: 'POST',
                                 data: {
-                                    field: 'password',
+                                    field: 'changePwd',
                                     newPassword: data.field['newPassword'],
                                     oldPassword: data.field['oldPassword']
                                 }
@@ -210,7 +210,7 @@
             'bindMobile': function () {
                 waitUtil.popup({
                     title: '绑定手机号',
-                    url: '/frontend/user/binding?field=mobile&value={$detail.mobile}',
+                    url: '/frontend/user/binding?field=bindMobile&value={$detail.mobile}',
                     area: ['320px', '220px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data){
@@ -230,7 +230,7 @@
             'bindEmail': function () {
                 waitUtil.popup({
                     title: '绑定邮箱',
-                    url: '/frontend/user/binding?field=email&value={$detail.email}',
+                    url: '/frontend/user/binding?field=bindEmail&value={$detail.email}',
                     area: ['320px', '220px'],
                     maxmin: false,
                     success: function (layero, index) {

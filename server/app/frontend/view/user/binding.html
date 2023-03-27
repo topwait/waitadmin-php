@@ -12,7 +12,7 @@
 <form class="layui-form">
     <!-- 主体内容 -->
     <div class="wait-body-content">
-        {if $field=='mobile'}
+        {if $field=='bindMobile'}
             <!-- 手机号 -->
             <div class="layui-form-item">
                 <label for="mobile" class="layui-form-label"><span class="asterisk">*</span>手机号：</label>
@@ -29,7 +29,7 @@
                 </div>
             </div>
         {/if}
-        {if $field=='email'}
+        {if $field=='bindEmail'}
             <!-- 电子邮箱 -->
             <div class="layui-form-item">
                 <label for="email" class="layui-form-label"><span class="asterisk">*</span>电子邮箱：</label>
@@ -46,7 +46,7 @@
                 </div>
             </div>
         {/if}
-        {if $field=='password'}
+        {if $field=='changePwd'}
             <!-- 修改密码 -->
             <div class="layui-form-item">
                 <label for="oldPassword" class="layui-form-label"><span class="asterisk">*</span>旧的密码：</label>
