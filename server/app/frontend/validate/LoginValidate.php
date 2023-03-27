@@ -91,31 +91,5 @@ class LoginValidate extends Validate
             ->append('code', 'require|alphaDash|max:6');
     }
 
-    /**
-     * 忘记密码
 
-     * @return LoginValidate
-     * @author windy
-     */
-    public function sceneForgetPwd(): LoginValidate
-    {
-        $this->field = [
-            'mobile'      => '手机号',
-            'code'        => '验证码',
-            'newPassword' => '新密码'
-        ];
-
-        $rule    = 'require|mobile|min:11|max:11';
-        $value   = request()->post('mobile');
-        $pattern = '/^1[3456789]\d{9}$/';
-        if (!preg_match($pattern, $value)) {
-            $this->field['mobile'] = '邮箱号';
-            $rule = 'require|email';
-        }
-
-        return $this->only(['newPassword', 'mobile', 'code'])
-            ->append('newPassword', 'require|alphaDash|min:6|max:20')
-            ->append('mobile', $rule)
-            ->append('code', 'require|alphaDash|max:6');
-    }
 }

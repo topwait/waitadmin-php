@@ -10,12 +10,59 @@ use app\common\basics\Validate;
 class UserValidate extends Validate
 {
     /**
-     * 邮箱绑定
+     * 忘记密码
+
+     * @return UserValidate
+     * @author windy
+     */
+    public function sceneForgetPwd(): UserValidate
+    {
+        $this->field = [
+            'mobile'      => '手机号',
+            'code'        => '验证码',
+            'newPassword' => '新密码'
+        ];
+
+        $rule    = 'require|mobile|min:11|max:11';
+        $value   = request()->post('mobile');
+        $pattern = '/^1[3456789]\d{9}$/';
+        if (!preg_match($pattern, $value)) {
+            $this->field['mobile'] = '邮箱号';
+            $rule = 'require|email';
+        }
+
+        return $this->only(['newPassword', 'mobile', 'code'])
+            ->append('newPassword', 'require|alphaDash|min:6|max:20')
+            ->append('mobile', $rule)
+            ->append('code', 'require|alphaDash|max:6');
+    }
+
+    /**
+     * 修改密码
      *
      * @return UserValidate
      * @author windy
      */
-    public function sceneEmail(): UserValidate
+    public function sceneChangePwd(): UserValidate
+    {
+        $this->field = [
+            'field'       => '字段',
+            'newPassword' => '新密码',
+            'oldPassword' => '旧密码',
+        ];
+        return $this->only(['field', 'email', 'code'])
+            ->append('field', 'require|in:password')
+            ->append('newPassword', 'require|alphaDash|min:6|max:20')
+            ->append('oldPassword', 'require|alphaDash|min:6|max:20');
+    }
+
+    /**
+     * 绑定邮箱
+     *
+     * @return UserValidate
+     * @author windy
+     */
+    public function sceneBindEmail(): UserValidate
     {
         $this->field = [
             'field'  => '字段',
@@ -29,12 +76,12 @@ class UserValidate extends Validate
     }
 
     /**
-     * 手机绑定
+     * 绑定手机
      *
      * @return UserValidate
      * @author windy
      */
-    public function sceneMobile(): UserValidate
+    public function sceneBindMobile(): UserValidate
     {
         $this->field = [
             'field'  => '字段',
@@ -46,24 +93,4 @@ class UserValidate extends Validate
             ->append('mobile', 'require|mobile')
             ->append('code', 'require|alphaDash|max:6');
     }
-
-    /**
-     * 密码修改
-     *
-     * @return UserValidate
-     * @author windy
-     */
-    public function scenePassword(): UserValidate
-    {
-        $this->field = [
-            'field'       => '字段',
-            'newPassword' => '新密码',
-            'oldPassword' => '旧密码',
-        ];
-        return $this->only(['field', 'email', 'code'])
-            ->append('field', 'require|in:password')
-            ->append('newPassword', 'require|alphaDash|min:6|max:20')
-            ->append('oldPassword', 'require|alphaDash|min:6|max:20');
-    }
-
 }

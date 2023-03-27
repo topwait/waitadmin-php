@@ -246,7 +246,7 @@ const onPwdPopup = (index) => {
     }
 }
 
-// 弹出窗口
+// 基础弹窗
 const onShowPopup = (type) => {
     switch (type) {
     case 'gender':
@@ -265,7 +265,7 @@ const onShowPopup = (type) => {
     }
 }
 
-// 关闭窗口
+// 关闭弹窗
 const onClosePopup = () => {
     popupShow.value = false
     popupType.value = null

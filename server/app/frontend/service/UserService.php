@@ -61,13 +61,13 @@ class UserService extends Service
     }
 
     /**
-     * 账号更新
+     * 账号编辑
      *
      * @param array $post
      * @param int $userId
      * @author windy
      */
-    public static function update(array $post, int $userId): void
+    public static function edit(array $post, int $userId): void
     {
         $nickname = $post['nickname'];
         $gender   = $post['gender'];

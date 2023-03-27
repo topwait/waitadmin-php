@@ -29,7 +29,7 @@ use think\response\Json;
  */
 class IndexController extends Api
 {
-    protected array $notNeedLogin = ['index', 'config', 'sendSms'];
+    protected array $notNeedLogin = ['index', 'config', 'sendSms', 'sendEmail'];
 
     /**
      * 首页数据

@@ -18,7 +18,6 @@ namespace app\api\controller;
 use app\api\service\LoginService;
 use app\api\validate\LoginValidate;
 use app\common\basics\Api;
-use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use Exception;
 use think\response\Json;
@@ -28,7 +27,7 @@ use think\response\Json;
  */
 class LoginController extends Api
 {
-    protected array $notNeedLogin = ['register', 'login', 'oaCodeUrl', 'forgetPwd'];
+    protected array $notNeedLogin = ['register', 'login', 'oaCodeUrl'];
 
     /**
      * 注册
@@ -113,80 +112,5 @@ class LoginController extends Api
 
         $response = LoginService::oaCodeUrl($url);
         return AjaxUtils::success($response);
-    }
-
-    /**
-     * 忘记密码
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function forgetPwd(): Json
-    {
-        (new LoginValidate())->goCheck('forgetPwd');
-
-        LoginService::forgetPwd($this->request->post());
-        return AjaxUtils::success();
-    }
-
-    /**
-     * 修改密码
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function changePwd(): Json
-    {
-        (new LoginValidate())->goCheck('changePwd');
-
-        LoginService::changePwd($this->request->post(), $this->userId);
-        return AjaxUtils::success();
-    }
-
-    /**
-     * 绑定微信
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function bindWeChat(): Json
-    {
-        (new LoginValidate())->goCheck('bindWeChat');
-
-        LoginService::bindWeChat($this->request->post(), $this->userId);
-        return AjaxUtils::success();
-    }
-
-    /**
-     * 绑定手机
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function bindMobile(): Json
-    {
-        (new LoginValidate())->goCheck('bindMobile');
-
-        LoginService::bindMobile($this->request->post(), $this->userId);
-        return AjaxUtils::success();
-    }
-
-    /**
-     * 绑定邮箱
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function bindEmail(): Json
-    {
-        (new LoginValidate())->goCheck('bindEmail');
-
-        LoginService::bindEmail($this->request->post(), $this->userId);
-        return AjaxUtils::success();
     }
 }

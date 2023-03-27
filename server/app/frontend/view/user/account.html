@@ -161,51 +161,10 @@
 
         // 监听事件
         waitUtil.event({
-            'email': function () {
-                waitUtil.popup({
-                    title: '绑定邮箱',
-                    url: '/frontend/user/binding?field=email&value={$detail.email}',
-                    area: ['320px', '220px'],
-                    maxmin: false,
-                    success: function (layero, index) {
-                        layero.layui.form.on('submit(addForm)', function(data){
-                            waitUtil.ajax({
-                                url: '/frontend/user/update',
-                                type: 'POST',
-                                data: {field: 'email', mobile: data.field['email'], code: data.field['code']}
-                            }).then(res => {
-                                if (res.code === 0) {
-                                    layer.close(index);
-                                }
-                            });
-                        });
-                    }
-                });
-            },
-            'mobile': function () {
-                waitUtil.popup({
-                    title: '绑定手机号',
-                    url: '/frontend/user/binding?field=mobile&value={$detail.mobile}',
-                    area: ['320px', '220px'],
-                    success: function (layero, index) {
-                        layero.layui.form.on('submit(addForm)', function(data){
-                            waitUtil.ajax({
-                                url: '/frontend/user/binding',
-                                type: 'POST',
-                                data: {field: 'mobile', mobile: data.field['mobile'], code: data.field['code']}
-                            }).then((res) => {
-                                if (res.code === 0) {
-                                    layer.close(index);
-                                }
-                            });
-                        });
-                    }
-                });
-            },
-            'password': function () {
+            'changePwd': function () {
                 waitUtil.popup({
                     title: '修改密码',
-                    url: '/frontend/user/binding?field=password',
+                    url: '/frontend/user/binding?field=changePwd',
                     area: ['320px', '300px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
@@ -247,6 +206,47 @@
                     console.info(res.data.url)
                     location.href = res.data.url
                 });
+            },
+            'bindMobile': function () {
+                waitUtil.popup({
+                    title: '绑定手机号',
+                    url: '/frontend/user/binding?field=mobile&value={$detail.mobile}',
+                    area: ['320px', '220px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.ajax({
+                                url: '/frontend/user/binding',
+                                type: 'POST',
+                                data: {field: 'bindMobile', mobile: data.field['mobile'], code: data.field['code']}
+                            }).then((res) => {
+                                if (res.code === 0) {
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            'bindEmail': function () {
+                waitUtil.popup({
+                    title: '绑定邮箱',
+                    url: '/frontend/user/binding?field=email&value={$detail.email}',
+                    area: ['320px', '220px'],
+                    maxmin: false,
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            waitUtil.ajax({
+                                url: '/frontend/user/update',
+                                type: 'POST',
+                                data: {field: 'bindEmail', mobile: data.field['email'], code: data.field['code']}
+                            }).then(res => {
+                                if (res.code === 0) {
+                                    layer.close(index);
+                                }
+                            });
+                        });
+                    }
+                });
             }
         });
 
@@ -255,7 +255,7 @@
             layer.confirm('您确定要进行更新吗？', function(index) {
                 layer.close(index);
                 waitUtil.ajax({
-                    url: '/frontend/user/update',
+                    url: '/frontend/user/edit',
                     type: 'POST',
                     data: data.field
                 });

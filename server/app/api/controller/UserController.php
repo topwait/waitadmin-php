@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\api\controller;
 
 use app\api\service\UserService;
+use app\api\validate\UserValidate;
 use app\common\basics\Api;
 use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
@@ -26,7 +27,7 @@ use think\response\Json;
  */
 class UserController extends Api
 {
-    protected array $notNeedLogin = [];
+    protected array $notNeedLogin = ['forgetPwd'];
 
     /**
      * 个人中心
@@ -62,6 +63,81 @@ class UserController extends Api
     public function edit(): Json
     {
         UserService::edit($this->request->post(), $this->userId);
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @return Json
+     * @throws OperateException
+     * @author windy
+     */
+    public function forgetPwd(): Json
+    {
+        (new UserValidate())->goCheck('forgetPwd');
+
+        UserService::forgetPwd($this->request->post());
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 修改密码
+     *
+     * @return Json
+     * @throws OperateException
+     * @author windy
+     */
+    public function changePwd(): Json
+    {
+        (new UserValidate())->goCheck('changePwd');
+
+        UserService::changePwd($this->request->post(), $this->userId);
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 绑定微信
+     *
+     * @return Json
+     * @throws OperateException
+     * @author windy
+     */
+    public function bindWeChat(): Json
+    {
+        (new UserValidate())->goCheck('bindWeChat');
+
+        UserService::bindWeChat($this->request->post(), $this->userId);
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 绑定手机
+     *
+     * @return Json
+     * @throws OperateException
+     * @author windy
+     */
+    public function bindMobile(): Json
+    {
+        (new UserValidate())->goCheck('bindMobile');
+
+        UserService::bindMobile($this->request->post(), $this->userId);
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 绑定邮箱
+     *
+     * @return Json
+     * @throws OperateException
+     * @author windy
+     */
+    public function bindEmail(): Json
+    {
+        (new UserValidate())->goCheck('bindEmail');
+
+        UserService::bindEmail($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
 }

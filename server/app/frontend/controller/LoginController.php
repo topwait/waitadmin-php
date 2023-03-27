@@ -100,7 +100,7 @@ class LoginController extends Frontend
     }
 
     /**
-     * PC微信授权链接
+     * PC微信链接
      *
      * @return Json
      * @throws Exception

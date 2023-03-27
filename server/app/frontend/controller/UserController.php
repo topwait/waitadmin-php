@@ -19,6 +19,7 @@ use app\common\basics\Frontend;
 use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use app\frontend\service\UserService;
+use app\frontend\validate\UserValidate;
 use think\response\Json;
 use think\response\View;
 
@@ -65,15 +66,15 @@ class UserController extends Frontend
     }
 
     /**
-     * 账号更新
+     * 账号编辑
      *
      * @return Json
      * @author windy
      */
-    public function update(): Json
+    public function edit(): Json
     {
         if ($this->isAjaxPost()) {
-            UserService::update($this->request->post(), $this->userId);
+            UserService::edit($this->request->post(), $this->userId);
             return AjaxUtils::success();
         }
 
@@ -92,16 +93,19 @@ class UserController extends Frontend
         if ($this->isAjaxPost()) {
             $post = $this->request->post();
             switch ($post['field']) {
-                case 'avatar':
+                case 'changeAvatar':
                     UserService::changeAvatar($post, $this->userId);
                     break;
-                case 'password':
+                case 'changePwd':
+                    (new UserValidate())->goCheck('changePwd');
                     UserService::changePwd($post, $this->userId);
                     break;
-                case 'mobile':
+                case 'bindMobile':
+                    (new UserValidate())->goCheck('bindMobile');
                     UserService::bindMobile($post, $this->userId);
                     break;
-                case 'email':
+                case 'bindEmail':
+                    (new UserValidate())->goCheck('bindEmail');
                     UserService::bindEmail($post, $this->userId);
                     break;
             }
@@ -119,6 +123,5 @@ class UserController extends Frontend
             'value' => $get['value'] ?? ''
         ]);
     }
-
 
 }
