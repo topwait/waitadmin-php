@@ -41,6 +41,30 @@ class UserController extends Frontend
     }
 
     /**
+     * 账号管理
+     *
+     * @return View
+     * @author windy
+     */
+    public function account(): View
+    {
+        return view('', [
+            'detail' => UserService::info($this->userId)
+        ]);
+    }
+
+    /**
+     * 收藏管理
+     *
+     * @return View
+     * @author windy
+     */
+    public function collect(): View
+    {
+        return view();
+    }
+
+    /**
      * 账号更新
      *
      * @return Json
@@ -59,31 +83,42 @@ class UserController extends Frontend
     /**
      * 账号绑定
      *
+     * @return View|Json
      * @throws OperateException
+     * @author windy
      */
     public function binding(): View|Json
     {
         if ($this->isAjaxPost()) {
-            UserService::binding($this->request->post(), $this->userId);
+            $post = $this->request->post();
+            switch ($post['field']) {
+                case 'avatar':
+                    UserService::changeAvatar($post, $this->userId);
+                    break;
+                case 'password':
+                    UserService::changePwd($post, $this->userId);
+                    break;
+                case 'mobile':
+                    UserService::bindMobile($post, $this->userId);
+                    break;
+                case 'email':
+                    UserService::bindEmail($post, $this->userId);
+                    break;
+            }
             return AjaxUtils::success();
         }
 
         $get = $this->request->get();
+        if (!empty($get['code']) && !empty($get['state'])) {
+            UserService::bindWeChat($get, $this->userId);
+            return AjaxUtils::success();
+        }
+
         return view('', [
             'field' => $get['field'] ?? '',
             'value' => $get['value'] ?? ''
         ]);
     }
 
-    public function account(): View
-    {
-        return view('', [
-            'detail' => UserService::info($this->userId)
-        ]);
-    }
 
-    public function collect(): View
-    {
-        return view();
-    }
 }

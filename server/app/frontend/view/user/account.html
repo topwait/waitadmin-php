@@ -142,7 +142,7 @@
                             <p>可使用微信扫码快速登录</p>
                         </div>
                         <div class="update">
-                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindWx">{$detail.isWeChat ? '更改' : '绑定'}</a>
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindWeChat">{$detail.isWeChat ? '更改' : '绑定'}</a>
                         </div>
                     </li>
                 </ul>
@@ -239,7 +239,7 @@
                     }
                 });
             },
-            'bindWx': function () {
+            'bindWeChat': function () {
                 waitUtil.ajax({
                     url: '/frontend/login/opCodeUrl?url=https://waitadmin.cn',
                     type: 'GET',

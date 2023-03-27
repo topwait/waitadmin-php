@@ -100,7 +100,7 @@ class LoginController extends Api
     }
 
     /**
-     * 公众号授权链接
+     * 公众号链接
      *
      * @return Json
      * @throws Exception
