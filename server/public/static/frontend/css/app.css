@@ -160,7 +160,7 @@
 .layout-global-user .layui-input-inline { width: 300px !important; }
 .layout-global-user .container:after { content: ""; display: block; height: 0; clear: both; visibility: hidden; *zoom: 1; }
 .layout-global-user .left-sidebar { float: left; width: 200px; min-height: 700px; border-radius: 4px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05); background-color: #ffffff; }
-.layout-global-user .right-iframe { float: left; margin-left: 20px; width: 980px; min-height: 700px; border-radius: 4px; background-color: #ffffff; }
+.layout-global-user .right-iframe { float: left; margin-left: 20px; width: 980px; min-height: 700px; border-radius: 4px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05); background-color: #ffffff; }
 .layout-global-user .left-sidebar ul.menu { margin-top: 20px; }
 .layout-global-user .left-sidebar ul.menu li { margin: 0 auto 8px; width: 160px; height: 48px; }
 .layout-global-user .left-sidebar ul.menu li a { position: relative; display: block; padding-left: 64px; height: 48px; font-size: 16px; text-align: left; color: #787d82; line-height: 48px; }

@@ -1,0 +1,33 @@
+{extend name="common/layoutBase" /}
+
+{block name="style"}
+<style>
+    .node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        min-height: 700px;
+        text-align: center;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+        background-color: #fff;
+    }
+    .node i { font-size: 200px; color: #999999; }
+    .node p { margin-top: 20px; font-size: 16px; color: #999999; }
+</style>
+{/block}
+
+{block name="body"}
+<div class="container">
+    <div class="node">
+        {if $errCode == 404}
+            <i class="layui-icon layui-icon-404"></i>
+        {else}
+            <i class="layui-icon layui-icon-face-surprised"></i>
+        {/if}
+        <p>{$errMsg}</p>
+    </div>
+</div>
+{/block}

@@ -41,7 +41,7 @@ class LoginController extends Frontend
     {
         $get = $this->request->get();
         return view('', [
-            'scene' => $get['scene']
+            'scene' => $get['scene']??'login'
         ]);
     }
 
@@ -97,6 +97,15 @@ class LoginController extends Frontend
         }
 
         return view();
+    }
+
+    /**
+     * 退出登录
+     */
+    public function logout()
+    {
+        session('userId', null);
+        $this->redirect(route('index/index'), 302);
     }
 
     /**

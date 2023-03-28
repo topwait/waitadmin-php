@@ -17,10 +17,10 @@ namespace app\common\basics;
 
 use app\BaseController;
 use app\common\model\DevNavigation;
-use app\common\utils\AjaxUtils;
 use app\common\utils\ArrayUtils;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
+use LogicException;
 use think\App;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -35,12 +35,17 @@ use think\facade\View;
  */
 abstract class Frontend extends BaseController
 {
+    /**
+     * 设备
+     * @var int
+     */
     protected int $terminal = 1;
 
     /**
      * 用户ID
+     * @var int
      */
-    protected int $userId = 1;
+    protected int $userId = 0;
 
     /**
      * 不校验登录的方法
@@ -62,11 +67,12 @@ abstract class Frontend extends BaseController
 
         if (!$this->isLogin()) {
             if ($this->request->isAjax()) {
-                AjaxUtils::error('尚未登录,请登录后再操作!');
+                throw new LogicException('请登录后再操作!');
             }
 
-            $this->redirect('/frontend/login/index', 302);
+            $this->redirect(route('index/index', ['loginPop'=>true]), 302);
         }
+
 
         $this->setValues();
 

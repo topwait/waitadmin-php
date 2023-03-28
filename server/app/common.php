@@ -51,6 +51,10 @@ if (!function_exists('route')) {
             $url .= '?'.http_build_query($data);
         }
 
+        if (!str_starts_with($url, '/')) {
+            $url = '/' . $url;
+        }
+
         return $url;
     }
 }

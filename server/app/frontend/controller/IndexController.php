@@ -46,6 +46,7 @@ class IndexController extends Frontend
     public function index(): View
     {
         return view('', [
+            'loginPop' => $this->request->get('loginPop', false),
             'links'    => IndexService::getLinks(),
             'banner'   => IndexService::getBanner(1),
             'adv'      => IndexService::getBanner(2),

@@ -20,7 +20,6 @@ use app\BaseController;
 use app\common\enums\ErrorEnum;
 use app\common\exception\OperateException;
 use think\App;
-use think\facade\Cache;
 
 /**
  * 接口基类
