@@ -18,6 +18,8 @@ namespace app\frontend\service;
 use app\common\basics\Service;
 use app\common\model\article\Article;
 use app\common\model\article\ArticleCategory;
+use app\common\model\article\ArticleCollect;
+use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -137,17 +139,18 @@ class ArticleService extends Service
      * 文章详情
      *
      * @param int $id
+     * @param int $userId
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      * @author windy
      */
-    public static function detail(int $id): array
+    public static function detail(int $id, int $userId): array
     {
         $model = new Article();
         $detail = $model->field('id,cid,title,image,intro,content,browse,create_time')
             ->with(['category'])
-            ->where(['id'=>intval($id)])
+            ->where(['id'=> $id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
@@ -157,6 +160,14 @@ class ArticleService extends Service
         $detail['datetime'] = date('Y-m-d H:i', strtotime($detail['create_time']));
         unset($detail['cid']);
         unset($detail['create_time']);
+
+        // 是否收藏
+        $collect = (new ArticleCollect())->field('id')
+            ->where(['user_id'=>$userId])
+            ->where(['article_id'=>$detail['id']])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty();
+        $detail['collect'] = !$collect->isEmpty();
 
         // 上一条记录
         $detail['prev'] = $model->field('id,title')
@@ -181,5 +192,55 @@ class ArticleService extends Service
         ], ['id'=>intval($id)]);
 
         return $detail;
+    }
+
+    /**
+     * 文章收藏
+     *
+     * @param int $id
+     * @param int $userId
+     * @return string
+     * @author windy
+     */
+    public static function collect(int $id, int $userId): string
+    {
+        $modelArticleCollect = new ArticleCollect();
+        $collect = $modelArticleCollect->field('id,is_delete')
+            ->where(['user_id'=> $userId])
+            ->where(['article_id'=> $id])
+            ->findOrEmpty()
+            ->toArray();
+
+        if (!$collect) {
+            ArticleCollect::create([
+                'type'        => 1,
+                'user_id'     => $userId,
+                'article_id'  => $id,
+                'create_time' => time(),
+                'update_time' => time()
+            ]);
+
+            Article::update([
+                'collect' => ['inc', 1],
+                'create_time' => time()
+            ], ['id'=>$id]);
+
+            return '收藏成功';
+        } else {
+            ArticleCollect::update([
+                'is_delete'   => !$collect['is_delete'],
+                'delete_time' => $collect['is_delete'] ? 0 : time(),
+                'update_time' => time()
+            ], ['id'=>$collect['id']]);
+
+            try {
+                Article::update([
+                    'collect' => [$collect['is_delete'] ? 'inc' : 'dec', 1],
+                    'create_time' => time()
+                ], ['id' => $id]);
+            } catch (Exception) {}
+
+            return $collect['is_delete'] ? '收藏成功' : '收藏取消';
+        }
     }
 }

@@ -16,10 +16,12 @@ declare (strict_types = 1);
 namespace app\frontend\controller;
 
 use app\common\basics\Frontend;
+use app\common\utils\AjaxUtils;
 use app\frontend\service\ArticleService;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\response\Json;
 use think\response\View;
 
 /**
@@ -60,9 +62,26 @@ class ArticleController extends Frontend
     {
         $id = intval($this->request->get('id'));
         return view('', [
-            'detail'  => ArticleService::detail($id),
+            'detail'  => ArticleService::detail($id, $this->userId),
             'lately'  => ArticleService::recommend('lately', 8),
             'ranking' => ArticleService::recommend('ranking', 8)
         ]);
+    }
+
+    /**
+     * 文章收藏
+     *
+     * @return Json
+     * @author windy
+     */
+    public function collect(): Json
+    {
+        if ($this->isAjaxPost()) {
+            $id = intval($this->request->post('id'));
+            $result = ArticleService::collect($id, $this->userId);
+            return AjaxUtils::success($result);
+        }
+
+        return AjaxUtils::error();
     }
 }

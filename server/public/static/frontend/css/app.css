@@ -16,6 +16,7 @@
 .layout-global-header .navigation ul.nav li dl dd a { padding: 0; font-size: 14px; color: #333333; }
 .layout-global-header .navigation .layui-nav { display: flex; align-items: center; color: #ffffff; cursor: pointer; background-color: #3a67e4; }
 .layout-global-header .navigation .layui-nav .sign-in a { display: inline-block; padding: 0 8px; font-size: 16px; color: #ffffff; }
+.layout-global-header .navigation .layui-nav .sign-in a:hover { opacity: .9; }
 .layout-global-header .navigation .layui-nav .layui-nav-avatar img { width: 36px; height: 36px; margin-left: 10px; border-radius: 100%; }
 .layout-global-header .navigation .layui-nav .layui-nav-avatar cite { font-size: 16px; color: #fff; }
 .layout-global-header .navigation .layui-nav .layui-nav-more{ display: none !important; }
@@ -48,8 +49,6 @@
 .layout-global-main .container { display: flex; }
 .layout-global-main .main-layout-section { margin-right: 20px; width: 810px; min-width: 810px; }
 .layout-global-main .main-layout-aside { width: 370px; }
-
-/** ===================== 【首页样式】 ===================== **/
 
 /** 轮播样式 **/
 .index-modular-carousel { width: 810px; height: 360px; }
@@ -108,14 +107,19 @@
 .index-modular-detail .header .meta span { margin-right: 30px; height: 18px; font-size: 13px; color: #a7a7a7; line-height: 18px; }
 .index-modular-detail .main { margin-top: 20px; min-height: 200px; }
 .index-modular-detail .main img { max-width: 1170px; }
-.index-modular-detail .prefer { margin: 40px 0; text-align: center; }
-.index-modular-detail .prefer a.btn { display: inline-block; width: 130px; height: 42px; border: 1px solid #d7d7d7; border-radius: 2px; text-align: center; color: #666666; background: #ffffff; line-height: 42px; }
-.index-modular-detail .prefer a.btn.no-collect { background: #ffffff; }
-.index-modular-detail .prefer a.btn.ok-collect { background: #feac12; }
 .index-modular-detail .pages { margin-top: 40px; font-size: 14px; color: #666666; }
 .index-modular-detail .pages .line:last-child { margin-top: 10px; }
 .index-modular-detail .pages .line a { color: #3ca5f6; }
 .index-modular-detail .pages .line em { font-style: normal; }
+.index-modular-detail .prefer {margin: 40px 0; text-align: center;}
+.index-modular-detail .prefer a.btn { display: inline-block; width: 50px; height: 50px; border: 1px #999999 solid; border-radius: 50%; cursor: pointer; line-height: 50px; }
+.index-modular-detail .prefer a.btn.active { border-color: #fd8e58; background: #fd8e58; }
+.index-modular-detail .prefer a.btn.active i { color: #fff; }
+.index-modular-detail .prefer a i { font-size: 26px; color: #999; }
+.index-modular-detail .prefer a.btn:hover,
+.index-modular-detail .prefer a.btn:hover i { color: #fd8e58; border-color: #fd8e58; }
+.index-modular-detail .prefer a.btn.active:hover { border-color: #feb08b; background: #feb08b; }
+.index-modular-detail .prefer a.btn.active:hover i { color: #fff; }
 
 /** 浮现模块 **/
 .index-modular-emerge ul { padding-top: 4px; }
@@ -148,8 +152,6 @@
 /** 广告模块 **/
 .index-modular-adv { margin-top: 15px; }
 .index-modular-adv img { margin-bottom: 10px; width: 100%; border-radius: 2px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05); }
-
-/** ===================== 【用户样式】 ===================== **/
 
 /** 用户布局 **/
 .layout-global-user { margin-top: 15px; }

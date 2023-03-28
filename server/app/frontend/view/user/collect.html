@@ -34,7 +34,7 @@
     layui.use(function() {
         let articleTable = waitUtil.table({
             elem: '#wait-table-article'
-            ,url: '/frontend/user/collect?type=article'
+            ,url: '/frontend/user/collect'
             ,toolbar: false
             ,limit: 12
             ,cols: [[
@@ -51,9 +51,9 @@
             layer.confirm('确定要删除此项收藏吗？', function(index) {
                 layer.close(index);
                 waitUtil.ajax({
-                    url: '/frontend/article/collectCancel',
+                    url: '/frontend/article/collect',
                     type: 'POST',
-                    data: {id: obj.data.id, type: obj.data.type}
+                    data: {id: obj.data['article_id']}
                 }).then((res) => {
                     if (res.code === 0) {
                         articleTable.reload();
