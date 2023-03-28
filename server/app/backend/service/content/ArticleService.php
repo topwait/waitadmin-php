@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service\content;
 
 use app\common\basics\Service;
-use app\common\model\content\Article;
+use app\common\model\article\Article;
 use app\common\utils\AttachUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;

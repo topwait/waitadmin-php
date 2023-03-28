@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\sys;
-
 
 use app\common\basics\Models;
 
 /**
  * 系统计划任务模型
- *
- * Class SysCrontab
- * @package app\common\model\sys
  */
 class SysCrontab extends Models
 {

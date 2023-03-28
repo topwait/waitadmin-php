@@ -12,24 +12,22 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\common\model\user;
+namespace app\common\model\article;
 
 use app\common\basics\Models;
 
 /**
- * 用户分组模型
+ * 文章收藏模型
  */
-class UserGroup extends Models
+class ArticleCollect extends Models
 {
-    // 设置字段信息
     protected $schema = [
-        'id'          => 'int',     //主键
-        'name'        => 'string',  //类型
-        'remarks'     => 'string',  //名称
-        'sort'        => 'int',     //排序
-        'is_delete'   => 'int',     //是否删除: [0=否, 1=是]
-        'create_time' => 'int',     //创建时间
-        'update_time' => 'int',     //更新时间
-        'delete_time' => 'int'      //删除时间
+        'id'          => 'int',  //主键
+        'user_id'     => 'int',  //用户ID
+        'article_id'  => 'int',  //文章ID
+        'is_delete'   => 'int',  //是否禁用: [0=否, 1=是]
+        'create_time' => 'int',  //创建时间
+        'update_time' => 'int',  //更新时间
+        'delete_time' => 'int',  //删除时间
     ];
 }

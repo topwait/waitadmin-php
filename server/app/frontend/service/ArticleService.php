@@ -16,8 +16,8 @@ declare (strict_types = 1);
 namespace app\frontend\service;
 
 use app\common\basics\Service;
-use app\common\model\content\Article;
-use app\common\model\content\ArticleCategory;
+use app\common\model\article\Article;
+use app\common\model\article\ArticleCategory;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;

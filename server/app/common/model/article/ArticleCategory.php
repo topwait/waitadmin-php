@@ -12,21 +12,15 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
-namespace app\common\model\content;
-
+namespace app\common\model\article;
 
 use app\common\basics\Models;
 
 /**
  * 文章分类模型
- *
- * Class ArchivesCategory
- * @package app\common\model\content
  */
 class ArticleCategory extends Models
 {
-    // 设置字段信息
     protected $schema = [
         'id'          => 'int',     //主键
         'name'        => 'string',  //昵称

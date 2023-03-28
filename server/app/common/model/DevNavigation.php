@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model;
-
 
 use app\common\basics\Models;
 
 /**
  * 导航模型
- *
- * Class Navigation
- * @package app\common\model
  */
 class DevNavigation extends Models
 {

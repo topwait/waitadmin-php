@@ -121,5 +121,4 @@ class UserController extends Frontend
             'value' => $get['value'] ?? ''
         ]);
     }
-
 }

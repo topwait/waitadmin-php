@@ -12,18 +12,13 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
-namespace app\common\model\content;
-
+namespace app\common\model\article;
 
 use app\common\basics\Models;
 use think\model\relation\HasOne;
 
 /**
  * 文章模型
- *
- * Class Article
- * @package app\common\model\content
  */
 class Article extends Models
 {

@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\api\service;
 
 use app\common\basics\Service;
-use app\common\model\content\Article;
+use app\common\model\article\Article;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
