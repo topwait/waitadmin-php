@@ -12,9 +12,7 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\http\middleware;
-
 
 use Closure;
 
@@ -40,7 +38,7 @@ class AllowCrossDomain
         $response->header([
             'Access-Control-Allow-Origin'      => '*',
             'Access-Control-Allow-Headers'     => '*',
-            'Access-Control-Allow-Methods'     => 'GET, POST, PATCH, PUT, DELETE',
+            'Access-Control-Allow-Methods'     => 'GET, POST',
             'Access-Control-Allow-Credentials' => 'true',
             'Access-Control-Max-Age'           => '1728000',
         ]);

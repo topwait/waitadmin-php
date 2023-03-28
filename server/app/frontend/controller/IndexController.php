@@ -23,6 +23,7 @@ use app\frontend\service\IndexService;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\facade\Cookie;
 use think\response\Json;
 use think\response\View;
 
@@ -45,8 +46,14 @@ class IndexController extends Frontend
      */
     public function index(): View
     {
+        $loginPop = Cookie::get('loginPop');
+        if ($loginPop == '1') {
+            Cookie::set('loginPop', '2');
+        } else {
+            Cookie::delete('loginPop');
+        }
+
         return view('', [
-            'loginPop' => $this->request->get('loginPop', false),
             'links'    => IndexService::getLinks(),
             'banner'   => IndexService::getBanner(1),
             'adv'      => IndexService::getBanner(2),

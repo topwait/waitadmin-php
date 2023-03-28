@@ -135,7 +135,7 @@
 
     });
 </script>
-{if $loginPop}
+{if cookie('loginPop')==1}
 <script>
     layui.use(function() {
         layer.open({

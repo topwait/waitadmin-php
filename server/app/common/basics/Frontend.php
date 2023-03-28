@@ -29,9 +29,6 @@ use think\facade\View;
 
 /**
  * 前端基类
- *
- * Class Frontend
- * @package app\common\basics
  */
 abstract class Frontend extends BaseController
 {
@@ -64,13 +61,12 @@ abstract class Frontend extends BaseController
     public function __construct(App $app)
     {
         parent::__construct($app);
-
+        cookie('loginPop', '1');
         if (!$this->isLogin()) {
             if ($this->request->isAjax()) {
                 throw new LogicException('请登录后再操作!');
             }
-
-            $this->redirect(route('index/index', ['loginPop'=>true]), 302);
+            $this->redirect(route('index/index'), 302);
         }
 
 
