@@ -153,9 +153,12 @@
 
 /** 用户布局 **/
 .layout-global-user { margin-top: 15px; }
-.layout-global-user .container { display: flex; }
-.layout-global-user .left-sidebar { width: 200px; min-height: 700px; border-radius: 4px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05); background-color: #ffffff; }
-.layout-global-user .right-iframe { margin-left: 20px; width: 980px; min-height: 700px; border-radius: 4px; background-color: #ffffff; }
+.layout-global-user .layui-tab-title li { font-weight: bold; color: #575757; }
+.layout-global-user .information .layui-form-label { color: #666666 !important; }
+.layout-global-user .layui-input-inline { width: 300px !important; }
+.layout-global-user .container:after { content: ""; display: block; height: 0; clear: both; visibility: hidden; *zoom: 1; }
+.layout-global-user .left-sidebar { float: left; width: 200px; min-height: 700px; border-radius: 4px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05); background-color: #ffffff; }
+.layout-global-user .right-iframe { float: left; margin-left: 20px; width: 980px; min-height: 700px; border-radius: 4px; background-color: #ffffff; }
 .layout-global-user .left-sidebar ul.menu { margin-top: 20px; }
 .layout-global-user .left-sidebar ul.menu li { margin: 0 auto 8px; width: 160px; height: 48px; }
 .layout-global-user .left-sidebar ul.menu li a { position: relative; display: block; padding-left: 64px; height: 48px; font-size: 16px; text-align: left; color: #787d82; line-height: 48px; }
@@ -163,10 +166,9 @@
 .layout-global-user .left-sidebar ul.menu li.active a { border-radius: 8px 0 0 8px; color: #ffffff; background: #3a67e4; }
 .layout-global-user .left-sidebar ul.menu li.active a i { color: #ffffff; }
 .layout-global-user .left-sidebar ul.menu li.active a::after { position: absolute; right: 0; bottom: 0; display: block; width: 0; height: 0; border-top: 24px solid #ffffff; border-bottom: 24px solid #ffffff; border-left: 15px solid transparent; content: ""; }
-.layout-global-user .left-sidebar .member .avatar { display: block; padding-top: 10px; width: 100%; height: 120px; text-align: center; }
-.layout-global-user .left-sidebar .member .avatar img { margin: 0 auto; width: 120px; height: 120px; border-radius: 50%; }
-.layout-global-user .left-sidebar .member .name { margin: 10px 0; width: 100%; height: 24px; text-align: center; }
-.layout-global-user .left-sidebar .member .name a { display: inline-block; font-size: 16px; }
+.layout-global-user .left-sidebar .member .avatar { display: block; margin: 10px auto 0; width: 120px; height: 120px; border-radius: 50%; background-color: #eee; }
+.layout-global-user .left-sidebar .member .avatar img { width: 100%; height: 100%; border-radius: 50%; }
+.layout-global-user .left-sidebar .member .name { margin: 10px 0; width: 100%; height: 24px; text-align: center; font-size: 14px; }
 .layout-global-user .left-sidebar .member .sign { margin: 10px auto; padding: 0 5px; font-size: 12px; font-weight: 300; text-align: center; color: #999999; line-height: 20px; }
 .layout-global-user .left-sidebar .member .nums { display: block; margin-top: 15px; padding: 10px; border-top: 1px solid #efefef; border-bottom: 1px solid #efefef; }
 .layout-global-user .left-sidebar .member .nums p { display: inline-block; width: 85px; border-right: 1px solid #efefef; }
@@ -179,10 +181,7 @@
 .user-modular-title i { font-size: 24px; }
 
 /** 用户账号 **/
-.user-modular-account { padding: 0 20px; background-color: #ffffff; }
-.user-modular-account .layui-tab-title li { font-weight: bold; color: #575757; }
-.user-modular-account .information .layui-form-label { color: #666666 !important; }
-.user-modular-account .information .layui-input-inline { width: 300px !important; }
+.user-modular-account { padding: 0 20px; }
 .user-modular-account .avatar { margin: 50px 0; }
 .user-modular-account .avatar::after { display: block; clear: both; height: 0; visibility: hidden; content: ""; line-height: 0; }
 .user-modular-account .avatar .explain { float: left; width: 260px; height: 130px; background: url(../images/zz.png) no-repeat center center; }
@@ -199,7 +198,7 @@
 .user-modular-account .binding li .update { padding-top: 20px; }
 
 /** 用户收藏 **/
-.user-modular-collect { padding: 0 20px; background-color: #ffffff; }
+.user-modular-collect { padding: 0 20px; }
 .user-modular-collect .layui-tab-content ul { margin-top: 10px; margin-bottom: 20px; }
 .user-modular-collect .layui-tab-content ul li { padding-top: 10px; height: 40px; line-height: 40px; font-size: 16px; border-bottom: 1px dashed #d4d4d4; }
 .user-modular-collect .layui-tab-content ul li .title { margin-right: 12px; }

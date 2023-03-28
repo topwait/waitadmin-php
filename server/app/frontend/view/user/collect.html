@@ -1,4 +1,4 @@
-{extend name="common/layoutEasy" /}
+{extend name="common/layoutUser" /}
 
 {block name="body"}
 <div class="user-modular-collect">
@@ -6,14 +6,10 @@
     <div class="layui-tab">
         <ul class="layui-tab-title">
             <li class="layui-this">文章</li>
-            <li>插件</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
                 <table id="wait-table-article" lay-filter="wait-table-article"></table>
-            </div>
-            <div class="layui-tab-item">
-                <table id="wait-table-plugin" lay-filter="wait-table-plugin"></table>
             </div>
         </div>
         <script type="text/html" id="table-operate">
@@ -23,4 +19,39 @@
         </script>
     </div>
 </div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function() {
+        let articleTable = waitUtil.table({
+            elem: '#wait-table-article'
+            ,url: '/frontend/user/collect?type=article'
+            ,toolbar: false
+            ,limit: 12
+            ,cols: [[
+                {field:'title', title:'文章标题'},
+                {field:'browse', title:'阅读量', width:90, align:'center'},
+                {field:'browse', title:'收藏量', width:90, align:'center'},
+                {field:'create_time', title:'收藏时间', width:160, align:'center'},
+                {fixed:'right', title:'操作', width:60, align:'center', toolbar:'#table-operate'}
+            ]]
+        });
+
+        layui.table.on('tool(wait-table-article)', function(obj) {
+            layer.confirm('确定要删除此项收藏吗？', function(index) {
+                layer.close(index);
+                waitUtil.ajax({
+                    url: '/frontend/user/collect',
+                    type: 'POST',
+                    data: {id: obj.data.id, type: obj.data.type}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        articleTable.reload();
+                    }
+                });
+            });
+        });
+    });
+</script>
 {/block}
