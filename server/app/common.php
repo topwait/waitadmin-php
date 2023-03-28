@@ -146,6 +146,23 @@ if (!function_exists('format_bytes')) {
     }
 }
 
+if (!function_exists('active_url')) {
+    function active_url(string $url, $class = 'active'): string
+    {
+        if (str_starts_with('/', $url)) {
+            if (request()->url() == $url) {
+                return $class;
+            }
+        } else {
+            if (request()->action() == $url) {
+                return $class;
+            }
+        }
+
+        return '';
+    }
+}
+
 if (!function_exists('curl_get')) {
     /**
      * 发起GET请求

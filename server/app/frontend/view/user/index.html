@@ -16,36 +16,36 @@
                     <div class="layui-form-item">
                         <label for="account" class="layui-form-label">登录账号</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="account" value="{$detail.account}"
+                            <input type="text" id="account" value="{$userInfo.account}"
                                    autocomplete="off" readonly class="layui-input layui-disabled">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label for="register" class="layui-form-label">注册时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="register" value="{$detail.create_time}"
+                            <input type="text" id="register" value="{$userInfo.create_time}"
                                    autocomplete="off" readonly class="layui-input layui-disabled">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label for="nickname" class="layui-form-label">用户昵称</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="nickname" name="nickname" value="{$detail.nickname}"
+                            <input type="text" id="nickname" name="nickname" value="{$userInfo.nickname}"
                                    autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户性别</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="gender" value="0" title="保密" {if $detail.gender==0}checked{/if}>
-                            <input type="radio" name="gender" value="1" title="男" {if $detail.gender==1}checked{/if}>
-                            <input type="radio" name="gender" value="2" title="女" {if $detail.gender==2}checked{/if}>
+                            <input type="radio" name="gender" value="0" title="保密" {if $userInfo.gender==0}checked{/if}>
+                            <input type="radio" name="gender" value="1" title="男" {if $userInfo.gender==1}checked{/if}>
+                            <input type="radio" name="gender" value="2" title="女" {if $userInfo.gender==2}checked{/if}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label for="sign" class="layui-form-label">个性签名</label>
                         <div class="layui-input-inline">
-                            <textarea id="sign" name="sign" placeholder="这家伙很懒什么都没有留下~" class="layui-textarea">{$detail.sign??''}</textarea>
+                            <textarea id="sign" name="sign" placeholder="这家伙很懒什么都没有留下~" class="layui-textarea">{$userInfo.sign??''}</textarea>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -62,8 +62,8 @@
                     <div class="explain"></div>
                     <div class="upload">
                         <div class="wrapper">
-                            <input type="hidden" id="avatar" name="avatar" value="{$detail.avatar}">
-                            <img src="{$detail.avatar}" alt="avatar" id="uploadAvatar">
+                            <input type="hidden" id="avatar" name="avatar" value="{$userInfo.avatar}">
+                            <img src="{$userInfo.avatar}" alt="avatar" id="uploadAvatar">
                         </div>
                         <button type="button" class="layui-btn layui-btn-default" lay-filter="saveAvatar" lay-submit>确认修改</button>
                     </div>
@@ -80,8 +80,8 @@
                         <div class="info">
                             <p>
                                 <span>邮箱  </span>
-                                {if $detail.email}
-                                <em>{$detail.email} 已绑定</em>
+                                {if $userInfo.email}
+                                <em>{$userInfo.email} 已绑定</em>
                                 {else}
                                 <em style="color:red;">未绑定</em>
                                 {/if}
@@ -89,7 +89,7 @@
                             <p>邮箱号用于接收网站重要的信息通知</p>
                         </div>
                         <div class="update">
-                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindEmail">{$detail.email ? '更改' : '绑定'}</a>
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindEmail">{$userInfo.email ? '更改' : '绑定'}</a>
                         </div>
                     </li>
                     <li>
@@ -99,8 +99,8 @@
                         <div class="info">
                             <p>
                                 <span>手机  </span>
-                                {if $detail.mobile}
-                                <em>{$detail.mobile} 已绑定</em>
+                                {if $userInfo.mobile}
+                                <em>{$userInfo.mobile} 已绑定</em>
                                 {else}
                                 <em style="color:red;">未绑定</em>
                                 {/if}
@@ -108,7 +108,7 @@
                             <p>手机号可用于登录或者密码找回等</p>
                         </div>
                         <div class="update">
-                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindMobile">{$detail.mobile ? '更改' : '绑定'}</a>
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindMobile">{$userInfo.mobile ? '更改' : '绑定'}</a>
                         </div>
                     </li>
                     <li>
@@ -133,7 +133,7 @@
                         <div class="info">
                             <p>
                                 <span>微信  </span>
-                                {if $detail.isWeChat}
+                                {if $userInfo.isWeChat}
                                 <em>****** 已绑定</em>
                                 {else}
                                 <em style="color:red;">未绑定</em>
@@ -142,7 +142,7 @@
                             <p>可使用微信扫码快速登录</p>
                         </div>
                         <div class="update">
-                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindWeChat">{$detail.isWeChat ? '更改' : '绑定'}</a>
+                            <a class="layui-btn layui-btn-radius layui-bg-gray" lay-event="bindWeChat">{$userInfo.isWeChat ? '更改' : '绑定'}</a>
                         </div>
                     </li>
                 </ul>
@@ -210,7 +210,7 @@
             'bindMobile': function () {
                 waitUtil.popup({
                     title: '绑定手机号',
-                    url: '/frontend/user/binding?field=bindMobile&value={$detail.mobile}',
+                    url: '/frontend/user/binding?field=bindMobile&value={$userInfo.mobile}',
                     area: ['320px', '220px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data){
@@ -230,7 +230,7 @@
             'bindEmail': function () {
                 waitUtil.popup({
                     title: '绑定邮箱',
-                    url: '/frontend/user/binding?field=bindEmail&value={$detail.email}',
+                    url: '/frontend/user/binding?field=bindEmail&value={$userInfo.email}',
                     area: ['320px', '220px'],
                     maxmin: false,
                     success: function (layero, index) {

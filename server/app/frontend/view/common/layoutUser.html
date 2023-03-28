@@ -21,10 +21,10 @@
             <div class="left-sidebar">
                 <div class="member">
                     <div class="avatar">
-                        <img src="{$detail.avatar}" alt="avatar">
+                        <img src="{$userInfo.avatar}" alt="avatar">
                     </div>
-                    <div class="name">{$detail.nickname}</div>
-                    <div class="sign"><p>{$detail.sign ? $detail.sign : '这家伙很懒什么也没有留下~'}</p></div>
+                    <div class="name">{$userInfo.nickname}</div>
+                    <div class="sign"><p>{$userInfo.sign ? $userInfo.sign : '这家伙很懒什么也没有留下~'}</p></div>
                     <div class="nums">
                         <p>
                             <span class="num">0</span>
@@ -38,19 +38,19 @@
                     </div>
                 </div>
                 <ul class="menu">
-                    <li class="{if $action=='index'}active{/if}">
+                    <li class="{:active_url('index')}">
                         <a href="/frontend/user/index">
                             <i class="layui-icon layui-icon-username"></i>
                             <span>主页</span>
                         </a>
                     </li>
-                    <li class="{if $action=='collect'}active{/if}">
+                    <li class="{:active_url('collect')}">
                         <a href="/frontend/user/collect">
                             <i class="layui-icon layui-icon-rate"></i>
                             <span>收藏</span>
                         </a>
                     </li>
-                    <li class="{if $action=='message'}active{/if}">
+                    <li class="{:active_url('message')}">
                         <a href="/frontend/user/message">
                             <i class="layui-icon layui-icon-notice"></i>
                             <span>消息</span>

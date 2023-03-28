@@ -29,19 +29,6 @@ use think\response\View;
 class UserController extends Frontend
 {
     /**
-     * 初始化
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
-
-        $action = $this->request->action();
-        $userInfo = UserService::info($this->userId);
-        \think\facade\View::assign('action', $action);
-        \think\facade\View::assign('detail', $userInfo);
-    }
-
-    /**
      * 个人中心
      *
      * @return View
@@ -49,18 +36,26 @@ class UserController extends Frontend
      */
     public function index(): View
     {
-        return view();
+        return view('', [
+            'userInfo' => UserService::info($this->userId)
+        ]);
     }
 
     /**
      * 收藏管理
      *
-     * @return View
+     * @return View|Json
      * @author windy
      */
-    public function collect(): View
+    public function collect(): View|Json
     {
-        return view();
+        if ($this->isAjaxGet()) {
+            return AjaxUtils::success();
+        }
+
+        return view('', [
+            'userInfo' => UserService::info($this->userId)
+        ]);
     }
 
     /**

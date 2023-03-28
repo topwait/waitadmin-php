@@ -5,11 +5,11 @@
             <ul class="nav">
                 {volist name="navigation" id="vo"}
                     {if !$vo.children}
-                        <li class="{:think\\facade\\Request::url()==$vo.url?'active':''}">
+                        <li class="{:active_url($vo.url)}">
                             <a href="{$vo.url}" target="{$vo.target}">{$vo.name}</a>
                         </li>
                     {else}
-                        <li class="children {:think\\facade\\Request::url()==$vo.url?'active':''}">
+                        <li class="children {:active_url($vo.url)}">
                             <a href="javascript:">{$vo.name}</a>
                             <dl>
                                 {volist name="$vo.children" id="subItem"}
@@ -35,8 +35,7 @@
                         <dl class="layui-nav-child">
                             <dd><a href="/frontend/user/index">个人中心</a></dd>
                             <dd><a href="/frontend/user/index">我的收藏</a></dd>
-                            <hr style="margin:5px 0;" />
-                            <dd><a href="#" style="text-align:center;">退出</a></dd>
+                            <dd><a href="#" style="text-align:center;">退出登录</a></dd>
                         </dl>
                     </li>
                 {/if}

@@ -101,6 +101,7 @@ abstract class Frontend extends BaseController
         $pcConfig['logo'] = UrlUtils::toAbsoluteUrl($pcConfig['logo']??'');
 
         View::assign('pc', $pcConfig);
+        View::assign('action', $this->request->action());
         View::assign('website', ConfigUtils::get('website'));
         View::assign('navigation', ArrayUtils::toTreeJson($navigationData));
     }
