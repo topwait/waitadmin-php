@@ -9,6 +9,14 @@
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
+                <script type="text/html" id="table-aImage">
+                    <div class="table-image-wrap">
+                        <img src="{{ d.image }}" alt="img" class="">
+                    </div>
+                </script>
+                <script type="text/html" id="table-aTitle">
+                    <a href="/frontend/article/detail?id={{ d.article_id }}" target="_blank">{{ d.title }}</a>
+                </script>
                 <table id="wait-table-article" lay-filter="wait-table-article"></table>
             </div>
         </div>
@@ -30,7 +38,8 @@
             ,toolbar: false
             ,limit: 12
             ,cols: [[
-                {field:'title', title:'文章标题'},
+                {field:'title', title:'封面', width:60, align:'center', templet:'#table-aImage'},
+                {field:'title', title:'文章标题', templet:'#table-aTitle'},
                 {field:'browse', title:'阅读量', width:90, align:'center'},
                 {field:'browse', title:'收藏量', width:90, align:'center'},
                 {field:'create_time', title:'收藏时间', width:160, align:'center'},
@@ -42,7 +51,7 @@
             layer.confirm('确定要删除此项收藏吗？', function(index) {
                 layer.close(index);
                 waitUtil.ajax({
-                    url: '/frontend/user/collect',
+                    url: '/frontend/article/collectCancel',
                     type: 'POST',
                     data: {id: obj.data.id, type: obj.data.type}
                 }).then((res) => {

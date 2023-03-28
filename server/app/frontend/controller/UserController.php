@@ -20,6 +20,7 @@ use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use app\frontend\service\UserService;
 use app\frontend\validate\UserValidate;
+use think\db\exception\DbException;
 use think\response\Json;
 use think\response\View;
 
@@ -45,12 +46,14 @@ class UserController extends Frontend
      * 收藏管理
      *
      * @return View|Json
+     * @throws DbException
      * @author windy
      */
     public function collect(): View|Json
     {
         if ($this->isAjaxGet()) {
-            return AjaxUtils::success();
+            $lists = UserService::collect($this->userId);
+            return AjaxUtils::success($lists);
         }
 
         return view('', [

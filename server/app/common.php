@@ -147,16 +147,22 @@ if (!function_exists('format_bytes')) {
 }
 
 if (!function_exists('active_url')) {
-    function active_url(string $url, $class = 'active'): string
+    /**
+     * 激活当前URl按钮
+     *
+     * @param string $url   (对应的URL)
+     * @param string $class (激活类样式)
+     * @return string
+     * @author windy
+     */
+    function active_url(string $url, string $class = 'active'): string
     {
-        if (str_starts_with('/', $url)) {
+        if (str_starts_with($url, '/')) {
             if (request()->url() == $url) {
                 return $class;
             }
-        } else {
-            if (request()->action() == $url) {
-                return $class;
-            }
+        } else if (request()->action() == $url) {
+            return $class;
         }
 
         return '';

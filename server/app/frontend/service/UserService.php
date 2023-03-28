@@ -18,6 +18,7 @@ namespace app\frontend\service;
 use app\common\basics\Service;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
+use app\common\model\article\ArticleCollect;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use app\common\service\msg\MsgDriver;
@@ -26,6 +27,8 @@ use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 use app\frontend\validate\UserValidate;
 use Exception;
+use JetBrains\PhpStorm\ArrayShape;
+use think\db\exception\DbException;
 
 /**
  * 用户服务类
@@ -58,6 +61,33 @@ class UserService extends Service
         $user['avatar']   = UrlUtils::toAbsoluteUrl($user['avatar']);
         $user['last_login_time'] = date('Y-m-d H:i:s', $user['last_login_time']);
         return $user;
+    }
+
+    /**
+     * 用户收藏
+     *
+     * @param int $userId
+     * @return array
+     * @throws DbException
+     * @author windy
+     */
+    #[ArrayShape(['count' => "int", 'list' => "array"])]
+    public static function collect(int $userId): array
+    {
+        $modelArticleCollect = new ArticleCollect();
+        $lists = $modelArticleCollect->alias('ac')
+            ->field(['ac.id,ac.article_id,a.title,a.image,a.browse,ac.create_time'])
+            ->where(['ac.user_id'=>$userId])
+            ->where(['ac.is_delete'=>0])
+            ->join('article a', 'a.id = ac.article_id')
+            ->order('create_time desc')
+            ->paginate([
+                'page'      => $get['page'] ?? 1,
+                'list_rows' => 10,
+                'var_page'  => 'page'
+            ])->toArray();
+
+        return ['count'=>$lists['total'], 'list'=>$lists['data']];
     }
 
     /**

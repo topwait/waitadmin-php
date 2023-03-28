@@ -3,11 +3,19 @@ body { background: #f6f6f6; }
 i, em { font-style: normal; }
 .asterisk { padding-right: 2px; color: red; }
 .container { margin: 0 auto; width: 1200px; }
+.min-width-1200 { min-width: 1200px; }
 .table-image-wrap { width: 24px; height: 24px; }
 .table-image-wrap img { width: 100%; height: 100%; }
 
 /** 重置样式 **/
 .layui-form-radio:hover *, .layui-form-radioed, .layui-form-radioed>i { color: #3a67e4 !important; }
+
+/** 按钮样式 **/
+.layui-btn-gloomy { background-color: #444c69; }
+.layui-btn-danger { background-color: #f56c6c; }
+.layui-btn-default { background-color: #3a67e4; }
+.layui-btn-forbid,
+.layui-btn-forbid:hover { cursor: not-allowed; opacity: 0.65; pointer-events: none; }
 
 /** 弹窗样式 **/
 .wait-body-content { position: absolute; top: 0; right: 0; bottom: 48px; left: 0; overflow-y: auto; padding: 10px 20px 0 10px; background-color: #ffffff; }
@@ -31,13 +39,6 @@ i, em { font-style: normal; }
 .layui-layer-black .layui-layer-setwin .layui-layer-max::before { content: "\e839"; }
 .layui-layer-black .layui-layer-setwin .layui-layer-min::before { content: "\e840"; }
 .layui-layer-black .layui-layer-setwin > a::before { font-size: 14px; font-family: layui-icon, serif; color: #ffffff; }
-
-/** 按钮样式 **/
-.layui-btn-gloomy { background-color: #444c69; }
-.layui-btn-danger { background-color: #f56c6c; }
-.layui-btn-default { background-color: #3a67e4; }
-.layui-btn-forbid,
-.layui-btn-forbid:hover { cursor: not-allowed; opacity: 0.65; pointer-events: none; }
 
 /** 搜索样式 **/
 .layui-search { padding-top: 5px; background: #ffffff; }
