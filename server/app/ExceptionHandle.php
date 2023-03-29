@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app;
 
-
 use app\common\enums\ErrorEnum;
 use app\common\exception\BaseException;
 use app\common\model\sys\SysLog;
@@ -26,7 +25,6 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
-use think\facade\Session;
 use think\Request;
 use think\Response;
 use Throwable;

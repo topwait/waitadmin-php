@@ -1,29 +1,48 @@
-
-<style>
-    .node {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-        min-height: 700px;
-        text-align: center;
-        border-radius: 4px;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
-        background-color: #fff;
-    }
-    .node i { font-size: 200px; color: #999999; }
-    .node p { margin-top: 20px; font-size: 16px; color: #999999; }
-</style>
-
-
-<div class="container">
-    <div class="node">
-        {if $errCode == 404}
-            <i class="layui-icon layui-icon-404"></i>
-        {else}
-            <i class="layui-icon layui-icon-face-surprised"></i>
-        {/if}
-        <p>{$errMsg}</p>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>系统错误</title>
+    <style>
+        body { font: 14px/1.5 'Microsoft YaHei',Sans-serif; min-width: 1200px; margin: 0; padding: 0; background: #f0f1f3; }
+        .error-page { padding: 80px 0 180px; background: #f0f1f3; }
+        .error-page-container { position: relative; z-index: 1; }
+        .error-page-main { position: relative; width: 617px; margin: 0 auto; padding: 40px 50px 50px; box-sizing: border-box; background: #f9f9f9; }
+        .error-page-main h3 strong { font-size: 54px; font-weight: 400; margin-right: 20px; }
+        .error-page-main h3 { font-size: 24px; font-weight: 400; padding: 6px 0; border-bottom: 1px solid #d0d0d0; }
+        .error-page-main h4 { margin: 0; font-size: 20px; font-weight: 400; color: #333; }
+        .error-page-actions ol { list-style: decimal; padding-left: 30px; }
+        .error-page-actions li { line-height: 2.5em; }
+        .error-page-actions div { display: inline-block; width: 49%; font-size: 14px; color: #838383; box-sizing: border-box; }
+        .error-page-actions .btn { display: inline-block; font-size: 20px; text-decoration: none; color: #428bca; padding-left: 20px; padding-top: 20px;   }
+        .error-page-actions .btn:hover { text-decoration: underline; }
+        .error-page-actions:before { content: ''; display: block; position: absolute; z-index: -1; bottom: 17px; left: 50px; width: 200px; height: 10px; box-shadow: 4px 5px 31px 11px #999; transform: rotate(-4deg); }
+        .error-page-actions:after { content: ''; display: block; position: absolute; z-index: -1; bottom: 17px; right: 50px; width: 200px; height: 10px; box-shadow: 4px 5px 31px 11px #999; transform: rotate(4deg); }
+    </style>
+</head>
+<body>
+    <div class="error-page">
+        <div class="error-page-container">
+            <div class="error-page-main">
+                <h3> <strong>{$errCode ? errCode : '404'}</strong>{$errMsg ? $errMsg : '无法打开页面'} </h3>
+                <div class="error-page-actions">
+                    <div>
+                        <h4>可能原因：</h4>
+                        <ol>
+                            <li>网络信号差</li>
+                            <li>找不到请求的页面</li>
+                            <li>输入的网址不正确</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4>可以尝试：</h4>
+                        <a class="btn" href="/">返回主页</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</body>
+</html>
