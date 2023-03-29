@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\BaseController;
+use app\common\exception\SystemException;
 use app\common\model\DevNavigation;
 use app\common\utils\ArrayUtils;
 use app\common\utils\ConfigUtils;
@@ -58,6 +59,7 @@ abstract class Frontend extends BaseController
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @throws SystemException
      */
     public function __construct(App $app)
     {

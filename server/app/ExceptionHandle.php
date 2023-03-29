@@ -26,6 +26,7 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
+use think\facade\Session;
 use think\Request;
 use think\Response;
 use Throwable;
@@ -136,10 +137,8 @@ class ExceptionHandle extends Handle
                     $this->errData
                 );
             } else {
-                return redirect(route('error/wrong', [
-                    'errCode' => $this->errCode,
-                    'errMsg'  => $this->errMsg
-                ]));
+                session('error', json_encode(['errCode'=>$this->errCode, 'errMsg'=>$this->errMsg]));
+                return redirect(route('error/wrong'));
             }
         }
 

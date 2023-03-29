@@ -23,6 +23,7 @@ use Exception;
 use JetBrains\PhpStorm\NoReturn;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionMethod;
 use think\App;
 use think\exception\HttpResponseException;
 use think\facade\Lang;
@@ -61,7 +62,6 @@ abstract class BaseController
      * 构造方法
      *
      * @param App $app 应用对象
-     * @throws SystemException
      * @author windy
      */
     public function __construct(App $app)
@@ -187,14 +187,14 @@ abstract class BaseController
      * 请求方式拦截器
      *
      * @param $controller
-     * @throws SystemException
+     * @author windy
      */
     private function intercept($controller): void
     {
         try {
             $controller = str_replace('.', '\\', $controller) . 'Controller';
             $namespaces = '\\' . $this->app->getNamespace() . '\\controller\\' . $controller;
-            $reflection = new \ReflectionMethod($namespaces, $this->request->action());
+            $reflection = new ReflectionMethod($namespaces, $this->request->action());
 
             if (!$reflection->getDocComment()) {
                 return;
@@ -235,8 +235,6 @@ abstract class BaseController
             }
 
             return;
-        } catch (Exception $e) {
-            throw new SystemException($e->getMessage());
-        }
+        } catch (Exception) {}
     }
 }
