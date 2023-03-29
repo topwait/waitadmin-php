@@ -35,6 +35,7 @@ class NavigationController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -52,6 +53,7 @@ class NavigationController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET|POST]
      * @author windy
      */
     public function add(): View|Json
@@ -72,6 +74,7 @@ class NavigationController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET|POST]
      * @author windy
      */
     public function edit(): View|Json
@@ -93,6 +96,7 @@ class NavigationController extends Backend
      * 导航删除
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function del(): Json

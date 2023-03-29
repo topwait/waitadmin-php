@@ -38,6 +38,7 @@ class ArticleController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -58,6 +59,7 @@ class ArticleController extends Backend
      * @throws DbException
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function add(): View|Json
@@ -80,6 +82,7 @@ class ArticleController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function edit(): View|Json
@@ -103,6 +106,7 @@ class ArticleController extends Backend
      * 文章删除
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function del(): Json

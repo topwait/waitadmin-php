@@ -1,6 +1,4 @@
-{extend name="common/layoutBase" /}
 
-{block name="style"}
 <style>
     .node {
         display: flex;
@@ -17,9 +15,8 @@
     .node i { font-size: 200px; color: #999999; }
     .node p { margin-top: 20px; font-size: 16px; color: #999999; }
 </style>
-{/block}
 
-{block name="body"}
+
 <div class="container">
     <div class="node">
         {if $errCode == 404}
@@ -30,4 +27,3 @@
         <p>{$errMsg}</p>
     </div>
 </div>
-{/block}

@@ -85,7 +85,7 @@ class UserController extends Frontend
      *
      * @return View|Json
      * @throws OperateException
-     * @method [POST]
+     * @method [GET|POST]
      * @author windy
      */
     public function binding(): View|Json

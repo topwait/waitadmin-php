@@ -37,6 +37,7 @@ class GroupController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -54,6 +55,7 @@ class GroupController extends Backend
      * 分组新增
      *
      * @return Json|View
+     * @method [GET|POST]
      * @author windy
      */
     public function add(): View|Json
@@ -74,6 +76,7 @@ class GroupController extends Backend
      * @throws OperateException
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function edit(): View|Json
@@ -95,6 +98,7 @@ class GroupController extends Backend
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function del(): Json

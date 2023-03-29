@@ -41,6 +41,7 @@ class AttachController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -63,6 +64,7 @@ class AttachController extends Backend
      * 附件命名
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function rename(): Json
@@ -80,6 +82,7 @@ class AttachController extends Backend
      * 附件移动
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function move(): Json
@@ -97,6 +100,7 @@ class AttachController extends Backend
      * 附件删除
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function del(): Json
@@ -117,6 +121,7 @@ class AttachController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET]
      * @author windy
      */
     public function cateLists(): Json
@@ -133,6 +138,7 @@ class AttachController extends Backend
      * 分组创建
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function cateAdd(): Json
@@ -151,6 +157,7 @@ class AttachController extends Backend
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function cateRename(): Json
@@ -169,6 +176,7 @@ class AttachController extends Backend
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function cateDelete(): Json

@@ -31,6 +31,7 @@ class ClearController extends Backend
      * 缓存清理页面
      *
      * @return View
+     * @method [GET]
      * @author windy
      */
     public function index(): View
@@ -42,6 +43,7 @@ class ClearController extends Backend
      * 缓存清理操作
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function clean(): Json

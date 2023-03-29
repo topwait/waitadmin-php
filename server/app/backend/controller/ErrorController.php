@@ -43,6 +43,7 @@ class ErrorController
      * 异常的页面
      *
      * @return View
+     * @method [GET]
      * @author windy
      */
     public function wrong(): View

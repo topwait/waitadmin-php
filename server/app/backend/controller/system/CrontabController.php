@@ -36,6 +36,7 @@ class CrontabController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -53,6 +54,7 @@ class CrontabController extends Backend
      * 计划任务新增
      *
      * @return Json|View
+     * @method [GET|POST]
      * @author windy
      */
     public function add(): View|Json
@@ -72,6 +74,7 @@ class CrontabController extends Backend
      * @return Json|View
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function edit(): View|Json
@@ -94,6 +97,7 @@ class CrontabController extends Backend
      * 计划任务删除
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function del(): Json
@@ -111,6 +115,7 @@ class CrontabController extends Backend
      * 计划任务停止
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function stop(): Json
@@ -128,6 +133,7 @@ class CrontabController extends Backend
      * 计划任务运行
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function run(): Json
