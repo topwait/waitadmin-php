@@ -38,6 +38,7 @@ class IndexController extends Api
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET]
      */
     public function index(): Json
     {
@@ -50,6 +51,7 @@ class IndexController extends Api
      *
      * @return Json
      * @author windy
+     * @method [GET]
      */
     public function config(): Json
     {
@@ -62,6 +64,7 @@ class IndexController extends Api
      *
      * @return Json
      * @author windy
+     * @method [GET]
      */
     public function policy(): Json
     {
@@ -74,6 +77,7 @@ class IndexController extends Api
      * 发送短信
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function sendSms(): Json
@@ -93,6 +97,7 @@ class IndexController extends Api
      * 发送邮件
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function sendEmail(): Json

@@ -34,6 +34,7 @@ class LoginController extends Api
      *
      * @return Json
      * @throws Exception
+     * @method [POST]
      * @author windy
      */
     public function register(): Json
@@ -49,6 +50,7 @@ class LoginController extends Api
      *
      * @return Json
      * @throws Exception
+     * @method [POST]
      * @author windy
      */
     public function login(): Json
@@ -91,6 +93,7 @@ class LoginController extends Api
      * 退出
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function logout(): Json
@@ -103,6 +106,7 @@ class LoginController extends Api
      *
      * @return Json
      * @throws Exception
+     * @method [GET]
      * @author windy
      */
     public function oaCodeUrl(): Json

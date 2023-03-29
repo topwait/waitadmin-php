@@ -33,6 +33,7 @@ class UserController extends Api
      * 个人中心
      *
      * @return Json
+     * @method [GET]
      * @author windy
      */
     public function center(): Json
@@ -45,6 +46,7 @@ class UserController extends Api
      * 个人信息
      *
      * @return Json
+     * @method [GET]
      * @author windy
      */
     public function info(): Json
@@ -58,6 +60,7 @@ class UserController extends Api
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function edit(): Json
@@ -71,6 +74,7 @@ class UserController extends Api
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function forgetPwd(): Json
@@ -86,6 +90,7 @@ class UserController extends Api
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function changePwd(): Json
@@ -101,6 +106,7 @@ class UserController extends Api
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function bindWeChat(): Json
@@ -116,6 +122,7 @@ class UserController extends Api
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function bindMobile(): Json
@@ -131,6 +138,7 @@ class UserController extends Api
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function bindEmail(): Json
