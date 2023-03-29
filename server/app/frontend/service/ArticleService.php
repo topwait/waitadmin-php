@@ -26,9 +26,6 @@ use think\db\exception\ModelNotFoundException;
 
 /**
  * 文章服务类
- *
- * Class ArticleService
- * @package app\frontend\service
  */
 class ArticleService extends Service
 {
@@ -43,7 +40,7 @@ class ArticleService extends Service
     {
         $model = new ArticleCategory();
         $name = $model->where(['id'=> $cid])->value('name');
-        return $name ? $name : '文章列表';
+        return $name ?: '文章列表';
     }
 
     /**

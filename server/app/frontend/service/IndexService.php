@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\frontend\service;
 
-
 use app\common\basics\Service;
 use app\common\model\DevBanner;
 use app\common\model\DevLinks;
@@ -23,6 +22,9 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 
+/**
+ * 主页服务类
+ */
 class IndexService extends Service
 {
     /**

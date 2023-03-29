@@ -32,9 +32,6 @@ use think\db\exception\DbException;
 
 /**
  * 用户服务类
- *
- * Class UsersService
- * @package app\frontend\service
  */
 class UserService extends Service
 {
