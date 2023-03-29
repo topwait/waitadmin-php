@@ -46,14 +46,11 @@ class IndexController extends Frontend
      */
     public function index(): View
     {
-        $loginPop = Cookie::get('loginPop');
-        if ($loginPop == '1') {
-            Cookie::set('loginPop', '2');
-        } else {
-            Cookie::delete('loginPop');
-        }
+        $logon = Cookie::get('logon', '0');
+        Cookie::delete('logon');
 
         return view('', [
+            'logon'    => intval($logon),
             'links'    => IndexService::getLinks(),
             'banner'   => IndexService::getBanner(1),
             'adv'      => IndexService::getBanner(2),

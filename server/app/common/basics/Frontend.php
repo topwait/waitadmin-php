@@ -25,6 +25,7 @@ use think\App;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\facade\Cookie;
 use think\facade\View;
 
 /**
@@ -61,11 +62,13 @@ abstract class Frontend extends BaseController
     public function __construct(App $app)
     {
         parent::__construct($app);
-        cookie('loginPop', '1');
+
         if (!$this->isLogin()) {
             if ($this->request->isAjax()) {
                 throw new LogicException('请登录后再操作!');
             }
+
+            Cookie::set('logon','1', ['expire'=>60,'path'=>'/']);
             $this->redirect(route('index/index'), 302);
         }
 
