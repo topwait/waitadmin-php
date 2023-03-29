@@ -26,7 +26,7 @@
     <div class="error-page">
         <div class="error-page-container">
             <div class="error-page-main">
-                <h3> <strong>{$errCode ? errCode : '404'}</strong>{$errMsg ? $errMsg : '无法打开页面'} </h3>
+                <h3> <strong>{$errCode ? $errCode : '404'}</strong>{$errMsg ? $errMsg : '无法打开页面'} </h3>
                 <div class="error-page-actions">
                     <div>
                         <h4>可能原因：</h4>
@@ -34,6 +34,7 @@
                             <li>网络信号差</li>
                             <li>找不到请求的页面</li>
                             <li>输入的网址不正确</li>
+                            <li>编写的代码不正确</li>
                         </ol>
                     </div>
                     <div>
