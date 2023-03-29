@@ -18,6 +18,8 @@ namespace app;
 
 use app\common\enums\ErrorEnum;
 use app\common\exception\SystemException;
+use JetBrains\PhpStorm\NoReturn;
+use ReflectionClass;
 use think\App;
 use think\exception\HttpResponseException;
 use think\facade\Lang;
@@ -62,6 +64,7 @@ abstract class BaseController
     {
         $this->app     = $app;
         $this->request = $this->app->request;
+        $this->intercept();
         $this->loadLang($this->request->controller());
     }
 
@@ -174,5 +177,29 @@ abstract class BaseController
         if (is_file($apps . 'lang/' . $lang . '/'. $name . '.php')) {
             Lang::load($apps . 'lang/' . $lang . '/'. $name . '.php');
         }
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    #[NoReturn]
+    private function intercept()
+    {
+        $controller = str_replace('.', '\\', $this->request->controller()) . 'Controller';
+        $namespaces = '\\' . $this->app->getNamespace() . '\\controller\\' . $controller;
+        $reflection = new \ReflectionMethod($namespaces, $this->request->action());
+
+
+        preg_match_all('/@\w+\s+\w+/u', $reflection->getDocComment(), $matches);
+
+        $annotate = [];
+        foreach ($matches[0] as $item) {
+            $arr = explode(' ', $item);
+            $key = trim($arr[0]);
+            $val = trim($arr[1]);
+            $annotate[$key] = $val;
+        }
+
+        dump($annotate);exit;
     }
 }
