@@ -12,22 +12,17 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\exception;
-
 
 use app\common\enums\ErrorEnum;
 use Throwable;
 
 /**
  * 上传异常类
- *
- * Class UploadsException
- * @package app\common\exception
  */
 class UploadException extends BaseException
 {
-    public function __construct($message = "", $code = 0, $data = [], Throwable $previous = null)
+    public function __construct($message = '', $code = 0, $data = [], Throwable $previous = null)
     {
         $this->data     = $data;
         $this->code     = $code    ?: ErrorEnum::UPLOADS_ERROR;

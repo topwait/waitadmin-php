@@ -72,7 +72,6 @@ abstract class Frontend extends BaseController
             $this->redirect(route('index/index'), 302);
         }
 
-
         $this->setValues();
 
         $this->initialize();

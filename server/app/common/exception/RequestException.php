@@ -18,14 +18,14 @@ use app\common\enums\ErrorEnum;
 use Throwable;
 
 /**
- * 无权限异常类
+ * 请求异常类
  */
-class NotAuthException extends BaseException
+class RequestException extends BaseException
 {
     public function __construct($message = '', $code = 0, $data = [], Throwable $previous = null)
     {
         $this->data     = $data;
-        $this->code     = $code    ?: ErrorEnum::PURVIEW_ERROR;
+        $this->code     = $code    ?: ErrorEnum::REQUEST_ERROR;
         $this->message  = $message ?: ErrorEnum::getMsgByCode($this->code);
         parent::__construct($this->message, $this->code, $previous);
     }

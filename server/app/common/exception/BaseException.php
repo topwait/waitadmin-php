@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\exception;
-
 
 use Exception;
 
 /**
  * 自定义异常基类
- *
- * Class BaseException
- * @package app\common\exception
  */
 abstract class BaseException extends Exception
 {
@@ -30,7 +25,7 @@ abstract class BaseException extends Exception
      * 错误描述
      * @var string
      */
-    public $message = "";
+    public $message = '';
 
     /**
      * 错误编码

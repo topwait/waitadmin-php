@@ -17,9 +17,12 @@ namespace app;
 
 
 use app\common\enums\ErrorEnum;
+use app\common\exception\RequestException;
 use app\common\exception\SystemException;
+use Exception;
 use JetBrains\PhpStorm\NoReturn;
 use ReflectionClass;
+use ReflectionException;
 use think\App;
 use think\exception\HttpResponseException;
 use think\facade\Lang;
@@ -57,14 +60,15 @@ abstract class BaseController
     /**
      * 构造方法
      *
-     * @param  App  $app  应用对象
+     * @param App $app 应用对象
+     * @throws SystemException
      * @author windy
      */
     public function __construct(App $app)
     {
         $this->app     = $app;
         $this->request = $this->app->request;
-        $this->intercept();
+        $this->intercept($this->request->controller());
         $this->loadLang($this->request->controller());
     }
 
@@ -180,26 +184,59 @@ abstract class BaseController
     }
 
     /**
-     * @throws \ReflectionException
+     * 请求方式拦截器
+     *
+     * @param $controller
+     * @throws SystemException
      */
-    #[NoReturn]
-    private function intercept()
+    private function intercept($controller): void
     {
-        $controller = str_replace('.', '\\', $this->request->controller()) . 'Controller';
-        $namespaces = '\\' . $this->app->getNamespace() . '\\controller\\' . $controller;
-        $reflection = new \ReflectionMethod($namespaces, $this->request->action());
+        try {
+            $controller = str_replace('.', '\\', $controller) . 'Controller';
+            $namespaces = '\\' . $this->app->getNamespace() . '\\controller\\' . $controller;
+            $reflection = new \ReflectionMethod($namespaces, $this->request->action());
 
+            if (!$reflection->getDocComment()) {
+                return;
+            }
 
-        preg_match_all('/@\w+\s+\w+/u', $reflection->getDocComment(), $matches);
+            $annotate = [];
+            $patterns = '/@\w+\s+(.*)/u';
+            preg_match_all($patterns, $reflection->getDocComment(), $matches);
+            foreach ($matches[0] as $item) {
+                $arr = explode(' ', $item);
+                $key = trim($arr[0]);
+                $val = trim($arr[1]);
+                $annotate[$key] = $val;
+            }
 
-        $annotate = [];
-        foreach ($matches[0] as $item) {
-            $arr = explode(' ', $item);
-            $key = trim($arr[0]);
-            $val = trim($arr[1]);
-            $annotate[$key] = $val;
+            if (isset($annotate['@method']) && !trim($annotate['@method'])) {
+                throw new RequestException("Method annotation configuration error");
+            }
+
+            if (!empty($annotate['@method'])) {
+                $methods = str_replace('[', '', $annotate['@method']);
+                $methods = str_replace(']', '', $methods);
+                $methods = explode('|', trim($methods));
+
+                $supported = [];
+                foreach ($methods as $item) {
+                    $supported[] = trim($item);
+                    $strMethod = trim($item);
+                    if (!ctype_upper($strMethod)) {
+                        throw new RequestException("Request method '$strMethod' must be uppercase");
+                    }
+                }
+
+                $reqMethod = $this->request->method();
+                if (!in_array($reqMethod, $supported)) {
+                    throw new RequestException("Request method '$reqMethod' not supported");
+                }
+            }
+
+            return;
+        } catch (Exception $e) {
+            throw new SystemException($e->getMessage());
         }
-
-        dump($annotate);exit;
     }
 }

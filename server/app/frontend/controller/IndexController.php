@@ -38,10 +38,13 @@ class IndexController extends Frontend
     protected array $notNeedLogin = ['index', 'sendSms', 'sendEmail'];
 
     /**
+     * 首页
+     *
      * @return View
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET]
      * @author windy
      */
     public function index(): View
@@ -65,6 +68,7 @@ class IndexController extends Frontend
      * 发送短信
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function sendSms(): Json
@@ -84,6 +88,7 @@ class IndexController extends Frontend
      * 发送邮件
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function sendEmail(): Json
