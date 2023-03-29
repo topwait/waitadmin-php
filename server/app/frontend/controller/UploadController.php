@@ -31,6 +31,7 @@ class UploadController extends Frontend
      *
      * @return Json
      * @throws UploadException
+     * @method [POST]
      * @author windy
      */
     public function temporary(): Json

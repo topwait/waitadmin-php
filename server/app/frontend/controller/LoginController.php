@@ -35,6 +35,7 @@ class LoginController extends Frontend
      * 弹出页面
      *
      * @return View
+     * @method [GET]
      * @author windy
      */
     public function index(): View
@@ -50,6 +51,7 @@ class LoginController extends Frontend
      *
      * @return Json|View
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function register(): View|Json
@@ -70,6 +72,7 @@ class LoginController extends Frontend
      * @return Json|View
      * @throws OperateException
      * @throws Exception
+     * @method [POST]
      * @author windy
      */
     public function login(): View|Json
@@ -101,6 +104,9 @@ class LoginController extends Frontend
 
     /**
      * 退出登录
+     *
+     * @method [GET]
+     * @author windy
      */
     public function logout()
     {
@@ -113,6 +119,7 @@ class LoginController extends Frontend
      *
      * @return Json
      * @throws Exception
+     * @method [GET]
      * @author windy
      */
     public function opCodeUrl(): Json
@@ -129,6 +136,7 @@ class LoginController extends Frontend
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function forgetPwd(): Json

@@ -36,6 +36,7 @@ class ArticleController extends Frontend
      *
      * @return View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function lists(): View
@@ -56,6 +57,7 @@ class ArticleController extends Frontend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET]
      * @author windy
      */
     public function detail(): View
@@ -72,16 +74,14 @@ class ArticleController extends Frontend
      * 文章收藏
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function collect(): Json
     {
-        if ($this->isAjaxPost()) {
-            $id = intval($this->request->post('id'));
-            $result = ArticleService::collect($id, $this->userId);
-            return AjaxUtils::success($result);
-        }
+        $id = intval($this->request->post('id'));
 
-        return AjaxUtils::error();
+        $result = ArticleService::collect($id, $this->userId);
+        return AjaxUtils::success($result);
     }
 }

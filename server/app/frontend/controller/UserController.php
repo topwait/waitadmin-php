@@ -33,6 +33,7 @@ class UserController extends Frontend
      * 个人中心
      *
      * @return View
+     * @method [GET]
      * @author windy
      */
     public function index(): View
@@ -47,6 +48,7 @@ class UserController extends Frontend
      *
      * @return View|Json
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function collect(): View|Json
@@ -65,6 +67,7 @@ class UserController extends Frontend
      * 账号编辑
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function edit(): Json
@@ -82,6 +85,7 @@ class UserController extends Frontend
      *
      * @return View|Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function binding(): View|Json
