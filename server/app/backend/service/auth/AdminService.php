@@ -71,7 +71,7 @@ class AdminService extends Service
             unset($item['role_id']);
             unset($item['dept_id']);
             unset($item['post_id']);
-            $item['last_login_ip']   = $item['last_login_ip'] ? $item['last_login_ip'] : '-';
+            $item['last_login_ip']   = $item['last_login_ip'] ?: '-';
             $item['last_login_time'] = $item['last_login_time'] ? date('Y-m-d H:i:s', $item['last_login_time']) : '-';
         }
 
