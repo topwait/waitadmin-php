@@ -107,7 +107,7 @@ class PostController extends Backend
     {
         if ($this->isAjaxPost()) {
             (new PostValidate())->idCheck();
-            PostService::del($this->request->post('id'));
+            PostService::del(intval($this->request->post('id')));
             return AjaxUtils::success();
         }
 
