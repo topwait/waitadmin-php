@@ -9,12 +9,11 @@
             <label for="pid" class="layui-form-label"><span class="asterisk">*</span>上级部门：</label>
             <div class="layui-input-block">
                 <select id="pid" name="pid" lay-verify="required|number">
+                    {if empty($dept)}
+                        <option value="0">顶级部门</option>
+                    {/if}
                     {volist name="$dept" id="vo"}
-                        {if $vo.id == 1}
-                            <option value="{$vo.id}" disabled>{$vo.html} {$vo.name}</option>
-                        {else}
-                            <option value="{$vo.id}">{$vo.html} {$vo.name}</option>
-                        {/if}
+                        <option value="{$vo.id}">{$vo.html} {$vo.name}</option>
                     {/volist}
                 </select>
             </div>

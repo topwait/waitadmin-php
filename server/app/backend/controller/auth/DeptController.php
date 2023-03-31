@@ -117,7 +117,7 @@ class DeptController extends Backend
     {
         if ($this->isAjaxPost()) {
             (new DeptValidate())->idCheck();
-            DeptService::del($this->request->post('id'));
+            DeptService::del(intval($this->request->post('id')));
             return AjaxUtils::success();
         }
 
