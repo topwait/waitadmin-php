@@ -181,14 +181,11 @@ layui.define(['laypage', 'form'], function (exports) {
 
                 $(icon).unbind('click');
                 a.event('click', icon, function (e) {
-                   let elem = e.currentTarget,
-                       total = parseInt($('#' +PAGE_ID + '-pages').html()),
-                       isPrev = $(elem).attr('prev') !== undefined,
-                       // 按钮上标的页码
-                       index = parseInt($(elem).attr('data-index')),
-                       $cur = $('#' +PAGE_ID + '-current'),
-                       // 点击时正在显示的页码
-                       current = parseInt($cur.html());
+                    let elem = e.currentTarget;
+                    let total = parseInt($('#' +PAGE_ID + '-pages').html());
+                    let isPrev = $(elem).attr('prev') !== undefined;
+                    let $cur = $('#' +PAGE_ID + '-current');
+                    let current = parseInt($cur.html());
 
                     // 分页数据
                     if (isPrev && current > 1) {
@@ -313,7 +310,6 @@ layui.define(['laypage', 'form'], function (exports) {
                         'layui-icon-list', 'layui-icon-release', 'layui-icon-ok', 'layui-icon-help', 'layui-icon-chat', 'layui-icon-top', 'layui-icon-star',
                         'layui-icon-star-fill', 'layui-icon-close-fill', 'layui-icon-close', 'layui-icon-ok-circle', 'layui-icon-add-circle-fine'
                     ];
-                   
                 }
             }
         };
