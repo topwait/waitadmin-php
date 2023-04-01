@@ -186,7 +186,7 @@ class ArticleService extends Service
         Article::update([
             'browse'      => ['inc', 1],
             'update_time' => time(),
-        ], ['id'=>intval($id)]);
+        ], ['id'=> $id]);
 
         return $detail;
     }

@@ -185,10 +185,10 @@ class LoginService extends Service
      * @return array
      * @throws Exception
      */
-    #[ArrayShape(['url' => "string"])]
     public static function opCodeUrl(string $url): array
     {
-        return ['url'=>WeChatService::opBuildAuthUrl($url)];
+        $detail['url'] = WeChatService::opBuildAuthUrl($url);
+        return $detail;
     }
 
     /**

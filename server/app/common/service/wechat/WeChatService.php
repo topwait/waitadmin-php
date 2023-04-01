@@ -115,7 +115,7 @@ class WeChatService
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @param string $redirectUrl (重定向地址)
-     * @return string ['url']
+     * @return string url
      * @throws Exception
      */
     public static function opBuildAuthUrl(string $redirectUrl): string
