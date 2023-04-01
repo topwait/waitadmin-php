@@ -1,4 +1,9 @@
+// +----------------------------------------------------------------------
+// | 富文本
+// +----------------------------------------------------------------------
+
 layui.define([], function (exports) {
+    let $ = layui.$;
     let plugin_filename = 'tinymce.min.js';
     let plugin_tinymce  = layui.cache.modules['tinymce'];
     let plugin_base_url = plugin_tinymce.substr(0, plugin_tinymce.lastIndexOf('.'));

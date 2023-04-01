@@ -1,4 +1,8 @@
-layui.define(["layer", "table"], function (exports) {
+// +----------------------------------------------------------------------
+// | 树型表格
+// +----------------------------------------------------------------------
+
+layui.define(['layer', 'table'], function (exports) {
     let $ = layui.jquery;
     let layer = layui.layer;
     let table = layui.table;
