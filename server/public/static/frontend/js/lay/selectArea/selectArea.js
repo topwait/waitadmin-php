@@ -3,12 +3,29 @@ layui.define(['jquery', 'form'], function (exports) {
     let form = layui.form;
 
     let ojb = {
-        init: function (
-            province_filter, city_filter, district_filter,
-            province_name, city_name, district_name,
-            province_id, city_id, district_id
-        ) {
-
+        /**
+         * 初始化入口
+         *
+         * @param provinceFilter (省过滤器)
+         * @param cityFilter     (市过滤器)
+         * @param districtFilter (区过滤器)
+         * @param provinceName   (省选下拉框名)
+         * @param cityName       (市选下拉框名)
+         * @param districtName   (区选下拉框名)
+         * @param provinceId     (默认省ID)
+         * @param cityId         (默认市ID)
+         * @param districtId     (默认区ID)
+         * @author windy
+         */
+        init: function (provinceFilter, cityFilter, districtFilter, provinceName, cityName, districtName, provinceId, cityId, districtId) {
+            /**
+             * 选择地区列出子级地址
+             *
+             * @param data    (子级地区)
+             * @param element (子级节点)
+             * @returns {number|*}
+             * @author windy
+             */
             function areaSelect(data, element) {
                 let html = '';
                 for (let i in data) {
@@ -19,33 +36,67 @@ layui.define(['jquery', 'form'], function (exports) {
                 return data[0]['id'] === undefined ? 0 : data[0]['id'];
             }
 
-            let first_id = areaSelect(getAllProvince(), $("[name='"+province_name+"']"));
-            if(province_id !== undefined){
-                $("[name='"+province_name+"']").val(province_id);
+            /**
+             * 省市区Input选择
+             *
+             * @type {*|jQuery|HTMLElement}
+             * @author windy
+             */
+            let elemProvinceName = $("[name='"+provinceName+"']");
+            let elemCityName     = $("[name='"+cityName+"']");
+            let elemDistrictName = $("[name='"+districtName+"']");
+
+            /**
+             * 初次渲染选择省
+             *
+             * @type {number|*}
+             * @author windy
+             */
+            let firstId = areaSelect(getAllProvince(), elemProvinceName);
+            if(provinceId !== undefined){
+                elemProvinceName.val(provinceId);
                 form.render('select');
-                first_id= province_id;
+                firstId = provinceId;
             }
 
-            first_id = areaSelect(getAreaChildren(first_id), $("[name='"+city_name+"']"));
-            if(city_id !== undefined){
-                $("[name='"+city_name+"']").val(city_id);
+            /**
+             * 初次渲染选择市
+             *
+             * @type {number|*}
+             * @author windy
+             */
+            firstId = areaSelect(getAreaChildren(firstId), elemCityName);
+            if(cityId !== undefined){
+                elemCityName.val(cityId);
                 form.render('select');
-                first_id= city_id;
+                firstId = cityId;
             }
 
-            areaSelect(getAreaChildren(first_id), $("[name='"+district_name+"']"));
-            if(district_id !== undefined){
-                $("[name='"+district_name+"']").val(district_id);
+            /**
+             * 初次渲染选择区
+             *
+             * @type {number|*}
+             * @author windy
+             */
+            areaSelect(getAreaChildren(firstId), elemDistrictName);
+            if(districtId !== undefined){
+                elemDistrictName.val(districtId);
                 form.render('select');
             }
 
-            form.on('select('+province_filter+')', function (data) {
-                let first_id = areaSelect(getAreaChildren(data['value']), $("[name='"+city_name+"']"));
-                areaSelect(getAreaChildren(first_id), $("[name='"+district_name+"']"));
+            /**
+             * 选择省
+             */
+            form.on('select('+provinceFilter+')', function (data) {
+                let firstId = areaSelect(getAreaChildren(data['value']), $("[name='"+cityName+"']"));
+                areaSelect(getAreaChildren(firstId), $("[name='"+districtName+"']"));
             });
 
-            form.on('select('+city_filter+')', function (data) {
-                areaSelect(getAreaChildren(data['value']), $("[name='"+district_name+"']"));
+            /**
+             * 选择市
+             */
+            form.on('select('+cityFilter+')', function (data) {
+                areaSelect(getAreaChildren(data['value']), $("[name='"+districtName+"']"));
             });
         }
     };
