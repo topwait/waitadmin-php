@@ -1,4 +1,4 @@
-layui.define(["layer", "table"], function (exports) {
+layui.define(['layer', 'table'], function (exports) {
     let $ = layui.jquery;
     let layer = layui.layer;
     let table = layui.table;
