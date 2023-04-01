@@ -23,10 +23,10 @@ layui.define(['laypage', 'form'], function (exports) {
             limit = opts.limit == null ? 12 : opts.limit,
             // 是否开启搜索：true/false
             search = opts.search == null ? true : opts.search,
-            // 点击回调
-            click = opts.click,
             // json数据
             data = {},
+            // 点击回调
+            click = opts.click,
             // 唯一标识
             tmp = new Date().getTime(),
             // 定义类名
@@ -62,7 +62,7 @@ layui.define(['laypage', 'form'], function (exports) {
              */
             createSelect: function () {
                 let selectHtml = '<div class="layui-iconPicker layui-unselect layui-form-select" id="'+ ICON_BODY +'">' +
-                    '<div class="'+ TITLE +'" id="'+ TITLE_ID +'">' +
+                    '<div id="'+ TITLE_ID +'" class="'+ TITLE +'">' +
                         '<div class="layui-iconPicker-item">'+
                             '<span class="layui-iconPicker-icon layui-unselect">' +
                                 '<i class="layui-icon layui-icon-circle-dot"></i>' +
@@ -82,10 +82,10 @@ layui.define(['laypage', 'form'], function (exports) {
                 let item = '#' + TITLE_ID + ' .layui-iconPicker-item,#' + TITLE_ID + ' .layui-iconPicker-item .layui-edge';
                 a.event('click', item, function (e) {
                     let $icon = $('#' + ICON_BODY);
-                    if ($icon.hasClass(selected)) {
-                        $icon.removeClass(selected).addClass(unselect);
-                    } else {
+                    if (!$icon.hasClass(selected)) {
                         $icon.addClass(selected).removeClass(unselect);
+                    } else {
+                        $icon.removeClass(selected).addClass(unselect);
                     }
                     e.stopPropagation();
                 });
@@ -100,13 +100,11 @@ layui.define(['laypage', 'form'], function (exports) {
                 let searchHtml = '';
                 if (search) {
                     searchHtml = '<div class="layui-iconPicker-search">' +
-                        '<input class="layui-input">' +
-                        '<i class="layui-icon">&#xe615;</i>' +
-                        '</div>';
+                        '<input class="layui-input"><i class="layui-icon">&#xe615;</i></div>';
                 }
 
                 // 组合dom
-                let bodyHtml = '<div class="layui-iconPicker-body" id="'+ PICKER_BODY +'">' +
+                let bodyHtml = '<div id="'+ PICKER_BODY +'" class="layui-iconPicker-body">' +
                     searchHtml +
                         '<div class="'+ LIST_BOX +'"></div> '+
                      '</div>';
@@ -122,8 +120,8 @@ layui.define(['laypage', 'form'], function (exports) {
             createList: function (text) {
                 let d        = data,       //图标数组集合
                     l        = d.length,   //图标数组长度
-                    _limit   = limit,      //每页显图标数
                     pageHtml = '',         //分页HTML内容
+                    _limit   = limit,      //每页显图标数
                     icons    = [],         //图标DOM数组
                     listHtml = $('<div class="layui-iconPicker-list">'); //图标列表HTML
 
@@ -132,8 +130,7 @@ layui.define(['laypage', 'form'], function (exports) {
                     let obj = d[i];
                     if (text && obj.indexOf(text) === -1) continue;
                     let icon = '<div class="layui-iconPicker-icon-item" title="'+ obj +'">';
-                    icon += '<i class="layui-icon '+ obj +'"></i>';
-                    icon += '</div>';
+                    icon += '<i class="layui-icon '+ obj +'"></i></div>';
                     icons.push(icon);
                 }
 
@@ -141,7 +138,7 @@ layui.define(['laypage', 'form'], function (exports) {
                 l = icons.length;
                 let _pages = l % _limit === 0 ? l / _limit : parseInt((l / _limit + 1).toString());
                 for (let i = 0; i < _pages; i++) {
-                    let lm = $('<div class="layui-iconPicker-icon-limit" id="layui-iconPicker-icon-limit-'+ (i+1) +'">');
+                    let lm = $('<div class="layui-iconPicker-icon-limit" id="layui-iconPicker-icon-limit-'+ (1+i) +'">');
                     for (let j = i * _limit; j < (i+1) * _limit && j < l; j++) {
                         lm.append(icons[j]);
                     }
@@ -149,22 +146,22 @@ layui.define(['laypage', 'form'], function (exports) {
                 }
 
                 // 没有数据
-                if (l === 0) {
+                if (0 === l) {
                     listHtml.append('<p class="layui-iconPicker-tips">无数据</p>');
                 }
 
                 // 是否分页
                 if (page){
                     $('#' + PICKER_BODY).addClass('layui-iconPicker-body-page');
-                    pageHtml = '<div class="layui-iconPicker-page" id="'+ PAGE_ID +'">' +
+                    pageHtml = '<div id="'+ PAGE_ID +'" class="layui-iconPicker-page">' +
                         '<div class="layui-iconPicker-page-count">' +
                         '<span id="'+ PAGE_ID +'-current">1</span>/' +
                         '<span id="'+ PAGE_ID +'-pages">'+ _pages +'</span>' +
                         '(<span id="'+ PAGE_ID +'-length">'+ l +'</span>)' +
                         '</div>' +
                         '<div class="layui-iconPicker-page-operate">' +
-                        '<i class="layui-icon" id="'+ PAGE_ID +'-prev" data-index="0" prev>&#xe603;</i> ' +
-                        '<i class="layui-icon" id="'+ PAGE_ID +'-next" data-index="2" next>&#xe602;</i> ' +
+                        '<i id="'+ PAGE_ID +'-prev" class="layui-icon" data-index="0" prev>&#xe603;</i> ' +
+                        '<i id="'+ PAGE_ID +'-next" class="layui-icon" data-index="2" next>&#xe602;</i> ' +
                         '</div>' +
                         '</div>';
                 }
@@ -181,21 +178,19 @@ layui.define(['laypage', 'form'], function (exports) {
 
                 $(icon).unbind('click');
                 a.event('click', icon, function (e) {
-                   let elem = e.currentTarget,
-                       total = parseInt($('#' +PAGE_ID + '-pages').html()),
-                       isPrev = $(elem).attr('prev') !== undefined,
-                       // 按钮上标的页码
-                       index = parseInt($(elem).attr('data-index')),
-                       $cur = $('#' +PAGE_ID + '-current'),
-                       // 点击时正在显示的页码
-                       current = parseInt($cur.html());
+                    let elem = e.currentTarget;
+                    let total = parseInt($('#' +PAGE_ID + '-pages').html());
+                    let isPrev = $(elem).attr('prev') !== undefined;
+                    let $cur = $('#'+ PAGE_ID +'-current');
+                    let current = parseInt($cur.html());
+                    // let index = parseInt($(elem).attr('data-index'));
 
                     // 分页数据
                     if (isPrev && current > 1) {
-                        current=current-1;
+                        current = current - 1;
                         $(icon + '[prev]').attr('data-index', current);
                     } else if (!isPrev && current < total){
-                        current=current+1;
+                        current += 1;
                         $(icon + '[next]').attr('data-index', current);
                     }
                     $cur.html(current);
@@ -214,8 +209,7 @@ layui.define(['laypage', 'form'], function (exports) {
             search: function () {
                 let item = '#' + PICKER_BODY + ' .layui-iconPicker-search .layui-input';
                 a.event('input propertychange', item, function (e) {
-                    let elem = e.target;
-                    let t = $(elem).val();
+                    let t = $(e.target).val();
                     a.createList(t);
                 });
                 a.event('click', item, function (e) {
@@ -230,18 +224,15 @@ layui.define(['laypage', 'form'], function (exports) {
             check: function () {
                 let item = '#' + PICKER_BODY + ' .layui-iconPicker-icon-item';
                 a.event('click', item, function (e) {
-                    let el = $(e.currentTarget).find('i');
-                    let icon =  el.attr('class');
+                    let icon = $(e.currentTarget).find('i').attr('class');
                             
                     $('#' + TITLE_ID).find('.layui-iconPicker-item .layui-iconPicker-icon i').html('').attr('class', icon);
                     $('#' + ICON_BODY).removeClass(selected).addClass(unselect);
-                    $(elem).attr('value', icon);
 
-                    // 回调
                     if (click) {
+                        $(elem).attr('value', icon);
                         click({ icon: icon  });
                     }
-
                 });
 
                 return a;
@@ -287,7 +278,7 @@ layui.define(['laypage', 'form'], function (exports) {
                         'icon-btn-add', 'icon-beauty-fill', 'icon-beauty', 'icon-beauty', 'icon-bargain', 'icon-badge-fill', 'icon-badge', 'icon-audio-quiet',
                         'icon-audio-go',
 
-                        'layui-icon-heart-fill', 'layui-icon-heart', 'layui-icon-light', 'layui-icon-time', 'layui-icon-bluetooth', 'layui-icon-at',
+                        'layui-icon-heart', 'layui-icon-heart-fill', 'layui-icon-light', 'layui-icon-time', 'layui-icon-bluetooth', 'layui-icon-at',
                         'layui-icon-mute', 'layui-icon-mike', 'layui-icon-key', 'layui-icon-gift', 'layui-icon-email', 'layui-icon-rss',
                         'layui-icon-wifi', 'layui-icon-logout', 'layui-icon-android', 'layui-icon-ios', 'layui-icon-windows', 'layui-icon-transfer',
                         'layui-icon-service', 'layui-icon-subtraction', 'layui-icon-addition', 'layui-icon-slider', 'layui-icon-print', 'layui-icon-export',
@@ -327,7 +318,8 @@ layui.define(['laypage', 'form'], function (exports) {
      */
     IconPicker.prototype.checkIcon = function (filter, iconName){
         let p = $('*[lay-filter='+ filter +']').next().find('.layui-iconPicker-item .layui-icon');
-            p.html('').attr('class', iconName);
+            p.html('');
+            p.attr('class', iconName);
     };
 
     layui.link(layui.cache.base + 'iconPicker/iconPicker.css');
