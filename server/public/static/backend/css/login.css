@@ -1,126 +1,32 @@
 @charset "utf-8";
 
 /**  =================== 登录的样式 ===================  **/
-body,
-a,
-dl,
-dt,
-dd,
-li,
-img,
-button {
-    cursor: url("../images/default/cursor.cur"), auto !important;
-}
+body, a, dl, dt, dd, li, img, button { cursor: url("../images/default/cursor.cur"), auto !important; }
 body {
     min-height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url(../images/default/login.jpg);
 }
-body::before {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, .2);
-    content: "";
-}
-.login-wrapper {
-    position: relative;
-    z-index: 2;
-    margin: 0 auto;
-    padding: 20px;
-    max-width: 420px;
-    box-sizing: border-box;
-}
-.login-wrapper .layui-btn {
-    border-color: currentcolor !important;
-}
-.login-wrapper > .layui-form {
-    padding: 25px 30px;
-    border-radius: 4px;
-    background-color: #ffffff;
-    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .19);
-    box-sizing: border-box;
-}
-.login-wrapper > .layui-form > h2 {
-    margin-bottom: 25px;
-    font-size: 18px;
-    text-align: center;
-    color: #333333;
-}
-.login-wrapper > .layui-form > .layui-form-item {
-    position: relative;
-    margin-bottom: 25px;
-}
-.login-wrapper > .layui-form > .layui-form-item:last-child {
-    margin-bottom: 0;
-}
-.login-wrapper > .layui-form > .layui-form-item > .layui-input {
-    height: 46px;
-    line-height: 46px;
-    border-radius: 2px !important;
-}
-.login-wrapper .layui-input-icon-group > .layui-input {
-    padding-left: 46px;
-}
-.login-wrapper .layui-input-icon-group > .layui-icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 46px;
-    height: 46px;
-    font-size: 20px;
-    text-align: center;
-    color: #909399;
-    line-height: 46px;
-}
-.login-wrapper > .layui-form > .layui-form-item.login-captcha-group {
-    padding-right: 135px;
-}
-.login-wrapper > .layui-form > .layui-form-item.login-captcha-group > .login-captcha {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 120px;
-    height: 46px;
-    border: 1px solid #e6e6e6;
-    border-radius: 2px !important;
-    cursor: pointer;
-    box-sizing: border-box;
-}
-.login-wrapper > .layui-form > .layui-form-item > .layui-form-checkbox {
-    margin: 0 !important;
-    padding-left: 25px;
-}
-.login-wrapper > .layui-form > .layui-form-item > .layui-form-checkbox > .layui-icon {
-    width: 15px !important;
-    height: 15px !important;
-}
-.login-wrapper > .layui-form .layui-btn-fluid {
-    height: 48px;
-    line-height: 48px;
-    font-size: 16px;
-    border-radius: 2px !important;
-}
-.login-wrapper > .layui-form > .layui-form-item.login-oauth-group > a > .layui-icon {
-    font-size: 26px;
-}
-.login-copyright {
-    position: relative;
-    z-index: 1;
-    padding-bottom: 20px;
-    text-align: center;
-    color: #eeeeee;
-}
-.layui-btn {
-    border-color: #5fb878;
-    background-color: #5fb878;
-}
-.layui-link {
-    color: #5fb878 !important;
-}
+body::before { position: fixed; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0, 0, 0, .2); content: ""; }
+.login-wrapper { position: relative; z-index: 2; margin: 0 auto; padding: 20px; max-width: 420px; box-sizing: border-box; }
+.login-wrapper .layui-btn { border-color: currentcolor !important; }
+.login-wrapper > .layui-form { padding: 25px 30px; border-radius: 4px; background-color: #ffffff; box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .19); box-sizing: border-box; }
+.login-wrapper > .layui-form > h2 { margin-bottom: 25px; font-size: 18px; text-align: center; color: #333333; }
+.login-wrapper > .layui-form > .layui-form-item { position: relative; margin-bottom: 25px; }
+.login-wrapper > .layui-form > .layui-form-item:last-child { margin-bottom: 0; }
+.login-wrapper > .layui-form > .layui-form-item > .layui-input { height: 46px; line-height: 46px; border-radius: 2px !important; }
+.login-wrapper .layui-input-icon-group > .layui-input { padding-left: 46px; }
+.login-wrapper .layui-input-icon-group > .layui-icon { position: absolute; top: 0; left: 0; width: 46px; height: 46px; font-size: 20px; text-align: center; color: #909399; line-height: 46px; }
+.login-wrapper > .layui-form > .layui-form-item.login-captcha-group { padding-right: 135px; }
+.login-wrapper > .layui-form > .layui-form-item.login-captcha-group > .login-captcha { position: absolute; top: 0; right: 0; width: 120px; height: 46px; border: 1px solid #e6e6e6; border-radius: 2px !important; cursor: pointer; box-sizing: border-box; }
+.login-wrapper > .layui-form > .layui-form-item > .layui-form-checkbox { margin: 0 !important; padding-left: 25px; }
+.login-wrapper > .layui-form > .layui-form-item > .layui-form-checkbox > .layui-icon { width: 15px !important; height: 15px !important; }
+.login-wrapper > .layui-form .layui-btn-fluid { height: 48px; line-height: 48px; font-size: 16px; border-radius: 2px !important; }
+.login-wrapper > .layui-form > .layui-form-item.login-oauth-group > a > .layui-icon { font-size: 26px; }
+.login-copyright { position: relative; z-index: 1; padding-bottom: 20px; text-align: center; color: #eeeeee; }
+.layui-btn { border-color: #5fb878; background-color: #5fb878; }
+.layui-link { color: #5fb878 !important; }
 .layui-btn-gloomy { background-color: #444c69; }
 .layui-btn-danger { background-color: #f56c6c; }
 .layui-btn-default { background-color: #009688; }
@@ -128,18 +34,6 @@ body::before {
 .layui-btn-forbid:hover { cursor: not-allowed; opacity: 0.65; pointer-events: none; }
 
 @media screen and (min-height: 550px) {
-    .login-wrapper {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        left: 0;
-        margin: -250px auto 0;
-        width: 100%;
-    }
-    .login-copyright {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
+    .login-wrapper { position: absolute; top: 50%; right: 0; left: 0; margin: -250px auto 0; width: 100%; }
+    .login-copyright { position: absolute; right: 0; bottom: 0; left: 0; }
 }
