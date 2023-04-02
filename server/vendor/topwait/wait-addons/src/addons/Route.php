@@ -1,7 +1,13 @@
 <?php
+// +----------------------------------------------------------------------
+// | 基于ThinkPHP6的插件化模块 [WaitAdmin专属订造]
+// +----------------------------------------------------------------------
+// | github: https://github.com/topwait/wait-addons
+// | Author: Zero <2474369941@qq.com>
+// +----------------------------------------------------------------------
 declare(strict_types=1);
 
-namespace think\addons;
+namespace wait\addons;
 
 use think\facade\Request;
 use think\helper\Str;

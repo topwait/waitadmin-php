@@ -1,7 +1,13 @@
 <?php
+// +----------------------------------------------------------------------
+// | 基于ThinkPHP6的插件化模块 [WaitAdmin专属订造]
+// +----------------------------------------------------------------------
+// | github: https://github.com/topwait/wait-addons
+// | Author: Zero <2474369941@qq.com>
+// +----------------------------------------------------------------------
 declare(strict_types=1);
 
-namespace think\addons;
+namespace wait\addons;
 
 use Exception;
 use FilesystemIterator;
@@ -11,7 +17,7 @@ use think\facade\Config;
 use think\facade\Lang;
 use think\facade\Cache;
 use think\facade\Event;
-use think\addons\middleware\Addons;
+use wait\addons\middleware\Addons;
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -55,7 +61,7 @@ class Service extends \think\Service
     {
         $this->registerRoutes(function (Route $route) {
             // 注册控制器路由
-            $execute = '\\think\\addons\\Route::execute';
+            $execute = '\\wait\\addons\\Route::execute';
             $traffic = 'addons/:addon/[:module]/[:controller]/[:action]';
             $route->rule($traffic, $execute)->middleware(Addons::class);
 
@@ -140,7 +146,7 @@ class Service extends \think\Service
 
         // 插件钩子写入配置
         $config = Config::get('addons');
-        $base = get_class_methods('\\think\\Addons');
+        $base = get_class_methods('\\wait\\Addons');
         $base = array_merge($base, ['init', 'initialize', 'install', 'uninstall', 'enabled', 'disabled']);
         foreach (glob($this->getAddonsPath() . '*/*.php') as $addonsFile) {
             $info = pathinfo($addonsFile);
@@ -170,7 +176,7 @@ class Service extends \think\Service
      */
     private function loadLang(): void
     {
-        Lang::load([$this->app->getRootPath() . '/vendor/topwait/think-addons/src/lang/zh-cn.php']);
+        Lang::load([$this->app->getRootPath() . '/vendor/topwait/wait-addons/src/lang/zh-cn.php']);
     }
 
     /**
@@ -581,7 +587,7 @@ class Service extends \think\Service
         $assetDir = get_target_assets_dir($name);
 
         // 扫描插件目录是否有覆盖的文件
-        foreach (['app', 'public'] as $k => $dirName) {
+        foreach (['app', 'public'] as $dirName) {
             // 检测目录是否存在
             $addonPublicPath = $addonDir . $dirName . DS;
             if (!is_dir($addonPublicPath)) {

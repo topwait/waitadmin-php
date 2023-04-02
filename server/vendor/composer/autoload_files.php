@@ -30,5 +30,5 @@ return array(
     '841780ea2e1d6545ea3a253239d59c05' => $vendorDir . '/qiniu/php-sdk/src/Qiniu/functions.php',
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
     '1cfd2761b63b0a29ed23657ea394cb2d' => $vendorDir . '/topthink/think-captcha/src/helper.php',
-    '4651774c582593d3390aad325a995805' => $vendorDir . '/topwait/think-addons/src/helper.php',
+    '85bd55f918dcb616354fcc280a79956e' => $vendorDir . '/topwait/wait-addons/src/helper.php',
 );

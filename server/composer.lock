@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "325440df9c15f98ba0b3107c84daf159",
+    "content-hash": "7dd71219db22908fc3c8d6cde262a9e9",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -4274,21 +4274,22 @@
             "time": "2019-11-06T11:40:13+00:00"
         },
         {
-            "name": "topwait/think-addons",
-            "version": "v1.0.0",
+            "name": "topwait/wait-addons",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/topwait/think-addons.git",
-                "reference": "004bf573a1d2be781c35f1d33e41301db6f605e6"
+                "url": "https://github.com/topwait/wait-addons.git",
+                "reference": "15a31cbd979e4f4a6226080aefa0620a80995f2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/topwait/think-addons/zipball/004bf573a1d2be781c35f1d33e41301db6f605e6",
-                "reference": "004bf573a1d2be781c35f1d33e41301db6f605e6",
+                "url": "https://api.github.com/repos/topwait/wait-addons/zipball/15a31cbd979e4f4a6226080aefa0620a80995f2d",
+                "reference": "15a31cbd979e4f4a6226080aefa0620a80995f2d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2.0",
+                "php": ">=8.0.0",
+                "symfony/var-exporter": "^5.4.10",
                 "topthink/framework": "^6.0.12",
                 "topthink/think-helper": "^3.1",
                 "topthink/think-view": "^1.0"
@@ -4297,7 +4298,7 @@
             "extra": {
                 "think": {
                     "services": [
-                        "think\\addons\\Service"
+                        "wait\\addons\\Service"
                     ],
                     "config": {
                         "addons": "src/config.php"
@@ -4309,7 +4310,7 @@
                     "src/helper.php"
                 ],
                 "psr-4": {
-                    "think\\": "src/"
+                    "wait\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4318,16 +4319,16 @@
             ],
             "authors": [
                 {
-                    "name": "windy",
+                    "name": "zero",
                     "email": "2474369941@qq.com"
                 }
             ],
             "description": "The ThinkPHP6 Addons Package",
             "support": {
-                "issues": "https://github.com/topwait/think-addons/issues",
-                "source": "https://github.com/topwait/think-addons/tree/v1.0.0"
+                "issues": "https://github.com/topwait/wait-addons/issues",
+                "source": "https://github.com/topwait/wait-addons/tree/v1.0.7"
             },
-            "time": "2022-08-27T17:26:26+00:00"
+            "time": "2023-04-02T10:19:04+00:00"
         },
         {
             "name": "w7corp/easywechat",

@@ -1,4 +1,10 @@
 <?php
+// +----------------------------------------------------------------------
+// | 基于ThinkPHP6的插件化模块 [WaitAdmin专属订造]
+// +----------------------------------------------------------------------
+// | github: https://github.com/topwait/wait-addons
+// | Author: Zero <2474369941@qq.com>
+// +----------------------------------------------------------------------
 declare(strict_types=1);
 
 use Symfony\Component\VarExporter\VarExporter;
@@ -8,8 +14,8 @@ use think\facade\Event;
 use think\facade\Route;
 use think\facade\Db;
 use think\helper\Str;
-use think\addons\Service;
 use think\route\Url;
+use wait\addons\Service;
 
 const DS = DIRECTORY_SEPARATOR;
 
@@ -18,7 +24,7 @@ const DS = DIRECTORY_SEPARATOR;
  */
 Console::starting(function (Console $console) {
     $console->addCommands([
-        'addons:config' => '\\think\\addons\\command\\SendConfig'
+        'addons:config' => '\\wait\\addons\\command\\SendConfig'
     ]);
 });
 
@@ -443,7 +449,7 @@ if (!function_exists('autoload_addons_config')) {
 
         // 读取插件目录及钩子列表
         $route = [];
-        $base = get_class_methods("\\think\\Addons");
+        $base = get_class_methods("\\wait\\Addons");
         $base = array_merge($base, ['init','initialize','install', 'uninstall', 'enabled', 'disabled']);
 
         $url_domain_deploy = Config::get('route.route_domain_deploy');
