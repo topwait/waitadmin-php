@@ -36,6 +36,7 @@ class LinksController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -53,6 +54,7 @@ class LinksController extends Backend
      * 友情链接新增
      *
      * @return Json|View
+     * @method [GET|POST]
      * @author windy
      */
     public function add(): View|Json
@@ -72,6 +74,7 @@ class LinksController extends Backend
      * @return Json|View
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function edit(): View|Json
@@ -92,6 +95,7 @@ class LinksController extends Backend
      * 友情链接删除
      *
      * @return Json|View
+     * @method [POST]
      * @author windy
      */
     public function del(): View|Json

@@ -17,8 +17,8 @@ namespace app\backend\service\content;
 
 use app\common\basics\Service;
 use app\common\exception\OperateException;
-use app\common\model\content\Article;
-use app\common\model\content\ArticleCategory;
+use app\common\model\article\Article;
+use app\common\model\article\ArticleCategory;
 use app\common\utils\AjaxUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;

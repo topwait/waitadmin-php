@@ -85,7 +85,7 @@ class ChannelService extends Service
         ]);
 
         ConfigUtils::setItem('op_channel', [
-            'app_id'      => $post['op_appId']??'',
+            'app_id'      => $post['op_app_id']??'',
             'app_secret'  => $post['op_app_secret']??'',
         ]);
     }

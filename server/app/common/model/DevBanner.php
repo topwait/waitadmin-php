@@ -20,9 +20,6 @@ use app\common\basics\Models;
 
 /**
  * 轮播图模型
- *
- * Class DevBanner
- * @package app\common\model
  */
 class DevBanner extends Models
 {

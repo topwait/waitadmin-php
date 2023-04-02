@@ -51,6 +51,10 @@ if (!function_exists('route')) {
             $url .= '?'.http_build_query($data);
         }
 
+        if (!str_starts_with($url, '/')) {
+            $url = '/' . $url;
+        }
+
         return $url;
     }
 }
@@ -143,6 +147,29 @@ if (!function_exists('format_bytes')) {
             $size /= 1024;
         }
         return round($size, $precision) . $delimiter . $units[$i];
+    }
+}
+
+if (!function_exists('active_url')) {
+    /**
+     * 激活当前URl按钮
+     *
+     * @param string $url   (对应的URL)
+     * @param string $class (激活类样式)
+     * @return string
+     * @author windy
+     */
+    function active_url(string $url, string $class = 'active'): string
+    {
+        if (str_starts_with($url, '/')) {
+            if (request()->url() == $url) {
+                return $class;
+            }
+        } else if (request()->action() == $url) {
+            return $class;
+        }
+
+        return '';
     }
 }
 

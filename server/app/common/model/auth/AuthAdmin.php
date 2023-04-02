@@ -12,9 +12,7 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\auth;
-
 
 use app\common\basics\Models;
 use app\common\utils\UrlUtils;

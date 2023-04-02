@@ -32,7 +32,7 @@
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
 import { sendSmsApi } from '@/api/indexApi'
-import { forgetPwdApi } from '@/api/loginApi'
+import { forgetPwdApi } from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 

@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\auth;
-
 
 use app\common\basics\Models;
 
 /**
  * 部门模型
- *
- * Class AuthDept
- * @package app\common\model\auth
  */
 class AuthDept extends Models
 {

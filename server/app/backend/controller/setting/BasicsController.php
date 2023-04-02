@@ -33,6 +33,7 @@ class BasicsController extends Backend
      * 基本配置详情
      *
      * @return View
+     * @method [GET]
      * @author windy
      */
     public function index(): View
@@ -45,6 +46,7 @@ class BasicsController extends Backend
      *
      * @return Json
      * @throws Exception
+     * @method [GET|POST]
      * @author windy
      */
     public function save(): Json

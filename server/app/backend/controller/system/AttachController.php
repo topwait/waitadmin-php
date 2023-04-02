@@ -34,6 +34,7 @@ class AttachController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET]
      * @author windy
      */
     public function index(): View

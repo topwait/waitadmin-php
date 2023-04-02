@@ -30,6 +30,7 @@ class SmsController extends Backend
      * 短信引擎列表
      *
      * @return View|Json
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -46,6 +47,7 @@ class SmsController extends Backend
      * 短信引擎配置
      *
      * @return View|Json
+     * @method [POST]
      * @author windy
      */
     public function save(): View|Json

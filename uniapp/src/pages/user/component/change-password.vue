@@ -16,7 +16,7 @@
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
-import { changePwdApi } from '@/api/loginApi'
+import { changePwdApi } from '@/api/userApi'
 import checkUtil from '@/utils/checkUtil'
 
 // 定义事件

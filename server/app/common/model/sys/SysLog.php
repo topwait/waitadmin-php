@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\sys;
-
 
 use app\common\basics\Models;
 
 /**
  * 系统日志模型
- *
- * Class SysLog
- * @package app\common\model\sys
  */
 class SysLog extends Models
 {

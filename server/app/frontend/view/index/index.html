@@ -1,4 +1,4 @@
-{extend name="common/layout" /}
+{extend name="common/layoutBase" /}
 
 {block name="body"}
 <!-- 主体 -->
@@ -131,6 +131,30 @@
             ,height: '360'
             ,arrow: 'always'
         });
+
+
     });
 </script>
+{if $logon==1}
+<script>
+    layui.use(function() {
+        layer.open({
+            type: 2,
+            resize: false,
+            scrollbar: false,
+            skin: 'popup-skin-session',
+            shade: 0.8,
+            area: ['380px'],
+            content: '/frontend/login/index?scene=login',
+            success: function (layero, index) {
+                let iframeElement = $(layero).find('iframe').contents();
+                iframeElement.find('.jump').click(function () {
+                    layer.close(index);
+
+                });
+            }
+        });
+    });
+</script>
+{/if}
 {/block}

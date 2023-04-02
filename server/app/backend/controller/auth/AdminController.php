@@ -42,6 +42,7 @@ class AdminController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -62,6 +63,7 @@ class AdminController extends Backend
      * @throws DbException
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function info(): View|Json
@@ -85,6 +87,7 @@ class AdminController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function add(): View|Json
@@ -111,6 +114,7 @@ class AdminController extends Backend
      * @throws ModelNotFoundException
      * @throws NotAuthException
      * @throws OperateException
+     * @method [GET|POST]
      * @author windy
      */
     public function edit(): Json|View
@@ -137,6 +141,7 @@ class AdminController extends Backend
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function del(): Json

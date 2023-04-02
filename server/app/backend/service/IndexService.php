@@ -20,7 +20,7 @@ use app\common\basics\Service;
 use app\common\model\auth\AuthAdmin;
 use app\common\model\auth\AuthMenu;
 use app\common\model\auth\AuthPerm;
-use app\common\model\content\Article;
+use app\common\model\article\Article;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 use think\db\exception\DataNotFoundException;

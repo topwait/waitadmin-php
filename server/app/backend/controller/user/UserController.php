@@ -38,6 +38,7 @@ class UserController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -58,6 +59,7 @@ class UserController extends Backend
      * @return View
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
+     * @method [GET]
      * @author windy
      */
     public function detail(): View
@@ -75,6 +77,7 @@ class UserController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function group(): View|Json

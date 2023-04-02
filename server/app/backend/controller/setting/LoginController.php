@@ -30,6 +30,7 @@ class LoginController extends Backend
      * 登录配置详情
      *
      * @return View
+     * @method [GET]
      * @author windy
      */
     public function index(): View
@@ -43,6 +44,7 @@ class LoginController extends Backend
      * 登录配置保存
      *
      * @return Json
+     * @method [POST]
      * @author windy
      */
     public function save(): Json

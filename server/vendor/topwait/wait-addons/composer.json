@@ -1,0 +1,41 @@
+{
+    "name": "topwait/wait-addons",
+    "description": "The ThinkPHP6 Addons Package",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "zero",
+            "email": "2474369941@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0",
+        "topthink/framework": "^6.0.12",
+        "topthink/think-view": "^1.0",
+        "topthink/think-helper": "^3.1",
+        "symfony/var-exporter": "^5.4.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "wait\\": "src/"
+        },
+        "files": [
+            "src/helper.php"
+        ]
+    },
+    "extra": {
+        "think": {
+            "services": [
+                "wait\\addons\\Service"
+            ],
+            "config": {
+                "addons": "src/config.php"
+            }
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php think addons:config"
+        ]
+    }
+}

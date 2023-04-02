@@ -18,28 +18,3 @@ export function oaCodeUrlApi() {
 export function registerApi(params) {
     return uni.$u.http.post('login/register', params)
 }
-
-// 忘记密码
-export function forgetPwdApi(params) {
-    return uni.$u.http.post('login/forgetPwd', params)
-}
-
-// 修改密码
-export function changePwdApi(params) {
-    return uni.$u.http.post('login/changePwd', params)
-}
-
-// 绑定微信
-export function bindWeChatApi(params) {
-    return uni.$u.http.post('login/bindWeChat', params)
-}
-
-// 绑定手机
-export function bindMobileApi(params) {
-    return uni.$u.http.post('login/bindMobile', params)
-}
-
-// 绑定邮箱
-export function bindEmailApi(params) {
-    return uni.$u.http.post('login/bindEmail', params)
-}

@@ -1,4 +1,4 @@
-{extend name="common/layout" /}
+{extend name="common/layoutBase" /}
 
 {block name="body"}
 <!-- 主体 -->
@@ -13,11 +13,11 @@
                             <ul>
                                 {volist name="lists.data" id="vo"}
                                     <li>
-                                        <a href="./detail.html" class="image">
+                                        <a href="{:route('article/detail', ['id'=>$vo.id])}" class="image">
                                             <img src="{$vo.image}" alt="{$vo.title}">
                                         </a>
                                         <div class="region-right">
-                                            <h3><a href="/frontend/article/detail?id={$vo.id}">{$vo.title}</a></h3>
+                                            <h3><a href="{:route('article/detail', ['id'=>$vo.id])}">{$vo.title}</a></h3>
                                             <p class="intro">{$vo.intro}</p>
                                             <div class="tags">
                                                 <span>{$vo.category}</span>
@@ -48,7 +48,7 @@
                     <div class="layui-card-body">
                         <ul>
                             {volist name="lately" id="vo"}
-                            <li><a href="/frontend/article/detail?id={$vo.id}"><span>[{$vo.category}] · </span>{$vo.title}</a></li>
+                                <li><a href="{:route('article/detail', ['id'=>$vo.id])}"><span>[{$vo.category}] · </span>{$vo.title}</a></li>
                             {/volist}
                         </ul>
                     </div>
@@ -60,7 +60,7 @@
                     <div class="layui-card-body">
                         <ul>
                             {volist name="ranking" id="vo" key="k"}
-                            <li><span>0{$k}</span><a href="/frontend/article/detail?id={$vo.id}">{$vo.title}</a></li>
+                                <li><span>0{$k}</span><a href="{:route('article/detail', ['id'=>$vo.id])}">{$vo.title}</a></li>
                             {/volist}
                         </ul>
                     </div>
@@ -77,7 +77,6 @@
 {block name="js"}
 <script>
     layui.use(['laypage'], function(){
-        let $ = layui.$;
         let laypage = layui.laypage;
 
         laypage.render({
@@ -89,7 +88,6 @@
             ,jump: function(obj, first){
                 if(!first){
                     let cid = parseInt('{:think\\facade\\Request::get("cid")??0}');
-                    console.log(cid)
                     if (cid === 0) {
                         location.href = '?page=' + obj.curr
                     } else {

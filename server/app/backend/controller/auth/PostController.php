@@ -37,6 +37,7 @@ class PostController extends Backend
      *
      * @return Json|View
      * @throws DbException
+     * @method [GET]
      * @author windy
      */
     public function index(): View|Json
@@ -54,6 +55,7 @@ class PostController extends Backend
      * 岗位新增
      *
      * @return Json|View
+     * @method [GET|POST]
      * @author windy
      */
     public function add(): View|Json
@@ -74,6 +76,7 @@ class PostController extends Backend
      * @throws OperateException
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
+     * @method [GET|POST]
      * @author windy
      */
     public function edit(): View|Json
@@ -97,13 +100,14 @@ class PostController extends Backend
      *
      * @return Json
      * @throws OperateException
+     * @method [POST]
      * @author windy
      */
     public function del(): Json
     {
         if ($this->isAjaxPost()) {
             (new PostValidate())->idCheck();
-            PostService::del($this->request->post('id'));
+            PostService::del(intval($this->request->post('id')));
             return AjaxUtils::success();
         }
 

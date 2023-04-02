@@ -12,22 +12,17 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\exception;
-
 
 use app\common\enums\ErrorEnum;
 use Throwable;
 
 /**
- * 系统异常
- *
- * Class SystemException
- * @package app\common\exception
+ * 系统异常类
  */
 class SystemException extends BaseException
 {
-    public function __construct($message = "", $code = 0, $data = [], Throwable $previous = null)
+    public function __construct($message = '', $code = 0, $data = [], Throwable $previous = null)
     {
         $this->data     = $data;
         $this->code     = $code    ?: ErrorEnum::SYSTEM_ERROR;

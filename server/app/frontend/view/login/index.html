@@ -1,0 +1,171 @@
+{extend name="common/layoutEasy" /}
+
+{block name="body"}
+<div class="layout-global-session">
+    {if $scene == 'login'}
+        {include file="login/logon" /}
+    {/if}
+
+    {if $scene == 'register'}
+        {include file="login/register" /}
+    {/if}
+
+    {if $scene == 'resetting'}
+        {include file="login/resetting" /}
+    {/if}
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['form'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+
+        // 账号登录
+        form.on('submit(loginSubmit)', function(data) {
+            waitUtil.locking(this)
+            waitUtil.ajax({
+                url: '/frontend/login/login',
+                type: 'POST',
+                data: data.field
+            }).then((res) => {
+                if (res.code === 0) {
+                    setTimeout(() => {
+                        parent.location.href = '/';
+                    }, 1500);
+                } else {
+                    waitUtil.unlock(this);
+                }
+            });
+        });
+
+        // 账号注册
+        form.on('submit(registerSubmit)', function(data) {
+            waitUtil.locking(this);
+            if (!data.field['agreement']) {
+                waitUtil.unlock(this);
+                return layer.msg('请阅读并同意服务协议', {icon: 2});
+            }
+
+            waitUtil.ajax({
+                url: '/frontend/login/register',
+                type: 'POST',
+                data: data.field
+            }).then((res) => {
+                if (res.code === 0) {
+                    setTimeout(() => {
+                        parent.location.href = '/';
+                    }, 1500);
+                } else {
+                    waitUtil.unlock(this);
+                }
+            });
+        });
+
+        // 忘记密码
+        form.on('submit(resetSubmit)', function(data) {
+            waitUtil.locking(this);
+            if (!waitCheck.isMobile(data.field['mobile']) && !waitCheck.isEmail(data.field['mobile'])) {
+                waitUtil.unlock(this);
+                return layer.msg('手机号/邮箱格式不正确', {icon: 2});
+            }
+
+            if (data.field['newPassword'].length < 6 || data.field['newPassword'].length > 20) {
+                waitUtil.unlock(this);
+                return layer.msg('密码必须在6~20个字符内', {icon: 2});
+            }
+
+            if (data.field['newPassword'] !== data.field['okPassword']) {
+                waitUtil.unlock(this);
+                return layer.msg('两次密码输入不一致', {icon: 2});
+            }
+
+            waitUtil.ajax({
+                url: '/frontend/login/forgetPwd',
+                type: 'POST',
+                data: data.field
+            }).then((res) => {
+                if (res.code === 0) {
+                    setTimeout(() => {
+                        parent.location.href = '/';
+                    }, 1500);
+                } else {
+                    waitUtil.unlock(this);
+                }
+            });
+        });
+
+        // 微信登录
+        $(document).on('click', '#wxLogin', function () {
+            let url = window.location.protocol+'//'+window.location.host;
+            waitUtil.ajax({
+                url: '/frontend/login/opCodeUrl?url=' + url,
+                fulShow: false,
+                type: 'GET',
+                data: {}
+            }).then((res) => {
+                if (res.code === 0) {
+                    parent.location.href = res.data.url;
+                }
+            });
+        });
+
+        // 验证码
+        $(document).on('click', '.get_code', function () {
+            let that  = $(this);
+            let scene = $(this).attr('data-type');
+            let value = $(this).parent().parent().find('input[name="mobile"]').val();
+
+            let url = '/frontend/index/sendSms';
+            let data = {scene: scene, mobile: value};
+
+            if (scene === '103') {
+                if (!waitCheck.isMobile(value) && !waitCheck.isEmail(value)) {
+                    return layer.msg('手机号/邮箱格式不正确', {icon: 2});
+                }
+                if (waitCheck.isEmail(value)) {
+                    url = '/frontend/index/sendEmail';
+                    data = {scene: scene, email: value};
+                }
+            } else {
+                if (!value) {
+                    return layer.msg('手机号码不能为空');
+                }
+                if (!waitCheck.isEmail(data.field['mobile'])) {
+                    return layer.msg('手机号格式不正确');
+                }
+            }
+
+            waitUtil.locking(this);
+            waitUtil.ajax({
+                url: url,
+                type: 'POST',
+                data: data
+            }).then((res) => {
+                waitUtil.unlock(this);
+                if (res.code === 0) {
+                    timing(that);
+                }
+            });
+        });
+
+        // 倒计时
+        function timing(that) {
+            let time = 60;
+            that.html(time+'秒后可再次发送');
+            that.addClass('layui-btn-forbid');
+            let timer = setInterval(function () {
+                time = time - 1;
+                if (time>=0) {
+                    that.html(time + '秒后可再次发送');
+                } else {
+                    that.html('重新发送');
+                    clearInterval(timer);
+                    that.removeClass('layui-btn-forbid');
+                }
+            }, 1000);
+        }
+    });
+</script>
+{/block}

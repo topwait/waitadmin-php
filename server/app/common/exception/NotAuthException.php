@@ -12,22 +12,17 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\exception;
-
 
 use app\common\enums\ErrorEnum;
 use Throwable;
 
 /**
  * 无权限异常类
- *
- * Class NotAuthException
- * @package app\common\exception
  */
 class NotAuthException extends BaseException
 {
-    public function __construct($message = "", $code = 0, $data = [], Throwable $previous = null)
+    public function __construct($message = '', $code = 0, $data = [], Throwable $previous = null)
     {
         $this->data     = $data;
         $this->code     = $code    ?: ErrorEnum::PURVIEW_ERROR;

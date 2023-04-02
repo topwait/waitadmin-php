@@ -23,9 +23,6 @@ use think\App;
 
 /**
  * 后台基类
- *
- * Class Backend
- * @package app\common\basics
  */
 abstract class Backend extends BaseController
 {

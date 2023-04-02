@@ -17,7 +17,7 @@ namespace addons\curd;
 
 use app\common\utils\MenuUtils;
 use Exception;
-use think\Addons;
+use wait\Addons;
 
 class Plugin extends Addons
 {
