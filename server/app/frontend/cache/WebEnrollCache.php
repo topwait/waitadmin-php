@@ -13,7 +13,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\api\cache;
+namespace app\frontend\cache;
 
 use think\facade\Cache;
 
@@ -21,13 +21,13 @@ use think\facade\Cache;
  * 首次登录强制绑定手机缓存类
  * 该缓存记录了登录的信息
  */
-class EnrollCache
+class WebEnrollCache
 {
-    private static int $ttl = 900;
+    private static int $ttl = 910;
     private static string $prefix = 'login:sign:';
 
     /**
-     * 获取
+     * 读取
      *
      * @param string $key
      * @return array
@@ -61,7 +61,7 @@ class EnrollCache
      * @param string $key
      * @author windy
      */
-    public static function delete(string $key)
+    public static function delete(string $key): void
     {
         $key = self::$prefix . $key;
         Cache::delete($key);

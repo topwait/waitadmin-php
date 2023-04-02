@@ -96,6 +96,21 @@
             });
         });
 
+        // 微信登录
+        $(document).on('click', '#wxLogin', function () {
+            let url = window.location.protocol+'//'+window.location.host;
+            waitUtil.ajax({
+                url: '/frontend/login/opCodeUrl?url=' + url,
+                fulShow: false,
+                type: 'GET',
+                data: {}
+            }).then((res) => {
+                if (res.code === 0) {
+                    parent.location.href = res.data.url;
+                }
+            });
+        })
+
         // 验证码
         $(document).on('click', '.get_code', function () {
             let that  = $(this);

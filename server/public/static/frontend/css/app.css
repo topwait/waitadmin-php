@@ -234,7 +234,7 @@
 .layout-global-session .go .jump { font-size: 16px;  color: #3a67e4; line-height: 24px; }
 .layout-global-session .go .jump:hover { opacity: .85; }
 .layout-global-session .empower { display: flex; justify-content: center; padding: 15px 0; }
-.layout-global-session .empower i { padding: 0 10px; font-size: 38px; color: #00c777; }
+.layout-global-session .empower i { padding: 0 10px; font-size: 38px; color: #00c777; cursor: pointer; }
 .layout-global-session .treaty { padding-top: 10px; font-size: 14px; color: #9199a1; text-align: center; }
 .layout-global-session .treaty a { font-size: 14px; color: #37f; }
 .layout-global-session .treaty a:hover { opacity: .85; }

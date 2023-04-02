@@ -31,7 +31,7 @@ class LoginValidate extends Validate
     public function sceneScene(): LoginValidate
     {
         return $this->only(['scene'])
-            ->append('scene', 'require|in:account,mobile');
+            ->append('scene', 'require|in:account,mobile,op,ba');
     }
 
     /**
@@ -71,6 +71,19 @@ class LoginValidate extends Validate
     }
 
     /**
+     * PC微信登录
+     *
+     * @return LoginValidate
+     * @author windy
+     */
+    public function sceneOp(): LoginValidate
+    {
+        return $this->only(['code', 'state'])
+            ->append('code', 'require|min:32')
+            ->append('state','require|min:32');
+    }
+
+    /**
      * 注册账号
      *
      * @return LoginValidate
@@ -90,6 +103,4 @@ class LoginValidate extends Validate
             ->append('mobile', 'require|mobile|min:11|max:11')
             ->append('code', 'require|alphaDash|max:6');
     }
-
-
 }

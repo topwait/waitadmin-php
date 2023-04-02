@@ -1,7 +1,19 @@
 <?php
+// +----------------------------------------------------------------------
+// | WaitAdmin快速开发后台管理系统
+// +----------------------------------------------------------------------
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
+// +----------------------------------------------------------------------
+// | Author: WaitAdmin Team <2474369941@qq.com>
+// +----------------------------------------------------------------------
+declare (strict_types = 1);
 
 namespace app\common\service\wechat;
-
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\MiniApp\Application as MiniApplication;
@@ -80,13 +92,14 @@ class WeChatService
     }
 
     /**
-     * 开发平台登录凭证
+     * PC开发平台登录凭证
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @return array ['openid', 'unionid', 'access_token']
      * @throws Exception
      * @author windy
      */
+    #[ArrayShape(['openid' => "string", 'unionid' => "string", 'nickname' => "string", 'avatarUrl' => "string", 'gender' => "int"])]
     public static function opAuth2session(string $code): array
     {
         try {
@@ -104,28 +117,35 @@ class WeChatService
                 throw new Exception($error);
             }
 
-            return $response;
+            return [
+                'openid'    => $response['openid']     ?? '',
+                'unionid'   => $response['unionid']    ?? '',
+                'nickname'  => $response['nickname']   ?? '',
+                'avatarUrl' => $response['headimgurl'] ?? "",
+                'gender'    => intval($response['sex'] ?? 0),
+            ];
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
         }
     }
 
     /**
-     * 开发平台链接生成
+     * PC开发平台链接生成
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @param string $redirectUrl (重定向地址)
+     * @param string $state (状态码,用于标记是否超时)
      * @return string url
      * @throws Exception
      */
-    public static function opBuildAuthUrl(string $redirectUrl): string
+    public static function opBuildAuthUrl(string $redirectUrl, string $state): string
     {
         try {
             $config = WeChatConfig::getOpConfig();
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
 
-            return $oauth->scopes(['snsapi_login'])->redirect($redirectUrl);
+            return $oauth->scopes(['snsapi_login'])->withState($state)->redirect($redirectUrl);
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
         }

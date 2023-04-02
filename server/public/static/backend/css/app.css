@@ -98,21 +98,21 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .wait-body-footer a { margin: 5px 5px 0; padding: 7px 15px; height: 28px; border: 1px solid #dedede; border-radius: 2px; color: #333333; background-color: #ffffff; line-height: 28px; }
 .wait-body-footer a:hover { opacity: 0.8; }
 .wait-body-footer a.layui-layer-btn0 { border-color: #2c3e50; color: #ffffff; background-color: #2c3e50; }
-.layui-layer-wait .layui-layer-title { height: 45px; border-bottom: none; color: #ffffff; background: #2c3e50; line-height: 45px; }
-.layui-layer-wait .layui-layer-title ~ .layui-layer-setwin { top: 0; height: 45px; }
-.layui-layer-wait .layui-layer-title ~ .layui-layer-setwin > a { display: inline-block; height: 45px; line-height: 45px; }
-.layui-layer-wait .layui-layer-setwin { position: absolute; top: 17px; right: 15px; *right: 0; font-size: 0; line-height: initial; }
-.layui-layer-wait .layui-layer-setwin > a { background: none; }
-.layui-layer-wait .layui-layer-setwin > a cite { display: none; }
-.layui-layer-wait .layui-layer-setwin a { position: relative; overflow: hidden; margin-left: 10px; width: 16px; height: 16px; font-size: 12px; }
-.layui-layer-wait .layui-layer-btn a,
-.layui-layer-dialog .layui-layer-ico,
-.layui-layer-setwin a { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
-.layui-layer-wait .layui-layer-setwin .layui-layer-close1 { cursor: pointer; background-position: 1px -40px; }
-.layui-layer-wait .layui-layer-setwin .layui-layer-close1::before { content: "\e8380"; }
-.layui-layer-wait .layui-layer-setwin .layui-layer-max::before { content: "\e8390"; }
-.layui-layer-wait .layui-layer-setwin .layui-layer-min::before { content: "\e8400"; }
-.layui-layer-wait .layui-layer-setwin > a::before { font-size: 14px; font-family: layui-icon, serif; color: #ffffff; }
+.layer-skin-black .layui-layer-title { height: 45px; border-bottom: none; color: #ffffff; background: #2c3e50; line-height: 45px; }
+.layer-skin-black .layui-layer-title ~ .layui-layer-setwin { top: 0; height: 45px; }
+.layer-skin-black .layui-layer-title ~ .layui-layer-setwin > a { display: inline-block; height: 45px; line-height: 45px; }
+.layer-skin-black .layui-layer-setwin { position: absolute; top: 17px; right: 15px; *right: 0; font-size: 0; line-height: initial; }
+.layer-skin-black .layui-layer-setwin > a { background: none; }
+.layer-skin-black .layui-layer-setwin > a cite { display: none; }
+.layer-skin-black .layui-layer-setwin a { position: relative; overflow: hidden; margin-left: 10px; width: 16px; height: 16px; font-size: 12px; }
+.layer-skin-black .layui-layer-btn a,
+.layer-skin-black .layui-layer-dialog .layui-layer-ico,
+.layer-skin-black .layui-layer-setwin a { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
+.layer-skin-black .layui-layer-setwin .layui-layer-close1 { cursor: pointer; background-position: 1px -40px; }
+.layer-skin-black .layui-layer-setwin .layui-layer-close1::before { content: "\e8380"; }
+.layer-skin-black .layui-layer-setwin .layui-layer-max::before { content: "\e8390"; }
+.layer-skin-black .layui-layer-setwin .layui-layer-min::before { content: "\e8400"; }
+.layer-skin-black .layui-layer-setwin > a::before { font-size: 14px; font-family: layui-icon, serif; color: #ffffff; }
 
 /** 按钮样式 **/
 .layui-btn-gloomy { background-color: #444c69; }

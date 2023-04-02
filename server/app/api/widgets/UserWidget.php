@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\api\widgets;
 
 use app\api\cache\EnrollCache;
-use app\api\cache\TokenCache;
+use app\api\cache\LoginCache;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
@@ -91,14 +91,16 @@ class UserWidget extends Service
             ]);
 
             // 创建授权
-            UserAuth::create([
-                'user_id'     => $user['id'],
-                'openid'      => $openId,
-                'unionid'     => $unionId,
-                'terminal'    => $terminal,
-                'create_time' => time(),
-                'update_time' => time()
-            ]);
+            if ($openId || $unionId) {
+                UserAuth::create([
+                    'user_id' => $user['id'],
+                    'openid' => $openId,
+                    'unionid' => $unionId,
+                    'terminal' => $terminal,
+                    'create_time' => time(),
+                    'update_time' => time()
+                ]);
+            }
 
             // 下载头像
             try {
@@ -156,7 +158,7 @@ class UserWidget extends Service
             }
 
             // 创建授权
-            if (!$userAuth) {
+            if (!$userAuth && ($openId || $unionId)) {
                 UserAuth::create([
                     'user_id'     => $userId,
                     'openid'      => $openId,
@@ -216,7 +218,7 @@ class UserWidget extends Service
     public static function granToken(int $userId, int $terminal): string
     {
         $token = make_md5_str(time().$userId);
-        TokenCache::set($userId, $terminal, $token);
+        LoginCache::set($userId, $terminal, $token);
         return $token;
     }
 }

@@ -22,8 +22,9 @@ use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
+use app\frontend\cache\ScanLoginCache;
+use app\frontend\cache\WebEnrollCache;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 登录服务类
@@ -153,17 +154,66 @@ class LoginService extends Service
     }
 
     /**
+     * 绑定登录
+     *
+     * @param string $mobile (手机号)
+     * @param string $code   (验证码)
+     * @param string $sign   (签名值)
+     * @param int $terminal  (设备)
+     * @return array
+     * @throws OperateException
+     * @throws Exception
+     * @author windy
+     */
+    public static function baLogin(string $mobile, string $code, string $sign, int $terminal): array
+    {
+        // 短信验证
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code)) {
+            throw new OperateException('验证码错误');
+        }
+
+        // 登录数据
+        $response = WebEnrollCache::get($sign);
+        if (!$response) {
+            throw new OperateException('首次登录绑定手机号异常', 1);
+        }
+
+        // 设置参数
+        $response['terminal'] = $terminal;
+        $response['mobile'] = trim($mobile);
+
+        // 验证账户
+        $userInfo = UserWidget::getUserAuthByResponse($response);
+        if (empty($userInfo)) {
+            $userId = UserWidget::createUser($response);
+        } else {
+            $response['user_id'] = intval($userInfo['id']);
+            $userId = UserWidget::updateUser($response);
+        }
+
+        // 登录账户
+        session('userId', $userId);
+    }
+
+    /**
      * PC微信登录
      *
      * @param string $code
+     * @param string $state
      * @param int $terminal
      * @throws Exception
      * @author windy
      */
-    public static function opLogin(string $code, int $terminal)
+    public static function opLogin(string $code, string $state, int $terminal)
     {
+        // 验证时效
+        $check = ScanLoginCache::get($state);
+        if (empty($check)) {
+            throw new OperateException('二维码不存在或已失效!');
+        }
+
         // 微信授权
-        $response = WeChatService::oaAuth2session($code);
+        $response = WeChatService::opAuth2session($code);
         $response['terminal'] = $terminal;
 
         // 验证账户
@@ -187,7 +237,12 @@ class LoginService extends Service
      */
     public static function opCodeUrl(string $url): array
     {
-        $detail['url'] = WeChatService::opBuildAuthUrl($url);
+        // 设置扫码有效期
+        $state = make_md5_str(time() . rand(10000, 99999));
+        ScanLoginCache::set($state);
+
+        // 生成扫码二维码
+        $detail['url'] = WeChatService::opBuildAuthUrl($url, $state);
         return $detail;
     }
 

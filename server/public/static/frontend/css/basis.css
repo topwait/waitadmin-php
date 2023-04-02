@@ -32,23 +32,13 @@ i, em { font-style: normal; }
 .layui-layer-black .layui-layer-setwin > a cite { display: none; }
 .layui-layer-black .layui-layer-setwin a { position: relative; overflow: hidden; margin-left: 10px; width: 16px; height: 16px; font-size: 12px; }
 .layui-layer-black .layui-layer-btn a,
-.layui-layer-black  .layui-layer-dialog .layui-layer-ico,
-.layui-layer-black  .layui-layer-setwin a { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
+.layui-layer-black .layui-layer-dialog .layui-layer-ico,
+.layui-layer-black .layui-layer-setwin a { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
 .layui-layer-black .layui-layer-setwin .layui-layer-close1 { cursor: pointer; background-position: 1px -40px; }
 .layui-layer-black .layui-layer-setwin .layui-layer-close1::before { content: "\e838"; }
 .layui-layer-black .layui-layer-setwin .layui-layer-max::before { content: "\e839"; }
 .layui-layer-black .layui-layer-setwin .layui-layer-min::before { content: "\e840"; }
 .layui-layer-black .layui-layer-setwin > a::before { font-size: 14px; font-family: layui-icon, serif; color: #ffffff; }
-
-/** 搜索样式 **/
-.layui-search { padding-top: 5px; background: #ffffff; }
-.layui-search .layui-form-item { padding: 10px 15px; }
-.layui-search .layui-form-label { padding: 9px 0; width: auto; }
-.layui-search .layui-sm-select.layui-input-inline { width: auto; }
-.layui-search .layui-sm-select .layui-unselect { width: 110px; }
-.layui-search .layui-input-inline.keywords { width: 292px; }
-.layui-search .layui-input-inline.keywords .layui-inline:first-child { margin-right: 0; width: 100px; }
-.layui-search .layui-input-inline.keywords .layui-inline:last-child { margin-right: 0; }
 
 /** 表格样式 **/
 .layui-table-view .layui-btn-container .layui-btn i { padding: 0; font-size: 12px; }

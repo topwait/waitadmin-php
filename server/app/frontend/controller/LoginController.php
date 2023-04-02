@@ -91,9 +91,14 @@ class LoginController extends Frontend
                     $validate->goCheck('mobile');
                     LoginService::mobileLogin($post['mobile'], $post['code']);
                     break;
+                case 'ba':
+                    $validate->goCheck('ba');
+                    $sign = $post['sign'] ?? '';
+                    LoginService::baLogin(strval($post['mobile']), $post['code'], $sign, $this->terminal);
+                    break;
                 case 'op':
                     $validate->goCheck('op');
-                    LoginService::opLogin($post, $this->terminal);
+                    LoginService::opLogin($post['code'], $post['state'], $this->terminal);
             }
 
             return AjaxUtils::success('登录成功');

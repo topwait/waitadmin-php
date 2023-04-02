@@ -18,52 +18,37 @@ namespace app\api\cache;
 use think\facade\Cache;
 
 /**
- * 首次登录强制绑定手机缓存类
- * 该缓存记录了登录的信息
+ * Token登录缓存类
  */
-class EnrollCache
+class LoginCache
 {
-    private static int $ttl = 900;
-    private static string $prefix = 'login:sign:';
+    private static int $ttl = 7200;
+    private static string $prefix = 'login:token:';
 
     /**
-     * 获取
+     * 读取
      *
-     * @param string $key
-     * @return array
+     * @param int $terminal
+     * @param string $token
+     * @return int
+     * @author windy
      */
-    public static function get(string $key): array
+    public static function get(int $terminal, string $token): int
     {
-        $wor = self::$prefix . $key;
-        $val = Cache::get($wor);
-        if ($val) {
-            self::delete($key);
-            return $val;
-        }
-        return [];
+        $cacheKey = self::$prefix.$terminal.':'.$token;
+        return intval(Cache::get($cacheKey, 0));
     }
 
     /**
      * 设置
      *
-     * @param string $key
-     * @param array $value
+     * @param int $userId
+     * @param int $terminal
+     * @param string $token
      */
-    public static function set(string $key, array $value): void
+    public static function set(int $userId, int $terminal, string $token): void
     {
-        $key = self::$prefix . $key;
-        Cache::set($key, $value, self::$ttl);
-    }
-
-    /**
-     * 删除
-     *
-     * @param string $key
-     * @author windy
-     */
-    public static function delete(string $key)
-    {
-        $key = self::$prefix . $key;
-        Cache::delete($key);
+        $cacheKey = self::$prefix.$terminal.':'.$token;
+        Cache::set($cacheKey, $userId, self::$ttl);
     }
 }

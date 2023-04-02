@@ -13,57 +13,51 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\api\cache;
+namespace app\frontend\cache;
 
 use think\facade\Cache;
 
 /**
- * 首次登录强制绑定手机缓存类
- * 该缓存记录了登录的信息
+ * 微信扫码登录缓存类
  */
-class EnrollCache
+class ScanLoginCache
 {
-    private static int $ttl = 900;
-    private static string $prefix = 'login:sign:';
+    private static int $ttl = 600;
+    private static string $prefix = 'login:scan:';
 
     /**
-     * 获取
+     * 读取
      *
-     * @param string $key
-     * @return array
+     * @param string $state
+     * @return string
+     * @author windy
      */
-    public static function get(string $key): array
+    public static function get(string $state): string
     {
-        $wor = self::$prefix . $key;
-        $val = Cache::get($wor);
-        if ($val) {
-            self::delete($key);
-            return $val;
-        }
-        return [];
+        $value = Cache::get(self::$prefix . $state);
+        self::delete($value);
+        return $value;
     }
 
     /**
      * 设置
      *
-     * @param string $key
-     * @param array $value
+     * @param string $state
+     * @author windy
      */
-    public static function set(string $key, array $value): void
+    public static function set(string $state): void
     {
-        $key = self::$prefix . $key;
-        Cache::set($key, $value, self::$ttl);
+        Cache::set(self::$prefix . $state, $state, self::$ttl);
     }
 
     /**
      * 删除
      *
-     * @param string $key
+     * @param string $state
      * @author windy
      */
-    public static function delete(string $key)
+    public static function delete(string $state): void
     {
-        $key = self::$prefix . $key;
-        Cache::delete($key);
+        Cache::delete(self::$prefix . $state);
     }
 }
