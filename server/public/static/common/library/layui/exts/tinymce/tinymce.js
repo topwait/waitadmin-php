@@ -15,7 +15,7 @@ layui.define([], function (exports) {
         // 编辑器加载
         render: function (options, callback) {
             options = options === undefined ? {} : options;
-            let option = initOptions(options,callback);
+            let option = initOptions(options, callback);
             let editor = ojb.get(option.elem);
             if (editor) {
                 editor.destroy();
@@ -78,14 +78,14 @@ layui.define([], function (exports) {
      * 初始化参数
      */
     function initOptions(option, callback) {
-        option.elem     = isset(option.elem)     ? option.elem : '#content';
-        option.readonly = isset(option.readonly) ? option.readonly : 0;
-        option.suffix   = isset(option.suffix)   ? option.suffix : (plugin_filename.indexOf('.min')>-1 ? '.min' : '');
-        option.base_url = isset(option.base_url) ? option.base_url : plugin_base_url;
-        option.language = isset(option.language) ? option.language : 'zh_CN';
-        option.selector = isset(option.selector) ? option.selector : option.elem;
-        option.resize   = isset(option.resize)   ? option.resize : false;
-        option.branding = isset(option.branding) ? option.branding : false;
+        option.elem         = isset(option.elem)     ? option.elem : '#content';
+        option.readonly     = isset(option.readonly) ? option.readonly : 0;
+        option.suffix       = isset(option.suffix)   ? option.suffix : (plugin_filename.indexOf('.min')>-1 ? '.min' : '');
+        option.base_url     = isset(option.base_url) ? option.base_url : plugin_base_url;
+        option.language     = isset(option.language) ? option.language : 'zh_CN';
+        option.selector     = isset(option.selector) ? option.selector : option.elem;
+        option.resize       = isset(option.resize)   ? option.resize : false;
+        option.branding     = isset(option.branding) ? option.branding : false;
         option.elementpath  = isset(option.elementpath) ? option.elementpath : false;
         option.convert_urls = isset(option.convert_urls) ? option.convert_urls : false;
         option.height       = isset(option.height)  ? option.height : 600;
@@ -100,93 +100,52 @@ layui.define([], function (exports) {
 
         option.toolbar = isset(option.toolbar) ? option.toolbar : [
             `code
-                    | bold italic underline strikethrough forecolor backcolor subscript superscript
-                    | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent
-                    | emoticons charmap wordcount | fullscreen`,
+                | bold italic underline strikethrough forecolor backcolor subscript superscript
+                | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent
+                | emoticons charmap wordcount | fullscreen`,
             `formatselect
-                    | fontselect | fontsizeselect | table hr blockquote codesample link | `+ option.attach +`
-                    | anchor removeformat print | searchreplace`
+                | fontselect | fontsizeselect | table hr blockquote codesample link | `+ option.attach +`
+                | anchor removeformat print | searchreplace`
         ];
 
+        /**
+         * 初始化实例回调
+         *
+         * @type {(function(*=): void)|*}
+         * @author zero
+         */
         option.init_instance_callback = isset(option.init_instance_callback) ? option.init_instance_callback : function(inst) {
-            if(typeof callback == 'function') callback(option,inst)
+            if(typeof callback == 'function') callback(option, inst)
         };
 
-        option.images_upload_url     = isset(option.images_upload_url) ? option.images_upload_url : false;
+        /**
+         * 图片上传网址
+         * 该属性会在上传图片时自动访问指定的url并获取返回地址
+         *
+         * @type {boolean}
+         * @author zero
+         */
+        option.images_upload_url = isset(option.images_upload_url) ? option.images_upload_url : false;
 
+        /**
+         * 网址替换回调
+         *
+         * @type {boolean}
+         * @author zero
+         */
         option.urlconverter_callback = isset(option.urlconverter_callback) ? option.urlconverter_callback : false;
 
-        option.attach_upload_callback = isset(option.attach_upload_callback) ? option.attach_upload_callback : function(callback) {
-            layer.open({
-                type: 1,
-                title: false,
-                closeBtn: 0,
-                shadeClose: true,
-                content:
-                    '<div style="padding:10px 40px;">'  +
-                        '<button class="layui-btn" id="imageAttachBtn" style="margin:8px 0; background-color: #3e526a;"><i class="layui-icon layui-icon-picture"></i> 图片选择</button>' +
-                        '<br/>' +
-                        '<button class="layui-btn" id="videoAttachBtn" style="margin:8px 0; background-color: #3e526a;"><i class="layui-icon layui-icon-play"></i> 视频选择</button>' +
-                    '</div>',
-                success: function (layero, index) {
-                    $(layero).find('#imageAttachBtn').click(function () {
-                        layer.close(index);
-                        waitUtil.uploader({
-                            type: 'image',
-                            limit: 20
-                        }).then((res) => {
-                            let urls = [];
-                            res.forEach(function (item) {
-                                urls.push(item.url);
-                            });
-                            callback(urls);
-                        });
-                    });
-
-                    $(layero).find('#videoAttachBtn').click(function () {
-                        layer.close(index);
-                        waitUtil.uploader({
-                            type: 'video',
-                            limit: 20
-                        }).then((res) => {
-                            let urls = [];
-                            res.forEach(function (item) {
-                                urls.push(item.url);
-                            });
-                            callback(urls);
-                        });
-                    });
-                }
-            });
-        };
-
-        option.images_upload_callback = isset(option.images_upload_callback) ? option.images_upload_callback : function(callback) {
-            waitUtil.uploader({
-                type: 'image',
-                limit: 20
-            }).then((res) => {
-                let urls = [];
-                res.forEach(function (item) {
-                    urls.push(item.url);
-                });
-                callback(urls);
-            });
-        };
-
-        option.video_upload_callback = isset(option.video_upload_callback) ? option.video_upload_callback : function(callback) {
-            waitUtil.uploader({
-                type: 'video',
-                limit: 20
-            }).then((res) => {
-                let urls = [];
-                res.forEach(function (item) {
-                    urls.push(item.url);
-                });
-                callback(urls);
-            });
-        };
-
-        option.file_picker_callback  = isset(option.file_picker_callback) ? option.file_picker_callback : function(callback, value, meta) {
+        /**
+         * 文件选取器回调
+         * 触发位置:
+         *  [插入/编辑图片]: 常规: 地址栏
+         *  [插入/编辑媒体]: 常规: 地址栏
+         *  [插入/编辑媒体]: 高级: 替换的资源地址 / 封面(图片地址)
+         *
+         * @type {(function(*, *, *): void)|*}
+         * @author zero
+         */
+        option.file_picker_callback = isset(option.file_picker_callback) ? option.file_picker_callback : function(callback, value, meta) {
             let pathname = window.location.pathname.split('/')[1];
 
             let fileUrl;
@@ -228,6 +187,14 @@ layui.define([], function (exports) {
             };
         };
 
+        /**
+         * 图片上传处理器
+         * 触发位置:
+         *  [插入/编辑图片]: 上传: 拖放一张图片文件至此
+         *
+         * @type {(function(*, *, *): void)|*}
+         * @author zero
+         */
         option.images_upload_handler = isset(option.images_upload_handler) ? option.images_upload_handler : function(blobInfo, successFun, failFun) {
             let pathname = window.location.pathname.split('/')[1];
             let reqUrl = '/'+pathname+'/upload/temporary?type=image';
@@ -254,6 +221,94 @@ layui.define([], function (exports) {
             formData = new FormData();
             formData.append('file', file, file.name );
             xhr.send(formData);
+        };
+
+        /**
+         * 附件选择回调
+         *
+         * @type {(function(*): void)|*}
+         * @author zero
+         */
+        option.attach_upload_callback = isset(option.attach_upload_callback) ? option.attach_upload_callback : function(callback) {
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                content:
+                    '<div style="padding:10px 40px;">'  +
+                    '<button class="layui-btn" id="imageAttachBtn" style="margin:8px 0; background-color: #3e526a;"><i class="layui-icon layui-icon-picture"></i> 图片选择</button>' +
+                    '<br/>' +
+                    '<button class="layui-btn" id="videoAttachBtn" style="margin:8px 0; background-color: #3e526a;"><i class="layui-icon layui-icon-play"></i> 视频选择</button>' +
+                    '</div>',
+                success: function (layero, index) {
+                    $(layero).find('#imageAttachBtn').click(function () {
+                        layer.close(index);
+                        waitUtil.uploader({
+                            type: 'image',
+                            limit: 20
+                        }).then((res) => {
+                            let urls = [];
+                            res.forEach(function (item) {
+                                urls.push(item.url);
+                            });
+                            callback(urls);
+                        });
+                    });
+
+                    $(layero).find('#videoAttachBtn').click(function () {
+                        layer.close(index);
+                        waitUtil.uploader({
+                            type: 'video',
+                            limit: 20
+                        }).then((res) => {
+                            let urls = [];
+                            res.forEach(function (item) {
+                                urls.push(item.url);
+                            });
+                            callback(urls);
+                        });
+                    });
+                }
+            });
+        };
+
+        /**
+         * 图片上传回调
+         *
+         * @type {(function(*): void)|*}
+         * @author zero
+         */
+        option.images_upload_callback = isset(option.images_upload_callback) ? option.images_upload_callback : function(callback) {
+            waitUtil.uploader({
+                type: 'image',
+                limit: 20
+            }).then((res) => {
+                let urls = [];
+                res.forEach(function (item) {
+                    urls.push(item.url);
+                });
+                callback(urls);
+            });
+        };
+
+        /**
+         * 视频上传回调
+         *
+         * @type {(function(*): void)|*}
+         * @author zero
+         */
+        option.video_upload_callback = isset(option.video_upload_callback) ? option.video_upload_callback : function(callback) {
+            waitUtil.uploader({
+                type: 'video',
+                limit: 20
+            }).then((res) => {
+                let urls = [];
+                res.forEach(function (item) {
+                    urls.push(item.url);
+                });
+                callback(urls);
+            });
         };
 
         layui.sessionData('layui-tinymce', {
