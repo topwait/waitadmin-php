@@ -91,8 +91,9 @@ class LoginValidate extends Validate
      */
     public function sceneOa(): LoginValidate
     {
-        return $this->only(['code'])
-            ->append('code', 'require|alphaDash|max:200');
+        return $this->only(['code', 'state'])
+            ->append('code', 'require|min:32')
+            ->append('state', 'require|min:32');
     }
 
     /**

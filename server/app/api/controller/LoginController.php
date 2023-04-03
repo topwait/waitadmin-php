@@ -77,7 +77,7 @@ class LoginController extends Api
                 break;
             case 'oa':
                 $validate->goCheck('oa');
-                $response = LoginService::oaLogin($post['code'], $this->terminal);
+                $response = LoginService::oaLogin($post['code'], $post['state'], $this->terminal);
                 break;
             case 'ba':
                 $validate->goCheck('ba');

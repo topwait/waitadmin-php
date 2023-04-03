@@ -70,17 +70,16 @@ class WeChatService
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @param string $redirectUrl (重定向地址)
+     * @param string $state (状态码,用于标记是否超时)
      * @return string url
      * @throws Exception
      */
-    public static function oaBuildAuthUrl(string $redirectUrl): string
+    public static function oaBuildAuthUrl(string $redirectUrl, string $state): string
     {
         try {
             $config = WeChatConfig::getOaConfig();
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
-
-            $state = md5(time().rand(10000, 99999));
 
             return $oauth
                 ->withState($state)
@@ -174,7 +173,7 @@ class WeChatService
                 "grant_type" => 'authorization_code',
             ]);
 
-            $response = json_decode($result, true);
+            $response = json_decode(strval($result), true);
             if (!isset($response['openid']) || empty($response['openid'])) {
                 $error = $response['errcode'].'：'.$response['errmsg'];
                 throw new Exception($error);
@@ -211,7 +210,7 @@ class WeChatService
                 'code' => $code
             ]);
 
-            $result = json_decode($response, true);
+            $result = json_decode(strval($response), true);
             if ($result['errcode'] !== 0 || empty($result['phone_info'])) {
                 $error = $result['errcode'].'：'.$result['errmsg'];
                 throw new Exception($error);

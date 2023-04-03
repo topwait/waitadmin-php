@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\api\service;
 
 use app\api\cache\EnrollCache;
+use app\api\cache\OaUrlCache;
 use app\api\widgets\UserWidget;
 use app\common\basics\Service;
 use app\common\enums\NoticeEnum;
@@ -239,14 +240,20 @@ class LoginService extends Service
      * 公众号登录
      *
      * @param string $code
+     * @param string $state
      * @param int $terminal
      * @return array
      * @throws Exception
      * @author windy
      */
     #[ArrayShape(['token' => "string"])]
-    public static function oaLogin(string $code, int $terminal): array
+    public static function oaLogin(string $code, string $state, int $terminal): array
     {
+        $check = OaUrlCache::get($state);
+        if (empty($check)) {
+            throw new OperateException('授权链接不存在或已失效!');
+        }
+
         // 微信授权
         $response = WeChatService::oaAuth2session($code);
         $response['terminal'] = $terminal;
@@ -274,6 +281,9 @@ class LoginService extends Service
     #[ArrayShape(['url' => "string"])]
     public static function oaCodeUrl(string $url): array
     {
-        return ['url'=>WeChatService::oaBuildAuthUrl($url)];
+        $state = md5(time().rand(10000, 99999));
+        OaUrlCache::set($state);
+
+        return ['url'=>WeChatService::oaBuildAuthUrl($url, $state)];
     }
 }
