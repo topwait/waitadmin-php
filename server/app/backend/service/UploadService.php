@@ -78,7 +78,7 @@ class UploadService extends Service
     }
 
     /**
-     * 临时上传
+     * 临时存储
      *
      * @param string $type (类型: picture/video/document/package)
      * @return array
