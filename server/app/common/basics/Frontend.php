@@ -91,7 +91,7 @@ abstract class Frontend extends BaseController
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     protected function setValues(): void
     {
@@ -115,7 +115,7 @@ abstract class Frontend extends BaseController
     /**
      * 验证登录
      *
-     * @author windy
+     * @author zero
      * @return bool
      */
     protected function isLogin(): bool

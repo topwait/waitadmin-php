@@ -44,7 +44,7 @@ class Gc extends Command
      * @param Input $input
      * @param Output $output
      * @return int|null
-     * @author windy
+     * @author zero
      */
     protected function execute(Input $input, Output $output): ?int
     {

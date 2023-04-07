@@ -15,7 +15,7 @@ layui.define(['jquery', 'form'], function (exports) {
          * @param provinceId     (默认省ID)
          * @param cityId         (默认市ID)
          * @param districtId     (默认区ID)
-         * @author windy
+         * @author zero
          */
         init: function (provinceFilter, cityFilter, districtFilter, provinceName, cityName, districtName, provinceId, cityId, districtId) {
             /**
@@ -24,7 +24,7 @@ layui.define(['jquery', 'form'], function (exports) {
              * @param data    (子级地区)
              * @param element (子级节点)
              * @returns {number|*}
-             * @author windy
+             * @author zero
              */
             function areaSelect(data, element) {
                 let html = '';
@@ -40,7 +40,7 @@ layui.define(['jquery', 'form'], function (exports) {
              * 省市区Input选择
              *
              * @type {*|jQuery|HTMLElement}
-             * @author windy
+             * @author zero
              */
             let elemProvinceName = $("[name='"+provinceName+"']");
             let elemCityName     = $("[name='"+cityName+"']");
@@ -50,7 +50,7 @@ layui.define(['jquery', 'form'], function (exports) {
              * 初次渲染选择省
              *
              * @type {number|*}
-             * @author windy
+             * @author zero
              */
             let firstId = areaSelect(getAllProvince(), elemProvinceName);
             if(provinceId !== undefined){
@@ -63,7 +63,7 @@ layui.define(['jquery', 'form'], function (exports) {
              * 初次渲染选择市
              *
              * @type {number|*}
-             * @author windy
+             * @author zero
              */
             firstId = areaSelect(getAreaChildren(firstId), elemCityName);
             if(cityId !== undefined){
@@ -76,7 +76,7 @@ layui.define(['jquery', 'form'], function (exports) {
              * 初次渲染选择区
              *
              * @type {number|*}
-             * @author windy
+             * @author zero
              */
             areaSelect(getAreaChildren(firstId), elemDistrictName);
             if(districtId !== undefined){

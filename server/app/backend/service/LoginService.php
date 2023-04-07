@@ -31,7 +31,7 @@ class LoginService extends Service
      *
      * @param array $post
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function login(array $post): void
     {

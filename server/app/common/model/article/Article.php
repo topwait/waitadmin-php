@@ -45,7 +45,7 @@ class Article extends Models
     /**
      * 单关联
      *
-     * @author windy
+     * @author zero
      * @return HasOne
      */
     public function category(): HasOne

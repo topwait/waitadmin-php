@@ -28,7 +28,7 @@ class SmsService extends Service
      * 短信引擎列表
      *
      * @return array[]
-     * @author windy
+     * @author zero
      */
     public static function lists(): array
     {
@@ -57,7 +57,7 @@ class SmsService extends Service
      *
      * @param string $alias (引擎名称)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function detail(string $alias): array
     {
@@ -100,7 +100,7 @@ class SmsService extends Service
      * 短信引擎配置
      *
      * @param array $post (参数)
-     * @author windy
+     * @author zero
      */
     public static function save(array $post): void
     {

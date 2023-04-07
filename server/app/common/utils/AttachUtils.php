@@ -33,7 +33,7 @@ class AttachUtils
      * @param array $post  (提交数据)
      * @param array $keys  (处理的键)
      * @return array       (处理的键)
-     * @author windy
+     * @author zero
      */
     public static function markCreate(string $dest, array $post, array $keys): array
     {
@@ -86,7 +86,7 @@ class AttachUtils
      * @param array $objs  (原始数据)
      * @param array $keys  (处理的键)
      * @return array       (处理结果)
-     * @author windy
+     * @author zero
      */
     public static function markUpdate(string $dest, array $post, array $objs, array $keys): array
     {
@@ -183,7 +183,7 @@ class AttachUtils
      *
      * @param string $content
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function fetchSrc(string $content): array
     {
@@ -204,7 +204,7 @@ class AttachUtils
      *
      * @param string $content
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function relativeSrc(string $content): string
     {
@@ -227,7 +227,7 @@ class AttachUtils
      *
      * @param string $content
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function absoluteSrc(string $content): string
     {
@@ -249,7 +249,7 @@ class AttachUtils
      * @param string $url    (文件路径)
      * @param string $target (目标路径)
      * @return string
-     * @author windy
+     * @author zero
      */
     private static function handleSrc(string $url, string $target): string
     {
@@ -271,7 +271,7 @@ class AttachUtils
      *
      * @param string $realPath (临时路径)
      * @return string          (日期名称)
-     * @author windy
+     * @author zero
      */
     private static function buildSaveName(string $realPath): string
     {

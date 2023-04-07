@@ -40,7 +40,7 @@ class DeptController extends Backend
      * @throws DbException
      * @throws ModelNotFoundException
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -61,7 +61,7 @@ class DeptController extends Backend
      * @throws ModelNotFoundException
      * @throws OperateException
      * @method [GET|POST]
-     * @author windy
+     * @author zero
      */
     public function add(): View|Json
     {
@@ -85,7 +85,7 @@ class DeptController extends Backend
      * @throws ModelNotFoundException
      * @throws OperateException
      * @method [GET|POST]
-     * @author windy
+     * @author zero
      */
     public function edit(): View|Json
     {
@@ -111,7 +111,7 @@ class DeptController extends Backend
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function del(): Json
     {

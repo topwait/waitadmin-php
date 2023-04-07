@@ -33,7 +33,7 @@ class ArticleService extends Service
      *
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(): array
@@ -71,7 +71,7 @@ class ArticleService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -90,7 +90,7 @@ class ArticleService extends Service
      * 文章新增
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -122,7 +122,7 @@ class ArticleService extends Service
      * @param array $post
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post): void
     {
@@ -154,7 +154,7 @@ class ArticleService extends Service
      * 文章删除
      *
      * @param array $ids
-     * @author windy
+     * @author zero
      */
     public static function del(array $ids): void
     {

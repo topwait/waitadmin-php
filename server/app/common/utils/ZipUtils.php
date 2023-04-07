@@ -35,7 +35,7 @@ class ZipUtils
      * @param string $source (压缩的目录)
      * @param string $target (保存的路径)
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function zip(string $source, string $target): void
     {
@@ -75,7 +75,7 @@ class ZipUtils
     /**
      * 解压
      *
-     * @author windy
+     * @author zero
      * @param string $zipFile (压缩包路径)
      * @param string $folderPath (解压的目录)
      * @return string (解压后路径)

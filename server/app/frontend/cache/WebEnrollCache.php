@@ -59,7 +59,7 @@ class WebEnrollCache
      * 删除
      *
      * @param string $key
-     * @author windy
+     * @author zero
      */
     public static function delete(string $key): void
     {

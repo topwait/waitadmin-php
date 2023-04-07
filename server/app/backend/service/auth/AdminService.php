@@ -37,7 +37,7 @@ class AdminService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(array $get): array
@@ -85,7 +85,7 @@ class AdminService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -106,7 +106,7 @@ class AdminService extends Service
      *
      * @param array $post
      * @param int $adminId
-     * @author windy
+     * @author zero
      */
     public static function info(array $post, int $adminId): void
     {
@@ -151,7 +151,7 @@ class AdminService extends Service
      * 管理员新增
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -184,7 +184,7 @@ class AdminService extends Service
      * @param int $adminId
      * @throws NotAuthException
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post, int $adminId): void
     {
@@ -229,7 +229,7 @@ class AdminService extends Service
      * @param array $ids
      * @param int $adminId
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function del(array $ids, int $adminId): void
     {

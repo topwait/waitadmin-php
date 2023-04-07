@@ -28,7 +28,7 @@ class PersonService extends Service
      * 装修数据详情
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function detail(): array
     {
@@ -62,7 +62,7 @@ class PersonService extends Service
      * 装修数据保存
      *
      * @param array $params
-     * @author windy
+     * @author zero
      */
     public static function save(array $params): void
     {

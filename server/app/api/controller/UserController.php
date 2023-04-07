@@ -34,7 +34,7 @@ class UserController extends Api
      *
      * @return Json
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function center(): Json
     {
@@ -47,7 +47,7 @@ class UserController extends Api
      *
      * @return Json
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function info(): Json
     {
@@ -61,7 +61,7 @@ class UserController extends Api
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function edit(): Json
     {
@@ -75,7 +75,7 @@ class UserController extends Api
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function forgetPwd(): Json
     {
@@ -91,7 +91,7 @@ class UserController extends Api
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function changePwd(): Json
     {
@@ -107,7 +107,7 @@ class UserController extends Api
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function bindWeChat(): Json
     {
@@ -123,7 +123,7 @@ class UserController extends Api
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function bindMobile(): Json
     {
@@ -139,7 +139,7 @@ class UserController extends Api
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function bindEmail(): Json
     {

@@ -30,7 +30,7 @@ class ErrorController
      * @param $name
      * @param $arguments
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public function __call($name, $arguments)
     {
@@ -44,7 +44,7 @@ class ErrorController
      *
      * @return View
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function wrong(): View
     {

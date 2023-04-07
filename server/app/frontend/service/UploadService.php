@@ -34,7 +34,7 @@ class UploadService extends Service
      * @param string $type (类型: image/video)
      * @return array
      * @throws UploadException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
     public static function temporary(string $type): array

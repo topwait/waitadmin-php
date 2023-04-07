@@ -46,7 +46,7 @@ class AttachValidate extends Validate
     /**
      * 附件列表场景
      *
-     * @author windy
+     * @author zero
      * @return AttachValidate
      */
     public function sceneList()
@@ -58,7 +58,7 @@ class AttachValidate extends Validate
     /**
      * 附件移动场景
      *
-     * @author windy
+     * @author zero
      * @return AttachValidate
      */
     public function sceneMove()
@@ -69,7 +69,7 @@ class AttachValidate extends Validate
     /**
      * 附件命名场景
      *
-     * @author windy
+     * @author zero
      * @return AttachValidate
      */
     public function sceneRename()
@@ -80,7 +80,7 @@ class AttachValidate extends Validate
     /**
      * 附件删除场景
      *
-     * @author windy
+     * @author zero
      * @return AttachValidate
      */
     public function sceneDel()
@@ -91,7 +91,7 @@ class AttachValidate extends Validate
     /**
      * 分组创建场景
      *
-     * @author windy
+     * @author zero
      * @return AttachValidate
      */
     public function sceneCateCreate()
@@ -102,7 +102,7 @@ class AttachValidate extends Validate
     /**
      * 分组命名场景
      *
-     * @author windy
+     * @author zero
      * @return AttachValidate
      */
     public function sceneCateRename()
@@ -113,7 +113,7 @@ class AttachValidate extends Validate
     /**
      * 分组删除场景
      *
-     * @author windy
+     * @author zero
      * @return AttachValidate
      */
     public function sceneCateDelete()

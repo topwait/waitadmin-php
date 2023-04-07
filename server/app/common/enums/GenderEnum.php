@@ -32,7 +32,7 @@ class GenderEnum
      *
      * @param int $code
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function getMsgByCode(int $code): string
     {

@@ -31,6 +31,7 @@ class EnrollCache
      *
      * @param string $key
      * @return array
+     * @author zero
      */
     public static function get(string $key): array
     {
@@ -48,6 +49,7 @@ class EnrollCache
      *
      * @param string $key
      * @param array $value
+     * @author zero
      */
     public static function set(string $key, array $value): void
     {
@@ -59,7 +61,7 @@ class EnrollCache
      * 删除
      *
      * @param string $key
-     * @author windy
+     * @author zero
      */
     public static function delete(string $key)
     {

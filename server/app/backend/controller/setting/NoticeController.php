@@ -35,7 +35,7 @@ class NoticeController extends Backend
      * @return Json|View
      * @throws DbException
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -54,7 +54,7 @@ class NoticeController extends Backend
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      * @method [GET|POST]
-     * @author windy
+     * @author zero
      */
     public function edit(): View|Json
     {

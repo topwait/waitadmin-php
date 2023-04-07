@@ -21,7 +21,7 @@ class Util
      *
      * @param $post
      * @return bool|int
-     * @author windy
+     * @author zero
      */
     public function makeEnv($post): bool|int
     {
@@ -39,7 +39,7 @@ class Util
     /**
      * 生成菜单模板 (树形)
      *
-     * @author windy
+     * @author zero
      */
     public function makeTreeTpl(): void
     {
@@ -59,7 +59,7 @@ class Util
     /**
      * 生成菜单模板 (呼出)
      *
-     * @author windy
+     * @author zero
      */
     public function makeCallTpl(): void
     {
@@ -80,7 +80,7 @@ class Util
      * 生成锁定文件
      *
      * @return bool|int
-     * @author windy
+     * @author zero
      */
     public function makeLock(): bool|int
     {
@@ -91,7 +91,7 @@ class Util
      * 加载锁文件
      *
      * @return bool
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function loadLock(): bool
@@ -103,7 +103,7 @@ class Util
      * 替换访问入口
      *
      * @param $name (入口名称)
-     * @author windy
+     * @author zero
      */
     public function replaceEntrance($name)
     {

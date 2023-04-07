@@ -41,7 +41,7 @@ class LoginService extends Service
      * @return array
      * @throws OperateException
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['token' => "string"])]
     public static function register(array $post, int $terminal): array
@@ -78,7 +78,7 @@ class LoginService extends Service
      * @param $terminal (设备)
      * @return array
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['token' => "string"])]
     public static function accountLogin(string $account, string $password, int $terminal): array
@@ -121,7 +121,7 @@ class LoginService extends Service
      * @param int $terminal  (设备)
      * @return array
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['token' => "string"])]
     public static function mobileLogin(string $mobile, string $code, int $terminal): array
@@ -165,7 +165,7 @@ class LoginService extends Service
      * @return array
      * @throws OperateException
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['token' => "string"])]
     public static function baLogin(string $mobile, string $code, string $sign, int $terminal): array
@@ -207,7 +207,7 @@ class LoginService extends Service
      * @param int $terminal (客户端[1=微信小程序, 2=微信公众号, 3=H5, 4=PC, 5=安卓, 6=苹果])
      * @return array
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['token' => "string"])]
     public static function wxLogin(string $code, string $wxCode, int $terminal): array
@@ -244,7 +244,7 @@ class LoginService extends Service
      * @param int $terminal
      * @return array
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['token' => "string"])]
     public static function oaLogin(string $code, string $state, int $terminal): array

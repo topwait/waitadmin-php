@@ -67,7 +67,7 @@ class Api extends BaseController
      * 初始方法
      *
      * @return void
-     * @author windy
+     * @author zero
      */
     protected function initialize(): void
     {}
@@ -77,7 +77,7 @@ class Api extends BaseController
      *
      * @return bool
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     protected function checkLogin(): bool
     {

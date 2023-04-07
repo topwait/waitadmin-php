@@ -35,7 +35,7 @@ class VelocityService extends Service
      *
      * @param array $tableNames (表名集)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function queryTablesByName(array $tableNames): array
     {
@@ -67,7 +67,7 @@ class VelocityService extends Service
      *
      * @param string $tableName (表名称)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function queryColumnsByName(string $tableName): array
     {
@@ -81,7 +81,7 @@ class VelocityService extends Service
      *
      * @param array $table   (表信息)
      * @param array $columns (列信息)
-     * @author windy
+     * @author zero
      */
     public static function prepareContext(array $table, array $columns)
     {
@@ -157,7 +157,7 @@ class VelocityService extends Service
      *
      * @param array $table (表信息)
      * @return string[]
-     * @author windy
+     * @author zero
      */
     #[ArrayShape([
         'php_controller' => "string", 'php_service' => "string",
@@ -182,7 +182,7 @@ class VelocityService extends Service
      *
      * @param array $columns
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function getPrimary(array $columns): string
     {
@@ -200,7 +200,7 @@ class VelocityService extends Service
      *
      * @param array $column (列信息)
      * @return int
-     * @author windy
+     * @author zero
      */
     public static function handleList(array $column): int
     {
@@ -220,7 +220,7 @@ class VelocityService extends Service
      *
      * @param array $column (列信息)
      * @return int
-     * @author windy
+     * @author zero
      */
     public static function handleQuery(array $column): int
     {
@@ -237,7 +237,7 @@ class VelocityService extends Service
      *
      * @param array $column (列信息)
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function handleQueryWhere(array $column): string
     {
@@ -260,7 +260,7 @@ class VelocityService extends Service
      *
      * @param array $column (列信息)
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function handleShowType(array $column): string
     {
@@ -281,7 +281,7 @@ class VelocityService extends Service
      *
      * @param string $mysqlType
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function toPhpType(string $mysqlType): string
     {
@@ -307,7 +307,7 @@ class VelocityService extends Service
      *
      * @param string $string
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function toCamel(string $string): string
     {
@@ -324,7 +324,7 @@ class VelocityService extends Service
      *
      * @param array $table (表信息)
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function makeRoutes(array $table): string
     {

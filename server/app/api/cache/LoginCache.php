@@ -31,7 +31,7 @@ class LoginCache
      * @param int $terminal
      * @param string $token
      * @return int
-     * @author windy
+     * @author zero
      */
     public static function get(int $terminal, string $token): int
     {
@@ -45,6 +45,7 @@ class LoginCache
      * @param int $userId
      * @param int $terminal
      * @param string $token
+     * @author zero
      */
     public static function set(int $userId, int $terminal, string $token): void
     {

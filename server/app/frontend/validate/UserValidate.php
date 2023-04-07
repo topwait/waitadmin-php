@@ -26,7 +26,7 @@ class UserValidate extends Validate
      * 忘记密码
 
      * @return UserValidate
-     * @author windy
+     * @author zero
      */
     public function sceneForgetPwd(): UserValidate
     {
@@ -54,7 +54,7 @@ class UserValidate extends Validate
      * 修改密码
      *
      * @return UserValidate
-     * @author windy
+     * @author zero
      */
     public function sceneChangePwd(): UserValidate
     {
@@ -73,7 +73,7 @@ class UserValidate extends Validate
      * 绑定邮箱
      *
      * @return UserValidate
-     * @author windy
+     * @author zero
      */
     public function sceneBindEmail(): UserValidate
     {
@@ -92,7 +92,7 @@ class UserValidate extends Validate
      * 绑定手机
      *
      * @return UserValidate
-     * @author windy
+     * @author zero
      */
     public function sceneBindMobile(): UserValidate
     {

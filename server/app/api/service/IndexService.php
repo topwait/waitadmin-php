@@ -36,7 +36,7 @@ class IndexService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function index(): array
     {
@@ -58,7 +58,7 @@ class IndexService extends Service
      * 全局配置
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function config(): array
     {
@@ -105,7 +105,7 @@ class IndexService extends Service
      *
      * @param string $type (类型: service/privacy)
      * @return array
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['content' => "string"])]
     public static function policy(string $type): array

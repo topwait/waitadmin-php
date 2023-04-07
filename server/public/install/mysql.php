@@ -50,7 +50,7 @@ class Mysql
      * 连接数据库
      *
      * @return PDO|string
-     * @author windy
+     * @author zero
      */
     public function connect(): PDO|string
     {
@@ -73,7 +73,7 @@ class Mysql
      * 数据库版本号
      *
      * @return bool|string
-     * @author windy
+     * @author zero
      */
     public function mysqlVersion(): bool|string
     {
@@ -86,7 +86,7 @@ class Mysql
      * 检查数据库是否存在
      *
      * @return mixed
-     * @author windy
+     * @author zero
      */
     public function dbExists(): mixed
     {
@@ -98,7 +98,7 @@ class Mysql
      * 检查是否有表存在
      *
      * @return mixed
-     * @author windy
+     * @author zero
      */
     public function tableExits(): mixed
     {
@@ -110,7 +110,7 @@ class Mysql
      * 删除数据表
      *
      * @return false|PDOStatement
-     * @author windy
+     * @author zero
      */
     public function dropTable(): bool|PDOStatement
     {
@@ -123,7 +123,7 @@ class Mysql
      *
      * @param $version
      * @return bool|PDOStatement
-     * @author windy
+     * @author zero
      */
     public function createDB($version): bool|PDOStatement
     {
@@ -138,7 +138,7 @@ class Mysql
      * @param $version
      * @return bool
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public function createTable($version): bool
     {
@@ -185,7 +185,7 @@ class Mysql
      * 初始化账号
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     public function initAccount(): string
     {
@@ -208,7 +208,7 @@ class Mysql
      * 验证数据库
      *
      * @return bool|string
-     * @author windy
+     * @author zero
      */
     public function checkDB(): bool|string
     {
@@ -240,7 +240,7 @@ class Mysql
      * 安装数据
      *
      * @return bool|array|string
-     * @author windy
+     * @author zero
      */
     public function install(): bool|array|string
     {

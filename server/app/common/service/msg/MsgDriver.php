@@ -17,7 +17,7 @@ class MsgDriver
      *
      * @param int $scene    (场景)
      * @param array $params (参数)
-     * @author windy
+     * @author zero
      */
     public static function send(int $scene, array $params=[]): void
     {

@@ -93,7 +93,7 @@ class MenuUtils
      * 启用插件菜单
      *
      * @param string $name (插件名称)
-     * @author windy
+     * @author zero
      */
     public static function enable(string $name): void
     {
@@ -108,7 +108,7 @@ class MenuUtils
      * 禁用插件菜单
      *
      * @param string $name (插件名称)
-     * @author windy
+     * @author zero
      */
     public static function disable(string $name): void
     {
@@ -126,7 +126,7 @@ class MenuUtils
      * @param int $pid        (父级)
      * @param string $module  (模块)
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     private static function upgrade(array $menus, int $pid=0, string $module='addon'): void
     {
@@ -160,7 +160,7 @@ class MenuUtils
      * @param int $pid       (父级)
      * @param string $module (模块)
      * @param false $changeStatus (变动状态: true=有变动, false=无变动)
-     * @author windy
+     * @author zero
      */
     private static function isChangeMenu(array $menus, int $pid=0, string $module='addon', bool &$changeStatus=false): void
     {

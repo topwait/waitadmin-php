@@ -55,7 +55,7 @@ class {$table.gen_class}Controller extends Backend
      * {$table.table_comment}新增
      *
      * @return Json|View
-     * @author windy
+     * @author zero
      */
     public function add(): View|Json
     {
@@ -74,7 +74,7 @@ class {$table.gen_class}Controller extends Backend
      * @return Json|View
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public function edit(): Json|View
     {
@@ -96,7 +96,7 @@ class {$table.gen_class}Controller extends Backend
      * {$table.table_comment}删除
      *
      * @return Json
-     * @author windy
+     * @author zero
      */
     public function del(): Json
     {

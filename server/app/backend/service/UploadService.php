@@ -40,7 +40,7 @@ class UploadService extends Service
      * @param int $uid (所属用户)
      * @return array
      * @throws UploadException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['id' => "int", 'name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
     public static function storage(string $type, string $path, int $cid, int $uid): array
@@ -84,7 +84,7 @@ class UploadService extends Service
      * @param string $type (类型: image/video)
      * @return array
      * @throws UploadException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
     public static function temporary(string $type): array

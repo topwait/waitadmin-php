@@ -31,7 +31,7 @@ class SmsController extends Backend
      *
      * @return View|Json
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -48,7 +48,7 @@ class SmsController extends Backend
      *
      * @return View|Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function save(): View|Json
     {

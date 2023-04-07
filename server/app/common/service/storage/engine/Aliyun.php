@@ -52,7 +52,7 @@ class Aliyun
      *
      * @param array $fileInfo (文件信息)
      * @throws OssException
-     * @author windy
+     * @author zero
      */
     public function upload(array $fileInfo): void
     {
@@ -80,7 +80,7 @@ class Aliyun
      *
      * @param string $url
      * @param string $key
-     * @author windy
+     * @author zero
      */
     public function fetch(string $url, string $key): void
     {
@@ -96,7 +96,7 @@ class Aliyun
      * 文件删除
      *
      * @param string $url
-     * @author windy
+     * @author zero
      */
     public function delete(string $url): void
     {

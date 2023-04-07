@@ -32,7 +32,7 @@ class DiyController extends Api
      *
      * @return Json
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): Json
     {
@@ -45,7 +45,7 @@ class DiyController extends Api
      *
      * @return Json
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function tie(): Json
     {
@@ -58,7 +58,7 @@ class DiyController extends Api
      *
      * @return Json
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function me(): Json
     {

@@ -27,7 +27,7 @@ class AllowCrossDomain
     /**
      * 跨域处理
      *
-     * @author windy
+     * @author zero
      * @param $request
      * @param Closure $next
      * @return mixed

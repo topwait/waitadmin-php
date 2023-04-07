@@ -32,7 +32,7 @@ class UploadController extends Api
      * @return Json
      * @throws UploadException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function file(): Json
     {

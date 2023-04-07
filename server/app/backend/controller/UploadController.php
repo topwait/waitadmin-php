@@ -33,7 +33,7 @@ class UploadController extends Backend
      * @return Json
      * @throws UploadException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function attach(): Json
     {
@@ -51,7 +51,7 @@ class UploadController extends Backend
      * @return Json
      * @throws UploadException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function temporary(): Json
     {

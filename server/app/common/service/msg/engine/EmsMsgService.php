@@ -18,7 +18,7 @@ class EmsMsgService
      *
      * @param array $params   (参数)
      * @param array $template (模板)
-     * @author windy
+     * @author zero
      */
     public function send(int $scene, array $params, array $template)
     {
@@ -68,7 +68,7 @@ class EmsMsgService
      * @param array $params
      * @param array $template
      * @return string
-     * @author windy
+     * @author zero
      */
     private function getContent(array $params, array $template): string
     {
@@ -86,7 +86,7 @@ class EmsMsgService
      * @param $params
      * @param $template
      * @return string
-     * @author windy
+     * @author zero
      */
     private function getCode($params, $template): string
     {

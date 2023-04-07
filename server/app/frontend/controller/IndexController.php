@@ -45,7 +45,7 @@ class IndexController extends Frontend
      * @throws DbException
      * @throws ModelNotFoundException
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View
     {
@@ -69,7 +69,7 @@ class IndexController extends Frontend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function sendSms(): Json
     {
@@ -89,7 +89,7 @@ class IndexController extends Frontend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function sendEmail(): Json
     {

@@ -42,7 +42,7 @@ class AttachController extends Backend
      * @throws DbException
      * @throws ModelNotFoundException
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -65,7 +65,7 @@ class AttachController extends Backend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function rename(): Json
     {
@@ -83,7 +83,7 @@ class AttachController extends Backend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function move(): Json
     {
@@ -101,7 +101,7 @@ class AttachController extends Backend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function del(): Json
     {
@@ -122,7 +122,7 @@ class AttachController extends Backend
      * @throws DbException
      * @throws ModelNotFoundException
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function cateLists(): Json
     {
@@ -139,7 +139,7 @@ class AttachController extends Backend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function cateAdd(): Json
     {
@@ -158,7 +158,7 @@ class AttachController extends Backend
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function cateRename(): Json
     {
@@ -177,7 +177,7 @@ class AttachController extends Backend
      * @return Json
      * @throws OperateException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function cateDelete(): Json
     {

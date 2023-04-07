@@ -33,7 +33,7 @@ class LinksService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
@@ -58,7 +58,7 @@ class LinksService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -74,7 +74,7 @@ class LinksService extends Service
      * 友情链接新增
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -94,7 +94,7 @@ class LinksService extends Service
      * 友情链接编辑
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post): void
     {
@@ -112,7 +112,7 @@ class LinksService extends Service
      * 友情链接删除
      *
      * @param array $ids
-     * @author windy
+     * @author zero
      */
     public static function del(array $ids): void
     {

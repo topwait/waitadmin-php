@@ -38,7 +38,7 @@ class LoginService extends Service
      * @param int $terminal (设备)
      * @throws OperateException
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function register(array $post, int $terminal)
     {
@@ -82,7 +82,7 @@ class LoginService extends Service
      * @param $account  (账号)
      * @param $password (密码)
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function accountLogin(string $account, string $password)
     {
@@ -121,7 +121,7 @@ class LoginService extends Service
      * @param string $mobile (手机号)
      * @param string $code   (验证码)
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function mobileLogin(string $mobile, string $code)
     {
@@ -163,7 +163,7 @@ class LoginService extends Service
      * @return array
      * @throws OperateException
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function baLogin(string $mobile, string $code, string $sign, int $terminal): array
     {
@@ -202,7 +202,7 @@ class LoginService extends Service
      * @param string $state
      * @param int $terminal
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function opLogin(string $code, string $state, int $terminal)
     {
@@ -251,7 +251,7 @@ class LoginService extends Service
      *
      * @param array $post (参数)
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function forgetPwd(array $post): void
     {

@@ -36,7 +36,7 @@ class UsersService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(array $get): array
@@ -85,7 +85,7 @@ class UsersService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -106,7 +106,7 @@ class UsersService extends Service
      *
      * @param array $ids (用户IDS)
      * @param int $gid   (分组ID)
-     * @author windy
+     * @author zero
      */
     public static function setGroup(array $ids, int $gid): void
     {

@@ -27,7 +27,7 @@ class ClearService extends Service
      * 清空缓存
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function clean(array $post): void
     {

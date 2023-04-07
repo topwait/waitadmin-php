@@ -29,7 +29,7 @@ class ChannelService extends Service
      * 渠道配置信息
      *
      * @return array[]
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['wx' => "array", 'oa' => "array", 'op' => "array"])]
     public static function detail(): array
@@ -64,7 +64,7 @@ class ChannelService extends Service
      * 渠道配置保存
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function save(array $post): void
     {

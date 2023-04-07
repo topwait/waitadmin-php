@@ -29,7 +29,7 @@ class WatermarkService extends Service
      * 水印配置详情
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function detail(): array
     {
@@ -52,7 +52,7 @@ class WatermarkService extends Service
      * 水印配置保存
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function save(array $post): void
     {

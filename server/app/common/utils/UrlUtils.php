@@ -90,7 +90,7 @@ class UrlUtils
      *
      * @param string $url (相对路径)
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function toRoot(string $url): string
     {

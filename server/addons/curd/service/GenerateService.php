@@ -44,7 +44,7 @@ class GenerateService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
@@ -78,7 +78,7 @@ class GenerateService extends Service
      *
      * @param array $get
      * @return array
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function tables(array $get): array
@@ -119,7 +119,7 @@ class GenerateService extends Service
      *
      * @param array $post
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function update(array $post): void
     {
@@ -175,7 +175,7 @@ class GenerateService extends Service
      * @throws DbException
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -215,7 +215,7 @@ class GenerateService extends Service
      * @throws DbException
      * @throws ModelNotFoundException
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function synchrony(int $id): void
     {
@@ -290,7 +290,7 @@ class GenerateService extends Service
      *
      * @param array $ids (主键)
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public static function destroy(array $ids): void
     {
@@ -315,7 +315,7 @@ class GenerateService extends Service
      * @param array $tableNames (表名称集)
      * @throws OperateException
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public static function imports(array $tableNames): void
     {
@@ -396,7 +396,7 @@ class GenerateService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function exports(int $id): void
     {
@@ -444,7 +444,7 @@ class GenerateService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function download(int $id): string
     {
@@ -502,7 +502,7 @@ class GenerateService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function preview(int $id): array
     {
@@ -529,7 +529,7 @@ class GenerateService extends Service
      * 初始化菜单
      *
      * @param array $table
-     * @author windy
+     * @author zero
      */
     public static function initMenu(array $table) {
         if ($table['menu_type'] != 'auto') {

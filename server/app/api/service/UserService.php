@@ -36,7 +36,7 @@ class UserService extends Service
      *
      * @param int $id
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function center(int $id): array
     {
@@ -134,7 +134,7 @@ class UserService extends Service
      *
      * @param array $post (参数)
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function forgetPwd(array $post): void
     {
@@ -177,7 +177,7 @@ class UserService extends Service
      * @param array $post
      * @param int $userId
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function changePwd(array $post, int $userId): void
     {
@@ -220,7 +220,7 @@ class UserService extends Service
      * @param int $userId (用户ID)
      * @throws OperateException
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function bindWeChat(array $post, int $userId): void
     {
@@ -271,7 +271,7 @@ class UserService extends Service
      * @param int $userId (用户ID)
      * @throws OperateException
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function bindMobile(array $post, int $userId): void
     {
@@ -331,7 +331,7 @@ class UserService extends Service
      * @param array $post (参数)
      * @param int $userId (用户ID)
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function bindEmail(array $post, int $userId): void
     {

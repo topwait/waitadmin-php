@@ -26,7 +26,7 @@ class LoginValidate extends Validate
      * 场景验证
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneScene(): LoginValidate
     {
@@ -38,7 +38,7 @@ class LoginValidate extends Validate
      * 账号登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneAccount(): LoginValidate
     {
@@ -56,7 +56,7 @@ class LoginValidate extends Validate
      * 短信登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneMobile(): LoginValidate
     {
@@ -74,7 +74,7 @@ class LoginValidate extends Validate
      * 微信登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneWx(): LoginValidate
     {
@@ -87,7 +87,7 @@ class LoginValidate extends Validate
      * 公众登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneOa(): LoginValidate
     {
@@ -100,7 +100,7 @@ class LoginValidate extends Validate
      * 绑定登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneBa(): LoginValidate
     {
@@ -119,7 +119,7 @@ class LoginValidate extends Validate
      * URL验证
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneUrl(): LoginValidate
     {
@@ -131,7 +131,7 @@ class LoginValidate extends Validate
      * 注册账号
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneRegister(): LoginValidate
     {

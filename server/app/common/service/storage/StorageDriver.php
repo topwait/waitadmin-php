@@ -50,7 +50,7 @@ class StorageDriver
      * 上传验证
      *
      * @param string $type (类型: image/video/package/document)
-     * @author windy
+     * @author zero
      */
     public function validates(string $type): void
     {
@@ -73,7 +73,7 @@ class StorageDriver
      * @param string $dir  (目录: attach/article/config)
      * @return array
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public function upload(string $type, string $dir=''): array
     {
@@ -116,7 +116,7 @@ class StorageDriver
      *
      * @param string $url (路径)
      * @param string $key (键值)
-     * @author windy
+     * @author zero
      */
     public function putFile(string $url, string $key)
     {
@@ -128,7 +128,7 @@ class StorageDriver
      *
      * @param string $url (地址)
      * @param string $key (键值)
-     * @author windy
+     * @author zero
      */
     public function fetch(string $url, string $key)
     {
@@ -139,7 +139,7 @@ class StorageDriver
      * 文件删除
      *
      * @param string $url (地址)
-     * @author windy
+     * @author zero
      */
     public function delete(string $url)
     {
@@ -152,7 +152,7 @@ class StorageDriver
      * @param string $realPath (临时路径)
      * @param string $ext      (文件后缀)
      * @return string          (日期名称)
-     *  @author windy
+     *  @author zero
      */
     public function buildSaveName(string $realPath, string $ext): string
     {
@@ -168,7 +168,7 @@ class StorageDriver
      * 图片水印
      *
      * @param array $fileInfo
-     * @author windy
+     * @author zero
      */
     private function watermark(array $fileInfo): void
     {
@@ -206,7 +206,7 @@ class StorageDriver
      * @param string|null $storage (引擎名称)
      * @return mixed
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     private function getEngineClass(string $storage=null): mixed
     {

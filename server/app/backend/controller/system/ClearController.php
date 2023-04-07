@@ -32,7 +32,7 @@ class ClearController extends Backend
      *
      * @return View
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View
     {
@@ -44,7 +44,7 @@ class ClearController extends Backend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function clean(): Json
     {

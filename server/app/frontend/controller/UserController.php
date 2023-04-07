@@ -34,7 +34,7 @@ class UserController extends Frontend
      *
      * @return View
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View
     {
@@ -49,7 +49,7 @@ class UserController extends Frontend
      * @return View|Json
      * @throws DbException
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function collect(): View|Json
     {
@@ -68,7 +68,7 @@ class UserController extends Frontend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function edit(): Json
     {
@@ -86,7 +86,7 @@ class UserController extends Frontend
      * @return View|Json
      * @throws OperateException
      * @method [GET|POST]
-     * @author windy
+     * @author zero
      */
     public function binding(): View|Json
     {

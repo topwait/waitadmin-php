@@ -14,7 +14,7 @@ if (!function_exists('__')) {
      * @param array $vars (动态变量值)
      * @param string $lang (语言)
      * @return mixed
-     * @author windy
+     * @author zero
      */
     function __(string $name, array $vars = [], string $lang = ''): mixed
     {
@@ -37,7 +37,7 @@ if (!function_exists('route')) {
      * @param string $url
      * @param array $data
      * @return string
-     * @author windy
+     * @author zero
      */
     function route(string $url, array $data=[]): string
     {
@@ -66,7 +66,7 @@ if (!function_exists('make_md5_str')) {
      * @param string $str (未加密字符)
      * @param string $salt (加密的盐)
      * @return string     (已加密字符)
-     * @author windy
+     * @author zero
      */
     #[Pure]
     function make_md5_str(string $str, string $salt=''): string
@@ -82,7 +82,7 @@ if (!function_exists('make_rand_char')) {
      *
      * @param int $length (生成长度)
      * @return string (随机字符)
-     * @author windy
+     * @author zero
      */
     function make_rand_char(int $length): string
     {
@@ -137,7 +137,7 @@ if (!function_exists('format_bytes')) {
      * @param string $delimiter (分隔符)
      * @param int $precision (小数位数)
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     function format_bytes(int $size, string $delimiter = '', int $precision = 2): string
@@ -157,7 +157,7 @@ if (!function_exists('active_url')) {
      * @param string $url   (对应的URL)
      * @param string $class (激活类样式)
      * @return string
-     * @author windy
+     * @author zero
      */
     function active_url(string $url, string $class = 'active'): string
     {
@@ -181,7 +181,7 @@ if (!function_exists('curl_get')) {
      * @param array $params (请求参数)
      * @param array $options (其它参数)
      * @return mixed
-     * @author windy
+     * @author zero
      */
     function curl_get(string $url, array $params = [], array $options=[]): mixed
     {
@@ -223,7 +223,7 @@ if (!function_exists('curl_post')) {
      * @param array $data (请求数据)
      * @param array $options (其它参数)
      * @return mixed
-     * @author windy
+     * @author zero
      */
     function curl_post(string $url, array $data = [], array $options=[]): mixed
     {

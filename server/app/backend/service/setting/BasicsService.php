@@ -29,7 +29,7 @@ class BasicsService extends Service
      * 基本配置详情
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function detail(): array
     {
@@ -68,7 +68,7 @@ class BasicsService extends Service
      *
      * @param array $post
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function save(array $post): void
     {

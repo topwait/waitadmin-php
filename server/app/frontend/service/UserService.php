@@ -39,7 +39,7 @@ class UserService extends Service
      *
      * @param int $userId
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function info(int $userId): array
     {
@@ -65,7 +65,7 @@ class UserService extends Service
      * @param int $userId
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function collect(int $userId): array
@@ -91,7 +91,7 @@ class UserService extends Service
      *
      * @param array $post
      * @param int $userId
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post, int $userId): void
     {
@@ -113,7 +113,7 @@ class UserService extends Service
      * @param array $post
      * @param int $userId
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function changeAvatar(array $post, int $userId): void
     {
@@ -146,7 +146,7 @@ class UserService extends Service
      * @param array $post
      * @param int $userId
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function changePwd(array $post, int $userId): void
     {
@@ -234,7 +234,7 @@ class UserService extends Service
      * @param array $post
      * @param int $userId
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function bindMobile(array $post, int $userId): void
     {
@@ -275,7 +275,7 @@ class UserService extends Service
      * @param array $post
      * @param int $userId
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function bindEmail(array $post, int $userId): void
     {

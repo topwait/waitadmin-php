@@ -58,7 +58,7 @@ abstract class BaseController
      * 构造方法
      *
      * @param App $app 应用对象
-     * @author windy
+     * @author zero
      */
     public function __construct(App $app)
     {
@@ -75,7 +75,7 @@ abstract class BaseController
      * @param $arguments
      * @return void
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public function __call($name, $arguments): void
     {
@@ -92,7 +92,7 @@ abstract class BaseController
      * @param array $message 提示信息
      * @param bool $batch 是否批量验证
      * @return bool
-     * @author windy
+     * @author zero
      */
     protected function validate(array $data, array|string $validate, array $message = [], bool $batch = false): bool
     {
@@ -123,7 +123,7 @@ abstract class BaseController
      * GET异步请求
      *
      * @return bool
-     * @author windy
+     * @author zero
      */
     protected function isAjaxGet(): bool
     {
@@ -134,7 +134,7 @@ abstract class BaseController
      * POST异步请求
      *
      * @return bool
-     * @author windy
+     * @author zero
      */
     protected function isAjaxPost(): bool
     {
@@ -145,7 +145,7 @@ abstract class BaseController
      * 重写跳转方法
      *
      * @param mixed ...$args
-     * @author windy
+     * @author zero
      */
     protected function redirect(...$args): void
     {
@@ -156,7 +156,7 @@ abstract class BaseController
      * 加载语言
      *
      * @param string $name (功能模块)
-     * @author windy
+     * @author zero
      */
     protected function loadLang(string $name): void
     {
@@ -183,7 +183,7 @@ abstract class BaseController
      * 请求方式拦截器
      *
      * @param $controller
-     * @author windy
+     * @author zero
      */
     private function intercept($controller): void
     {

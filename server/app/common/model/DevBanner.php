@@ -44,7 +44,7 @@ class DevBanner extends Models
      *
      * @param int $pos
      * @return array|string
-     * @author windy
+     * @author zero
      */
     public static function positionEnum(int $pos = 0): array|string
     {

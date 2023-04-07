@@ -32,7 +32,7 @@ class PersonController extends Backend
      *
      * @return View
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View
     {
@@ -48,7 +48,7 @@ class PersonController extends Backend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function save(): Json
     {

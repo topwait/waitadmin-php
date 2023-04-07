@@ -51,7 +51,7 @@ class AuthAdmin extends Models
     /**
      * 单关联角色模型
      *
-     * @author windy
+     * @author zero
      * @return HasOne
      */
     public function role(): HasOne
@@ -63,7 +63,7 @@ class AuthAdmin extends Models
     /**
      * 单关联部门模型
      *
-     * @author windy
+     * @author zero
      * @return HasOne
      */
     public function dept(): HasOne
@@ -75,7 +75,7 @@ class AuthAdmin extends Models
     /**
      * 单关联岗位模型
      *
-     * @author windy
+     * @author zero
      * @return HasOne
      */
     public function post(): HasOne
@@ -89,7 +89,7 @@ class AuthAdmin extends Models
      *
      * @param $value
      * @return string
-     * @author windy
+     * @author zero
      */
     public function getAvatarAttr($value): string
     {

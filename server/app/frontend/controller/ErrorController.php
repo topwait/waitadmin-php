@@ -33,7 +33,7 @@ class ErrorController extends Frontend
      * @param $name
      * @param $arguments
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public function __call($name, $arguments): void
     {
@@ -48,7 +48,7 @@ class ErrorController extends Frontend
      * 异常的页面
      *
      * @return View
-     * @author windy
+     * @author zero
      */
     public function wrong(): View
     {

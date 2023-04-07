@@ -87,7 +87,7 @@ class ArticleService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {

@@ -25,7 +25,7 @@ class Proof
      * 是否允许下一步
      *
      * @var bool
-     * @author windy
+     * @author zero
      */
     private bool $allowNext = true;
 
@@ -42,7 +42,7 @@ class Proof
      * 当前PHP版本是否合格
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     public function checkPHP(): string
     {
@@ -53,7 +53,7 @@ class Proof
      * 是否安装PDO
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkPDO(): string
@@ -65,7 +65,7 @@ class Proof
      * 是否安装PdoMsql
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkPDOMySQL(): string
@@ -77,7 +77,7 @@ class Proof
      * 是否支持JSON
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkJSON(): string
@@ -89,7 +89,7 @@ class Proof
      * 是否支持
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkOpenssl(): string
@@ -101,7 +101,7 @@ class Proof
      * 是否支持zlib
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkZlib(): string
@@ -113,7 +113,7 @@ class Proof
      * 是否支持curl
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkCurl(): string
@@ -125,7 +125,7 @@ class Proof
      * 是否支持GD2
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkGd2(): string
@@ -137,7 +137,7 @@ class Proof
      * 是否支持Dom
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkDom(): string
@@ -149,7 +149,7 @@ class Proof
      * 是否支持FileInfo
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkFileInfo(): string
@@ -162,7 +162,7 @@ class Proof
      *
      * @param $dir
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkDirWrite($dir=''): string
@@ -176,7 +176,7 @@ class Proof
      *
      * @param $dir
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkDirRead($dir=''): string
@@ -190,7 +190,7 @@ class Proof
      *
      * @param $post
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function checkParams($post): string
@@ -215,7 +215,7 @@ class Proof
      * 磁盘容量
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public function freeDiskSpace(): string

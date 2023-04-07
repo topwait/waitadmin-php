@@ -50,7 +50,7 @@ class IndexController extends Api
      * 全局配置
      *
      * @return Json
-     * @author windy
+     * @author zero
      * @method [GET]
      */
     public function config(): Json
@@ -63,7 +63,7 @@ class IndexController extends Api
      * 协议政策
      *
      * @return Json
-     * @author windy
+     * @author zero
      * @method [GET]
      */
     public function policy(): Json
@@ -78,7 +78,7 @@ class IndexController extends Api
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function sendSms(): Json
     {
@@ -98,7 +98,7 @@ class IndexController extends Api
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function sendEmail(): Json
     {

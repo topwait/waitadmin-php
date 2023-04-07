@@ -35,7 +35,7 @@ class IndexService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function getBanner(int $position): array
     {
@@ -56,7 +56,7 @@ class IndexService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function getLinks(): array
     {

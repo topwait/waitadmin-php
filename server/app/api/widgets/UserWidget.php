@@ -36,7 +36,7 @@ class UserWidget extends Service
      * @param array $response
      * @return int
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function createUser(array $response): int
     {
@@ -125,7 +125,7 @@ class UserWidget extends Service
      * @param array $response
      * @return int
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function updateUser(array $response): int
     {
@@ -190,7 +190,7 @@ class UserWidget extends Service
      *
      * @param array $response ['openid', 'unionid']
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function getUserAuthByResponse(array $response): array
     {

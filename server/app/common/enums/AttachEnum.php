@@ -29,7 +29,7 @@ class AttachEnum
     /**
      * 根据描述获取Code
      *
-     * @author windy
+     * @author zero
      * @param string $msg
      * @return int
      */

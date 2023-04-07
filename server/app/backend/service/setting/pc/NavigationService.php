@@ -31,7 +31,7 @@ class NavigationService extends Service
      *
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     public static function lists(): array
     {
@@ -50,7 +50,7 @@ class NavigationService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -66,7 +66,7 @@ class NavigationService extends Service
      * 导航新增
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -87,7 +87,7 @@ class NavigationService extends Service
      * 导航编辑
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post)
     {
@@ -106,7 +106,7 @@ class NavigationService extends Service
      * 导航删除
      *
      * @param int $id
-     * @author windy
+     * @author zero
      */
     public static function del(int $id)
     {

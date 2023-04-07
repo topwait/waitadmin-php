@@ -35,7 +35,7 @@ class ArrayUtils
      * @param int $level    (当前所在层级)
      * @param bool $clear   (是否清空)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function toTreeHtml($data, int $pid=0, string $field='pid', string $pk='id', string $html='|--', int $level=0, bool $clear=true): array
     {
@@ -62,7 +62,7 @@ class ArrayUtils
      * @param string $field (字段名称)
      * @param string $pk    (主键)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function toTreeJson(array $data, int $pid=0, string $field='pid', string $pk='id'): array
     {
@@ -85,7 +85,7 @@ class ArrayUtils
      * @param $arr array (表单二维数组)
      * @param $fill bool (fill为false,返回数据长度取最短,反之取最长,空值自动补充)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function formToLinear(array $arr, bool $fill = false): array
     {
@@ -115,7 +115,7 @@ class ArrayUtils
      * @param $array1 (数组1)
      * @param $array2 (数组2)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function arrayMergeMultiple($array1, $array2): array
     {

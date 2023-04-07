@@ -54,7 +54,7 @@ class SmsDriver
     /**
      * 发送短信
      *
-     * @author windy
+     * @author zero
      * @param array $data
      * @return mixed
      */
@@ -74,7 +74,7 @@ class SmsDriver
      * @param string $alias (驱动别名)
      * @return mixed
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     private function getEngineClass(string $alias): mixed
     {

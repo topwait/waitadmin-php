@@ -34,7 +34,7 @@ class BasicsController extends Backend
      *
      * @return View
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View
     {
@@ -47,7 +47,7 @@ class BasicsController extends Backend
      * @return Json
      * @throws Exception
      * @method [GET|POST]
-     * @author windy
+     * @author zero
      */
     public function save(): Json
     {

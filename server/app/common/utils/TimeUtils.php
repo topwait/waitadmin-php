@@ -29,7 +29,7 @@ class TimeUtils
     /**
      * 返回今日开始和结束的时间戳
      *
-     * @author windy
+     * @author zero
      * @return array
      */
     public static function today(): array
@@ -44,7 +44,7 @@ class TimeUtils
     /**
      * 返回明天开始和结束时间戳
      *
-     * @author windy
+     * @author zero
      * @return array
      */
     public static function tomorrow(): array
@@ -59,7 +59,7 @@ class TimeUtils
     /**
      * 返回昨日开始和结束的时间戳
      *
-     * @author windy
+     * @author zero
      * @return array
      */
     public static function yesterday(): array
@@ -74,7 +74,7 @@ class TimeUtils
     /**
      * 返回本周开始和结束的时间戳
      *
-     * @author windy
+     * @author zero
      * @return array
      */
     public static function week(): array
@@ -89,7 +89,7 @@ class TimeUtils
     /**
      * 返回上周开始和结束的时间戳
      *
-     * @author windy
+     * @author zero
      * @return array
      */
     public static function lastWeek(): array
@@ -105,7 +105,7 @@ class TimeUtils
      * 返回本月开始和结束的时间戳
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function month(): array
     {
@@ -119,7 +119,7 @@ class TimeUtils
     /**
      * 返回上个月开始和结束的时间戳
      *
-     * @author windy
+     * @author zero
      * @return array
      */
     #[Pure]
@@ -136,7 +136,7 @@ class TimeUtils
     /**
      * 返回今年开始和结束的时间戳
      *
-     * @author windy
+     * @author zero
      * @return array
      */
     public static function year(): array
@@ -151,7 +151,7 @@ class TimeUtils
     /**
      * 返回去年开始和结束的时间戳
      *
-     * @author windy
+     * @author zero
      * @return array
      */
     public static function lastYear(): array
@@ -166,7 +166,7 @@ class TimeUtils
     /**
      * 获取几天前零点到现在/昨日结束的时间戳
      *
-     * @author windy
+     * @author zero
      * @param int $day 天数
      * @param bool $now 返回现在或者昨天结束时间戳
      * @return array
@@ -188,7 +188,7 @@ class TimeUtils
     /**
      * 返回几天前的时间戳
      *
-     * @author windy
+     * @author zero
      * @param int $day
      * @return int
      */
@@ -201,7 +201,7 @@ class TimeUtils
     /**
      * 返回几天后的时间戳
      *
-     * @author windy
+     * @author zero
      * @param int $day
      * @return int
      */
@@ -214,7 +214,7 @@ class TimeUtils
     /**
      * 天数转换成秒数
      *
-     * @author windy
+     * @author zero
      * @param int $day
      * @return int
      */
@@ -227,7 +227,7 @@ class TimeUtils
     /**
      * 周数转换成秒数
      *
-     * @author windy
+     * @author zero
      * @param int $week
      * @return int
      */
@@ -240,7 +240,7 @@ class TimeUtils
     /**
      * 最近N天的日期
      *
-     * @author windy
+     * @author zero
      * @param int $day
      * @return array
      */
@@ -257,7 +257,7 @@ class TimeUtils
     /**
      * 当前毫秒数
      *
-     * @author windy
+     * @author zero
      * @return float
      */
     #[Pure]
@@ -270,7 +270,7 @@ class TimeUtils
     /**
      * 返回今天是周几
      *
-     * @author windy
+     * @author zero
      * @return mixed
      */
     #[Pure]
@@ -283,7 +283,7 @@ class TimeUtils
     /**
      * 大写月份
      *
-     * @author windy
+     * @author zero
      * @param int $month
      * @return string
      */

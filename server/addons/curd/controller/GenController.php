@@ -45,7 +45,7 @@ class GenController extends Backend
      *
      * @return Json|View
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -61,7 +61,7 @@ class GenController extends Backend
      * 获取库中所有表
      *
      * @return Json|View
-     * @author windy
+     * @author zero
      */
     public function tables(): View|Json
     {
@@ -106,7 +106,7 @@ class GenController extends Backend
      *
      * @return Json
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public function destroy(): Json
     {
@@ -166,7 +166,7 @@ class GenController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public function exports(): Json
     {
@@ -185,7 +185,7 @@ class GenController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public function download(): File
     {
@@ -201,7 +201,7 @@ class GenController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public function preview(): View
     {
@@ -223,7 +223,7 @@ class GenController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public function initMenu(): Json
     {

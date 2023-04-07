@@ -36,7 +36,7 @@ class DeptService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function lists(): array
     {
@@ -57,7 +57,7 @@ class DeptService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -75,7 +75,7 @@ class DeptService extends Service
      *
      * @param array $post
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -129,7 +129,7 @@ class DeptService extends Service
      *
      * @param array $post
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post): void
     {
@@ -199,7 +199,7 @@ class DeptService extends Service
      *
      * @param int $id
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function del(int $id): void
     {
@@ -227,7 +227,7 @@ class DeptService extends Service
      *
      * @param int $id
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function child(int $id): array
     {

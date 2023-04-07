@@ -53,7 +53,7 @@ class GenTable extends Models
      *
      * @param $value
      * @return array
-     * @author windy
+     * @author zero
      */
     public function getJoinArrayAttr($value): array
     {

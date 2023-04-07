@@ -41,7 +41,7 @@ class SysCrontab extends Models
     /**
      * 获取器: 格式化最后执行时间
      *
-     * @author windy
+     * @author zero
      * @param $value
      * @return string
      */

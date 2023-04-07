@@ -39,7 +39,7 @@ class Local
     /**
      * 文件上传
      *
-     * @author windy
+     * @author zero
      * @param array $fileInfo (文件信息)
      * @return void
      */
@@ -72,7 +72,7 @@ class Local
      * @param string $url (地址)
      * @param string $key (键名)
      * @return void
-     *@author windy
+     *@author zero
      */
     public function fetch(string $url, string $key=''): void
     {
@@ -83,7 +83,7 @@ class Local
     /**
      * 文件删除
      *
-     * @author windy
+     * @author zero
      * @param string $url
      * @return void
      */

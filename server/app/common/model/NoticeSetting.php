@@ -44,7 +44,7 @@ class NoticeSetting extends Models
      *
      * @param $value
      * @return array
-     * @author windy
+     * @author zero
      */
     public function getVariableAttr($value): array
     {
@@ -60,7 +60,7 @@ class NoticeSetting extends Models
      *
      * @param $value
      * @return array
-     * @author windy
+     * @author zero
      */
     public function getSysTemplateAttr($value): array
     {
@@ -76,7 +76,7 @@ class NoticeSetting extends Models
      *
      * @param $value
      * @return array
-     * @author windy
+     * @author zero
      */
     public function getEmsTemplateAttr($value): array
     {
@@ -92,7 +92,7 @@ class NoticeSetting extends Models
      *
      * @param $value
      * @return array
-     * @author windy
+     * @author zero
      */
     public function getSmsTemplateAttr($value): array
     {

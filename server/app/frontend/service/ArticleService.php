@@ -34,7 +34,7 @@ class ArticleService extends Service
      *
      * @param int $cid
      * @return mixed
-     * @author windy
+     * @author zero
      */
     public static function category(int $cid): mixed
     {
@@ -49,7 +49,7 @@ class ArticleService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     public static function lists(array $get): array
     {
@@ -90,7 +90,7 @@ class ArticleService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function recommend(string $type, int $limit = 10): array
     {
@@ -140,7 +140,7 @@ class ArticleService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id, int $userId): array
     {
@@ -197,7 +197,7 @@ class ArticleService extends Service
      * @param int $id
      * @param int $userId
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function collect(int $id, int $userId): string
     {

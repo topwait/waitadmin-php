@@ -37,7 +37,7 @@ class CategoryService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function all(): array
     {
@@ -54,7 +54,7 @@ class CategoryService extends Service
      *
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(): array
@@ -86,7 +86,7 @@ class CategoryService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -102,7 +102,7 @@ class CategoryService extends Service
      * 文章分类新增
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -120,7 +120,7 @@ class CategoryService extends Service
      * 文章分类编辑
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post): void
     {
@@ -137,7 +137,7 @@ class CategoryService extends Service
      *
      * @param int $id
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function del(int $id): void
     {

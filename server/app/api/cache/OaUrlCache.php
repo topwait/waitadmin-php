@@ -30,7 +30,7 @@ class OaUrlCache
      *
      * @param string $state
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function get(string $state): string
     {
@@ -43,7 +43,7 @@ class OaUrlCache
      * 设置
      *
      * @param string $state
-     * @author windy
+     * @author zero
      */
     public static function set(string $state): void
     {
@@ -54,7 +54,7 @@ class OaUrlCache
      * 删除
      *
      * @param string $state
-     * @author windy
+     * @author zero
      */
     public static function delete(string $state): void
     {

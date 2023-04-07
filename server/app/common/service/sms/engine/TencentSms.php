@@ -62,7 +62,7 @@ class TencentSms
      * 发送腾讯云短信
      *
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public function send(): bool
     {
@@ -101,7 +101,7 @@ class TencentSms
      *
      * @param int $mobile
      * @return $this
-     * @author windy
+     * @author zero
      */
     public function setPhoneNumbers(int $mobile): TencentSms
     {
@@ -114,7 +114,7 @@ class TencentSms
      *
      * @param string $code
      * @return $this
-     * @author windy
+     * @author zero
      */
     public function setTemplateCode(string $code): TencentSms
     {
@@ -127,7 +127,7 @@ class TencentSms
      *
      * @param array $param
      * @return $this
-     * @author windy
+     * @author zero
      */
     public function setTemplateParam(array $param): TencentSms
     {

@@ -37,7 +37,7 @@ class ArticleController extends Frontend
      * @return View
      * @throws DbException
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function lists(): View
     {
@@ -58,7 +58,7 @@ class ArticleController extends Frontend
      * @throws DbException
      * @throws ModelNotFoundException
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function detail(): View
     {
@@ -75,7 +75,7 @@ class ArticleController extends Frontend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function collect(): Json
     {

@@ -33,7 +33,7 @@ class WeChatService
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @return array ['openid', 'unionid', 'nickname', 'avatarUrl', 'gender']
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['openid' => "string", 'unionid' => "string", 'nickname' => "string", 'avatarUrl' => "string", 'gender' => "int"])]
     public static function oaAuth2session(string $code): array
@@ -96,7 +96,7 @@ class WeChatService
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @return array ['openid', 'unionid', 'access_token']
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['openid' => "string", 'unionid' => "string", 'nickname' => "string", 'avatarUrl' => "string", 'gender' => "int"])]
     public static function opAuth2session(string $code): array
@@ -157,7 +157,7 @@ class WeChatService
      * @param string $code (小程序生成的code)
      * @return array ['session_key', 'openid']
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['session_key' => "string", 'openid' => "string", 'unionid' => "string"])]
     public static function wxJsCode2session(string $code): array

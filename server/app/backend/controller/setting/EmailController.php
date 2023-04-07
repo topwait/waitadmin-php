@@ -32,7 +32,7 @@ class EmailController extends Backend
      *
      * @return View
      * @method [GET]
-     * @author windy
+     * @author zero
      */
     public function index(): View
     {
@@ -46,7 +46,7 @@ class EmailController extends Backend
      *
      * @return Json
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function save(): Json
     {
@@ -64,7 +64,7 @@ class EmailController extends Backend
      * @return Json
      * @throws SystemException
      * @method [POST]
-     * @author windy
+     * @author zero
      */
     public function test(): Json
     {

@@ -40,7 +40,7 @@ class IndexService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function index($adminId): array
     {
@@ -84,7 +84,7 @@ class IndexService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function console(): array
     {

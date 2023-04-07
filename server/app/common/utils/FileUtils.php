@@ -36,7 +36,7 @@ class FileUtils
      * @param string $dir      (目录路径)
      * @param int $permissions (创建权限)
      * @param bool $recursive  (递归创建)
-     * @author windy
+     * @author zero
      */
     public static function mkdir(string $dir, int $permissions = 0777, bool $recursive = true): void
     {
@@ -51,7 +51,7 @@ class FileUtils
      *
      * @param string $dir (目录路径)
      * @return bool
-     * @author windy
+     * @author zero
      */
     public static function rmdir(string $dir): bool
     {
@@ -85,7 +85,7 @@ class FileUtils
      * @param string $source (原始路径)
      * @param string $target (目录路径)
      * @param bool $isDelete (是否删除原文件)
-     * @author windy
+     * @author zero
      */
     public static function copy(string $source, string $target, bool $isDelete = false): void
     {
@@ -149,7 +149,7 @@ class FileUtils
      *
      * @param string $source (原始路径)
      * @param string $target (目录路径)
-     * @author windy
+     * @author zero
      */
     public static function move(string $source, string $target): void
     {
@@ -180,7 +180,7 @@ class FileUtils
      *
      * @param string $dir (目录)
      * @return int
-     * @author windy
+     * @author zero
      */
     public static function getDirSize(string $dir): int
     {
@@ -208,7 +208,7 @@ class FileUtils
      *
      * @param string $path (路径)
      * @return int
-     * @author windy
+     * @author zero
      */
     #[Pure]
     public static function getFileSize(string $path): int
@@ -222,7 +222,7 @@ class FileUtils
      *
      * @param string $path (路径)
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function getFileName(string $path): string
     {
@@ -241,7 +241,7 @@ class FileUtils
      *
      * @param string $path (路径)
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function getFileExt(string $path): string
     {
@@ -254,7 +254,7 @@ class FileUtils
      * @param string $path (路径)
      * @param string $type (类型)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function getFileList(string $path, string $type=''): array
     {
@@ -283,7 +283,7 @@ class FileUtils
      *
      * @param string $dir (路径)
      * @return bool
-     * @author windy
+     * @author zero
      */
     public static function isWritable(string $dir): bool
     {
