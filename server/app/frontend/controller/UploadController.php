@@ -29,6 +29,21 @@ class UploadController extends Frontend
     protected array $notNeedLogin = ['permanent'];
 
     /**
+     * 永久存储
+     *
+     * @return Json
+     * @throws UploadException
+     * @author zeri
+     */
+    public function permanent(): Json
+    {
+        $type = $this->request->post('type');
+
+        $result = UploadService::permanent($type);
+        return AjaxUtils::success('上传成功', $result);
+    }
+
+    /**
      * 临时存储
      *
      * @return Json

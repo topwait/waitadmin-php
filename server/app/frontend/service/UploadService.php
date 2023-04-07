@@ -16,8 +16,11 @@ declare (strict_types = 1);
 namespace app\frontend\service;
 
 use app\common\basics\Service;
+use app\common\enums\AttachEnum;
 use app\common\exception\UploadException;
+use app\common\model\attach\Attach;
 use app\common\service\storage\StorageDriver;
+use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
@@ -29,9 +32,53 @@ use think\facade\Filesystem;
 class UploadService extends Service
 {
     /**
+     * 永久存储
+     *
+     * @param string $type (类型: picture/video/document/package)
+     * @param int $userId  (用户ID)
+     * @return array
+     * @throws UploadException
+     */
+    #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'path' => "string", 'url' => "string"])]
+    public static function permanent(string $type, int $userId): array
+    {
+        try {
+            // 存储引擎
+            $engine = ConfigUtils::get('storage', 'default', 'local');
+            $params = ConfigUtils::get('storage', $engine, []);
+
+            // 上传调用
+            $storageDriver = new StorageDriver(['engine' => $engine, 'params' => $params]);
+            $fileInfo = $storageDriver->upload($type);
+
+            // 记录信息
+            $attach = Attach::create([
+                'uid'       => $userId,
+                'cid'       => 0,
+                'file_type' => AttachEnum::getCodeByMsg($type),
+                'file_path' => $fileInfo['fileName'],
+                'file_name' => $fileInfo['name'],
+                'file_ext'  => $fileInfo['ext'],
+                'file_size' => $fileInfo['size']
+            ]);
+
+            // 返回信息
+            return [
+                'name' => $fileInfo['name'],
+                'ext'  => $fileInfo['ext'],
+                'size' => $fileInfo['size'],
+                'path' => $fileInfo['fileName'],
+                'url'  => UrlUtils::toAbsoluteUrl($fileInfo['fileName'])
+            ];
+        } catch (Exception $e) {
+            throw new UploadException($e->getMessage());
+        }
+    }
+
+    /**
      * 临时存储
      *
-     * @param string $type (类型: image/video/package/document)
+     * @param string $type (类型: picture/video/document/package)
      * @return array
      * @throws UploadException
      * @author zero

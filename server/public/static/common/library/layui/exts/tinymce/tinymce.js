@@ -80,6 +80,7 @@ layui.define([], function (exports) {
     function initOptions(option, callback) {
         option.elem         = isset(option.elem)     ? option.elem : '#content';
         option.module       = isset(option.module)   ? option.module : 'frontend';
+        option.uploader     = isset(option.uploader)   ? option.uploader : 'permanent';
         option.readonly     = isset(option.readonly) ? option.readonly : 0;
         option.suffix       = isset(option.suffix)   ? option.suffix : (plugin_filename.indexOf('.min')>-1 ? '.min' : '');
         option.base_url     = isset(option.base_url) ? option.base_url : plugin_base_url;
@@ -154,10 +155,10 @@ layui.define([], function (exports) {
 
             let fileUrl;
             let fileType;
-            let baseUrl = '/' + pathname + '/upload/temporary';
+            let baseUrl = '/' + pathname + '/upload/' + option.uploader;
             switch(meta.filetype){
                 case 'image':
-                    fileUrl  = baseUrl + '?type=image';
+                    fileUrl  = baseUrl + '?type=picture';
                     fileType = '.png, .jpg, .jpeg, .gif, .ico, .bmp';
                     break;
                 case 'media':
@@ -204,7 +205,7 @@ layui.define([], function (exports) {
                 pathname = window.location.pathname.split('/')[1];
             }
 
-            let baseUrl = '/' + pathname + '/upload/temporary?type=image';
+            let baseUrl = '/' + pathname + '/upload/'+ option.uploader +'?type=picture';
             let xhr, formData;
             let file = blobInfo.blob();
             xhr = new XMLHttpRequest();

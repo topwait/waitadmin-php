@@ -28,25 +28,24 @@ use think\response\Json;
 class UploadController extends Backend
 {
     /**
-     * 附件上传
+     * 永远存储
      *
      * @return Json
      * @throws UploadException
      * @method [POST]
      * @author zero
      */
-    public function attach(): Json
+    public function permanent(): Json
     {
         $type = $this->request->get('type');
         $cid  = $this->request->post('cid', 0);
 
-        $path = 'attach/'.$type.'/';
-        $result = UploadService::storage($type, $path, intval($cid), $this->adminId);
+        $result = UploadService::permanent($type, intval($cid), $this->adminId);
         return AjaxUtils::success('上传成功', $result);
     }
 
     /**
-     * 临时上传
+     * 临时存储
      *
      * @return Json
      * @throws UploadException
@@ -56,6 +55,7 @@ class UploadController extends Backend
     public function temporary(): Json
     {
         $type = $this->request->get('type');
+
         $result = UploadService::temporary($type);
         return AjaxUtils::success('上传成功', $result);
     }

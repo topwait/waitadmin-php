@@ -14,17 +14,15 @@
 
 namespace app\common\enums;
 
-
 /**
  * 附件枚举类
- *
- * Class AttachEnum
- * @package app\common\enum
  */
 class AttachEnum
 {
-    const IMAGE = 10;
-    const VIDEO = 20;
+    const PICTURE  = 10;
+    const VIDEO    = 20;
+    const DOCUMENT = 30;
+    const PACKAGE  = 40;
 
     /**
      * 根据描述获取Code
@@ -36,8 +34,10 @@ class AttachEnum
     public static function getCodeByMsg(string $msg): int
     {
         $desc = [
-            'image' => self::IMAGE,
-            'video' => self::VIDEO
+            'picture'  => self::PICTURE,
+            'video'    => self::VIDEO,
+            'document' => self::DOCUMENT,
+            'package'  => self::PACKAGE,
         ];
 
         return $desc[$msg] ?? 0;

@@ -479,7 +479,7 @@
         let layerIndex;
         upload.render({
             elem: '#imageUpload'
-            ,url: '{:route("upload/attach")}?type=image'
+            ,url: '{:route("upload/permanent")}?type=picture'
             ,field: 'file'
             ,multiple: true
             ,acceptMime: 'image/*'
@@ -515,7 +515,7 @@
         // 上传视频
         upload.render({
             elem: '#videoUpload'
-            ,url: '{:route("upload/attach")}?type=video'
+            ,url: '{:route("upload/permanent")}?type=video'
             ,field: 'file'
             ,multiple: true
             ,acceptMime: 'video/*'

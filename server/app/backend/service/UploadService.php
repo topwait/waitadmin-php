@@ -32,10 +32,9 @@ use think\facade\Filesystem;
 class UploadService extends Service
 {
     /**
-     * 附件上传
+     * 永远存储
      *
-     * @param string $type (类型: image/video)
-     * @param string $path (存储目录)
+     * @param string $type (类型: picture/video/document/package)
      * @param int $cid (所属分类)
      * @param int $uid (所属用户)
      * @return array
@@ -43,7 +42,7 @@ class UploadService extends Service
      * @author zero
      */
     #[ArrayShape(['id' => "int", 'name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
-    public static function storage(string $type, string $path, int $cid, int $uid): array
+    public static function permanent(string $type, int $cid, int $uid): array
     {
         try {
             // 存储引擎
@@ -52,7 +51,7 @@ class UploadService extends Service
 
             // 上传调用
             $storageDriver = new StorageDriver(['engine'=>$engine, 'params'=>$params]);
-            $fileInfo = $storageDriver->upload($type, $path);
+            $fileInfo = $storageDriver->upload($type);
 
             // 记录信息
             $attach = Attach::create([
@@ -81,7 +80,7 @@ class UploadService extends Service
     /**
      * 临时上传
      *
-     * @param string $type (类型: image/video)
+     * @param string $type (类型: picture/video/document/package)
      * @return array
      * @throws UploadException
      * @author zero

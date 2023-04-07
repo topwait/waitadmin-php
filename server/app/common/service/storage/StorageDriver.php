@@ -18,7 +18,6 @@ namespace app\common\service\storage;
 use app\backend\service\setting\WatermarkService;
 use app\common\utils\UrlUtils;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use think\Image;
 
 /**
@@ -49,13 +48,13 @@ class StorageDriver
     /**
      * 上传验证
      *
-     * @param string $type (类型: image/video/package/document)
+     * @param string $type (类型: picture/video/document/package)
      * @author zero
      */
     public function validates(string $type): void
     {
         $limit = match ($type) {
-            'image'    => config('project.uploader.image')    ?? ['size' => 10485760, 'ext' => ['png', 'jpg', 'jpeg', 'gif', 'ico', 'bmp']],
+            'picture'  => config('project.uploader.image')    ?? ['size' => 10485760, 'ext' => ['png', 'jpg', 'jpeg', 'gif', 'ico', 'bmp']],
             'video'    => config('project.uploader.video')    ?? ['size' => 31457280, 'ext' => ['mp4', 'mp3', 'avi', 'flv', 'rmvb', 'mov']],
             'package'  => config('project.uploader.package')  ?? ['size' => 31457280, 'ext' => ['zip', 'rar', 'iso', '7z', 'tar', 'gz', 'arj', 'bz2']],
             'document' => config('project.uploader.document') ?? ['size' => 31457280, 'ext' => ['txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'pem']],
@@ -69,13 +68,12 @@ class StorageDriver
     /**
      * 上传文件
      *
-     * @param string $type (类型: image/video/package/document)
-     * @param string $dir  (目录: attach/article/config)
+     * @param string $type (类型: picture/video/document/package)
      * @return array
      * @throws Exception
      * @author zero
      */
-    public function upload(string $type, string $dir=''): array
+    public function upload(string $type): array
     {
         $file = request()->file('file');
         if (!$file) {
@@ -89,10 +87,8 @@ class StorageDriver
             $extension = explode('/', $file->getMime())[1];
         }
 
-        $dir   = ($dir && str_ends_with($dir, '/')) ? $dir : $dir.'/';
-        $dir   = ($dir && str_starts_with($dir, '/')) ? $dir : '/'.$dir;
         $disks = trim(config('filesystem.disks.public.url'), '/');
-        $disks = $disks . $dir;
+        $disks = $disks . '/' . $type . '/';
 
         $detail['info'] = [
             'type'     => $type,
@@ -172,7 +168,7 @@ class StorageDriver
      */
     private function watermark(array $fileInfo): void
     {
-        if ($fileInfo['type'] === 'image') {
+        if ($fileInfo['type'] === 'picture') {
             $water = request()->post('water', 'true');
             $watermark = WatermarkService::detail();
             if ($watermark['status'] && $water === 'true') {
@@ -185,7 +181,7 @@ class StorageDriver
                         $watermark['alpha']
                     )->save($fileInfo['realPath']);
                 } else {
-                    $watermark['ttf'] = public_path() . 'static/common/watermark.ttf';
+                    $watermark['ttf'] = public_path() . 'static/common/images/watermark.ttf';
                     $image->text(
                         $watermark['fonts'],
                         $watermark['ttf'],
