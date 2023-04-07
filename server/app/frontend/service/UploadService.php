@@ -29,9 +29,9 @@ use think\facade\Filesystem;
 class UploadService extends Service
 {
     /**
-     * 临时上传
+     * 临时存储
      *
-     * @param string $type (类型: image/video)
+     * @param string $type (类型: image/video/package/document)
      * @return array
      * @throws UploadException
      * @author zero

@@ -20,9 +20,6 @@ use OSS\OssClient;
 
 /**
  * 阿里云OSS
- *
- * Class Aliyun
- * @package app\common\service\storage\engine
  */
 class Aliyun
 {

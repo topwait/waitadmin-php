@@ -110,7 +110,11 @@
     layui.use(['tinymce'], function () {
         let tinymce = layui.tinymce;
 
-        tinymce.render({});
+        tinymce.render({
+            elem: '#content'
+            ,module: 'backend'
+            ,attach: 'attach image media'
+        });
     })
 </script>
 {/block}

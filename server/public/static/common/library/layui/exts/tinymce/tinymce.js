@@ -79,6 +79,7 @@ layui.define([], function (exports) {
      */
     function initOptions(option, callback) {
         option.elem         = isset(option.elem)     ? option.elem : '#content';
+        option.module       = isset(option.module)   ? option.module : 'frontend';
         option.readonly     = isset(option.readonly) ? option.readonly : 0;
         option.suffix       = isset(option.suffix)   ? option.suffix : (plugin_filename.indexOf('.min')>-1 ? '.min' : '');
         option.base_url     = isset(option.base_url) ? option.base_url : plugin_base_url;
@@ -91,7 +92,7 @@ layui.define([], function (exports) {
         option.height       = isset(option.height)  ? option.height : 600;
         option.menu         = isset(option.menu)    ? option.menu : false;
         option.menubar      = isset(option.menubar) ? option.menubar : false;
-        option.attach       = isset(option.attach)  ? option.attach : 'attach image media';
+        option.attach       = isset(option.attach)  ? option.attach : 'image media';
 
         option.plugins = isset(option.plugins) ? option.plugins : `code preview fullpage searchreplace autolink
                     directionality visualblocks visualchars fullscreen link template charmap hr pagebreak 
@@ -146,21 +147,23 @@ layui.define([], function (exports) {
          * @author zero
          */
         option.file_picker_callback = isset(option.file_picker_callback) ? option.file_picker_callback : function(callback, value, meta) {
-            let pathname = window.location.pathname.split('/')[1];
+            let pathname = option.module;
+            if (option.module === 'backend') {
+                pathname = window.location.pathname.split('/')[1];
+            }
 
             let fileUrl;
             let fileType;
+            let baseUrl = '/' + pathname + '/upload/temporary';
             switch(meta.filetype){
                 case 'image':
-                    fileUrl  = '/'+pathname+'/upload/temporary?type=image';
+                    fileUrl  = baseUrl + '?type=image';
                     fileType = '.png, .jpg, .jpeg, .gif, .ico, .bmp';
                     break;
                 case 'media':
-                    fileUrl  = '/'+pathname+'/upload/temporary?type=video';
+                    fileUrl  = baseUrl + '?type=video';
                     fileType = '.mp4, .mp3, .avi, .flv, .rmvb, .mov';
                     break;
-                default:
-                    fileUrl = '/'+pathname+'/upload/temporary?type=image'
             }
 
             let input = document.createElement('input');
@@ -196,14 +199,17 @@ layui.define([], function (exports) {
          * @author zero
          */
         option.images_upload_handler = isset(option.images_upload_handler) ? option.images_upload_handler : function(blobInfo, successFun, failFun) {
-            let pathname = window.location.pathname.split('/')[1];
-            let reqUrl = '/'+pathname+'/upload/temporary?type=image';
+            let pathname = option.module;
+            if (option.module === 'backend') {
+                pathname = window.location.pathname.split('/')[1];
+            }
 
+            let baseUrl = '/' + pathname + '/upload/temporary?type=image';
             let xhr, formData;
             let file = blobInfo.blob();
             xhr = new XMLHttpRequest();
             xhr.withCredentials = false;
-            xhr.open('POST',  option.images_upload_url ? option.images_upload_url : reqUrl);
+            xhr.open('POST',  option.images_upload_url ? option.images_upload_url : baseUrl);
             xhr.onload = function() {
                 let json;
                 if (xhr.status !== 200) {
@@ -225,11 +231,16 @@ layui.define([], function (exports) {
 
         /**
          * 附件选择回调
+         * 从图库选择的: [紧后台可用]
          *
          * @type {(function(*): void)|*}
          * @author zero
          */
         option.attach_upload_callback = isset(option.attach_upload_callback) ? option.attach_upload_callback : function(callback) {
+            if (option.module !== 'backend') {
+                return layer.msg('Module not supported!', {icon: 2})
+            }
+
             layer.open({
                 type: 1,
                 title: false,
@@ -275,40 +286,50 @@ layui.define([], function (exports) {
 
         /**
          * 图片上传回调
+         * 从图库选择的: [紧后台可用]
          *
          * @type {(function(*): void)|*}
          * @author zero
          */
         option.images_upload_callback = isset(option.images_upload_callback) ? option.images_upload_callback : function(callback) {
-            waitUtil.uploader({
-                type: 'image',
-                limit: 20
-            }).then((res) => {
-                let urls = [];
-                res.forEach(function (item) {
-                    urls.push(item.url);
+            if (option.module !== 'backend') {
+                return layer.msg('Module not supported!', {icon: 2})
+            } else {
+                waitUtil.uploader({
+                    type: 'image',
+                    limit: 20
+                }).then((res) => {
+                    let urls = [];
+                    res.forEach(function (item) {
+                        urls.push(item.url);
+                    });
+                    callback(urls);
                 });
-                callback(urls);
-            });
+            }
         };
 
         /**
          * 视频上传回调
+         * 从图库选择的: [紧后台可用]
          *
          * @type {(function(*): void)|*}
          * @author zero
          */
         option.video_upload_callback = isset(option.video_upload_callback) ? option.video_upload_callback : function(callback) {
-            waitUtil.uploader({
-                type: 'video',
-                limit: 20
-            }).then((res) => {
-                let urls = [];
-                res.forEach(function (item) {
-                    urls.push(item.url);
+            if (option.module !== 'backend') {
+                return layer.msg('Module not supported!', {icon: 2})
+            } else {
+                waitUtil.uploader({
+                    type: 'video',
+                    limit: 20
+                }).then((res) => {
+                    let urls = [];
+                    res.forEach(function (item) {
+                        urls.push(item.url);
+                    });
+                    callback(urls);
                 });
-                callback(urls);
-            });
+            }
         };
 
         layui.sessionData('layui-tinymce', {

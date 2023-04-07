@@ -26,8 +26,10 @@ use think\response\Json;
  */
 class UploadController extends Frontend
 {
+    protected array $notNeedLogin = ['permanent'];
+
     /**
-     * 临时商城
+     * 临时存储
      *
      * @return Json
      * @throws UploadException
@@ -37,6 +39,7 @@ class UploadController extends Frontend
     public function temporary(): Json
     {
         $type = $this->request->post('type');
+
         $result = UploadService::temporary($type);
         return AjaxUtils::success('上传成功', $result);
     }
