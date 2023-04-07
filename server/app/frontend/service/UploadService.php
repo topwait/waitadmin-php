@@ -52,14 +52,15 @@ class UploadService extends Service
             $fileInfo = $storageDriver->upload($type);
 
             // 记录信息
-            $attach = Attach::create([
+            Attach::create([
                 'uid'       => $userId,
                 'cid'       => 0,
                 'file_type' => AttachEnum::getCodeByMsg($type),
                 'file_path' => $fileInfo['fileName'],
                 'file_name' => $fileInfo['name'],
                 'file_ext'  => $fileInfo['ext'],
-                'file_size' => $fileInfo['size']
+                'file_size' => $fileInfo['size'],
+                'is_attach' => 0
             ]);
 
             // 返回信息

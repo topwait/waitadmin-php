@@ -39,7 +39,7 @@ class UploadController extends Frontend
     {
         $type = $this->request->post('type');
 
-        $result = UploadService::permanent($type);
+        $result = UploadService::permanent($type, $this->userId);
         return AjaxUtils::success('上传成功', $result);
     }
 

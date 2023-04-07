@@ -61,7 +61,8 @@ class UploadService extends Service
                 'file_path' => $fileInfo['fileName'],
                 'file_name' => $fileInfo['name'],
                 'file_ext'  => $fileInfo['ext'],
-                'file_size' => $fileInfo['size']
+                'file_size' => $fileInfo['size'],
+                'is_attach' => 1
             ]);
 
             // 返回信息

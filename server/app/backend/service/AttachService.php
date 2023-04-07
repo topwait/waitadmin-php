@@ -54,6 +54,7 @@ class AttachService extends Service
             ->field('id,file_name,file_path,create_time')
             ->where($where)
             ->where(self::$searchWhere)
+            ->where(['is_attach'=>1])
             ->where(['is_delete'=>0])
             ->order('id desc')
             ->withAttr('file_path', function ($value) {
