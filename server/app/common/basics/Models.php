@@ -115,9 +115,9 @@ class Models extends Model
     /**
      * 修改器: 处理图片路径
      *
-     * @author zero
      * @param $value
      * @return string
+     * @author zero
      */
     public function setImageAttr($value): string
     {
@@ -127,9 +127,9 @@ class Models extends Model
     /**
      * 修改器: 处理轮播图
      *
-     * @author zero
      * @param $value
      * @return string
+     * @author zero
      */
     public function setBannerAttr($value): string
     {

@@ -15,6 +15,7 @@
 namespace app\common\model\article;
 
 use app\common\basics\Models;
+use app\common\utils\UrlUtils;
 use think\model\relation\HasOne;
 
 /**
@@ -52,5 +53,29 @@ class Article extends Models
     {
         return $this->hasOne(ArticleCategory::class, 'id', 'cid')
             ->field('id,name');
+    }
+
+    /**
+     * 获取器: 处理内容Src
+     *
+     * @param $value
+     * @return string
+     * @author zero
+     */
+    public function getContentAttr($value): string
+    {
+        return UrlUtils::editorAbsoluteSrc($value);
+    }
+
+    /**
+     * 修改器: 处理内容Src
+     *
+     * @param $value
+     * @return string
+     * @author zero
+     */
+    public function setContentAttr($value): string
+    {
+        return UrlUtils::editorRelativeSrc($value);
     }
 }

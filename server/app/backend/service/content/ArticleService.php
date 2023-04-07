@@ -76,14 +76,11 @@ class ArticleService extends Service
     public static function detail(int $id): array
     {
         $model = new Article();
-        $detail = $model->withoutField('is_delete,delete_time')
+        return $model->withoutField('is_delete,delete_time')
             ->where(['id'=> $id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
-
-        $detail['content'] = AttachUtils::absoluteSrc($detail['content']);
-        return $detail;
     }
 
     /**
@@ -94,26 +91,20 @@ class ArticleService extends Service
      */
     public static function add(array $post): void
     {
-        $article = Article::create([
+        AttachUtils::markQuote($post, ['image', 'content']);
+        Article::create([
             'cid'          => $post['cid'],
             'title'        => $post['title'],
             'sort'         => $post['sort']    ?? 0,
             'image'        => $post['image']   ?? '',
             'intro'        => $post['intro']   ?? '',
-            'content'      => $post['content'] ?? '',
+            'content'      => $post['content'],
             'is_topping'   => $post['is_topping'],
             'is_recommend' => $post['is_recommend'],
             'is_show'      => $post['is_show'],
             'create_time'  => time(),
             'update_time'  => time()
         ]);
-
-        $target = 'storage/article/'.$article['id'].'/';
-        $result = AttachUtils::markCreate($target, $post, ['image', 'content']);
-        Article::update([
-            'image'   => $result['image']??'',
-            'content' => $result['content']??''
-        ], ['id'=>$article['id']]);
     }
 
     /**
@@ -133,16 +124,14 @@ class ArticleService extends Service
             ->findOrFail()
             ->toArray();
 
-        $target = 'storage/article/'.$article['id'].'/';
-        $result = AttachUtils::markUpdate($target, $post, $article, ['image', 'content']);
-
+        AttachUtils::markUpdate($article, $post, ['image', 'content']);
         Article::update([
             'cid'          => $post['cid'],
             'title'        => $post['title'],
-            'sort'         => $post['sort']      ?? 0,
-            'intro'        => $post['intro']     ?? '',
-            'image'        => $result['image']   ?? '',
-            'content'      => $result['content'] ?? '',
+            'sort'         => $post['sort']    ?? 0,
+            'intro'        => $post['intro']   ?? '',
+            'image'        => $post['image']   ?? '',
+            'content'      => $post['content'] ?? '',
             'is_topping'   => $post['is_topping'],
             'is_recommend' => $post['is_recommend'],
             'is_show'      => $post['is_show'],

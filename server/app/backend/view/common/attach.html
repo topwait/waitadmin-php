@@ -173,7 +173,7 @@
 
 {block name="js"}
 <script>
-    let limit   = 1;
+    let limit   = parseInt('{$limit}');
     let urlArr  = [];
     layui.use(['laytpl', 'laypage', 'upload'], function () {
         let $ = layui.$;

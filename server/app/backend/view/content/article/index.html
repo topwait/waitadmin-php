@@ -127,14 +127,14 @@
                     area: ['95%', '95%'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
-                            waitUtil.locking(this);
+                            // waitUtil.locking(this);
                             data.field['content'] = layero.tinymce.activeEditor.getContent();
                             waitUtil.ajax({
                                 url: '{:route("content.article/add")}',
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
-                                waitUtil.unlock(this);
+                                // waitUtil.unlock(this);
                                 if (res.code === 0) {
                                     table.reload({page: {curr: 1}});
                                     layer.close(index);
@@ -151,7 +151,7 @@
                     area: ['95%', '95%'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
-                            waitUtil.locking(this);
+                            // waitUtil.locking(this);
                             data.field['id'] = obj.data.id;
                             data.field['content'] = layero.tinymce.activeEditor.getContent();
                             waitUtil.ajax({
