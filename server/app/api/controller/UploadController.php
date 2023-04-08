@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\api\controller;
 
 use app\api\service\UploadService;
+use app\api\validate\UploadValidate;
 use app\common\exception\UploadException;
 use app\common\basics\Api;
 use app\common\utils\AjaxUtils;
@@ -26,25 +27,37 @@ use think\response\Json;
  */
 class UploadController extends Api
 {
+
     /**
-     * 上传文件
+     * 永久存储
+     *
+     * @return Json
+     * @throws UploadException
+     * @author zeri
+     */
+    public function permanent(): Json
+    {
+        (new UploadValidate())->goCheck();
+        $type = $this->request->post('type');
+
+        $result = UploadService::permanent($type, $this->userId);
+        return AjaxUtils::success('上传成功', $result);
+    }
+
+    /**
+     * 临时存储
      *
      * @return Json
      * @throws UploadException
      * @method [POST]
      * @author zero
      */
-    public function file(): Json
+    public function temporary(): Json
     {
+        (new UploadValidate())->goCheck();
         $type = $this->request->post('type');
-        $dir  = $this->request->post('dir');
 
-        if ($dir === 'temporary') {
-            $result = UploadService::temporary($type);
-        } else {
-            $result = UploadService::storage($type, $dir);
-        }
-
-        return AjaxUtils::success($result);
+        $result = UploadService::temporary($type);
+        return AjaxUtils::success('上传成功', $result);
     }
 }

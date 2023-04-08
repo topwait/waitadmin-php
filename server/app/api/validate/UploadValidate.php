@@ -13,7 +13,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\backend\validate;
+namespace app\api\validate;
 
 use app\common\basics\Validate;
 
@@ -24,18 +24,14 @@ class UploadValidate extends Validate
 {
     protected $rule = [
         'file' => 'require',
-        'type' => 'require|in:picture,video,document,package',
-        'hide' => 'number|in:0,1',
-        'cid'  => 'number'
+        'type' => 'require|in:picture,video,document,package'
     ];
 
     public function __construct()
     {
         $this->field = [
             'file' => '上传文件',
-            'type' => '上传类型',
-            'hide' => '隐藏附件',
-            'cid'  => '所属分组'
+            'type' => '上传类型'
         ];
 
         parent::__construct();

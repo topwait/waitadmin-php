@@ -16,7 +16,9 @@ declare (strict_types = 1);
 namespace app\api\service;
 
 use app\common\basics\Service;
+use app\common\enums\AttachEnum;
 use app\common\exception\UploadException;
+use app\common\model\attach\Attach;
 use app\common\service\storage\StorageDriver;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
@@ -30,16 +32,15 @@ use think\facade\Filesystem;
 class UploadService extends Service
 {
     /**
-     * 上传
+     * 永久存储
      *
-     * @param string $type
-     * @param string $dir
+     * @param string $type (类型: picture/video/document/package)
+     * @param int $userId  (用户ID)
      * @return array
      * @throws UploadException
-     * @author zero
      */
-    #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
-    public static function storage(string $type, string $dir): array
+    #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'path' => "string", 'url' => "string"])]
+    public static function permanent(string $type, int $userId): array
     {
         try {
             // 存储引擎
@@ -47,14 +48,28 @@ class UploadService extends Service
             $params = ConfigUtils::get('storage', $engine, []);
 
             // 上传调用
-            $storageDriver = new StorageDriver(['engine'=>$engine, 'params'=>$params]);
-            $fileInfo = $storageDriver->upload($type, $dir);
+            $storageDriver = new StorageDriver(['engine' => $engine, 'params' => $params]);
+            $fileInfo = $storageDriver->upload($type);
+
+            // 记录信息
+            Attach::create([
+                'cid'       => 0,
+                'uid'       => $userId,
+                'file_type' => AttachEnum::getCodeByMsg($type),
+                'file_path' => $fileInfo['fileName'],
+                'file_name' => $fileInfo['name'],
+                'file_ext'  => $fileInfo['ext'],
+                'file_size' => $fileInfo['size'],
+                'is_user'   => 1,
+                'is_attach' => 0
+            ]);
 
             // 返回信息
             return [
                 'name' => $fileInfo['name'],
                 'ext'  => $fileInfo['ext'],
                 'size' => $fileInfo['size'],
+                'path' => $fileInfo['fileName'],
                 'url'  => UrlUtils::toAbsoluteUrl($fileInfo['fileName'])
             ];
         } catch (Exception $e) {

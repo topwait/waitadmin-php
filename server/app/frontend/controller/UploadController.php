@@ -19,6 +19,7 @@ use app\common\basics\Frontend;
 use app\common\exception\UploadException;
 use app\common\utils\AjaxUtils;
 use app\frontend\service\UploadService;
+use app\frontend\validate\UploadValidate;
 use think\response\Json;
 
 /**
@@ -26,8 +27,6 @@ use think\response\Json;
  */
 class UploadController extends Frontend
 {
-    protected array $notNeedLogin = ['permanent'];
-
     /**
      * 永久存储
      *
@@ -37,6 +36,7 @@ class UploadController extends Frontend
      */
     public function permanent(): Json
     {
+        (new UploadValidate())->goCheck();
         $type = $this->request->post('type');
 
         $result = UploadService::permanent($type, $this->userId);
@@ -53,6 +53,7 @@ class UploadController extends Frontend
      */
     public function temporary(): Json
     {
+        (new UploadValidate())->goCheck();
         $type = $this->request->post('type');
 
         $result = UploadService::temporary($type);
