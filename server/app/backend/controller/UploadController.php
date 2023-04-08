@@ -17,6 +17,7 @@ namespace app\backend\controller;
 
 
 use app\backend\service\UploadService;
+use app\backend\validate\UploadValidate;
 use app\common\basics\Backend;
 use app\common\exception\UploadException;
 use app\common\utils\AjaxUtils;
@@ -37,10 +38,12 @@ class UploadController extends Backend
      */
     public function permanent(): Json
     {
+        (new UploadValidate())->goCheck();
         $type = $this->request->get('type');
-        $cid  = $this->request->post('cid', 0);
+        $hide = intval($this->request->post('hide', 1));
+        $cid  = intval($this->request->post('cid', 0));
 
-        $result = UploadService::permanent($type, intval($cid), $this->adminId);
+        $result = UploadService::permanent($type, $cid, $hide, $this->adminId);
         return AjaxUtils::success('上传成功', $result);
     }
 
@@ -54,6 +57,7 @@ class UploadController extends Backend
      */
     public function temporary(): Json
     {
+        (new UploadValidate())->goCheck();
         $type = $this->request->get('type');
 
         $result = UploadService::temporary($type);

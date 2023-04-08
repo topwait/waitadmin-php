@@ -35,14 +35,15 @@ class UploadService extends Service
      * 永远存储
      *
      * @param string $type (类型: picture/video/document/package)
-     * @param int $cid (所属分类)
-     * @param int $uid (所属用户)
+     * @param int $hide (是否隐藏: 0=否, 1=是)
+     * @param int $cid  (所属分类)
+     * @param int $uid  (所属用户)
      * @return array
      * @throws UploadException
      * @author zero
      */
     #[ArrayShape(['id' => "int", 'name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
-    public static function permanent(string $type, int $cid, int $uid): array
+    public static function permanent(string $type, int $hide, int $cid, int $uid): array
     {
         try {
             // 存储引擎
@@ -62,7 +63,7 @@ class UploadService extends Service
                 'file_name' => $fileInfo['name'],
                 'file_ext'  => $fileInfo['ext'],
                 'file_size' => $fileInfo['size'],
-                'is_attach' => 1
+                'is_attach' => !$hide
             ]);
 
             // 返回信息
