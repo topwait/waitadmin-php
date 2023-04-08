@@ -19,6 +19,9 @@ namespace app\common\enums;
  */
 class AttachEnum
 {
+    /**
+     * 上传类型
+     */
     const PICTURE  = 10;
     const VIDEO    = 20;
     const DOCUMENT = 30;

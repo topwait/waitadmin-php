@@ -32,6 +32,7 @@ class Attach extends Models
         'file_path'       => 'string',  //文件路径
         'file_ext'        => 'string',  //文件路径
         'file_size'       => 'int',     //文件路径
+        'is_user'         => 'int',     //用户上传: [0=否, 1=是]
         'is_attach'       => 'int',     //仓库附件: [0=否, 1=是]
         'is_delete'       => 'int',     //是否禁用: [0=否, 1=是]
         'create_time'     => 'int',     //创建时间

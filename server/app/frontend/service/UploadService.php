@@ -60,6 +60,7 @@ class UploadService extends Service
                 'file_name' => $fileInfo['name'],
                 'file_ext'  => $fileInfo['ext'],
                 'file_size' => $fileInfo['size'],
+                'is_user'   => 1,
                 'is_attach' => 0
             ]);
 

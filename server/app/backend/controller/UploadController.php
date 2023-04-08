@@ -39,11 +39,11 @@ class UploadController extends Backend
     public function permanent(): Json
     {
         (new UploadValidate())->goCheck();
-        $type = $this->request->get('type');
+        $type = strval($this->request->get('type'));
         $hide = intval($this->request->post('hide', 1));
         $cid  = intval($this->request->post('cid', 0));
 
-        $result = UploadService::permanent($type, $cid, $hide, $this->adminId);
+        $result = UploadService::permanent($type, $hide, $cid, $this->adminId);
         return AjaxUtils::success('上传成功', $result);
     }
 
