@@ -10,7 +10,7 @@ use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\Output;
-use think\addons\Service as AddonService;
+use wait\addons\Service as AddonService;
 use ZipArchive;
 
 /**
