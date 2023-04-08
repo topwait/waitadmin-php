@@ -91,7 +91,7 @@ class ArticleService extends Service
      */
     public static function add(array $post): void
     {
-        AttachUtils::markQuote($post, ['image', 'content']);
+        AttachUtils::markCreate($post, ['image', 'content']);
         Article::create([
             'cid'          => $post['cid'],
             'title'        => $post['title'],

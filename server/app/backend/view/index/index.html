@@ -137,6 +137,8 @@
 <script src="__BACKEND__/js/kernel.min.js"></script>
 <script>
     layui.use(function() {
+        let $ = layui.$;
+
         waitUtil.event({
             info: function () {
                 waitUtil.popup({
@@ -153,6 +155,7 @@
                             }).then((res) => {
                                 if (res.code === 0) {
                                     layer.close(index);
+                                    $('.wait-header .layui-nav-img').attr('src', data.field['avatar']);
                                 }
                             });
                         });

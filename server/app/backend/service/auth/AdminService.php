@@ -19,6 +19,7 @@ use app\common\basics\Service;
 use app\common\exception\NotAuthException;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;
+use app\common\utils\AttachUtils;
 use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
@@ -110,31 +111,25 @@ class AdminService extends Service
      */
     public static function info(array $post, int $adminId): void
     {
-        $salt = make_rand_char(6);
-        if (!empty($post['password']) and $post['password']) {
-            $model = new AuthAdmin();
-            $admin = $model->field('id,salt,password')
-                ->where(['id'=>intval($post['id'])])
-                ->findOrEmpty()
-                ->toArray();
+        $model = new AuthAdmin();
+        $admin = $model->field('id,avatar,salt,password')
+            ->where(['id'=>intval($post['id'])])
+            ->findOrEmpty()
+            ->toArray();
 
+        $salt = make_rand_char(6);
+        $post['password'] = make_md5_str($post['password'].$salt);
+        if (!empty($post['password']) and $post['password']) {
             $post['password'] = $admin['password'];
             $salt = $admin['salt'];
-        } else {
-            $post['password'] = make_md5_str($post['password'].$salt);
         }
 
-        $avatar = UrlUtils::toRelativeUrl($post['image']??'');
-        if (!empty($post['image'])) {
-            $ext = FileUtils::getFileExt($post['image']);
-            $source = public_path().UrlUtils::toRelativeUrl($post['image']);
-            $target = public_path().'storage/admin/'.$adminId.'_avatar.'.$ext;
-            $avatar = 'storage/admin/'.$adminId.'_avatar.'.$ext;
-            FileUtils::move($source, $target);
-        } else if (empty($avatar)) {
+        $avatar = UrlUtils::toRelativeUrl($post['avatar']??'');
+        if (empty($post['avatar'])) {
             $avatar = '/static/backend/images/default/avatar.png';
         }
 
+        AttachUtils::markUpdate($admin, $post, ['avatar']);
         AuthAdmin::update([
             'salt'            => $salt,
             'avatar'          => $avatar,
@@ -144,7 +139,7 @@ class AdminService extends Service
             'email'           => $post['email'] ?? '',
             'is_disable'      => $post['is_disable'],
             'update_time'     => time(),
-        ], ['id'=>intval($adminId)]);
+        ], ['id'=> $adminId]);
     }
 
     /**

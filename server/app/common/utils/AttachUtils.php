@@ -24,12 +24,13 @@ class AttachUtils
 {
     /**
      * 标记附件引用
+     * PS: 附件引用+1
      *
      * @param array $post  (提交数据)
      * @param array $keys  (处理的键: postKey@sqlKey)
      * @author zero
      */
-    public static function markQuote(array $post, array $keys)
+    public static function markCreate(array $post, array $keys)
     {
         // 读取路径
         foreach ($keys as $key) {
@@ -62,6 +63,7 @@ class AttachUtils
 
     /**
      * 标记附件更新
+     * PS: 如果附件引用+1,否侧取消引用-1
      *
      * @param array $objs  (原始数据)
      * @param array $post  (提交数据)

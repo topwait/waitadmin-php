@@ -23,6 +23,7 @@ use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
+use app\common\utils\AttachUtils;
 use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 use Exception;
@@ -132,11 +133,8 @@ class UserService extends Service
 
         $avatar = UrlUtils::toRelativeUrl($avatarUrl);
         if ($user['avatar'] !== $avatar) {
-            $ext    = FileUtils::getFileExt($avatar);
-            $source = UrlUtils::toRoot($avatar);
-            $target = 'storage/avatar/user/'.date('Ymd').'/'.md5((string)$userId).'.'.$ext;
-            FileUtils::move($source, UrlUtils::toRoot($target));
-            User::update(['avatar'=>$target, 'update_time'=>time()], ['id'=>$userId]);
+            AttachUtils::markUpdate($user, $post, ['avatar']);
+            User::update(['avatar'=>$avatar, 'update_time'=>time()], ['id'=>$userId]);
         }
     }
 

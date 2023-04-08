@@ -154,8 +154,8 @@ class StorageDriver
     {
         return date('Ymd') . '/'
             . date('His')
-            . substr(md5($realPath), 0, 8)
-            . substr(md5(microtime()), 5, 10)
+            . substr(md5($realPath), 0, 9)
+            . substr(md5(microtime()), 5, 12)
             . str_pad(strval(rand(0, 9999)), 5, '0', STR_PAD_LEFT)
             . ".$ext";
     }

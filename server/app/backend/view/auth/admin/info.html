@@ -6,11 +6,11 @@
     <div class="wait-body-content">
         <!-- 用户头像 -->
         <div class="layui-form-item" style="display:flex; justify-content:center;">
-            <div class="thumbnail" data-type="image" data-limit="1">
+            <div class="thumbnail" data-type="image" data-field="avatar" data-limit="1">
                 <div class="musters">
                     {if $detail.avatar}
                         <div class="preview">
-                            <input type="hidden" name="image" value="{$detail.avatar}">
+                            <input type="hidden" name="avatar" value="{$detail.avatar}">
                             <i class="layui-icon layui-icon-close"></i>
                             <img src="{$detail.avatar}" alt="img">
                         </div>

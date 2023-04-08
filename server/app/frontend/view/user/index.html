@@ -272,7 +272,7 @@
                 waitUtil.ajax({
                     url: '/frontend/user/binding',
                     type: 'POST',
-                    data: {field: 'avatar', avatar: data.field['avatar']}
+                    data: {field: 'changeAvatar', avatar: data.field['avatar']}
                 }).then(() => {
                     waitUtil.unlock(that);
                 });
@@ -282,13 +282,13 @@
         // 上传头像
         upload.render({
             elem: '#uploadAvatar'
-            ,url: '/frontend/upload/temporary'
+            ,url: '{:route("upload/permanent")}'
             ,field: 'file'
             ,accept: 'images'
             ,acceptMime: 'image/*'
             ,exts: 'jpg|png|jpeg'
             ,size: 1024 * 10
-            ,data: {type: 'image'}
+            ,data: {type: 'picture'}
             ,done: function (res) {
                 layer.msg(res.msg);
                 if (res.code === 0) {
