@@ -23,14 +23,12 @@ use app\common\basics\Validate;
 class UploadValidate extends Validate
 {
     protected $rule = [
-        'file' => 'require',
         'type' => 'require|in:picture,video,document,package'
     ];
 
     public function __construct()
     {
         $this->field = [
-            'file' => '上传文件',
             'type' => '上传类型'
         ];
 

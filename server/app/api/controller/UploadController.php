@@ -27,7 +27,6 @@ use think\response\Json;
  */
 class UploadController extends Api
 {
-
     /**
      * 永久存储
      *
