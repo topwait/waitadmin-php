@@ -42,6 +42,21 @@ CREATE TABLE `wait_article_category`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章类目表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for wait_article_collect
+-- ----------------------------
+DROP TABLE IF EXISTS `wait_article_collect`;
+CREATE TABLE `wait_article_collect`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户ID',
+  `article_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '文章ID',
+  `is_delete` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除: [0=否, 1=是]',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
+  `delete_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户收藏表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for wait_attach
 -- ----------------------------
 DROP TABLE IF EXISTS `wait_attach`;
