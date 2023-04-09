@@ -230,8 +230,10 @@ class Proof
 
     /**
      * 通过或失败图标
+     *
      * @param $status
      * @return string
+     * @author zero
      */
     public function successOrFail($status): string
     {

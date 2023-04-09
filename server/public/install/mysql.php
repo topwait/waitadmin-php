@@ -30,7 +30,7 @@ class Mysql
      * 构造方法
      *
      * Mysql constructor.
-     * @param $post
+     * @param array $post
      */
     public function __construct(array $post)
     {
