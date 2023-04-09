@@ -128,6 +128,18 @@ pause
 注意：此字段可能返回 null，表示取不到有效值。
  * @method void setResourceTags(array $ResourceTags) 设置资源标签
 注意：此字段可能返回 null，表示取不到有效值。
+ * @method string getMasterZone() 获取主可用区
+注意：此字段可能返回 null，表示取不到有效值。
+ * @method void setMasterZone(string $MasterZone) 设置主可用区
+注意：此字段可能返回 null，表示取不到有效值。
+ * @method array getSlaveZones() 获取备可用区
+注意：此字段可能返回 null，表示取不到有效值。
+ * @method void setSlaveZones(array $SlaveZones) 设置备可用区
+注意：此字段可能返回 null，表示取不到有效值。
+ * @method array getInstanceNetInfo() 获取实例网络信息
+注意：此字段可能返回 null，表示取不到有效值。
+ * @method void setInstanceNetInfo(array $InstanceNetInfo) 设置实例网络信息
+注意：此字段可能返回 null，表示取不到有效值。
  */
 class CynosdbInstance extends AbstractModel
 {
@@ -374,6 +386,24 @@ pause
     public $ResourceTags;
 
     /**
+     * @var string 主可用区
+注意：此字段可能返回 null，表示取不到有效值。
+     */
+    public $MasterZone;
+
+    /**
+     * @var array 备可用区
+注意：此字段可能返回 null，表示取不到有效值。
+     */
+    public $SlaveZones;
+
+    /**
+     * @var array 实例网络信息
+注意：此字段可能返回 null，表示取不到有效值。
+     */
+    public $InstanceNetInfo;
+
+    /**
      * @param string $Uin 用户Uin
      * @param integer $AppId 用户AppId
      * @param string $ClusterId 集群ID
@@ -427,6 +457,12 @@ pause
      * @param string $IsFreeze 是否冻结
 注意：此字段可能返回 null，表示取不到有效值。
      * @param array $ResourceTags 资源标签
+注意：此字段可能返回 null，表示取不到有效值。
+     * @param string $MasterZone 主可用区
+注意：此字段可能返回 null，表示取不到有效值。
+     * @param array $SlaveZones 备可用区
+注意：此字段可能返回 null，表示取不到有效值。
+     * @param array $InstanceNetInfo 实例网络信息
 注意：此字段可能返回 null，表示取不到有效值。
      */
     function __construct()
@@ -637,6 +673,23 @@ pause
                 $obj = new Tag();
                 $obj->deserialize($value);
                 array_push($this->ResourceTags, $obj);
+            }
+        }
+
+        if (array_key_exists("MasterZone",$param) and $param["MasterZone"] !== null) {
+            $this->MasterZone = $param["MasterZone"];
+        }
+
+        if (array_key_exists("SlaveZones",$param) and $param["SlaveZones"] !== null) {
+            $this->SlaveZones = $param["SlaveZones"];
+        }
+
+        if (array_key_exists("InstanceNetInfo",$param) and $param["InstanceNetInfo"] !== null) {
+            $this->InstanceNetInfo = [];
+            foreach ($param["InstanceNetInfo"] as $key => $value){
+                $obj = new InstanceNetInfo();
+                $obj->deserialize($value);
+                array_push($this->InstanceNetInfo, $obj);
             }
         }
     }

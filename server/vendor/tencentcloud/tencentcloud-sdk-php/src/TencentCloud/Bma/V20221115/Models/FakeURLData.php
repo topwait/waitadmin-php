@@ -36,6 +36,10 @@ use TencentCloud\Common\AbstractModel;
 注意：此字段可能返回 null，表示取不到有效值。
  * @method void setFakeURL(string $FakeURL) 设置仿冒网址
 注意：此字段可能返回 null，表示取不到有效值。
+ * @method string getFakeDomain() 获取仿冒域名
+注意：此字段可能返回 null，表示取不到有效值。
+ * @method void setFakeDomain(string $FakeDomain) 设置仿冒域名
+注意：此字段可能返回 null，表示取不到有效值。
  * @method integer getHeat() 获取热度
 注意：此字段可能返回 null，表示取不到有效值。
  * @method void setHeat(integer $Heat) 设置热度
@@ -96,6 +100,10 @@ use TencentCloud\Common\AbstractModel;
 注意：此字段可能返回 null，表示取不到有效值。
  * @method void setCertificationStatus(integer $CertificationStatus) 设置资质证明状态：0-不可用 1-可用
 注意：此字段可能返回 null，表示取不到有效值。
+ * @method string getSnapshot() 获取网址截图
+注意：此字段可能返回 null，表示取不到有效值。
+ * @method void setSnapshot(string $Snapshot) 设置网址截图
+注意：此字段可能返回 null，表示取不到有效值。
  */
 class FakeURLData extends AbstractModel
 {
@@ -122,6 +130,12 @@ class FakeURLData extends AbstractModel
 注意：此字段可能返回 null，表示取不到有效值。
      */
     public $FakeURL;
+
+    /**
+     * @var string 仿冒域名
+注意：此字段可能返回 null，表示取不到有效值。
+     */
+    public $FakeDomain;
 
     /**
      * @var integer 热度
@@ -214,6 +228,12 @@ class FakeURLData extends AbstractModel
     public $CertificationStatus;
 
     /**
+     * @var string 网址截图
+注意：此字段可能返回 null，表示取不到有效值。
+     */
+    public $Snapshot;
+
+    /**
      * @param integer $FakeURLId 仿冒网址id
 注意：此字段可能返回 null，表示取不到有效值。
      * @param string $BrandName 品牌名称
@@ -221,6 +241,8 @@ class FakeURLData extends AbstractModel
      * @param integer $Origin 仿冒来源：0-系统检测 1-人工举报
 注意：此字段可能返回 null，表示取不到有效值。
      * @param string $FakeURL 仿冒网址
+注意：此字段可能返回 null，表示取不到有效值。
+     * @param string $FakeDomain 仿冒域名
 注意：此字段可能返回 null，表示取不到有效值。
      * @param integer $Heat 热度
 注意：此字段可能返回 null，表示取不到有效值。
@@ -252,6 +274,8 @@ class FakeURLData extends AbstractModel
 注意：此字段可能返回 null，表示取不到有效值。
      * @param integer $CertificationStatus 资质证明状态：0-不可用 1-可用
 注意：此字段可能返回 null，表示取不到有效值。
+     * @param string $Snapshot 网址截图
+注意：此字段可能返回 null，表示取不到有效值。
      */
     function __construct()
     {
@@ -280,6 +304,10 @@ class FakeURLData extends AbstractModel
 
         if (array_key_exists("FakeURL",$param) and $param["FakeURL"] !== null) {
             $this->FakeURL = $param["FakeURL"];
+        }
+
+        if (array_key_exists("FakeDomain",$param) and $param["FakeDomain"] !== null) {
+            $this->FakeDomain = $param["FakeDomain"];
         }
 
         if (array_key_exists("Heat",$param) and $param["Heat"] !== null) {
@@ -340,6 +368,10 @@ class FakeURLData extends AbstractModel
 
         if (array_key_exists("CertificationStatus",$param) and $param["CertificationStatus"] !== null) {
             $this->CertificationStatus = $param["CertificationStatus"];
+        }
+
+        if (array_key_exists("Snapshot",$param) and $param["Snapshot"] !== null) {
+            $this->Snapshot = $param["Snapshot"];
         }
     }
 }

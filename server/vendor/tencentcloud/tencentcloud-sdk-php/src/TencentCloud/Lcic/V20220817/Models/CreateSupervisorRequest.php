@@ -20,14 +20,26 @@ use TencentCloud\Common\AbstractModel;
 /**
  * CreateSupervisor请求参数结构体
  *
-
+ * @method integer getSdkAppId() 获取应用ID。
+ * @method void setSdkAppId(integer $SdkAppId) 设置应用ID。
+ * @method array getUsers() 获取用户ID列表。
+ * @method void setUsers(array $Users) 设置用户ID列表。
  */
 class CreateSupervisorRequest extends AbstractModel
 {
-
+    /**
+     * @var integer 应用ID。
+     */
+    public $SdkAppId;
 
     /**
+     * @var array 用户ID列表。
+     */
+    public $Users;
 
+    /**
+     * @param integer $SdkAppId 应用ID。
+     * @param array $Users 用户ID列表。
      */
     function __construct()
     {
@@ -42,6 +54,12 @@ class CreateSupervisorRequest extends AbstractModel
         if ($param === null) {
             return;
         }
+        if (array_key_exists("SdkAppId",$param) and $param["SdkAppId"] !== null) {
+            $this->SdkAppId = $param["SdkAppId"];
+        }
 
+        if (array_key_exists("Users",$param) and $param["Users"] !== null) {
+            $this->Users = $param["Users"];
+        }
     }
 }

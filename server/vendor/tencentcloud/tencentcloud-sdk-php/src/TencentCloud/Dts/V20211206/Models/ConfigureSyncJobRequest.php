@@ -26,8 +26,6 @@ use TencentCloud\Common\AbstractModel;
  * @method void setSrcAccessType(string $SrcAccessType) 设置源端接入类型，cdb(云数据库)、cvm(云主机自建)、vpc(私有网络)、extranet(外网)、vpncloud(vpn接入)、dcg(专线接入)、ccn(云联网)、intranet(自研上云),注意具体可选值依赖当前链路
  * @method string getDstAccessType() 获取目标端接入类型，cdb(云数据库)、cvm(云主机自建)、vpc(私有网络)、extranet(外网)、vpncloud(vpn接入)、dcg(专线接入)、ccn(云联网)、intranet(自研上云)、ckafka(CKafka实例),注意具体可选值依赖当前链路
  * @method void setDstAccessType(string $DstAccessType) 设置目标端接入类型，cdb(云数据库)、cvm(云主机自建)、vpc(私有网络)、extranet(外网)、vpncloud(vpn接入)、dcg(专线接入)、ccn(云联网)、intranet(自研上云)、ckafka(CKafka实例),注意具体可选值依赖当前链路
- * @method Options getOptions() 获取同步任务选项
- * @method void setOptions(Options $Options) 设置同步任务选项
  * @method Objects getObjects() 获取同步库表对象信息
  * @method void setObjects(Objects $Objects) 设置同步库表对象信息
  * @method string getJobName() 获取同步任务名称
@@ -40,8 +38,18 @@ use TencentCloud\Common\AbstractModel;
  * @method void setExpectRunTime(string $ExpectRunTime) 设置期待启动时间，当RunMode取值为Timed时，此值必填，形如："2006-01-02 15:04:05"
  * @method Endpoint getSrcInfo() 获取源端信息，单节点数据库使用，且SrcNodeType传single
  * @method void setSrcInfo(Endpoint $SrcInfo) 设置源端信息，单节点数据库使用，且SrcNodeType传single
+ * @method SyncDBEndpointInfos getSrcInfos() 获取源端信息，多节点数据库使用，且SrcNodeType传cluster
+ * @method void setSrcInfos(SyncDBEndpointInfos $SrcInfos) 设置源端信息，多节点数据库使用，且SrcNodeType传cluster
+ * @method string getSrcNodeType() 获取枚举值：cluster、single。源库为单节点数据库使用single，多节点使用cluster
+ * @method void setSrcNodeType(string $SrcNodeType) 设置枚举值：cluster、single。源库为单节点数据库使用single，多节点使用cluster
  * @method Endpoint getDstInfo() 获取目标端信息，单节点数据库使用
  * @method void setDstInfo(Endpoint $DstInfo) 设置目标端信息，单节点数据库使用
+ * @method SyncDBEndpointInfos getDstInfos() 获取目标端信息，多节点数据库使用，且DstNodeType传cluster
+ * @method void setDstInfos(SyncDBEndpointInfos $DstInfos) 设置目标端信息，多节点数据库使用，且DstNodeType传cluster
+ * @method string getDstNodeType() 获取枚举值：cluster、single。目标库为单节点数据库使用single，多节点使用cluster
+ * @method void setDstNodeType(string $DstNodeType) 设置枚举值：cluster、single。目标库为单节点数据库使用single，多节点使用cluster
+ * @method Options getOptions() 获取同步任务选项
+ * @method void setOptions(Options $Options) 设置同步任务选项
  * @method integer getAutoRetryTimeRangeMinutes() 获取自动重试的时间段、可设置5至720分钟、0表示不重试
  * @method void setAutoRetryTimeRangeMinutes(integer $AutoRetryTimeRangeMinutes) 设置自动重试的时间段、可设置5至720分钟、0表示不重试
  */
@@ -61,11 +69,6 @@ class ConfigureSyncJobRequest extends AbstractModel
      * @var string 目标端接入类型，cdb(云数据库)、cvm(云主机自建)、vpc(私有网络)、extranet(外网)、vpncloud(vpn接入)、dcg(专线接入)、ccn(云联网)、intranet(自研上云)、ckafka(CKafka实例),注意具体可选值依赖当前链路
      */
     public $DstAccessType;
-
-    /**
-     * @var Options 同步任务选项
-     */
-    public $Options;
 
     /**
      * @var Objects 同步库表对象信息
@@ -98,9 +101,34 @@ class ConfigureSyncJobRequest extends AbstractModel
     public $SrcInfo;
 
     /**
+     * @var SyncDBEndpointInfos 源端信息，多节点数据库使用，且SrcNodeType传cluster
+     */
+    public $SrcInfos;
+
+    /**
+     * @var string 枚举值：cluster、single。源库为单节点数据库使用single，多节点使用cluster
+     */
+    public $SrcNodeType;
+
+    /**
      * @var Endpoint 目标端信息，单节点数据库使用
      */
     public $DstInfo;
+
+    /**
+     * @var SyncDBEndpointInfos 目标端信息，多节点数据库使用，且DstNodeType传cluster
+     */
+    public $DstInfos;
+
+    /**
+     * @var string 枚举值：cluster、single。目标库为单节点数据库使用single，多节点使用cluster
+     */
+    public $DstNodeType;
+
+    /**
+     * @var Options 同步任务选项
+     */
+    public $Options;
 
     /**
      * @var integer 自动重试的时间段、可设置5至720分钟、0表示不重试
@@ -111,14 +139,18 @@ class ConfigureSyncJobRequest extends AbstractModel
      * @param string $JobId 同步实例id（即标识一个同步作业），形如sync-werwfs23
      * @param string $SrcAccessType 源端接入类型，cdb(云数据库)、cvm(云主机自建)、vpc(私有网络)、extranet(外网)、vpncloud(vpn接入)、dcg(专线接入)、ccn(云联网)、intranet(自研上云),注意具体可选值依赖当前链路
      * @param string $DstAccessType 目标端接入类型，cdb(云数据库)、cvm(云主机自建)、vpc(私有网络)、extranet(外网)、vpncloud(vpn接入)、dcg(专线接入)、ccn(云联网)、intranet(自研上云)、ckafka(CKafka实例),注意具体可选值依赖当前链路
-     * @param Options $Options 同步任务选项
      * @param Objects $Objects 同步库表对象信息
      * @param string $JobName 同步任务名称
      * @param string $JobMode 枚举值是 liteMode 和 fullMode ，分别对应精简模式或正常模式
      * @param string $RunMode 运行模式，取值如：Immediate(表示立即运行，默认为此项值)、Timed(表示定时运行)
      * @param string $ExpectRunTime 期待启动时间，当RunMode取值为Timed时，此值必填，形如："2006-01-02 15:04:05"
      * @param Endpoint $SrcInfo 源端信息，单节点数据库使用，且SrcNodeType传single
+     * @param SyncDBEndpointInfos $SrcInfos 源端信息，多节点数据库使用，且SrcNodeType传cluster
+     * @param string $SrcNodeType 枚举值：cluster、single。源库为单节点数据库使用single，多节点使用cluster
      * @param Endpoint $DstInfo 目标端信息，单节点数据库使用
+     * @param SyncDBEndpointInfos $DstInfos 目标端信息，多节点数据库使用，且DstNodeType传cluster
+     * @param string $DstNodeType 枚举值：cluster、single。目标库为单节点数据库使用single，多节点使用cluster
+     * @param Options $Options 同步任务选项
      * @param integer $AutoRetryTimeRangeMinutes 自动重试的时间段、可设置5至720分钟、0表示不重试
      */
     function __construct()
@@ -144,11 +176,6 @@ class ConfigureSyncJobRequest extends AbstractModel
 
         if (array_key_exists("DstAccessType",$param) and $param["DstAccessType"] !== null) {
             $this->DstAccessType = $param["DstAccessType"];
-        }
-
-        if (array_key_exists("Options",$param) and $param["Options"] !== null) {
-            $this->Options = new Options();
-            $this->Options->deserialize($param["Options"]);
         }
 
         if (array_key_exists("Objects",$param) and $param["Objects"] !== null) {
@@ -177,9 +204,32 @@ class ConfigureSyncJobRequest extends AbstractModel
             $this->SrcInfo->deserialize($param["SrcInfo"]);
         }
 
+        if (array_key_exists("SrcInfos",$param) and $param["SrcInfos"] !== null) {
+            $this->SrcInfos = new SyncDBEndpointInfos();
+            $this->SrcInfos->deserialize($param["SrcInfos"]);
+        }
+
+        if (array_key_exists("SrcNodeType",$param) and $param["SrcNodeType"] !== null) {
+            $this->SrcNodeType = $param["SrcNodeType"];
+        }
+
         if (array_key_exists("DstInfo",$param) and $param["DstInfo"] !== null) {
             $this->DstInfo = new Endpoint();
             $this->DstInfo->deserialize($param["DstInfo"]);
+        }
+
+        if (array_key_exists("DstInfos",$param) and $param["DstInfos"] !== null) {
+            $this->DstInfos = new SyncDBEndpointInfos();
+            $this->DstInfos->deserialize($param["DstInfos"]);
+        }
+
+        if (array_key_exists("DstNodeType",$param) and $param["DstNodeType"] !== null) {
+            $this->DstNodeType = $param["DstNodeType"];
+        }
+
+        if (array_key_exists("Options",$param) and $param["Options"] !== null) {
+            $this->Options = new Options();
+            $this->Options->deserialize($param["Options"]);
         }
 
         if (array_key_exists("AutoRetryTimeRangeMinutes",$param) and $param["AutoRetryTimeRangeMinutes"] !== null) {

@@ -29,7 +29,9 @@ use TencentCloud\Tcr\V20190924\Models as Models;
  * @method Models\CheckInstanceNameResponse CheckInstanceName(Models\CheckInstanceNameRequest $req) 检查待创建的实例名称是否符合规范
  * @method Models\CreateApplicationTriggerPersonalResponse CreateApplicationTriggerPersonal(Models\CreateApplicationTriggerPersonalRequest $req) 用于创建应用更新触发器
  * @method Models\CreateImageAccelerationServiceResponse CreateImageAccelerationService(Models\CreateImageAccelerationServiceRequest $req) 创建镜像加速服务
- * @method Models\CreateImageLifecyclePersonalResponse CreateImageLifecyclePersonal(Models\CreateImageLifecyclePersonalRequest $req) 用于在个人版中创建清理策略
+ * @method Models\CreateImageLifecyclePersonalResponse CreateImageLifecyclePersonal(Models\CreateImageLifecyclePersonalRequest $req) 前端与现有逻辑均不再使用，可下线
+
+用于在个人版中创建清理策略
  * @method Models\CreateImmutableTagRulesResponse CreateImmutableTagRules(Models\CreateImmutableTagRulesRequest $req) 创建镜像不可变规则
  * @method Models\CreateInstanceResponse CreateInstance(Models\CreateInstanceRequest $req) 创建实例
  * @method Models\CreateInstanceCustomizedDomainResponse CreateInstanceCustomizedDomain(Models\CreateInstanceCustomizedDomainRequest $req) 创建自定义域名
@@ -52,7 +54,9 @@ use TencentCloud\Tcr\V20190924\Models as Models;
  * @method Models\DeleteImageResponse DeleteImage(Models\DeleteImageRequest $req) 删除指定镜像
  * @method Models\DeleteImageAccelerateServiceResponse DeleteImageAccelerateService(Models\DeleteImageAccelerateServiceRequest $req) 删除镜像加速服务
  * @method Models\DeleteImageLifecycleGlobalPersonalResponse DeleteImageLifecycleGlobalPersonal(Models\DeleteImageLifecycleGlobalPersonalRequest $req) 用于删除个人版全局镜像版本自动清理策略
- * @method Models\DeleteImageLifecyclePersonalResponse DeleteImageLifecyclePersonal(Models\DeleteImageLifecyclePersonalRequest $req) 用于在个人版镜像仓库中删除仓库Tag自动清理策略
+ * @method Models\DeleteImageLifecyclePersonalResponse DeleteImageLifecyclePersonal(Models\DeleteImageLifecyclePersonalRequest $req) 前端与后端目前现有逻辑均不再使用，可下线
+
+用于在个人版镜像仓库中删除仓库Tag自动清理策略
  * @method Models\DeleteImagePersonalResponse DeleteImagePersonal(Models\DeleteImagePersonalRequest $req) 用于在个人版中删除tag
  * @method Models\DeleteImmutableTagRulesResponse DeleteImmutableTagRules(Models\DeleteImmutableTagRulesRequest $req)  删除镜像不可变规则
  * @method Models\DeleteInstanceResponse DeleteInstance(Models\DeleteInstanceRequest $req) 删除镜像仓库企业版实例
@@ -84,9 +88,6 @@ use TencentCloud\Tcr\V20190924\Models as Models;
  * @method Models\DescribeImagePersonalResponse DescribeImagePersonal(Models\DescribeImagePersonalRequest $req) 用于获取个人版镜像仓库tag列表
  * @method Models\DescribeImagesResponse DescribeImages(Models\DescribeImagesRequest $req) 查询镜像版本列表或指定容器镜像信息
  * @method Models\DescribeImmutableTagRulesResponse DescribeImmutableTagRules(Models\DescribeImmutableTagRulesRequest $req) 列出镜像不可变规则
- * @method Models\DescribeInstanceAllResponse DescribeInstanceAll(Models\DescribeInstanceAllRequest $req) 内部替换接口+DescribeInstanceAllForCoding
-
-查询全部实例信息
  * @method Models\DescribeInstanceAllNamespacesResponse DescribeInstanceAllNamespaces(Models\DescribeInstanceAllNamespacesRequest $req) 查询所有实例命名空间列表
  * @method Models\DescribeInstanceCustomizedDomainResponse DescribeInstanceCustomizedDomain(Models\DescribeInstanceCustomizedDomainRequest $req) 查询实例自定义域名列表
  * @method Models\DescribeInstanceStatusResponse DescribeInstanceStatus(Models\DescribeInstanceStatusRequest $req) 查询实例当前状态以及过程信息

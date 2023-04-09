@@ -18,56 +18,44 @@ namespace TencentCloud\Ess\V20201111\Models;
 use TencentCloud\Common\AbstractModel;
 
 /**
- * 主企业代子企业操作 或 渠道子客应用相关信息
+ * 代理相关应用信息，如集团主企业代子企业操作
  *
- * @method string getAppId() 获取应用编号,32位字符串
- * @method void setAppId(string $AppId) 设置应用编号,32位字符串
- * @method string getProxyAppId() 获取主组织的应用号
-注意：此字段可能返回 null，表示取不到有效值。
- * @method void setProxyAppId(string $ProxyAppId) 设置主组织的应用号
-注意：此字段可能返回 null，表示取不到有效值。
- * @method string getProxyOrganizationId() 获取主组织在平台的机构编号
-注意：此字段可能返回 null，表示取不到有效值。
- * @method void setProxyOrganizationId(string $ProxyOrganizationId) 设置主组织在平台的机构编号
-注意：此字段可能返回 null，表示取不到有效值。
- * @method string getProxyOperator() 获取主组织的操作人
-注意：此字段可能返回 null，表示取不到有效值。
- * @method void setProxyOperator(string $ProxyOperator) 设置主组织的操作人
-注意：此字段可能返回 null，表示取不到有效值。
+ * @method string getAppId() 获取代理机构的应用编号,32位字符串，一般不用传
+ * @method void setAppId(string $AppId) 设置代理机构的应用编号,32位字符串，一般不用传
+ * @method string getProxyAppId() 获取被代理机构的应用号，一般不用传
+ * @method void setProxyAppId(string $ProxyAppId) 设置被代理机构的应用号，一般不用传
+ * @method string getProxyOrganizationId() 获取被代理机构在电子签平台的机构编号，集团代理下场景必传
+ * @method void setProxyOrganizationId(string $ProxyOrganizationId) 设置被代理机构在电子签平台的机构编号，集团代理下场景必传
+ * @method string getProxyOperator() 获取被代理机构的经办人，一般不用传
+ * @method void setProxyOperator(string $ProxyOperator) 设置被代理机构的经办人，一般不用传
  */
 class Agent extends AbstractModel
 {
     /**
-     * @var string 应用编号,32位字符串
+     * @var string 代理机构的应用编号,32位字符串，一般不用传
      */
     public $AppId;
 
     /**
-     * @var string 主组织的应用号
-注意：此字段可能返回 null，表示取不到有效值。
+     * @var string 被代理机构的应用号，一般不用传
      */
     public $ProxyAppId;
 
     /**
-     * @var string 主组织在平台的机构编号
-注意：此字段可能返回 null，表示取不到有效值。
+     * @var string 被代理机构在电子签平台的机构编号，集团代理下场景必传
      */
     public $ProxyOrganizationId;
 
     /**
-     * @var string 主组织的操作人
-注意：此字段可能返回 null，表示取不到有效值。
+     * @var string 被代理机构的经办人，一般不用传
      */
     public $ProxyOperator;
 
     /**
-     * @param string $AppId 应用编号,32位字符串
-     * @param string $ProxyAppId 主组织的应用号
-注意：此字段可能返回 null，表示取不到有效值。
-     * @param string $ProxyOrganizationId 主组织在平台的机构编号
-注意：此字段可能返回 null，表示取不到有效值。
-     * @param string $ProxyOperator 主组织的操作人
-注意：此字段可能返回 null，表示取不到有效值。
+     * @param string $AppId 代理机构的应用编号,32位字符串，一般不用传
+     * @param string $ProxyAppId 被代理机构的应用号，一般不用传
+     * @param string $ProxyOrganizationId 被代理机构在电子签平台的机构编号，集团代理下场景必传
+     * @param string $ProxyOperator 被代理机构的经办人，一般不用传
      */
     function __construct()
     {

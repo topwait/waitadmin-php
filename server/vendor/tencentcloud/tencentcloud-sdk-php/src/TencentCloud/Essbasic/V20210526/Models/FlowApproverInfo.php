@@ -23,9 +23,9 @@ use TencentCloud\Common\AbstractModel;
 其中签署方FlowApproverInfo需要传递的参数
 非单C、单B、B2C合同，ApproverType、RecipientId（模板发起合同时）必传，建议都传。其他身份标识
 1-个人：Name、Mobile必传
-2-渠道子客企业指定经办人：OpenId必传，OrgName必传、OrgOpenId必传；
-3-渠道合作企业不指定经办人：OrgName必传、OrgOpenId必传；
-4-非渠道合作企业：Name、Mobile必传，OrgName必传，且NotChannelOrganization=True。
+2-第三方平台子客企业指定经办人：OpenId必传，OrgName必传、OrgOpenId必传；
+3-第三方平台子客企业不指定经办人：OrgName必传、OrgOpenId必传；
+4-非第三方平台子客企业：Name、Mobile必传，OrgName必传，且NotChannelOrganization=True。
 
 RecipientId参数：
 从DescribeTemplates接口中，可以得到模板下的签署方Recipient列表，根据模板自定义的Rolename在此结构体中确定其RecipientId
@@ -46,16 +46,16 @@ RecipientId参数：
  * @method void setMobile(string $Mobile) 设置签署人手机号，脱敏显示。大陆手机号为11位，暂不支持海外手机号。
  * @method string getOrganizationName() 获取企业签署方工商营业执照上的企业名称，签署方为非发起方企业场景下必传，最大长度64个字符；
  * @method void setOrganizationName(string $OrganizationName) 设置企业签署方工商营业执照上的企业名称，签署方为非发起方企业场景下必传，最大长度64个字符；
- * @method boolean getNotChannelOrganization() 获取指定签署人非渠道企业下员工，在ApproverType为ORGANIZATION时指定。
-默认为false，即签署人位于同一个渠道应用号下；
- * @method void setNotChannelOrganization(boolean $NotChannelOrganization) 设置指定签署人非渠道企业下员工，在ApproverType为ORGANIZATION时指定。
-默认为false，即签署人位于同一个渠道应用号下；
+ * @method boolean getNotChannelOrganization() 获取指定签署人非第三方平台子客企业下员工，在ApproverType为ORGANIZATION时指定。
+默认为false，即签署人位于同一个第三方平台应用号下；默认为false，即签署人位于同一个第三方应用号下；
+ * @method void setNotChannelOrganization(boolean $NotChannelOrganization) 设置指定签署人非第三方平台子客企业下员工，在ApproverType为ORGANIZATION时指定。
+默认为false，即签署人位于同一个第三方平台应用号下；默认为false，即签署人位于同一个第三方应用号下；
  * @method string getOpenId() 获取用户侧第三方id，最大长度64个字符
-当签署方为同一渠道下的员工时，该字段若不指定，则发起【待领取】的流程
+当签署方为同一第三方平台下的员工时，该字段若不指定，则发起【待领取】的流程
  * @method void setOpenId(string $OpenId) 设置用户侧第三方id，最大长度64个字符
-当签署方为同一渠道下的员工时，该字段若不指定，则发起【待领取】的流程
- * @method string getOrganizationOpenId() 获取企业签署方在同一渠道下的其他合作企业OpenId，签署方为非发起方企业场景下必传，最大长度64个字符；
- * @method void setOrganizationOpenId(string $OrganizationOpenId) 设置企业签署方在同一渠道下的其他合作企业OpenId，签署方为非发起方企业场景下必传，最大长度64个字符；
+当签署方为同一第三方平台下的员工时，该字段若不指定，则发起【待领取】的流程
+ * @method string getOrganizationOpenId() 获取企业签署方在同一第三方平台应用下的其他合作企业OpenId，签署方为非发起方企业场景下必传，最大长度64个字符；
+ * @method void setOrganizationOpenId(string $OrganizationOpenId) 设置企业签署方在同一第三方平台应用下的其他合作企业OpenId，签署方为非发起方企业场景下必传，最大长度64个字符；
  * @method string getApproverType() 获取签署人类型
 PERSON-个人/自然人；
 PERSON_AUTO_SIGN-个人自动签（定制化场景下使用）；
@@ -74,8 +74,10 @@ ENTERPRISESERVER-企业静默签（文件发起时的企业静默签字）。
  * @method void setCallbackUrl(string $CallbackUrl) 设置签署完回调url，最大长度1000个字符
  * @method array getSignComponents() 获取使用PDF文件直接发起合同时，签署人指定的签署控件
  * @method void setSignComponents(array $SignComponents) 设置使用PDF文件直接发起合同时，签署人指定的签署控件
- * @method array getComponentLimitType() 获取个人签署方指定签署控件类型，目前仅支持：OCR_ESIGN(AI智慧手写签名)
- * @method void setComponentLimitType(array $ComponentLimitType) 设置个人签署方指定签署控件类型，目前仅支持：OCR_ESIGN(AI智慧手写签名)
+ * @method array getComponentLimitType() 获取个人签署方指定签署控件类型，目前支持：OCR_ESIGN -AI智慧手写签名
+HANDWRITE -手写签名
+ * @method void setComponentLimitType(array $ComponentLimitType) 设置个人签署方指定签署控件类型，目前支持：OCR_ESIGN -AI智慧手写签名
+HANDWRITE -手写签名
  * @method integer getPreReadTime() 获取合同的强制预览时间：3~300s，未指定则按合同页数计算
  * @method void setPreReadTime(integer $PreReadTime) 设置合同的强制预览时间：3~300s，未指定则按合同页数计算
  * @method string getJumpUrl() 获取签署完前端跳转的url，暂未使用
@@ -84,6 +86,14 @@ ENTERPRISESERVER-企业静默签（文件发起时的企业静默签字）。
  * @method void setApproverOption(ApproverOption $ApproverOption) 设置签署人个性化能力值
  * @method boolean getApproverNeedSignReview() 获取当前签署方进行签署操作是否需要企业内部审批，true 则为需要
  * @method void setApproverNeedSignReview(boolean $ApproverNeedSignReview) 设置当前签署方进行签署操作是否需要企业内部审批，true 则为需要
+ * @method array getApproverVerifyTypes() 获取签署人查看合同时认证方式, 1-实名查看 2-短信验证码查看(企业签署方不支持该方式) 如果不传默认为1
+查看合同的认证方式 Flow层级的优先于approver层级的
+ * @method void setApproverVerifyTypes(array $ApproverVerifyTypes) 设置签署人查看合同时认证方式, 1-实名查看 2-短信验证码查看(企业签署方不支持该方式) 如果不传默认为1
+查看合同的认证方式 Flow层级的优先于approver层级的
+ * @method array getApproverSignTypes() 获取签署人签署合同时的认证方式
+1-人脸认证 2-签署密码 3-运营商三要素(默认为1,2)
+ * @method void setApproverSignTypes(array $ApproverSignTypes) 设置签署人签署合同时的认证方式
+1-人脸认证 2-签署密码 3-运营商三要素(默认为1,2)
  */
 class FlowApproverInfo extends AbstractModel
 {
@@ -116,19 +126,19 @@ class FlowApproverInfo extends AbstractModel
     public $OrganizationName;
 
     /**
-     * @var boolean 指定签署人非渠道企业下员工，在ApproverType为ORGANIZATION时指定。
-默认为false，即签署人位于同一个渠道应用号下；
+     * @var boolean 指定签署人非第三方平台子客企业下员工，在ApproverType为ORGANIZATION时指定。
+默认为false，即签署人位于同一个第三方平台应用号下；默认为false，即签署人位于同一个第三方应用号下；
      */
     public $NotChannelOrganization;
 
     /**
      * @var string 用户侧第三方id，最大长度64个字符
-当签署方为同一渠道下的员工时，该字段若不指定，则发起【待领取】的流程
+当签署方为同一第三方平台下的员工时，该字段若不指定，则发起【待领取】的流程
      */
     public $OpenId;
 
     /**
-     * @var string 企业签署方在同一渠道下的其他合作企业OpenId，签署方为非发起方企业场景下必传，最大长度64个字符；
+     * @var string 企业签署方在同一第三方平台应用下的其他合作企业OpenId，签署方为非发起方企业场景下必传，最大长度64个字符；
      */
     public $OrganizationOpenId;
 
@@ -162,7 +172,8 @@ ENTERPRISESERVER-企业静默签（文件发起时的企业静默签字）。
     public $SignComponents;
 
     /**
-     * @var array 个人签署方指定签署控件类型，目前仅支持：OCR_ESIGN(AI智慧手写签名)
+     * @var array 个人签署方指定签署控件类型，目前支持：OCR_ESIGN -AI智慧手写签名
+HANDWRITE -手写签名
      */
     public $ComponentLimitType;
 
@@ -187,6 +198,18 @@ ENTERPRISESERVER-企业静默签（文件发起时的企业静默签字）。
     public $ApproverNeedSignReview;
 
     /**
+     * @var array 签署人查看合同时认证方式, 1-实名查看 2-短信验证码查看(企业签署方不支持该方式) 如果不传默认为1
+查看合同的认证方式 Flow层级的优先于approver层级的
+     */
+    public $ApproverVerifyTypes;
+
+    /**
+     * @var array 签署人签署合同时的认证方式
+1-人脸认证 2-签署密码 3-运营商三要素(默认为1,2)
+     */
+    public $ApproverSignTypes;
+
+    /**
      * @param string $Name 签署人姓名，最大长度50个字符
      * @param string $IdCardType 签署人身份证件类型
 1.ID_CARD 居民身份证
@@ -195,11 +218,11 @@ ENTERPRISESERVER-企业静默签（文件发起时的企业静默签字）。
      * @param string $IdCardNumber 签署人证件号
      * @param string $Mobile 签署人手机号，脱敏显示。大陆手机号为11位，暂不支持海外手机号。
      * @param string $OrganizationName 企业签署方工商营业执照上的企业名称，签署方为非发起方企业场景下必传，最大长度64个字符；
-     * @param boolean $NotChannelOrganization 指定签署人非渠道企业下员工，在ApproverType为ORGANIZATION时指定。
-默认为false，即签署人位于同一个渠道应用号下；
+     * @param boolean $NotChannelOrganization 指定签署人非第三方平台子客企业下员工，在ApproverType为ORGANIZATION时指定。
+默认为false，即签署人位于同一个第三方平台应用号下；默认为false，即签署人位于同一个第三方应用号下；
      * @param string $OpenId 用户侧第三方id，最大长度64个字符
-当签署方为同一渠道下的员工时，该字段若不指定，则发起【待领取】的流程
-     * @param string $OrganizationOpenId 企业签署方在同一渠道下的其他合作企业OpenId，签署方为非发起方企业场景下必传，最大长度64个字符；
+当签署方为同一第三方平台下的员工时，该字段若不指定，则发起【待领取】的流程
+     * @param string $OrganizationOpenId 企业签署方在同一第三方平台应用下的其他合作企业OpenId，签署方为非发起方企业场景下必传，最大长度64个字符；
      * @param string $ApproverType 签署人类型
 PERSON-个人/自然人；
 PERSON_AUTO_SIGN-个人自动签（定制化场景下使用）；
@@ -209,11 +232,16 @@ ENTERPRISESERVER-企业静默签（文件发起时的企业静默签字）。
      * @param integer $Deadline 签署截止时间，默认一年
      * @param string $CallbackUrl 签署完回调url，最大长度1000个字符
      * @param array $SignComponents 使用PDF文件直接发起合同时，签署人指定的签署控件
-     * @param array $ComponentLimitType 个人签署方指定签署控件类型，目前仅支持：OCR_ESIGN(AI智慧手写签名)
+     * @param array $ComponentLimitType 个人签署方指定签署控件类型，目前支持：OCR_ESIGN -AI智慧手写签名
+HANDWRITE -手写签名
      * @param integer $PreReadTime 合同的强制预览时间：3~300s，未指定则按合同页数计算
      * @param string $JumpUrl 签署完前端跳转的url，暂未使用
      * @param ApproverOption $ApproverOption 签署人个性化能力值
      * @param boolean $ApproverNeedSignReview 当前签署方进行签署操作是否需要企业内部审批，true 则为需要
+     * @param array $ApproverVerifyTypes 签署人查看合同时认证方式, 1-实名查看 2-短信验证码查看(企业签署方不支持该方式) 如果不传默认为1
+查看合同的认证方式 Flow层级的优先于approver层级的
+     * @param array $ApproverSignTypes 签署人签署合同时的认证方式
+1-人脸认证 2-签署密码 3-运营商三要素(默认为1,2)
      */
     function __construct()
     {
@@ -304,6 +332,14 @@ ENTERPRISESERVER-企业静默签（文件发起时的企业静默签字）。
 
         if (array_key_exists("ApproverNeedSignReview",$param) and $param["ApproverNeedSignReview"] !== null) {
             $this->ApproverNeedSignReview = $param["ApproverNeedSignReview"];
+        }
+
+        if (array_key_exists("ApproverVerifyTypes",$param) and $param["ApproverVerifyTypes"] !== null) {
+            $this->ApproverVerifyTypes = $param["ApproverVerifyTypes"];
+        }
+
+        if (array_key_exists("ApproverSignTypes",$param) and $param["ApproverSignTypes"] !== null) {
+            $this->ApproverSignTypes = $param["ApproverSignTypes"];
         }
     }
 }

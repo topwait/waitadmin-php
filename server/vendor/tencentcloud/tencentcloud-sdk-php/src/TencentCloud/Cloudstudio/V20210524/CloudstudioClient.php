@@ -27,11 +27,13 @@ use TencentCloud\Cloudstudio\V20210524\Models as Models;
  * @method Models\CreateWorkspaceByAgentResponse CreateWorkspaceByAgent(Models\CreateWorkspaceByAgentRequest $req) 云服务器方式创建工作空间
  * @method Models\CreateWorkspaceByTemplateResponse CreateWorkspaceByTemplate(Models\CreateWorkspaceByTemplateRequest $req) 快速开始, 基于模板创建工作空间
  * @method Models\CreateWorkspaceByVersionControlResponse CreateWorkspaceByVersionControl(Models\CreateWorkspaceByVersionControlRequest $req) 根据模板创建工作空间
+ * @method Models\CreateWorkspaceTemporaryTokenResponse CreateWorkspaceTemporaryToken(Models\CreateWorkspaceTemporaryTokenRequest $req) 为工作空间创建临时访问凭证，重复调用会创建新的 Token，旧的 Token 将会自动失效
  * @method Models\DeleteCustomizeTemplatesByIdResponse DeleteCustomizeTemplatesById(Models\DeleteCustomizeTemplatesByIdRequest $req) 删除自定义模板
  * @method Models\DescribeCustomizeTemplatesResponse DescribeCustomizeTemplates(Models\DescribeCustomizeTemplatesRequest $req) 获取所有模板列表
  * @method Models\DescribeCustomizeTemplatesByIdResponse DescribeCustomizeTemplatesById(Models\DescribeCustomizeTemplatesByIdRequest $req) 获取特定模板信息
  * @method Models\DescribeCustomizeTemplatesPresetsResponse DescribeCustomizeTemplatesPresets(Models\DescribeCustomizeTemplatesPresetsRequest $req) 获取创建模板的预置参数
  * @method Models\DescribeWorkspaceEnvListResponse DescribeWorkspaceEnvList(Models\DescribeWorkspaceEnvListRequest $req) 环境列表接口返回信息
+ * @method Models\DescribeWorkspaceIsReadyResponse DescribeWorkspaceIsReady(Models\DescribeWorkspaceIsReadyRequest $req) 获取工作空间是否已经启动就绪
  * @method Models\DescribeWorkspaceNameExistResponse DescribeWorkspaceNameExist(Models\DescribeWorkspaceNameExistRequest $req) 检查工作空间是否存在
  * @method Models\DescribeWorkspaceStatusResponse DescribeWorkspaceStatus(Models\DescribeWorkspaceStatusRequest $req) 获取工作空间元信息
  * @method Models\DescribeWorkspaceStatusListResponse DescribeWorkspaceStatusList(Models\DescribeWorkspaceStatusListRequest $req) 获取用户工作空间列表
