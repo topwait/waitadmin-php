@@ -456,9 +456,17 @@ layui.use(['jquery', 'element'], function() {
             }
         }
         if ($(window).width() <= 768 || layui.device().mobile) {
+            $waitMaskNode.removeClass('activate');
+            $waitSidebarNode.find('.wait-second-menu').hide();
+            $waitSidebarNode.find('.wait-second-menu').removeClass('activate');
+            $waitHeaderNode.find('.stretch i').removeClass('layui-icon-spread-left');
+            $waitHeaderNode.find('.stretch i').addClass('layui-icon-shrink-right');
+            $waitBodyNode.removeAttr('style');
+
             if ($waitSidebarNode.hasClass('develop-sidebar')) {
                 $waitSidebarNode.removeClass('develop-sidebar');
             }
+
             if ($waitHeaderNode.children('.layui-layout-left').hasClass('develop-sidebar')) {
                 $waitHeaderNode.children('.layui-layout-left').removeClass('develop-sidebar');
             }
