@@ -15,28 +15,29 @@ declare (strict_types = 1);
 
 namespace app\frontend\controller;
 
-
 use app\common\basics\Frontend;
+use app\common\utils\AjaxUtils;
 use app\frontend\service\ArticleService;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\response\Json;
 use think\response\View;
 
 /**
  * 文章管理
- *
- * Class ArticleController
- * @package app\frontend\controller
  */
 class ArticleController extends Frontend
 {
+    protected array $notNeedLogin = ['lists', 'detail'];
+
     /**
      * 文章列表
      *
      * @return View
      * @throws DbException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function lists(): View
     {
@@ -56,15 +57,31 @@ class ArticleController extends Frontend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function detail(): View
     {
         $id = intval($this->request->get('id'));
         return view('', [
-            'detail'  => ArticleService::detail($id),
+            'detail'  => ArticleService::detail($id, $this->userId),
             'lately'  => ArticleService::recommend('lately', 8),
             'ranking' => ArticleService::recommend('ranking', 8)
         ]);
+    }
+
+    /**
+     * 文章收藏
+     *
+     * @return Json
+     * @method [POST]
+     * @author zero
+     */
+    public function collect(): Json
+    {
+        $id = intval($this->request->post('id'));
+
+        $result = ArticleService::collect($id, $this->userId);
+        return AjaxUtils::success($result);
     }
 }

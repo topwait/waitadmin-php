@@ -11,7 +11,7 @@
                 <select id="cid" name="cid" lay-verify="required|number">
                     <option value="">请选择</option>
                     {volist name="$category" id="vo"}
-                    <option value="{$vo.id}">{$vo.name}</option>
+                        <option value="{$vo.id}">{$vo.name}</option>
                     {/volist}
                 </select>
             </div>
@@ -101,7 +101,12 @@
 <script>
     layui.use(['tinymce'], function () {
         let tinymce = layui.tinymce;
-        tinymce.render();
+
+        tinymce.render({
+            elem: '#content'
+            ,module: 'backend'
+            ,attach: 'attach image media'
+        });
     });
 </script>
 {/block}

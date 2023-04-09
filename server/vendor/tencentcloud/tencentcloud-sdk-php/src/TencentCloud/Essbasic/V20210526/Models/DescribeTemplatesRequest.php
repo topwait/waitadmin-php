@@ -20,8 +20,8 @@ use TencentCloud\Common\AbstractModel;
 /**
  * DescribeTemplates请求参数结构体
  *
- * @method Agent getAgent() 获取渠道应用相关信息。 此接口Agent.ProxyOrganizationOpenId、Agent. ProxyOperator.OpenId、Agent.AppId 和 Agent.ProxyAppId 均必填。
- * @method void setAgent(Agent $Agent) 设置渠道应用相关信息。 此接口Agent.ProxyOrganizationOpenId、Agent. ProxyOperator.OpenId、Agent.AppId 和 Agent.ProxyAppId 均必填。
+ * @method Agent getAgent() 获取应用相关信息。 此接口Agent.ProxyOrganizationOpenId、Agent. ProxyOperator.OpenId、Agent.AppId 和 Agent.ProxyAppId 均必填。
+ * @method void setAgent(Agent $Agent) 设置应用相关信息。 此接口Agent.ProxyOrganizationOpenId、Agent. ProxyOperator.OpenId、Agent.AppId 和 Agent.ProxyAppId 均必填。
  * @method string getTemplateId() 获取模板唯一标识，查询单个模板时使用
  * @method void setTemplateId(string $TemplateId) 设置模板唯一标识，查询单个模板时使用
  * @method integer getContentType() 获取查询内容：0-模板列表及详情（默认），1-仅模板列表
@@ -38,15 +38,15 @@ use TencentCloud\Common\AbstractModel;
  * @method void setOperator(UserInfo $Operator) 设置操作者的信息
  * @method boolean getWithPreviewUrl() 获取是否获取模板预览链接
  * @method void setWithPreviewUrl(boolean $WithPreviewUrl) 设置是否获取模板预览链接
- * @method boolean getWithPdfUrl() 获取是否获取模板的PDF文件链接-渠道版需要开启白名单时才能使用。
- * @method void setWithPdfUrl(boolean $WithPdfUrl) 设置是否获取模板的PDF文件链接-渠道版需要开启白名单时才能使用。
- * @method string getChannelTemplateId() 获取渠道模板ID
- * @method void setChannelTemplateId(string $ChannelTemplateId) 设置渠道模板ID
+ * @method boolean getWithPdfUrl() 获取是否获取模板的PDF文件链接- 第三方应用集成需要开启白名单时才能使用。
+ * @method void setWithPdfUrl(boolean $WithPdfUrl) 设置是否获取模板的PDF文件链接- 第三方应用集成需要开启白名单时才能使用。
+ * @method string getChannelTemplateId() 获取模板ID
+ * @method void setChannelTemplateId(string $ChannelTemplateId) 设置模板ID
  */
 class DescribeTemplatesRequest extends AbstractModel
 {
     /**
-     * @var Agent 渠道应用相关信息。 此接口Agent.ProxyOrganizationOpenId、Agent. ProxyOperator.OpenId、Agent.AppId 和 Agent.ProxyAppId 均必填。
+     * @var Agent 应用相关信息。 此接口Agent.ProxyOrganizationOpenId、Agent. ProxyOperator.OpenId、Agent.AppId 和 Agent.ProxyAppId 均必填。
      */
     public $Agent;
 
@@ -91,17 +91,17 @@ class DescribeTemplatesRequest extends AbstractModel
     public $WithPreviewUrl;
 
     /**
-     * @var boolean 是否获取模板的PDF文件链接-渠道版需要开启白名单时才能使用。
+     * @var boolean 是否获取模板的PDF文件链接- 第三方应用集成需要开启白名单时才能使用。
      */
     public $WithPdfUrl;
 
     /**
-     * @var string 渠道模板ID
+     * @var string 模板ID
      */
     public $ChannelTemplateId;
 
     /**
-     * @param Agent $Agent 渠道应用相关信息。 此接口Agent.ProxyOrganizationOpenId、Agent. ProxyOperator.OpenId、Agent.AppId 和 Agent.ProxyAppId 均必填。
+     * @param Agent $Agent 应用相关信息。 此接口Agent.ProxyOrganizationOpenId、Agent. ProxyOperator.OpenId、Agent.AppId 和 Agent.ProxyAppId 均必填。
      * @param string $TemplateId 模板唯一标识，查询单个模板时使用
      * @param integer $ContentType 查询内容：0-模板列表及详情（默认），1-仅模板列表
      * @param integer $Limit 查询个数，默认20，最大100；在查询列表的时候有效
@@ -110,8 +110,8 @@ class DescribeTemplatesRequest extends AbstractModel
      * @param string $TemplateName 模糊搜索模板名称，最大长度200
      * @param UserInfo $Operator 操作者的信息
      * @param boolean $WithPreviewUrl 是否获取模板预览链接
-     * @param boolean $WithPdfUrl 是否获取模板的PDF文件链接-渠道版需要开启白名单时才能使用。
-     * @param string $ChannelTemplateId 渠道模板ID
+     * @param boolean $WithPdfUrl 是否获取模板的PDF文件链接- 第三方应用集成需要开启白名单时才能使用。
+     * @param string $ChannelTemplateId 模板ID
      */
     function __construct()
     {

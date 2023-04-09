@@ -32,18 +32,18 @@ use think\facade\Filesystem;
 class UploadService extends Service
 {
     /**
-     * 附件上传
+     * 永远存储
      *
-     * @param string $type (类型: image/video)
-     * @param string $path (存储目录)
-     * @param int $cid (所属分类)
-     * @param int $uid (所属用户)
+     * @param string $type (类型: picture/video/document/package)
+     * @param int $hide (是否隐藏: 0=否, 1=是)
+     * @param int $cid  (所属分类)
+     * @param int $uid  (所属用户)
      * @return array
      * @throws UploadException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['id' => "int", 'name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
-    public static function storage(string $type, string $path, int $cid, int $uid): array
+    public static function permanent(string $type, int $hide, int $cid, int $uid): array
     {
         try {
             // 存储引擎
@@ -52,7 +52,7 @@ class UploadService extends Service
 
             // 上传调用
             $storageDriver = new StorageDriver(['engine'=>$engine, 'params'=>$params]);
-            $fileInfo = $storageDriver->upload($type, $path);
+            $fileInfo = $storageDriver->upload($type);
 
             // 记录信息
             $attach = Attach::create([
@@ -62,7 +62,9 @@ class UploadService extends Service
                 'file_path' => $fileInfo['fileName'],
                 'file_name' => $fileInfo['name'],
                 'file_ext'  => $fileInfo['ext'],
-                'file_size' => $fileInfo['size']
+                'file_size' => $fileInfo['size'],
+                'is_user'   => 0,
+                'is_attach' => !$hide
             ]);
 
             // 返回信息
@@ -79,12 +81,12 @@ class UploadService extends Service
     }
 
     /**
-     * 临时上传
+     * 临时存储
      *
-     * @param string $type (类型: image/video)
+     * @param string $type (类型: picture/video/document/package)
      * @return array
      * @throws UploadException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
     public static function temporary(string $type): array

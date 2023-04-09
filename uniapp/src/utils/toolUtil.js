@@ -59,11 +59,12 @@ export default {
     /**
      * 上传文件资源
      *
-     * @param {String} path (本地文件路径)
-     * @param {String} type (类型: image/video)
-     * @param {String} dir  (要上传到那个目录)
+     * @param {String} filePath (本地文件路径)
+     * @param {String} fileType (文件类型: image/video/audio)
+     * @param {String} type     (上传类型: picture/video/document/package)
+     * @param {String} scene    (上传场景: permanent=永远存储,temporary=临时存储)
      */
-    uploadFile(path, type, dir) {
+    uploadFile(filePath, fileType, type, scene='permanent') {
         const userStore = useUserStore()
         const token = userStore.$state.token
         const terminal = clientUtil.fetchClient()
@@ -71,11 +72,11 @@ export default {
         return new Promise((resolve, reject) => {
             uni.uploadFile({
                 name: 'file',
-                url: `${import.meta.env.VITE_APP_BASE_URL}/upload/file`,
-                filePath: path,
-                header: {token, terminal},
-                formData: {'type': type, 'dir': dir},
-                fileType: type,
+                url: `${import.meta.env.VITE_APP_BASE_URL}/upload/${scene}`,
+                filePath: filePath,
+                fileType: fileType,
+                header: {'token': token, 'terminal': terminal},
+                formData: {'type': type},
                 success: res => {
                     let result = JSON.parse(res.data)
                     if (result.code == 0) {

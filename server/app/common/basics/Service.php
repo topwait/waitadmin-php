@@ -53,7 +53,7 @@ class Service
     /**
      * 返回错误信息
      *
-     * @author windy
+     * @author zero
      * @return string
      */
     public static function getError(): string
@@ -64,7 +64,7 @@ class Service
     /**
      * 返回指定状态码
      *
-     * @author windy
+     * @author zero
      * @return int
      */
     public static function getReturnCode(): int
@@ -75,7 +75,7 @@ class Service
     /**
      * 事务开启
      *
-     * @author windy
+     * @author zero
      */
     protected static function dbStartTrans(): void
     {
@@ -86,7 +86,7 @@ class Service
     /**
      * 事务提交
      *
-     * @author windy
+     * @author zero
      */
     protected static function dbCommit(): void
     {
@@ -96,7 +96,7 @@ class Service
     /**
      * 事务回滚
      *
-     * @author windy
+     * @author zero
      */
     protected static function dbRollback(): void
     {
@@ -109,7 +109,7 @@ class Service
      *
      * @param array $search
      * @return array
-     * @author windy
+     * @author zero
      */
     protected static function setSearch(array $search): array
     {

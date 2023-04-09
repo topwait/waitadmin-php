@@ -29,7 +29,7 @@ class DiyService extends Service
      * 首页页面装修
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['bgHead' => "string", 'banner' => "array[]", 'nav' => "array[]"])]
     public static function index(): array
@@ -70,7 +70,7 @@ class DiyService extends Service
      * 联系客服装修
      *
      * @return array
-     * @author widy
+     * @author zero
      */
     #[ArrayShape(['title' => "string", 'datetime' => "string", 'mobile' => "string", 'qq' => "string", 'image' => "string"])]
     public static function tie(): array
@@ -89,7 +89,7 @@ class DiyService extends Service
      * 个人中心装修
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function me(): array
     {

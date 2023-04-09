@@ -2,22 +2,22 @@
 
 {block name="style"}
 <style>
-    .layui-card-body {display: flex !important;}
-    .editor {position: relative; z-index: 200; width: 400px; height: auto; text-align: left; padding: 20px 10px; border: 1px solid #ddd; border-radius: 5px; background: #fdfdfd;}
-    .editor:after {position: absolute; top: 25px; left: -9px; z-index: 100; content: ""; display: block; width: 15px; height: 15px; background: #fdfdfd; transform: rotate(135deg); border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;}
-    .editor .list .item {position: relative; display: flex; align-items: center; height: auto; padding: 10px; overflow: hidden; margin-bottom: 10px; border-radius: 3px; border: 1px solid #e7eaec; background: #ffffff;}
-    .editor .list .item:hover .close {display: block;}
-    .editor .list .item .layui-icon-close {display: none; position: absolute; top: 4px; right: 4px; color: #fff; font-size: 12px; line-height: 1; padding: 3px; border-radius: 50%; background: rgba(0,0,0,0.3);}
-    .editor .list .item .layui-icon-close:hover {background: rgba(0,0,0,0.7);}
-    .editor .list .item .icon {position: relative; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; border: 1px #dcdfe6 dashed; background-color: #f8f8f8;}
-    .editor .list .item .icon .layui-icon-addition {font-size: 24px; color: #999;}
-    .editor .list .item .icon .layui-icon-close {top: -9px; right: -6px;}
-    .editor .list .item .icon:hover .select {display: block;}
-    .editor .list .item .icon.big {width: 100px; height: 80px;}
-    .editor .list .item img {max-width: 100%; max-height: 100%;}
-    .editor .list .item .form {flex: 1; margin-left: 10px;}
-    .editor .list .item .form label:first-child input {margin-bottom: 8px;}
-    .editor .add-btn {cursor: pointer; color: #6b6b6b; text-align: center; font-size: 12px; white-space: nowrap; padding: 6px 12px; border: 1px solid #efefef; transition: background-color 0.3s; background: #fdfdfd !important;}
+    .layui-card-body { display: flex !important; }
+    .editor { position: relative; z-index: 200; padding: 20px 10px; width: 400px; height: auto; border: 1px solid #dddddd; border-radius: 5px; text-align: left; background: #fdfdfd; }
+    .editor::after { position: absolute; top: 25px; left: -9px; z-index: 100; display: block; width: 15px; height: 15px; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; background: #fdfdfd; content: ""; transform: rotate(135deg); }
+    .editor .list .item { position: relative; display: flex; align-items: center; overflow: hidden; margin-bottom: 10px; padding: 10px; height: auto; border: 1px solid #e7eaec; border-radius: 3px; background: #ffffff; }
+    .editor .list .item:hover .close { display: block; }
+    .editor .list .item .layui-icon-close { position: absolute; top: 4px; right: 4px; display: none; padding: 3px; font-size: 12px; border-radius: 50%; color: #ffffff; background: rgba(0, 0, 0, .3); line-height: 1; }
+    .editor .list .item .layui-icon-close:hover { background: rgba(0, 0, 0, .7); }
+    .editor .list .item .icon { position: relative; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; border: 1px #dcdfe6 dashed; background-color: #f8f8f8; }
+    .editor .list .item .icon .layui-icon-addition { font-size: 24px; color: #999999; }
+    .editor .list .item .icon .layui-icon-close { top: -9px; right: -6px; }
+    .editor .list .item .icon:hover .select { display: block; }
+    .editor .list .item .icon.big { width: 100px; height: 80px; }
+    .editor .list .item img { max-width: 100%; max-height: 100%; }
+    .editor .list .item .form { flex: 1; margin-left: 10px; }
+    .editor .list .item .form label:first-child input { margin-bottom: 8px; }
+    .editor .add-btn { padding: 6px 12px; font-size: 12px; border: 1px solid #efefef; text-align: center; white-space: nowrap; color: #6b6b6b; background: #fdfdfd !important; transition: background-color 0.3s; cursor: pointer; }
 </style>
 {/block}
 

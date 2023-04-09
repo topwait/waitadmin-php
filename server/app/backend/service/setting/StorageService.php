@@ -28,7 +28,7 @@ class StorageService extends Service
      * 存储配置详情
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['default' => "string", 'local' => "array", 'qiniu' => "string[]", 'aliyun' => "string[]", 'qcloud' => "string[]"])]
     public static function detail(): array
@@ -63,7 +63,7 @@ class StorageService extends Service
      * 存储配置保存
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function save(array $post): void
     {

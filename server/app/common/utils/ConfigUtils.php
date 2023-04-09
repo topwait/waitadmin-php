@@ -42,7 +42,7 @@ class ConfigUtils
      * @throws @\think\db\exception\DataNotFoundException
      * @throws @\think\db\exception\DbException
      * @throws @\think\db\exception\ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function get(string $type, string $key='', $default=null): mixed
     {
@@ -107,7 +107,7 @@ class ConfigUtils
      * @param string $key (键名)
      * @param mixed $value (键值)
      * @param string $remarks (备注)
-     * @author windy
+     * @author zero
      */
     public static function set(string $type, string $key, mixed $value, string $remarks=''): void
     {

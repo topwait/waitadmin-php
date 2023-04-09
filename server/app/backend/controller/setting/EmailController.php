@@ -31,7 +31,8 @@ class EmailController extends Backend
      * 邮件配置详情
      *
      * @return View
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View
     {
@@ -44,7 +45,8 @@ class EmailController extends Backend
      * 邮件配置保存
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function save(): Json
     {
@@ -61,7 +63,8 @@ class EmailController extends Backend
      *
      * @return Json
      * @throws SystemException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function test(): Json
     {

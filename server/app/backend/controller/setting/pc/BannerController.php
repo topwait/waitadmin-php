@@ -38,7 +38,8 @@ class BannerController extends Backend
      *
      * @return Json|View
      * @throws DbException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -55,7 +56,8 @@ class BannerController extends Backend
      * 轮播图新增
      *
      * @return Json|View
-     * @author windy
+     * @method [GET|POST]
+     * @author zero
      */
     public function add(): View|Json
     {
@@ -76,7 +78,8 @@ class BannerController extends Backend
      * @return Json|View
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET|POST]
+     * @author zero
      */
     public function edit(): View|Json
     {
@@ -97,7 +100,8 @@ class BannerController extends Backend
      * 轮播图删除
      *
      * @return Json|View
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function del(): View|Json
     {

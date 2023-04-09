@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\attach;
-
 
 use app\common\basics\Models;
 
 /**
  * 附件分类模型
- *
- * Class attachCate
- * @package app\common\model
  */
 class AttachCate extends Models
 {

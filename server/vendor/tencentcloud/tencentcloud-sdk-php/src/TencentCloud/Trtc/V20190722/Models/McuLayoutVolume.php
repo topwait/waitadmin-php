@@ -25,6 +25,10 @@ use TencentCloud\Common\AbstractModel;
  * @method void setAppData(string $AppData) 设置AppData的内容，会被写入自定义SEI中的app_data字段，长度需小于4096。
  * @method integer getPayloadType() 获取SEI消息的payload_type，默认值100，取值范围100-254（244除外，244为我们内部自定义的时间戳SEI）
  * @method void setPayloadType(integer $PayloadType) 设置SEI消息的payload_type，默认值100，取值范围100-254（244除外，244为我们内部自定义的时间戳SEI）
+ * @method integer getInterval() 获取SEI发送间隔，单位毫秒，默认值为1000。
+ * @method void setInterval(integer $Interval) 设置SEI发送间隔，单位毫秒，默认值为1000。
+ * @method integer getFollowIdr() 获取取值范围[0,1]，填1：发送关键帧时会确保带SEI；填0：发送关键帧时不确保带SEI。默认值为0。
+ * @method void setFollowIdr(integer $FollowIdr) 设置取值范围[0,1]，填1：发送关键帧时会确保带SEI；填0：发送关键帧时不确保带SEI。默认值为0。
  */
 class McuLayoutVolume extends AbstractModel
 {
@@ -39,8 +43,20 @@ class McuLayoutVolume extends AbstractModel
     public $PayloadType;
 
     /**
+     * @var integer SEI发送间隔，单位毫秒，默认值为1000。
+     */
+    public $Interval;
+
+    /**
+     * @var integer 取值范围[0,1]，填1：发送关键帧时会确保带SEI；填0：发送关键帧时不确保带SEI。默认值为0。
+     */
+    public $FollowIdr;
+
+    /**
      * @param string $AppData AppData的内容，会被写入自定义SEI中的app_data字段，长度需小于4096。
      * @param integer $PayloadType SEI消息的payload_type，默认值100，取值范围100-254（244除外，244为我们内部自定义的时间戳SEI）
+     * @param integer $Interval SEI发送间隔，单位毫秒，默认值为1000。
+     * @param integer $FollowIdr 取值范围[0,1]，填1：发送关键帧时会确保带SEI；填0：发送关键帧时不确保带SEI。默认值为0。
      */
     function __construct()
     {
@@ -61,6 +77,14 @@ class McuLayoutVolume extends AbstractModel
 
         if (array_key_exists("PayloadType",$param) and $param["PayloadType"] !== null) {
             $this->PayloadType = $param["PayloadType"];
+        }
+
+        if (array_key_exists("Interval",$param) and $param["Interval"] !== null) {
+            $this->Interval = $param["Interval"];
+        }
+
+        if (array_key_exists("FollowIdr",$param) and $param["FollowIdr"] !== null) {
+            $this->FollowIdr = $param["FollowIdr"];
         }
     }
 }

@@ -79,7 +79,7 @@
         v-model="pwdPicker"
         :list="pwdListed"
         :safe-area-inset-bottom="true"
-        @tap="onPwdPopup"
+        @click="onPwdPopup"
     />
 
     <!-- 弹窗部件 -->
@@ -99,8 +99,7 @@
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { userInfoApi, userEditApi } from '@/api/userApi'
-import { bindWeChatApi } from '@/api/loginApi'
+import { userInfoApi, userEditApi, bindWeChatApi } from '@/api/userApi'
 import toolUtil from '@/utils/toolUtil'
 import clientUtil from '@/utils/clientUtil'
 
@@ -165,18 +164,31 @@ const onLogout = async () => {
 }
 
 // 上传头像
-const onUploadAvatar = () => {
+const onUploadAvatar = (e) => {
+    // #ifdef MP-WEIXIN
+    if (e.detail.avatarUrl === undefined) return
+    toolUtil.uploadFile(e.detail.avatarUrl, 'image', 'picture').then(data => {
+        userEditApi({ scene: 'avatar', value: data.url }).then(() => {
+            queryUserInfo()
+            setTimeout(() => {
+               uni.hideLoading()
+               uni.$u.toast('修改成功') 
+            }, 500)
+        })
+    })    
+    // #endif
+    
+    // #ifndef MP-WEIXIN
     uni.chooseImage({
         success: async (chooseImageRes) => {
             uni.showLoading({title: '上传中...'})
             const tempFilePaths = chooseImageRes.tempFilePaths
-            const data = await toolUtil.uploadFile(tempFilePaths[0], 'image', 'temporary')
-            await userEditApi({
-                scene: 'avatar',
-                value: data.url
-            })
-            
+            const data = await toolUtil.uploadFile(tempFilePaths[0], 'image', 'picture')
             try {
+                await userEditApi({
+                    scene: 'avatar',
+                    value: data.url
+                })
                 await queryUserInfo()
             } catch (e) { return }
 
@@ -186,6 +198,7 @@ const onUploadAvatar = () => {
             }, 500)
         }
     })
+    // #endif
 }
 
 // 性别修改
@@ -235,6 +248,7 @@ const onBindMobile = (e) => {
 const onPwdPopup = (index) => {
     switch (index) {
     case 0:
+     
         popupType.value = 'changePwd'
         popupShow.value = true
         break
@@ -246,7 +260,7 @@ const onPwdPopup = (index) => {
     }
 }
 
-// 弹出窗口
+// 基础弹窗
 const onShowPopup = (type) => {
     switch (type) {
     case 'gender':
@@ -265,7 +279,7 @@ const onShowPopup = (type) => {
     }
 }
 
-// 关闭窗口
+// 关闭弹窗
 const onClosePopup = () => {
     popupShow.value = false
     popupType.value = null

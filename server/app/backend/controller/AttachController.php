@@ -41,7 +41,8 @@ class AttachController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -53,6 +54,7 @@ class AttachController extends Backend
 
         return view('common/attach', [
             'type'       => $this->request->get('type'),
+            'limit'      => $this->request->get('limit', 1),
             'category'   => AttachService::cateLists(),
             'imageLimit' => config('project.uploader.image'),
             'videoLimit' => config('project.uploader.video')
@@ -63,7 +65,8 @@ class AttachController extends Backend
      * 附件命名
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function rename(): Json
     {
@@ -80,7 +83,8 @@ class AttachController extends Backend
      * 附件移动
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function move(): Json
     {
@@ -97,7 +101,8 @@ class AttachController extends Backend
      * 附件删除
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function del(): Json
     {
@@ -117,7 +122,8 @@ class AttachController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function cateLists(): Json
     {
@@ -133,7 +139,8 @@ class AttachController extends Backend
      * 分组创建
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function cateAdd(): Json
     {
@@ -151,7 +158,8 @@ class AttachController extends Backend
      *
      * @return Json
      * @throws OperateException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function cateRename(): Json
     {
@@ -169,7 +177,8 @@ class AttachController extends Backend
      *
      * @return Json
      * @throws OperateException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function cateDelete(): Json
     {

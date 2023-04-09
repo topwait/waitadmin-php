@@ -19,6 +19,7 @@ use app\common\basics\Service;
 use app\common\exception\NotAuthException;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;
+use app\common\utils\AttachUtils;
 use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
@@ -37,7 +38,7 @@ class AdminService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(array $get): array
@@ -71,7 +72,7 @@ class AdminService extends Service
             unset($item['role_id']);
             unset($item['dept_id']);
             unset($item['post_id']);
-            $item['last_login_ip']   = $item['last_login_ip'] ? $item['last_login_ip'] : '-';
+            $item['last_login_ip']   = $item['last_login_ip'] ?: '-';
             $item['last_login_time'] = $item['last_login_time'] ? date('Y-m-d H:i:s', $item['last_login_time']) : '-';
         }
 
@@ -85,7 +86,7 @@ class AdminService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -106,35 +107,29 @@ class AdminService extends Service
      *
      * @param array $post
      * @param int $adminId
-     * @author windy
+     * @author zero
      */
     public static function info(array $post, int $adminId): void
     {
-        $salt = make_rand_char(6);
-        if (!empty($post['password']) and $post['password']) {
-            $model = new AuthAdmin();
-            $admin = $model->field('id,salt,password')
-                ->where(['id'=>intval($post['id'])])
-                ->findOrEmpty()
-                ->toArray();
+        $model = new AuthAdmin();
+        $admin = $model->field('id,avatar,salt,password')
+            ->where(['id'=>intval($post['id'])])
+            ->findOrEmpty()
+            ->toArray();
 
+        $salt = make_rand_char(6);
+        $post['password'] = make_md5_str($post['password'].$salt);
+        if (!empty($post['password']) and $post['password']) {
             $post['password'] = $admin['password'];
             $salt = $admin['salt'];
-        } else {
-            $post['password'] = make_md5_str($post['password'].$salt);
         }
 
-        $avatar = UrlUtils::toRelativeUrl($post['image']??'');
-        if (!empty($post['image'])) {
-            $ext = FileUtils::getFileExt($post['image']);
-            $source = public_path().UrlUtils::toRelativeUrl($post['image']);
-            $target = public_path().'storage/admin/'.$adminId.'_avatar.'.$ext;
-            $avatar = 'storage/admin/'.$adminId.'_avatar.'.$ext;
-            FileUtils::move($source, $target);
-        } else if (empty($avatar)) {
+        $avatar = UrlUtils::toRelativeUrl($post['avatar']??'');
+        if (empty($post['avatar'])) {
             $avatar = '/static/backend/images/default/avatar.png';
         }
 
+        AttachUtils::markUpdate($admin, $post, ['avatar']);
         AuthAdmin::update([
             'salt'            => $salt,
             'avatar'          => $avatar,
@@ -144,14 +139,14 @@ class AdminService extends Service
             'email'           => $post['email'] ?? '',
             'is_disable'      => $post['is_disable'],
             'update_time'     => time(),
-        ], ['id'=>intval($adminId)]);
+        ], ['id'=> $adminId]);
     }
 
     /**
      * 管理员新增
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -184,7 +179,7 @@ class AdminService extends Service
      * @param int $adminId
      * @throws NotAuthException
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post, int $adminId): void
     {
@@ -229,7 +224,7 @@ class AdminService extends Service
      * @param array $ids
      * @param int $adminId
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function del(array $ids, int $adminId): void
     {

@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\auth;
-
 
 use app\common\basics\Models;
 
 /**
  * 角色模型
- *
- * Class AuthRole
- * @package app\common\model\auth
  */
 class AuthRole extends Models
 {

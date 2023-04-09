@@ -28,7 +28,7 @@ class PolicyService extends Service
      * 政策协议配置参数
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['service' => "string", 'privacy' => "string"])]
     public static function detail(): array
@@ -44,7 +44,7 @@ class PolicyService extends Service
      * 政策协议配置保存
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function save(array $post): void
     {

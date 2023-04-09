@@ -31,7 +31,8 @@ class PersonController extends Backend
      * 装修数据详情
      *
      * @return View
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View
     {
@@ -46,7 +47,8 @@ class PersonController extends Backend
      * 装修数据保存
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function save(): Json
     {

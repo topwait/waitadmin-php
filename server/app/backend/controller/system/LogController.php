@@ -36,7 +36,8 @@ class LogController extends Backend
      *
      * @return Json|View
      * @throws DbException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -55,7 +56,8 @@ class LogController extends Backend
      * @return View
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function detail(): View
     {

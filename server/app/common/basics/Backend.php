@@ -23,9 +23,6 @@ use think\App;
 
 /**
  * 后台基类
- *
- * Class Backend
- * @package app\common\basics
  */
 abstract class Backend extends BaseController
 {
@@ -72,7 +69,7 @@ abstract class Backend extends BaseController
     /**
      * 初始方法
      *
-     * @author windy
+     * @author zero
      * @return void
      */
     protected function initialize(): void
@@ -83,7 +80,7 @@ abstract class Backend extends BaseController
      *
      * @return bool
      * @throws NotAuthException
-     * @author windy
+     * @author zero
      */
     protected function checkLogin(): bool
     {
@@ -116,7 +113,7 @@ abstract class Backend extends BaseController
      *
      * @return bool
      * @throws NotAuthException
-     * @author windy
+     * @author zero
      */
     protected function checkPower(): bool
     {

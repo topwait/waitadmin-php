@@ -10,7 +10,7 @@ use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\Output;
-use think\addons\Service as AddonService;
+use wait\addons\Service as AddonService;
 use ZipArchive;
 
 /**
@@ -80,7 +80,7 @@ class Addon extends Command
      *
      * @param string $name
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     private function install(string $name)
     {
@@ -129,7 +129,7 @@ class Addon extends Command
      *
      * @param string $name
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     private function uninstall(string $name)
     {
@@ -188,7 +188,7 @@ class Addon extends Command
      *
      * @param string $name
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     private function enabled(string $name)
     {
@@ -249,7 +249,7 @@ class Addon extends Command
      *
      * @param string $name
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     private function disabled(string $name)
     {
@@ -291,7 +291,7 @@ class Addon extends Command
      *
      * @param string $name (插件名称)
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     private function isConflict(string $name): void
     {

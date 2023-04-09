@@ -56,7 +56,6 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertNull($error);
         $this->assertNotNull($ret['hash']);
-        unlink($resumeFile);
 
         $domain = getenv('QINIU_TEST_DOMAIN');
         $response = Client::get("http://$domain/$key");
@@ -68,8 +67,7 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
     public function test4ML2()
     {
         $key = 'resumePutFile4ML_'.rand();
-        $zone = new Zone(array('upload.fake.qiniu.com'), array('upload.qiniup.com'));
-        $cfg = new Config($zone);
+        $cfg = new Config();
         $upManager = new UploadManager($cfg);
         $token = $this->auth->uploadToken($this->bucketName, $key);
         $tempFile = qiniuTempFile(4 * 1024 * 1024 + 10);
@@ -86,7 +84,6 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertNull($error);
         $this->assertNotNull($ret['hash']);
-        unlink($resumeFile);
 
         $domain = getenv('QINIU_TEST_DOMAIN');
         $response = Client::get("http://$domain/$key");
@@ -167,7 +164,6 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("val_1", $ret['var_1']);
         $this->assertEquals("val_2", $ret['var_2']);
         $this->assertEquals(basename($tempFile), $ret['fname']);
-        unlink($resumeFile);
 
         $domain = getenv('QINIU_TEST_DOMAIN');
         $response = Client::get("http://$domain/$key");
@@ -180,8 +176,7 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
 
     public function testResumeUploadV2()
     {
-        $zone = new Zone(array('up.qiniup.com'));
-        $cfg = new Config($zone);
+        $cfg = new Config();
         $upManager = new UploadManager($cfg);
         $testFileSize = array(
             config::BLOCK_SIZE / 2,
@@ -210,7 +205,6 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
             );
             $this->assertNull($error);
             $this->assertNotNull($ret['hash']);
-            unlink($resumeFile);
 
             $domain = getenv('QINIU_TEST_DOMAIN');
             $response = Client::get("http://$domain/$key");
@@ -244,7 +238,6 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("val_1", $ret['var_1']);
         $this->assertEquals("val_2", $ret['var_2']);
         $this->assertEquals(basename($tempFile), $ret['fname']);
-        unlink($resumeFile);
 
         $domain = getenv('QINIU_TEST_DOMAIN');
         $response = Client::get("http://$domain/$key");
@@ -260,8 +253,7 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
     // but not match the test style of this project
     public function testResumeUploadWithInvalidVersion()
     {
-        $zone = new Zone(array('up.qiniup.com'));
-        $cfg = new Config($zone);
+        $cfg = new Config();
         $upManager = new UploadManager($cfg);
         $testFileSize = config::BLOCK_SIZE * 2;
         $partSize = 5 * 1024 * 1024;
@@ -304,7 +296,6 @@ class ResumeUpTest extends \PHPUnit_Framework_TestCase
                 $this->assertTrue($isRightException);
             }
 
-            unlink($resumeFile);
             unlink($tempFile);
         }
         $this->assertEquals(count($testInvalidVersions), $expectExceptionCount);

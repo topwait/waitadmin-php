@@ -26,7 +26,7 @@ class LoginValidate extends Validate
      * 场景验证
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneScene(): LoginValidate
     {
@@ -38,7 +38,7 @@ class LoginValidate extends Validate
      * 账号登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneAccount(): LoginValidate
     {
@@ -56,7 +56,7 @@ class LoginValidate extends Validate
      * 短信登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneMobile(): LoginValidate
     {
@@ -74,7 +74,7 @@ class LoginValidate extends Validate
      * 微信登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneWx(): LoginValidate
     {
@@ -87,19 +87,20 @@ class LoginValidate extends Validate
      * 公众登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneOa(): LoginValidate
     {
-        return $this->only(['code'])
-            ->append('code', 'require|alphaDash|max:200');
+        return $this->only(['code', 'state'])
+            ->append('code', 'require|min:32')
+            ->append('state', 'require|min:32');
     }
 
     /**
      * 绑定登录
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneBa(): LoginValidate
     {
@@ -118,7 +119,7 @@ class LoginValidate extends Validate
      * URL验证
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneUrl(): LoginValidate
     {
@@ -130,7 +131,7 @@ class LoginValidate extends Validate
      * 注册账号
      *
      * @return LoginValidate
-     * @author windy
+     * @author zero
      */
     public function sceneRegister(): LoginValidate
     {
@@ -144,88 +145,6 @@ class LoginValidate extends Validate
             ->append('account', 'require|alphaNum|min:2|max:20')
             ->append('password', 'require|alphaNum|min:6|max:20')
             ->append('mobile', 'require|mobile|min:11|max:11')
-            ->append('code', 'require|alphaDash|max:6');
-    }
-
-    /**
-     * 修改密码
-
-     * @return LoginValidate
-     * @author windy
-     */
-    public function sceneChangePwd(): LoginValidate
-    {
-        $this->field = [
-            'newPassword' => '新密码',
-            'oldPassword' => '原密码'
-        ];
-        return $this->only(['newPassword', 'oldPassword'])
-            ->append('newPassword', 'require|alphaNum|min:6|max:20')
-            ->append('oldPassword', 'require|alphaNum|min:6|max:20');
-    }
-
-    /**
-     * 忘记密码
-
-     * @return LoginValidate
-     * @author windy
-     */
-    public function sceneForgetPwd(): LoginValidate
-    {
-        $this->field = [
-            'mobile'      => '手机号',
-            'code'        => '验证码',
-            'newPassword' => '新密码'
-        ];
-        return $this->only(['newPassword', 'mobile', 'code'])
-            ->append('newPassword', 'require|alphaDash|min:6|max:20')
-            ->append('mobile', 'require|mobile|min:11|max:11')
-            ->append('code', 'require|alphaDash|max:6');
-    }
-
-    /**
-     * 绑定微信
-
-     * @return LoginValidate
-     * @author windy
-     */
-    public function sceneBindWeChat(): LoginValidate
-    {
-        return $this->only(['code'])
-            ->append('code', 'require|alphaDash');
-    }
-
-    /**
-     * 绑定手机
-
-     * @return LoginValidate
-     * @author windy
-     */
-    public function sceneBindMobile(): LoginValidate
-    {
-        $type = request()->post('type')??'';
-        if ($type === 'code') {
-            return $this->only(['code', 'type'])
-                ->append('code', 'require|alphaDash|max:200')
-                ->append('type', 'require|in:change,bind,code');
-        } else {
-            return $this->only(['mobile', 'code', 'type'])
-                ->append('mobile', 'require|mobile|min:11|max:11')
-                ->append('code', 'require|alphaDash|max:6')
-                ->append('type', 'require|in:change,bind,code');
-        }
-    }
-
-    /**
-     * 绑定邮箱
-
-     * @return LoginValidate
-     * @author windy
-     */
-    public function sceneBindEmail(): LoginValidate
-    {
-        return $this->only(['mobile', 'code'])
-            ->append('email', 'require|email')
             ->append('code', 'require|alphaDash|max:6');
     }
 }

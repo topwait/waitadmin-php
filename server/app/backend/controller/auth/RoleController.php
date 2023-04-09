@@ -40,7 +40,8 @@ class RoleController extends Backend
      *
      * @return Json|View
      * @throws DbException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -61,7 +62,8 @@ class RoleController extends Backend
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      * @throws Exception
-     * @author windy
+     * @method [GET|POST]
+     * @author zero
      */
     public function add(): View|Json
     {
@@ -86,7 +88,8 @@ class RoleController extends Backend
      * @throws DbException
      * @throws ModelNotFoundException
      * @throws OperateException
-     * @author windy
+     * @method [GET|POST]
+     * @author zero
      */
     public function edit(): View|Json
     {
@@ -115,7 +118,8 @@ class RoleController extends Backend
      * @return Json
      * @throws DbException
      * @throws OperateException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function del(): Json
     {

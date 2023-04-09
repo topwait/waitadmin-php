@@ -15,9 +15,11 @@ declare (strict_types = 1);
 
 namespace app;
 
-
 use app\common\enums\ErrorEnum;
+use app\common\exception\RequestException;
 use app\common\exception\SystemException;
+use Exception;
+use ReflectionMethod;
 use think\App;
 use think\exception\HttpResponseException;
 use think\facade\Lang;
@@ -55,13 +57,14 @@ abstract class BaseController
     /**
      * 构造方法
      *
-     * @param  App  $app  应用对象
-     * @author windy
+     * @param App $app 应用对象
+     * @author zero
      */
     public function __construct(App $app)
     {
         $this->app     = $app;
         $this->request = $this->app->request;
+        $this->intercept($this->request->controller());
         $this->loadLang($this->request->controller());
     }
 
@@ -72,7 +75,7 @@ abstract class BaseController
      * @param $arguments
      * @return void
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public function __call($name, $arguments): void
     {
@@ -89,7 +92,7 @@ abstract class BaseController
      * @param array $message 提示信息
      * @param bool $batch 是否批量验证
      * @return bool
-     * @author windy
+     * @author zero
      */
     protected function validate(array $data, array|string $validate, array $message = [], bool $batch = false): bool
     {
@@ -120,7 +123,7 @@ abstract class BaseController
      * GET异步请求
      *
      * @return bool
-     * @author windy
+     * @author zero
      */
     protected function isAjaxGet(): bool
     {
@@ -131,7 +134,7 @@ abstract class BaseController
      * POST异步请求
      *
      * @return bool
-     * @author windy
+     * @author zero
      */
     protected function isAjaxPost(): bool
     {
@@ -142,7 +145,7 @@ abstract class BaseController
      * 重写跳转方法
      *
      * @param mixed ...$args
-     * @author windy
+     * @author zero
      */
     protected function redirect(...$args): void
     {
@@ -153,7 +156,7 @@ abstract class BaseController
      * 加载语言
      *
      * @param string $name (功能模块)
-     * @author windy
+     * @author zero
      */
     protected function loadLang(string $name): void
     {
@@ -174,5 +177,60 @@ abstract class BaseController
         if (is_file($apps . 'lang/' . $lang . '/'. $name . '.php')) {
             Lang::load($apps . 'lang/' . $lang . '/'. $name . '.php');
         }
+    }
+
+    /**
+     * 请求方式拦截器
+     *
+     * @param $controller
+     * @author zero
+     */
+    private function intercept($controller): void
+    {
+        try {
+            $controller = str_replace('.', '\\', $controller) . 'Controller';
+            $namespaces = '\\' . $this->app->getNamespace() . '\\controller\\' . $controller;
+            $reflection = new ReflectionMethod($namespaces, $this->request->action());
+
+            if (!$reflection->getDocComment()) {
+                return;
+            }
+
+            $annotate = [];
+            $patterns = '/@\w+\s+(.*)/u';
+            preg_match_all($patterns, $reflection->getDocComment(), $matches);
+            foreach ($matches[0] as $item) {
+                $arr = explode(' ', $item);
+                $key = trim($arr[0]);
+                $val = trim($arr[1]);
+                $annotate[$key] = $val;
+            }
+
+            if (isset($annotate['@method']) && !trim($annotate['@method'])) {
+                throw new RequestException("Method annotation configuration error");
+            }
+
+            if (!empty($annotate['@method'])) {
+                $methods = str_replace('[', '', $annotate['@method']);
+                $methods = str_replace(']', '', $methods);
+                $methods = explode('|', trim($methods));
+
+                $supported = [];
+                foreach ($methods as $item) {
+                    $supported[] = trim($item);
+                    $strMethod = trim($item);
+                    if (!ctype_upper($strMethod)) {
+                        throw new RequestException("Request method '$strMethod' must be uppercase");
+                    }
+                }
+
+                $reqMethod = $this->request->method();
+                if (!in_array($reqMethod, $supported)) {
+                    throw new RequestException("Request method '$reqMethod' not supported");
+                }
+            }
+
+            return;
+        } catch (Exception) {}
     }
 }

@@ -61,7 +61,7 @@ class MailDriver
      * 发送邮件
      *
      * @throws @\PHPMailer\PHPMailer\Exception
-     * @author windy
+     * @author zero
      */
     public function send(): void
     {
@@ -100,7 +100,7 @@ class MailDriver
     /**
      * 设置发件人
      *
-     * @author windy
+     * @author zero
      * @param string $address
      * @param string $name
      * @return MailDriver
@@ -119,7 +119,7 @@ class MailDriver
      * @param string $name
      * @return MailDriver
      * @throws @\PHPMailer\PHPMailer\Exception
-     * @author windy
+     * @author zero
      */
     public function addAddress(string $address, string $name = ''): MailDriver
     {
@@ -131,7 +131,7 @@ class MailDriver
      * 设置回复邮箱
      * 建议和发件人一致
      *
-     * @author windy
+     * @author zero
      * @param string $address
      * @param string $name
      * @return MailDriver
@@ -161,7 +161,7 @@ class MailDriver
     /**
      * 设置密送
      *
-     * @author windy
+     * @author zero
      * @param string $address
      * @param string $name
      * @return MailDriver
@@ -176,7 +176,7 @@ class MailDriver
     /**
      * 设置附件
      *
-     * @author windy
+     * @author zero
      * @param string $path
      * @param string $name
      * @param string $encoding
@@ -194,7 +194,7 @@ class MailDriver
     /**
      * 设置HTML格式
      *
-     * @author windy
+     * @author zero
      * @param bool $isHtml
      * @return MailDriver
      */
@@ -207,7 +207,7 @@ class MailDriver
     /**
      * 设置邮件标题
      *
-     * @author windy
+     * @author zero
      * @param string $title
      * @return MailDriver
      */
@@ -220,7 +220,7 @@ class MailDriver
     /**
      * 设置邮件内容
      *
-     * @author windy
+     * @author zero
      * @param string $body (内容)
      * @return MailDriver
      */
@@ -233,7 +233,7 @@ class MailDriver
     /**
      * 设置邮件客户端不支持HTML时显示的内容
      *
-     * @author windy
+     * @author zero
      * @param string $body (内容)
      * @return MailDriver
      */

@@ -35,7 +35,7 @@ class AjaxUtils
      * @param string $msg (提示)
      * @param array $data (返回数据集)
      * @return array
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['code' => "int", 'msg' => "string", 'data' => "array"])]
     private static function result(int $code, string $msg, array $data=[]): array
@@ -55,7 +55,7 @@ class AjaxUtils
      * @param int $code (状态码)
      * @param int $httpCode (Http状态码)
      * @return Json
-     * @author windy
+     * @author zero
      */
     public static function success(string|array $msg='操作成功', array $data=[], int $code=0, int $httpCode=200): Json
     {
@@ -76,7 +76,7 @@ class AjaxUtils
      * @param int $code (状态码)
      * @param int $httpCode (Http状态码)
      * @return Json
-     * @author windy
+     * @author zero
      */
     public static function error(string|array $msg='请求错误', int $code=ErrorEnum::REQUEST_ERROR, array $data=[], int $httpCode=200): Json
     {

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="min-width-1200" style="display: none;">
+<head>
+    <meta charset="UTF-8">
+    {block name="title"}<title>{$pc.title??''}</title>{/block}
+    {block name="keywords"}<meta name="keywords" content="{$pc.keywords??''}">{/block}
+    {block name="description"}<meta name="description" content="{$pc.description??''}">{/block}
+    <link rel="stylesheet" href="__COMMON__/library/layui/css/layui.css">
+    <link rel="stylesheet" href="__FRONTEND__/font/iconfont.css">
+    <link rel="stylesheet" href="__FRONTEND__/css/basis.css">
+    <link rel="stylesheet" href="__FRONTEND__/css/app.css">
+    {block name="style"}{/block}
+</head>
+<body>
+    <!-- 头部 -->
+    {include file="common/header" /}
+
+    <!-- 主体 -->
+    <div class="layout-global-user">
+        <div class="container">
+            <div class="left-sidebar">
+                <div class="member">
+                    <div class="avatar">
+                        <img src="{$userInfo.avatar}" alt="avatar">
+                    </div>
+                    <div class="name">{$userInfo.nickname}</div>
+                    <div class="sign"><p>{$userInfo.sign ? $userInfo.sign : '这家伙很懒什么也没有留下~'}</p></div>
+                    <div class="nums">
+                        <p>
+                            <span class="num">0</span>
+                            <span class="item">余额</span>
+                        </p>
+                        <p>
+                            <span class="num">339</span>
+                            <span class="item">收藏</span>
+                        </p>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <ul class="menu">
+                    <li class="{:active_url('index')}">
+                        <a href="{:route('user/index')}">
+                            <i class="layui-icon layui-icon-username"></i>
+                            <span>主页</span>
+                        </a>
+                    </li>
+                    <li class="{:active_url('collect')}">
+                        <a href="{:route('user/collect')}">
+                            <i class="layui-icon layui-icon-rate"></i>
+                            <span>收藏</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right-iframe">
+                {block name="body"}{/block}
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    {include file="common/footer" /}
+
+    <!-- 脚本 -->
+    <script src="__COMMON__/library/jquery.min.js"></script>
+    <script src="__COMMON__/library/cache.min.js"></script>
+    <script src="__COMMON__/library/check.min.js"></script>
+    <script src="__COMMON__/library/layui/layui.js"></script>
+    <script src="__FRONTEND__/js/utils.min.js"></script>
+    {$website.website_analyse??''}
+    {block name="js"}{/block}
+</body>
+</html>

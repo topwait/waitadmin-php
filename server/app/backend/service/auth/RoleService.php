@@ -40,7 +40,7 @@ class RoleService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function all(): array
     {
@@ -59,7 +59,7 @@ class RoleService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
@@ -101,7 +101,7 @@ class RoleService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function checked(array $menuIds): array
     {
@@ -124,7 +124,7 @@ class RoleService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -147,7 +147,7 @@ class RoleService extends Service
      *
      * @param array $post
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -181,7 +181,7 @@ class RoleService extends Service
      * @param array $post
      * @throws OperateException
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post): void
     {
@@ -217,7 +217,7 @@ class RoleService extends Service
      * @param array $ids
      * @throws DbException
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function del(array $ids): void
     {
@@ -247,7 +247,7 @@ class RoleService extends Service
      *
      * @param array $post
      * @return array
-     * @author windy
+     * @author zero
      */
     private static function getHandleMenuIds(array $post): array
     {
@@ -264,7 +264,7 @@ class RoleService extends Service
      *
      * @param array $treeJson
      * @return array
-     * @author windy
+     * @author zero
      */
     private static function getCheckedMenuIds(array $treeJson): array
     {

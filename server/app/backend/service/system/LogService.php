@@ -33,7 +33,7 @@ class LogService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
@@ -69,7 +69,7 @@ class LogService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {

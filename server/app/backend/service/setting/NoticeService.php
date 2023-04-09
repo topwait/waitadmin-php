@@ -33,7 +33,7 @@ class NoticeService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
@@ -75,7 +75,7 @@ class NoticeService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -92,7 +92,7 @@ class NoticeService extends Service
      * 场景通知编辑
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post): void
     {

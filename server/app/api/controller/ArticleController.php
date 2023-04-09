@@ -39,7 +39,8 @@ class ArticleController extends Api
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function category(): Json
     {
@@ -52,7 +53,8 @@ class ArticleController extends Api
      *
      * @return Json
      * @throws DbException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function lists(): Json
     {
@@ -68,7 +70,8 @@ class ArticleController extends Api
      * @return Json
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function detail(): Json
     {

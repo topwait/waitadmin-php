@@ -17,7 +17,8 @@ class ContactController extends Backend
      * 客服装修详情
      *
      * @return View
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View
     {
@@ -32,7 +33,8 @@ class ContactController extends Backend
      * 客服装修保存
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function save(): Json
     {

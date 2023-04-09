@@ -15,7 +15,7 @@ class ContactService extends Service
      * 客服装修详情
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function detail(): array
     {
@@ -35,7 +35,7 @@ class ContactService extends Service
      * 客服装修保存
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function save(array $post)
     {

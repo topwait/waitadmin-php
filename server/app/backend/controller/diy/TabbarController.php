@@ -30,7 +30,8 @@ class TabbarController extends Backend
      * 底部导航页面
      *
      * @return View|Json
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -46,7 +47,8 @@ class TabbarController extends Backend
      * 底部导航配置
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function save(): Json
     {

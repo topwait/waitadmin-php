@@ -1,129 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WaitAdmin后台管理系统</title>
-    <link rel="stylesheet" href="__BACKEND__/js/layui/css/layui.css">
-    <link rel="stylesheet" href="__BACKEND__/css/login.css">
-    <link rel="stylesheet" href="__BACKEND__/css/theme.css">
-    <script src="__BACKEND__/js/layui/layui.js"></script>
-    <script src="__BACKEND__/js/jquery.min.js"></script>
-    <script src="__BACKEND__/js/config.min.js"></script>
-    <script src="__BACKEND__/js/cache.min.js"></script>
-    <script src="__BACKEND__/js/utils.min.js"></script>
-</head>
-<body>
-    <div class="login-wrapper layui-anim layui-anim-scale">
-        <form class="layui-form">
-            <h2>WaitAdmin</h2>
-            <div class="layui-form-item layui-input-icon-group">
-                <label for="username" class="layui-form-label" style="display: none;"></label>
-                <i class="layui-icon layui-icon-username"></i>
-                <input type="text"  id="username" name="username" class="layui-input" placeholder="请输入登录账号"
-                       autocomplete="off" lay-vertype="tips" lay-verify="required">
+{extend name="common/layout" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__BACKEND__/css/login.css">
+{/block}
+
+{block name="body"}
+<div class="login-wrapper layui-anim layui-anim-scale">
+    <form class="layui-form">
+        <h2>WaitAdmin</h2>
+        <div class="layui-form-item layui-input-icon-group">
+            <label for="username" class="layui-form-label" style="display: none;"></label>
+            <i class="layui-icon layui-icon-username"></i>
+            <input type="text"  id="username" name="username" class="layui-input" placeholder="请输入登录账号"
+                   autocomplete="off" lay-vertype="tips" lay-verify="required">
+        </div>
+        <div class="layui-form-item layui-input-icon-group">
+            <label for="password" class="layui-form-label" style="display: none;"></label>
+            <i class="layui-icon layui-icon-password"></i>
+            <input type="password"  id="password" name="password" class="layui-input" placeholder="请输入登录密码"
+                   lay-vertype="tips" lay-verify="required">
+        </div>
+        <div class="layui-form-item layui-input-icon-group login-captcha-group">
+            <label for="captcha" class="layui-form-label" style="display: none;"></label>
+            <i class="layui-icon layui-icon-auz"></i>
+            <input type="text" id="captcha" name="captcha" class="layui-input" placeholder="请输入验证码" autocomplete="off"
+                   lay-vertype="tips" lay-verify="required">
+            <img src="{$entrance}/captcha.html" class="login-captcha"
+                 onclick="this.src='{$entrance}/captcha.html?'+Math.random()"
+                 width="130px" height="48px" alt="点击刷新验证码">
+        </div>
+        <div class="layui-form-item">
+            <label for="remember" class="layui-form-label" style="display: none;"></label>
+            <input type="checkbox" id="remember" name="remember" title="记住密码" lay-skin="primary" checked="">
+            <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+                <span>记住密码</span><i class="layui-icon layui-icon-ok"></i>
             </div>
-            <div class="layui-form-item layui-input-icon-group">
-                <label for="password" class="layui-form-label" style="display: none;"></label>
-                <i class="layui-icon layui-icon-password"></i>
-                <input type="password"  id="password" name="password" class="layui-input" placeholder="请输入登录密码"
-                       lay-vertype="tips" lay-verify="required">
-            </div>
-            <div class="layui-form-item layui-input-icon-group login-captcha-group">
-                <label for="captcha" class="layui-form-label" style="display: none;"></label>
-                <i class="layui-icon layui-icon-auz"></i>
-                <input type="text" id="captcha" name="captcha" class="layui-input" placeholder="请输入验证码" autocomplete="off"
-                       lay-vertype="tips" lay-verify="required">
-                <img src="{$entrance}/captcha.html" class="login-captcha"
-                     onclick="this.src='{$entrance}/captcha.html?'+Math.random()"
-                     width="130px" height="48px" alt="点击刷新验证码">
-            </div>
-            <div class="layui-form-item">
-                <label for="remember" class="layui-form-label" style="display: none;"></label>
-                <input type="checkbox" id="remember" name="remember" title="记住密码" lay-skin="primary" checked="">
-                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
-                    <span>记住密码</span><i class="layui-icon layui-icon-ok"></i>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <a class="layui-btn layui-btn-fluid layui-btn-default" id="login" lay-filter="loginSubmit" lay-submit="">登录</a>
-            </div>
-        </form>
-    </div>
-    <div class="login-copyright">Copyright © 2022 www.waitadmin.cn all rights reserved.</div>
+        </div>
+        <div class="layui-form-item">
+            <a class="layui-btn layui-btn-fluid layui-btn-default" id="login" lay-filter="loginSubmit" lay-submit="">登录</a>
+        </div>
+    </form>
+</div>
+<div class="login-copyright">Copyright © 2022 www.waitAdmin.cn all rights reserved.</div>
+{/block}
 
-    <script>
-        layui.use(['form'], function () {
-            let $ = layui.$;
-            let form = layui.form;
+{block name="js"}
+<script>
+    layui.use(['form'], function () {
+        let $ = layui.$;
+        let form = layui.form;
 
-            let theme = waitCache.getItem('theme');
-            if (theme && theme !== waitConfig.theme) {
-                $('body').attr('data-theme', theme);
-            }
+        let theme = waitCache.getItem('theme');
+        if (theme && theme !== waitConfig.theme) {
+            $('body').attr('data-theme', theme);
+        }
 
-            //如果是iframe,跳转到顶层
-            if (window !== top) {
-                top.location.href = location.href;
-            }
+        //如果是iframe,跳转到顶层
+        if (window !== top) {
+            top.location.href = location.href;
+        }
 
-            // 监听提交登录
-            form.on('submit(loginSubmit)', function(data) {
-                const that = $(this)
-                rememberPass();
-                waitUtil.locking(that);
-                waitUtil.ajax({
-                    url: '{:route("login/check")}',
-                    type: 'POST',
-                    data: data.field,
-                    fulShow: false,
-                    errShow: false
-                }).then((res) => {
-                    if (res.code === 0) {
-                        layer.msg(res.msg, {icon: 1, time: 1000}, function () {
-                            location.href = '{:route("index")}'
-                        });
-                    } else {
-                        layer.msg(res.msg, {icon: 2, time: 1000});
-                        $('.login-captcha').trigger('click');
-                    }
-
-                    setTimeout(function () {
-                        waitUtil.unlock(that);
-                    }, 1500)
-                });
-            });
-
-            // 回车事件
-            $(document).keyup(function(event){
-                if(event.keyCode === 13){
-                    $('#login').trigger('click');
+        // 监听提交登录
+        form.on('submit(loginSubmit)', function(data) {
+            const that = $(this)
+            rememberPass();
+            waitUtil.locking(that);
+            waitUtil.ajax({
+                url: '{:route("login/check")}',
+                type: 'POST',
+                data: data.field,
+                fulShow: false,
+                errShow: false
+            }).then((res) => {
+                if (res.code === 0) {
+                    layer.msg(res.msg, {icon: 1, time: 1000}, function () {
+                        location.href = '{:route("index")}'
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 2, time: 1000});
+                    $('.login-captcha').trigger('click');
                 }
+
+                setTimeout(function () {
+                    waitUtil.unlock(that);
+                }, 1500)
             });
+        });
 
-            // 取出密码自动填充
-            let user = localStorage.getItem('keyName');
-            let pass = localStorage.getItem('keyPass');
-            if(user){
-                $('#username').val(user);
+        // 回车事件
+        $(document).keyup(function(event){
+            if(event.keyCode === 13){
+                $('#login').trigger('click');
             }
-            if(pass){
-                $('#password').val(pass);
-            }
+        });
 
-            // 记住密码
-            function rememberPass() {
-                let strName = $('#username').val();
-                let strPass = $('#password').val();
-                if($('#remember').is(':checked')){
-                    localStorage.setItem('keyName', strName);
-                    localStorage.setItem('keyPass', strPass);
-                }else{
-                    localStorage.removeItem('keyName');
-                    localStorage.removeItem('keyPass');
-                }
+        // 取出密码自动填充
+        let user = localStorage.getItem('keyName');
+        let pass = localStorage.getItem('keyPass');
+        if(user){
+            $('#username').val(user);
+        }
+        if(pass){
+            $('#password').val(pass);
+        }
+
+        // 记住密码
+        function rememberPass() {
+            let strName = $('#username').val();
+            let strPass = $('#password').val();
+            if($('#remember').is(':checked')){
+                localStorage.setItem('keyName', strName);
+                localStorage.setItem('keyPass', strPass);
+            }else{
+                localStorage.removeItem('keyName');
+                localStorage.removeItem('keyPass');
             }
-        })
-    </script>
-</body>
-</html>
+        }
+    });
+</script>
+{/block}

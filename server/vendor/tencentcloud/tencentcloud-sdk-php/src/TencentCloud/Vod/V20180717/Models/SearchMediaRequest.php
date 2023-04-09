@@ -132,6 +132,28 @@ use TencentCloud\Common\AbstractModel;
 <li> STANDARD_IA：低频存储。</li>
 <li> ARCHIVE：归档存储。</li>
 <li> DEEP_ARCHIVE：深度归档存储。</li>
+ * @method array getMediaTypes() 获取媒体文件封装格式集合，匹配集合中任意元素。
+<li>数组长度限制：10。</li>
+ * @method void setMediaTypes(array $MediaTypes) 设置媒体文件封装格式集合，匹配集合中任意元素。
+<li>数组长度限制：10。</li>
+ * @method array getStatus() 获取媒体文件状态，匹配集合中任意元素。
+<li> Normal：正常；</li>
+<li> SystemForbidden：平台封禁；</li>
+<li> Forbidden：主动封禁。</li>
+ * @method void setStatus(array $Status) 设置媒体文件状态，匹配集合中任意元素。
+<li> Normal：正常；</li>
+<li> SystemForbidden：平台封禁；</li>
+<li> Forbidden：主动封禁。</li>
+ * @method array getReviewResults() 获取媒体文件审核结果，匹配集合中任意元素。
+<li> pass：审核通过；</li>
+<li> review：疑似违规，建议复审；</li>
+<li> block：确认违规，建议封禁；</li>
+<li> notModerated：未审核。</li>
+ * @method void setReviewResults(array $ReviewResults) 设置媒体文件审核结果，匹配集合中任意元素。
+<li> pass：审核通过；</li>
+<li> review：疑似违规，建议复审；</li>
+<li> block：确认违规，建议封禁；</li>
+<li> notModerated：未审核。</li>
  * @method array getTrtcSdkAppIds() 获取TRTC 应用 ID 集合。匹配集合中的任意元素。
 <li>数组长度限制：10。</li>
  * @method void setTrtcSdkAppIds(array $TrtcSdkAppIds) 设置TRTC 应用 ID 集合。匹配集合中的任意元素。
@@ -310,6 +332,29 @@ class SearchMediaRequest extends AbstractModel
     public $StorageClasses;
 
     /**
+     * @var array 媒体文件封装格式集合，匹配集合中任意元素。
+<li>数组长度限制：10。</li>
+     */
+    public $MediaTypes;
+
+    /**
+     * @var array 媒体文件状态，匹配集合中任意元素。
+<li> Normal：正常；</li>
+<li> SystemForbidden：平台封禁；</li>
+<li> Forbidden：主动封禁。</li>
+     */
+    public $Status;
+
+    /**
+     * @var array 媒体文件审核结果，匹配集合中任意元素。
+<li> pass：审核通过；</li>
+<li> review：疑似违规，建议复审；</li>
+<li> block：确认违规，建议封禁；</li>
+<li> notModerated：未审核。</li>
+     */
+    public $ReviewResults;
+
+    /**
      * @var array TRTC 应用 ID 集合。匹配集合中的任意元素。
 <li>数组长度限制：10。</li>
      */
@@ -425,6 +470,17 @@ class SearchMediaRequest extends AbstractModel
 <li> STANDARD_IA：低频存储。</li>
 <li> ARCHIVE：归档存储。</li>
 <li> DEEP_ARCHIVE：深度归档存储。</li>
+     * @param array $MediaTypes 媒体文件封装格式集合，匹配集合中任意元素。
+<li>数组长度限制：10。</li>
+     * @param array $Status 媒体文件状态，匹配集合中任意元素。
+<li> Normal：正常；</li>
+<li> SystemForbidden：平台封禁；</li>
+<li> Forbidden：主动封禁。</li>
+     * @param array $ReviewResults 媒体文件审核结果，匹配集合中任意元素。
+<li> pass：审核通过；</li>
+<li> review：疑似违规，建议复审；</li>
+<li> block：确认违规，建议封禁；</li>
+<li> notModerated：未审核。</li>
      * @param array $TrtcSdkAppIds TRTC 应用 ID 集合。匹配集合中的任意元素。
 <li>数组长度限制：10。</li>
      * @param array $TrtcRoomIds TRTC 房间 ID 集合。匹配集合中的任意元素。
@@ -535,6 +591,18 @@ class SearchMediaRequest extends AbstractModel
 
         if (array_key_exists("StorageClasses",$param) and $param["StorageClasses"] !== null) {
             $this->StorageClasses = $param["StorageClasses"];
+        }
+
+        if (array_key_exists("MediaTypes",$param) and $param["MediaTypes"] !== null) {
+            $this->MediaTypes = $param["MediaTypes"];
+        }
+
+        if (array_key_exists("Status",$param) and $param["Status"] !== null) {
+            $this->Status = $param["Status"];
+        }
+
+        if (array_key_exists("ReviewResults",$param) and $param["ReviewResults"] !== null) {
+            $this->ReviewResults = $param["ReviewResults"];
         }
 
         if (array_key_exists("TrtcSdkAppIds",$param) and $param["TrtcSdkAppIds"] !== null) {

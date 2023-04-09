@@ -74,7 +74,7 @@ class GenValidate extends Validate
      * @param $rule
      * @param array $data
      * @return bool|string
-     * @author windy
+     * @author zero
      */
     protected function checkJoin($value, $rule, array $data=[]): bool|string
     {
@@ -108,7 +108,7 @@ class GenValidate extends Validate
      *
      * @param $value
      * @return bool|string
-     * @author windy
+     * @author zero
      */
     protected function checkCols($value): bool|string
     {

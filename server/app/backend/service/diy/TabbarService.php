@@ -26,7 +26,7 @@ class TabbarService extends Service
      * 底部导航详情
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['style' => "array", 'list' => "array"])]
     public static function detail(): array
@@ -51,7 +51,7 @@ class TabbarService extends Service
      * 底部导航保存
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function save(array $post): void
     {

@@ -35,7 +35,7 @@ class AttachService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     public static function lists(array $get): array
     {
@@ -54,6 +54,7 @@ class AttachService extends Service
             ->field('id,file_name,file_path,create_time')
             ->where($where)
             ->where(self::$searchWhere)
+            ->where(['is_attach'=>1])
             ->where(['is_delete'=>0])
             ->order('id desc')
             ->withAttr('file_path', function ($value) {
@@ -70,7 +71,7 @@ class AttachService extends Service
      * 文件命名
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function rename(array $post): void
     {
@@ -84,7 +85,7 @@ class AttachService extends Service
      * 文件移动
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function move(array $post): void
     {
@@ -98,7 +99,7 @@ class AttachService extends Service
      * 文件删除
      *
      * @param array $ids
-     * @author windy
+     * @author zero
      */
     public static function del(array $ids): void
     {
@@ -115,7 +116,7 @@ class AttachService extends Service
      * @throws DbException
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function cateLists(): array
     {
@@ -135,7 +136,7 @@ class AttachService extends Service
      * 分组创建
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function cateCreate(array $post): void
     {
@@ -152,7 +153,7 @@ class AttachService extends Service
      *
      * @param array $post
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function cateRename(array $post): void
     {
@@ -175,7 +176,7 @@ class AttachService extends Service
      * @param array $post
      * @return void
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function cateDelete(array $post): void
     {

@@ -43,9 +43,9 @@ class Qcloud
     /**
      * 文件上传
      *
-     * @author windy
+     * @author zero
      * @param array $fileInfo (文件信息)
-     * @author windy
+     * @author zero
      */
     public function upload(array $fileInfo): void
     {
@@ -61,7 +61,7 @@ class Qcloud
      *
      * @param string $path (地址)
      * @param string $key  (键名)
-     * @author windy
+     * @author zero
      */
     public function putFile(string $path, string $key): void
     {
@@ -77,7 +77,7 @@ class Qcloud
      *
      * @param string $url (地址)
      * @param string $key (键名)
-     * @author windy
+     * @author zero
      */
     public function fetch(string $url, string $key): void
     {
@@ -92,7 +92,7 @@ class Qcloud
      * 文件删除
      *
      * @param string $url (地址)
-     * @author windy
+     * @author zero
      */
     public function delete(string $url): void
     {

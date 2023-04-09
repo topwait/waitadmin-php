@@ -26,7 +26,7 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
 import { sendSmsApi } from '@/api/indexApi'
-import { bindMobileApi } from '@/api/loginApi'
+import { bindMobileApi } from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 

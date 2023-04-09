@@ -17,7 +17,7 @@ namespace addons\curd;
 
 use app\common\utils\MenuUtils;
 use Exception;
-use think\Addons;
+use wait\Addons;
 
 class Plugin extends Addons
 {
@@ -32,7 +32,7 @@ class Plugin extends Addons
      *
      * @throws Exception
      * @return bool
-     * @author windy
+     * @author zero
      */
     public function install(): bool
     {
@@ -67,7 +67,7 @@ class Plugin extends Addons
      *
      * @throws Exception
      * @return bool
-     * @author windy
+     * @author zero
      */
     public function uninstall(): bool
     {
@@ -80,7 +80,7 @@ class Plugin extends Addons
      *
      * @return bool
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public function enabled(): bool
     {
@@ -92,7 +92,7 @@ class Plugin extends Addons
      * 插件禁用方法
      *
      * @return bool
-     * @author windy
+     * @author zero
      */
     public function disabled(): bool
     {

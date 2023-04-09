@@ -35,7 +35,8 @@ class IndexController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View
     {
@@ -54,7 +55,8 @@ class IndexController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function console(): View
     {
@@ -67,7 +69,8 @@ class IndexController extends Backend
      * 设置弹窗
      *
      * @return View
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function setting(): View
     {

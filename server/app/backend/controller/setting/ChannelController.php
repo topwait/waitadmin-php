@@ -30,7 +30,8 @@ class ChannelController extends Backend
      * 渠道配置信息
      *
      * @return View
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View
     {
@@ -43,7 +44,8 @@ class ChannelController extends Backend
      * 渠道配置保存
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function save(): Json
     {

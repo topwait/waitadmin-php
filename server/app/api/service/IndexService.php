@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\api\service;
 
 use app\common\basics\Service;
-use app\common\model\content\Article;
+use app\common\model\article\Article;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
@@ -36,7 +36,7 @@ class IndexService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function index(): array
     {
@@ -58,7 +58,7 @@ class IndexService extends Service
      * 全局配置
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function config(): array
     {
@@ -105,7 +105,7 @@ class IndexService extends Service
      *
      * @param string $type (类型: service/privacy)
      * @return array
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['content' => "string"])]
     public static function policy(string $type): array

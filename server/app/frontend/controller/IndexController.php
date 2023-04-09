@@ -15,13 +15,16 @@ declare (strict_types = 1);
 
 namespace app\frontend\controller;
 
-
 use app\common\basics\Frontend;
+use app\common\service\msg\MsgDriver;
+use app\common\utils\AjaxUtils;
 use app\frontend\service\ArticleService;
 use app\frontend\service\IndexService;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\facade\Cookie;
+use think\response\Json;
 use think\response\View;
 
 /**
@@ -32,16 +35,25 @@ use think\response\View;
  */
 class IndexController extends Frontend
 {
+    protected array $notNeedLogin = ['index', 'sendSms', 'sendEmail'];
+
     /**
+     * 首页
+     *
      * @return View
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View
     {
+        $logon = Cookie::get('logon', '0');
+        Cookie::delete('logon');
+
         return view('', [
+            'logon'    => intval($logon),
             'links'    => IndexService::getLinks(),
             'banner'   => IndexService::getBanner(1),
             'adv'      => IndexService::getBanner(2),
@@ -50,5 +62,45 @@ class IndexController extends Frontend
             'lately'   => ArticleService::recommend('lately', 8),
             'ranking'  => ArticleService::recommend('ranking', 8)
         ]);
+    }
+
+    /**
+     * 发送短信
+     *
+     * @return Json
+     * @method [POST]
+     * @author zero
+     */
+    public function sendSms(): Json
+    {
+        $scene  = $this->request->post('scene');
+        $mobile = $this->request->post('mobile');
+
+        MsgDriver::send(intval($scene), [
+            'mobile' => $mobile,
+            'code'   => make_rand_code(null, '', 6)
+        ]);
+
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 发送邮件
+     *
+     * @return Json
+     * @method [POST]
+     * @author zero
+     */
+    public function sendEmail(): Json
+    {
+        $scene = $this->request->post('scene');
+        $email = $this->request->post('email');
+
+        MsgDriver::send(intval($scene), [
+            'email' => $email,
+            'code'  => make_rand_code(null, '', 6)
+        ]);
+
+        return AjaxUtils::success();
     }
 }

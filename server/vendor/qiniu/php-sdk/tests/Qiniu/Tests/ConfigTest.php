@@ -27,7 +27,7 @@ namespace Qiniu\Tests {
                 $hasException = true;
             }
             $this->assertFalse($hasException);
-            $this->assertEquals('http://api.qiniu.com', $apiHost);
+            $this->assertEquals('http://api.qiniuapi.com', $apiHost);
         }
 
         public function testGetApiHostErrored()
@@ -40,6 +40,23 @@ namespace Qiniu\Tests {
                 $hasException = true;
             }
             $this->assertTrue($hasException);
+        }
+
+        public function testGetApiHostV2()
+        {
+            $conf = new Config();
+            list($apiHost, $err) = $conf->getApiHostV2($this->accessKey, $this->bucketName);
+            $this->assertNull($err);
+            $this->assertEquals('http://api.qiniuapi.com', $apiHost);
+        }
+
+        public function testGetApiHostV2Errored()
+        {
+            $conf = new Config();
+            list($apiHost, $err) = $conf->getApiHostV2($this->accessKey, "fakebucket");
+            $this->assertNotNull($err->code());
+            $this->assertEquals(631, $err->code());
+            $this->assertNull($apiHost);
         }
     }
 }

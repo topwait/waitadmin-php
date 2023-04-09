@@ -35,7 +35,7 @@ class GroupService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function all(): array
     {
@@ -53,7 +53,7 @@ class GroupService extends Service
      * @param array $get
      * @return array
      * @throws DbException
-     * @author windy
+     * @author zero
      */
     #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
@@ -83,7 +83,7 @@ class GroupService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -99,7 +99,7 @@ class GroupService extends Service
      * 分组新增
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
@@ -118,7 +118,7 @@ class GroupService extends Service
      *
      * @param array $post
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post): void
     {
@@ -138,7 +138,7 @@ class GroupService extends Service
      *
      * @param int $id
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function del(int $id)
     {

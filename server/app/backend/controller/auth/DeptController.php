@@ -39,7 +39,8 @@ class DeptController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -59,7 +60,8 @@ class DeptController extends Backend
      * @throws DbException
      * @throws ModelNotFoundException
      * @throws OperateException
-     * @author windy
+     * @method [GET|POST]
+     * @author zero
      */
     public function add(): View|Json
     {
@@ -82,7 +84,8 @@ class DeptController extends Backend
      * @throws DbException
      * @throws ModelNotFoundException
      * @throws OperateException
-     * @author windy
+     * @method [GET|POST]
+     * @author zero
      */
     public function edit(): View|Json
     {
@@ -107,13 +110,14 @@ class DeptController extends Backend
      *
      * @return Json
      * @throws OperateException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function del(): Json
     {
         if ($this->isAjaxPost()) {
             (new DeptValidate())->idCheck();
-            DeptService::del($this->request->post('id'));
+            DeptService::del(intval($this->request->post('id')));
             return AjaxUtils::success();
         }
 

@@ -31,10 +31,14 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
-        '4651774c582593d3390aad325a995805' => __DIR__ . '/..' . '/topwait/think-addons/src/helper.php',
+        '85bd55f918dcb616354fcc280a79956e' => __DIR__ . '/..' . '/topwait/wait-addons/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'w' => 
+        array (
+            'wait\\' => 5,
+        ),
         't' => 
         array (
             'think\\view\\driver\\' => 18,
@@ -142,6 +146,10 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
     );
 
     public static $prefixDirsPsr4 = array (
+        'wait\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topwait/wait-addons/src',
+        ),
         'think\\view\\driver\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-view/src',
@@ -166,7 +174,6 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
             3 => __DIR__ . '/..' . '/topthink/think-image/src',
             4 => __DIR__ . '/..' . '/topthink/think-orm/src',
             5 => __DIR__ . '/..' . '/topthink/think-template/src',
-            6 => __DIR__ . '/..' . '/topwait/think-addons/src',
         ),
         'clagiordano\\weblibs\\configmanager\\' => 
         array (

@@ -20,18 +20,18 @@ use TencentCloud\Common\AbstractModel;
 /**
  * CreateBPFakeURLs请求参数结构体
  *
- * @method string getFakeURLs() 获取批量模版
- * @method void setFakeURLs(string $FakeURLs) 设置批量模版
+ * @method string getFakeURLs() 获取批量模板
+ * @method void setFakeURLs(string $FakeURLs) 设置批量模板
  */
 class CreateBPFakeURLsRequest extends AbstractModel
 {
     /**
-     * @var string 批量模版
+     * @var string 批量模板
      */
     public $FakeURLs;
 
     /**
-     * @param string $FakeURLs 批量模版
+     * @param string $FakeURLs 批量模板
      */
     function __construct()
     {

@@ -12,9 +12,7 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\user;
-
 
 use app\common\basics\Models;
 use app\common\utils\UrlUtils;
@@ -33,6 +31,7 @@ class User extends Models
         'account'         => 'string',  //用户账号
         'nickname'        => 'string',  //用户昵称
         'password'        => 'string',  //登录密码
+        'sign'            => 'string',  //个性签名
         'salt'            => 'string',  //加密盐巴
         'gender'          => 'int',     //用户性别
         'mobile'          => 'string',  //电话号码

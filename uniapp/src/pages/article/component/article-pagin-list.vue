@@ -12,7 +12,7 @@
         <view class="layout-article-widget">
             <view v-for="(item, index) in dataList" :key="index" class="item" @click="$go('/pages/article/detail?id='+item.id)">
                 <u-image :lazy-load="true" width="240rpx" height="180rpx" :src="item.image" style="flex-shrink: 0;" />
-                <view class="flex flex-col justify-between px-20">
+                <view class="flex flex-1 flex-col justify-between px-20">
                     <view class="truncate-line-1 text-xl color-main font-medium">{{ item.title }}</view>
                     <view class="truncate-line-2 text-xs color-text">{{ item.intro }}</view>
                     <view class="flex justify-between">

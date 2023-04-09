@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" class="min-width-1200" style="display: none;">
+<head>
+    <meta charset="UTF-8">
+    {block name="title"}<title>{$pc.title??''}</title>{/block}
+    {block name="keywords"}<meta name="keywords" content="{$pc.keywords??''}">{/block}
+    {block name="description"}<meta name="description" content="{$pc.description??''}">{/block}
+    <link rel="stylesheet" href="__COMMON__/library/layui/css/layui.css">
+    <link rel="stylesheet" href="__COMMON__/library/prism/prism.min.css">
+    <link rel="stylesheet" href="__FRONTEND__/font/iconfont.css">
+    <link rel="stylesheet" href="__FRONTEND__/css/basis.css">
+    <link rel="stylesheet" href="__FRONTEND__/css/app.css">
+    {block name="style"}{/block}
+</head>
+<body>
+    <!-- 头部 -->
+    {include file="common/header" /}
+
+    <!-- 主体 -->
+    {block name="body"}{/block}
+
+    <!-- 页脚 -->
+    {include file="common/footer" /}
+
+    <!-- 脚本 -->
+    <script src="__COMMON__/library/jquery.min.js"></script>
+    <script src="__COMMON__/library/cache.min.js"></script>
+    <script src="__COMMON__/library/check.min.js"></script>
+    <script src="__COMMON__/library/layui/layui.js"></script>
+    <script src="__COMMON__/library/prism/prism.min.js"></script>
+    <script src="__FRONTEND__/js/utils.min.js"></script>
+    {$website.website_analyse??''}
+    {block name="js"}{/block}
+</body>
+</html>

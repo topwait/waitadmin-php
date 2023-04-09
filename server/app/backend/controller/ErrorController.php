@@ -30,7 +30,7 @@ class ErrorController
      * @param $name
      * @param $arguments
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public function __call($name, $arguments)
     {
@@ -43,7 +43,8 @@ class ErrorController
      * 异常的页面
      *
      * @return View
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function wrong(): View
     {

@@ -20,9 +20,6 @@ use app\common\basics\Models;
 
 /**
  * 轮播图模型
- *
- * Class DevBanner
- * @package app\common\model
  */
 class DevBanner extends Models
 {
@@ -47,7 +44,7 @@ class DevBanner extends Models
      *
      * @param int $pos
      * @return array|string
-     * @author windy
+     * @author zero
      */
     public static function positionEnum(int $pos = 0): array|string
     {

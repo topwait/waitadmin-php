@@ -18,7 +18,6 @@ namespace app\api\controller;
 use app\api\service\LoginService;
 use app\api\validate\LoginValidate;
 use app\common\basics\Api;
-use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use Exception;
 use think\response\Json;
@@ -28,14 +27,15 @@ use think\response\Json;
  */
 class LoginController extends Api
 {
-    protected array $notNeedLogin = ['register', 'login', 'oaCodeUrl', 'forgetPwd'];
+    protected array $notNeedLogin = ['register', 'login', 'oaCodeUrl'];
 
     /**
      * 注册
      *
      * @return Json
      * @throws Exception
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function register(): Json
     {
@@ -50,7 +50,8 @@ class LoginController extends Api
      *
      * @return Json
      * @throws Exception
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function login(): Json
     {
@@ -76,12 +77,12 @@ class LoginController extends Api
                 break;
             case 'oa':
                 $validate->goCheck('oa');
-                $response = LoginService::oaLogin($post['code'], $this->terminal);
+                $response = LoginService::oaLogin($post['code'], $post['state'], $this->terminal);
                 break;
             case 'ba':
                 $validate->goCheck('ba');
                 $sign = $post['sign'] ?? '';
-                $response = LoginService::baLogin($post['mobile'], $post['code'], $sign,  $this->terminal);
+                $response = LoginService::baLogin(strval($post['mobile']), $post['code'], $sign, $this->terminal);
                 break;
         }
 
@@ -92,7 +93,8 @@ class LoginController extends Api
      * 退出
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function logout(): Json
     {
@@ -100,11 +102,12 @@ class LoginController extends Api
     }
 
     /**
-     * 公众号授权链接
+     * 公众号链接
      *
      * @return Json
      * @throws Exception
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function oaCodeUrl(): Json
     {
@@ -113,80 +116,5 @@ class LoginController extends Api
 
         $response = LoginService::oaCodeUrl($url);
         return AjaxUtils::success($response);
-    }
-
-    /**
-     * 忘记密码
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function forgetPwd(): Json
-    {
-        (new LoginValidate())->goCheck('forgetPwd');
-
-        LoginService::forgetPwd($this->request->post());
-        return AjaxUtils::success();
-    }
-
-    /**
-     * 修改密码
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function changePwd(): Json
-    {
-        (new LoginValidate())->goCheck('changePwd');
-
-        LoginService::changePwd($this->request->post(), $this->userId);
-        return AjaxUtils::success();
-    }
-
-    /**
-     * 绑定微信
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function bindWeChat(): Json
-    {
-        (new LoginValidate())->goCheck('bindWeChat');
-
-        LoginService::bindWeChat($this->request->post(), $this->userId);
-        return AjaxUtils::success();
-    }
-
-    /**
-     * 绑定手机
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function bindMobile(): Json
-    {
-        (new LoginValidate())->goCheck('bindMobile');
-
-        LoginService::bindMobile($this->request->post(), $this->userId);
-        return AjaxUtils::success();
-    }
-
-    /**
-     * 绑定邮箱
-     *
-     * @return Json
-     * @throws OperateException
-     * @author windy
-     */
-    public function bindEmail(): Json
-    {
-        (new LoginValidate())->goCheck('bindEmail');
-
-        LoginService::bindEmail($this->request->post(), $this->userId);
-        return AjaxUtils::success();
     }
 }

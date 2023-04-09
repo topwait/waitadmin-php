@@ -16,24 +16,41 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\BaseController;
+use app\common\exception\SystemException;
 use app\common\model\DevNavigation;
 use app\common\utils\ArrayUtils;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
+use LogicException;
 use think\App;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\facade\Cookie;
 use think\facade\View;
 
 /**
  * 前端基类
- *
- * Class Frontend
- * @package app\common\basics
  */
 abstract class Frontend extends BaseController
 {
+    /**
+     * 设备
+     * @var int
+     */
+    protected int $terminal = 1;
+
+    /**
+     * 用户ID
+     * @var int
+     */
+    protected int $userId = 0;
+
+    /**
+     * 不校验登录的方法
+     */
+    protected array $notNeedLogin = [];
+
     /**
      * 构造方法
      *
@@ -42,10 +59,20 @@ abstract class Frontend extends BaseController
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @throws SystemException
      */
     public function __construct(App $app)
     {
         parent::__construct($app);
+
+        if (!$this->isLogin()) {
+            if ($this->request->isAjax()) {
+                throw new LogicException('请登录后再操作!');
+            }
+
+            Cookie::set('logon','1', ['expire'=>60,'path'=>'/']);
+            $this->redirect(route('index/index'), 302);
+        }
 
         $this->setValues();
 
@@ -64,7 +91,7 @@ abstract class Frontend extends BaseController
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     protected function setValues(): void
     {
@@ -80,7 +107,31 @@ abstract class Frontend extends BaseController
         $pcConfig['logo'] = UrlUtils::toAbsoluteUrl($pcConfig['logo']??'');
 
         View::assign('pc', $pcConfig);
+        View::assign('action', $this->request->action());
         View::assign('website', ConfigUtils::get('website'));
         View::assign('navigation', ArrayUtils::toTreeJson($navigationData));
+    }
+
+    /**
+     * 验证登录
+     *
+     * @author zero
+     * @return bool
+     */
+    protected function isLogin(): bool
+    {
+        $userId = session('userId');
+        if (in_array(request()->action(), $this->notNeedLogin)) {
+            if ($userId) {
+                $this->userId = intval($userId);
+            }
+            return true;
+        } else {
+            if ($userId) {
+                $this->userId = intval($userId);
+                return true;
+            }
+            return false;
+        }
     }
 }

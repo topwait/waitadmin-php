@@ -17,6 +17,7 @@ namespace app\backend\controller;
 
 
 use app\backend\service\UploadService;
+use app\backend\validate\UploadValidate;
 use app\common\basics\Backend;
 use app\common\exception\UploadException;
 use app\common\utils\AjaxUtils;
@@ -28,32 +29,37 @@ use think\response\Json;
 class UploadController extends Backend
 {
     /**
-     * 附件上传
+     * 永远存储
      *
      * @return Json
      * @throws UploadException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
-    public function attach(): Json
+    public function permanent(): Json
     {
-        $type = $this->request->get('type');
-        $cid  = $this->request->post('cid', 0);
+        (new UploadValidate())->goCheck();
+        $type = strval($this->request->get('type'));
+        $hide = intval($this->request->post('hide', 1));
+        $cid  = intval($this->request->post('cid', 0));
 
-        $path = 'attach/'.$type.'/';
-        $result = UploadService::storage($type, $path, intval($cid), $this->adminId);
+        $result = UploadService::permanent($type, $hide, $cid, $this->adminId);
         return AjaxUtils::success('上传成功', $result);
     }
 
     /**
-     * 临时上传
+     * 临时存储
      *
      * @return Json
      * @throws UploadException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function temporary(): Json
     {
+        (new UploadValidate())->goCheck();
         $type = $this->request->get('type');
+
         $result = UploadService::temporary($type);
         return AjaxUtils::success('上传成功', $result);
     }

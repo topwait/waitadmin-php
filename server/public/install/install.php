@@ -17,9 +17,9 @@ include_once 'mysql.php';
 include_once 'util.php';
 
 // 常量定义
-define('INSTALL_ROOT', __DIR__);
+const INSTALL_ROOT = __DIR__;
 define('PUBLIC_ROOT', dirname(__DIR__));
-define('APP_ROOT', dirname(dirname(__DIR__)));
+define('APP_ROOT', dirname(__DIR__, 2));
 
 // 参数实例化
 $successTables = [];
@@ -52,7 +52,7 @@ if ($step == 4) {
         'username'   => $_POST['username'] ?? '',
         'password'   => $_POST['password'] ?? '',
         'prefix'     => $_POST['prefix'] ?? '',
-        'clear'      => empty($_POST['clear']) ? false : true,
+        'clear'      => !empty($_POST['clear']),
         'layout'     => $_POST['layout'] ?? 'exhale',
         'admin_user' => $_POST['admin_user'] ?? '',
         'admin_pwd'  => $_POST['admin_pwd'] ?? '',

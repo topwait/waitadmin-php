@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app;
 
-
 use app\common\enums\ErrorEnum;
 use app\common\exception\BaseException;
 use app\common\model\sys\SysLog;
@@ -136,10 +135,8 @@ class ExceptionHandle extends Handle
                     $this->errData
                 );
             } else {
-                return redirect(route('error/wrong', [
-                    'errCode' => $this->errCode,
-                    'errMsg'  => $this->errMsg
-                ]));
+                session('error', json_encode(['errCode'=>$this->errCode, 'errMsg'=>$this->errMsg]));
+                return redirect(route('error/wrong'));
             }
         }
 

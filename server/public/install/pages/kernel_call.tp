@@ -29,7 +29,9 @@ layui.use(['jquery', 'element'], function() {
                 let loadNode = $iframe.parent().find('.wait-loading');
                 $iframe.on('load', function() {
                     let theme = waitCache.getItem('theme');
+                    let $html = $($iframe[0].contentWindow.document).find('html');
                     let $body = $($iframe[0].contentWindow.document).find('body');
+                    $html.removeAttr('style');
                     $body.attr('data-theme', theme);
 
                     loadNode.fadeOut(1000, function() {
@@ -408,15 +410,15 @@ layui.use(['jquery', 'element'], function() {
     $waitHeaderNode.on('click', '.about', function () {
         let enter = '/' + window.location.pathname.split('/')[1];
         layer.open({
-			type: 2,
-			title: '主题配置',
-			shadeClose: true,
-			closeBtn: 0,
-			skin: 'layui-anim layui-anim-right layui-layer-right',
-			area: ['300px', '100%'],
-			offset: 'r',
-			anim: -1,
-			content: enter + '/index/setting'
+			type: 2
+            ,title: '主题配置'
+            ,shadeClose: true
+            ,closeBtn: 0
+            ,skin: 'layui-anim layui-anim-right layui-layer-right'
+            ,area: ['300px', '100%']
+            ,offset: 'r'
+            ,anim: -1
+            ,content: enter + '/index/setting'
 		});
     });
 
@@ -454,9 +456,17 @@ layui.use(['jquery', 'element'], function() {
             }
         }
         if ($(window).width() <= 768 || layui.device().mobile) {
+            $waitMaskNode.removeClass('activate');
+            $waitSidebarNode.find('.wait-second-menu').hide();
+            $waitSidebarNode.find('.wait-second-menu').removeClass('activate');
+            $waitHeaderNode.find('.stretch i').removeClass('layui-icon-spread-left');
+            $waitHeaderNode.find('.stretch i').addClass('layui-icon-shrink-right');
+            $waitBodyNode.removeAttr('style');
+
             if ($waitSidebarNode.hasClass('develop-sidebar')) {
                 $waitSidebarNode.removeClass('develop-sidebar');
             }
+
             if ($waitHeaderNode.children('.layui-layout-left').hasClass('develop-sidebar')) {
                 $waitHeaderNode.children('.layui-layout-left').removeClass('develop-sidebar');
             }

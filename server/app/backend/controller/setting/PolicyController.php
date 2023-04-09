@@ -30,7 +30,8 @@ class PolicyController extends Backend
      * 政策协议配置页面
      *
      * @return View
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View
     {
@@ -43,7 +44,8 @@ class PolicyController extends Backend
      * 政策协议配置保存
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function save(): Json
     {

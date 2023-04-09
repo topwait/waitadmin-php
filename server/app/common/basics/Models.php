@@ -34,7 +34,7 @@ class Models extends Model
      * @param array|string $where
      * @param string $msg
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public function checkDataDoesNotExist(array|string $where = [], string $msg = '数据不存在!'): void
     {
@@ -58,7 +58,7 @@ class Models extends Model
      * @param array|string $where
      * @param string $msg
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public function checkDataAlreadyExist(array|string $where = [], string $msg = '数据已存在!'): void
     {
@@ -81,7 +81,7 @@ class Models extends Model
      *
      * @param $value
      * @return string
-     * @author windy
+     * @author zero
      */
     public function getImageAttr($value): string
     {
@@ -97,7 +97,7 @@ class Models extends Model
      *
      * @param $value
      * @return array
-     * @author windy
+     * @author zero
      */
     public function getBannerAttr($value): array
     {
@@ -115,9 +115,9 @@ class Models extends Model
     /**
      * 修改器: 处理图片路径
      *
-     * @author windy
      * @param $value
      * @return string
+     * @author zero
      */
     public function setImageAttr($value): string
     {
@@ -127,9 +127,9 @@ class Models extends Model
     /**
      * 修改器: 处理轮播图
      *
-     * @author windy
      * @param $value
      * @return string
+     * @author zero
      */
     public function setBannerAttr($value): string
     {

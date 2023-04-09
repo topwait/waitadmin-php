@@ -29,7 +29,7 @@ use think\response\Json;
  */
 class IndexController extends Api
 {
-    protected array $notNeedLogin = ['index', 'config', 'sendSms'];
+    protected array $notNeedLogin = ['index', 'config', 'sendSms', 'sendEmail'];
 
     /**
      * 首页数据
@@ -38,6 +38,7 @@ class IndexController extends Api
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @method [GET]
      */
     public function index(): Json
     {
@@ -49,7 +50,8 @@ class IndexController extends Api
      * 全局配置
      *
      * @return Json
-     * @author windy
+     * @author zero
+     * @method [GET]
      */
     public function config(): Json
     {
@@ -61,7 +63,8 @@ class IndexController extends Api
      * 协议政策
      *
      * @return Json
-     * @author windy
+     * @author zero
+     * @method [GET]
      */
     public function policy(): Json
     {
@@ -74,7 +77,8 @@ class IndexController extends Api
      * 发送短信
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function sendSms(): Json
     {
@@ -93,7 +97,8 @@ class IndexController extends Api
      * 发送邮件
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function sendEmail(): Json
     {

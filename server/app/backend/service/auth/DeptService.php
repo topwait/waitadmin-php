@@ -36,7 +36,7 @@ class DeptService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function lists(): array
     {
@@ -57,7 +57,7 @@ class DeptService extends Service
      * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
-     * @author windy
+     * @author zero
      */
     public static function detail(int $id): array
     {
@@ -75,19 +75,24 @@ class DeptService extends Service
      *
      * @param array $post
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function add(array $post): void
     {
         // 验证唯一
         $pid = intval($post['pid']);
-        if ($pid === 1) {
-            throw new OperateException('只允许存在一个顶级部门!');
+        $modelAuthDept = new AuthDept();
+        if ($pid === 0) {
+            $modelAuthDept->checkDataAlreadyExist(['is_delete'=>0], '只允许存在一个顶级部门!');
         }
 
         // 验证父级
-        $model = new AuthDept();
-        $model->checkDataDoesNotExist(['id'=>$pid, 'is_delete'=>0], '父级菜单已不存在!');
+        if ($pid > 0) {
+            $modelAuthDept->checkDataDoesNotExist([
+                ['id', '=', $pid],
+                ['is_delete', '=', 0]
+            ], '父级菜单已不存在!');
+        }
 
         // 创建部门
         $authDept = AuthDept::create([
@@ -111,7 +116,7 @@ class DeptService extends Service
                 'relation' => '0,' . $authDept['id']
             ], ['id'=>$authDept['id']]);
         } else {
-            $parentDept = $model->field('id,pid,level,relation')->findOrEmpty($pid)->toArray();
+            $parentDept = $modelAuthDept->field('id,pid,level,relation')->findOrEmpty($pid)->toArray();
             AuthDept::update([
                'level'    => $parentDept['level'] + 1,
                'relation' => $parentDept['relation'] . ',' . $authDept['id']
@@ -124,7 +129,7 @@ class DeptService extends Service
      *
      * @param array $post
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function edit(array $post): void
     {
@@ -194,27 +199,27 @@ class DeptService extends Service
      *
      * @param int $id
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     public static function del(int $id): void
     {
-        $model = new AuthDept();
-        $model->checkDataDoesNotExist();
-        $model->checkDataAlreadyExist([
-            ['pid', '=', intval($id)],
+        $modelAuthDept = new AuthDept();
+        $modelAuthDept->checkDataDoesNotExist();
+        $modelAuthDept->checkDataAlreadyExist([
+            ['pid', '=', $id],
             ['is_delete', '=', 0]
         ], '请先删除子部门再操作!');
 
         $modelAdmin = new AuthAdmin();
-        $modelAdmin->checkDataDoesNotExist([
-            ['dept_id', '=', intval($id)],
+        $modelAdmin->checkDataAlreadyExist([
+            ['dept_id', '=', $id],
             ['is_delete', '=', 0]
         ], '部门已被管理员使用!');
 
         AuthDept::update([
             'is_delete'   => 1,
             'delete_time' => time()
-        ], ['id'=>intval($id)]);
+        ], ['id'=> $id]);
     }
 
     /**
@@ -222,7 +227,7 @@ class DeptService extends Service
      *
      * @param int $id
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function child(int $id): array
     {

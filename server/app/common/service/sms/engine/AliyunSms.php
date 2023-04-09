@@ -61,7 +61,7 @@ class AliyunSms
      *
      * @return bool
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public function send(): bool
     {
@@ -103,7 +103,7 @@ class AliyunSms
      *
      * @param int $mobile
      * @return $this
-     * @author windy
+     * @author zero
      */
     public function setPhoneNumbers(int $mobile): AliyunSms
     {
@@ -116,7 +116,7 @@ class AliyunSms
      *
      * @param string $code
      * @return $this
-     * @author windy
+     * @author zero
      */
     public function setTemplateCode(string $code): AliyunSms
     {
@@ -129,7 +129,7 @@ class AliyunSms
      *
      * @param array $param
      * @return $this
-     * @author windy
+     * @author zero
      */
     public function setTemplateParam(array $param): AliyunSms
     {

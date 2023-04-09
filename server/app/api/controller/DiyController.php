@@ -31,7 +31,8 @@ class DiyController extends Api
      * 首页页面装修
      *
      * @return Json
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): Json
     {
@@ -43,7 +44,8 @@ class DiyController extends Api
      * 联系客服装修
      *
      * @return Json
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function tie(): Json
     {
@@ -55,7 +57,8 @@ class DiyController extends Api
      * 个人中心装修
      *
      * @return Json
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function me(): Json
     {

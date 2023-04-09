@@ -31,7 +31,7 @@ class Validate extends \think\Validate
     /**
      * 切面验证接收到的参数
      *
-     * @author windy
+     * @author zero
      * @param string $scene
      * @param array $data (扩展的验证参数)
      * @return void
@@ -54,7 +54,7 @@ class Validate extends \think\Validate
     /**
      * 主键场景验证器
      *
-     * @author windy
+     * @author zero
      * @param array $data
      * @return void
      */
@@ -67,7 +67,7 @@ class Validate extends \think\Validate
     /**
      * 批量场景验证器
      *
-     * @author windy
+     * @author zero
      * @param array $data
      * @return void
      */
@@ -80,7 +80,7 @@ class Validate extends \think\Validate
     /**
      * 新增场景验证器
      *
-     * @author windy
+     * @author zero
      * @param array $data
      * @return void
      */
@@ -95,7 +95,7 @@ class Validate extends \think\Validate
      * 编辑场景验证器
      *
      * @param array $data
-     * @author windy
+     * @author zero
      */
     public function editCheck(array $data=[])
     {
@@ -108,7 +108,7 @@ class Validate extends \think\Validate
      *
      * @param $value(需验证的值)
      * @return bool
-     * @author windy
+     * @author zero
      */
     #[Pure]
     protected function posInteger($value): bool
@@ -125,7 +125,7 @@ class Validate extends \think\Validate
      * @param $value (需验证的值)
      * @param $rule (规则值)
      * @return bool
-     * @author windy
+     * @author zero
      */
     protected function minValue($value, $rule): bool
     {
@@ -142,7 +142,7 @@ class Validate extends \think\Validate
      * @param $value (需验证的值)
      * @param $rule (规则值)
      * @return bool
-     * @author windy
+     * @author zero
      */
     protected function maxValue($value, $rule): bool
     {

@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\sys;
-
 
 use app\common\basics\Models;
 
 /**
  * 系统计划任务模型
- *
- * Class SysCrontab
- * @package app\common\model\sys
  */
 class SysCrontab extends Models
 {
@@ -46,7 +41,7 @@ class SysCrontab extends Models
     /**
      * 获取器: 格式化最后执行时间
      *
-     * @author windy
+     * @author zero
      * @param $value
      * @return string
      */

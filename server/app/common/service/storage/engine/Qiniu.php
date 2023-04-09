@@ -93,7 +93,7 @@ class Qiniu
      * @param string $url
      * @param string $key
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public function fetch(string $url, string $key): void
     {
@@ -110,7 +110,7 @@ class Qiniu
      *
      * @param string $url (地址)
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     public function delete(string $url): void
     {

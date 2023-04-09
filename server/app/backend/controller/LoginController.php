@@ -35,7 +35,8 @@ class LoginController extends Backend
      * 登录页面
      *
      * @return View
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View
     {
@@ -53,7 +54,8 @@ class LoginController extends Backend
      *
      * @return Json
      * @throws OperateException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function check(): Json
     {
@@ -70,7 +72,8 @@ class LoginController extends Backend
      * 退出系统
      *
      * @return Json
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function logout(): Json
     {

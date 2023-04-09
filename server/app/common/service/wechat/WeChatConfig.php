@@ -13,7 +13,7 @@ class WeChatConfig
      * 小程序配置
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function getWxConfig(): array
     {
@@ -35,7 +35,7 @@ class WeChatConfig
      * 公众号配置
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function getOaConfig(): array
     {
@@ -59,7 +59,7 @@ class WeChatConfig
      * 开发平台配置
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function getOpConfig(): array
     {

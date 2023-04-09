@@ -39,7 +39,8 @@ class MenuController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @author windy
+     * @method [GET]
+     * @author zero
      */
     public function index(): View|Json
     {
@@ -59,7 +60,8 @@ class MenuController extends Backend
      * @throws DbException
      * @throws ModelNotFoundException
      * @throws OperateException
-     * @author windy
+     * @method [GET|POST]
+     * @author zero
      */
     public function add(): View|Json
     {
@@ -82,7 +84,8 @@ class MenuController extends Backend
      * @throws DbException
      * @throws ModelNotFoundException
      * @throws OperateException
-     * @author windy
+     * @method [GET|POST]
+     * @author zero
      */
     public function edit(): View|Json
     {
@@ -106,7 +109,8 @@ class MenuController extends Backend
      *
      * @return Json
      * @throws OperateException
-     * @author windy
+     * @method [POST]
+     * @author zero
      */
     public function del(): Json
     {

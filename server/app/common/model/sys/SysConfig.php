@@ -12,17 +12,12 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\model\sys;
-
 
 use app\common\basics\Models;
 
 /**
  * 系统配置模型
- *
- * Class SysConfig
- * @package app\common\model\sys
  */
 class SysConfig extends Models
 {

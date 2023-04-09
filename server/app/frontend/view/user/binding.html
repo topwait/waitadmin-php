@@ -1,0 +1,155 @@
+{extend name="common/layoutEasy" /}
+
+{block name="style"}
+<style>
+    .wait-body-content .layui-form-label {width: 90px; padding: 9px 0;}
+    .wait-body-content .layui-input-block {margin-left: 90px;}
+    .wait-body-content .flex-wrap {display: flex; align-items: center;}
+</style>
+{/block}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        {if $field=='bindMobile'}
+            <!-- 手机号 -->
+            <div class="layui-form-item">
+                <label for="mobile" class="layui-form-label"><span class="asterisk">*</span>手机号：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="mobile" name="mobile" placeholder="请输入手机号"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required|mobile">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="code" class="layui-form-label"><span class="asterisk">*</span>验证码：</label>
+                <div class="layui-input-block flex-wrap">
+                    <input type="text" id="code" name="code" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input">
+                    <button type="button" class="layui-btn layui-btn-sm layui-btn-default" id="sendSms" style="margin-left: 10px">获取验证码</button>
+                </div>
+            </div>
+        {/if}
+        {if $field=='bindEmail'}
+            <!-- 电子邮箱 -->
+            <div class="layui-form-item">
+                <label for="email" class="layui-form-label"><span class="asterisk">*</span>电子邮箱：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="email" name="email" placeholder="请输入邮箱号"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required|email">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="codeSms" class="layui-form-label"><span class="asterisk">*</span>验证码：</label>
+                <div class="layui-input-block flex-wrap">
+                    <input type="text" id="codeSms" name="code" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input">
+                    <button type="button" class="layui-btn layui-btn-sm layui-btn-default" id="sendEmail" style="margin-left: 10px">获取验证码</button>
+                </div>
+            </div>
+        {/if}
+        {if $field=='changePwd'}
+            <!-- 修改密码 -->
+            <div class="layui-form-item">
+                <label for="oldPassword" class="layui-form-label"><span class="asterisk">*</span>旧的密码：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="oldPassword" name="oldPassword" placeholder="请输入"
+                           autocomplete="off" class="layui-input" lay-verType="tips">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="newPassword" class="layui-form-label"><span class="asterisk">*</span>新的密码：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="newPassword" name="newPassword" placeholder="6~18位的新密码"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="okPassword" class="layui-form-label"><span class="asterisk">*</span>确认密码：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="okPassword" name="okPassword" placeholder="再次确认"
+                           autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+                </div>
+            </div>
+        {/if}
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function () {
+        let $ = layui.$;
+
+        $(document).on('click', '#sendEmail', function () {
+            let email = $('#email').val();
+            if (!email) {
+                return layer.msg('邮箱号码不能为空');
+            }
+
+            if (email === '{$value??""}') {
+                return layer.msg('该邮箱号已被绑定');
+            }
+
+            let that = $(this);
+            waitUtil.locking(this);
+            waitUtil.ajax({
+                url: '/frontend/index/sendEmail',
+                type: 'POST',
+                data: {scene: 106, email: email}
+            }).then((res) => {
+                waitUtil.unlock(this);
+                if (res.code === 0) {
+                    timing(that);
+                }
+            });
+        });
+
+        $(document).on('click', '#sendSms', function () {
+            let mobile = $('#mobile').val();
+            if (!mobile) {
+                return layer.msg('手机号码不能为空');
+            }
+
+            if (mobile === '{$value??""}') {
+                return layer.msg('该手机号已被绑定');
+            }
+
+            let that = $(this);
+            waitUtil.locking(this);
+            waitUtil.ajax({
+                url: '/frontend/index/sendEmail',
+                type: 'POST',
+                data: {scene: 105, mobile: mobile}
+            }).then((res) => {
+                waitUtil.unlock(this);
+                if (res.code === 0) {
+                    timing(that);
+                }
+            });
+        });
+
+        function timing(that) {
+            let time = 60;
+            that.html(time+'秒后可再次发送');
+            that.addClass('layui-btn-forbid');
+            let timer = setInterval(function () {
+                time = time - 1;
+                if (time>=0) {
+                    that.html(time + '秒后可再次发送');
+                } else {
+                    that.html('获取验证码');
+                    clearInterval(timer);
+                    that.removeClass('layui-btn-forbid');
+
+                }
+            }, 1000);
+        }
+
+    });
+</script>
+{/block}

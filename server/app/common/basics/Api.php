@@ -15,12 +15,11 @@ declare (strict_types = 1);
 
 namespace app\common\basics;
 
-use app\api\cache\TokenCache;
+use app\api\cache\LoginCache;
 use app\BaseController;
 use app\common\enums\ErrorEnum;
 use app\common\exception\OperateException;
 use think\App;
-use think\facade\Cache;
 
 /**
  * 接口基类
@@ -68,7 +67,7 @@ class Api extends BaseController
      * 初始方法
      *
      * @return void
-     * @author windy
+     * @author zero
      */
     protected function initialize(): void
     {}
@@ -78,13 +77,13 @@ class Api extends BaseController
      *
      * @return bool
      * @throws OperateException
-     * @author windy
+     * @author zero
      */
     protected function checkLogin(): bool
     {
         $token    = strval(request()->header('token') ?? '');
         $terminal = intval(request()->header('terminal') ?? 0);
-        $userId = TokenCache::get($terminal, $token);
+        $userId = LoginCache::get($terminal, $token);
 
         // 判断是否是免登录的方法
         if (in_array(request()->action(), $this->notNeedLogin)) {

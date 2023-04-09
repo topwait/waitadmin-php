@@ -1,4 +1,4 @@
-{extend name="common/layout" /}
+{extend name="common/layoutBase" /}
 
 {block name="body"}
 <!-- 主体 -->
@@ -16,6 +16,13 @@
                             </div>
                         </div>
                         <div class="main">{$detail.content|raw}</div>
+                        <div class="prefer">
+                            {if $detail.collect}
+                                <a class="btn active" lay-event="collect" lay-tips="取消收藏"><i class="layui-icon layui-icon-star-fill"></i></a>
+                            {else}
+                                <a class="btn" lay-event="collect" lay-tips="点击收藏"><i class="layui-icon layui-icon-star"></i></a>
+                            {/if}
+                        </div>
                         <div class="pages">
                             <div class="line">
                                 <span>上一篇：</span>
@@ -69,4 +76,35 @@
         </div>
     </div>
 </div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function () {
+        let $ = layui.$;
+
+        waitUtil.event({
+            collect: function () {
+                let that = $(this)
+                waitUtil.ajax({
+                    url: '/frontend/article/collect',
+                    type: 'POST',
+                    data: {id: '{$detail.id}'}
+                }).then((res) => {
+                    if (res.code === 0) {
+                        if (that.hasClass('active')) {
+                            that.removeClass('active');
+                            that.attr('lay-tips', '点击收藏');
+                            that.html('<i class="layui-icon layui-icon-star"></i>');
+                        } else {
+                            that.addClass('active');
+                            that.attr('lay-tips', '取消收藏');
+                            that.html('<i class="layui-icon layui-icon-star-fill"></i>');
+                        }
+                    }
+                });
+            }
+        })
+    });
+</script>
 {/block}

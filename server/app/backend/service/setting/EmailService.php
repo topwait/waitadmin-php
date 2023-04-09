@@ -29,7 +29,7 @@ class EmailService extends Backend
      * 邮件配置详情
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function detail(): array
     {
@@ -51,7 +51,7 @@ class EmailService extends Backend
      * 邮件配置保存
      *
      * @param array $post
-     * @author windy
+     * @author zero
      */
     public static function save(array $post): void
     {
@@ -69,7 +69,7 @@ class EmailService extends Backend
      *
      * @param string $recipient
      * @throws SystemException
-     * @author windy
+     * @author zero
      */
     public static function testEmail(string $recipient)
     {
