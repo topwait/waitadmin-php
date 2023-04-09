@@ -58,7 +58,7 @@ class LoginService extends Service
         }
 
         // 账户密码
-        $password = make_md5_str($post['password'].$adminUser['salt']);
+        $password = make_md5_str($post['password'], $adminUser['salt']);
         if ($adminUser['password'] !== $password) {
             Cache::set('login:fail:'.$post['username'], intval($loginFailCount)+1, 600);
             throw new OperateException('用户名或密码错误,您还可以尝试['.$surplusCount.']次!');

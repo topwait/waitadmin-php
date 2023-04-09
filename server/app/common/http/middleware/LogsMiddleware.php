@@ -28,7 +28,7 @@ class LogsMiddleware
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-        if (app()->http->getName() === 'backend') {
+        if (request()->isAjax() && app()->http->getName() === 'backend') {
             $startTime = round(app()->getBeginTime(), 3);
             $endTime   = round(microtime(true), 3);
             $taskTime  = intval(($endTime - $startTime)*1000);
