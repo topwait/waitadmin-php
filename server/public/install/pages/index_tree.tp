@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WaitAdmin后台管理系统</title>
-    <link rel="stylesheet" href="__BACKEND__/js/layui/css/layui.css">
-    <link rel="stylesheet" href="__BACKEND__/font/iconfont.css">
-    <link rel="stylesheet" href="__BACKEND__/css/kernel.css">
-</head>
-<body>
+{extend name="common/layout" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__BACKEND__/css/kernel.css">
+{/block}
+
+{block name="body"}
 <div id="app">
     <!-- 导航区域 -->
     <div class="wait-header">
@@ -136,55 +131,53 @@
     <div class="wait-load">
         <div class="loader"></div>
     </div>
+</div>
+{/block}
 
-    <!-- JS脚本 -->
-    <script src="__BACKEND__/js/layui/layui.js"></script>
-    <script src="__BACKEND__/js/jquery.min.js"></script>
-    <script src="__BACKEND__/js/config.min.js"></script>
-    <script src="__BACKEND__/js/cache.min.js"></script>
-    <script src="__BACKEND__/js/kernel.min.js"></script>
-    <script src="__BACKEND__/js/utils.min.js"></script>
-    <script>
-        layui.use(function() {
-            waitUtil.event({
-                info: function () {
-                    waitUtil.popup({
-                        title: '基本信息',
-                        url: '{:route("auth.Admin/info")}',
-                        area: ["510px", "540px"],
-                        success: function (layero, index) {
-                            layero.layui.form.on('submit(addForm)', function(data){
-                                data.field['id'] = '{$Request.session.adminUser.id}';
-                                waitUtil.ajax({
-                                    url: '{:route("auth.admin/info")}',
-                                    type: 'POST',
-                                    data: data.field
-                                }).then((res) => {
-                                    if (res.code === 0) {
-                                        layer.close(index);
-                                    }
-                                });
+{block name="js"}
+<script src="__BACKEND__/js/kernel.min.js"></script>
+<script>
+    layui.use(function() {
+        let $ = layui.$;
+
+        waitUtil.event({
+            info: function () {
+                waitUtil.popup({
+                    title: '基本信息',
+                    url: '{:route("auth.Admin/info")}',
+                    area: ["510px", "580px"],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data){
+                            data.field['id'] = '{$Request.session.adminUser.id}';
+                            waitUtil.ajax({
+                                url: '{:route("auth.admin/info")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                if (res.code === 0) {
+                                    layer.close(index);
+                                    $('.wait-header .layui-nav-img').attr('src', data.field['avatar']);
+                                }
                             });
+                        });
+                    }
+                });
+            },
+            logout: function () {
+                layer.confirm('您确定要退出系统吗?', function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("login/logout")}',
+                        type: 'POST',
+                        data: []
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            location.href = '{:route("login/index")}';
                         }
                     });
-                },
-                logout: function () {
-                    layer.confirm("您确定要退出系统吗?", function(index) {
-                        layer.close(index);
-                        waitUtil.ajax({
-                            url: '{:route("login/logout")}',
-                            type: 'POST',
-                            data: []
-                        }).then((res) => {
-                            if (res.code === 0) {
-                                location.href = '{:route("login/index")}';
-                            }
-                        });
-                    })
-                }
-            })
-        })
-    </script>
-</div>
-</body>
-</html>
+                })
+            }
+        });
+    });
+</script>
+{/block}
