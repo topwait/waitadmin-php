@@ -12,9 +12,7 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\http\middleware;
-
 
 use app\common\model\sys\SysLog;
 use Closure;
@@ -30,7 +28,7 @@ class LogsMiddleware
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-        if (request()->isAjax() && app()->http->getName() === 'backend') {
+        if (app()->http->getName() === 'backend') {
             $startTime = round(app()->getBeginTime(), 3);
             $endTime   = round(microtime(true), 3);
             $taskTime  = intval(($endTime - $startTime)*1000);
