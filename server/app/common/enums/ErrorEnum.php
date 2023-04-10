@@ -14,12 +14,8 @@
 
 namespace app\common\enums;
 
-
 /**
  * 错误枚举类
- *
- * Class ErrorEnum
- * @package app\common\enum
  */
 class ErrorEnum
 {
@@ -46,20 +42,20 @@ class ErrorEnum
     public static function getMsgByCode(int $code): string
     {
         $desc = [
-            self::SYSTEM_ERROR       => __('System error'),
-            self::PARAMS_ERROR       => __('Parameter error'),
-            self::METHOD_ERROR       => __('Method does not exist error'),
-            self::CONTROl_ERROR      => __('Control does not exist error'),
-            self::REQUEST_ERROR      => __('Request exception'),
-            self::OPERATE_ERROR      => __('Operation failed'),
-            self::UPLOADS_ERROR      => __('Upload failed'),
-            self::PURVIEW_ERROR      => __('Perms error'),
-            self::FOUNDER_ERROR      => __('Query failed'),
+            self::SYSTEM_ERROR     => '系统错误异常',
+            self::PARAMS_ERROR     => '请求参数错误',
+            self::METHOD_ERROR     => '方法名不存在',
+            self::CONTROl_ERROR    => '控制器不存在',
+            self::REQUEST_ERROR    => '请求异常',
+            self::OPERATE_ERROR    => '操作错误',
+            self::UPLOADS_ERROR    => '上传错误',
+            self::PURVIEW_ERROR    => '权限不足',
+            self::FOUNDER_ERROR    => '失败查询',
 
-            self::LOGIN_EMPTY_ERROR  => __('Login token missing'),
-            self::LOGIN_EXPIRE_ERROR => __('Login token has expired')
+            self::LOGIN_EMPTY_ERROR   => '登录令牌缺失',
+            self::LOGIN_EXPIRE_ERROR  => '登录令牌失效'
         ];
 
-        return $desc[$code] ?? __('Unknown exception');
+        return $desc[$code] ?? '未知异常';
     }
 }

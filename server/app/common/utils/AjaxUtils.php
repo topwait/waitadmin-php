@@ -15,16 +15,12 @@ declare (strict_types = 1);
 
 namespace app\common\utils;
 
-
 use app\common\enums\ErrorEnum;
 use JetBrains\PhpStorm\ArrayShape;
 use think\response\Json;
 
 /**
  * 响应工具
- *
- * Class AjaxUtils
- * @package app\common\utils
  */
 class AjaxUtils
 {
@@ -57,14 +53,14 @@ class AjaxUtils
      * @return Json
      * @author zero
      */
-    public static function success(string|array $msg='Operation success', array $data=[], int $code=0, int $httpCode=200): Json
+    public static function success(string|array $msg='操作成功', array $data=[], int $code=0, int $httpCode=200): Json
     {
         if (is_array($msg) && empty($data)) {
             $data = $msg;
-            $msg  = __('Success');
+            $msg  = '获取成功';
         }
 
-        $data = self::result($code, __($msg), $data);
+        $data = self::result($code, $msg, $data);
         return json($data, $httpCode);
     }
 
@@ -78,9 +74,9 @@ class AjaxUtils
      * @return Json
      * @author zero
      */
-    public static function error(string $msg='Request exception', array $data=[], int $code=ErrorEnum::REQUEST_ERROR, int $httpCode=200): Json
+    public static function error(string $msg='请求错误', array $data=[], int $code=ErrorEnum::REQUEST_ERROR, int $httpCode=200): Json
     {
-        $data = self::result($code, __($msg), $data);
+        $data = self::result($code, $msg, $data);
         return json($data, $httpCode);
     }
 }

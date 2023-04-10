@@ -13,8 +13,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\common\command;
-
+namespace app\common\crontab;
 
 use app\common\model\sys\SysCrontab;
 use app\common\utils\TimeUtils;
@@ -26,9 +25,6 @@ use think\facade\Console;
 
 /**
  * 计划任务调度器
- *
- * Class Crontab
- * @package app\common\command
  */
 class Crontab extends Command
 {

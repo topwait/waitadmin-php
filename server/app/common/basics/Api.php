@@ -23,9 +23,6 @@ use think\App;
 
 /**
  * 接口基类
- *
- * Class Api
- * @package app\common\basics
  */
 class Api extends BaseController
 {

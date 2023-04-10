@@ -15,16 +15,12 @@ declare (strict_types = 1);
 
 namespace app\common\basics;
 
-
 use app\common\exception\OperateException;
 use app\common\utils\UrlUtils;
 use think\Model;
 
 /**
  * 模型基类
- *
- * Class Models
- * @package app\common\basics
  */
 class Models extends Model
 {

@@ -12,15 +12,10 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\enums;
-
 
 /**
  * 性别枚举类
- *
- * Class SexEnum
- * @package app\common\enum
  */
 class GenderEnum
 {
@@ -37,10 +32,10 @@ class GenderEnum
     public static function getMsgByCode(int $code): string
     {
         $desc = [
-            self::MALE => __('Male'),
-            self::GIRL => __('Girl')
+            self::MALE => '男',
+            self::GIRL => '女'
         ];
 
-        return $desc[$code] ?? __('Unknown exception');
+        return $desc[$code] ?? '未知';
     }
 }
