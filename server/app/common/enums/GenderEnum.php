@@ -37,10 +37,10 @@ class GenderEnum
     public static function getMsgByCode(int $code): string
     {
         $desc = [
-            self::MALE => '男',
-            self::GIRL => '女'
+            self::MALE => __('Male'),
+            self::GIRL => __('Girl')
         ];
 
-        return $desc[$code] ?? '未知';
+        return $desc[$code] ?? __('Unknown exception');
     }
 }

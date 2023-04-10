@@ -60,6 +60,6 @@ class ErrorEnum
             self::LOGIN_EXPIRE_ERROR  => __('Login token has expired')
         ];
 
-        return $desc[$code] ?? '未知异常';
+        return $desc[$code] ?? __('Unknown exception');
     }
 }

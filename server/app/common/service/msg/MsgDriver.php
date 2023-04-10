@@ -2,6 +2,7 @@
 
 namespace app\common\service\msg;
 
+use app\common\enums\NoticeEnum;
 use app\common\model\NoticeRecord;
 use app\common\model\NoticeSetting;
 use app\common\service\msg\engine\EmsMsgService;
@@ -49,8 +50,8 @@ class MsgDriver
         $modelNoticeRecord = new NoticeRecord();
         $noticeRecord = $modelNoticeRecord->field(['id,scene,code,expire_time'])
             ->where(['scene'=>$scene])
-            ->where(['status'=>1])
-            ->where(['is_read'=>0])
+            ->where(['status'=>NoticeEnum::STATUS_OK])
+            ->where(['is_read'=>NoticeEnum::VIEW_UNREAD])
             ->where(['is_captcha'=>1])
             ->where(['is_delete'=>0])
             ->where(['code'=>$code])
@@ -67,7 +68,7 @@ class MsgDriver
         }
 
         NoticeRecord::update([
-            'is_read'     => 1,
+            'is_read'     => NoticeEnum::VIEW_READ,
             'update_time' => time()
         ], ['id'=>$noticeRecord['id']]);
 
