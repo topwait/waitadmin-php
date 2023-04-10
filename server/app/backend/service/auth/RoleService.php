@@ -44,8 +44,8 @@ class RoleService extends Service
      */
     public static function all(): array
     {
-        $model = new AuthRole();
-        return $model
+        $modelAuthRole = new AuthRole();
+        return $modelAuthRole
             ->field('id,name,is_disable')
             ->where(['is_delete' => 0])
             ->order('sort desc, id desc')
@@ -69,8 +69,8 @@ class RoleService extends Service
             '%like%' => ['name']
         ]);
 
-        $model = new AuthRole();
-        $lists = $model
+        $modelAuthRole = new AuthRole();
+        $lists = $modelAuthRole
             ->field('id,name,describe,sort,is_disable,create_time')
             ->where(self::$searchWhere)
             ->where(['is_delete' => 0])
@@ -105,8 +105,8 @@ class RoleService extends Service
      */
     public static function checked(array $menuIds): array
     {
-        $model = new AuthMenu();
-        $lists = $model
+        $modelAuthMenu = new AuthMenu();
+        $lists = $modelAuthMenu
             ->withoutField('is_delete,crate_time,update_time,delete_time')
             ->whereIn('id', $menuIds)
             ->where(['is_delete'=>0])
@@ -128,9 +128,9 @@ class RoleService extends Service
      */
     public static function detail(int $id): array
     {
-        $model = new AuthRole();
-        return $model->field('id,name,describe,sort,is_disable')
-            ->where(['id'=>intval($id)])
+        $modelAuthRole = new AuthRole();
+        return $modelAuthRole->field('id,name,describe,sort,is_disable')
+            ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->withAttr('menu_ids', function ($value, $data) {
                 unset($value);
@@ -185,8 +185,8 @@ class RoleService extends Service
      */
     public static function edit(array $post): void
     {
-        $model = new AuthRole();
-        $model->checkDataDoesNotExist();
+        $modelAuthRole = new AuthRole();
+        $modelAuthRole->checkDataDoesNotExist(['id'=>intval($post['id']), 'is_delete'=>0]);
 
         AuthRole::update([
             'name'        => $post['name'],
@@ -221,9 +221,9 @@ class RoleService extends Service
      */
     public static function del(array $ids): void
     {
-        $modelAdmin = new AuthAdmin();
+        $modelAuthAdmin = new AuthAdmin();
         foreach ($ids as $id) {
-            $result = $modelAdmin
+            $result = $modelAuthAdmin
                 ->where(['role_id'=>$id])
                 ->where(['is_delete'=>0])
                 ->count();

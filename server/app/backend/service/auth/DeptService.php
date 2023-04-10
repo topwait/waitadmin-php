@@ -19,7 +19,6 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;
 use app\common\model\auth\AuthDept;
-use think\Db;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -40,8 +39,8 @@ class DeptService extends Service
      */
     public static function lists(): array
     {
-        $model = new AuthDept();
-        return $model
+        $modelAuthDept = new AuthDept();
+        return $modelAuthDept
             ->withoutField('is_delete,update_time,delete_time')
             ->where(self::$searchWhere)
             ->where(['is_delete'=>0])
@@ -61,10 +60,10 @@ class DeptService extends Service
      */
     public static function detail(int $id): array
     {
-        $model = new AuthDept();
-        return $model
+        $modelAuthDept = new AuthDept();
+        return $modelAuthDept
             ->withoutField('is_delete,update_time,delete_time')
-            ->where(['id'=>intval($id)])
+            ->where(['id'=> $id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
@@ -88,10 +87,7 @@ class DeptService extends Service
 
         // 验证父级
         if ($pid > 0) {
-            $modelAuthDept->checkDataDoesNotExist([
-                ['id', '=', $pid],
-                ['is_delete', '=', 0]
-            ], '父级菜单已不存在!');
+            $modelAuthDept->checkDataDoesNotExist(['id'=>$pid, 'is_delete'=>0], '父级菜单已不存在!');
         }
 
         // 创建部门
@@ -138,9 +134,9 @@ class DeptService extends Service
         $pid = intval($post['pid']);
 
         // 验证数据
-        $model = new AuthDept();
-        $model->checkDataDoesNotExist();
-        $model->checkDataDoesNotExist(['id'=>$pid, 'is_delete'=>0], '父级菜单已不存在!');
+        $modelAuthDept = new AuthDept();
+        $modelAuthDept->checkDataDoesNotExist(['id'=>$id, 'is_delete'=>0]);
+        $modelAuthDept->checkDataDoesNotExist(['id'=>$pid, 'is_delete'=>0], '父级菜单已不存在!');
 
         // 验证父级
         if ($pid > 1) {
@@ -164,14 +160,14 @@ class DeptService extends Service
         AuthDept::update(['is_disable'=>$post['is_disable']], [['id', 'in', self::child($id)]]);
 
         // 当前部门
-        $authDept = $model->field('id,pid,name,level,relation')
+        $authDept = $modelAuthDept->field('id,pid,name,level,relation')
             ->where(['id'=>intval($post['id'])])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
 
         // 父级部门
-        $parentDept = $model->field('id,pid,name,level,relation')
+        $parentDept = $modelAuthDept->field('id,pid,name,level,relation')
             ->where(['id'=>$pid])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
@@ -188,9 +184,9 @@ class DeptService extends Service
         }
 
         // 更新关系
-        $model->where("find_in_set({$id},relation)")
-            ->exp('level', "level - {$replaceLevel}")
-            ->exp('relation', "replace(relation, '{$relation}', '{$replacePaths}')")
+        $modelAuthDept->where("find_in_set($id,relation)")
+            ->exp('level', "level - $replaceLevel")
+            ->exp('relation', "replace(relation, '$relation', '$replacePaths')")
             ->update([]);
     }
 
@@ -204,26 +200,20 @@ class DeptService extends Service
     public static function del(int $id): void
     {
         $modelAuthDept = new AuthDept();
-        $modelAuthDept->checkDataDoesNotExist();
-        $modelAuthDept->checkDataAlreadyExist([
-            ['pid', '=', $id],
-            ['is_delete', '=', 0]
-        ], '请先删除子部门再操作!');
+        $modelAuthDept->checkDataDoesNotExist(['id'=>$id, 'is_delete'=>0]);
+        $modelAuthDept->checkDataAlreadyExist(['pid'=>$id, 'is_delete'=>0], '请先删除子部门再操作!');
 
         $modelAdmin = new AuthAdmin();
-        $modelAdmin->checkDataAlreadyExist([
-            ['dept_id', '=', $id],
-            ['is_delete', '=', 0]
-        ], '部门已被管理员使用!');
+        $modelAdmin->checkDataAlreadyExist(['dept_id'=>$id, 'is_delete'=>0], '部门已被管理员使用!');
 
         AuthDept::update([
             'is_delete'   => 1,
             'delete_time' => time()
-        ], ['id'=> $id]);
+        ], ['id'=>$id]);
     }
 
     /**
-     * 部门子级
+     * 部门子级ID
      *
      * @param int $id
      * @return array
@@ -231,8 +221,8 @@ class DeptService extends Service
      */
     public static function child(int $id): array
     {
-        $model = new AuthDept();
-        return $model
+        $modelAuthDept = new AuthDept();
+        return $modelAuthDept
             ->whereRaw("FIND_IN_SET($id, relation)")
             ->where(['is_delete'=>0])
             ->column('id');

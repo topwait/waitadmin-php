@@ -20,7 +20,6 @@ use app\common\exception\NotAuthException;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;
 use app\common\utils\AttachUtils;
-use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
@@ -48,8 +47,8 @@ class AdminService extends Service
             '%like%' => ['username'],
         ]);
 
-        $model = new AuthAdmin();
-        $lists = $model
+        $modelAuthAdmin = new AuthAdmin();
+        $lists = $modelAuthAdmin
             ->withoutField('salt,password,is_delete,delete_time,update_time')
             ->with(['role', 'dept', 'post'])
             ->where(self::$searchWhere)
@@ -90,10 +89,10 @@ class AdminService extends Service
      */
     public static function detail(int $id): array
     {
-        $model = new AuthAdmin();
-        $detail = $model
+        $modelAuthAdmin = new AuthAdmin();
+        $detail = $modelAuthAdmin
             ->withoutField('salt,password,is_delete,delete_time,update_time')
-            ->where(['id'=>intval($id)])
+            ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
@@ -111,8 +110,8 @@ class AdminService extends Service
      */
     public static function info(array $post, int $adminId): void
     {
-        $model = new AuthAdmin();
-        $admin = $model->field('id,avatar,salt,password')
+        $modelAuthAdmin = new AuthAdmin();
+        $admin = $modelAuthAdmin->field('id,avatar,salt,password')
             ->where(['id'=>intval($post['id'])])
             ->findOrEmpty()
             ->toArray();
@@ -183,8 +182,8 @@ class AdminService extends Service
      */
     public static function edit(array $post, int $adminId): void
     {
-        $model = new AuthAdmin();
-        $model->checkDataDoesNotExist();
+        $modelAuthAdmin = new AuthAdmin();
+        $modelAuthAdmin->checkDataDoesNotExist(['id'=>intval($post['id']), 'is_delete'=>0]);
 
         if ($post['id']==1 && $adminId !== 1) {
             throw new NotAuthException('您没有权限这样做!');
@@ -192,9 +191,9 @@ class AdminService extends Service
 
         $salt = make_rand_char(6);
         if (!empty($post['password']) and $post['password']) {
-            $post['password'] = make_md5_str($post['password'].$salt);
+            $post['password'] = make_md5_str($post['password'], $salt);
         } else {
-            $admin = $model->field('id,salt,password')
+            $admin = $modelAuthAdmin->field('id,salt,password')
                 ->where(['id'=>intval($post['id'])])
                 ->findOrEmpty()
                 ->toArray();

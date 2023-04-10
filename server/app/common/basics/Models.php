@@ -31,48 +31,32 @@ class Models extends Model
     /**
      * 校验数据是否存在
      *
-     * @param array|string $where
-     * @param string $msg
+     * @param array $where (条件)
+     * @param string $err  (描述)
      * @throws OperateException
      * @author zero
      */
-    public function checkDataDoesNotExist(array|string $where = [], string $msg = '数据不存在!'): void
+    public function checkDataDoesNotExist(array $where = [], string $err = '数据不存在!'): void
     {
-        $param = request()->param();
-        if (is_string($where)) {
-            $msg = $where;
-        } elseif (is_array($where) && empty($where)) {
-            $where[] = ['is_delete', '=', 0];
-            $where[] = ['id', '=', intval($param['id'])];
-        }
-
         $result = self::field('id')->where($where)->findOrEmpty();
         if ($result->isEmpty()) {
-            throw new OperateException($msg);
+            throw new OperateException($err);
         }
     }
 
     /**
      * 验证数据是否已存在
      *
-     * @param array|string $where
-     * @param string $msg
+     * @param array $where (条件)
+     * @param string $err  (描述)
      * @throws OperateException
      * @author zero
      */
-    public function checkDataAlreadyExist(array|string $where = [], string $msg = '数据已存在!'): void
+    public function checkDataAlreadyExist(array $where = [], string $err = '数据已存在!'): void
     {
-        $param = request()->param();
-        if (is_string($where)) {
-            $msg = $where;
-        } elseif (is_array($where) && empty($where)) {
-            $where[] = ['id', '=', intval($param['id'])];
-            $where[] = ['is_delete', '=', 0];
-        }
-
         $result = self::field('id')->where($where)->findOrEmpty();
         if (!$result->isEmpty()) {
-            throw new OperateException($msg);
+            throw new OperateException($err);
         }
     }
 

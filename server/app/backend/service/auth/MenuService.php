@@ -18,12 +18,9 @@ namespace app\backend\service\auth;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthMenu;
-use app\common\utils\ArrayUtils;
-use app\common\utils\ConfigUtils;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\facade\Config;
 
 /**
  * 菜单服务类
@@ -41,8 +38,8 @@ class MenuService extends Service
      */
     public static function lists(): array
     {
-        $model = new AuthMenu();
-        return $model
+        $modelAuthMenu = new AuthMenu();
+        return $modelAuthMenu
             ->withoutField('is_delete,delete_time')
             ->where(['is_delete'=>0])
             ->order('sort asc, id asc')
@@ -60,10 +57,10 @@ class MenuService extends Service
      */
     public static function detail(int $id): array
     {
-        $model = new AuthMenu();
-        return $model
+        $modelAuthMenu = new AuthMenu();
+        return $modelAuthMenu
             ->withoutField('is_delete,delete_time')
-            ->where(['id'=>intval($id)])
+            ->where(['id'=> $id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
@@ -79,11 +76,8 @@ class MenuService extends Service
     public static function add(array $post): void
     {
         if (intval($post['pid']) > 0) {
-            $model = new AuthMenu();
-            $model->checkDataDoesNotExist([
-                'is_delete' => 0,
-                'id' => intval($post['pid'])
-            ], '父级菜单已不存在!');
+            $modelAuthMenu = new AuthMenu();
+            $modelAuthMenu->checkDataDoesNotExist(['id'=>intval($post['pid']), 'is_delete'=>0], '父级菜单已不存在!');
         }
 
         AuthMenu::create([
@@ -109,16 +103,16 @@ class MenuService extends Service
      */
     public static function edit(array $post): void
     {
-        if ($post['id'] == $post['pid']) {
+        $id  = intval($post['id']);
+        $pid = intval($post['pid']);
+
+        if ($id == $pid) {
             throw new OperateException('父级菜单不能是自身!');
         }
 
-        if (intval($post['pid']) > 0) {
-            $model = new AuthMenu();
-            $model->checkDataDoesNotExist([
-                ['id', '=', intval($post['pid'])],
-                ['is_delete', '=', 0]
-            ], '父级菜单已不存在!');
+        if ($pid > 0) {
+            $modelAuthMenu = new AuthMenu();
+            $modelAuthMenu->checkDataDoesNotExist(['id'=>$pid, 'is_delete'=>0], '父级菜单已不存在!');
         }
 
         $emptyIcon = 'layui-icon layui-icon-circle-dot';
@@ -147,17 +141,14 @@ class MenuService extends Service
      */
     public static function del(int $id): void
     {
-        $model = new AuthMenu();
-        $model->checkDataDoesNotExist();
-        $model->checkDataAlreadyExist([
-            ['pid', '=', intval($id)],
-            ['is_delete', '=', 0]
-        ], '请先删除子级菜单再操作!');
+        $modelAuthMenu = new AuthMenu();
+        $modelAuthMenu->checkDataDoesNotExist(['id'=>$id, 'is_delete'=>0]);
+        $modelAuthMenu->checkDataAlreadyExist(['pid'=>$id, 'is_delete'=>0], '先删除子级菜单再操作!');
 
         AuthMenu::update([
             'is_delete'   => 1,
             'delete_time' => time(),
-        ], ['id' => intval($id)]);
+        ], ['id' => $id]);
     }
 
 }
