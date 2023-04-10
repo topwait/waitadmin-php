@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller;
 
-
 use app\backend\service\LoginService;
 use app\backend\validate\LoginValidate;
 use app\common\basics\Backend;
