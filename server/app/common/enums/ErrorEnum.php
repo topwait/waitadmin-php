@@ -46,18 +46,18 @@ class ErrorEnum
     public static function getMsgByCode(int $code): string
     {
         $desc = [
-            self::SYSTEM_ERROR        => __('System error'),
-            self::PARAMS_ERROR        => __('Parameter error'),
-            self::METHOD_ERROR        => __('Method does not exist error'),
-            self::CONTROl_ERROR       => __('Control does not exist error'),
-            self::REQUEST_ERROR       => __('Request exception'),
-            self::OPERATE_ERROR       => __('Operation failed'),
-            self::UPLOADS_ERROR       => __('Upload failed'),
-            self::PURVIEW_ERROR       => __('Perms error'),
-            self::FOUNDER_ERROR       => __('Query failed'),
+            self::SYSTEM_ERROR       => __('System error'),
+            self::PARAMS_ERROR       => __('Parameter error'),
+            self::METHOD_ERROR       => __('Method does not exist error'),
+            self::CONTROl_ERROR      => __('Control does not exist error'),
+            self::REQUEST_ERROR      => __('Request exception'),
+            self::OPERATE_ERROR      => __('Operation failed'),
+            self::UPLOADS_ERROR      => __('Upload failed'),
+            self::PURVIEW_ERROR      => __('Perms error'),
+            self::FOUNDER_ERROR      => __('Query failed'),
 
-            self::LOGIN_EMPTY_ERROR   => __('Login token missing'),
-            self::LOGIN_EXPIRE_ERROR  => __('Login token has expired')
+            self::LOGIN_EMPTY_ERROR  => __('Login token missing'),
+            self::LOGIN_EXPIRE_ERROR => __('Login token has expired')
         ];
 
         return $desc[$code] ?? __('Unknown exception');
