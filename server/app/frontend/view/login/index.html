@@ -122,7 +122,7 @@
 
             if (scene === '103') {
                 if (!waitCheck.isMobile(value) && !waitCheck.isEmail(value)) {
-                    return layer.msg('手机号/邮箱格式不正确', {icon: 2});
+                    return layer.msg('手机号码/邮箱格式不正确', {icon: 2});
                 }
                 if (waitCheck.isEmail(value)) {
                     url = '/frontend/index/sendEmail';

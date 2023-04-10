@@ -57,30 +57,30 @@ class AjaxUtils
      * @return Json
      * @author zero
      */
-    public static function success(string|array $msg='操作成功', array $data=[], int $code=0, int $httpCode=200): Json
+    public static function success(string|array $msg='Operation success', array $data=[], int $code=0, int $httpCode=200): Json
     {
         if (is_array($msg) && empty($data)) {
             $data = $msg;
-            $msg  = '获取成功';
+            $msg  = __('Success');
         }
 
-        $data = self::result($code, $msg, $data);
+        $data = self::result($code, __($msg), $data);
         return json($data, $httpCode);
     }
 
     /**
      * 请求错误
      *
+     * @param string $msg (提示)
      * @param array $data (数据集)
-     * @param string|array $msg (提示)
-     * @param int $code (状态码)
+     * @param int $code   (状态码)
      * @param int $httpCode (Http状态码)
      * @return Json
      * @author zero
      */
-    public static function error(string|array $msg='请求错误', int $code=ErrorEnum::REQUEST_ERROR, array $data=[], int $httpCode=200): Json
+    public static function error(string $msg='Request exception', array $data=[], int $code=ErrorEnum::REQUEST_ERROR, int $httpCode=200): Json
     {
-        $data = self::result($code, $msg, $data);
+        $data = self::result($code, __($msg), $data);
         return json($data, $httpCode);
     }
 }
