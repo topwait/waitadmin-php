@@ -487,9 +487,8 @@
             ,exts: '{:implode("|", $imageLimit.ext)}'
             ,size: parseInt('{$imageLimit.size}') / 1024
             ,data: {
-                cid: function () {
-                    return cid > 0 ? cid : 0;
-                }
+                hide: 0,
+                cid: () => { return cid > 0 ? cid : 0; }
             }
             ,before: function () {
                 layer.load();
@@ -523,9 +522,8 @@
             ,exts: '{:implode("|", $videoLimit.ext)}'
             ,size: parseInt('{$videoLimit.size}') / 1024
             ,data: {
-                cid: function () {
-                    return cid > 0 ? cid : 0;
-                }
+                hide: 0,
+                cid: () => { return cid > 0 ? cid : 0; }
             }
             ,before: function () {
                 layer.load();
