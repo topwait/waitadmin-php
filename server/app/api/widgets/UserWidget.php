@@ -55,7 +55,7 @@ class UserWidget extends Service
         // 强制绑定
         $forceMobile = ConfigUtils::get('login', 'force_mobile', 0);
         if ($forceMobile && !$mobile) {
-            $data = ['sign'=>make_md5_str(time().make_rand_char(8))];
+            $data = ['sign'=>md5(time().make_rand_char(8))];
             EnrollCache::set($data['sign'], $response);
             throw new OperateException('需绑定手机号', 1, $data);
         }

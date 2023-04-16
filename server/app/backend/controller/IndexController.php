@@ -28,6 +28,8 @@ use think\response\View;
  */
 class IndexController extends Backend
 {
+    protected array $notNeedPower = ['setting'];
+
     /**
      * 主页
      *

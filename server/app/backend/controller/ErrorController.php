@@ -56,7 +56,6 @@ class ErrorController extends Backend
         $error = session('error');
         $error = json_decode($error ? : '{}', true);
 
-        session('error', null);
         return view('common/error', [
             'errCode' => $error['errCode'] ?? '',
             'errMsg'  => $error['errMsg'] ?? ''

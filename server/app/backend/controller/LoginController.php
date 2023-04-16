@@ -29,6 +29,7 @@ use think\response\View;
 class LoginController extends Backend
 {
     protected array $notNeedLogin = ['index', 'check'];
+    protected array $notNeedPower = ['logout'];
 
     /**
      * 登录页面

@@ -131,8 +131,8 @@ class ExceptionHandle extends Handle
             if ($request->isAjax() || $this->app->http->getName() === 'api') {
                 return AjaxUtils::error(
                     $this->errMsg,
+                    $this->errData,
                     $this->errCode,
-                    $this->errData
                 );
             } else {
                 session('error', json_encode(['errCode'=>$this->errCode, 'errMsg'=>$this->errMsg]));
@@ -145,8 +145,8 @@ class ExceptionHandle extends Handle
             $this->errCode = ErrorEnum::SYSTEM_ERROR;
             return AjaxUtils::error(
                 $e->getMessage(),
+                $this->errData,
                 $this->errCode,
-                $this->errData
             );
         }
 

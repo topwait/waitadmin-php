@@ -117,7 +117,7 @@ class AdminService extends Service
             ->toArray();
 
         $salt = make_rand_char(6);
-        $post['password'] = make_md5_str($post['password'].$salt);
+        $post['password'] = make_md5_str($post['password'], $salt);
         if (!empty($post['password']) and $post['password']) {
             $post['password'] = $admin['password'];
             $salt = $admin['salt'];
@@ -150,7 +150,7 @@ class AdminService extends Service
     public static function add(array $post): void
     {
         $salt = make_rand_char(6);
-        $pwd  = make_md5_str($post['password'].$salt);
+        $pwd  = make_md5_str($post['password'], $salt);
 
         AuthAdmin::create([
             'dept_id'         => $post['dept_id'] ?? 0,

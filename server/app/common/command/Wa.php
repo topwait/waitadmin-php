@@ -120,7 +120,7 @@ class Wa extends Command
             return;
         }
 
-        $newPassword = make_md5_str(trim($password).$admin['salt']);
+        $newPassword = make_md5_str(trim($password), $admin['salt']);
         AuthAdmin::update([
             'password'    => $newPassword,
             'update_time' => time()
