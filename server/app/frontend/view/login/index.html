@@ -113,6 +113,7 @@
 
         // 验证码
         $(document).on('click', '.get_code', function () {
+            console.log($(this).parent().parent().find('input[name="mobile"]'))
             let that  = $(this);
             let scene = $(this).attr('data-type');
             let value = $(this).parent().parent().find('input[name="mobile"]').val();
@@ -120,6 +121,7 @@
             let url = '/frontend/index/sendSms';
             let data = {scene: scene, mobile: value};
 
+            // 103=找回密码
             if (scene === '103') {
                 if (!waitCheck.isMobile(value) && !waitCheck.isEmail(value)) {
                     return layer.msg('手机号码/邮箱格式不正确', {icon: 2});
@@ -131,9 +133,6 @@
             } else {
                 if (!value) {
                     return layer.msg('手机号码不能为空');
-                }
-                if (!waitCheck.isEmail(data.field['mobile'])) {
-                    return layer.msg('手机号格式不正确');
                 }
             }
 
@@ -147,6 +146,8 @@
                 if (res.code === 0) {
                     timing(that);
                 }
+            }).catch(() => {
+                waitUtil.unlock(this);
             });
         });
 

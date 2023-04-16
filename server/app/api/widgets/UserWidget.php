@@ -39,11 +39,11 @@ class UserWidget extends Service
      * @author zero
      */
     public static function createUser(array $response): int
-    {
+    {dump('aa');exit;
         // 接收参数
         $snCode   = make_rand_code(new User());
         $terminal = intval($response['terminal']);
-        $avatar   = $response['avatarUrl'] ?? '';
+        $avatar   = $response['avatarUrl'] ?? '/static/common/images/avatar.png';
         $account  = $response['account']   ?? 'u'.$snCode;
         $nickname = $response['nickname']  ?? 'u'.$snCode;
         $password = $response['password']  ?? '';
@@ -51,6 +51,12 @@ class UserWidget extends Service
         $openId   = $response['openid']    ?? '';
         $unionId  = $response['unionid']   ?? '';
         $gender   = intval($response['gender'] ?? 0);
+
+        // 密码信息
+        $salt = make_rand_char(6);
+        if ($password) {
+            $password = make_md5_str(trim($password), $salt);
+        }
 
         // 强制绑定
         $forceMobile = ConfigUtils::get('login', 'force_mobile', 0);
@@ -83,7 +89,7 @@ class UserWidget extends Service
                 'password'        => $password,
                 'nickname'        => $nickname,
                 'gender'          => $gender,
-                'salt'            => make_rand_char(6),
+                'salt'            => $salt,
                 'last_login_ip'   => request()->ip(),
                 'last_login_time' => time(),
                 'create_time'     => time(),
