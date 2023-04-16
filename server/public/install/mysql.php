@@ -196,7 +196,7 @@ class Mysql
 
         $salt = substr(md5($time . $username), 0, 6);
         $baseStr = md5('CORRECT');
-        $password = md5($baseStr . $password, $salt);
+        $password = md5($baseStr . $password . $salt);
 
         $sql  = "INSERT INTO"." `{$this->prefix}auth_admin` ";
         $sql .= "(`id`,`username`,`nickname`,`password`,`salt`,`avatar`,`create_time`,`update_time`) VALUES ";
