@@ -63,9 +63,9 @@ if ($step == 4) {
     $mysql = new Mysql($post);
 
     // 异步验证
+    $errMsg = $proof->checkParams($post);
     if ($ajax) {
         // 参数验证
-        $errMsg = $proof->checkParams($post);
         if ($errMsg) {
             exit(json_encode(['code'=>1, 'msg'=>$errMsg]));
         }
@@ -78,7 +78,6 @@ if ($step == 4) {
         exit(json_encode(['code'=>0, 'msg'=>'success']));
     } else {
         // 同步验证
-        $errMsg = $proof->checkParams($post);
         if ($errMsg) {
             $step = 3;
         } else {
