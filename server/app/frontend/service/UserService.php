@@ -55,7 +55,6 @@ class UserService extends Service
         $userAuth = $modelUserAuth->where(['user_id'=>$userId])->findOrEmpty()->toArray();
 
         $user['isWeChat'] = (bool) $userAuth;
-        $user['avatar']   = UrlUtils::toAbsoluteUrl($user['avatar']);
         $user['last_login_time'] = date('Y-m-d H:i:s', $user['last_login_time']);
         return $user;
     }

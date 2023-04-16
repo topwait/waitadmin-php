@@ -38,9 +38,7 @@ class UserController extends Frontend
      */
     public function index(): View
     {
-        return view('', [
-            'userInfo' => UserService::info($this->userId)
-        ]);
+        return view();
     }
 
     /**
@@ -58,9 +56,7 @@ class UserController extends Frontend
             return AjaxUtils::success($lists);
         }
 
-        return view('', [
-            'userInfo' => UserService::info($this->userId)
-        ]);
+        return view();
     }
 
     /**

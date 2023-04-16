@@ -16,11 +16,11 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\BaseController;
-use app\common\exception\SystemException;
 use app\common\model\DevNavigation;
 use app\common\utils\ArrayUtils;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
+use app\frontend\service\UserService;
 use LogicException;
 use think\App;
 use think\db\exception\DataNotFoundException;
@@ -47,6 +47,12 @@ abstract class Frontend extends BaseController
     protected int $userId = 0;
 
     /**
+     * 用户信息
+     * @var array
+     */
+    protected array $userInfo = [];
+
+    /**
      * 不校验登录的方法
      */
     protected array $notNeedLogin = [];
@@ -59,7 +65,6 @@ abstract class Frontend extends BaseController
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
-     * @throws SystemException
      */
     public function __construct(App $app)
     {
@@ -107,6 +112,7 @@ abstract class Frontend extends BaseController
         $pcConfig['logo'] = UrlUtils::toAbsoluteUrl($pcConfig['logo']??'');
 
         View::assign('pc', $pcConfig);
+        View::assign('userInfo', $this->userInfo);
         View::assign('action', $this->request->action());
         View::assign('website', ConfigUtils::get('website'));
         View::assign('navigation', ArrayUtils::toTreeJson($navigationData));
@@ -124,11 +130,13 @@ abstract class Frontend extends BaseController
         if (in_array(request()->action(), $this->notNeedLogin)) {
             if ($userId) {
                 $this->userId = intval($userId);
+                $this->userInfo = UserService::info($this->userId);
             }
             return true;
         } else {
             if ($userId) {
                 $this->userId = intval($userId);
+                $this->userInfo = UserService::info($this->userId);
                 return true;
             }
             return false;
