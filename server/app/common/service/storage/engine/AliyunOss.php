@@ -21,7 +21,7 @@ use OSS\OssClient;
 /**
  * 阿里云OSS
  */
-class Aliyun
+class AliyunOss
 {
     private array $config;         // 存储配置
     private OssClient $ossClient;  // 存储对象

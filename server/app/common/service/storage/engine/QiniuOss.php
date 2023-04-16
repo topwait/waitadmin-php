@@ -27,7 +27,7 @@ use Qiniu\Storage\UploadManager;
  * Class Qiniu
  * @package app\common\service\storage\engine
  */
-class Qiniu
+class QiniuOss
 {
     private array $config; // 存储配置
     private Auth $auth;    // 存储鉴权

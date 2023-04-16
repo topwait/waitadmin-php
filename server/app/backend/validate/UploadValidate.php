@@ -23,7 +23,6 @@ use app\common\basics\Validate;
 class UploadValidate extends Validate
 {
     protected $rule = [
-        'file' => 'require',
         'type' => 'require|in:picture,video,document,package',
         'hide' => 'number|in:0,1',
         'cid'  => 'number'
@@ -32,7 +31,6 @@ class UploadValidate extends Validate
     public function __construct()
     {
         $this->field = [
-            'file' => '上传文件',
             'type' => '上传类型',
             'hide' => '隐藏附件',
             'cid'  => '所属分组'
