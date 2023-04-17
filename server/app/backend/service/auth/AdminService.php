@@ -151,6 +151,7 @@ class AdminService extends Service
     {
         $salt = make_rand_char(6);
         $pwd  = make_md5_str($post['password'], $salt);
+        $defaultAvatar = '/static/backend/images/default/avatar.png';
 
         AuthAdmin::create([
             'dept_id'         => $post['dept_id'] ?? 0,
@@ -159,6 +160,7 @@ class AdminService extends Service
             'nickname'        => $post['nickname'],
             'username'        => $post['username'],
             'password'        => $pwd,
+            'avatar'          => $defaultAvatar,
             'salt'            => $salt,
             'phone'           => $post['phone']  ?? '',
             'email'           => $post['email']  ?? '',

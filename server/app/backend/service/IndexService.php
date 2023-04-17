@@ -35,19 +35,20 @@ class IndexService extends Service
     /**
      * 主页
      *
-     * @param $adminId
+     * @param int $adminId
+     * @param int $roleId
      * @return array
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
      * @author zero
      */
-    public static function index($adminId): array
+    public static function index(int $adminId, int $roleId): array
     {
         $where = [];
         if ($adminId !== 1) {
             $authPermModel = new AuthPerm();
-            $menuIds = $authPermModel->where(['role_id'=>1])->column('menu_id');
+            $menuIds = $authPermModel->where(['role_id'=>$roleId])->column('menu_id');
             $where = [['id', 'in', $menuIds]];
         }
 
