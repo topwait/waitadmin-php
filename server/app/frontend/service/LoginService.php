@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\frontend\service;
 
-use app\api\widgets\UserWidget;
 use app\common\basics\Service;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
@@ -24,6 +23,7 @@ use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
 use app\frontend\cache\ScanLoginCache;
 use app\frontend\cache\WebEnrollCache;
+use app\frontend\widgets\UserWidget;
 use Exception;
 
 /**

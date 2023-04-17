@@ -37,7 +37,9 @@
                 } else {
                     waitUtil.unlock(this);
                 }
-            });
+            }).catch(() => {
+                waitUtil.unlock(this);
+            });;
         });
 
         // 账号注册
@@ -60,6 +62,8 @@
                 } else {
                     waitUtil.unlock(this);
                 }
+            }).catch(() => {
+                waitUtil.unlock(this);
             });
         });
 
