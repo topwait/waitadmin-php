@@ -18,7 +18,9 @@ namespace app\api\widgets;
 use app\api\cache\EnrollCache;
 use app\api\cache\LoginCache;
 use app\common\basics\Service;
+use app\common\enums\AttachEnum;
 use app\common\exception\OperateException;
+use app\common\model\attach\Attach;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use app\common\utils\ConfigUtils;
@@ -43,7 +45,7 @@ class UserWidget extends Service
         // 接收参数
         $snCode   = make_rand_code(new User());
         $terminal = intval($response['terminal']);
-        $avatar   = $response['avatarUrl'] ?? '/static/common/images/avatar.png';
+        $avatar   = $response['avatarUrl'] ?? '';
         $account  = $response['account']   ?? 'u'.$snCode;
         $nickname = $response['nickname']  ?? 'u'.$snCode;
         $password = $response['password']  ?? '';
@@ -83,7 +85,7 @@ class UserWidget extends Service
             // 创建用户
             $user = User::create([
                 'sn'              => $snCode,
-                'avatar'          => $avatar,
+                'avatar'          => '/static/common/images/avatar.png',
                 'mobile'          => $mobile,
                 'account'         => $account,
                 'password'        => $password,
@@ -111,9 +113,21 @@ class UserWidget extends Service
             // 下载头像
             try {
                 if ($avatar) {
-                    $saveTo = 'storage/avatar/' . md5($user['id']) . 'jpg';
+                    $saveTo = 'storage/picture/' . date('Ymd') . '/' . md5((string)$user['id']) . 'jpg';
                     FileUtils::download($avatar, public_path() . $saveTo);
                     User::update(['avatar' => $saveTo], ['id'=>$user['id']]);
+                    Attach::create([
+                        'uid'       => $user['id'],
+                        'quote'     => 1,
+                        'cid'       => 0,
+                        'file_type' => AttachEnum::getCodeByMsg('picture'),
+                        'file_path' => $saveTo,
+                        'file_name' => 'avatar'.$user['id'],
+                        'file_ext'  => 'jpg',
+                        'file_size' => FileUtils::getFileSize(public_path() . $saveTo),
+                        'is_user'   => 1,
+                        'is_attach' => 0
+                    ]);
                 }
             } catch (Exception) {}
 
