@@ -16,8 +16,6 @@ use JetBrains\PhpStorm\Pure;
 
 /**
  * 安装配置验证类
- *
- * Class proof
  */
 class Proof
 {
@@ -160,12 +158,12 @@ class Proof
     /**
      * 检查目录是否可写
      *
-     * @param $dir
+     * @param string $dir
      * @return string
      * @author zero
      */
     #[Pure]
-    public function checkDirWrite($dir=''): string
+    public function checkDirWrite(string $dir=''): string
     {
         $route = APP_ROOT . '/' .$dir;
         return is_writable($route) ? 'ok' : 'fail';
@@ -174,12 +172,12 @@ class Proof
     /**
      * 检查目录是否可读
      *
-     * @param $dir
+     * @param string $dir
      * @return string
      * @author zero
      */
     #[Pure]
-    public function checkDirRead($dir=''): string
+    public function checkDirRead(string $dir=''): string
     {
         $route = APP_ROOT . '/' .$dir;
         return is_readable($route) ? 'ok' : 'fail';

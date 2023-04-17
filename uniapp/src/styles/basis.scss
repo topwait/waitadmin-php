@@ -1,10 +1,10 @@
 page {
     padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: 20rpx;
     font-size: 28rpx;
     font-family: "PingFang SC", Arial, "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     color: $uni-color-main;
     background-color: $uni-bg-pages;
-    padding-bottom: 20rpx;
 }
 
 /* Flex */
@@ -174,15 +174,15 @@ page {
 .rounded-2xl { border-radius: 16rpx; }
 .rounded-3xl { border-radius: 18rpx; }
 .rounded-xxl { border-radius: 22rpx; }
-.rounded-none { border-radius: none; }
-.rounded-l-none { border-top-left-radius: none; border-bottom-left-radius: none; }
-.rounded-r-none { border-top-right-radius: none; border-bottom-right-radius: none; }
-.rounded-t-none { border-top-left-radius: none; border-top-right-radius: none; }
-.rounded-b-none { border-bottom-left-radius: none; border-bottom-right-radius: none; }
-.rounded-tl-none { border-top-left-radius: none; }
-.rounded-tr-none { border-top-right-radius: none; }
-.rounded-bl-none { border-bottom-left-radius: none; }
-.rounded-br-none { border-bottom-right-radius: none; }
+.rounded-none { border-radius: 0; }
+.rounded-l-none { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.rounded-r-none { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.rounded-t-none { border-top-left-radius: 0; border-top-right-radius: 0; }
+.rounded-b-none { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.rounded-tl-none { border-top-left-radius: 0; }
+.rounded-tr-none { border-top-right-radius: 0; }
+.rounded-bl-none { border-bottom-left-radius: 0; }
+.rounded-br-none { border-bottom-right-radius: 0; }
 
 /* 盒子阴影 */
 .shadow { box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%); }

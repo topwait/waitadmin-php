@@ -16,15 +16,13 @@ declare (strict_types = 1);
 namespace app\common\service\storage;
 
 use app\backend\service\setting\WatermarkService;
+use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 use Exception;
 use think\Image;
 
 /**
  * 存储驱动类
- *
- * Class StorageDriver
- * @package app\common\service\storage
  */
 class StorageDriver
 {
@@ -35,14 +33,23 @@ class StorageDriver
      * 初始化
      *
      * Driver constructor.
-     * @param array $config
-     * @param string|null $storage
+     * @param array $config (配置参数)
+     * @param string|null $engine (存储引擎)
      * @throws Exception
      */
-    public function __construct(array $config, string $storage = null)
+    public function __construct(array $config = [], string $engine = null)
     {
+        if (!$config && !$engine) {
+            $engine = ConfigUtils::get('storage', 'default', 'local');
+            $params = ConfigUtils::get('storage', $engine, []);
+            $config = array_merge($params, $config);
+        } elseif ($engine) {
+            $params = ConfigUtils::get('storage', $engine, []);
+            $config = array_merge($params, $config);
+        }
+
         $this->config = $config;
-        $this->engine = $this->getEngineClass($storage);
+        $this->engine = $this->getEngineClass($engine);
     }
 
     /**
@@ -148,7 +155,7 @@ class StorageDriver
      * @param string $realPath (临时路径)
      * @param string $ext      (文件后缀)
      * @return string          (日期名称)
-     *  @author zero
+     * @author zero
      */
     public function buildSaveName(string $realPath, string $ext): string
     {
@@ -199,20 +206,18 @@ class StorageDriver
     /**
      * 取存储引擎
      *
-     * @param string|null $storage (引擎名称)
+     * @param string|null $engine (引擎名称)
      * @return mixed
      * @throws Exception
      * @author zero
      */
-    private function getEngineClass(string $storage=null): mixed
+    private function getEngineClass(string $engine=null): mixed
     {
-        $engineName = is_null($storage) ? $this->config['engine'] : $storage;
-        $classSpace = __NAMESPACE__ . '\\engine\\' . ucfirst($engineName);
-
+        $classSpace = __NAMESPACE__ . '\\engine\\' . ucfirst($engine) . 'Oss';
         if (!class_exists($classSpace)) {
-            throw new Exception('未找到存储引擎类: ' . $engineName);
+            throw new Exception('未找到存储引擎类: ' . $engine);
         }
 
-        return new $classSpace($this->config['params']);
+        return new $classSpace($this->config);
     }
 }

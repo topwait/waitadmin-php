@@ -13,8 +13,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\common\command;
-
+namespace app\common\crontab;
 
 use app\common\utils\FileUtils;
 use think\console\Command;
@@ -23,9 +22,6 @@ use think\console\Output;
 
 /**
  * 垃圾清理器
- *
- * Class Gc
- * @package app\common\command
  */
 class Gc extends Command
 {

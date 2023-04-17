@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller\setting\pc;
 
-
 use app\backend\service\setting\pc\NavigationService;
 use app\backend\validate\setting\NavigationValidate;
 use app\common\basics\Backend;

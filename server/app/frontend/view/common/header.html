@@ -29,8 +29,8 @@
                 {else}
                     <li class="layui-nav-item">
                         <a class="layui-nav-avatar">
-                            <cite>king</cite>
-                            <img src="__COMMON__/images/avatar.png" alt="avatar">
+                            <cite>{$userInfo.nickname??'-'}</cite>
+                            <img src="{$userInfo.avatar??'__COMMON__/images/avatar.png'}" alt="avatar">
                         </a>
                         <dl class="layui-nav-child">
                             <dd><a href="{:route('user/index')}">个人中心</a></dd>

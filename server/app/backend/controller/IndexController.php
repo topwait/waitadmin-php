@@ -28,6 +28,8 @@ use think\response\View;
  */
 class IndexController extends Backend
 {
+    protected array $notNeedPower = ['setting'];
+
     /**
      * 主页
      *
@@ -40,7 +42,7 @@ class IndexController extends Backend
      */
     public function index(): View
     {
-        $detail = IndexService::index($this->adminId);
+        $detail = IndexService::index($this->adminId, intval($this->adminUser['role_id']));
         return view('index', [
             'menus'     => ArrayUtils::toTreeJson($detail['menus']),
             'config'    => $detail['config'],

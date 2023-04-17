@@ -22,9 +22,6 @@ use think\Response;
 
 /**
  * 验证器基类
- *
- * Class Validate
- * @package app\common\basics
  */
 class Validate extends \think\Validate
 {

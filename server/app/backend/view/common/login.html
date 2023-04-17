@@ -84,6 +84,9 @@
                 setTimeout(function () {
                     waitUtil.unlock(that);
                 }, 1500)
+            }).catch((e) => {
+                console.log(e)
+                waitUtil.unlock(that);
             });
         });
 

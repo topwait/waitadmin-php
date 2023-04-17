@@ -161,7 +161,6 @@ abstract class BaseController
     protected function loadLang(string $name): void
     {
         $lang = $this->request->cookie(config('lang.cookie_var'));
-        $lang = $lang ? preg_match("/^([a-zA-Z\-_]{2,10})\$/i", $lang) : 'zh-cn';
         $root = str_replace('\\', '/', root_path());
         $apps = str_replace('\\', '/', app_path());
         $name = strtolower(str_replace('.', '/', $name));

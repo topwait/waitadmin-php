@@ -14,12 +14,8 @@
 
 namespace app\common\enums;
 
-
 /**
  * 错误枚举类
- *
- * Class ErrorEnum
- * @package app\common\enum
  */
 class ErrorEnum
 {

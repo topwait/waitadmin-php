@@ -40,14 +40,13 @@ class PostService extends Service
      */
     public static function all(): array
     {
-        $model = new AuthPost();
-        return $model
+        $modelAuthPost = new AuthPost();
+        return $modelAuthPost
             ->field('id,code,name')
             ->where(['is_delete'=>0])
             ->order('sort desc, id desc')
             ->select()->toArray();
     }
-
 
     /**
      * 岗位列表
@@ -65,8 +64,8 @@ class PostService extends Service
             '%like%' => ['name']
         ]);
 
-        $model = new AuthPost();
-        $lists = $model
+        $modelAuthPost = new AuthPost();
+        $lists = $modelAuthPost
             ->withoutField('is_delete,update_time,delete_time')
             ->where(self::$searchWhere)
             ->where(['is_delete'=>0])
@@ -91,10 +90,10 @@ class PostService extends Service
      */
     public static function detail(int $id): array
     {
-        $model = new AuthPost();
-        return $model
+        $modelAuthPost = new AuthPost();
+        return $modelAuthPost
             ->withoutField('is_delete,update_time,delete_time')
-            ->where(['id'=>intval($id)])
+            ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
@@ -130,7 +129,7 @@ class PostService extends Service
     public static function edit(array $post): void
     {
         $model = new AuthPost();
-        $model->checkDataDoesNotExist();
+        $model->checkDataDoesNotExist(['id'=>intval($post['id']), 'is_delete'=>0]);
 
         AuthPost::update([
             'code'        => $post['code'],
@@ -151,18 +150,15 @@ class PostService extends Service
      */
     public static function del(int $id): void
     {
-        $model = new AuthPost();
-        $model->checkDataDoesNotExist();
+        $modelAuthPost = new AuthPost();
+        $modelAuthPost->checkDataDoesNotExist(['id'=>$id, 'is_delete'=>0]);
 
         $modelAdmin = new AuthAdmin();
-        $modelAdmin->checkDataAlreadyExist([
-            ['post_id', '=', intval($id)],
-            ['is_delete', '=', 0]
-        ], '该部门已被管理员使用!');
+        $modelAdmin->checkDataAlreadyExist(['post_id'=>$id, 'is_delete'=>0], '该部门已被管理员使用!');
 
         AuthPost::update([
             'is_delete'   => 1,
             'delete_time' => time()
-        ], ['id'=>intval($id)]);
+        ], ['id'=>$id]);
     }
 }

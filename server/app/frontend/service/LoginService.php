@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\frontend\service;
 
-use app\api\widgets\UserWidget;
 use app\common\basics\Service;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
@@ -24,6 +23,7 @@ use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
 use app\frontend\cache\ScanLoginCache;
 use app\frontend\cache\WebEnrollCache;
+use app\frontend\widgets\UserWidget;
 use Exception;
 
 /**
@@ -160,12 +160,12 @@ class LoginService extends Service
      * @param string $code   (验证码)
      * @param string $sign   (签名值)
      * @param int $terminal  (设备)
-     * @return array
+     * @return void
      * @throws OperateException
      * @throws Exception
      * @author zero
      */
-    public static function baLogin(string $mobile, string $code, string $sign, int $terminal): array
+    public static function baLogin(string $mobile, string $code, string $sign, int $terminal): void
     {
         // 短信验证
         if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code)) {
@@ -238,7 +238,7 @@ class LoginService extends Service
     public static function opCodeUrl(string $url): array
     {
         // 设置扫码有效期
-        $state = make_md5_str(time() . rand(10000, 99999));
+        $state = md5(time() . rand(10000, 99999));
         ScanLoginCache::set($state);
 
         // 生成扫码二维码

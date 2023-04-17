@@ -15,14 +15,10 @@ declare (strict_types = 1);
 
 namespace app\common\basics;
 
-
 use app\common\model\sys\SysConfig;
 
 /**
  * 服务类基类
- *
- * Class Service
- * @package app\common\basics
  */
 class Service
 {

@@ -12,15 +12,10 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
 namespace app\common\enums;
-
 
 /**
  * 性别枚举类
- *
- * Class SexEnum
- * @package app\common\enum
  */
 class GenderEnum
 {

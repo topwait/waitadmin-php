@@ -22,28 +22,28 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .text-left { text-align: left; }
 
 /** 超出隐藏 **/
-.wait-line-1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wait-line-2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-.wait-line-3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
-.wait-line-4 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+.overflow-1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.overflow-2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.overflow-3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.overflow-4 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
 
 /** 行高距离 **/
-.wait-lh-20 { line-height: 20px; }
-.wait-lh-22 { line-height: 22px; }
-.wait-lh-24 { line-height: 24px; }
-.wait-lh-26 { line-height: 26px; }
-.wait-lh-28 { line-height: 28px; }
-.wait-lh-30 { line-height: 30px; }
+.line-h-20 { line-height: 20px; }
+.line-h-22 { line-height: 22px; }
+.line-h-24 { line-height: 24px; }
+.line-h-26 { line-height: 26px; }
+.line-h-28 { line-height: 28px; }
+.line-h-30 { line-height: 30px; }
 
 /** 宽度比例 **/
-.wait-w-scale-2 { width: 50%; }
-.wait-w-scale-3 { width: 33.333%; }
-.wait-w-scale-4 { width: 25%; }
-.wait-w-scale-5 { width: 20%; }
+.w-scale-2 { width: 50%; }
+.w-scale-3 { width: 33.333%; }
+.w-scale-4 { width: 25%; }
+.w-scale-5 { width: 20%; }
 
 /* 宽高铺满 */
-.wait-h-full { width: 100%; height: 100%; }
-.wait-h-half { width: 50%; height: 50%; }
+.w-h-full { width: 100%; height: 100%; }
+.w-h-half { width: 50%; height: 50%; }
 
 /** 提示引用 **/
 .wait-blockquote { padding: 15px; border: 1px solid #ded9d9; border-radius: 4px; background-color: #f9fafa; }
@@ -62,7 +62,7 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .wait-carousel .layui-carousel-ind { position: absolute; top: -41px; text-align: right; }
 .wait-carousel .layui-carousel-ind ul { background: none; }
 
-/** 导航样式 **/
+/** 面包样式 **/
 .wait-breadcrumb { position: relative; margin-bottom: 15px; padding: 0 15px; height: 50px; border-radius: 2px; background-color: #ffffff; line-height: 50px; }
 .wait-breadcrumb .navigation a { color: #999999 !important; }
 .wait-breadcrumb .navigation > * { font-size: 14px; }
@@ -80,7 +80,7 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .layui-search .layui-input-datetime .layui-form-label { padding: 9px 0; width: 65px; }
 .layui-search .layui-input-datetime .layui-input-block { margin-left: 65px; }
 
-/** 重置样式 **/
+/** 表格样式 **/
 .layui-table-view .layui-table-fixed { z-index: 999; }
 .layui-table-view .layui-btn-container .layui-btn i { padding: 0; font-size: 12px; }
 .layui-table-view .layui-table-cell .layui-btn-xs { margin: 0; padding: 0 2px; }

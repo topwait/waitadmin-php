@@ -28,9 +28,6 @@ use think\response\View;
 
 /**
  * 附件管理
- *
- * Class AttachController
- * @package app\admin\controller
  */
 class AttachController extends Backend
 {

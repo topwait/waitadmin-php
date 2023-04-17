@@ -20,7 +20,6 @@ use app\common\enums\AttachEnum;
 use app\common\exception\UploadException;
 use app\common\model\attach\Attach;
 use app\common\service\storage\StorageDriver;
-use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
@@ -46,12 +45,8 @@ class UploadService extends Service
     public static function permanent(string $type, int $hide, int $cid, int $uid): array
     {
         try {
-            // 存储引擎
-            $engine = ConfigUtils::get('storage', 'default', 'local');
-            $params = ConfigUtils::get('storage', $engine, []);
-
             // 上传调用
-            $storageDriver = new StorageDriver(['engine'=>$engine, 'params'=>$params]);
+            $storageDriver = new StorageDriver();
             $fileInfo = $storageDriver->upload($type);
 
             // 记录信息
@@ -92,7 +87,7 @@ class UploadService extends Service
     public static function temporary(string $type): array
     {
         try {
-            $storageDriver = new StorageDriver(['engine' => 'local', 'params' => []]);
+            $storageDriver = new StorageDriver([], 'local');
             $storageDriver->validates($type);
 
             $file = request()->file('file');

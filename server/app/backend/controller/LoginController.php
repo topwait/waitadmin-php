@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller;
 
-
 use app\backend\service\LoginService;
 use app\backend\validate\LoginValidate;
 use app\common\basics\Backend;
@@ -30,6 +29,7 @@ use think\response\View;
 class LoginController extends Backend
 {
     protected array $notNeedLogin = ['index', 'check'];
+    protected array $notNeedPower = ['logout'];
 
     /**
      * 登录页面

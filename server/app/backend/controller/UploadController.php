@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\controller;
 
-
 use app\backend\service\UploadService;
 use app\backend\validate\UploadValidate;
 use app\common\basics\Backend;

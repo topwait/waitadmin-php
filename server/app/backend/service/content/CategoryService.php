@@ -142,10 +142,7 @@ class CategoryService extends Service
     public static function del(int $id): void
     {
         $modelArticle = new Article();
-        $modelArticle->checkDataAlreadyExist([
-            ['cid', '=', $id],
-            ['is_delete', '=', 0]
-        ], '当前类型已被使用!');
+        $modelArticle->checkDataAlreadyExist(['cid'=>$id, 'is_delete'=>0], '当前类型已被使用!');
 
         ArticleCategory::update([
             'is_delete'   => 1,

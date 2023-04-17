@@ -15,6 +15,7 @@ declare (strict_types = 1);
 
 namespace app\backend\controller;
 
+use app\common\basics\Backend;
 use app\common\enums\ErrorEnum;
 use app\common\exception\SystemException;
 use think\response\View;
@@ -22,8 +23,10 @@ use think\response\View;
 /**
  * 错误管理
  */
-class ErrorController
+class ErrorController extends Backend
 {
+    protected array $notNeedLogin = ['wrong'];
+
     /**
      * 控制器不存在
      *
@@ -32,8 +35,10 @@ class ErrorController
      * @throws SystemException
      * @author zero
      */
-    public function __call($name, $arguments)
+    public function __call($name, $arguments): void
     {
+        parent::__call($name, $arguments);
+
         $errCode = ErrorEnum::CONTROl_ERROR;
         $message = ErrorEnum::getMsgByCode($errCode);
         throw new SystemException($message, $errCode);
@@ -48,9 +53,12 @@ class ErrorController
      */
     public function wrong(): View
     {
+        $error = session('error');
+        $error = json_decode($error ? : '{}', true);
+
         return view('common/error', [
-            'errCode' => request()->get('errCode'),
-            'errMsg'  => request()->get('errMsg')
+            'errCode' => $error['errCode'] ?? '',
+            'errMsg'  => $error['errMsg'] ?? ''
         ]);
     }
 }

@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\BaseController;
+use app\common\enums\ErrorEnum;
 use app\common\exception\NotAuthException;
 use app\common\model\auth\AuthMenu;
 use app\common\model\auth\AuthPerm;
@@ -117,8 +118,10 @@ abstract class Backend extends BaseController
      */
     protected function checkPower(): bool
     {
+        $requestUrl = strtolower(request()->controller().'/'.request()->action());
         if (in_array(request()->action(), $this->notNeedLogin) ||
             in_array(request()->action(), $this->notNeedPower) ||
+            $requestUrl === 'index/index' ||
             $this->adminId === 1) {
             return true;
         }
@@ -132,16 +135,22 @@ abstract class Backend extends BaseController
 
         $perms = $authMenu->field(true)
             ->whereIn('id', $menus)
-            ->where('is_menu', 0)
+            ->where(['is_delete'=>0])
+            ->where(['is_disable'=>0])
             ->order('sort asc, id asc')
             ->column('perms');
 
-        $requestUrl = request()->controller().'/'.request()->action();
         if (!in_array($requestUrl, array_unique($perms))) {
             if (request()->isAjax()) {
-                throw new NotAuthException('权限不足!');
+                throw new NotAuthException();
             }
-            $this->redirect((string) url('login/denied'), 302);
+
+            session('error', json_encode([
+                'errCode' => ErrorEnum::PURVIEW_ERROR,
+                'errMsg'  => ErrorEnum::getMsgByCode(ErrorEnum::PURVIEW_ERROR),
+            ]));
+
+            $this->redirect((string) url('error/wrong'), 302);
         }
 
         return false;

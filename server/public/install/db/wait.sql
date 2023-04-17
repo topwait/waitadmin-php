@@ -695,8 +695,9 @@ INSERT INTO `wait_auth_menu` VALUES (3514, 3510, 'app', '文章编辑', '', 'con
 INSERT INTO `wait_auth_menu` VALUES (3515, 3510, 'app', '文章删除', '', 'content.article/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4000, 0, 'app', '用户', 'layui-icon icon-member-user', '', 30, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4001, 4000, 'app', '用户管理', '', 'user.user/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (4002, 4001, 'app', '用户详情', '', 'user.user/detail', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (4003, 4001, 'app', '设置分组', '', 'user.user/group', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (4002, 4001, 'app', '用户列表', '', 'user.user/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (4003, 4001, 'app', '用户详情', '', 'user.user/detail', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (4004, 4001, 'app', '设置分组', '', 'user.user/group', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4100, 4000, 'app', '用户分组', '', 'user.group/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4101, 4100, 'app', '分组列表', '', 'user.group/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4102, 4100, 'app', '分组详情', '', 'user.group/detail', 0, 0, 0, 0, 1648696695, 1648696695, 0);

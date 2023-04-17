@@ -15,29 +15,25 @@ declare (strict_types = 1);
 
 namespace app\common\service\storage\engine;
 
-use Qcloud\Cos\Client;
+use app\common\utils\FileUtils;
+use think\facade\Filesystem;
 
 /**
- * 腾讯云OSS
+ * 本地上传类
  *
- * Class Qcloud
+ * Class Local
  * @package app\common\service\storage\engine
  */
-class Qcloud
+class LocalOss
 {
-    private array $config;      // 存储配置
-    private Client $cosClient;  // 存储对象
-
-    public function __construct(array $config)
+    /**
+     * 初始化
+     *
+     * Local constructor.
+     * @param array $config
+     */
+    public function __construct(array $config=[])
     {
-        $this->config = $config;
-        $this->cosClient = new Client([
-            'region' => $this->config['region'],
-            'credentials' => [
-                'secretId'  => $this->config['accessKey'],
-                'secretKey' => $this->config['secretKey'],
-            ],
-        ]);
     }
 
     /**
@@ -45,15 +41,18 @@ class Qcloud
      *
      * @author zero
      * @param array $fileInfo (文件信息)
-     * @author zero
+     * @return void
      */
     public function upload(array $fileInfo): void
     {
-        $this->cosClient->putObject([
-            'Bucket' => $this->config['bucket'],
-            'Key'    => $fileInfo['fileName'],
-            'Body'   => fopen($fileInfo['realPath'], 'rb')
-        ]);
+        $arr  = explode('/', $fileInfo['fileName']);
+        $name = array_pop($arr);
+        array_shift($arr);
+        $path = implode('/', $arr);
+
+        $file = request()->file('file');
+        $filesystem = Filesystem::instance();
+        $filesystem->disk('public')->putFileAS($path, $file, $name);
     }
 
     /**
@@ -61,15 +60,10 @@ class Qcloud
      *
      * @param string $path (地址)
      * @param string $key  (键名)
-     * @author zero
      */
     public function putFile(string $path, string $key): void
     {
-        $this->cosClient->putObject([
-            'Bucket' => $this->config['bucket'],
-            'Key'    => $key,
-            'Body'   => fopen($path, 'rb')
-        ]);
+        FileUtils::copy($path, $key);
     }
 
     /**
@@ -77,28 +71,25 @@ class Qcloud
      *
      * @param string $url (地址)
      * @param string $key (键名)
-     * @author zero
+     * @return void
+     *@author zero
      */
-    public function fetch(string $url, string $key): void
+    public function fetch(string $url, string $key=''): void
     {
-        $this->cosClient->putObject([
-            'Bucket' => $this->config['bucket'],
-            'Key'    => $key,
-            'Body'   => fopen($url, 'rb')
-        ]);
+        $content = file_get_contents($url);
+        file_put_contents($key, $content);
     }
 
     /**
      * 文件删除
      *
-     * @param string $url (地址)
      * @author zero
+     * @param string $url
+     * @return void
      */
     public function delete(string $url): void
     {
-        $this->cosClient->deleteObject(array(
-            'Bucket' => $this->config['bucket'],
-            'Key'    => $url
-        ));
+        $filePath = public_path() . $url;
+        !file_exists($filePath) || unlink($filePath);
     }
 }

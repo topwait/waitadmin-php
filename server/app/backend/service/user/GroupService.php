@@ -122,8 +122,8 @@ class GroupService extends Service
      */
     public static function edit(array $post): void
     {
-        $model = new UserGroup();
-        $model->checkDataDoesNotExist();
+        $modelUserGroup = new UserGroup();
+        $modelUserGroup->checkDataDoesNotExist(['id'=>intval($post['id']), 'is_delete'=>0]);
 
         UserGroup::update([
             'name'        => $post['name'],
@@ -142,8 +142,8 @@ class GroupService extends Service
      */
     public static function del(int $id)
     {
-        $model = new UserGroup();
-        $model->checkDataDoesNotExist();
+        $modelUserGroup = new UserGroup();
+        $modelUserGroup->checkDataDoesNotExist(['id'=>$id, 'is_delete'=>0]);
 
         UserGroup::update([
             'is_delete'   => 1,
