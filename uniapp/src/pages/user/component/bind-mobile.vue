@@ -55,7 +55,7 @@ const codeChange = (text) => {
     codeTips.value = text
 }
 
-// 发送邮件
+// 发送短信
 const onSendSms = async () => {
     if (checkUtil.isEmpty(form.value.email)) {
         return uni.$u.toast('请输入邮箱号')
@@ -84,7 +84,9 @@ const onBindMobile = async (e) => {
         form.value.type = props.value ? 'change' : 'bind'
         try {
             await bindMobileApi(form.value)
-        } catch (e) { return }
+        } catch (e) {
+            return
+        }
 
         emit('close')
         setTimeout(() => {
@@ -96,7 +98,9 @@ const onBindMobile = async (e) => {
                 type: form.value.type,
                 code: e.detail.code
             })
-        } catch (e) { return }
+        } catch (e) {
+            return
+        }
 
         emit('close')
         setTimeout(() => {

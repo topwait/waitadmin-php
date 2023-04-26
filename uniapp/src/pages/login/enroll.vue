@@ -136,9 +136,6 @@ const appStore = useAppStore()
 const userStore = useUserStore()
 const isWeixin = clientUtil.isWeixin()
 
-// 按钮加载
-const loadButton = ref(false)
-
 // 授权枚举
 const LoginAuthEnum = {
     WX: 1,
