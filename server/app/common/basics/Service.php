@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\common\model\sys\SysConfig;
+use Exception;
 
 /**
  * 服务类基类
@@ -128,10 +129,12 @@ class Service
                         $paramsName = strpos($whereField, '@') ? explode('@', $whereField) : $whereField;
                         $key   = is_array($paramsName) ? $paramsName[0] : $paramsName; //参数的名称
                         $field = is_array($paramsName) ? $paramsName[1] : $whereField; //字段的名称
-                        if (!isset($params[$key]) || empty($params[$key])) {
-                            continue;
-                        }
-                        $where[] = [$field, $whereType, $params[$key]];
+                        try {
+                            if (!isset($params[$key]) || (!is_numeric($params[$key]) && !$params[$key])) {
+                                continue;
+                            }
+                            $where[] = [$field, $whereType, $params[$key]];
+                        } catch (Exception) {}
                     }
                     break;
                 case '%like%':
@@ -139,10 +142,12 @@ class Service
                         $paramsName = strpos($whereField, '@') ? explode('@', $whereField) : $whereField;
                         $key = is_array($paramsName) ? $paramsName[0] : $paramsName;
                         $val = is_array($paramsName) ? $paramsName[1] : $whereField;
-                        if (empty($params[$key])) {
-                            continue;
-                        }
-                        $where[] = [$val, 'like', '%' . $params[$key] . '%'];
+                        try {
+                            if (!isset($params[$key]) || (!is_numeric($params[$key]) && !$params[$key])) {
+                                continue;
+                            }
+                            $where[] = [$val, 'like', '%' . $params[$key] . '%'];
+                        } catch (Exception) {}
                     }
                     break;
                 case '%like':
@@ -150,10 +155,12 @@ class Service
                         $paramsName = strpos($whereField, '@') ? explode('@', $whereField) : $whereField;
                         $key = is_array($paramsName) ? $paramsName[0] : $paramsName;
                         $val = is_array($paramsName) ? $paramsName[1] : $whereField;
-                        if (!isset($params[$key]) || (empty($params[$key]))) {
-                            continue;
-                        }
-                        $where[] = [$val, 'like', '%' . $params[$key]];
+                        try {
+                            if (!isset($params[$key]) || (!is_numeric($params[$key]) && !$params[$key])) {
+                                continue;
+                            }
+                            $where[] = [$val, 'like', '%' . $params[$key]];
+                        } catch (Exception) {}
                     }
                     break;
                 case 'like%':
@@ -161,10 +168,12 @@ class Service
                         $paramsName = strpos($whereField, '@') ? explode('@', $whereField) : $whereField;
                         $key = is_array($paramsName) ? $paramsName[0] : $paramsName;
                         $val = is_array($paramsName) ? $paramsName[1] : $whereField;
-                        if (empty($params[$key] || !isset($params[$key]))) {
-                            continue;
-                        }
-                        $where[] = [$val, 'like', $params[$key]];
+                        try {
+                            if (!isset($params[$key]) || (!is_numeric($params[$key]) && !$params[$key])) {
+                                continue;
+                            }
+                            $where[] = [$val, 'like', $params[$key] . '%'];
+                        } catch (Exception) {}
                     }
                     break;
                 case 'between':
