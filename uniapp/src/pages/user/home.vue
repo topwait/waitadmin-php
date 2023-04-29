@@ -5,8 +5,8 @@
                 <view class="flex items-center">
                     <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
                     <view v-if="isLogin" class="synopsis">
-                        <view class="text-lg color-white">{{ userInfo.nickname }}</view>
-                        <view class="text-xs color-lighter">ID: {{ userInfo.sn }}</view>
+                        <view class="font-lg color-white">{{ userInfo.nickname }}</view>
+                        <view class="font-xs color-lighter">ID: {{ userInfo.sn }}</view>
                     </view>
                     <view v-else class="login" @tap="$go('/pages/login/enroll')">点击登录</view>
                 </view>
@@ -16,19 +16,19 @@
             </view>
         </view>
 
-        <w-service 
-            :mod="diyService.base?.layout" 
-            :title="diyService.base?.title" 
-            :grid="diyService.base?.layout" 
-            :list="diyService?.list" 
+        <w-service
+            :mod="diyService.base?.layout"
+            :title="diyService.base?.title"
+            :grid="diyService.base?.layout"
+            :list="diyService?.list"
         />
-        
+
         <w-adv :list="diyAdv?.list" />
     </view>
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/userStore'
@@ -47,11 +47,13 @@ onShow(async () => {
         const diyItems = await diyMeApi()
         diyAdv.value = diyItems.adv
         diyService.value = diyItems.service
-        
+
         if (isLogin.value) {
             userInfo.value = await userCenterApi()
         }
-    } catch (e) {}
+    } catch (e) {
+        return false
+    }
 })
 </script>
 

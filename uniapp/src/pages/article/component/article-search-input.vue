@@ -1,9 +1,9 @@
 <template>
     <view class="layout-input-widget">
-        <u-search 
-            placeholder="请输入搜索关键词" 
-            :show-action="false" 
-            @search="onInputBlur" 
+        <u-search
+            placeholder="请输入搜索关键词"
+            :show-action="false"
+            @search="onInputBlur"
         />
     </view>
 </template>

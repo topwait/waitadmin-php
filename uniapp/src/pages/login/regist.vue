@@ -1,5 +1,4 @@
 <template>
-
     <view class="layout-regist-widget">
         <view class="head">
             <view class="title">注册账号</view>
@@ -21,7 +20,7 @@
                 <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                     <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
                     <template #right>
-                        <u-verification-code ref="uCode" seconds="60" />
+                        <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
                         <u-button
                             :plain="true"
                             type="primary"
@@ -29,7 +28,7 @@
                             size="mini"
                             shape="circle"
                             @click="onSendSms()"
-                        >{{ '获取验证码' }}
+                        >{{ codeTips }}
                         </u-button>
                     </template>
                 </u-form-item>
@@ -37,13 +36,13 @@
             <w-button pt="60" @on-click="onRegister()">注册账号</w-button>
         </view>
     </view>
-
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { sendSmsApi } from '@/api/indexApi'
 import { registerApi } from '@/api/loginApi'
+import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
 // 设置标题
@@ -98,7 +97,7 @@ const onRegister = async () => {
         return uni.$u.toast('请输入验证码')
     }
 
-    if (form.password !== form.value.againPwd) {
+    if (form.value.password !== form.value.againPwd) {
         return uni.$u.toast('两次密码不一致')
     }
 

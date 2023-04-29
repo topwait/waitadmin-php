@@ -13,11 +13,11 @@
             <view v-for="(item, index) in dataList" :key="index" class="item" @click="$go('/pages/article/detail?id='+item.id)">
                 <u-image :lazy-load="true" width="240rpx" height="180rpx" :src="item.image" style="flex-shrink: 0;" />
                 <view class="flex flex-1 flex-col justify-between px-20">
-                    <view class="truncate-line-1 text-xl color-main font-medium">{{ item.title }}</view>
-                    <view class="truncate-line-2 text-xs color-text">{{ item.intro }}</view>
+                    <view class="truncate-line-1 font-xl font-weight-medium color-main ">{{ item.title }}</view>
+                    <view class="truncate-line-2 font-xs color-text">{{ item.intro }}</view>
                     <view class="flex justify-between">
-                        <view class="text-xs color-muted">{{ item.create_time }}</view>
-                        <view class="text-xs color-muted">{{ item.browse }}人浏览</view>
+                        <view class="font-xs color-muted">{{ item.create_time }}</view>
+                        <view class="font-xs color-muted">{{ item.browse }}人浏览</view>
                     </view>
                 </view>
             </view>

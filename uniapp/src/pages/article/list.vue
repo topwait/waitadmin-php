@@ -12,11 +12,11 @@
         </template>
         <swiper :current="swiperCurrent" style="height: 100%;" @transition="transition" @animationfinish="animations">
             <swiper-item v-for="(item, index) in tabList" :key="index">
-                <ArticlePagInList 
+                <ArticlePagInList
                     :cid="item.id"
                     :keyword="keyword"
-                    :tab-index="current" 
-                    :swiper-index="index" 
+                    :tab-index="current"
+                    :swiper-index="index"
                 />
             </swiper-item>
         </swiper>

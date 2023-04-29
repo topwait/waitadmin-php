@@ -49,7 +49,9 @@ const onUpdateUser = async () => {
             scene: 'nickname',
             value: formValue.value
         })
-    } catch (e) { return }
+    } catch (e) {
+        return
+    }
 
     emit('close')
     setTimeout(() => {

@@ -6,7 +6,7 @@
                 <button open-type="chooseAvatar" style="height: 100%;background-color: unset;" @chooseavatar="onUploadAvatar" @tap="onUploadAvatar">
                     <view class="flex flex-col items-center justify-center">
                         <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
-                        <view class="mt-6 text-xs color-muted">点击修改头像</view>
+                        <view class="mt-6 font-xs color-muted">点击修改头像</view>
                     </view>
                 </button>
             </u-cell-item>
@@ -26,21 +26,21 @@
             <u-cell-item title="登录密码" @tap="onShowPopup('password')" />
             <u-cell-item title="绑定微信">
                 <button
-                    class="text-right color-muted button-hover"
+                    class="text-align-right color-muted button-hover"
                     @tap="onBindWeChat()"
                 >{{ userInfo.isWeiChat ? '已绑定' : '未绑定' }}
                 </button>
             </u-cell-item>
             <u-cell-item title="绑定邮箱">
                 <button
-                    class="text-right color-muted button-hover"
+                    class="text-align-right color-muted button-hover"
                     @tap="onShowPopup('email')"
                 >{{ userInfo.email ? userInfo?.email : '未绑定' }}
                 </button>
             </u-cell-item>
             <u-cell-item title="绑定手机">
                 <button
-                    class="text-right color-muted button-hover"
+                    class="text-align-right color-muted button-hover"
                     open-type="getPhoneNumber"
                     @getphonenumber="onBindMobile"
                     @tap="onBindMobile"
