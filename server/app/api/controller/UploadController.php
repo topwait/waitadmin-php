@@ -32,7 +32,7 @@ class UploadController extends Api
      *
      * @return Json
      * @throws UploadException
-     * @author zeri
+     * @author zero
      */
     public function permanent(): Json
     {

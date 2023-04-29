@@ -277,6 +277,7 @@ class LoginService extends Service
      * @param string $url
      * @return array
      * @throws Exception
+     * @author zero
      */
     #[ArrayShape(['url' => "string"])]
     public static function oaCodeUrl(string $url): array

@@ -38,6 +38,7 @@ class UploadService extends Service
      * @param int $userId  (用户ID)
      * @return array
      * @throws UploadException
+     * @author zero
      */
     #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'path' => "string", 'url' => "string"])]
     public static function permanent(string $type, int $userId): array

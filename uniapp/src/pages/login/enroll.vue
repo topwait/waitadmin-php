@@ -68,7 +68,7 @@
             <!-- #ifdef MP-WEIXIN || H5 -->
             <view v-if="isOpenOtherAuth && isWeixin" class="others mt-50">
                 <u-divider>其它登录方式</u-divider>
-                <view class="flex justify-center mt-40">text-
+                <view class="flex justify-center mt-40">
                     <button
                         v-if="wayInclude(LoginAuthEnum.WX) && isWeixin"
                         open-type="getPhoneNumber"
