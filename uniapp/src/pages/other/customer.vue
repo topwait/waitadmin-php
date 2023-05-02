@@ -2,16 +2,16 @@
     <view class="pt-60">
         <view class="layout-service-widget">
             <view class="flex flex-col items-center">
-                <u-image class="u-margin-top-60" width="390rpx" height="390rpx" :src="diyItems.image"></u-image>
-                <view class="u-font-32 u-font-weight u-margin-top-20">{{ diyItems.title }}</view>
+                <u-image class="mt-60" width="390rpx" height="390rpx" :src="diyItems.image" />
+                <view class="mt-20 font-xl font-weight-bold">{{ diyItems.title }}</view>
                 <view class="info">
-                    <view class="line" v-if="diyItems.datetime">服务时间：{{ diyItems.datetime }} </view>
-                    <view class="line" v-if="diyItems.mobile">服务电话：{{ diyItems.mobile }}</view>
-                    <view class="line" v-if="diyItems.qq">服务Q Q：{{ diyItems.qq }}</view>
+                    <view v-if="diyItems.datetime" class="line">服务时间：{{ diyItems.datetime }} </view>
+                    <view v-if="diyItems.mobile" class="line">服务电话：{{ diyItems.mobile }}</view>
+                    <view v-if="diyItems.qq" class="line">服务Q Q：{{ diyItems.qq }}</view>
                 </view>
             </view>
             <view class="pt-40 px-60">
-                 <w-button >保存二维码</w-button>
+                <w-button>保存二维码</w-button>
             </view>
         </view>
     </view>
@@ -35,14 +35,14 @@ onShow(async () => {
     padding-top: 40rpx;
     height: 900rpx;
     border-radius: 14rpx;
-    background-color: #FFF;
+    background-color: #ffffff;
     .info {
         margin-top: 40rpx;
         .line {
-            color: #333;
-            line-height: 46rpx;
             font-size: 26rpx;
             font-weight: 400;
+            color: #333333;
+            line-height: 46rpx;
         }
     }
 }

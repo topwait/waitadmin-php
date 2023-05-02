@@ -43,8 +43,8 @@ export default {
      */
     tarBarList() {
         return [
-            'pages/index/index', 
-            'pages/article/list', 
+            'pages/index/index',
+            'pages/article/list',
             'pages/user/home'
         ]
     },
@@ -64,23 +64,23 @@ export default {
      * @param {String} type     (上传类型: picture/video/document/package)
      * @param {String} scene    (上传场景: permanent=永远存储,temporary=临时存储)
      */
-    uploadFile(filePath, fileType, type, scene='permanent') {
+    uploadFile(filePath, fileType, type, scene = 'permanent') {
         const userStore = useUserStore()
         const token = userStore.$state.token
         const terminal = clientUtil.fetchClient()
-        
+
         return new Promise((resolve, reject) => {
             uni.uploadFile({
                 name: 'file',
                 url: `${import.meta.env.VITE_APP_BASE_URL}/upload/${scene}`,
                 filePath: filePath,
                 fileType: fileType,
-                header: {'token': token, 'terminal': terminal},
-                formData: {'type': type},
+                header: { 'token': token, 'terminal': terminal },
+                formData: { 'type': type },
                 success: res => {
                     let result = JSON.parse(res.data)
                     if (result.code == 0) {
-                        resolve(result.data);
+                        resolve(result.data)
                     } else {
                         reject()
                     }
@@ -115,24 +115,24 @@ export default {
         // #ifdef APP-PLUS
         diyBottomNav.forEach((item, index) => {
             uni.downloadFile({
-              url: item.iconPath,
-              success: res => {
-                uni.setTabBarItem({
-                    index,
-                    text: item.text,
-                    iconPath: res.tempFilePath,
-                })
-              }
+                url: item.iconPath,
+                success: res => {
+                    uni.setTabBarItem({
+                        index,
+                        text: item.text,
+                        iconPath: res.tempFilePath,
+                    })
+                }
             })
             uni.downloadFile({
-              url: item.selectedIconPath,
-              success: res => {
-                uni.setTabBarItem({
-                    index,
-                    text: item.text,
-                    selectedIconPath: res.tempFilePath,
-                })
-              }
+                url: item.selectedIconPath,
+                success: res => {
+                    uni.setTabBarItem({
+                        index,
+                        text: item.text,
+                        selectedIconPath: res.tempFilePath,
+                    })
+                }
             })
         })
         // #endif

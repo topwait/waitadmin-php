@@ -1,5 +1,4 @@
 <template>
-
     <view class="layout-regist-widget">
         <view class="head">
             <view class="title">重置密码</view>
@@ -34,11 +33,10 @@
             <w-button pt="60" @on-click="onResetPwd()">重设密码</w-button>
         </view>
     </view>
-
 </template>
 
 <script setup>
-import { ref, shallowRef } from 'vue'
+import { ref } from 'vue'
 import { sendSmsApi } from '@/api/indexApi'
 import { forgetPwdApi } from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
@@ -116,16 +114,6 @@ const onResetPwd = async () => {
         border-radius: 14rpx;
         background-color: #ffffff;
         box-shadow: 0 2px 14px 0 rgb(0 0 0 / 8%);
-    }
-    .button {
-        margin-top: 40rpx;
-        padding: 2rpx 0;
-        width: 100%;
-        font-size: 32rpx;
-        border-radius: 50rpx;
-        text-align: center;
-        color: #ffffff;
-        background-color: #2979ff;
     }
 }
 </style>

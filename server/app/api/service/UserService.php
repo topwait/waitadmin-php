@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\api\service;
 
 use app\common\basics\Service;
+use app\common\enums\ClientEnum;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
@@ -54,6 +55,7 @@ class UserService extends Service
      *
      * @param int $id
      * @return array
+     * @author zero
      */
     public static function info(int $id): array
     {
@@ -66,7 +68,7 @@ class UserService extends Service
                 $modelUserAuth = new UserAuth();
                 return !$modelUserAuth->field(['id'])
                     ->where(['user_id'=>$id])
-                    ->where(['terminal'=>1])
+                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA])
                     ->findOrEmpty()
                     ->isEmpty();
             }])
@@ -81,6 +83,7 @@ class UserService extends Service
      * @param array $post
      * @param int $userId
      * @throws OperateException
+     * @author zero
      */
     public static function edit(array $post, int $userId)
     {

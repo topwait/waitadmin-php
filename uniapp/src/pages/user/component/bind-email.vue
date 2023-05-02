@@ -85,10 +85,12 @@ const onBindEmail = async () => {
     if (checkUtil.isEmpty(form.value.code)) {
         return uni.$u.toast('请输入验证码')
     }
-    
+
     try {
         await bindEmailApi(form.value)
-    } catch (e) { return }
+    } catch (e) {
+        return
+    }
 
     emit('close')
     setTimeout(() => {

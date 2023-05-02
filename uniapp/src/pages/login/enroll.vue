@@ -1,5 +1,4 @@
 <template>
-
     <view class="layout-login-widget">
         <view class="logo">
             <image lazy-load="true" class="w-h-full rounded-c50" :src="loginLogo" />
@@ -50,8 +49,8 @@
 
             <!-- 注册重置 -->
             <view v-if="loginWays === 'account'" class="flex justify-between mt-30">
-                <view class="text-sm color-muted" @click="$go('/pages/login/regist')">注册账号</view>
-                <view class="text-sm color-muted" @click="$go('/pages/login/forget')">忘记密码?</view>
+                <view class="font-sm color-muted" @click="$go('/pages/login/regist')">注册账号</view>
+                <view class="font-sm color-muted" @click="$go('/pages/login/forget')">忘记密码?</view>
             </view>
 
             <!-- 登录按钮 -->
@@ -85,9 +84,9 @@
         </view>
 
         <u-popup v-model="showPopup" mode="bottom" border-radius="20">
-            <view class="py-30 text-center text-bm font-bold">绑定手机</view>
-            <view class="text-center text-xs color-muted">您需绑定手机号完成登录操作</view>
-            <view class="px-20 pt-20 pb-50 flex items-center" style="height: 100%; box-sizing: border-box;">
+            <view class="py-30 text-align-center font-bm font-weight-bold">绑定手机</view>
+            <view class="text-align-center font-xs color-muted">您需绑定手机号完成登录操作</view>
+            <view class="flex items-center px-20 pt-20 pb-50" style="height: 100%; box-sizing: border-box;">
                 <u-form ref="uForm" :model="phoneForm" style="width: 100%;">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                         <u-input v-model="phoneForm.mobile" type="number" placeholder="请输入手机号" />
@@ -112,7 +111,6 @@
             </view>
         </u-popup>
     </view>
-
 </template>
 
 <script setup>
@@ -135,9 +133,6 @@ import wechatOa from '@/utils/wechat'
 const appStore = useAppStore()
 const userStore = useUserStore()
 const isWeixin = clientUtil.isWeixin()
-
-// 按钮加载
-const loadButton = ref(false)
 
 // 授权枚举
 const LoginAuthEnum = {

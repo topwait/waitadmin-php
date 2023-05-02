@@ -36,30 +36,30 @@ class DiyService extends Service
     {
         // 此处只是临时使用的数据,以后可接入diy功能
         return [
-            'bgHead' => UrlUtils::toAbsoluteUrl('/static/common/init/bgHead.png'),
+            'bgHead' => UrlUtils::toAbsoluteUrl('/static/common/images/init/bgHead.png'),
             'banner' => [
-                ['image' => UrlUtils::toAbsoluteUrl('/static/common/init/banner01.jpg')],
-                ['image' => UrlUtils::toAbsoluteUrl('/static/common/init/banner02.jpg')],
+                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner01.jpg')],
+                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner02.jpg')],
             ],
             'nav' => [
                 [
                     'name'  =>'资讯中心',
-                    'image' => UrlUtils::toAbsoluteUrl('/static/common/init/ic_article.png'),
+                    'image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/ic_article.png'),
                     'link'  => '/pages/article/list'
                 ],
                 [
                     'name'  =>'个人设置',
-                    'image' => UrlUtils::toAbsoluteUrl('/static/common/init/ic_user.png'),
+                    'image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/ic_user.png'),
                     'link'  => '/pages/user/intro'
                 ],
                 [
                     'name'  => '联系我们',
-                    'image' => UrlUtils::toAbsoluteUrl('/static/common/init/ic_contact.png'),
+                    'image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/ic_contact.png'),
                     'link'  => '/pages/other/customer'
                 ],
                 [
                     'name'  => '关于我们',
-                    'image' => UrlUtils::toAbsoluteUrl('/static/common/init/ic_about.png'),
+                    'image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/ic_about.png'),
                     'link'  => '/pages/other/about'
                 ]
             ]

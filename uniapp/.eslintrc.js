@@ -31,7 +31,7 @@ module.exports = {
         'no-debugger': 'warn',
         'no-lone-blocks': 'warn',
         'no-extra-parens': 'warn',
-        'no-multi-spaces': 'warn',
+        'no-multi-spaces': 'off',
         'no-duplicate-case': 'warn',
         'no-empty-function': 'warn',
         'no-redeclare': 'warn',

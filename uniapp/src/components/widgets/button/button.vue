@@ -5,7 +5,7 @@
                 class="button"
                 :class="[bgColor?bgColor:'', load?'load':'']"
                 @tap="$u.debounce(onClick, 200)"
-            >   
+            >
                 <u-loading mode="flower" :show="loading" /> <slot></slot>
             </button>
         </view>

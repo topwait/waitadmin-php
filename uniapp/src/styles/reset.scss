@@ -8,10 +8,10 @@ page button {
     padding: 0;
     font-size: 28rpx;
     font-weight: normal;
+    border: none;
     border-radius: 0;
     text-align: left;
-    line-height: normal;
     background-color: unset;
-    border: none;
+    line-height: normal;
     &::after { border: none; }
 }

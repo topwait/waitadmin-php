@@ -64,7 +64,9 @@ const onPwdEdit = async () => {
 
     try {
         await changePwdApi(form.value)
-    } catch (e) { return }
+    } catch (e) {
+        return
+    }
 
     emit('close')
     setTimeout(() => {

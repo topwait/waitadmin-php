@@ -3,20 +3,29 @@ import clientUtil from '@/utils/clientUtil'
 import { oaCodeUrlApi, loginApi } from '@/api/loginApi'
 
 const wechatOa = {
-    getSignLink() {
+    /**
+     * 签名授权链接
+     */
+    signLink() {
         if (typeof window.signLink === 'undefined' || window.signLink === '') {
             window.signLink = location.href.split('#')[0]
         }
         return clientUtil.isAndroid() ? location.href.split('#')[0] : window.signLink
     },
+    /**
+     * 公众号授权链接
+     */
     authUrl() {
         oaCodeUrlApi().then((res) => {
-            location.href = res.data.url
+            location.href = res.url
         })
     },
+    /**
+     * 公众号授权登录
+     */
     authLogin(code) {
         return new Promise((resolve, reject) => {
-            loginApi({scene: 'oa', code}).then((res) => {
+            loginApi({ scene: 'oa', code }).then((res) => {
                 resolve(res)
             }).catch((err) => {
                 reject(err)

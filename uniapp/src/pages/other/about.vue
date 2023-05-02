@@ -1,21 +1,17 @@
 <template>
     <view class="layout-about-widget">
         <view class="icon">
-            <u-icon name="star-fill" size="100" color="#fff"></u-icon>
+            <u-icon name="star-fill" size="100" color="#fff" />
         </view>
         <view class="version">v1.3.0</view>
     </view>
 </template>
 
-<script lang="scss">
-
-</script>
-
 <style lang="scss">
 .layout-about-widget {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
     padding-top: 200rpx;
     .icon {
         display: flex;
@@ -27,10 +23,10 @@
         background-color: #2979ff;
     }
     .version {
+        padding-top: 20rpx;
         font-size: 30rpx;
         font-weight: 500;
         color: #333333;
-        padding-top: 20rpx
     }
 }
 </style>

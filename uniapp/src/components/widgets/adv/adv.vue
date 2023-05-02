@@ -1,7 +1,7 @@
 <template>
     <view class="layout-adv-widget">
-        <u-swiper 
-            :list="advList" 
+        <u-swiper
+            :list="advList"
             :height="200"
             :title="false"
             :border-radius="14"
@@ -34,7 +34,7 @@ const advList = computed(() => {
             title = item.text
         }
         data.push({
-            title: title, 
+            title: title,
             image: item.image,
             link: item.link
         })

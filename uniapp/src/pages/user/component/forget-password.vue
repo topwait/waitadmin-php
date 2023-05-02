@@ -100,7 +100,9 @@ const onPwdEdit = async () => {
 
     try {
         await forgetPwdApi(form.value)
-    } catch (e) { return }
+    } catch (e) {
+        return
+    }
 
     emit('close')
     setTimeout(() => {

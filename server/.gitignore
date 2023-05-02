@@ -5,6 +5,4 @@
 /.idea
 /.vscode
 /public/locals/
-/public/temporary/
-/public/storage/
 /public/nginx.htaccess

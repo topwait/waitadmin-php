@@ -34,6 +34,7 @@ class ArticleService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @author zero
      */
     public static function category(): array
     {
@@ -54,6 +55,7 @@ class ArticleService extends Service
      * @param array $get
      * @return array
      * @throws DbException
+     * @author zero
      */
     public static function lists(array $get): array
     {
