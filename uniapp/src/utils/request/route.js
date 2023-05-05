@@ -41,7 +41,7 @@ export default {
                     })
 
                     // 登录页面拦截
-                    if (currentRoute?.auth && !cacheUtil.get(cacheEnum.TOKEN_KEY)) {
+                    if (currentRoute.auth && !cacheUtil.get(cacheEnum.TOKEN_KEY)) {
                         uni.navigateTo({
                             url: '/pages/login/enroll'
                         })
