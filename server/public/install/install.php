@@ -122,7 +122,7 @@ if ($step == 5) {
         $config = file_get_contents($appConfig);
 
         $re = [];
-        preg_match_all("/'{$key}'.*?=>.*?'(.*?)'/", $config, $re);
+        preg_match_all("/'$key'.*?=>.*?'(.*?)'/", $config, $re);
         $adminName = trim($re[1][0], '/');
     }
 }

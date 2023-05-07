@@ -18,6 +18,36 @@ function goLoad() {
  */
 function goBack() {
     window.history.go(-1);
+    let step = getUrlParam('step') || 4;
+    setUrlParam(location.href, 'step', step - 1)
+}
+
+/**
+ * URL参数调整
+ */
+function setUrlParam(url, key, val) {
+    let pattern = key + '=([^&]*)';
+    let replaceText = key + '=' + val;
+    if(url.match(pattern)){
+        let tmp = '/('+ key+'=)([^&]*)/gi';
+        return url.replace(eval(tmp),replaceText);
+    }else{
+        return url.match('[\?]') ? (url + '&'+ replaceText) : (url+'?' + replaceText);
+    }
+}
+
+/**
+ * URL参数获取
+ */
+function getUrlParam(key) {
+    let reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)', 'i');
+    let r = window.location.search.substr(1).match(reg);
+    let context = '';
+    if (r != null)
+        context = decodeURIComponent(r[2]);
+    reg = null;
+    r = null;
+    return context == null || context === '' || context === 'undefined' ? '' : context;
 }
 
 /**
