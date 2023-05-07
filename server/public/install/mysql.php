@@ -15,14 +15,14 @@
 class Mysql
 {
     private PDO|string $pdo;
-    private $db;
-    private $host;
-    private $port;
-    private $username;
-    private $password;
-    private $prefix;
+    private mixed $db;
+    private mixed $host;
+    private mixed $port;
+    private mixed $username;
+    private mixed $password;
+    private mixed $prefix;
     private string $encoding;
-    private $clear;
+    private mixed $clear;
     private array $successTable;
     private array $post;
 
@@ -55,11 +55,11 @@ class Mysql
     public function connect(): PDO|string
     {
         try {
-            $dsn = "mysql:host={$this->host}; port={$this->port}";
+            $dsn = "mysql:host=$this->host; port=$this->port";
             $db = new PDO($dsn, $this->username, $this->password);
             $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $db->exec("SET NAMES {$this->encoding}");
+            $db->exec("SET NAMES $this->encoding");
             try{
                 $db->exec("SET GLOBAL sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
             }catch (Exception){}
@@ -90,7 +90,7 @@ class Mysql
      */
     public function dbExists(): mixed
     {
-        $sql = "SHOW DATABASES like '{$this->db}'";
+        $sql = "SHOW DATABASES like '$this->db'";
         return $this->pdo->query($sql)->fetch();
     }
 
@@ -102,7 +102,7 @@ class Mysql
      */
     public function tableExits(): mixed
     {
-        $sql = "SHOW TABLES FROM {$this->db}";
+        $sql = "SHOW TABLES FROM $this->db";
         return $this->pdo->query($sql)->fetch();
     }
 
@@ -114,7 +114,7 @@ class Mysql
      */
     public function dropTable(): bool|PDOStatement
     {
-        $sql = "drop database {$this->db};";
+        $sql = "drop database $this->db;";
         return $this->pdo->query($sql);
     }
 
@@ -127,7 +127,7 @@ class Mysql
      */
     public function createDB($version): bool|PDOStatement
     {
-        $sql = "CREATE DATABASE `{$this->db}`";
+        $sql = "CREATE DATABASE `$this->db`";
         if ($version > 4.1) $sql .= " DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci";
         return $this->pdo->query($sql);
     }
@@ -148,6 +148,8 @@ class Mysql
         $tables = explode(";\n", $tables);
         array_push($tables, $this->initAccount());
 
+        $this->pdo->exec('USE ' . $this->db);
+
         // 插入数据
         $millisecond = microtime(true) * 10000;
         foreach ($tables as $table) {
@@ -164,7 +166,6 @@ class Mysql
             if (str_starts_with($table, '--')) continue;
 
             // 替换前缀
-            $table = str_replace('`wait_', $this->db . '.`wait_', $table);
             $table = str_replace('`wait_', '`' . $this->prefix, $table);
 
             // 创建表格

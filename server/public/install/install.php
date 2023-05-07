@@ -95,17 +95,19 @@ if ($step == 4) {
                     $step = 3;
                 }
 
-                // 生成配置文件
-                $util->makeEnv($post);
+                if (!is_string($successTables)) {
+                    // 生成配置文件
+                    $util->makeEnv($post);
 
-                // 生成锁定文件
-                $util->makeLock();
+                    // 生成锁定文件
+                    $util->makeLock();
 
-                // 左侧菜单生成
-                if ($post['layout'] == 'tree') {
-                    $util->makeTreeTpl();
-                } else {
-                    $util->makeCallTpl();
+                    // 左侧菜单生成
+                    if ($post['layout'] == 'tree') {
+                        $util->makeTreeTpl();
+                    } else {
+                        $util->makeCallTpl();
+                    }
                 }
             }
         }
@@ -122,7 +124,7 @@ if ($step == 5) {
         $config = file_get_contents($appConfig);
 
         $re = [];
-        preg_match_all("/'{$key}'.*?=>.*?'(.*?)'/", $config, $re);
+        preg_match_all("/'$key'.*?=>.*?'(.*?)'/", $config, $re);
         $adminName = trim($re[1][0], '/');
     }
 }

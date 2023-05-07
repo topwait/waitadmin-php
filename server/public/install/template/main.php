@@ -12,9 +12,8 @@
     <?php $step = $step??1; $errMsg=$errMsg??''; $proof=new Proof(); $successTables=$successTables??[]?>
     <?php if ($errMsg): ?>
         <script>
-            alert("<?php echo $errMsg ?>", function () {
-                goBack();
-            });
+           alert("<?php echo $errMsg ?>");
+           goBack();
         </script>
     <?php endif; ?>
 </head>
@@ -361,6 +360,14 @@
         layui.use(['form'], function () {
             let $ = layui.$;
             let form = layui.form;
+
+            window.onpageshow = function (e) {
+                if (e.persisted) {
+                    let $elem = $('.footer .layui-btn.layui-btn-normal');
+                    $elem.removeClass('layui-btn-forbid');
+                    $elem.find('i').remove();
+                }
+            }
 
             form.on('submit(addForm)', function(data) {
                 if (data.field['admin_user'].length < 2 || data.field['admin_user'].length > 20) {
