@@ -482,9 +482,6 @@ CREATE TABLE `wait_user_group`  (
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ----------------------------
--- Install
--- ----------------------------
 INSERT INTO `wait_article_category` VALUES (1, '行业资讯', 0, 0, 0, 1676559290, 1679048617, 0);
 INSERT INTO `wait_article_category` VALUES (2, '技术分享', 0, 0, 0, 1676559361, 1679048627, 0);
 
