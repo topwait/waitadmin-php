@@ -28,9 +28,9 @@
                 </div>
             </script>
             <script type="text/html" id="table-status">
-                {{#  if(d.status === 1){ }}<span class="text-success"><i class="layui-icon layui-icon-circle-dot"></i> 运行中</span>{{#  } }}
-                {{#  if(d.status === 2){ }}<span class="text-warning"><i class="layui-icon layui-icon-circle-dot"></i> 已停止</span>{{#  } }}
-                {{#  if(d.status === 3){ }}<span class="text-warning"><i class="layui-icon layui-icon-circle-dot"></i> 异常</span>{{#  } }}
+                {{#  if(d.status === 1){ }}<span class="color-success"><i class="layui-icon layui-icon-circle-dot"></i> 运行中</span>{{#  } }}
+                {{#  if(d.status === 2){ }}<span class="color-warning"><i class="layui-icon layui-icon-circle-dot"></i> 已停止</span>{{#  } }}
+                {{#  if(d.status === 3){ }}<span class="color-warning"><i class="layui-icon layui-icon-circle-dot"></i> 异常</span>{{#  } }}
             </script>
             <script type="text/html" id="table-operate">
                 {{#  if(d.status === 1){ }}
