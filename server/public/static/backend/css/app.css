@@ -97,7 +97,7 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 /** 缩略样式 **/
 .thumbnail { display: flex; }
 .thumbnail .musters { display: flex; }
-.thumbnail .builder { position: relative; display: flex; align-items: center; flex-direction: column; justify-content: center; margin-right: 15px; width: 90px; height: 90px; border: 1px dashed #e2e2e2; background: #fafafa; }
+.thumbnail .builder { position: relative; display: flex; align-items: center; flex-direction: column; justify-content: center; margin-right: 15px; width: 90px; height: 90px; border-radius: 3px; border: 1px dashed #e2e2e2; background: #fafafa; }
 .thumbnail .builder i { font-size: 40px; color: #5a5858; }
 .thumbnail .builder p { padding-top: 8px; font-size: 12px; color: #5a5858; }
 .thumbnail .builder:hover .mask { visibility: visible; }
@@ -106,8 +106,8 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .thumbnail .builder .mask .item:hover { font-weight: bold; background-color: rgba(0, 0, 0, 1); }
 .thumbnail .builder .mask .item:first-child { border-bottom: 1px #ffffff dashed; }
 .thumbnail .preview { position: relative; display: flex; justify-content: center; width: 90px; height: 90px; margin-right: 10px; border: 1px dashed #e2e2e2; background: #fafafa; }
-.thumbnail .preview img { max-width: 100%; max-height: 100%; }
-.thumbnail .preview video { max-width: 100%; max-height: 100%; }
+.thumbnail .preview img { max-width: 100%; max-height: 100%; border-radius: 3px; }
+.thumbnail .preview video { max-width: 100%; max-height: 100%; border-radius: 3px; }
 .thumbnail .preview:hover i { visibility: visible; }
 .thumbnail .preview i:hover { background: #000000; }
 .thumbnail .preview i { position: absolute; top: -8px; right: -8px; z-index: 100; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; font-size: 12px; border-radius: 50%; color: #ffffff; background: hsl(0, 0%, 60%); visibility: hidden; cursor: pointer; }
