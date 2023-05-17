@@ -68,14 +68,12 @@
 {/if}
 {/volist}
             <script type="text/html" id="table-operate">
-                {{#  if(d.id !== 1){ }}
                 <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit">
                     <i class="layui-icon icon-edit"></i>
                 </button>
                 <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
                     <i class="layui-icon icon-del"></i>
                 </button>
-                {{#  } }}
             </script>
         </div>
     </div>
