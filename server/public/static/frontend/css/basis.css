@@ -28,21 +28,11 @@ i, em { font-style: normal; }
 .wait-body-footer a:hover { opacity: 0.8; }
 .wait-body-footer a.layui-layer-btn0 { cursor: pointer; border-color: #3a67e4; color: #ffffff; background-color: #3a67e4; }
 .wait-body-footer a.layui-layer-btn1 { cursor: pointer; }
-.layui-layer-black .layui-layer-title { height: 45px; border-bottom: none; color: #ffffff; background: #2c3e50; line-height: 45px; }
-.layui-layer-black .layui-layer-title ~ .layui-layer-setwin { top: 0; height: 45px; }
-.layui-layer-black .layui-layer-title ~ .layui-layer-setwin > a { display: inline-block; height: 45px; line-height: 45px; }
-.layui-layer-black .layui-layer-setwin { position: absolute; top: 17px; right: 15px; *right: 0; font-size: 0; line-height: initial; }
-.layui-layer-black .layui-layer-setwin > a { background: none; }
-.layui-layer-black .layui-layer-setwin > a cite { display: none; }
-.layui-layer-black .layui-layer-setwin a { position: relative; overflow: hidden; margin-left: 10px; width: 16px; height: 16px; font-size: 12px; }
-.layui-layer-black .layui-layer-btn a,
-.layui-layer-black .layui-layer-dialog .layui-layer-ico,
-.layui-layer-black .layui-layer-setwin a { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
-.layui-layer-black .layui-layer-setwin .layui-layer-close1 { cursor: pointer; background-position: 1px -40px; }
-.layui-layer-black .layui-layer-setwin .layui-layer-close1::before { content: "\e838"; }
-.layui-layer-black .layui-layer-setwin .layui-layer-max::before { content: "\e839"; }
-.layui-layer-black .layui-layer-setwin .layui-layer-min::before { content: "\e840"; }
-.layui-layer-black .layui-layer-setwin > a::before { font-size: 14px; font-family: layui-icon, serif; color: #ffffff; }
+.layer-skin-black .layui-layer-title { border-bottom: none; color: #ffffff; background: #2c3e50; }
+.layer-skin-black .layui-layer-setwin span { color: #ffffff; }
+.layer-skin-black .layui-layer-setwin .layui-layer-max:after { border-color: #ffffff; }
+.layer-skin-black .layui-layer-setwin .layui-layer-max:before { border-color: #ffffff; }
+.layer-skin-black .layui-layer-setwin .layui-layer-min::before { background-color: #ffffff; }
 
 /** 表格样式 **/
 .layui-table-view .layui-table-fixed { z-index: 999; }

@@ -67,21 +67,11 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .wait-body-footer a { margin: 5px 5px 0; padding: 7px 15px; height: 28px; border: 1px solid #dedede; border-radius: 2px; color: #333333; background-color: #ffffff; line-height: 28px; }
 .wait-body-footer a:hover { opacity: 0.8; }
 .wait-body-footer a.layui-layer-btn0 { border-color: #2c3e50; color: #ffffff; background-color: #2c3e50; }
-.layer-skin-black .layui-layer-title { height: 45px; border-bottom: none; color: #ffffff; background: #2c3e50; line-height: 45px; }
-.layer-skin-black .layui-layer-title ~ .layui-layer-setwin { top: 0; height: 45px; }
-.layer-skin-black .layui-layer-title ~ .layui-layer-setwin > a { display: inline-block; height: 45px; line-height: 45px; }
-.layer-skin-black .layui-layer-setwin { position: absolute; top: 17px; right: 15px; *right: 0; font-size: 0; line-height: initial; }
-.layer-skin-black .layui-layer-setwin > a { background: none; }
-.layer-skin-black .layui-layer-setwin > a cite { display: none; }
-.layer-skin-black .layui-layer-setwin a { position: relative; overflow: hidden; margin-left: 10px; width: 16px; height: 16px; font-size: 12px; }
-.layer-skin-black .layui-layer-btn a,
-.layer-skin-black .layui-layer-dialog .layui-layer-ico,
-.layer-skin-black .layui-layer-setwin a { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
-.layer-skin-black .layui-layer-setwin .layui-layer-close1 { cursor: pointer; background-position: 1px -40px; }
-.layer-skin-black .layui-layer-setwin .layui-layer-close1::before { content: "\e8380"; }
-.layer-skin-black .layui-layer-setwin .layui-layer-max::before { content: "\e8390"; }
-.layer-skin-black .layui-layer-setwin .layui-layer-min::before { content: "\e8400"; }
-.layer-skin-black .layui-layer-setwin > a::before { font-size: 14px; font-family: layui-icon, serif; color: #ffffff; }
+.layer-skin-black .layui-layer-title { border-bottom: none; color: #ffffff; background: #2c3e50; }
+.layer-skin-black .layui-layer-setwin span { color: #ffffff; }
+.layer-skin-black .layui-layer-setwin .layui-layer-max:after { border-color: #ffffff; }
+.layer-skin-black .layui-layer-setwin .layui-layer-max:before { border-color: #ffffff; }
+.layer-skin-black .layui-layer-setwin .layui-layer-min::before { background-color: #ffffff; }
 
 /** 按钮样式 **/
 .layui-btn-gloomy { background-color: #444c69; }
@@ -105,8 +95,8 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .layui-btn-drop.layui-btn-warm .toggle.active { background-color: #ff8400; }
 
 /** 缩略样式 **/
-.thumbnail .multi-upload-attach { display: flex; }
-.thumbnail .multi-upload-attach .preview { margin-right: 15px; }
+.thumbnail { display: flex; }
+.thumbnail .musters { display: flex; }
 .thumbnail .builder { position: relative; display: flex; align-items: center; flex-direction: column; justify-content: center; margin-right: 15px; width: 90px; height: 90px; border: 1px dashed #e2e2e2; background: #fafafa; }
 .thumbnail .builder i { font-size: 40px; color: #5a5858; }
 .thumbnail .builder p { padding-top: 8px; font-size: 12px; color: #5a5858; }
@@ -115,7 +105,7 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .thumbnail .builder .mask .item { display: flex; align-items: center; justify-content: center; width: 100%; height: 50%; color: #ffffff; box-sizing: border-box; }
 .thumbnail .builder .mask .item:hover { font-weight: bold; background-color: rgba(0, 0, 0, 1); }
 .thumbnail .builder .mask .item:first-child { border-bottom: 1px #ffffff dashed; }
-.thumbnail .preview { position: relative; display: flex; justify-content: center; width: 90px; height: 90px; border: 1px dashed #e2e2e2; background: #fafafa; }
+.thumbnail .preview { position: relative; display: flex; justify-content: center; width: 90px; height: 90px; margin-right: 10px; border: 1px dashed #e2e2e2; background: #fafafa; }
 .thumbnail .preview img { max-width: 100%; max-height: 100%; }
 .thumbnail .preview video { max-width: 100%; max-height: 100%; }
 .thumbnail .preview:hover i { visibility: visible; }

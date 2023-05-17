@@ -42,16 +42,26 @@
 {block name="js"}
 <script>
     layui.use(['treeTable'], function () {
+        let treeTable = layui.treeTable;
+
         // 渲染表格
-        let treeTable = layui.treeTable.render({
-            treeColIndex: 1
-            ,treePid: 0
-            ,treeIdName: 'id'
-            ,treePidName: 'pid'
-            ,treeDefaultClose: true
-            ,treeLinkage: true
-            ,treeDirIcon: false
-            ,treeExpand: false
+        let table = layui.treeTable.render({
+            tree: {
+                customName: {
+                    children: 'children'
+                    ,name: 'name'
+                    ,pid: 'pid'
+                    ,id: 'id'
+                }
+                ,view: {
+                    showIcon: false
+                    ,showFlexIconIfNotParent: false
+                }
+                ,data: {
+                    rootPid: 0
+                    ,isSimpleData: true
+                }
+            }
             ,id: 'wait-table-list'
             ,elem: '#wait-table-list'
             ,url: '{:route("auth.menu/index")}'
@@ -85,7 +95,7 @@
                             }).then((res) => {
                                 waitUtil.unlock(this);
                                 if (res.code === 0) {
-                                    treeTable.reload();
+                                    table.reload();
                                     layer.close(index);
                                 }
                             });
@@ -109,7 +119,7 @@
                             }).then((res) => {
                                 waitUtil.unlock(this);
                                 if (res.code === 0) {
-                                    treeTable.reload({page: {curr: 1}});
+                                    table.reload({page: {curr: 1}});
                                     layer.close(index);
                                 }
                             });
@@ -126,17 +136,17 @@
                         data: {id: obj.data.id}
                     }).then((res) => {
                         if (res.code === 0) {
-                            treeTable.reload();
+                            table.reload();
                             layer.msg(res.msg, {icon: 1, time: 1000});
                         }
                     });
                 });
             },
             expand: function () {
-                treeTable.expandAll();
+                treeTable.expandAll('wait-table-list', true)
             },
             collapse: function () {
-                treeTable.foldAll();
+                treeTable.expandAll('wait-table-list', false)
             }
         });
     });
