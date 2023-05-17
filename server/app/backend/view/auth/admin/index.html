@@ -59,9 +59,9 @@
             </script>
             <script type="text/html" id="table-disable">
                 {{#  if(d.is_disable === 0){ }}
-                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                    <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
                 {{# } else { }}
-                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                    <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-operate">
@@ -135,6 +135,8 @@
                                     table.reload({page: {curr: 1}});
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
@@ -159,6 +161,8 @@
                                     table.reload();
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }

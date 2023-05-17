@@ -18,9 +18,9 @@
             </script>
             <script type="text/html" id="table-disable">
                 {{#  if(d.is_disable === 0){ }}
-                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                    <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
                 {{# } else { }}
-                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="停用"></i></span>
+                    <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="停用"></i></span>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-operate">
@@ -39,16 +39,26 @@
 {block name="js"}
 <script>
     layui.use(['treeTable'], function () {
+        let treeTable = layui.treeTable;
+
         // 渲染表格
-        let treeTable = layui.treeTable.render({
-            treeColIndex: 1
-            ,treePid: 0
-            ,treeIdName: 'id'
-            ,treePidName: 'pid'
-            ,treeDefaultClose: true
-            ,treeLinkage: true
-            ,treeDirIcon: false
-            ,treeExpand: true
+        let table = layui.treeTable.render({
+            tree: {
+                customName: {
+                    children: 'children'
+                    ,name: 'title'
+                    ,pid: 'pid'
+                    ,id: 'id'
+                }
+                ,view: {
+                    showIcon: false
+                    ,showFlexIconIfNotParent: false
+                }
+                ,data: {
+                    rootPid: 0
+                    ,isSimpleData: true
+                }
+            }
             ,id: 'wait-table-list'
             ,elem: '#wait-table-list'
             ,url: '{:route("auth.dept/index")}'
@@ -83,9 +93,11 @@
                             }).then((res) => {
                                 waitUtil.unlock(this);
                                 if (res.code === 0) {
-                                    treeTable.reload();
+                                    table.reload();
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
@@ -107,9 +119,11 @@
                             }).then((res) => {
                                 waitUtil.unlock(this);
                                 if (res.code === 0) {
-                                    treeTable.reload();
+                                    table.reload();
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
@@ -124,16 +138,16 @@
                         data: {id: obj.data.id}
                     }).then((res) => {
                         if (res.code === 0) {
-                            treeTable.reload();
+                            table.reload();
                         }
                     });
                 });
             },
             expand: function () {
-                treeTable.expandAll();
+                treeTable.expandAll('wait-table-list', true)
             },
             collapse: function () {
-                treeTable.foldAll();
+                treeTable.expandAll('wait-table-list', false)
             }
         });
     });

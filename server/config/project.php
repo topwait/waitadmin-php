@@ -5,7 +5,7 @@
 
 return [
     // 版本号
-    'version'       => '1.1.4',
+    'version'       => '1.1.5',
 
     // 上传器
     'uploader' => [
@@ -14,5 +14,4 @@ return [
         'package'  => ['size'=>31457280, 'ext'=>['zip','rar','iso','7z','tar','gz','arj','bz2']],
         'document' => ['size'=>31457280, 'ext'=>['txt','doc','docx','xls','xlsx','ppt','pptx','pdf','pem']]
     ]
-
 ];

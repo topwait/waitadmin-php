@@ -17,9 +17,9 @@
             </script>
             <script type="text/html" id="table-disable">
                 {{#  if(d.is_disable === 0){ }}
-                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                    <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
                 {{# } else { }}
-                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                    <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-operate">
@@ -38,8 +38,10 @@
 {block name="js"}
 <script>
     layui.use(['treeTable'], function () {
+        let treeTable = layui.treeTable;
+
         // 渲染表格
-        let treeTable = layui.treeTable.render({
+        let table = layui.treeTable.render({
             treeColIndex: 1
             ,treePid: 0
             ,treeIdName: 'id'
@@ -81,7 +83,7 @@
                             }).then((res) => {
                                 waitUtil.unlock(this);
                                 if (res.code === 0) {
-                                    treeTable.reload();
+                                    table.reload();
                                     layer.close(index);
                                 }
                             });
@@ -105,7 +107,7 @@
                             }).then((res) => {
                                 waitUtil.unlock(this);
                                 if (res.code === 0) {
-                                    treeTable.reload({page: {curr: 1}});
+                                    table.reload({page: {curr: 1}});
                                     layer.close(index);
                                 }
                             });
@@ -122,17 +124,17 @@
                         data: {id: obj.data.id}
                     }).then((res) => {
                         if (res.code === 0) {
-                            treeTable.reload();
+                            table.reload();
                             layer.msg(res.msg, {icon: 1, time: 1000});
                         }
                     });
                 });
             },
             expand: function () {
-                treeTable.expandAll();
+                treeTable.expandAll('wait-table-list', true)
             },
             collapse: function () {
-                treeTable.foldAll();
+                treeTable.expandAll('wait-table-list', true)
             }
         });
     });

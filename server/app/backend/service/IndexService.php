@@ -98,6 +98,9 @@ class IndexService extends Service
             ->select()
             ->toArray();
 
+        // 系统版本
+        $detail['version'] = config('project.version');
+
         return $detail;
     }
 }

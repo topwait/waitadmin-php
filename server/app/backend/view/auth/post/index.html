@@ -48,9 +48,9 @@
             </script>
             <script type="text/html" id="table-disable">
                 {{#  if(d.is_disable === 0){ }}
-                    <span class="text-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+                    <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
                 {{# } else { }}
-                    <span class="text-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="停用"></i></span>
+                    <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="停用"></i></span>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-operate">
@@ -105,6 +105,8 @@
                                     table.reload('wait-table-list', {page: {curr: 1}});
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
@@ -129,6 +131,8 @@
                                     table.reload('wait-table-list');
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
@@ -145,6 +149,8 @@
                         if (res.code === 0) {
                             table.reload('wait-table-list');
                         }
+                    }).catch(() => {
+                        waitUtil.unlock(this);
                     });
                 });
             }

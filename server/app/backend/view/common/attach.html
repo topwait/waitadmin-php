@@ -37,8 +37,8 @@
     .file-container .attach .subject ul::after { display: block; clear: both; visibility: hidden; content: ""; }
     .file-container .attach .subject ul li { position: relative; float: left; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, .05); border-radius: 6px; transition: all 0.2s ease-in-out; }
     .file-container .attach .subject ul li:hover { border: 1px solid #cccccc; }
-    .file-container .attach .subject ul li img { width: 98px; height: 98px; }
-    .file-container .attach .subject ul li video { width: 98px; height: 98px; }
+    .file-container .attach .subject ul li img { width: 98px; height: 98px; border-radius: 3px; }
+    .file-container .attach .subject ul li video { width: 98px; height: 98px; border-radius: 3px; }
     .file-container .attach .subject ul li p { overflow: hidden; margin: 5px 0 0; width: 98px; font-size: 13px; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
     .file-container .attach .subject ul li::after { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: none; font-size: 26px; font-family: layui-icon, serif; font-weight: bold; border-radius: 4px; text-align: center; color: #ffffff; background: rgba(0, 0, 0, .5); content: "\e605"; line-height: 125px; }
     .file-container .attach .subject ul li.active::after { display: block; }
@@ -50,9 +50,9 @@
     .file-container .select .header span:first-child { font-size: 14px; color: #666666; }
     .file-container .select .header span:last-child { color: #ea5455; }
     .file-container .select ul { display: flex; align-items: center; flex-direction: column; }
-    .file-container .select ul li { position: relative; margin-bottom: 10px; width: 90px; height: 90px; border: 1px solid #f2f2f2; }
-    .file-container .select ul li img { width: 100%; height: 100%; }
-    .file-container .select ul li video { width: 100%; height: 100%; }
+    .file-container .select ul li { position: relative; margin-bottom: 10px; width: 90px; height: 90px; border-radius: 3px; border: 1px solid #f2f2f2; }
+    .file-container .select ul li img { width: 100%; height: 100%; border-radius: 3px; }
+    .file-container .select ul li video { width: 100%; height: 100%; border-radius: 3px; }
     .file-container .select ul li:hover i { visibility: visible; }
     .file-container .select ul li i { position: absolute; top: -10px; right: -6px; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; font-size: 12px; border-radius: 50%; color: #ffffff; background: hsla(0, 0%, 60%, .6); visibility: hidden; cursor: pointer; }
 
@@ -156,9 +156,9 @@
             <span>已选择 {{ d.data.length }}/{{ d.limit }}</span>
             <span class="clean">清空</span>
         </div>
-        <ul>
+        <ul id="serviceDrag">
             {{# layui.each(d.data, function(index, item){ }}
-            <li data-id="{{ item.id }}" title="{{ item.text }}">
+            <li title="{{ item.text }}" data-id="{{ item.id }}" data-url="{{ item.url }}">
                 {if $type==10}
                     <img src="{{ item.url }}" alt="img">
                 {else}
@@ -170,6 +170,7 @@
         </ul>
     </script>
 {/block}
+
 
 {block name="js"}
 <script>
@@ -251,6 +252,11 @@
                 laytpl(getTpl).render(obj, function(html){
                     view.innerHTML = html;
                 });
+
+                setTimeout(function () {
+                    let elService = document.getElementById('serviceDrag');
+                    Sortable.create(elService, {animation: 150, ghostClass: 'blue-background-class'});
+                }, 10)
             }
         });
 
@@ -506,7 +512,15 @@
     });
 
     function getUrlArr() {
-        return urlArr;
+        let urls = [];
+        layui.$('#serviceDrag li').each(function () {
+            let id   = layui.$(this).attr('data-id');
+            let url  = layui.$(this).attr('data-url');
+            let text = layui.$(this).attr('data-text');
+            urls.push({id: id, text: text, url: url});
+        });
+
+        return urls;
     }
 </script>
 {/block}
