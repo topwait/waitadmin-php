@@ -98,6 +98,8 @@
                                     table.reload();
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
@@ -122,6 +124,8 @@
                                     table.reload({page: {curr: 1}});
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
