@@ -156,9 +156,9 @@
             <span>已选择 {{ d.data.length }}/{{ d.limit }}</span>
             <span class="clean">清空</span>
         </div>
-        <ul>
+        <ul id="serviceDrag">
             {{# layui.each(d.data, function(index, item){ }}
-            <li data-id="{{ item.id }}" title="{{ item.text }}">
+            <li title="{{ item.text }}" data-id="{{ item.id }}" data-url="{{ item.url }}">
                 {if $type==10}
                     <img src="{{ item.url }}" alt="img">
                 {else}
@@ -171,7 +171,9 @@
     </script>
 {/block}
 
+
 {block name="js"}
+<script src="__BACKEND__/js/sortable.min.js"></script>
 <script>
     let limit   = parseInt('{$limit}');
     let urlArr  = [];
@@ -251,6 +253,11 @@
                 laytpl(getTpl).render(obj, function(html){
                     view.innerHTML = html;
                 });
+
+                setTimeout(function () {
+                    let elService = document.getElementById('serviceDrag');
+                    Sortable.create(elService, {animation: 150, ghostClass: 'blue-background-class'});
+                }, 10)
             }
         });
 
@@ -506,7 +513,15 @@
     });
 
     function getUrlArr() {
-        return urlArr;
+        let urls = [];
+        layui.$('#serviceDrag li').each(function () {
+            let id   = layui.$(this).attr('data-id');
+            let url  = layui.$(this).attr('data-url');
+            let text = layui.$(this).attr('data-text');
+            urls.push({id: id, text: text, url: url});
+        });
+
+        return urls;
     }
 </script>
 {/block}
