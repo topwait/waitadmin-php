@@ -111,7 +111,7 @@ class DeptService extends Service
                 'level'    => 1,
                 'relation' => '0,' . $authDept['id']
             ], ['id'=>$authDept['id']]);
-        } else {
+        } else if ($pid > 1) {
             $parentDept = $modelAuthDept->field('id,pid,level,relation')->findOrEmpty($pid)->toArray();
             AuthDept::update([
                'level'    => $parentDept['level'] + 1,
