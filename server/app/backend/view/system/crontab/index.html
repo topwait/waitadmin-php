@@ -5,7 +5,7 @@
     <div class="layui-card">
         <!-- 表格栏 -->
         <div class="layui-card-body">
-            <div class="wait-blockquote success">
+            <div class="wait-blockquote success mb-20">
                 <div class="content">
                     <p>1、请在linux环境使用crontab命令添加定时任务：*/1 * * * * php think crontab </p>
                     <p>2、语法格式: </p>
@@ -100,6 +100,8 @@
                                     });
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
@@ -124,6 +126,8 @@
                                     table.reload();
                                     layer.close(index);
                                 }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
                             });
                         });
                     }
