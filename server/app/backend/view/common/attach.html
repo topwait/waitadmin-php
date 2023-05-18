@@ -158,14 +158,14 @@
         </div>
         <ul id="serviceDrag">
             {{# layui.each(d.data, function(index, item){ }}
-            <li title="{{ item.text }}" data-id="{{ item.id }}" data-url="{{ item.url }}">
-                {if $type==10}
-                    <img src="{{ item.url }}" alt="img">
-                {else}
-                    <video src="{{ item.url }}"></video>
-                {/if}
-                <i class="layui-icon icon-window-close"></i>
-            </li>
+                <li title="{{ item.text }}" data-id="{{ item.id }}" data-url="{{ item.url }}">
+                    {if $type==10}
+                        <img src="{{ item.url }}" alt="img" class="previewImage" />
+                    {else}
+                        <video src="{{ item.url }}"></video>
+                    {/if}
+                    <i class="layui-icon icon-window-close"></i>
+                </li>
             {{#  }); }}
         </ul>
     </script>

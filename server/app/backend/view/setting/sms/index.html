@@ -8,13 +8,13 @@
         <div class="layui-card-body wait-table-cell">
             <table id="wait-table-list" lay-filter="wait-table-list"></table>
             <script type="text/html" id="table-image">
-                <img src="{{d.image}}" alt="图标">
+                <img src="{{d.image}}" alt="图标" class="previewImage">
             </script>
             <script type="text/html" id="table-enable">
                 {{#  if(d.enable === 1){ }}
-                <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="启用"></i></span>
+                    <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="启用"></i></span>
                 {{# } else { }}
-                <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
+                    <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="禁用"></i></span>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-operate">

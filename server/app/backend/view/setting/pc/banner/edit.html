@@ -30,11 +30,11 @@
                 <div class="thumbnail" data-type="image" data-limit="1">
                     <div class="musters">
                         {if $detail.image}
-                        <div class="preview">
-                            <input type="hidden" id="image" name="image" value="{$detail.image}">
-                            <i class="layui-icon layui-icon-close"></i>
-                            <img src="{$detail.image}" alt="img">
-                        </div>
+                            <div class="preview">
+                                <input type="hidden" id="image" name="image" value="{$detail.image}">
+                                <i class="layui-icon layui-icon-close"></i>
+                                <img src="{$detail.image}" alt="img" class="previewImage">
+                            </div>
                         {/if}
                     </div>
                     <div class="builder {if $detail.image}layui-hide{/if}">
