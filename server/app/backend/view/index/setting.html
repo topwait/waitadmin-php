@@ -123,29 +123,28 @@
 {block name="js"}
 <script>
     layui.use(['form'], function() {
-        let $          = layui.$;
-        let form       = layui.form;
-        let config     = waitCache.getItem();
-        let parentBody = parent.document.body;
-        // let parentNode = $(parentBody).find("#app:first-child");
-        let parentNode = $(parentBody);
+        let $           = layui.$;
+        let form        = layui.form;
+        let cacheConfig = waitCache.getItem();
+        let parentBody  = parent.document.body;
+        let parentNode  = $(parentBody);
 
         /** 初始配置 **/
         $(function(){
-            const theme = config['theme']|| waitConfig.theme;
-            $(".theme ul li").removeClass("layui-this");
-            $(".theme ul li[data-alias="+theme+"]").addClass("layui-this");
+            const theme = cacheConfig['theme']|| waitConfig.theme;
+            $('.theme ul li').removeClass('layui-this');
+            $('.theme ul li[data-alias='+theme+']').addClass('layui-this');
 
-            $("#isTabHidden").prop("checked",  !(config['isTabHidden']  === undefined || config['isTabHidden']  === false));
-            $("#isTabMemory").prop("checked",  !(config['isTabMemory']  === undefined || config['isTabMemory']  === false));
-            $("#isTabRefresh").prop("checked", !(config['isTabRefresh'] === undefined || config['isTabRefresh'] === false));
+            $('#isTabHidden').prop('checked',  cacheConfig['isTabHidden'] || waitConfig.isTabHidden);
+            $('#isTabMemory').prop('checked',  cacheConfig['isTabMemory'] || waitConfig.isTabMemory);
+            $('#isTabRefresh').prop('checked', cacheConfig['isTabRefresh'] || waitConfig.isTabRefresh);
             form.render();
         });
 
         /** 切换主题 **/
         $(document).on('click', '.theme ul li', function() {
             let theme = $(this).attr('data-alias');
-            $(this).addClass("layui-this").siblings().removeClass("layui-this");
+            $(this).addClass('layui-this').siblings().removeClass('layui-this');
             parentNode.attr('data-theme', theme);
             waitCache.setItem('theme', theme);
 
@@ -169,7 +168,7 @@
                         parentNode.removeAttr("data-tab");
                     }
                     break;
-                case "isTabMemory":
+                case 'isTabMemory':
                     if (this.checked) {
                         let data = {
                             'tabs': $(parentBody).find('.tpl-tabs .layui-tab-title').html(),
