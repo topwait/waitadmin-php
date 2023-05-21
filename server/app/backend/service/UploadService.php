@@ -84,7 +84,7 @@ class UploadService extends Service
                 'name' => $fileInfo['name'],
                 'ext'  => $fileInfo['ext'],
                 'size' => $fileInfo['size'],
-                'icon' => $icon,
+                'icon' => UrlUtils::toAbsoluteUrl($icon),
                 'url'  => UrlUtils::toAbsoluteUrl($fileInfo['fileName'])
             ] ?? [];
         } catch (Exception $e) {
@@ -134,7 +134,7 @@ class UploadService extends Service
                 'name' => $file->getOriginalName(),
                 'ext'  => $file->extension(),
                 'size' => $file->getSize(),
-                'icon' => $icon,
+                'icon' => UrlUtils::toAbsoluteUrl($icon),
                 'url'  => UrlUtils::toAbsoluteUrl('temporary/' . $name)
             ] ?? [];
         } catch (Exception $e) {

@@ -63,7 +63,7 @@ class AttachService extends Service
             })
             ->paginate([
                 'page'      => $get['page']  ?? 1,
-                'list_rows' => $get['limit'] ?? 10,
+                'list_rows' => $get['limit'] ?? 12,
                 'var_page'  => 'page'
             ])->toArray();
 

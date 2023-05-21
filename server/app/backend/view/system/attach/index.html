@@ -45,10 +45,10 @@
     .file-majors .attach .header .search input { height: 30px; border-color: #eeeeee; border-top-right-radius: 0; border-bottom-right-radius: 0; }
     .file-majors .attach .header .search button { border-color: #eeeeee; background: #f5f7fa; border-top-left-radius: 0; border-bottom-left-radius: 0; }
     .file-majors .attach .header .search button:hover { background-color: #eeeeef; }
-    .file-majors .attach .subject { display: flex; flex: 1; overflow: hidden; overflow-y: auto; margin: 10px; box-sizing: border-box; }
+    .file-majors .attach .subject { flex: 1; overflow: hidden; overflow-y: auto; margin: 10px; box-sizing: border-box; }
     .file-majors .attach .subject:hover::-webkit-scrollbar { display: block; }
-    .file-majors .attach .subject ul::after { display: block; clear: both; visibility: hidden; content: ""; }
-    .file-majors .attach .subject ul li { position: relative; float: left; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 4px; transition: all 0.2s ease-in-out; }
+    .file-majors .attach .subject ul { display: flex; flex-wrap: wrap; }
+    .file-majors .attach .subject ul li { position: relative; height: 117px; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 4px; transition: all 0.2s ease-in-out; }
     .file-majors .attach .subject ul li:hover { border: 1px solid #cccccc; }
     .file-majors .attach .subject ul li img { width: 98px; height: 98px; border-radius: 3px; }
     .file-majors .attach .subject ul li video { width: 98px; height: 98px; border-radius: 3px; }
@@ -230,7 +230,7 @@
                 let cid   = (!obj || obj.cid  === undefined) ? -1 : obj.cid;
                 let page  = (!obj || obj.page === undefined) ? 1  : obj.page;
                 let type  = (!obj || obj.type === undefined) ? 10 : obj.type;
-                let where = {cid: cid, type: type, page: page};
+                let where = {limit: 50, page: page, cid: cid, type: type};
                 if (obj && obj.keyword !== undefined) {
                     where['keyword'] = obj.keyword;
                 }
@@ -299,7 +299,7 @@
                     data: {type: type, name: text.trim()}
                 }).then((res) => {
                     if (res.code === 0) {
-                        event.group();
+                        event.group({type: type});
                         layer.close(index);
                     }
                 });
@@ -320,10 +320,10 @@
                     url: '{:route("attach/cateRename")}',
                     type: 'POST',
                     fulShow: false,
-                    data: {id: id, type: 10, name: text.trim()}
+                    data: {id: id, type: type, name: text.trim()}
                 }).then((res) => {
                     if (res.code === 0) {
-                        event.group();
+                        event.group({type: type});
                         layer.close(index);
                     }
                 });
@@ -344,7 +344,7 @@
                 }).then((res) => {
                     if (res.code === 0) {
                         cid = -1;
-                        event.group();
+                        event.group({type: type});
                         event.lists();
                     }
                 });
@@ -366,7 +366,7 @@
                     url: '{:route("attach/rename")}',
                     type: 'POST',
                     fulShow: false,
-                    data: {id: id, type: 10, title: text.trim()}
+                    data: {id: id, type: type, title: text.trim()}
                 }).then((res) => {
                     if (res.code === 0) {
                         that.html(text);

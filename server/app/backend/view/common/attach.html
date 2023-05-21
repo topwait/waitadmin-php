@@ -32,10 +32,10 @@
 
     /** 文件 **/
     .file-container .attach { flex: 1; border-right: 1px solid #f6f6f6; border-left: 1px solid #f6f6f6; }
-    .file-container .attach .subject { display: flex; overflow: hidden; overflow-y: auto; padding: 5px 10px; height: calc(100% - 44px); box-sizing: border-box; }
+    .file-container .attach .subject {  overflow: hidden; overflow-y: auto; padding: 5px 10px; height: calc(100% - 44px); box-sizing: border-box; }
     .file-container .attach .subject:hover::-webkit-scrollbar { display: block; }
-    .file-container .attach .subject ul::after { display: block; clear: both; visibility: hidden; content: ""; }
-    .file-container .attach .subject ul li { position: relative; float: left; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, .05); border-radius: 6px; transition: all 0.2s ease-in-out; }
+    .file-container .attach .subject ul { display: flex; flex-wrap: wrap; }
+    .file-container .attach .subject ul li { position: relative; height: 117px; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, .05); border-radius: 6px; transition: all 0.2s ease-in-out; }
     .file-container .attach .subject ul li:hover { border: 1px solid #cccccc; }
     .file-container .attach .subject ul li img { width: 98px; height: 98px; border-radius: 3px; }
     .file-container .attach .subject ul li video { width: 98px; height: 98px; border-radius: 3px; }
