@@ -74,12 +74,15 @@ class AttachService extends Service
                     $item['icon'] = $item['file_path'];
                     break;
                 case AttachEnum::PACKAGE:
-                    $ext = !empty($item['file_ext']) ? $item['file_ext'] : 'ot';
-                    $item['icon'] = '/static/backend/images/attach/package/'.$ext.'.png';
-                    break;
                 case AttachEnum::DOCUMENT:
-                    $ext = !empty($item['file_ext']) ? $item['file_ext'] : 'unknown';
-                    $item['icon'] = '/static/backend/images/attach/document/'.$ext.'.png';
+                    $ext = $item['file_ext'];
+                    $packageExt = config('project.uploader.package')['ext'];
+                    $documentExt = config('project.uploader.document')['ext'];
+                    if (!in_array($ext, $packageExt) && !in_array($ext, $documentExt)) {
+                        $ext = 'unknown';
+                    }
+
+                    $item['icon'] = '/static/backend/images/attach/'.$ext.'.png';
                     break;
             }
         }

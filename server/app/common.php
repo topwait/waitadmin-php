@@ -3,6 +3,7 @@
 // | 公共类库
 // +----------------------------------------------------------------------
 
+use app\common\utils\FileUtils;
 use JetBrains\PhpStorm\Pure;
 use think\facade\Lang;
 
@@ -56,6 +57,34 @@ if (!function_exists('route')) {
         }
 
         return $url;
+    }
+}
+
+if (!function_exists('to_uploader_icon')) {
+    /**
+     * 转上传类型图标
+     *
+     * @param string $url (文件路径)
+     * @return string
+     * @author zero
+     */
+    function to_uploader_icon(string $url): string
+    {
+        $ext = FileUtils::getFileExt($url);
+        $imageExt = config('project.uploader.image')['ext'];
+        $videoExt = config('project.uploader.video')['ext'];
+
+        if (in_array($ext, $imageExt) || in_array($ext, $videoExt)) {
+            return $url;
+        }
+
+        $packageExt = config('project.uploader.package')['ext'];
+        $documentExt = config('project.uploader.document')['ext'];
+        if (!in_array($ext, $packageExt) && !in_array($ext, $documentExt)) {
+            $ext = 'unknown';
+        }
+
+        return '/static/backend/images/attach/'.$ext.'.png';
     }
 }
 

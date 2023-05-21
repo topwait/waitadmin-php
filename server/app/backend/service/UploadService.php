@@ -22,7 +22,6 @@ use app\common\model\attach\Attach;
 use app\common\service\storage\StorageDriver;
 use app\common\utils\UrlUtils;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use think\facade\Filesystem;
 
 /**
@@ -41,7 +40,6 @@ class UploadService extends Service
      * @throws UploadException
      * @author zero
      */
-    #[ArrayShape(['id' => "int", 'name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
     public static function permanent(string $type, int $hide, int $cid, int $uid): array
     {
         try {
@@ -62,14 +60,33 @@ class UploadService extends Service
                 'is_attach' => !$hide
             ]);
 
+            $icon = '';
+            switch ($attach['file_type']) {
+                case AttachEnum::PICTURE:
+                case AttachEnum::VIDEO:
+                    $icon = $attach['file_path'];
+                    break;
+                case AttachEnum::PACKAGE:
+                case AttachEnum::DOCUMENT:
+                    $ext = $attach['file_ext'];
+                    $packageExt = config('project.uploader.package')['ext'];
+                    $documentExt = config('project.uploader.document')['ext'];
+                    if (!in_array($ext, $packageExt) && !in_array($ext, $documentExt)) {
+                        $ext = 'unknown';
+                    }
+                    $icon = '/static/backend/images/attach/'.$ext.'.png';
+                    break;
+            }
+
             // 返回信息
             return [
                 'id'   => $attach['id'],
                 'name' => $fileInfo['name'],
                 'ext'  => $fileInfo['ext'],
                 'size' => $fileInfo['size'],
+                'icon' => $icon,
                 'url'  => UrlUtils::toAbsoluteUrl($fileInfo['fileName'])
-            ];
+            ] ?? [];
         } catch (Exception $e) {
             throw new UploadException($e->getMessage());
         }
@@ -83,7 +100,6 @@ class UploadService extends Service
      * @throws UploadException
      * @author zero
      */
-    #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
     public static function temporary(string $type): array
     {
         try {
@@ -96,12 +112,31 @@ class UploadService extends Service
             $filesystem = Filesystem::instance();
             $filesystem->disk('temporary')->putFileAS('', $file, $name);
 
+            $icon = '';
+            switch ($type) {
+                case AttachEnum::PICTURE:
+                case AttachEnum::VIDEO:
+                    $icon = UrlUtils::toAbsoluteUrl('temporary/' . $name);
+                    break;
+                case AttachEnum::PACKAGE:
+                case AttachEnum::DOCUMENT:
+                    $ext = strtolower($file->getExtension());
+                    $packageExt = config('project.uploader.package')['ext'];
+                    $documentExt = config('project.uploader.document')['ext'];
+                    if (!in_array($ext, $packageExt) && !in_array($ext, $documentExt)) {
+                        $ext = 'unknown';
+                    }
+                    $icon = '/static/backend/images/attach/'.$ext.'.png';
+                    break;
+            }
+
             return [
                 'name' => $file->getOriginalName(),
                 'ext'  => $file->extension(),
                 'size' => $file->getSize(),
+                'icon' => $icon,
                 'url'  => UrlUtils::toAbsoluteUrl('temporary/' . $name)
-            ];
+            ] ?? [];
         } catch (Exception $e) {
             throw new UploadException($e->getMessage());
         }
