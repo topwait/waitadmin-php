@@ -5,7 +5,7 @@
 
 return [
     // 版本号
-    'version'       => '1.1.5',
+    'version'       => '1.1.6',
 
     // 上传器
     'uploader' => [
