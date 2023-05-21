@@ -505,7 +505,7 @@ class GenerateService extends Service
 
         foreach (VelocityService::getTemplates($table) as $k => $v) {
             $vars = VelocityService::prepareContext($table, $columns);
-            $view = view('tpl\\'.$k, $vars);
+            $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();
             $content = str_replace('%%%', '', $content);
