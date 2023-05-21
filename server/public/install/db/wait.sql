@@ -65,7 +65,7 @@ CREATE TABLE `wait_attach`  (
     `uid` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户ID',
     `cid` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '分类ID',
     `quote` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '引用次数',
-    `file_type` tinyint(2) UNSIGNED NOT NULL DEFAULT 10 COMMENT '文件类型: [10=图片, 20=视频]',
+    `file_type` tinyint(2) UNSIGNED NOT NULL DEFAULT 10 COMMENT '文件类型: [10=图片, 20=视频, 30=压缩, 40=文件]',
     `file_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '文件名称',
     `file_path` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '文件路径',
     `file_ext` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '文件扩展',
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS `wait_attach_cate`;
 CREATE TABLE `wait_attach_cate`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '分类名称',
-  `type` tinyint(2) UNSIGNED NOT NULL DEFAULT 10 COMMENT '分类类型: [10=图片, 20=视频]',
+  `type` tinyint(2) UNSIGNED NOT NULL DEFAULT 10 COMMENT '分类类型: [10=图片, 20=视频, 30=压缩, 40=文件]',
   `is_delete` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除: [0=否, 1=是]',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',

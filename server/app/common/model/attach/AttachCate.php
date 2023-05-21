@@ -25,7 +25,7 @@ class AttachCate extends Models
     protected $schema = [
         'id'              => 'int',     //主键
         'name'            => 'string',  //分类名称
-        'type'            => 'int',     //分类类型: [10=图片, 20=视频]
+        'type'            => 'int',     //分类类型: [10=图片, 20=视频, 30=压缩, 40=文件]
         'is_delete'       => 'int',     //是否禁用: [0=否, 1=是]
         'create_time'     => 'int',     //创建时间
         'update_time'     => 'int',     //更新时间
