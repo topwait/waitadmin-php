@@ -14,7 +14,6 @@
 
 namespace addons\curd\controller;
 
-
 use addons\curd\service\GenerateService;
 use addons\curd\service\VelocityService;
 use addons\curd\validate\GenValidate;

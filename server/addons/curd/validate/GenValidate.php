@@ -14,14 +14,10 @@
 
 namespace addons\curd\validate;
 
-
 use app\common\basics\Validate;
 
 /**
  * 代码生成参数验证器
- *
- * Class GenValidate
- * @package addons\curd\validate
  */
 class GenValidate extends Validate
 {

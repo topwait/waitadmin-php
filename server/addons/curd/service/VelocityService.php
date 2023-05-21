@@ -14,7 +14,6 @@
 
 namespace addons\curd\service;
 
-
 use app\common\basics\Service;
 use think\facade\Db;
 

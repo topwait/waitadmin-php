@@ -14,7 +14,6 @@
 
 namespace addons\curd\service;
 
-
 use addons\curd\model\GenTable;
 use addons\curd\model\GenTableColumn;
 use app\common\basics\Service;
@@ -30,9 +29,6 @@ use ZipArchive;
 
 /**
  * 代码生成服务类
- *
- * Class GenService
- * @package addons\curd\service
  */
 class GenerateService extends Service
 {
