@@ -76,8 +76,12 @@
             <div class="header">
                 {if $type==10}
                     <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="imageUpload">上传图片</button>
-                {else}
+                {elseif $type==20}
                     <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="videoUpload">上传视频</button>
+                {elseif $type==30}
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="packageUpload">上传压缩</button>
+                {elseif $type==40}
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="documentUpload">上传文件</button>
                 {/if}
                 <div class="search">
                     <label><input type="text" name="keyword" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>
@@ -130,11 +134,11 @@
         {{#  if(d.length > 0){ }}
         <ul>
             {{#  layui.each(d, function(index, item){ }}
-            <li data-id="{{ item.id }}">
-                {if $type==10}
-                    <img src="{{ item.file_path }}" alt="img">
+            <li data-id="{{ item.id }}" data-url="{{ item.file_path }}">
+                {if $type==20}
+                    <video src="{{ item.icon }}"></video>
                 {else}
-                    <video src="{{ item.file_path }}"></video>
+                    <img src="{{ item.icon }}" alt="icon">
                 {/if}
                 <p title="{{ item.file_name }}">{{ item.file_name }}</p>
             </li>
@@ -158,11 +162,11 @@
         </div>
         <ul id="serviceDrag">
             {{# layui.each(d.data, function(index, item){ }}
-                <li title="{{ item.text }}" data-id="{{ item.id }}" data-url="{{ item.url }}">
-                    {if $type==10}
-                        <img src="{{ item.url }}" alt="img" class="previewImage" />
+                <li title="{{ item.text }}" data-id="{{ item.id }}" data-url="{{ item.url }}" data-icon="{{ item.icon }}">
+                    {if $type==20}
+                        <video src="{{ item.icon }}"></video>
                     {else}
-                        <video src="{{ item.url }}"></video>
+                        <img src="{{ item.icon }}" alt="icon" />
                     {/if}
                     <i class="layui-icon icon-window-close"></i>
                 </li>
@@ -246,6 +250,7 @@
             },
             // 文件选择
             picks: function (obj) {
+                console.log(urlArr)
                 obj = obj === undefined ? {limit: limit, data: urlArr} : obj;
                 let getTpl = document.getElementById('select').innerHTML;
                 let view   = document.getElementsByClassName('select')[0];
@@ -365,10 +370,11 @@
         // 选择文件
         $(document).on('click', '.attach li', function () {
             let id   = parseInt($(this).attr('data-id'));
+            let url  = $(this).attr('data-url');
+            let icon = $(this).find('img').attr('src');
             let text = $(this).find('p').html().trim();
-            let url  = $(this).find('img').attr('src');
             if (type === 20) {
-                url = $(this).find('video').attr('src');
+                icon = $(this).find('video').attr('src');
             }
 
             if ($(this).hasClass('active')) {
@@ -391,6 +397,7 @@
                 urlArr.push({
                     id: id,
                     url: url,
+                    icon: icon,
                     text: text
                 });
             }
@@ -509,6 +516,76 @@
                 layer.msg(e, {icon: 2, time: 1500});
             }
         });
+
+        // 上传压缩
+        upload.render({
+            elem: '#packageUpload'
+            ,url: '{:route("upload/permanent")}?type=package'
+            ,field: 'file'
+            ,multiple: true
+            ,acceptMime: 'file/*'
+            ,accept: 'file'
+            ,exts: '{:implode("|", $packageLimit.ext)}'
+            ,size: parseInt('{$packageLimit.size}') / 1024
+            ,data: {
+                hide: 0,
+                cid: () => { return cid > 0 ? cid : 0; }
+            }
+            ,before: function () {
+                layer.load();
+                layerIndex = layer.msg('文件上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            }
+            ,done: function (res) {
+                layer.close(layerIndex);
+                event.lists({cid: cid, type: type, page: 1});
+                if (res.code !== 0) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                }
+            }
+            ,error: function (e) {
+                layer.close(layerIndex);
+                layer.msg(e, {icon: 2, time: 1500});
+            }
+        });
+
+        // 上传压缩
+        upload.render({
+            elem: '#documentUpload'
+            ,url: '{:route("upload/permanent")}?type=document'
+            ,field: 'file'
+            ,multiple: true
+            ,acceptMime: 'file/*'
+            ,accept: 'file'
+            ,exts: '{:implode("|", $documentLimit.ext)}'
+            ,size: parseInt('{$documentLimit.size}') / 1024
+            ,data: {
+                hide: 0,
+                cid: () => { return cid > 0 ? cid : 0; }
+            }
+            ,before: function () {
+                layer.load();
+                layerIndex = layer.msg('文件上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            }
+            ,done: function (res) {
+                layer.close(layerIndex);
+                event.lists({cid: cid, type: type, page: 1});
+                if (res.code !== 0) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                }
+            }
+            ,error: function (e) {
+                layer.close(layerIndex);
+                layer.msg(e, {icon: 2, time: 1500});
+            }
+        });
     });
 
     function getUrlArr() {
@@ -516,8 +593,9 @@
         layui.$('#serviceDrag li').each(function () {
             let id   = layui.$(this).attr('data-id');
             let url  = layui.$(this).attr('data-url');
+            let icon = layui.$(this).attr('data-icon');
             let text = layui.$(this).attr('data-text');
-            urls.push({id: id, text: text, url: url});
+            urls.push({id: id, text: text, url: url, icon: icon});
         });
 
         return urls;
