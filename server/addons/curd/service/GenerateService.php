@@ -569,8 +569,8 @@ class GenerateService extends Service
             AuthMenu::create([
                 'module'  => 'app',
                 'pid'     => $authMenu['id'],
-                'title'   => $table['menu_name'],
-                'icon'    => $title,
+                'title'   => $title,
+                'icon'    => '',
                 'perms'   => $route.'/'.$item,
                 'sort'    => 0,
                 'is_menu' => $isMenu
