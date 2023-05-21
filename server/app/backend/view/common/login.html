@@ -6,7 +6,7 @@
 
 {block name="body"}
 <div class="login-wrapper layui-anim layui-anim-scale">
-    <form class="layui-form">
+    <form class="layui-form" onsubmit="return false">
         <h2>WaitAdmin</h2>
         <div class="layui-form-item layui-input-icon-group">
             <label for="username" class="layui-form-label" style="display: none;"></label>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <a class="layui-btn layui-btn-fluid layui-btn-default" id="login" lay-filter="loginSubmit" lay-submit="">登录</a>
+            <button class="layui-btn layui-btn-fluid layui-btn-default" id="login" lay-filter="loginSubmit" lay-submit="">登录</button>
         </div>
     </form>
 </div>
