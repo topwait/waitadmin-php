@@ -222,6 +222,7 @@ layui.use(['jquery', 'element'], function() {
         // 初始主题
         let theme = waitCache.getItem('theme') || waitConfig.theme;
         $mainBodyNode.attr('data-theme', theme);
+        waitCache.setItem('theme', theme);
 
         // 隐藏标签
         let isTabHidden = waitCache.getItem('isTabHidden') || waitConfig.isTabHidden;
