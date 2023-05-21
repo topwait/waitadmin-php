@@ -24,23 +24,23 @@ class AttachEnum
      */
     const PICTURE  = 10;
     const VIDEO    = 20;
-    const DOCUMENT = 30;
-    const PACKAGE  = 40;
+    const PACKAGE  = 30;
+    const DOCUMENT = 40;
 
     /**
      * 根据描述获取Code
      *
-     * @author zero
      * @param string $msg
      * @return int
+     * @author zero
      */
     public static function getCodeByMsg(string $msg): int
     {
         $desc = [
             'picture'  => self::PICTURE,
             'video'    => self::VIDEO,
-            'document' => self::DOCUMENT,
             'package'  => self::PACKAGE,
+            'document' => self::DOCUMENT
         ];
 
         return $desc[$msg] ?? 0;

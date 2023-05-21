@@ -50,11 +50,13 @@ class AttachController extends Backend
         }
 
         return view('common/attach', [
-            'type'       => $this->request->get('type'),
-            'limit'      => $this->request->get('limit', 1),
-            'category'   => AttachService::cateLists(),
-            'imageLimit' => config('project.uploader.image'),
-            'videoLimit' => config('project.uploader.video')
+            'type'          => $this->request->get('type'),
+            'limit'         => $this->request->get('limit', 1),
+            'category'      => AttachService::cateLists(),
+            'imageLimit'    => config('project.uploader.image'),
+            'videoLimit'    => config('project.uploader.video'),
+            'packageLimit'  => config('project.uploader.package'),
+            'documentLimit' => config('project.uploader.document')
         ]);
     }
 

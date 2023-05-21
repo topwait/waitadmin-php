@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service;
 
 use app\common\basics\Service;
+use app\common\enums\AttachEnum;
 use app\common\exception\OperateException;
 use app\common\model\attach\Attach;
 use app\common\model\attach\AttachCate;
@@ -50,8 +51,8 @@ class AttachService extends Service
         ]);
 
         $model = new Attach();
-        return $model
-            ->field('id,file_name,file_path,create_time')
+        $lists = $model
+            ->field('id,file_type,file_ext,file_name,file_path,create_time')
             ->where($where)
             ->where(self::$searchWhere)
             ->where(['is_attach'=>1])
@@ -65,6 +66,25 @@ class AttachService extends Service
                 'list_rows' => $get['limit'] ?? 10,
                 'var_page'  => 'page'
             ])->toArray();
+
+        foreach ($lists['data'] as &$item) {
+            switch ($item['file_type']) {
+                case AttachEnum::PICTURE:
+                case AttachEnum::VIDEO:
+                    $item['icon'] = $item['file_path'];
+                    break;
+                case AttachEnum::PACKAGE:
+                    $ext = !empty($item['file_ext']) ? $item['file_ext'] : 'ot';
+                    $item['icon'] = '/static/backend/images/attach/package/'.$ext.'.png';
+                    break;
+                case AttachEnum::DOCUMENT:
+                    $ext = !empty($item['file_ext']) ? $item['file_ext'] : 'unknown';
+                    $item['icon'] = '/static/backend/images/attach/document/'.$ext.'.png';
+                    break;
+            }
+        }
+
+        return $lists;
     }
 
     /**
