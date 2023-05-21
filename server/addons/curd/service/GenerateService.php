@@ -22,8 +22,6 @@ use app\common\exception\OperateException;
 use app\common\exception\SystemException;
 use app\common\model\auth\AuthMenu;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\NoReturn;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -46,7 +44,6 @@ class GenerateService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -70,7 +67,7 @@ class GenerateService extends Service
             $item['join_status'] = $item['join_status'] ? '开启' : '关闭';
         }
 
-        return ['count' => $lists['total'], 'list' => $lists['data']];
+        return ['count' => $lists['total'], 'list' => $lists['data']] ?? [];
     }
 
     /**
@@ -80,7 +77,6 @@ class GenerateService extends Service
      * @return array
      * @author zero
      */
-    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function tables(array $get): array
     {
         $pageNo = $get['page'] ?? 1;
@@ -111,7 +107,7 @@ class GenerateService extends Service
             ];
         }
 
-        return ['count' => count($tables), 'list' => $collection];
+        return ['count' => count($tables), 'list' => $collection] ?? [];
     }
 
     /**
