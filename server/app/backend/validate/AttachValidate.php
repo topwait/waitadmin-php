@@ -26,7 +26,7 @@ class AttachValidate extends Validate
         'id'    => 'require|posInteger',
         'ids'   => 'require|array',
         'cid'   => 'require|integer',
-        'type'  => 'require|in:10,20',
+        'type'  => 'require|in:10,20,30,40',
         'name'  => 'require|max:20|min:1|unique:attachCate',
         'title' => 'require|max:200|min:1'
     ];

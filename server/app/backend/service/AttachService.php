@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service;
 
 use app\common\basics\Service;
+use app\common\enums\AttachEnum;
 use app\common\exception\OperateException;
 use app\common\model\attach\Attach;
 use app\common\model\attach\AttachCate;
@@ -50,8 +51,8 @@ class AttachService extends Service
         ]);
 
         $model = new Attach();
-        return $model
-            ->field('id,file_name,file_path,create_time')
+        $lists = $model
+            ->field('id,file_type,file_ext,file_name,file_path,create_time')
             ->where($where)
             ->where(self::$searchWhere)
             ->where(['is_attach'=>1])
@@ -62,9 +63,31 @@ class AttachService extends Service
             })
             ->paginate([
                 'page'      => $get['page']  ?? 1,
-                'list_rows' => $get['limit'] ?? 10,
+                'list_rows' => $get['limit'] ?? 12,
                 'var_page'  => 'page'
             ])->toArray();
+
+        foreach ($lists['data'] as &$item) {
+            switch ($item['file_type']) {
+                case AttachEnum::PICTURE:
+                case AttachEnum::VIDEO:
+                    $item['icon'] = $item['file_path'];
+                    break;
+                case AttachEnum::PACKAGE:
+                case AttachEnum::DOCUMENT:
+                    $ext = $item['file_ext'];
+                    $packageExt = config('project.uploader.package')['ext'];
+                    $documentExt = config('project.uploader.document')['ext'];
+                    if (!in_array($ext, $packageExt) && !in_array($ext, $documentExt)) {
+                        $ext = 'unknown';
+                    }
+
+                    $item['icon'] = '/static/backend/images/attach/'.$ext.'.png';
+                    break;
+            }
+        }
+
+        return $lists;
     }
 
     /**

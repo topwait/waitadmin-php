@@ -45,10 +45,10 @@
     .file-majors .attach .header .search input { height: 30px; border-color: #eeeeee; border-top-right-radius: 0; border-bottom-right-radius: 0; }
     .file-majors .attach .header .search button { border-color: #eeeeee; background: #f5f7fa; border-top-left-radius: 0; border-bottom-left-radius: 0; }
     .file-majors .attach .header .search button:hover { background-color: #eeeeef; }
-    .file-majors .attach .subject { display: flex; flex: 1; overflow: hidden; overflow-y: auto; margin: 10px; box-sizing: border-box; }
+    .file-majors .attach .subject { flex: 1; overflow: hidden; overflow-y: auto; margin: 10px; box-sizing: border-box; }
     .file-majors .attach .subject:hover::-webkit-scrollbar { display: block; }
-    .file-majors .attach .subject ul::after { display: block; clear: both; visibility: hidden; content: ""; }
-    .file-majors .attach .subject ul li { position: relative; float: left; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 4px; transition: all 0.2s ease-in-out; }
+    .file-majors .attach .subject ul { display: flex; flex-wrap: wrap; }
+    .file-majors .attach .subject ul li { position: relative; height: 117px; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 4px; transition: all 0.2s ease-in-out; }
     .file-majors .attach .subject ul li:hover { border: 1px solid #cccccc; }
     .file-majors .attach .subject ul li img { width: 98px; height: 98px; border-radius: 3px; }
     .file-majors .attach .subject ul li video { width: 98px; height: 98px; border-radius: 3px; }
@@ -73,6 +73,8 @@
                     <ul class="layui-tab-title">
                         <li class="layui-this" data-type="10">图片</li>
                         <li data-type="20">视频</li>
+                        <li data-type="30">压缩</li>
+                        <li data-type="40">文档</li>
                     </ul>
                 </div>
             </div>
@@ -89,8 +91,10 @@
                     <!-- 工具 -->
                     <div class="header">
                         <div class="layui-btn-group">
-                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal" id="imageUpload">上传图片</button>
-                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide" id="videoUpload">上传视频</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal" data-type="10" id="imageUpload">上传图片</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide" data-type="20" id="videoUpload">上传视频</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide" data-type="30" id="packageUpload">上传压缩</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide" data-type="40" id="documentUpload">上传文件</button>
                             <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" id="delete">删除文件</button>
                             <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-warm layui-btn-forbid" id="move">
                                 移动至<i class="layui-icon layui-icon-triangle-d"></i>
@@ -160,11 +164,10 @@
         <ul>
             {{#  layui.each(d.data, function(index, item){ }}
             <li data-id="{{ item.id }}">
-                {{#  if(d.type===10){ }}
-                    <img src="{{ item.file_path }}" alt="img">
-                {{#  } }}
                 {{#  if(d.type===20){ }}
-                    <video src="{{ item.file_path }}"></video>
+                    <video src="{{ item.icon }}"></video>
+                {{# } else { }}
+                    <img src="{{ item.icon }}" alt="icon">
                 {{#  } }}
                 <p title="{{ item.file_name }}">{{ item.file_name }}</p>
             </li>
@@ -227,7 +230,7 @@
                 let cid   = (!obj || obj.cid  === undefined) ? -1 : obj.cid;
                 let page  = (!obj || obj.page === undefined) ? 1  : obj.page;
                 let type  = (!obj || obj.type === undefined) ? 10 : obj.type;
-                let where = {cid: cid, type: type, page: page};
+                let where = {limit: 50, page: page, cid: cid, type: type};
                 if (obj && obj.keyword !== undefined) {
                     where['keyword'] = obj.keyword;
                 }
@@ -296,7 +299,7 @@
                     data: {type: type, name: text.trim()}
                 }).then((res) => {
                     if (res.code === 0) {
-                        event.group();
+                        event.group({type: type});
                         layer.close(index);
                     }
                 });
@@ -317,10 +320,10 @@
                     url: '{:route("attach/cateRename")}',
                     type: 'POST',
                     fulShow: false,
-                    data: {id: id, type: 10, name: text.trim()}
+                    data: {id: id, type: type, name: text.trim()}
                 }).then((res) => {
                     if (res.code === 0) {
-                        event.group();
+                        event.group({type: type});
                         layer.close(index);
                     }
                 });
@@ -341,7 +344,7 @@
                 }).then((res) => {
                     if (res.code === 0) {
                         cid = -1;
-                        event.group();
+                        event.group({type: type});
                         event.lists();
                     }
                 });
@@ -363,7 +366,7 @@
                     url: '{:route("attach/rename")}',
                     type: 'POST',
                     fulShow: false,
-                    data: {id: id, type: 10, title: text.trim()}
+                    data: {id: id, type: type, title: text.trim()}
                 }).then((res) => {
                     if (res.code === 0) {
                         that.html(text);
@@ -449,7 +452,8 @@
                     data: {ids: urlArr, type: type}
                 }).then((res) => {
                     if (res.code === 0) {
-                        event.lists();
+                        let keyword = $('.attach .search input').val().trim();
+                        event.lists({type: type, cid: cid, page: 1, keyword: keyword});
                     }
                 });
             });
@@ -466,13 +470,9 @@
             type = parseInt(this.getAttribute('data-type'));
             event.group({type: type});
             event.lists({type: type, cid: -1, page: 1});
-            if (type === 10) {
-                $('#imageUpload').removeClass('layui-hide');
-                $('#videoUpload').addClass('layui-hide');
-            } else {
-                $('#videoUpload').removeClass('layui-hide');
-                $('#imageUpload').addClass('layui-hide');
-            }
+
+            $('.header .layui-btn-group .layui-btn-normal').addClass('layui-hide');
+            $('.header .layui-btn-group .layui-btn-normal[data-type='+type+']').removeClass('layui-hide');
         });
 
         // 上传图片
@@ -528,6 +528,76 @@
             ,before: function () {
                 layer.load();
                 layerIndex = layer.msg('视频上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            }
+            ,done: function (res) {
+                layer.close(layerIndex);
+                event.lists({cid: cid, type: type, page: 1});
+                if (res.code !== 0) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                }
+            }
+            ,error: function (e) {
+                layer.close(layerIndex);
+                layer.msg(e, {icon: 2, time: 1500});
+            }
+        });
+
+        // 上传压缩
+        upload.render({
+            elem: '#packageUpload'
+            ,url: '{:route("upload/permanent")}?type=package'
+            ,field: 'file'
+            ,multiple: true
+            ,acceptMime: 'file/*'
+            ,accept: 'file'
+            ,exts: '{:implode("|", $packageLimit.ext)}'
+            ,size: parseInt('{$packageLimit.size}') / 1024
+            ,data: {
+                hide: 0,
+                cid: () => { return cid > 0 ? cid : 0; }
+            }
+            ,before: function () {
+                layer.load();
+                layerIndex = layer.msg('文件上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            }
+            ,done: function (res) {
+                layer.close(layerIndex);
+                event.lists({cid: cid, type: type, page: 1});
+                if (res.code !== 0) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                }
+            }
+            ,error: function (e) {
+                layer.close(layerIndex);
+                layer.msg(e, {icon: 2, time: 1500});
+            }
+        });
+
+        // 上传压缩
+        upload.render({
+            elem: '#documentUpload'
+            ,url: '{:route("upload/permanent")}?type=document'
+            ,field: 'file'
+            ,multiple: true
+            ,acceptMime: 'file/*'
+            ,accept: 'file'
+            ,exts: '{:implode("|", $documentLimit.ext)}'
+            ,size: parseInt('{$documentLimit.size}') / 1024
+            ,data: {
+                hide: 0,
+                cid: () => { return cid > 0 ? cid : 0; }
+            }
+            ,before: function () {
+                layer.load();
+                layerIndex = layer.msg('文件上传中...', {
                     icon: 16,
                     shade: 0.01,
                     time: 0

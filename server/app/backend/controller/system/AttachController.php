@@ -42,7 +42,9 @@ class AttachController extends Backend
         return view('', [
             'category'   => AttachService::cateLists(),
             'imageLimit' => config('project.uploader.image'),
-            'videoLimit' => config('project.uploader.video')
+            'videoLimit' => config('project.uploader.video'),
+            'packageLimit'  => config('project.uploader.package'),
+            'documentLimit' => config('project.uploader.document')
         ]);
     }
 }

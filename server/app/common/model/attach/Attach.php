@@ -27,7 +27,7 @@ class Attach extends Models
         'uid'             => 'int',     //用户ID
         'cid'             => 'int',     //分类ID
         'quote'           => 'int',     //引用次数
-        'file_type'       => 'int',     //文件类型: [10=图片, 20=视频]
+        'file_type'       => 'int',     //文件类型: [10=图片, 20=视频, 30=压缩, 40=文件]
         'file_name'       => 'string',  //文件名称
         'file_path'       => 'string',  //文件路径
         'file_ext'        => 'string',  //文件路径

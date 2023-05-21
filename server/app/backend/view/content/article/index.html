@@ -52,28 +52,28 @@
             </script>
             <script type="text/html" id="table-image">
                 <div class="table-image-wrap">
-                    <img src="{{ d.image }}" alt="img">
+                    <img src="{{ d.image }}" alt="img" class="previewImage">
                 </div>
             </script>
             <script type="text/html" id="table-topping">
                 {{#  if(d.is_topping === 1){ }}
-                <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="是"></i></span>
+                    <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="是"></i></span>
                 {{# } else { }}
-                <span class="color-error"><i class="layui-icon layui-icon-circle-dot" lay-tips="否"></i></span>
+                    <span class="color-error"><i class="layui-icon layui-icon-circle-dot" lay-tips="否"></i></span>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-recommend">
                 {{#  if(d.is_recommend === 1){ }}
-                <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="是"></i></span>
+                    <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="是"></i></span>
                 {{# } else { }}
-                <span class="color-error"><i class="layui-icon layui-icon-circle-dot" lay-tips="否"></i></span>
+                    <span class="color-error"><i class="layui-icon layui-icon-circle-dot" lay-tips="否"></i></span>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-show">
                 {{#  if(d.is_show === 1){ }}
-                <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="显示"></i></span>
+                    <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="显示"></i></span>
                 {{# } else { }}
-                <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="隐藏"></i></span>
+                    <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="隐藏"></i></span>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-operate">

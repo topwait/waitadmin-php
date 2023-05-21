@@ -14,9 +14,7 @@
 
 namespace addons\curd\service;
 
-
 use app\common\basics\Service;
-use JetBrains\PhpStorm\ArrayShape;
 use think\facade\Db;
 
 /**
@@ -83,7 +81,7 @@ class VelocityService extends Service
      * @param array $columns (列信息)
      * @author zero
      */
-    public static function prepareContext(array $table, array $columns)
+    public static function prepareContext(array $table, array $columns): array
     {
         $table['gen_model'] = self::toCamel($table['table_name']);
         $detail = [
@@ -159,11 +157,6 @@ class VelocityService extends Service
      * @return string[]
      * @author zero
      */
-    #[ArrayShape([
-        'php_controller' => "string", 'php_service' => "string",
-        'php_validate'   => "string", 'php_model'   => "string",
-        'html_list'      => "string", 'html_add'    => "string",
-        'html_edit'      => "string"])]
     public static function getTemplates(array $table): array
     {
         return [
@@ -174,7 +167,7 @@ class VelocityService extends Service
             'html_list'      => 'index.html',
             'html_add'       => 'add.html',
             'html_edit'      => 'edit.html',
-        ];
+        ] ?? [];
     }
 
     /**

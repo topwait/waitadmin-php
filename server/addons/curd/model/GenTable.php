@@ -14,14 +14,10 @@
 
 namespace addons\curd\model;
 
-
 use app\common\basics\Models;
 
 /**
  * 生成表模型
- *
- * Class GenTable
- * @package addons\curd\model
  */
 class GenTable extends Models
 {

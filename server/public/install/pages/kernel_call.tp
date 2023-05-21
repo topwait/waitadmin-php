@@ -23,12 +23,12 @@ layui.use(['jquery', 'element'], function() {
                 '</div>' +
             '</div>';
 
-            $iframe = $waitBodyNode.find('.tab-body-item.layui-show iframe');
+            let $iframe = $waitBodyNode.find('.tab-body-item.layui-show iframe');
             if (!$iframe.next().length) {
                 $iframe.parent().append(load);
                 let loadNode = $iframe.parent().find('.wait-loading');
                 $iframe.on('load', function() {
-                    let theme = waitCache.getItem('theme');
+                    let theme = waitCache.getItem('theme') || waitConfig.theme;
                     let $html = $($iframe[0].contentWindow.document).find('html');
                     let $body = $($iframe[0].contentWindow.document).find('body');
                     $html.removeAttr('style');
@@ -42,7 +42,8 @@ layui.use(['jquery', 'element'], function() {
         }
         // 记忆标签页面数据
         ,tabMemory: function () {
-            if (waitCache.getItem('isTabMemory')) {
+            let isTabMemory = waitCache.getItem('isTabMemory') || waitConfig.isTabMemory;
+            if (isTabMemory) {
                 setTimeout(function(){
                     let tabs = [];
                     $waitTabsNode.find('.layui-tab-title li').each(function (i) {
@@ -102,7 +103,8 @@ layui.use(['jquery', 'element'], function() {
                 $($waitBodyNode).find('.tab-body-item').removeClass('layui-show');
                 $($waitBodyNode).find('.tab-body-item[lay-id='+id+']').addClass('layui-show');
                 // 标签页面切换刷新加载过场动画
-                if (waitCache.getItem('isTabRefresh')) {
+                let isTabRefresh = waitCache.getItem('isTabRefresh') || waitConfig.isTabRefresh;
+                if (isTabRefresh) {
                     events.loading();
                     let iframe = $waitBodyNode.find('.tab-body-item.layui-show iframe');
                     iframe.attr('src', iframe.attr('src'));
@@ -197,7 +199,7 @@ layui.use(['jquery', 'element'], function() {
                 $waitTabsNode.find('.layui-tab-title li').eq(0).trigger('click');
             } else {
                 $waitTabsNode.find('.layui-tab-title li').each(function (index, item) {
-                    if (index && index != events.tabsPage.index) {
+                    if (index && index !== events.tabsPage.index) {
                         $(item).remove();
                         events.tabsBody(index).remove();
                     }
@@ -218,18 +220,19 @@ layui.use(['jquery', 'element'], function() {
         }
 
         // 初始主题
-        let theme = waitCache.getItem('theme');
-        if (theme && theme != waitConfig.theme) {
-            $mainBodyNode.attr('data-theme', theme);
-        }
+        let theme = waitCache.getItem('theme') || waitConfig.theme;
+        $mainBodyNode.attr('data-theme', theme);
+        waitCache.setItem('theme', theme);
 
         // 隐藏标签
-        if (waitCache.getItem('isTabHidden')) {
+        let isTabHidden = waitCache.getItem('isTabHidden') || waitConfig.isTabHidden;
+        if (isTabHidden) {
             $mainBodyNode.attr('data-tab', true);
         } else {
             // 记忆标签
             let tabMenus = sessionStorage.getItem('tabMenus');
-            if (waitCache.getItem('isTabMemory') && tabMenus) {
+            let isTabMemory = waitCache.getItem('isTabMemory') || waitConfig.isTabMemory;
+            if (isTabMemory && tabMenus) {
                 let data = JSON.parse(tabMenus);
                 $waitBodyNode.html(data['body']);
 
@@ -250,7 +253,7 @@ layui.use(['jquery', 'element'], function() {
                     .eq(events.tabsPage.index).trigger('click');
 
                 $waitBodyNode.find('.tab-body-item iframe').each(function () {
-                    $iframe = $(this);
+                    let $iframe = $(this);
                     let loadNode = $iframe.parent().find('.wait-loading');
                     $iframe.on('load', function() {
                         if (loadNode.length) {
@@ -334,9 +337,9 @@ layui.use(['jquery', 'element'], function() {
         } else {
             $('.wait-sidebar .wait-second-menu dd a').removeClass('active');
             $(this).addClass('active');
-            id   = $(this).attr('lay-id');
-            url  = $(this).attr('lay-attr');
-            text = $(this).text();
+            let id   = $(this).attr('lay-id');
+            let url  = $(this).attr('lay-attr');
+            let text = $(this).text();
             events.tabsOpen(id, url, text);
         }
     });
@@ -426,10 +429,10 @@ layui.use(['jquery', 'element'], function() {
     $waitHeaderNode.on('click', '.fullscreen', function () {
         let docElm = document.documentElement;
         if ($(this).children('i').hasClass('layui-icon-screen-restore')) {
-            document.exitFullscreen();
+            document.exitFullscreen().then(() => {});
             $(this).children('i').eq(0).removeClass('layui-icon-screen-restore');
         } else {
-            docElm.requestFullscreen();
+            docElm.requestFullscreen().then(() => {});
             $(this).children('i').eq(0).addClass('layui-icon-screen-restore');
         }
     });
@@ -451,8 +454,19 @@ layui.use(['jquery', 'element'], function() {
     $(window).resize(function() {
         if ($(window).width() > 770 || !layui.device().mobile) {
             $('.wait-sidebar .wait-menu-item .wait-second-menu').removeAttr('style');
-            if ($('.wait-sidebar .wait-menu-item a.active').next()) {
+            if ($('.wait-sidebar .wait-menu-item a.active').next().length) {
                 $('.wait-sidebar .wait-menu-item .active').next().addClass('activate');
+                if (!$waitAppNode.hasClass('wait-side-shrink')) {
+                    $waitBodyNode.css({'left': '240px'})
+                } else {
+                    $waitBodyNode.css({'left': '180px'})
+                }
+            } else {
+                if (!$waitAppNode.hasClass('wait-side-shrink')) {
+                    $waitBodyNode.css({'left': '120px'})
+                } else {
+                    $waitBodyNode.css({'left': '60px'})
+                }
             }
         }
         if ($(window).width() <= 768 || layui.device().mobile) {
@@ -514,7 +528,8 @@ layui.use(['jquery', 'element'], function() {
         $waitBodyNode.find('.tab-body-item[lay-id='+id+']').addClass('layui-show');
 
         // 标签页面切换刷新
-        if (waitCache.getItem('isTabRefresh')) {
+        let isTabRefresh = waitCache.getItem('isTabRefresh') || waitConfig.isTabRefresh;
+        if (isTabRefresh) {
             events.loading();
             let iframe = $waitBodyNode.find('.tab-body-item.layui-show iframe');
             iframe.attr('src', iframe.attr('src'));
