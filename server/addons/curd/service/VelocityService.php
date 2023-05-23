@@ -311,7 +311,6 @@ class VelocityService extends Service
         return (string)str_replace(' ', '', ucwords(ltrim($string, $separator)));
     }
 
-
     /**
      * 生成请求路由
      *
