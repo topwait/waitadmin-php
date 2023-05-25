@@ -19,7 +19,7 @@ use app\common\basics\Models;
 /**
  * 生成表字段模型
  */
-class GenTableColumn extends Models
+class CurdTableColumn extends Models
 {
     // 设置字段信息
     protected $schema = [
