@@ -21,7 +21,8 @@ use app\common\basics\Models;
  */
 class CurdTable extends Models
 {
-    // 设置字段信息
+    protected $name = 'addons_curd_table';
+
     protected $schema = [
         'id'              => 'int',     //主键
         'table_name'      => 'string',  //表名称
