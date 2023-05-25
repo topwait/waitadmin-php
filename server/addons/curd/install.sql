@@ -1,10 +1,3 @@
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for __PREFIX__addons_curd_table
--- ----------------------------
-DROPTABLE IF EXISTS `__PREFIX__addons_curd_table`;
 CREATE TABLE `__PREFIX__addons_curd_table`  (
    `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
    `table_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '表名称',
@@ -28,10 +21,7 @@ CREATE TABLE `__PREFIX__addons_curd_table`  (
    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '生成代码表' ROW_FORMAT = Dynamic;
 
--- ----------------------------
--- Table structure for __PREFIX__addons_curd_table_column
--- ----------------------------
-DROP TABLE IF EXISTS `__PREFIX__addons_curd_table_column`;
+
 CREATE TABLE `__PREFIX__addons_curd_table_column`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
   `table_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '表外键',
