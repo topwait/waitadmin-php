@@ -547,7 +547,7 @@ class GenerateService extends Service
             'pid'     => $table['menu_pid'],
             'title'   => $table['menu_name'],
             'icon'    => $table['menu_icon'],
-            'perms'   => $table['menu_pid']>0 ? $route.'/index' : '',
+            'perms'   => strtolower($table['menu_pid']>0 ? $route.'/index' : ''),
             'sort'    => 0,
             'is_menu' => 1
         ]);
@@ -571,7 +571,7 @@ class GenerateService extends Service
                 'pid'     => $authMenu['id'],
                 'title'   => $title,
                 'icon'    => '',
-                'perms'   => $route.'/'.$item,
+                'perms'   => strtolower($route.'/'.$item),
                 'sort'    => 0,
                 'is_menu' => $isMenu
             ]);
