@@ -44,6 +44,20 @@
  * @tutorial https://uviewui.com/components/image.html
  * @property {String} src 图片地址
  * @property {String} mode 裁剪模式，见官网说明
+ * 	@value scaleToFill		不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
+ * 	@value aspectFit			保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。
+ * 	@value aspectFill			保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。
+ * 	@value widthFix				宽度不变，高度自动变化，保持原图宽高比不变
+ * 	@value heightFix			高度不变，宽度自动变化，保持原图宽高比不变 App 和 H5 平台 HBuilderX 2.9.3+ 支持、微信小程序需要基础库 2.10.3
+ * 	@value top						不缩放图片，只显示图片的顶部区域
+ * 	@value bottom					不缩放图片，只显示图片的底部区域
+ * 	@value center					不缩放图片，只显示图片的中间区域
+ * 	@value left						不缩放图片，只显示图片的左边区域
+ * 	@value right					不缩放图片，只显示图片的右边区域
+ * 	@value top left				不缩放图片，只显示图片的左上边区域
+ * 	@value top right			不缩放图片，只显示图片的右上边区域
+ * 	@value bottom left		不缩放图片，只显示图片的左下边区域
+ * 	@value bottom right		不缩放图片，只显示图片的右下边区域
  * @property {String | Number} width 宽度，单位任意，如果为数值，则为rpx单位（默认100%）
  * @property {String | Number} height 高度，单位任意，如果为数值，则为rpx单位（默认 auto）
  * @property {String} shape 图片形状，circle-圆形，square-方形（默认square）

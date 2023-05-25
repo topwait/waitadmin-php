@@ -47,6 +47,7 @@
  */
 export default {
 	name: 'u-circle-progress',
+	emits: ["end","finish"],
 	props: {
 		// 圆环进度百分比值
 		percent: {
@@ -191,6 +192,12 @@ export default {
 				if (progress < this.newPercent) return;
 			}
 			setTimeout(() => {
+				if (progress >= this.percent) {
+					this.$emit("end", progress);
+				}
+				if (progress >= 100) {
+					this.$emit("finish", progress);
+				}
 				// 定时器，每次操作间隔为time值，为了让进度条有动画效果
 				this.drawCircleByProgress(progress);
 			}, time);

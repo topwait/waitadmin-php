@@ -195,7 +195,7 @@ export default {
 				name: this.name
 			};
 			// 执行父组件u-checkbox-group的事件方法
-			if (this.parent && this.parent.emitEvent) this.parent._emitEvent(obj);
+			if (this.parent && this.parent.emitEvent) this.parent.emitEvent(obj);
 		},
 		onClickLabel() {
 			if (!this.isLabelDisabled && !this.isDisabled) {

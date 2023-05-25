@@ -130,7 +130,8 @@ export default {
 				this.shape,
 				this.iconSize,
 				this.width,
-				this.wrap
+				this.wrap,
+				this.modelValue
 			];
 		}
 	},

@@ -30,6 +30,7 @@
 		@error="error"
 		@opensetting="opensetting"
 		@launchapp="launchapp"
+        @chooseavatar="chooseavatar"
 		:style="[customStyle, {
 			overflow: ripple ? 'hidden' : 'visible'
 		}]"
@@ -59,16 +60,54 @@
  * @description Button 按钮
  * @tutorial https://www.uviewui.com/components/button.html
  * @property {String} size 按钮的大小
+ *  @value large 				大
+ * 	@value normal 			常规
+ * 	@value mini 				小
  * @property {Boolean} ripple 是否开启点击水波纹效果
  * @property {String} ripple-bg-color 水波纹的背景色，ripple为true时有效
  * @property {String} type 按钮的样式类型
+ *  @value info  				默认按钮
+ * 	@value primary  		主要按钮
+ * 	@value error 				危险按钮
+ * 	@value warning  		警告按钮
+ * 	@value success 			成功按钮
  * @property {Boolean} plain 按钮是否镂空，背景色透明
  * @property {Boolean} disabled 是否禁用
  * @property {Boolean} hair-line 是否显示按钮的细边框(默认true)
  * @property {Boolean} shape 按钮外观形状，见文档说明
+ *  @value square  		矩形
+ * 	@value circle  		圆角
  * @property {Boolean} loading 按钮名称前是否带 loading 图标(App-nvue 平台，在 ios 上为雪花，Android上为圆圈)
  * @property {String} form-type 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
- * @property {String} open-type 开放能力
+ * @property {String} openType 开放能力
+ * 	@value feedback  						通用 - 打开“意见反馈”页面，用户可提交反馈内容并上传日志（App、微信小程序、QQ小程序）
+ * 	@value share  							通用 - 触发用户转发（微信小程序、百度小程序、支付宝小程序、字节跳动小程序、飞书小程序、QQ小程序、快手小程序、京东小程序、360小程序）
+ * 	@value getUserInfo  				通用 - 获取用户信息（微信小程序、百度小程序、QQ小程序、快手小程序、京东小程序、360小程序）
+ * 	@value contact  						通用 - 打开客服会话，如果用户在会话中点击消息卡片后返回应用，可以从 回调中获得具体信息（微信小程序、百度小程序、快手小程序、字节小程序）
+ * 	@value getPhoneNumber  			通用 - 获取用户手机号（微信小程序、百度小程序、字节跳动小程序、支付宝小程序、快手小程序、京东小程序。App平台另见一键登陆）
+ * 	@value launchApp  					通用 - 小程序中打开APP，可以通过app-parameter属性设定向APP传的参数	（微信小程序、QQ小程序、快手小程序、京东小程序）
+ * 	@value openSetting  				通用 - 打开授权设置页（微信小程序、QQ小程序、百度小程序、快手小程序、京东小程序、360小程序）
+ * 	@value chooseAvatar  				微信小程序 - 获取用户头像
+ * 	@value uploadDouyinVideo  	抖音小程序 - 发布抖音视频
+ * 	@value im  									抖音小程序 - 跳转到抖音IM客服
+ * 	@value getAuthorize  				支付宝小程序 - 授权
+ * 	@value lifestyle  					支付宝小程序 - 关注生活号
+ * 	@value contactShare  				支付宝小程序 - 分享到通讯录好友
+ * 	@value openGroupProfile  		QQ小程序 - 呼起QQ群资料卡页面，可以通过group-id属性设定需要打开的群资料卡的群号，同时manifest.json中必须配置groupIdList
+ * 	@value openGuildProfile  		QQ小程序 - 呼起频道页面，可以通过guild-id属性设定需要打开的频道ID	
+ * 	@value openPublicProfile  	QQ小程序 - 打开公众号资料卡，可以通过public-id属性设定需要打开的公众号资料卡的号码，同时manifest.json中必须配置publicIdList
+ * 	@value shareMessageToFriend QQ小程序 - 在自定义开放数据域组件中,向指定好友发起分享据
+ * 	@value addFriend  					QQ小程序 - 添加好友， 对方需要通过该小程序进行授权，允许被加好友后才能调用成功用户授权
+ * 	@value addColorSign  				QQ小程序 - 添加彩签，点击后添加状态有用户提示，无回调
+ * 	@value addGroupApp  				QQ小程序 - 添加群应用（只有管理员或群主有权操作），添加后给button绑定@addgroupapp事件接收回调数据
+ * 	@value addToFavorites  			QQ小程序 - 收藏当前页面，点击按钮后会触发Page.onAddToFavorites方法
+ * 	@value chooseAddress  			百度小程序 - 选择用户收货地址
+ * 	@value chooseInvoiceTitle		百度小程序 - 选择用户发票抬头
+ * 	@value login  							百度小程序 - 登录，可以从@login回调中确认是否登录成功
+ * 	@value subscribe  					百度小程序 - 订阅类模板消息，需要用户授权才可发送
+ * 	@value favorite  						快手小程序 - 触发用户收藏
+ * 	@value watchLater  					快手小程序 - 触发用户稍后再看
+ * 	@value openProfile  				快手小程序 - 触发打开用户主页
  * @property {String} data-name 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
  * @property {String} hover-class 指定按钮按下去的样式类。当 hover-class="none" 时，没有点击态效果(App-nvue 平台暂不支持)
  * @property {Number} hover-start-time 按住后多久出现点击态，单位毫秒
@@ -80,11 +119,12 @@
  * @event {Function} error 当使用开放能力时，发生错误的回调
  * @event {Function} opensetting 在打开授权设置页并关闭后回调
  * @event {Function} launchapp 打开 APP 成功的回调
+ * @event {Function} chooseavatar 获取用户头像，可以从@chooseavatar回调中获取到头像信息，open-type="chooseAvatar"时有效
  * @example <u-button>月落</u-button>
  */
 export default {
 	name: 'u-button',
-  emits: ["click", "getphonenumber", "getuserinfo", "error", "opensetting", "launchapp"],
+  emits: ["click", "getphonenumber", "getuserinfo", "error", "opensetting", "launchapp", "chooseavatar"],
 	props: {
 		// 是否细边框
 		hairLine: {
@@ -342,7 +382,10 @@ export default {
 		},
 		launchapp(res) {
 			this.$emit('launchapp', res);
-		}
+		},
+        chooseavatar(res) {
+            this.$emit('chooseavatar', res);
+ 		}
 	}
 };
 </script>
@@ -458,6 +501,22 @@ export default {
 		color: $u-type-warning!important;
 		border-color: $u-type-warning-disabled!important;
 		background-color: $u-type-warning-light!important;
+	}
+	
+	&--info {
+		color: #ffffff;
+		border-color: $u-type-info;
+		background-color: $u-type-info;
+	}
+	&--info--disabled {
+		color: #ffffff!important;
+		border-color: $u-type-info-disabled!important;
+		background-color: $u-type-info-disabled!important;
+	}
+	&--info--plain {
+		color: $u-type-info!important;
+		border-color: $u-type-info-disabled!important;
+		background-color: $u-type-info-light!important;
 	}
 }
 
