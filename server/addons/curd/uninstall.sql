@@ -1,2 +1,2 @@
-drop table wait_gen_table;
-drop table wait_gen_table_column;
+drop table if exists `__PREFIX__addons_curd_table`;
+drop table if exists `__PREFIX__addons_curd_table_column`;
