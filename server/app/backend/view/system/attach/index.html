@@ -69,12 +69,12 @@
     <div class="container">
         <div class="file-container">
             <div class="file-header">
-                <div class="layui-tab layui-tab-brief" lay-filter="attach-tab-filter">
+                <div class="layui-tab layui-tab-brief" lay-filter="tab">
                     <ul class="layui-tab-title">
-                        <li class="layui-this" data-type="10">图片</li>
-                        <li data-type="20">视频</li>
-                        <li data-type="30">压缩</li>
-                        <li data-type="40">文档</li>
+                        <li class="layui-this" data-tab="10">图片</li>
+                        <li data-tab="20">视频</li>
+                        <li data-tab="30">压缩</li>
+                        <li data-tab="40">文档</li>
                     </ul>
                 </div>
             </div>
@@ -270,8 +270,9 @@
         });
 
         // 初始加载
-        event.group();
-        event.lists();
+        let initTab = parseInt($('.layui-tab .layui-this').attr('data-tab'));
+        event.group({type: initTab});
+        event.lists({type: initTab});
 
         // 分组切换
         $(document).on('click', '.folder li', function (e) {
@@ -466,13 +467,13 @@
         });
 
         // 切换选项
-        element.on('tab(attach-tab-filter)', function(){
-            type = parseInt(this.getAttribute('data-type'));
+        element.on('tab(tab)', function() {
+            type = parseInt(this.getAttribute('data-tab'));
             event.group({type: type});
             event.lists({type: type, cid: -1, page: 1});
 
             $('.header .layui-btn-group .layui-btn-normal').addClass('layui-hide');
-            $('.header .layui-btn-group .layui-btn-normal[data-type='+type+']').removeClass('layui-hide');
+            $('.header .layui-btn-group .layui-btn-normal[data-tab='+type+']').removeClass('layui-hide');
         });
 
         // 上传图片
