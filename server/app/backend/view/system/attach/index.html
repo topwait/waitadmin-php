@@ -352,8 +352,8 @@
         });
 
         // 文件命名
-        $(document).on('contextmenu', '.attach li p', function (e) {
-            e.preventDefault();
+        $(document).on('click', '.attach li p', function (e) {
+            e.stopPropagation();
             let that = $(this);
             let name = that.html();
             let id   = that.parents('li').attr('data-id');

@@ -344,7 +344,8 @@
         });
 
         // 命名文件
-        $(document).on('contextmenu', '.attach li p', function () {
+        $(document).on('click', '.attach li p', function (e) {
+            e.stopPropagation();
             let that = $(this);
             let name = that.html();
             let id   = that.parents('li').attr('data-id');
@@ -357,7 +358,7 @@
                     url: '{:route("attach/rename")}',
                     type: 'POST',
                     fulShow: false,
-                    data: {id: id, type: type, name: text.trim()}
+                    data: {id: id, type: type, title: text.trim()}
                 }).then((res) => {
                     if (res.code === 0) {
                         that.html(text);
