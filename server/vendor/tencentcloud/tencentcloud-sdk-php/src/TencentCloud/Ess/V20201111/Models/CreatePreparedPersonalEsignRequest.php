@@ -42,10 +42,10 @@ PASSPORT 护照
 HONGKONG_AND_MACAO 中国香港
 FOREIGN_ID_CARD 境外身份
 HONGKONG_MACAO_AND_TAIWAN 中国台湾
- * @method string getMobile() 获取手机号码
- * @method void setMobile(string $Mobile) 设置手机号码
- * @method boolean getEnableAutoSign() 获取是否需开通自动签
- * @method void setEnableAutoSign(boolean $EnableAutoSign) 设置是否需开通自动签
+ * @method string getMobile() 获取手机号码；当需要开通自动签时，该参数必传
+ * @method void setMobile(string $Mobile) 设置手机号码；当需要开通自动签时，该参数必传
+ * @method boolean getEnableAutoSign() 获取是否开通自动签，该功能需联系运营工作人员开通后使用
+ * @method void setEnableAutoSign(boolean $EnableAutoSign) 设置是否开通自动签，该功能需联系运营工作人员开通后使用
  */
 class CreatePreparedPersonalEsignRequest extends AbstractModel
 {
@@ -85,12 +85,12 @@ HONGKONG_MACAO_AND_TAIWAN 中国台湾
     public $IdCardType;
 
     /**
-     * @var string 手机号码
+     * @var string 手机号码；当需要开通自动签时，该参数必传
      */
     public $Mobile;
 
     /**
-     * @var boolean 是否需开通自动签
+     * @var boolean 是否开通自动签，该功能需联系运营工作人员开通后使用
      */
     public $EnableAutoSign;
 
@@ -106,8 +106,8 @@ PASSPORT 护照
 HONGKONG_AND_MACAO 中国香港
 FOREIGN_ID_CARD 境外身份
 HONGKONG_MACAO_AND_TAIWAN 中国台湾
-     * @param string $Mobile 手机号码
-     * @param boolean $EnableAutoSign 是否需开通自动签
+     * @param string $Mobile 手机号码；当需要开通自动签时，该参数必传
+     * @param boolean $EnableAutoSign 是否开通自动签，该功能需联系运营工作人员开通后使用
      */
     function __construct()
     {

@@ -22,10 +22,10 @@ use TencentCloud\Common\AbstractModel;
  *
  * @method string getQueueName() 获取队列名称。
  * @method void setQueueName(string $QueueName) 设置队列名称。
- * @method integer getMinSize() 获取队列中弹性节点数量最小值。取值范围0～200。
- * @method void setMinSize(integer $MinSize) 设置队列中弹性节点数量最小值。取值范围0～200。
- * @method integer getMaxSize() 获取队列中弹性节点数量最大值。取值范围0～200。
- * @method void setMaxSize(integer $MaxSize) 设置队列中弹性节点数量最大值。取值范围0～200。
+ * @method integer getMinSize() 获取队列中弹性节点数量最小值。默认值：0。取值范围：0～200。
+ * @method void setMinSize(integer $MinSize) 设置队列中弹性节点数量最小值。默认值：0。取值范围：0～200。
+ * @method integer getMaxSize() 获取队列中弹性节点数量最大值。默认值：10。取值范围：0～200。
+ * @method void setMaxSize(integer $MaxSize) 设置队列中弹性节点数量最大值。默认值：10。取值范围：0～200。
  * @method boolean getEnableAutoExpansion() 获取是否开启自动扩容。
  * @method void setEnableAutoExpansion(boolean $EnableAutoExpansion) 设置是否开启自动扩容。
  * @method boolean getEnableAutoShrink() 获取是否开启自动缩容。
@@ -40,6 +40,18 @@ use TencentCloud\Common\AbstractModel;
  * @method void setInternetAccessible(InternetAccessible $InternetAccessible) 设置公网带宽相关信息设置。若不指定该参数，则默认公网带宽为0Mbps。
  * @method array getExpansionNodeConfigs() 获取扩容节点配置信息。
  * @method void setExpansionNodeConfigs(array $ExpansionNodeConfigs) 设置扩容节点配置信息。
+ * @method integer getDesiredIdleNodeCapacity() 获取队列中期望的空闲节点数量（包含弹性节点和静态节点）。默认值：0。队列中，处于空闲状态的节点小于此值，集群会扩容弹性节点；处于空闲状态的节点大于此值，集群会缩容弹性节点。
+ * @method void setDesiredIdleNodeCapacity(integer $DesiredIdleNodeCapacity) 设置队列中期望的空闲节点数量（包含弹性节点和静态节点）。默认值：0。队列中，处于空闲状态的节点小于此值，集群会扩容弹性节点；处于空闲状态的节点大于此值，集群会缩容弹性节点。
+ * @method integer getScaleOutRatio() 获取扩容比例。默认值：100。取值范围：1～100。
+如果扩容比例为50，那么每轮只会扩容当前作业负载所需的50%数量的节点。
+ * @method void setScaleOutRatio(integer $ScaleOutRatio) 设置扩容比例。默认值：100。取值范围：1～100。
+如果扩容比例为50，那么每轮只会扩容当前作业负载所需的50%数量的节点。
+ * @method integer getScaleOutNodeThreshold() 获取比例扩容阈值。默认值：0。取值范围：0～200。
+当作业负载需要扩容节点数量大于此值，当前扩容轮次按照ScaleOutRatio配置的比例进行扩容。当作业负载需要扩容节点数量小于此值，当前扩容轮次扩容当前作业负载所需数量的节点。
+此参数配合ScaleOutRatio参数进行使用，用于比例扩容场景下，在作业负载所需节点数量较小时，加快收敛速度。
+ * @method void setScaleOutNodeThreshold(integer $ScaleOutNodeThreshold) 设置比例扩容阈值。默认值：0。取值范围：0～200。
+当作业负载需要扩容节点数量大于此值，当前扩容轮次按照ScaleOutRatio配置的比例进行扩容。当作业负载需要扩容节点数量小于此值，当前扩容轮次扩容当前作业负载所需数量的节点。
+此参数配合ScaleOutRatio参数进行使用，用于比例扩容场景下，在作业负载所需节点数量较小时，加快收敛速度。
  */
 class QueueConfig extends AbstractModel
 {
@@ -49,12 +61,12 @@ class QueueConfig extends AbstractModel
     public $QueueName;
 
     /**
-     * @var integer 队列中弹性节点数量最小值。取值范围0～200。
+     * @var integer 队列中弹性节点数量最小值。默认值：0。取值范围：0～200。
      */
     public $MinSize;
 
     /**
-     * @var integer 队列中弹性节点数量最大值。取值范围0～200。
+     * @var integer 队列中弹性节点数量最大值。默认值：10。取值范围：0～200。
      */
     public $MaxSize;
 
@@ -94,9 +106,27 @@ class QueueConfig extends AbstractModel
     public $ExpansionNodeConfigs;
 
     /**
+     * @var integer 队列中期望的空闲节点数量（包含弹性节点和静态节点）。默认值：0。队列中，处于空闲状态的节点小于此值，集群会扩容弹性节点；处于空闲状态的节点大于此值，集群会缩容弹性节点。
+     */
+    public $DesiredIdleNodeCapacity;
+
+    /**
+     * @var integer 扩容比例。默认值：100。取值范围：1～100。
+如果扩容比例为50，那么每轮只会扩容当前作业负载所需的50%数量的节点。
+     */
+    public $ScaleOutRatio;
+
+    /**
+     * @var integer 比例扩容阈值。默认值：0。取值范围：0～200。
+当作业负载需要扩容节点数量大于此值，当前扩容轮次按照ScaleOutRatio配置的比例进行扩容。当作业负载需要扩容节点数量小于此值，当前扩容轮次扩容当前作业负载所需数量的节点。
+此参数配合ScaleOutRatio参数进行使用，用于比例扩容场景下，在作业负载所需节点数量较小时，加快收敛速度。
+     */
+    public $ScaleOutNodeThreshold;
+
+    /**
      * @param string $QueueName 队列名称。
-     * @param integer $MinSize 队列中弹性节点数量最小值。取值范围0～200。
-     * @param integer $MaxSize 队列中弹性节点数量最大值。取值范围0～200。
+     * @param integer $MinSize 队列中弹性节点数量最小值。默认值：0。取值范围：0～200。
+     * @param integer $MaxSize 队列中弹性节点数量最大值。默认值：10。取值范围：0～200。
      * @param boolean $EnableAutoExpansion 是否开启自动扩容。
      * @param boolean $EnableAutoShrink 是否开启自动缩容。
      * @param string $ImageId 指定有效的[镜像](https://cloud.tencent.com/document/product/213/4940)ID，格式形如`img-xxx`。目前仅支持公有镜和特定自定义镜像。
@@ -104,6 +134,12 @@ class QueueConfig extends AbstractModel
      * @param array $DataDisks 节点数据盘配置信息。若不指定该参数，则默认不购买数据盘。支持购买的时候指定21块数据盘，其中最多包含1块LOCAL_BASIC数据盘或者LOCAL_SSD数据盘，最多包含20块CLOUD_BASIC数据盘、CLOUD_PREMIUM数据盘或者CLOUD_SSD数据盘。
      * @param InternetAccessible $InternetAccessible 公网带宽相关信息设置。若不指定该参数，则默认公网带宽为0Mbps。
      * @param array $ExpansionNodeConfigs 扩容节点配置信息。
+     * @param integer $DesiredIdleNodeCapacity 队列中期望的空闲节点数量（包含弹性节点和静态节点）。默认值：0。队列中，处于空闲状态的节点小于此值，集群会扩容弹性节点；处于空闲状态的节点大于此值，集群会缩容弹性节点。
+     * @param integer $ScaleOutRatio 扩容比例。默认值：100。取值范围：1～100。
+如果扩容比例为50，那么每轮只会扩容当前作业负载所需的50%数量的节点。
+     * @param integer $ScaleOutNodeThreshold 比例扩容阈值。默认值：0。取值范围：0～200。
+当作业负载需要扩容节点数量大于此值，当前扩容轮次按照ScaleOutRatio配置的比例进行扩容。当作业负载需要扩容节点数量小于此值，当前扩容轮次扩容当前作业负载所需数量的节点。
+此参数配合ScaleOutRatio参数进行使用，用于比例扩容场景下，在作业负载所需节点数量较小时，加快收敛速度。
      */
     function __construct()
     {
@@ -168,6 +204,18 @@ class QueueConfig extends AbstractModel
                 $obj->deserialize($value);
                 array_push($this->ExpansionNodeConfigs, $obj);
             }
+        }
+
+        if (array_key_exists("DesiredIdleNodeCapacity",$param) and $param["DesiredIdleNodeCapacity"] !== null) {
+            $this->DesiredIdleNodeCapacity = $param["DesiredIdleNodeCapacity"];
+        }
+
+        if (array_key_exists("ScaleOutRatio",$param) and $param["ScaleOutRatio"] !== null) {
+            $this->ScaleOutRatio = $param["ScaleOutRatio"];
+        }
+
+        if (array_key_exists("ScaleOutNodeThreshold",$param) and $param["ScaleOutNodeThreshold"] !== null) {
+            $this->ScaleOutNodeThreshold = $param["ScaleOutNodeThreshold"];
         }
     }
 }

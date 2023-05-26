@@ -20,18 +20,34 @@ use TencentCloud\Common\AbstractModel;
 /**
  * ModifyEnterpriseSecurityDispatchStatus请求参数结构体
  *
- * @method integer getStatus() 获取状态，0：立即下发，1：停止下发
- * @method void setStatus(integer $Status) 设置状态，0：立即下发，1：停止下发
+ * @method integer getStatus() 获取0：打开立即下发开关；
+
+1：关闭立即下发开关；
+
+2：关闭立即下发开关下，触发开始下发
+ * @method void setStatus(integer $Status) 设置0：打开立即下发开关；
+
+1：关闭立即下发开关；
+
+2：关闭立即下发开关下，触发开始下发
  */
 class ModifyEnterpriseSecurityDispatchStatusRequest extends AbstractModel
 {
     /**
-     * @var integer 状态，0：立即下发，1：停止下发
+     * @var integer 0：打开立即下发开关；
+
+1：关闭立即下发开关；
+
+2：关闭立即下发开关下，触发开始下发
      */
     public $Status;
 
     /**
-     * @param integer $Status 状态，0：立即下发，1：停止下发
+     * @param integer $Status 0：打开立即下发开关；
+
+1：关闭立即下发开关；
+
+2：关闭立即下发开关下，触发开始下发
      */
     function __construct()
     {

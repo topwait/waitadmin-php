@@ -22,6 +22,10 @@ use TencentCloud\Common\AbstractModel;
  *
  * @method string getTopicName() 获取Topic名称
  * @method void setTopicName(string $TopicName) 设置Topic名称
+ * @method string getTopicId() 获取TopicId
+注意：此字段可能返回 null，表示取不到有效值。
+ * @method void setTopicId(string $TopicId) 设置TopicId
+注意：此字段可能返回 null，表示取不到有效值。
  */
 class DatahubTopicResp extends AbstractModel
 {
@@ -31,7 +35,15 @@ class DatahubTopicResp extends AbstractModel
     public $TopicName;
 
     /**
+     * @var string TopicId
+注意：此字段可能返回 null，表示取不到有效值。
+     */
+    public $TopicId;
+
+    /**
      * @param string $TopicName Topic名称
+     * @param string $TopicId TopicId
+注意：此字段可能返回 null，表示取不到有效值。
      */
     function __construct()
     {
@@ -48,6 +60,10 @@ class DatahubTopicResp extends AbstractModel
         }
         if (array_key_exists("TopicName",$param) and $param["TopicName"] !== null) {
             $this->TopicName = $param["TopicName"];
+        }
+
+        if (array_key_exists("TopicId",$param) and $param["TopicId"] !== null) {
+            $this->TopicId = $param["TopicId"];
         }
     }
 }

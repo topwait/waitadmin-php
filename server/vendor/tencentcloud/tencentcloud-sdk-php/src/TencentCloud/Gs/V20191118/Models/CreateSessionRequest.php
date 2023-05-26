@@ -22,8 +22,8 @@ use TencentCloud\Common\AbstractModel;
  *
  * @method string getUserId() 获取唯一用户身份标识，由业务方自定义，平台不予理解。（可根据业务需要决定使用用户的唯一身份标识或是使用时间戳随机生成；在用户重连时应保持UserId不变）
  * @method void setUserId(string $UserId) 设置唯一用户身份标识，由业务方自定义，平台不予理解。（可根据业务需要决定使用用户的唯一身份标识或是使用时间戳随机生成；在用户重连时应保持UserId不变）
- * @method string getGameId() 获取游戏ID
- * @method void setGameId(string $GameId) 设置游戏ID
+ * @method string getGameId() 获取【已废弃】只在TrylockWorker时生效
+ * @method void setGameId(string $GameId) 设置【已废弃】只在TrylockWorker时生效
  * @method string getGameRegion() 获取【已废弃】只在TrylockWorker时生效
  * @method void setGameRegion(string $GameRegion) 设置【已废弃】只在TrylockWorker时生效
  * @method string getGameParas() 获取游戏参数
@@ -36,8 +36,8 @@ use TencentCloud\Common\AbstractModel;
  * @method void setImageUrl(string $ImageUrl) 设置背景图url，格式为png或jpeg，宽高1920*1080
  * @method integer getSetNo() 获取【已废弃】
  * @method void setSetNo(integer $SetNo) 设置【已废弃】
- * @method integer getBitrate() 获取单位Mbps，固定码率建议值，有一定浮动范围，后端不动态调整(MaxBitrate和MinBitrate将无效)
- * @method void setBitrate(integer $Bitrate) 设置单位Mbps，固定码率建议值，有一定浮动范围，后端不动态调整(MaxBitrate和MinBitrate将无效)
+ * @method integer getBitrate() 获取【已废弃】
+ * @method void setBitrate(integer $Bitrate) 设置【已废弃】
  * @method integer getMaxBitrate() 获取单位Mbps，动态调整最大码率建议值，会按实际情况调整
  * @method void setMaxBitrate(integer $MaxBitrate) 设置单位Mbps，动态调整最大码率建议值，会按实际情况调整
  * @method integer getMinBitrate() 获取单位Mbps，动态调整最小码率建议值，会按实际情况调整
@@ -69,7 +69,7 @@ class CreateSessionRequest extends AbstractModel
     public $UserId;
 
     /**
-     * @var string 游戏ID
+     * @var string 【已废弃】只在TrylockWorker时生效
      */
     public $GameId;
 
@@ -104,7 +104,7 @@ class CreateSessionRequest extends AbstractModel
     public $SetNo;
 
     /**
-     * @var integer 单位Mbps，固定码率建议值，有一定浮动范围，后端不动态调整(MaxBitrate和MinBitrate将无效)
+     * @var integer 【已废弃】
      */
     public $Bitrate;
 
@@ -157,14 +157,14 @@ RunWithoutClient：允许无客户端连接的情况下仍保持云端 App 运�
 
     /**
      * @param string $UserId 唯一用户身份标识，由业务方自定义，平台不予理解。（可根据业务需要决定使用用户的唯一身份标识或是使用时间戳随机生成；在用户重连时应保持UserId不变）
-     * @param string $GameId 游戏ID
+     * @param string $GameId 【已废弃】只在TrylockWorker时生效
      * @param string $GameRegion 【已废弃】只在TrylockWorker时生效
      * @param string $GameParas 游戏参数
      * @param string $ClientSession 客户端session信息，从JSSDK请求中获得。特殊的，当 RunMode 参数为 RunWithoutClient 时，该字段可以为空
      * @param string $Resolution 分辨率,，可设置为1080p或720p或1920x1080格式
      * @param string $ImageUrl 背景图url，格式为png或jpeg，宽高1920*1080
      * @param integer $SetNo 【已废弃】
-     * @param integer $Bitrate 单位Mbps，固定码率建议值，有一定浮动范围，后端不动态调整(MaxBitrate和MinBitrate将无效)
+     * @param integer $Bitrate 【已废弃】
      * @param integer $MaxBitrate 单位Mbps，动态调整最大码率建议值，会按实际情况调整
      * @param integer $MinBitrate 单位Mbps，动态调整最小码率建议值，会按实际情况调整
      * @param integer $Fps 帧率，可设置为30、45、60、90、120、144

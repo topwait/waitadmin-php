@@ -24,6 +24,8 @@ use TencentCloud\Common\AbstractModel;
  * @method void setBrandName(string $BrandName) 设置品牌名称
  * @method string getCompanyName() 获取企业名称
  * @method void setCompanyName(string $CompanyName) 设置企业名称
+ * @method string getBrandLogo() 获取品牌logo
+ * @method void setBrandLogo(string $BrandLogo) 设置品牌logo
  * @method string getPhone() 获取联系电话
  * @method void setPhone(string $Phone) 设置联系电话
  * @method string getLicense() 获取营业执照
@@ -46,6 +48,8 @@ use TencentCloud\Common\AbstractModel;
  * @method void setProtectOfficialAccounts(array $ProtectOfficialAccounts) 设置保护公众号
  * @method array getProtectMiniPrograms() 获取保护小程序
  * @method void setProtectMiniPrograms(array $ProtectMiniPrograms) 设置保护小程序
+ * @method integer getAPISource() 获取请求来源：0-反钓鱼 2-反假冒
+ * @method void setAPISource(integer $APISource) 设置请求来源：0-反钓鱼 2-反假冒
  */
 class CreateBPBrandRequest extends AbstractModel
 {
@@ -58,6 +62,11 @@ class CreateBPBrandRequest extends AbstractModel
      * @var string 企业名称
      */
     public $CompanyName;
+
+    /**
+     * @var string 品牌logo
+     */
+    public $BrandLogo;
 
     /**
      * @var string 联系电话
@@ -115,8 +124,14 @@ class CreateBPBrandRequest extends AbstractModel
     public $ProtectMiniPrograms;
 
     /**
+     * @var integer 请求来源：0-反钓鱼 2-反假冒
+     */
+    public $APISource;
+
+    /**
      * @param string $BrandName 品牌名称
      * @param string $CompanyName 企业名称
+     * @param string $BrandLogo 品牌logo
      * @param string $Phone 联系电话
      * @param string $License 营业执照
      * @param string $Authorization 授权书
@@ -128,6 +143,7 @@ class CreateBPBrandRequest extends AbstractModel
      * @param array $ProtectAPPs 保护应用
      * @param array $ProtectOfficialAccounts 保护公众号
      * @param array $ProtectMiniPrograms 保护小程序
+     * @param integer $APISource 请求来源：0-反钓鱼 2-反假冒
      */
     function __construct()
     {
@@ -148,6 +164,10 @@ class CreateBPBrandRequest extends AbstractModel
 
         if (array_key_exists("CompanyName",$param) and $param["CompanyName"] !== null) {
             $this->CompanyName = $param["CompanyName"];
+        }
+
+        if (array_key_exists("BrandLogo",$param) and $param["BrandLogo"] !== null) {
+            $this->BrandLogo = $param["BrandLogo"];
         }
 
         if (array_key_exists("Phone",$param) and $param["Phone"] !== null) {
@@ -192,6 +212,10 @@ class CreateBPBrandRequest extends AbstractModel
 
         if (array_key_exists("ProtectMiniPrograms",$param) and $param["ProtectMiniPrograms"] !== null) {
             $this->ProtectMiniPrograms = $param["ProtectMiniPrograms"];
+        }
+
+        if (array_key_exists("APISource",$param) and $param["APISource"] !== null) {
+            $this->APISource = $param["APISource"];
         }
     }
 }
