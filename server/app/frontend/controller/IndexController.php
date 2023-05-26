@@ -37,7 +37,7 @@ use think\response\View;
  */
 class IndexController extends Frontend
 {
-    protected array $notNeedLogin = ['index', 'sendSms', 'sendEmail'];
+    protected array $notNeedLogin = ['index', 'protocol', 'sendSms', 'sendEmail'];
 
     /**
      * 首页
