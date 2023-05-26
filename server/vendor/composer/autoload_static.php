@@ -163,12 +163,12 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-filesystem/src',
-            1 => __DIR__ . '/..' . '/topthink/think-helper/src',
-            2 => __DIR__ . '/..' . '/topthink/think-image/src',
-            3 => __DIR__ . '/..' . '/topthink/think-template/src',
+            0 => __DIR__ . '/..' . '/topthink/framework/src/think',
+            1 => __DIR__ . '/..' . '/topthink/think-filesystem/src',
+            2 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            3 => __DIR__ . '/..' . '/topthink/think-image/src',
             4 => __DIR__ . '/..' . '/topthink/think-orm/src',
-            5 => __DIR__ . '/..' . '/topthink/framework/src/think',
+            5 => __DIR__ . '/..' . '/topthink/think-template/src',
         ),
         'clagiordano\\weblibs\\configmanager\\' => 
         array (
@@ -184,7 +184,8 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         ),
         'TencentCloud\\' => 
         array (
-            0 => __DIR__ . '/..' . '/tencentcloud/tencentcloud-sdk-php/src/TencentCloud',
+            0 => __DIR__ . '/..' . '/tencentcloud/common/src/TencentCloud',
+            1 => __DIR__ . '/..' . '/tencentcloud/sms/src/TencentCloud',
         ),
         'Symfony\\Polyfill\\Php81\\' => 
         array (
@@ -280,8 +281,8 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -383,7 +384,6 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
-        'QcloudApi' => __DIR__ . '/..' . '/tencentcloud/tencentcloud-sdk-php/src/QcloudApi/QcloudApi.php',
         'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
         'Stringable' => __DIR__ . '/..' . '/myclabs/php-enum/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
