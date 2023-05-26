@@ -176,7 +176,7 @@ class StorageDriver
     private function watermark(array $fileInfo): void
     {
         if ($fileInfo['type'] === 'picture') {
-            $water = request()->post('water', 'true');
+            $water = request()->post('water', 'false');
             $watermark = WatermarkService::detail();
             if ($watermark['status'] && $water === 'true') {
                 $image = Image::open($fileInfo['realPath']);
