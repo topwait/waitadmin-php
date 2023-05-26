@@ -1,0 +1,26 @@
+{extend name="common/layoutBase" /}
+
+{block name="style"}
+<style>
+    .container .layui-card-body { padding-top: 10px; min-height: 500px; }
+    .container .layui-card-header {
+        color: #333;
+        font-weight: bold;
+        font-size: 22px;
+        text-align: center;
+        height: 70px;
+        line-height: 70px;
+    }
+</style>
+{/block}
+
+{block name="body"}
+<div class="container">
+    <div class="layui-card mt-20">
+        <div class="layui-card-header">{$title}</div>
+        <div class="layui-card-body">
+            {$content|raw}
+        </div>
+    </div>
+</div>
+{/block}

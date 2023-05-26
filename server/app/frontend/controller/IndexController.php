@@ -16,8 +16,10 @@ declare (strict_types = 1);
 namespace app\frontend\controller;
 
 use app\common\basics\Frontend;
+use app\common\exception\OperateException;
 use app\common\service\msg\MsgDriver;
 use app\common\utils\AjaxUtils;
+use app\common\utils\ConfigUtils;
 use app\frontend\service\ArticleService;
 use app\frontend\service\IndexService;
 use think\db\exception\DataNotFoundException;
@@ -61,6 +63,29 @@ class IndexController extends Frontend
             'everyday' => ArticleService::recommend('everyday', 8),
             'lately'   => ArticleService::recommend('lately', 8),
             'ranking'  => ArticleService::recommend('ranking', 8)
+        ]);
+    }
+
+    /**
+     * 网站协议
+     *
+     * @return View
+     * @method [GET]
+     * @throws OperateException
+     * @author zero
+     */
+    public function protocol(): View
+    {
+        $type  = $this->request->get('type', '');
+        $value = ConfigUtils::get('policy', $type);
+        if ($value === null) {
+            throw new OperateException('协议不存在!');
+        }
+
+        $array = ['service'=>'服务协议', 'privacy'=>'隐私协议'];
+        return view('', [
+            'title'   => $array[$type],
+            'content' => $value
         ]);
     }
 
