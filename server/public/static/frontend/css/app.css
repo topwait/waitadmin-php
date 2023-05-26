@@ -54,7 +54,7 @@
 /** 轮播样式 **/
 .index-modular-carousel { width: 810px; height: 360px; }
 .index-modular-carousel #indexCarousel { width: 100%; height: 360px; }
-.index-modular-carousel #indexCarousel img { width: 100%; height: 100%; }
+.index-modular-carousel #indexCarousel img { width: 100%; height: 100%; border-radius: 12px;  }
 
 /** 特色模块 **/
 .index-modular-feature { margin-top: 15px; }
@@ -152,7 +152,7 @@
 
 /** 广告模块 **/
 .index-modular-adv { margin-top: 15px; }
-.index-modular-adv img { margin-bottom: 10px; width: 100%; border-radius: 2px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05); }
+.index-modular-adv img { margin-bottom: 10px; width: 100%; border-radius: 6px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05); }
 
 /** 用户布局 **/
 .layout-global-user { margin-top: 15px; }
@@ -211,38 +211,37 @@
 .user-modular-collect .layui-tab-content ul li .edit a { font-size: 16px; }
 
 /** 登录注册 **/
-.popup-skin-session .layui-layer-title { display: none; }
-.popup-skin-session iframe { height: 445px !important; border-radius: 4px !important;  display: inherit; }
-.layout-global-session { padding: 0 32px; height: 100vh; background-color: #ffffff; }
+.popup-skin-session { border-radius: 10px; }
+.popup-skin-session .layui-layer-content { overflow: hidden; border-radius: 10px; height: auto !important; }
+.layout-global-session { padding: 0 32px; border-radius: 2px; background-color: #ffffff; }
 .layout-global-session h1 { padding: 10px 0; height: 40px; font-size: 18px; font-weight: 700; color: #1c1f21; line-height: 40px; }
 .layout-global-session .layui-tab { margin: 0; }
-.layout-global-session .layui-tab-title { padding: 10px 0 15px 0; border-bottom-style: none; border-bottom-width: 0; }
+.layout-global-session .layui-tab-title { padding: 10px 0 15px; border-bottom-style: none; border-bottom-width: 0; }
 .layout-global-session .layui-tab-title li { padding: 0; height: 40px; font-size: 18px; font-weight: bold; color: #787d82; }
 .layout-global-session .layui-tab-title li:not(:first-child) { margin-left: 32px; }
 .layout-global-session .layui-tab-brief > .layui-tab-title .layui-this { color: #3a67e4; }
 .layout-global-session .layui-tab-brief > .layui-tab-title .layui-this::after { position: unset; display: block; margin: 0 auto; width: 16px; height: 4px; border: none; border-radius: 2px; background: #3a67e4; content: ""; line-height: 4px; }
 .layout-global-session .layui-form label { position: relative; display: block; margin-bottom: 15px; }
-.layout-global-session .layui-form label .area_code { position: absolute; cursor: pointer; left: 16px; top: 12px; font-size: 16px; color: #1c1f21; text-align: left; line-height: 24px; }
-.layout-global-session .layui-form label .get_code { position: absolute; right: 16px; top: 14px; color: #37f; cursor: pointer; }
+.layout-global-session .layui-form label .area_code { position: absolute; top: 12px; left: 16px; font-size: 16px; text-align: left; color: #1c1f21; cursor: pointer; line-height: 24px; }
+.layout-global-session .layui-form label .get_code { position: absolute; top: 14px; right: 16px; color: #3377ff; cursor: pointer; }
 .layout-global-session .layui-form label.phone .layui-input { padding-left: 57px !important; }
 .layout-global-session .layui-form .layui-input { padding: 14px; width: 100%; height: 48px; border: 0; border-radius: 6px; background: rgba(28, 31, 33, .06); box-shadow: 2px 0 5px 0 #ffffff; line-height: 20px; box-sizing: border-box; }
 .layout-global-session .control { display: flex; align-items: center; justify-content: end; }
 .layout-global-session .control a { font-size: 14px; color: #9199a1; }
-.layout-global-session .control a:hover { opacity: .85; }
+.layout-global-session .control a:hover { opacity: 0.85; }
 .layout-global-session .confirm { display: block; margin-top: 15px; height: 46px; font-size: 16px; border-radius: 24px; text-align: center; color: #ffffff; background-color: #3a67e4; line-height: 46px; }
 .layout-global-session .confirm:hover { background-color: #3a67e4; }
-.layout-global-session .go { display: block; padding-top: 15px; text-align: center; }
-.layout-global-session .go .jump { font-size: 16px;  color: #3a67e4; line-height: 24px; }
-.layout-global-session .go .jump:hover { opacity: .85; }
+.layout-global-session .jump { display: block; padding: 15px 0; text-align: center; font-size: 16px; color: #3a67e4; line-height: 24px; }
+.layout-global-session .jump:hover { opacity: 0.85; }
 .layout-global-session .empower { display: flex; justify-content: center; padding: 15px 0; }
 .layout-global-session .empower i { padding: 0 10px; font-size: 38px; color: #00c777; cursor: pointer; }
-.layout-global-session .treaty { padding-top: 10px; font-size: 14px; color: #9199a1; text-align: center; }
-.layout-global-session .treaty a { font-size: 14px; color: #37f; }
-.layout-global-session .treaty a:hover { opacity: .85; }
-.layout-global-session .agreement { padding-top: 15px; }
-.layout-global-session .agreement .compact { display: inline-block; font-size: 13px; color: #999999; height: 18px; }
-.layout-global-session .agreement .compact a { font-size: 14px; color: #37f; }
-.layout-global-session .agreement .compact a:hover { opacity: .85; }
+.layout-global-session .treaty { padding-top: 10px; font-size: 14px; text-align: center; color: #9199a1; }
+.layout-global-session .treaty a { font-size: 14px; color: #3377ff; }
+.layout-global-session .treaty a:hover { opacity: 0.85; }
+.layout-global-session .agreement { padding-bottom: 8px; }
+.layout-global-session .agreement .compact { display: inline-block; height: 18px; font-size: 13px; color: #999999; }
+.layout-global-session .agreement .compact a { font-size: 14px; color: #3377ff; }
+.layout-global-session .agreement .compact a:hover { opacity: 0.85; }
 .layout-global-session .agreement .layui-form-checkbox[lay-skin="primary"] { padding-left: 20px; }
 .layout-global-session .agreement .layui-form-checked[lay-skin="primary"] i { border-color: #3a67e4 !important; background-color: #3a67e4; }
 .layout-global-session .agreement .layui-form-checkbox[lay-skin="primary"]:hover i { border-color: #3a67e4; }
