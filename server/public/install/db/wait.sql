@@ -264,10 +264,10 @@ CREATE TABLE `wait_dev_navigation`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '导航管理表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for wait_gen_table
+-- Table structure for wait_curd_table
 -- ----------------------------
-DROP TABLE IF EXISTS `wait_gen_table`;
-CREATE TABLE `wait_gen_table`  (
+DROP TABLE IF EXISTS `wait_addons_curd_table`;
+CREATE TABLE `wait_addons_curd_table`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
   `table_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '表名称',
   `table_engine` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '表引擎',
@@ -291,10 +291,10 @@ CREATE TABLE `wait_gen_table`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '生成代码表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for wait_gen_table_column
+-- Table structure for wait_addons_curd_table_column
 -- ----------------------------
-DROP TABLE IF EXISTS `wait_gen_table_column`;
-CREATE TABLE `wait_gen_table_column`  (
+DROP TABLE IF EXISTS `wait_addons_curd_table_column`;
+CREATE TABLE `wait_addons_curd_table_column`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
   `table_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '表外键',
   `column_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '列名称',

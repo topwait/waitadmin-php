@@ -62,7 +62,7 @@ i, em { font-style: normal; }
 .thumbnail .builder .mask .item { display: flex; align-items: center; justify-content: center; width: 100%; height: 50%; color: #ffffff; box-sizing: border-box; }
 .thumbnail .builder .mask .item:hover { font-weight: bold; background-color: rgba(0, 0, 0, 1); }
 .thumbnail .builder .mask .item:first-child { border-bottom: 1px #ffffff dashed; }
-.thumbnail .preview { position: relative; display: flex; justify-content: center; width: 90px; height: 90px; margin-right: 10px; border: 1px dashed #e2e2e2; background: #fafafa; }
+.thumbnail .preview { position: relative; display: flex; justify-content: center; width: 90px; height: 90px; margin-right: 10px; border-radius: 3px; border: 1px dashed #e2e2e2; background: #fafafa; }
 .thumbnail .preview img { max-width: 100%; max-height: 100%; }
 .thumbnail .preview video { max-width: 100%; max-height: 100%; }
 .thumbnail .preview:hover i { visibility: visible; }

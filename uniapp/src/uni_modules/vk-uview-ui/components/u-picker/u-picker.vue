@@ -12,7 +12,7 @@
 		:blur="blur"
 	>
 		<view class="u-datetime-picker">
-			<view class="u-picker-header" @touchmove.stop.prevent="">
+			<view class="u-picker-header" @touchmove.stop.prevent="stop">
 				<view
 					class="u-btn-picker u-btn-picker--tips"
 					:style="{ color: cancelColor }"
@@ -28,7 +28,7 @@
 					:style="{ color: moving ? cancelColor : confirmColor }"
 					hover-class="u-opacity"
 					:hover-stay-time="150"
-					@touchmove.stop=""
+					@touchmove.stop="stop"
 					@click.stop="getResult('confirm')"
 				>
 					{{ confirmText }}
@@ -43,17 +43,17 @@
 					@pickstart="pickstart"
 					@pickend="pickend"
 				>
-					<picker-view-column v-if="!reset && params.province">
+					<picker-view-column v-if="showColumnCom && params.province">
 						<view class="u-column-item" v-for="(item, index) in provinces" :key="index">
 							<view class="u-line-1">{{ item.name }}</view>
 						</view>
 					</picker-view-column>
-					<picker-view-column v-if="!reset && params.city">
+					<picker-view-column v-if="showColumnCom && params.city">
 						<view class="u-column-item" v-for="(item, index) in citys" :key="index">
 							<view class="u-line-1">{{ item.name }}</view>
 						</view>
 					</picker-view-column>
-					<picker-view-column v-if="!reset && params.area">
+					<picker-view-column v-if="showColumnCom && params.area">
 						<view class="u-column-item" v-for="(item, index) in areas" :key="index">
 							<view class="u-line-1">{{ item.name }}</view>
 						</view>
@@ -67,37 +67,37 @@
 					@pickstart="pickstart"
 					@pickend="pickend"
 				>
-					<picker-view-column v-if="!reset && params.year">
+					<picker-view-column v-if="showColumnCom && params.year">
 						<view class="u-column-item" v-for="(item, index) in years" :key="index">
 							{{ item }}
 							<text class="u-text" v-if="showTimeTag">年</text>
 						</view>
 					</picker-view-column>
-					<picker-view-column v-if="!reset && params.month">
+					<picker-view-column v-if="showColumnCom && params.month">
 						<view class="u-column-item" v-for="(item, index) in months" :key="index">
 							{{ formatNumber(item) }}
 							<text class="u-text" v-if="showTimeTag">月</text>
 						</view>
 					</picker-view-column>
-					<picker-view-column v-if="!reset && params.day">
+					<picker-view-column v-if="showColumnCom && params.day">
 						<view class="u-column-item" v-for="(item, index) in days" :key="index">
 							{{ formatNumber(item) }}
 							<text class="u-text" v-if="showTimeTag">日</text>
 						</view>
 					</picker-view-column>
-					<picker-view-column v-if="!reset && params.hour">
+					<picker-view-column v-if="showColumnCom && params.hour">
 						<view class="u-column-item" v-for="(item, index) in hours" :key="index">
 							{{ formatNumber(item) }}
 							<text class="u-text" v-if="showTimeTag">时</text>
 						</view>
 					</picker-view-column>
-					<picker-view-column v-if="!reset && params.minute">
+					<picker-view-column v-if="showColumnCom && params.minute">
 						<view class="u-column-item" v-for="(item, index) in minutes" :key="index">
 							{{ formatNumber(item) }}
 							<text class="u-text" v-if="showTimeTag">分</text>
 						</view>
 					</picker-view-column>
-					<picker-view-column v-if="!reset && params.second">
+					<picker-view-column v-if="showColumnCom && params.second">
 						<view class="u-column-item" v-for="(item, index) in seconds" :key="index">
 							{{ formatNumber(item) }}
 							<text class="u-text" v-if="showTimeTag">秒</text>
@@ -112,7 +112,7 @@
 					@pickstart="pickstart"
 					@pickend="pickend"
 				>
-					<picker-view-column v-if="!reset">
+					<picker-view-column v-if="showColumnCom">
 						<view class="u-column-item" v-for="(item, index) in range" :key="index">
 							<view class="u-line-1">{{ getItemValue(item, "selector") }}</view>
 						</view>
@@ -126,7 +126,7 @@
 					@pickstart="pickstart"
 					@pickend="pickend"
 				>
-					<picker-view-column v-if="!reset" v-for="(item, index) in range" :key="index">
+					<picker-view-column v-if="showColumnCom" v-for="(item, index) in range" :key="index">
 						<view class="u-column-item" v-for="(item1, index1) in item" :key="index1">
 							<view class="u-line-1">{{ getItemValue(item1, "multiSelector") }}</view>
 						</view>
@@ -344,9 +344,8 @@ export default {
 		},
 		propsChange() {
 			// 引用这几个变量，是为了监听其变化
-			return `${this.mode}-${this.defaultTime}-${this.startYear}-${this.endYear}-${
-				this.defaultRegion
-			}-${this.areaCode}`;
+			let { mode, defaultTime, startYear, endYear, defaultRegion, areaCode, defaultSelector } = this;
+			return JSON.stringify({ mode, defaultTime, startYear, endYear, defaultRegion, areaCode, defaultSelector });
 		},
 		regionChange() {
 			// 引用这几个变量，是为了监听其变化
@@ -358,6 +357,15 @@ export default {
 		uZIndex() {
 			// 如果用户有传递z-index值，优先使用
 			return this.zIndex ? this.zIndex : this.$u.zIndex.popup;
+		},
+		// 用来兼容小程序、App、h5
+		showColumnCom(){
+			// #ifdef MP
+			return !this.reset;
+			// #endif
+			// #ifndef MP
+			return true;
+			// #endif
 		}
 	},
 	watch: {
@@ -385,7 +393,7 @@ export default {
 				}
 				this.popupValue = n;
 			}
-		},
+		}
 	},
 	methods: {
 		// 标识滑动开始，只有微信小程序才有这样的事件
@@ -431,6 +439,33 @@ export default {
 			// 格式化时间，在IE浏览器(uni不存在此情况)，无法识别日期间的"-"间隔符号
 			let fdate = this.defaultTime.replace(/\-/g, "/");
 			fdate = fdate && fdate.indexOf("/") == -1 ? `2020/01/01 ${fdate}` : fdate;
+			
+			// 时间字符串处理开始-----------------------------------------------------------
+			// ios对时间格式有严格要求，2020/01 这样的格式无法正常转时间，必须是2020/01/01 00:00:00 这样的格式
+			let arr1 = fdate.split(" ");
+			let arr1_1 = arr1[0] || "";
+			let arr1_2 = arr1[1] || "";
+			let arr2;
+			if (arr1_1.indexOf("-") > -1) {
+				arr2 = arr1_1.split("-");
+			} else {
+				arr2 = arr1_1.split("/");
+			}
+			let arr3 = arr1_2.split(":");
+			let dateObj = {
+				year: Number(arr2[0]),
+				month: Number(arr2[1]) || 1,
+				day: Number(arr2[2]) || 1,
+				hour: Number(arr3[0]) || 0,
+				minute: Number(arr3[1]) || 0,
+				second: Number(arr3[2]) || 0,
+			};
+			for (let key in dateObj) {
+				if (dateObj[key] >= 0 && dateObj[key] < 10) dateObj[key] = `0${dateObj[key]}`;
+			}
+			fdate = `${dateObj.year}/${dateObj.month}/${dateObj.day} ${dateObj.hour}:${dateObj.minute}:${dateObj.second}`;
+			// 时间字符串处理结束-----------------------------------------------------------
+			
 			let time = null;
 			if (fdate) time = new Date(fdate);
 			else time = new Date();
@@ -808,8 +843,10 @@ export default {
 				}
 			};
 			return res;
+		},
+		stop(){
+			
 		}
-		
 	}
 };
 </script>

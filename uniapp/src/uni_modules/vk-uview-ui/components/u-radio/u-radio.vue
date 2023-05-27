@@ -88,7 +88,8 @@ export default {
 				width: null,
 				height: null,
 				value: null,
-				wrap: null
+				wrap: null,
+				modelValue: null
 			}
 		};
 	},

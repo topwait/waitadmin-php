@@ -3,11 +3,11 @@
 {block name="body"}
 <div class="user-modular-account">
     <div class="user-modular-title">帐户设置</div>
-    <div class="layui-tab">
+    <div class="layui-tab" lay-filter="tab">
         <ul class="layui-tab-title">
-            <li class="layui-this">基本信息</li>
-            <li>修改头像</li>
-            <li>账号绑定</li>
+            <li data-tab="base" class="layui-this">基本信息</li>
+            <li data-tab="avatar">修改头像</li>
+            <li data-tab="account">账号绑定</li>
         </ul>
         <div class="layui-tab-content">
             <!-- 基本信息 -->

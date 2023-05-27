@@ -3,10 +3,11 @@
 // | 基于ThinkPHP6的插件化模块 [WaitAdmin专属订造]
 // +----------------------------------------------------------------------
 // | github: https://github.com/topwait/wait-addons
-// | Author: Zero <2474369941@qq.com>
+// | Author: zero <2474369941@qq.com>
 // +----------------------------------------------------------------------
 declare(strict_types=1);
 
+use Symfony\Component\VarExporter\Exception\ExceptionInterface;
 use Symfony\Component\VarExporter\VarExporter;
 use think\Console;
 use think\facade\Config;
@@ -61,7 +62,7 @@ if (!function_exists('httpType')) {
      * 获取HTTP类型
      *
      * @return string (http:// 或 https://)
-     * @author windy
+     * @author zero
      */
     function httpType(): string
     {
@@ -79,7 +80,7 @@ if (!function_exists('httpDomain')) {
      * 不带协议的域名
      *
      * @return string|string[]
-     * @author windy
+     * @author zero
      */
     function httpDomain(): array|string
     {
@@ -116,7 +117,7 @@ if (!function_exists('addons_url')) {
      * @param bool|string $suffix 生成的URL后缀
      * @param bool|string $domain 域名
      * @return Url
-     * @author windy
+     * @author zero
      */
     function addons_url(string $url = '', array $param = [], bool|string $suffix = true, bool|string $domain = false): Url
     {
@@ -166,7 +167,7 @@ if (!function_exists('addons_path')) {
      *
      * @param string $name 插件名称
      * @return string
-     * @author windy
+     * @author zero
      */
     function addons_path(string $name=''): string
     {
@@ -184,7 +185,7 @@ if (!function_exists('get_addons_instance')) {
      *
      * @param string $name 插件名
      * @return mixed
-     * @author windy
+     * @author zero
      */
     function get_addons_instance(string $name): mixed
     {
@@ -208,7 +209,7 @@ if (!function_exists('get_addons_config')) {
      *
      * @param $name (插件名称)
      * @return array
-     * @author windy
+     * @author zero
      */
     function get_addons_config($name): array
     {
@@ -230,7 +231,7 @@ if (!function_exists('get_addons_class')) {
      * @param null $class    当前类名
      * @param string $module 模块名
      * @return string
-     * @author windy
+     * @author zero
      */
     function get_addons_class(string $name, string $type = 'hook', $class = null, string $module = 'index'): string
     {
@@ -266,7 +267,7 @@ if (!function_exists('get_addons_list')) {
      * 获取本地插件列表
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     function get_addons_list(): array
     {
@@ -309,7 +310,7 @@ if (!function_exists('get_addons_info')) {
      *
      * @param string $name 插件名
      * @return array
-     * @author windy
+     * @author zero
      */
     function get_addons_info(string $name): array
     {
@@ -330,7 +331,7 @@ if (!function_exists('set_addons_info')) {
      * @param $array  (插件数据)
      * @return bool
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     function set_addons_info($name, $array): bool
     {
@@ -375,8 +376,8 @@ if (!function_exists('set_addons_config')) {
      * @param $name  (插件名称)
      * @param $array (配置数组)
      * @return bool
-     * @throws Exception
-     * @author windy
+     * @throws Exception|ExceptionInterface
+     * @author zero
      */
     function set_addons_config($name, $array): bool
     {
@@ -405,7 +406,7 @@ if (!function_exists('refresh_addons_config')) {
      *
      * @return bool
      * @throws @\Symfony\Component\VarExporter\Exception\ExceptionInterface
-     * @author windy
+     * @author zero
      */
     function refresh_addons_config(): bool
     {
@@ -437,7 +438,7 @@ if (!function_exists('autoload_addons_config')) {
      *
      * @param bool $chunk (true=清空手动配置的钩子)
      * @return array
-     * @author windy
+     * @author zero
      */
     function autoload_addons_config(bool $chunk): array
     {
@@ -506,7 +507,7 @@ if (!function_exists('install_addons_sql')) {
      * @param string $name (插件名称)
      * @return bool
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     function install_addons_sql(string $name): bool
     {
@@ -548,7 +549,7 @@ if (!function_exists('uninstall_addons_sql')) {
      * @param $name (插件名称)
      * @return bool
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     function uninstall_addons_sql($name): bool
     {
@@ -569,8 +570,45 @@ if (!function_exists('uninstall_addons_sql')) {
                 }
 
             }
+        } else {
+            // 根据安装表的表名删除
+            $tables = get_addon_tables($name);
+            if ($tables) {
+                foreach ($tables as $index => $table) {
+                    Db::execute("DROP TABLE IF EXISTS `{$table}`");
+                }
+            }
         }
+
         return true;
+    }
+}
+
+if (!function_exists('get_addon_tables')) {
+    /**
+     * 获取插件数据表名
+     *
+     * @param $name (插件名称)
+     * @return array
+     * @author zero
+     */
+    function get_addon_tables($name)
+    {
+        $service = new Service(app());
+        $addonsPath = $service->getAddonsPath();
+        $regex = "/^CREATE\s+TABLE\s+(IF\s+NOT\s+EXISTS\s+)?`?([a-zA-Z_]+)`?/mi";
+        $sqlFile = $addonsPath . $name . DS . 'install.sql';
+        $tables = [];
+        if (is_file($sqlFile)) {
+            preg_match_all($regex, file_get_contents($sqlFile), $matches);
+            if ($matches && isset($matches[2]) && $matches[2]) {
+                $prefix = env('database.prefix') ?? '';
+                $tables = array_map(function ($item) use ($prefix) {
+                    return str_replace("__PREFIX__", $prefix, $item);
+                }, $matches[2]);
+            }
+        }
+        return $tables;
     }
 }
 
@@ -580,7 +618,7 @@ if (!function_exists('get_source_assets_dir')) {
      *
      * @param string $name (插件名称)
      * @return string
-     * @author windy
+     * @author zero
      */
     function get_source_assets_dir(string $name): string
     {
@@ -595,7 +633,7 @@ if (!function_exists('get_target_assets_dir')) {
      *
      * @param string $name (插件名称)
      * @return string
-     * @author windy
+     * @author zero
      */
     function get_target_assets_dir(string $name): string
     {
@@ -609,7 +647,7 @@ if (!function_exists('is_really_writable')) {
      *
      * @param string $dir (目录)
      * @return bool
-     * @author windy
+     * @author zero
      */
     function is_really_writable(string $dir): bool
     {

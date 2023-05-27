@@ -4,7 +4,7 @@
 		@tap.stop="click"
 		:class="{ 'u-border': border, 'u-card-full': full, 'u-card--border': borderRadius > 0 }"
 		:style="{
-			borderRadius: borderRadius + 'rpx',
+			'--radius': borderRadius + 'rpx',
 			margin: margin,
 			boxShadow: boxShadow
 		}"
@@ -267,7 +267,7 @@ export default {
 	}
 
 	&--border:after {
-		border-radius: 16rpx;
+		border-radius: var(--radius,16rpx);
 	}
 
 	&__head {

@@ -3,7 +3,7 @@
 // | 基于ThinkPHP6的插件化模块 [WaitAdmin专属订造]
 // +----------------------------------------------------------------------
 // | github: https://github.com/topwait/wait-addons
-// | Author: Zero <2474369941@qq.com>
+// | Author: zero <2474369941@qq.com>
 // +----------------------------------------------------------------------
 declare(strict_types=1);
 
@@ -448,7 +448,7 @@ class Service extends \think\Service
      *
      * @param string $source (原始目录路径)
      * @param string $target (目标目录路径)
-     * @author windy
+     * @author zero
      */
     private static function copyDir(string $source, string $target)
     {
@@ -478,7 +478,7 @@ class Service extends \think\Service
      * 删除目录
      *
      * @param string $dir (目录路径)
-     * @author windy
+     * @author zero
      */
     private static function deleteDir(string $dir): void
     {
@@ -507,7 +507,7 @@ class Service extends \think\Service
      * 移除空目录
      *
      * @param string $dir (目录路径)
-     * @author windy
+     * @author zero
      */
     private static function removeEmptyDir(string $dir)
     {
@@ -526,7 +526,7 @@ class Service extends \think\Service
      * @param string $name   (插件名称)
      * @param array $changed (变动后数据)
      * @return array
-     * @author windy
+     * @author zero
      */
     private static function addonrc(string $name, array $changed = []): array
     {
@@ -549,7 +549,7 @@ class Service extends \think\Service
      * 获取插件路径
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     public function getAddonsPath(): string
     {
@@ -565,7 +565,7 @@ class Service extends \think\Service
      *
      * @param string $name
      * @return string
-     * @author windy
+     * @author zero
      */
     public static function getAddonsDirs(string $name): string
     {
@@ -578,7 +578,7 @@ class Service extends \think\Service
      * @param string $name (插件名称)
      * @param bool $onlyConflict (是否只返回冲突文件)
      * @return array
-     * @author windy
+     * @author zero
      */
     public static function getGlobalAddonsFiles(string $name, bool $onlyConflict = false): array
     {
@@ -642,7 +642,7 @@ class Service extends \think\Service
      *
      * @param string $name (名称)
      * @param false $isDelete (是否删除)
-     * @author windy
+     * @author zero
      */
     public static function installAddonsApp(string $name, bool $isDelete = false): void
     {
@@ -674,7 +674,7 @@ class Service extends \think\Service
      * 卸载插件应用
      *
      * @param string $name (名称)
-     * @author windy
+     * @author zero
      */
     public static function uninstallAddonsApp(string $name): void
     {

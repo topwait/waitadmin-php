@@ -145,7 +145,7 @@
                 layer.confirm('确定要删除此项数据吗？', function(index) {
                     layer.close(index);
                     waitUtil.ajax({
-                        url: '{:route("addons/curd/gen/preview")}?id='+obj.data.id,
+                        url: '{:route("addons/curd/gen/destroy")}',
                         type: 'POST',
                         data: {ids: [obj.data.id]}
                     }).then((res) => {

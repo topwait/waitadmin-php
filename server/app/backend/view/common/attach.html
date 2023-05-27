@@ -32,7 +32,7 @@
 
     /** 文件 **/
     .file-container .attach { flex: 1; border-right: 1px solid #f6f6f6; border-left: 1px solid #f6f6f6; }
-    .file-container .attach .subject {  overflow: hidden; overflow-y: auto; padding: 5px 10px; height: calc(100% - 44px); box-sizing: border-box; }
+    .file-container .attach .subject {  overflow: hidden; padding: 5px 10px; height: calc(100% - 44px); box-sizing: border-box; }
     .file-container .attach .subject:hover::-webkit-scrollbar { display: block; }
     .file-container .attach .subject ul { display: flex; flex-wrap: wrap; }
     .file-container .attach .subject ul li { position: relative; height: 117px; margin: 5px; padding: 10px; border: 1px solid rgba(0, 0, 0, .05); border-radius: 6px; transition: all 0.2s ease-in-out; }
@@ -186,6 +186,7 @@
         let laypage = layui.laypage;
         let upload  = layui.upload;
         let type    = parseInt('{$type}');
+        let water   = Boolean('{$water}');
         let cid     = -1;
 
         // 事件定义
@@ -250,7 +251,6 @@
             },
             // 文件选择
             picks: function (obj) {
-                console.log(urlArr)
                 obj = obj === undefined ? {limit: limit, data: urlArr} : obj;
                 let getTpl = document.getElementById('select').innerHTML;
                 let view   = document.getElementsByClassName('select')[0];
@@ -344,7 +344,8 @@
         });
 
         // 命名文件
-        $(document).on('contextmenu', '.attach li p', function () {
+        $(document).on('click', '.attach li p', function (e) {
+            e.stopPropagation();
             let that = $(this);
             let name = that.html();
             let id   = that.parents('li').attr('data-id');
@@ -357,7 +358,7 @@
                     url: '{:route("attach/rename")}',
                     type: 'POST',
                     fulShow: false,
-                    data: {id: id, type: type, name: text.trim()}
+                    data: {id: id, type: type, title: text.trim()}
                 }).then((res) => {
                     if (res.code === 0) {
                         that.html(text);
@@ -459,6 +460,7 @@
             ,size: parseInt('{$imageLimit.size}') / 1024
             ,data: {
                 hide: 0,
+                water: () => { return water; },
                 cid: () => { return cid > 0 ? cid : 0; }
             }
             ,before: function () {
@@ -552,7 +554,7 @@
             }
         });
 
-        // 上传压缩
+        // 上传文档
         upload.render({
             elem: '#documentUpload'
             ,url: '{:route("upload/permanent")}?type=document'

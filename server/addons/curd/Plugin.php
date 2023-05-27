@@ -9,11 +9,10 @@
 // | 官方网站: https://www.waitadmin.cn
 // | WaitAdmin团队版权所有并拥有最终解释权
 // +----------------------------------------------------------------------
-// | Author: WaitAdmin Team <2474369941@qq.com>
+// | Author: zero <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
 namespace addons\curd;
-
 
 use app\common\utils\MenuUtils;
 use Exception;

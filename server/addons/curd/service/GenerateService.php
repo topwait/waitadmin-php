@@ -9,13 +9,13 @@
 // | 官方网站: https://www.waitadmin.cn
 // | WaitAdmin团队版权所有并拥有最终解释权
 // +----------------------------------------------------------------------
-// | Author: WaitAdmin Team <2474369941@qq.com>
+// | Author: zero <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
 namespace addons\curd\service;
 
-use addons\curd\model\GenTable;
-use addons\curd\model\GenTableColumn;
+use addons\curd\model\CurdTable;
+use addons\curd\model\CurdTableColumn;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\exception\SystemException;
@@ -46,7 +46,7 @@ class GenerateService extends Service
             '%like%' => ['table_name', 'table_comment']
         ]);
 
-        $model = new GenTable();
+        $model = new CurdTable();
         $lists = $model->field(true)
             ->where(self::$searchWhere)
             ->order('id desc')
@@ -115,11 +115,11 @@ class GenerateService extends Service
      */
     public static function update(array $post): void
     {
-        $modelTable = new GenTable();
+        $modelTable = new CurdTable();
         $modelTable->startTrans();
         try {
             $time = time();
-            GenTable::update([
+            CurdTable::update([
                 'table_name'    => $post['table_name'],
                 'table_comment' => $post['table_comment'],
                 'table_alias'   => $post['table_alias']??'',
@@ -139,7 +139,7 @@ class GenerateService extends Service
             ], ['id'=>intval($post['id'])]);
 
             foreach ($post['cols']??[] as $item) {
-                GenTableColumn::update([
+                CurdTableColumn::update([
                     'column_comment' => $item['column_comment'],
                     'model_type'     => $item['model_type'],
                     'query_type'     => $item['query_type'],
@@ -171,14 +171,14 @@ class GenerateService extends Service
      */
     public static function detail(int $id): array
     {
-        $modelTable = new GenTable();
+        $modelTable = new CurdTable();
         $detail['table'] = $modelTable
             ->field(true)
             ->where(['id'=> $id])
             ->findOrEmpty()
             ->toArray();
 
-        $modelColumn = new GenTableColumn();
+        $modelColumn = new CurdTableColumn();
         $detail['columns'] = $modelColumn
             ->field(true)
             ->where(['table_id'=> $id])
@@ -211,8 +211,8 @@ class GenerateService extends Service
      */
     public static function synchrony(int $id): void
     {
-        $modelTable  = new GenTable();
-        $modelColumn = new GenTableColumn();
+        $modelTable  = new CurdTable();
+        $modelColumn = new CurdTableColumn();
 
         // 旧表数据
         $table   = $modelTable->where(['id'=>$id])->findOrEmpty()->toArray();
@@ -259,9 +259,9 @@ class GenerateService extends Service
             if (in_array($column['name'], array_keys($colsMap))) {
                 $nid = $colsMap[$column['name']]['id'];
                 $updateIds[] = $nid;
-                GenTableColumn::update($data, ['id'=>$nid]);
+                CurdTableColumn::update($data, ['id'=>$nid]);
             } else {
-                GenTableColumn::create($data);
+                CurdTableColumn::create($data);
             }
         }
 
@@ -273,7 +273,7 @@ class GenerateService extends Service
         }
 
         if (!empty($deleteIds)) {
-            GenTableColumn::destroy($deleteIds);
+            CurdTableColumn::destroy($deleteIds);
         }
     }
 
@@ -286,8 +286,8 @@ class GenerateService extends Service
      */
     public static function destroy(array $ids): void
     {
-        $modelTable  = new GenTable();
-        $modelColumn = new GenTableColumn();
+        $modelTable  = new CurdTable();
+        $modelColumn = new CurdTableColumn();
         $modelTable->startTrans();
         try {
             foreach ($ids as $id) {
@@ -317,13 +317,13 @@ class GenerateService extends Service
             throw new OperateException($errMsg);
         }
 
-        $modelClass = new GenTable();
+        $modelClass = new CurdTable();
         $modelClass->startTrans();
         try {
             foreach ($tables as $table) {
                 // 生成表信息
                 $className = VelocityService::toCamel($table['name']);
-                $genTable = GenTable::create([
+                $genTable = CurdTable::create([
                     'table_name'    => $table['name'],
                     'table_engine'  => $table['engine'],
                     'table_comment' => $table['comment'],
@@ -353,7 +353,7 @@ class GenerateService extends Service
                     $column['type']   = $types;
                     $column['length'] = $lengths;
 
-                    GenTableColumn::create([
+                    CurdTableColumn::create([
                         'table_id'       => $genTable['id'],
                         'column_name'    => $column['name'],
                         'column_comment' => $column['comment'],
@@ -505,7 +505,7 @@ class GenerateService extends Service
 
         foreach (VelocityService::getTemplates($table) as $k => $v) {
             $vars = VelocityService::prepareContext($table, $columns);
-            $view = view('tpl\\'.$k, $vars);
+            $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();
             $content = str_replace('%%%', '', $content);
@@ -547,7 +547,7 @@ class GenerateService extends Service
             'pid'     => $table['menu_pid'],
             'title'   => $table['menu_name'],
             'icon'    => $table['menu_icon'],
-            'perms'   => $table['menu_pid']>0 ? $route.'/index' : '',
+            'perms'   => strtolower($table['menu_pid']>0 ? $route.'/index' : ''),
             'sort'    => 0,
             'is_menu' => 1
         ]);
@@ -571,7 +571,7 @@ class GenerateService extends Service
                 'pid'     => $authMenu['id'],
                 'title'   => $title,
                 'icon'    => '',
-                'perms'   => $route.'/'.$item,
+                'perms'   => strtolower($route.'/'.$item),
                 'sort'    => 0,
                 'is_menu' => $isMenu
             ]);

@@ -3,7 +3,7 @@
 // | 基于ThinkPHP6的插件化模块 [WaitAdmin专属订造]
 // +----------------------------------------------------------------------
 // | github: https://github.com/topwait/wait-addons
-// | Author: Zero <2474369941@qq.com>
+// | Author: zero <2474369941@qq.com>
 // +----------------------------------------------------------------------
 declare(strict_types=1);
 
@@ -68,7 +68,7 @@ abstract class Addons
      * @param array $vars      模板输出变量
      * @return string          响应模板内容
      * @throws Exception
-     * @author windy
+     * @author zero
      */
     protected function fetch(string $template = '', array $vars = []): string
     {
@@ -81,7 +81,7 @@ abstract class Addons
      * @param string $content 模板内容
      * @param array $vars    模板输出变量
      * @return string
-     * @author windy
+     * @author zero
      */
     protected function display(string $content = '', array $vars = []): string
     {
@@ -94,7 +94,7 @@ abstract class Addons
      * @param string $name  要显示的模板变量
      * @param string $value 变量的值
      * @return $this
-     * @author windy
+     * @author zero
      */
     protected function assign(string $name, string $value = ''): Addons
     {
@@ -108,7 +108,7 @@ abstract class Addons
      * @access protected
      * @param array|string $engine 引擎参数
      * @return $this
-     * @author windy
+     * @author zero
      */
     protected function engine(array|string $engine): Addons
     {
@@ -120,7 +120,7 @@ abstract class Addons
      * 插件标识信息
      *
      * @return string
-     * @author windy
+     * @author zero
      */
     final protected function getName(): string
     {
@@ -134,7 +134,7 @@ abstract class Addons
      * 插件基础信息
      *
      * @return array
-     * @author windy
+     * @author zero
      */
     final public function getInfo(): array
     {
@@ -159,7 +159,7 @@ abstract class Addons
      *
      * @param bool $type 是否获取完整配置
      * @return array
-     * @author windy
+     * @author zero
      */
     final public function getConfig(bool $type): array
     {
@@ -190,7 +190,7 @@ abstract class Addons
      * @param string $name (键名)
      * @param array $value (值)
      * @return array
-     * @author windy
+     * @author zero
      */
     final public function setInfo(string $name = '', array $value = []): array
     {

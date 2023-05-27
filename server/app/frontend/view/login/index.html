@@ -1,26 +1,30 @@
-{extend name="common/layoutEasy" /}
-
-{block name="body"}
 <div class="layout-global-session">
     {if $scene == 'login'}
-        {include file="login/logon" /}
+    {include file="login/logon" /}
     {/if}
 
     {if $scene == 'register'}
-        {include file="login/register" /}
+    {include file="login/register" /}
     {/if}
 
     {if $scene == 'resetting'}
-        {include file="login/resetting" /}
+    {include file="login/resetting" /}
     {/if}
 </div>
-{/block}
+
 
 {block name="js"}
 <script>
     layui.use(['form'], function () {
         let $ = layui.$;
         let form = layui.form;
+        let sceneArray = {'login': 101, 'register': 102, 'resetting': 103}
+        let sceneCode = sceneArray['{$scene}'];
+
+
+        form.render();
+
+        timing($('.get_code'))
 
         // 账号登录
         form.on('submit(loginSubmit)', function(data) {
@@ -39,7 +43,7 @@
                 }
             }).catch(() => {
                 waitUtil.unlock(this);
-            });;
+            });
         });
 
         // 账号注册
@@ -127,32 +131,32 @@
             }
 
             // 默认发送短信
-            let url = '/frontend/index/sendSms';
+            let url = '{:route("index/sendSms")}';
             let data = {scene: scene, mobile: value};
 
             switch (scene) {
                 case '101': // 短信登录
                 case '102': // 短信注册
                     if (!value) {
-                        return layer.msg('手机号码不能为空');
+                        return layer.tips('手机号码不能为空', '#mobile', {tips: 1});
                     }
 
                     if (!waitCheck.isMobile(value)) {
-                        return layer.msg('手机号码格式错误');
+                        return layer.tips('手机号码格式错误', '#mobile', {tips: 1});
                     }
                     break;
                 case '103': // 找回密码
                     if (!waitCheck.isMobile(value) && !waitCheck.isEmail(value)) {
-                        return layer.msg('手机号码/邮箱格式不正确', {icon: 2});
+                        return layer.tips('手机号码/邮箱格式不正确', '#mobile', {tips: 1});
                     }
 
                     if (waitCheck.isEmail(value)) {
-                        url = '/frontend/index/sendEmail';
+                        url = '{:route("index/sendEmail")}';
                         data = {scene: scene, email: value};
                     }
                     break;
                 default:
-                    return layer.msg('操作异常');
+                    return layer.msg('操作异常!');
             }
 
             waitUtil.locking(this);
@@ -161,7 +165,7 @@
                 type: 'POST',
                 data: data
             }).then((res) => {
-                waitCache.set('sms:code:'+scene, 1, 60)
+                waitCache.set('sms:code:'+scene, 60, 60)
                 waitUtil.unlock(this);
                 if (res.code === 0) {
                     timing(that);
@@ -176,16 +180,23 @@
 
         // 倒计时
         function timing(that) {
-            let time = 60;
-            that.html(time+'秒后可再次发送');
+            let { expire, value } = waitCache.get('sms:code:'+sceneCode, true);
+            if (!expire || !value) {
+                return;
+            }
+
+            let surplusTime = value;
+            that.html(surplusTime+'秒后可再次发送');
             that.addClass('layui-btn-forbid');
             let timer = setInterval(function () {
-                time = time - 1;
-                if (time>=0) {
-                    that.html(time + '秒后可再次发送');
+                surplusTime = surplusTime - 1;
+                waitCache.set('sms:code:'+sceneCode, surplusTime, expire);
+                if (surplusTime >= 0) {
+                    that.html(surplusTime + '秒后可再次发送');
                 } else {
                     that.html('重新发送');
                     clearInterval(timer);
+                    waitCache.remove('sms:code:'+sceneCode);
                     that.removeClass('layui-btn-forbid');
                 }
             }, 1000);

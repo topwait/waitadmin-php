@@ -9,7 +9,7 @@
 // | 官方网站: https://www.waitadmin.cn
 // | WaitAdmin团队版权所有并拥有最终解释权
 // +----------------------------------------------------------------------
-// | Author: WaitAdmin Team <2474369941@qq.com>
+// | Author: zero <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
 namespace addons\curd\service;
@@ -310,7 +310,6 @@ class VelocityService extends Service
         $string = $separator . str_replace($separator, ' ', strtolower($string));
         return (string)str_replace(' ', '', ucwords(ltrim($string, $separator)));
     }
-
 
     /**
      * 生成请求路由

@@ -95,6 +95,8 @@ layui.define([], function (exports) {
         option.menubar      = isset(option.menubar) ? option.menubar : false;
         option.attach       = isset(option.attach)  ? option.attach : 'image media';
 
+        option.content_style = 'p,h1,h2,h3,h4,h5,h6 {margin: 0;}'
+
         option.plugins = isset(option.plugins) ? option.plugins : `code preview fullpage searchreplace autolink
                     directionality visualblocks visualchars fullscreen link template charmap hr pagebreak 
                     nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern help emoticons 

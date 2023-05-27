@@ -60,7 +60,7 @@ if (!function_exists('route')) {
     }
 }
 
-if (!function_exists('to_uploader_icon')) {
+if (!function_exists('to_ext_icon')) {
     /**
      * 转上传类型图标
      *
@@ -68,7 +68,7 @@ if (!function_exists('to_uploader_icon')) {
      * @return string
      * @author zero
      */
-    function to_uploader_icon(string $url): string
+    function to_ext_icon(string $url): string
     {
         $ext = FileUtils::getFileExt($url);
         $imageExt = config('project.uploader.image')['ext'];

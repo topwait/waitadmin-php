@@ -49,7 +49,7 @@ class AttachValidate extends Validate
      * @author zero
      * @return AttachValidate
      */
-    public function sceneList()
+    public function sceneList(): AttachValidate
     {
         return $this->only(['cid', 'type'])
             ->remove('cid', 'require');
@@ -61,7 +61,7 @@ class AttachValidate extends Validate
      * @author zero
      * @return AttachValidate
      */
-    public function sceneMove()
+    public function sceneMove(): AttachValidate
     {
         return $this->only(['ids', 'cid', 'type']);
     }
@@ -72,7 +72,7 @@ class AttachValidate extends Validate
      * @author zero
      * @return AttachValidate
      */
-    public function sceneRename()
+    public function sceneRename(): AttachValidate
     {
         return $this->only(['id', 'type', 'title']);
     }
@@ -83,7 +83,7 @@ class AttachValidate extends Validate
      * @author zero
      * @return AttachValidate
      */
-    public function sceneDel()
+    public function sceneDel(): AttachValidate
     {
         return $this->only(['ids', 'type']);
     }
@@ -94,7 +94,7 @@ class AttachValidate extends Validate
      * @author zero
      * @return AttachValidate
      */
-    public function sceneCateCreate()
+    public function sceneCateCreate(): AttachValidate
     {
         return $this->only(['type', 'name']);
     }
@@ -105,7 +105,7 @@ class AttachValidate extends Validate
      * @author zero
      * @return AttachValidate
      */
-    public function sceneCateRename()
+    public function sceneCateRename(): AttachValidate
     {
         return $this->only(['id', 'type', 'name']);
     }
@@ -116,7 +116,7 @@ class AttachValidate extends Validate
      * @author zero
      * @return AttachValidate
      */
-    public function sceneCateDelete()
+    public function sceneCateDelete(): AttachValidate
     {
         return $this->only(['id', 'type']);
     }

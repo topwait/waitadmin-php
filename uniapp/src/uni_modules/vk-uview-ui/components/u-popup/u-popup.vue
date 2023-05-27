@@ -51,6 +51,11 @@
  * @description 弹出层容器，用于展示弹窗、信息提示等内容，支持上、下、左、右和中部弹出。组件只提供容器，内部内容由用户自定义
  * @tutorial https://www.uviewui.com/components/popup.html
  * @property {String} mode 弹出方向（默认left）
+ * 	@value left       左侧弹出
+ *  @value top        顶部弹出
+ * 	@value right      右侧弹出
+ * 	@value bottom     底部弹出
+ * 	@value center     中间弹出
  * @property {Boolean} mask 是否显示遮罩（默认true）
  * @property {Stringr | Number} length mode=left | 见官网说明（默认auto）
  * @property {Boolean} zoom 是否开启缩放动画，只在mode为center时有效（默认true）

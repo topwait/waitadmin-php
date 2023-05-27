@@ -129,19 +129,17 @@
 			valueCom: {
 				immediate: true,
 				handler(nVal) {
-					if (nVal) {
-						this.currentIndex = nVal;
-						this.changeSectionStatus(nVal);
-					}
+					if (!nVal) nVal = 0;
+					this.currentIndex = nVal;
+					this.changeSectionStatus(nVal);
 				}
 			},
 			current: {
 				immediate: true,
 				handler(nVal) {
-					if (nVal) {
-						this.currentIndex = nVal;
-						this.changeSectionStatus(nVal);
-					}
+					if (!nVal) nVal = this.valueCom || 0;
+					this.currentIndex = nVal;
+					this.changeSectionStatus(nVal);
 				}
 			},
 			list: {
