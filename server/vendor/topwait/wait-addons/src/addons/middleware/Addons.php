@@ -3,7 +3,7 @@
 // | 基于ThinkPHP6的插件化模块 [WaitAdmin专属订造]
 // +----------------------------------------------------------------------
 // | github: https://github.com/topwait/wait-addons
-// | Author: Zero <2474369941@qq.com>
+// | Author: zero <2474369941@qq.com>
 // +----------------------------------------------------------------------
 declare(strict_types=1);
 
@@ -37,6 +37,7 @@ class Addons
      * @param $request
      * @param Closure $next
      * @return mixed
+     * @author zero
      */
     public function handle($request, Closure $next): mixed
     {
