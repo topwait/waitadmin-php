@@ -20,12 +20,12 @@
 <script setup>
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
-import { diyTieApi } from '@/api/diyApi'
+import DesignApi from '@/api/designApi'
 
 const diyItems = ref({})
 
 onShow(async () => {
-    diyItems.value = await diyTieApi()
+    diyItems.value = await DesignApi.diyTie()
 })
 </script>
 

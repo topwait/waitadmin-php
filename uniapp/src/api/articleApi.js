@@ -1,15 +1,22 @@
-// 获取文章分类
-export function getArticleCateApi() {
-    return uni.$u.http.get('article/category')
-}
+export default class {
+    /**
+     * 分类类别
+     */
+    static category() {
+        return uni.$u.http.get('article/category')
+    }
 
-// 获取文章列表
-export function getArticleListApi(params) {
-    return uni.$u.http.get('article/lists', params)
-}
+    /**
+     * 文章列表
+     */
+    static lists(params) {
+        return uni.$u.http.get('article/lists', params)
+    }
 
-
-// 获取文章详情
-export function getArticleDetailApi(params) {
-    return uni.$u.http.get('article/detail', params)
+    /**
+     * 文章详情
+     */
+    static detail({ id }) {
+        return uni.$u.http.get('article/detail', { id })
+    }
 }

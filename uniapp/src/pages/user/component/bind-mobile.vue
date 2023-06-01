@@ -25,8 +25,8 @@
 
 <script setup>
 import { ref, defineEmits } from 'vue'
-import { sendSmsApi } from '@/api/indexApi'
-import { bindMobileApi } from '@/api/userApi'
+import IndexApi from '@/api/indexApi'
+import UserApi from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -62,7 +62,7 @@ const onSendSms = async () => {
     }
 
     if (uCodeRef.value?.canGetCode) {
-        await sendSmsApi({
+        await IndexApi.sendSms({
             scene: smsEnum.BIND_EMAIL,
             email: form.value.email
         })
@@ -83,7 +83,7 @@ const onBindMobile = async (e) => {
 
         form.value.type = props.value ? 'change' : 'bind'
         try {
-            await bindMobileApi(form.value)
+            await UserApi.bindMobile(form.value)
         } catch (e) {
             return
         }
@@ -94,7 +94,7 @@ const onBindMobile = async (e) => {
         }, 100)
     } else {
         try {
-            await bindMobileApi({
+            await UserApi.bindMobile({
                 type: form.value.type,
                 code: e.detail.code
             })

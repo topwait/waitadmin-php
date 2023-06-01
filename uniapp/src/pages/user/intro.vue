@@ -99,7 +99,7 @@
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import { userInfoApi, userEditApi, bindWeChatApi } from '@/api/userApi'
+import UserApi from '@/api/userApi'
 import toolUtil from '@/utils/toolUtil'
 import clientUtil from '@/utils/clientUtil'
 
@@ -145,7 +145,7 @@ onShow(() => {
 // 查询信息
 const queryUserInfo = async () => {
     try {
-        userInfo.value = await userInfoApi()
+        userInfo.value = await UserApi.info()
     } catch (e) { /* empty */ }
 }
 
@@ -170,7 +170,7 @@ const onUploadAvatar = (e) => {
         return
     }
     toolUtil.uploadFile(e.detail.avatarUrl, 'image', 'picture').then(data => {
-        userEditApi({ scene: 'avatar', value: data.url }).then(() => {
+        UserApi.edit({ scene: 'avatar', value: data.url }).then(() => {
             queryUserInfo()
             setTimeout(() => {
                 uni.hideLoading()
@@ -187,7 +187,7 @@ const onUploadAvatar = (e) => {
             const tempFilePaths = chooseImageRes.tempFilePaths
             const data = await toolUtil.uploadFile(tempFilePaths[0], 'image', 'picture')
             try {
-                await userEditApi({
+                await UserApi.edit({
                     scene: 'avatar',
                     value: data.url
                 })
@@ -207,7 +207,7 @@ const onUploadAvatar = (e) => {
 
 // 性别修改
 const onGenderEdit = async (value) => {
-    await userEditApi({
+    await UserApi.edit({
         scene: popupType.value,
         value: value[0] + 1
     })

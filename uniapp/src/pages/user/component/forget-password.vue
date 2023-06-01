@@ -32,7 +32,7 @@
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
 import { sendSmsApi } from '@/api/indexApi'
-import { forgetPwdApi } from '@/api/userApi'
+import UserApi from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -99,7 +99,7 @@ const onPwdEdit = async () => {
     }
 
     try {
-        await forgetPwdApi(form.value)
+        await UserApi.forgetPwd(form.value)
     } catch (e) {
         return
     }
