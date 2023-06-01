@@ -6,7 +6,7 @@ import clientUtil from '@/utils/clientUtil'
 const install = (Vue) => {
     // 数据处理
     let isResults = false
-    
+
     // 参数配置
     Vue.config.globalProperties.$u.http.setConfig(config)
 
@@ -23,6 +23,7 @@ const install = (Vue) => {
     Vue.config.globalProperties.$u.http.interceptor.response = (response) => {
         const result = response.data
         const { logout } = useUserStore()
+
         switch (result.code) {
             case errorEnum.SUCCESS:
                 return isResults ? result : result.data
@@ -41,9 +42,10 @@ const install = (Vue) => {
                 logout()
                 uni.navigateTo({url: '/pages/login/enroll'})
                 return Promise.reject(result)
+            default:
+                return Promise.reject(result)
         }
 
-        return result
     }
 }
 
