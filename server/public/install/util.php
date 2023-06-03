@@ -108,7 +108,7 @@ class Util
     public function replaceEntrance($name)
     {
         $key = 'backend_entrance';
-        $appConfig = APP_ROOT . '/config/app.php';
+        $appConfig = APP_ROOT . '/config/project.php';
         $config = file_get_contents($appConfig);
 
         // 原始入口

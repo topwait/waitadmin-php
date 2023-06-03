@@ -44,7 +44,7 @@ if (!function_exists('route')) {
     {
         $entrance = app()->http->getName();
         if (app()->http->getName() === 'backend' || (request()->route()['module']??'') === 'backend') {
-            $entrance = config('app.backend_entrance');
+            $entrance = config('project.backend_entrance');
         }
 
         $url = $entrance . '/' . $url;

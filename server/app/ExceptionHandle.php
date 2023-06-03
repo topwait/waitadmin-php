@@ -80,7 +80,7 @@ class ExceptionHandle extends Handle
         if ($this->app->http->getName() === 'backend') {
             if (request()->isAjax()) {
                 $adminId  = session('adminUser')['id'] ?? 0;
-                $entrance = config('app.backend_entrance');
+                $entrance = config('project.backend_entrance');
                 $baseUrls = str_replace($entrance, '', request()->baseUrl());
                 $log = SysLog::create([
                     'admin_id'    => $adminId,

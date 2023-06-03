@@ -4,8 +4,11 @@
 // +----------------------------------------------------------------------
 
 return [
+    // 后台入口
+    'backend_entrance' => env('project.backend', '/admin.php'),
+
     // 版本号
-    'version'       => '1.1.6',
+    'version'       => '1.1.8',
 
     // 上传器
     'uploader' => [
