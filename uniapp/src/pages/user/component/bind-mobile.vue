@@ -57,14 +57,14 @@ const codeChange = (text) => {
 
 // 发送短信
 const onSendSms = async () => {
-    if (checkUtil.isEmpty(form.value.email)) {
-        return uni.$u.toast('请输入邮箱号')
+    if (checkUtil.isEmpty(form.value.mobile)) {
+        return uni.$u.toast('请输入手机号')
     }
 
     if (uCodeRef.value?.canGetCode) {
         await IndexApi.sendSms({
-            scene: smsEnum.BIND_EMAIL,
-            email: form.value.email
+            scene: smsEnum.BIND_MOBILE,
+            mobile: form.value.mobile
         })
         uCodeRef.value?.start()
     }
