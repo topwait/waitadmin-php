@@ -26,8 +26,8 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { getArticleCateApi } from '@/api/articleApi'
-import ArticlePagInList from './component/article-pagin-list.vue'
+import ArticleApi from '@/api/articleApi'
+import ArticlePagInList from './component/article-pagin-list'
 import ArticleSearchInput from './component/article-search-input'
 
 const tabList = ref([])
@@ -61,6 +61,6 @@ const animations = (e) => {
 }
 
 const queryCategory = async () => {
-    tabList.value = await getArticleCateApi()
+    tabList.value = await ArticleApi.category()
 }
 </script>

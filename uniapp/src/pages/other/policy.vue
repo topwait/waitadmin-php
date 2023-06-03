@@ -7,7 +7,7 @@
 <script setup>
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { getPolicyApi } from '@/api/indexApi'
+import IndexApi from '@/api/indexApi'
 
 const content = ref('')
 
@@ -28,7 +28,8 @@ onLoad((options) => {
 
 const queryPolicy = async (type) => {
     try {
-        const data = await getPolicyApi({type: type})
+        const data = await IndexApi.policy({ type })
+        console.log(data)
         content.value = data.content
     } catch (e) {
         return false

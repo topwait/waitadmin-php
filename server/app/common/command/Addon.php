@@ -54,15 +54,15 @@ class Addon extends Command
     {
         if (!$input->getArgument('op')) {
             echo "\n";
-            echo "install --name [name]   : 安装插件\n";
-            echo "uninstall --name [name] : 卸载插件\n";
-            echo "enabled --name [name]   : 启用插件\n";
-            echo "disabled --name [name]  : 禁用插件\n";
+            echo "install [name]   : 安装插件\n";
+            echo "uninstall [name] : 卸载插件\n";
+            echo "enabled [name]   : 启用插件\n";
+            echo "disabled [name]  : 禁用插件\n";
             echo "\n";
         }
 
-        if (!$input->hasArgument('name')) {
-            echo 'name参数缺失';
+        if (!$input->getArgument('name')) {
+            echo 'name参数缺失,示例:[ php think addon install curd ]';
             return false;
         }
 

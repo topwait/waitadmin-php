@@ -10,7 +10,7 @@
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
-import { userEditApi } from '@/api/userApi'
+import UserApi from '@/api/userApi'
 import checkUtil from '@/utils/checkUtil'
 
 // 定义事件
@@ -45,7 +45,7 @@ const onUpdateUser = async () => {
     }
 
     try {
-        await userEditApi({
+        await UserApi.edit({
             scene: 'nickname',
             value: formValue.value
         })

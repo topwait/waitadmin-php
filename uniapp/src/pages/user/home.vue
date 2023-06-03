@@ -32,8 +32,8 @@ import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/userStore'
-import { diyMeApi } from '@/api/diyApi'
-import { userCenterApi } from '@/api/userApi'
+import DesignApi from '@/api/designApi'
+import UserApi from '@/api/userApi'
 
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
@@ -44,12 +44,12 @@ const diyService = ref({})
 
 onShow(async () => {
     try {
-        const diyItems = await diyMeApi()
+        const diyItems = await DesignApi.diyMe()
         diyAdv.value = diyItems.adv
         diyService.value = diyItems.service
 
         if (isLogin.value) {
-            userInfo.value = await userCenterApi()
+            userInfo.value = await UserApi.center()
         }
     } catch (e) {
         return false

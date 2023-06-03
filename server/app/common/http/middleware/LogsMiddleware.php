@@ -40,7 +40,7 @@ class LogsMiddleware
                 ], ['id'=>SysLog::$logId]);
             } else {
                 $adminId  = session('adminUser')['id'] ?? 0;
-                $entrance = config('app.backend_entrance');
+                $entrance = config('project.backend_entrance');
                 $baseUrls = str_replace($entrance, '', request()->baseUrl());
                 SysLog::create([
                     'admin_id'    => $adminId,

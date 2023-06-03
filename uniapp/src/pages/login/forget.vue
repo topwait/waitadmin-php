@@ -37,8 +37,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { sendSmsApi } from '@/api/indexApi'
-import { forgetPwdApi } from '@/api/userApi'
+import IndexApi from '@/api/indexApi'
+import UserApi from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -67,7 +67,7 @@ const onSendSms = async () => {
     }
 
     if (uCodeRef.value?.canGetCode) {
-        await sendSmsApi({
+        await IndexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.value.mobile
         })
@@ -89,7 +89,7 @@ const onResetPwd = async () => {
         return uni.$u.toast('两次不密码不一致')
     }
 
-    await forgetPwdApi(form.value)
+    await UserApi.forgetPwd(form.value)
     uni.$u.toast('修改成功')
     uni.navigateBack()
 }

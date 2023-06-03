@@ -45,7 +45,7 @@ class LoginController extends Backend
             $this->redirect(route('index/index'), 302);
         }
 
-        $entrance = config('app.backend_entrance');
+        $entrance = config('project.backend_entrance');
         return view('common/login', ['entrance'=>$entrance]);
     }
 

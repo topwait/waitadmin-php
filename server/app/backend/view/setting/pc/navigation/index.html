@@ -42,14 +42,22 @@
 
         // 渲染表格
         let table = layui.treeTable.render({
-            treeColIndex: 1
-            ,treePid: 0
-            ,treeIdName: 'id'
-            ,treePidName: 'pid'
-            ,treeDefaultClose: true
-            ,treeLinkage: true
-            ,treeDirIcon: false
-            ,treeExpand: true
+            tree: {
+                customName: {
+                    children: 'children'
+                    ,name: 'name'
+                    ,pid: 'pid'
+                    ,id: 'id'
+                }
+                ,view: {
+                    showIcon: false
+                    ,showFlexIconIfNotParent: false
+                }
+                ,data: {
+                    rootPid: 0
+                    ,isSimpleData: true
+                }
+            }
             ,id: 'wait-table-list'
             ,elem: '#wait-table-list'
             ,url: '{:route("setting.pc.navigation/index")}'

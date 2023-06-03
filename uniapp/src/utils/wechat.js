@@ -1,6 +1,6 @@
 import weixin from 'weixin-js-sdk'
+import LoginApi from '@/api/loginApi'
 import clientUtil from '@/utils/clientUtil'
-import { oaCodeUrlApi, loginApi } from '@/api/loginApi'
 
 const wechatOa = {
     /**
@@ -16,7 +16,7 @@ const wechatOa = {
      * 公众号授权链接
      */
     authUrl() {
-        oaCodeUrlApi().then((res) => {
+        LoginApi.oaCodeUrl().then((res) => {
             location.href = res.url
         })
     },
@@ -25,7 +25,7 @@ const wechatOa = {
      */
     authLogin(code) {
         return new Promise((resolve, reject) => {
-            loginApi({ scene: 'oa', code }).then((res) => {
+            LoginApi.login({ scene: 'oa', code }).then((res) => {
                 resolve(res)
             }).catch((err) => {
                 reject(err)

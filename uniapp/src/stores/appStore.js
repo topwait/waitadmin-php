@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getSysConfigApi } from '@/api/indexApi'
+import IndexApi from '@/api/indexApi'
 import toolUtil from '@/utils/toolUtil'
 
 export const useAppStore = defineStore({
@@ -20,14 +20,17 @@ export const useAppStore = defineStore({
     },
     actions: {
         async getSysConfig() {
-            this.config = await getSysConfigApi()
+            this.config = await IndexApi.config()
             toolUtil.setTabBar()
         },
         h5Intercepts() {
             // #ifdef H5
             const { status, close_url } = this.h5ConfigVal
             if (status === 0) {
-                if (close_url) return (location.href = close_url)
+                if (close_url) {
+                    location.href = close_url
+                    return
+                }
                 uni.reLaunch({ url: '/pages/empty/empty' })
             }
             // #endif

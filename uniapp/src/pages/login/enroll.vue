@@ -118,9 +118,9 @@ import { onLoad, onShow } from '@dcloudio/uni-app'
 import { ref, computed, shallowRef } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
-import { loginApi } from '@/api/loginApi'
-import { sendSmsApi } from '@/api/indexApi'
 import { useLock } from '@/hooks/useLock'
+import LoginApi from '@/api/loginApi'
+import IndexApi from '@/api/indexApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 import clientUtil from '@/utils/clientUtil'
@@ -220,7 +220,7 @@ const sendSmsByLogin = async () => {
         return uni.$u.toast('请输入手机号')
     }
     if (uCodeRefByLogin.value?.canGetCode) {
-        await sendSmsApi({
+        await IndexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.mobile
         })
@@ -235,7 +235,7 @@ const sendSmsByPhone = async () => {
         return uni.$u.toast('请输入手机号')
     }
     if (uCodeRefByPhone.value?.canGetCode) {
-        await sendSmsApi({
+        await IndexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.mobile
         })
@@ -264,7 +264,7 @@ const onUpLogin = () => {
         return uni.$u.toast('请输入验证码')
     }
 
-    loginApi({
+    LoginApi.login({
         scene: LoginSceneEnum.BIND,
         code: phoneForm.code,
         sign: phoneForm.sign,
@@ -276,7 +276,7 @@ const onUpLogin = () => {
 }
 
 // 普通登录
-const { loading, methodAPI:$loginApi } = useLock(loginApi)
+const { loading, methodAPI:$loginApi } = useLock(LoginApi.login)
 const onSaLogin = (scene) => {
     let params = {}
     if (scene === LoginSceneEnum.MOBILE) {
@@ -314,7 +314,7 @@ const onWxLogin = async (e) => {
     // #ifdef MP-WEIXIN
     const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
-    loginApi({
+    LoginApi.$loginApi({
         scene: LoginSceneEnum.WX,
         code: code,
         wxCode: wxCode

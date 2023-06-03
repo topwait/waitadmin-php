@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { userInfoApi } from '@/api/userApi'
+import UserApi from '@/api/userApi'
 import cacheEnum from '@/enums/cacheEnum'
 import cacheUtil from '@/utils/cacheUtil'
 
@@ -17,7 +17,7 @@ export const useUserStore = defineStore({
     actions: {
         async getUserInfo() {
             if (this.isLogin) {
-                this.userInfo = await userInfoApi()
+                this.userInfo = await UserApi.info()
             }
         },
         login(token) {

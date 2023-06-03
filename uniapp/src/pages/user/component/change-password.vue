@@ -16,7 +16,7 @@
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
-import { changePwdApi } from '@/api/userApi'
+import UserApi from '@/api/userApi'
 import checkUtil from '@/utils/checkUtil'
 
 // 定义事件
@@ -63,7 +63,7 @@ const onPwdEdit = async () => {
     }
 
     try {
-        await changePwdApi(form.value)
+        await UserApi.changePwd(form.value)
     } catch (e) {
         return
     }

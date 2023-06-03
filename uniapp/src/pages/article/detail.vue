@@ -16,7 +16,7 @@
 <script setup>
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { getArticleDetailApi } from '@/api/articleApi'
+import ArticleApi from '@/api/articleApi'
 
 const detail = ref({})
 
@@ -25,7 +25,7 @@ onLoad((options) => {
 })
 
 const queryArticleDetail = async (id) => {
-    detail.value = await getArticleDetailApi({ id })
+    detail.value = await ArticleApi.detail({ id })
 }
 </script>
 

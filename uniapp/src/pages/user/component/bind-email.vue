@@ -25,8 +25,8 @@
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
-import { sendEmailApi } from '@/api/indexApi'
-import { bindEmailApi } from '@/api/userApi'
+import IndexApi from '@/api/indexApi'
+import UserApi from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -68,7 +68,7 @@ const onSendEmail = async () => {
     }
 
     if (uCodeRef.value?.canGetCode) {
-        await sendEmailApi({
+        await IndexApi.sendEmail({
             scene: smsEnum.BIND_EMAIL,
             email: form.value.email
         })
@@ -87,7 +87,7 @@ const onBindEmail = async () => {
     }
 
     try {
-        await bindEmailApi(form.value)
+        await UserApi.bindEmail(form.value)
     } catch (e) {
         return
     }

@@ -56,7 +56,8 @@ if ($step == 4) {
         'layout'     => $_POST['layout'] ?? 'exhale',
         'admin_user' => $_POST['admin_user'] ?? '',
         'admin_pwd'  => $_POST['admin_pwd'] ?? '',
-        'admin_pwd_confirm'  => $_POST['admin_pwd_confirm'] ?? ''
+        'admin_pwd_confirm'  => $_POST['admin_pwd_confirm'] ?? '',
+        'backend_entrance'   => $adminName ?? '/admin.php',
     ];
 
     // 连接数据库
@@ -117,15 +118,9 @@ if ($step == 4) {
 // 生成入口文件
 if ($step == 5) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $util->replaceEntrance($adminName);
+        $util->replaceEntrance($adminName, $util->queryEntranceFile());
     } else {
-        $key = 'backend_entrance';
-        $appConfig = APP_ROOT . '/config/app.php';
-        $config = file_get_contents($appConfig);
-
-        $re = [];
-        preg_match_all("/'$key'.*?=>.*?'(.*?)'/", $config, $re);
-        $adminName = trim($re[1][0], '/');
+        $adminName =  '/' . $util->queryEntranceFile();
     }
 }
 
