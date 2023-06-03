@@ -48,6 +48,7 @@ class Wa extends Command
      * @param Input $input
      * @param Output $output
      * @return bool|int|null
+     * @author zero
      */
     protected function execute(Input $input, Output $output): bool|int|null
     {
@@ -86,7 +87,7 @@ class Wa extends Command
      * 修改后台密码
      *
      * @param Input $input
-     * @return void
+     * @author zero
      */
     private function changePassword(Input $input): void
     {
@@ -133,6 +134,7 @@ class Wa extends Command
      * 清除登录限制
      *
      * @param Input $input
+     * @author zero
      */
     private function cleanLoginLimit(Input $input): void
     {
@@ -150,6 +152,7 @@ class Wa extends Command
      * 修改后台入口
      *
      * @param Input $input
+     * @author zero
      */
     private function changeEntrance(Input $input): void
     {
@@ -164,29 +167,26 @@ class Wa extends Command
             return;
         }
 
-        $key = 'backend_entrance';
-        $appConfig = root_path() . '/config/app.php';
-        $config = file_get_contents($appConfig);
-
         // 原始入口
-        $re = [];
-        preg_match_all("/'$key'.*?=>.*?'(.*?)'/", $config, $re);
-        $costEnter = trim(trim($re[1][0]), '/');
+        $costEnter = config('project.backend_entrance');
 
         // 替换配置
-        $config = preg_replace("/'$key'.*?=>.*?'.*?'/", "'$key' => '/$name'", $config);
-        file_put_contents($appConfig, $config);
+        $environment = file_get_contents(root_path() . '/.env');
+        $environment = str_replace('/admin.php', '/' . $name, $environment);
+        file_put_contents (root_path().'/.env' , $environment);
 
         // 替换入口
-        $enterFile = PUBLIC_ROOT . '/'. trim($costEnter);
+        $enterFile = public_path() . '/'. trim($costEnter);
         if (file_exists($enterFile)) {
-            rename($enterFile, PUBLIC_ROOT . '/'. $name);
+            rename($enterFile, public_path() . '/'. $name);
         }
         echo 'successful~~~';
     }
 
     /**
      * 清除系统缓存
+     *
+     * @author zero
      */
     public function cleanSysCache(): void
     {
