@@ -32,6 +32,7 @@ class Util
         $environment = str_replace('#DB_PWD#', $post['password'], $environment);
         $environment = str_replace('#DB_PORT#', $post['port'], $environment);
         $environment = str_replace('#DB_PREFIX#', $post['prefix'], $environment);
+        $environment = str_replace('#PROJECT_BACKEND#', $post['backend_entrance'], $environment);
 
         return file_put_contents (APP_ROOT.'/.env' , $environment);
     }
@@ -102,28 +103,57 @@ class Util
     /**
      * 替换访问入口
      *
-     * @param $name (入口名称)
+     * @param $name (新入口名称)
+     * @param $oldName (旧入口名称)
      * @author zero
      */
-    public function replaceEntrance($name)
+    public function replaceEntrance(string $name, string $oldName)
     {
-        $key = 'backend_entrance';
-        $appConfig = APP_ROOT . '/config/project.php';
-        $config = file_get_contents($appConfig);
-
-        // 原始入口
-        $re = [];
-        preg_match_all("/'{$key}'.*?=>.*?'(.*?)'/", $config, $re);
-        $costEnter = trim($re[1][0], '/');
-
         // 替换配置
-        $config = preg_replace("/'{$key}'.*?=>.*?'.*?'/", "'{$key}' => '/{$name}'", $config);
-        file_put_contents($appConfig, $config);
+        $environment = file_get_contents(APP_ROOT . '/.env');
+        $environment = str_replace('/admin.php', '/' . $name, $environment);
+        file_put_contents (APP_ROOT.'/.env' , $environment);
 
         // 替换入口
-        $enterFile = PUBLIC_ROOT . '/'. trim($costEnter);
+        $enterFile = PUBLIC_ROOT . '/'. trim($oldName);
         if (file_exists($enterFile)) {
             rename($enterFile, PUBLIC_ROOT . '/'. $name);
         }
+    }
+
+    /**
+     * 查询入口文件
+     *
+     * @return string
+     * @author zero
+     */
+    public function queryEntranceFile(): string
+    {
+        $backendEntrance = 'admin.php';
+        if ($handle = opendir(PUBLIC_ROOT)) {
+            while (false !== ($file = readdir($handle))) {
+                if (str_ends_with($file, '.php')) {
+                    $filePath = str_replace('\\', '/', PUBLIC_ROOT . '/' . $file);
+                    $fileContents = file_get_contents($filePath);
+                    $checkStr01 = 'namespace think;';
+                    $checkStr02 = '$http = (new App())->http;';
+                    $checkStr03 = '$response->send();';
+                    $checkStr04 = '$http->end($response);';
+                    $checkStr05 = '$response = $http->name(\'backend\')->run();';
+                    if (str_contains($fileContents, $checkStr01) &&
+                        str_contains($fileContents, $checkStr02) &&
+                        str_contains($fileContents, $checkStr03) &&
+                        str_contains($fileContents, $checkStr04) &&
+                        str_contains($fileContents, $checkStr05)
+                    ) {
+                        $backendEntrance = strval($file);
+                    }
+                    break;
+                }
+            }
+            closedir($handle);
+        }
+
+        return $backendEntrance;
     }
 }
