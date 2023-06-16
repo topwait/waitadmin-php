@@ -31,9 +31,6 @@ use think\response\View;
 
 /**
  * 主页管理
- *
- * Class IndexController
- * @package app\frontend\controller
  */
 class IndexController extends Frontend
 {
