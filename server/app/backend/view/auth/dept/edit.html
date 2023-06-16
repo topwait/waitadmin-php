@@ -10,7 +10,9 @@
             <div class="layui-input-block">
                 <select id="pid" name="pid" lay-verify="required|number" >
                     {volist name="dept" id="vo"}
-                        {if $vo.id == $detail.pid}
+                        {if $vo.pid == 0 && $detail.id == 1}
+                            <option value="0">顶级部门</option>
+                        {elseif $vo.id == $detail.pid}
                             <option value="{$vo.id}" selected>{$vo.html} {$vo.name}</option>
                         {else}
                             {if !in_array($vo.id, $child) || $vo.id === 1}

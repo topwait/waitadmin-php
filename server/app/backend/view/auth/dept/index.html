@@ -27,9 +27,11 @@
                 <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit">
                     <i class="layui-icon icon-edit"></i>
                 </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
-                    <i class="layui-icon icon-del"></i>
-                </button>
+                {{#  if(d.id !== 1){ }}
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
+                        <i class="layui-icon icon-del"></i>
+                    </button>
+                {{#  } }}
             </script>
         </div>
     </div>
@@ -46,7 +48,7 @@
             tree: {
                 customName: {
                     children: 'children'
-                    ,name: 'title'
+                    ,name: 'name'
                     ,pid: 'pid'
                     ,id: 'id'
                 }
