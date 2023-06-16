@@ -20,10 +20,8 @@ use app\common\enums\AttachEnum;
 use app\common\exception\UploadException;
 use app\common\model\attach\Attach;
 use app\common\service\storage\StorageDriver;
-use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use think\facade\Filesystem;
 
 /**
@@ -40,16 +38,11 @@ class UploadService extends Service
      * @throws UploadException
      * @author zero
      */
-    #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'path' => "string", 'url' => "string"])]
     public static function permanent(string $type, int $userId): array
     {
         try {
-            // 存储引擎
-            $engine = ConfigUtils::get('storage', 'default', 'local');
-            $params = ConfigUtils::get('storage', $engine, []);
-
             // 上传调用
-            $storageDriver = new StorageDriver(['engine' => $engine, 'params' => $params]);
+            $storageDriver = new StorageDriver();
             $fileInfo = $storageDriver->upload($type);
 
             // 记录信息
@@ -72,7 +65,7 @@ class UploadService extends Service
                 'size' => $fileInfo['size'],
                 'path' => $fileInfo['fileName'],
                 'url'  => UrlUtils::toAbsoluteUrl($fileInfo['fileName'])
-            ];
+            ] ?? [];
         } catch (Exception $e) {
             throw new UploadException($e->getMessage());
         }
@@ -81,31 +74,33 @@ class UploadService extends Service
     /**
      * 临时上传
      *
-     * @param string $type (类型: image/video)
+     * @param string $type (类型: picture/video/document/package)
      * @return array
      * @throws UploadException
      * @author zero
      */
-    #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
     public static function temporary(string $type): array
     {
         try {
-            $storageConfig = ['engine' => 'local', 'params' => []];
-            $storageDriver = new StorageDriver($storageConfig);
+            // 设置引擎
+            $storageDriver = new StorageDriver([], 'local');
             $storageDriver->validates($type);
 
+            // 获取文件
             $file = request()->file('file');
             $name = $storageDriver->buildSaveName($file->getRealPath(), $file->extension());
 
+            // 保存文件
             $filesystem = Filesystem::instance();
             $filesystem->disk('temporary')->putFileAS('', $file, $name);
 
+            // 返回信息
             return [
                 'name' => $file->getOriginalName(),
                 'size' => $file->getSize(),
                 'ext'  => $file->extension(),
                 'url'  => UrlUtils::toAbsoluteUrl('temporary/' . $name)
-            ];
+            ] ?? [];
         } catch (Exception $e) {
             throw new UploadException($e->getMessage());
         }
