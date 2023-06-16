@@ -33,6 +33,7 @@ class CurdTableColumn extends Models
         'model_type'     => 'string',  //模型类型
         'is_pk'          => 'int',     //是否主键: [0=否, 1=是]
         'is_increment'   => 'int',     //是否自增: [0=否, 1=是]
+        'is_required'    => 'int',     //是否必填: [0=否, 1=是]
         'is_insert'      => 'int',     //是否插入: [0=否, 1=是]
         'is_edit'        => 'int',     //是否编辑: [0=否, 1=是]
         'is_list'        => 'int',     //是否列表: [0=否, 1=是]
