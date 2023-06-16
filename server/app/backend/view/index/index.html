@@ -78,7 +78,7 @@
                                         </a>
                                         <dl>
                                             {volist name="$item.children" id="sub"}
-                                                <dd><a lay-id="{$item.id}" lay-attr="{:route($sub.perms)}">{$sub.title}</a></dd>
+                                                <dd><a lay-id="{$sub.id}" lay-attr="{:route($sub.perms)}">{$sub.title}</a></dd>
                                             {/volist}
                                         </dl>
                                     </dd>
