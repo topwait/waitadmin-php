@@ -17,7 +17,6 @@ namespace app\backend\service\setting;
 
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 存储配置服务类
@@ -30,7 +29,6 @@ class StorageService extends Service
      * @return array
      * @author zero
      */
-    #[ArrayShape(['default' => "string", 'local' => "array", 'qiniu' => "string[]", 'aliyun' => "string[]", 'qcloud' => "string[]"])]
     public static function detail(): array
     {
         $config = ConfigUtils::get('storage');
@@ -56,7 +54,7 @@ class StorageService extends Service
                 'secretKey' => $config['qcloud']['secretKey'] ?? '',
                 'domain'    => $config['qcloud']['domain']    ?? ''
             ]
-        ];
+        ] ?? [];
     }
 
     /**

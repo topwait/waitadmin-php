@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\auth;
 
-
 use app\common\basics\Validate;
 
 /**

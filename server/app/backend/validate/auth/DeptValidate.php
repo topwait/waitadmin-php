@@ -19,7 +19,7 @@ namespace app\backend\validate\auth;
 use app\common\basics\Validate;
 
 /**
- * 部门参数验证器
+ * 部门-参数验证器
  */
 class DeptValidate extends Validate
 {

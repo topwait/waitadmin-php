@@ -18,7 +18,6 @@ namespace app\api\service;
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 装修服务类
@@ -31,7 +30,6 @@ class DiyService extends Service
      * @return array
      * @author zero
      */
-    #[ArrayShape(['bgHead' => "string", 'banner' => "array[]", 'nav' => "array[]"])]
     public static function index(): array
     {
         // 此处只是临时使用的数据,以后可接入diy功能
@@ -63,7 +61,7 @@ class DiyService extends Service
                     'link'  => '/pages/other/about'
                 ]
             ]
-        ];
+        ] ?? [];
     }
 
     /**
@@ -72,7 +70,6 @@ class DiyService extends Service
      * @return array
      * @author zero
      */
-    #[ArrayShape(['title' => "string", 'datetime' => "string", 'mobile' => "string", 'qq' => "string", 'image' => "string"])]
     public static function tie(): array
     {
         $detail = ConfigUtils::get('diy', 'contact');
@@ -82,7 +79,7 @@ class DiyService extends Service
             'mobile'   => $detail['mobile']??'',
             'qq'       => $detail['qq']??'',
             'image'    => UrlUtils::toAbsoluteUrl($detail['image']??'')
-        ];
+        ] ?? [];
     }
 
     /**
@@ -95,7 +92,7 @@ class DiyService extends Service
     {
         $data = [];
         $detail = ConfigUtils::get('diy', 'person');
-        foreach ($detail as $type => &$item) {
+        foreach ($detail as $type => $item) {
             $data[$type]['base'] = match ($type) {
                 'adv' => [
                     'open' => intval($item['base']['open'] ?? '0')

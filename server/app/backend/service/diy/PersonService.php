@@ -34,7 +34,7 @@ class PersonService extends Service
     {
         $data = [];
         $detail = ConfigUtils::get('diy', 'person');
-        foreach ($detail as $type => &$item) {
+        foreach ($detail as $type => $item) {
             $data[$type]['base'] = match ($type) {
                 'service' => [
                     'layout' => $item['base']['layout'] ?? 'row',

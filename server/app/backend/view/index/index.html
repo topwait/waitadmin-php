@@ -144,7 +144,7 @@
                 waitUtil.popup({
                     title: '基本信息',
                     url: '{:route("auth.Admin/info")}',
-                    area: ["510px", "580px"],
+                    area: ['510px', '590px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data){
                             data.field['id'] = '{$Request.session.adminUser.id}';

@@ -17,7 +17,6 @@ namespace app\backend\service\system;
 
 use app\common\basics\Service;
 use app\common\model\sys\SysLog;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -35,7 +34,6 @@ class LogService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -59,7 +57,7 @@ class LogService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**
@@ -75,7 +73,7 @@ class LogService extends Service
     {
         $model = new SysLog();
         $detail = $model->field(true)
-            ->where(['id'=>intval($id)])
+            ->where(['id'=>$id])
             ->findOrFail()
             ->toArray();
 

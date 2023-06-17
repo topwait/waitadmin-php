@@ -19,6 +19,7 @@ use app\common\basics\Backend;
 use app\common\exception\SystemException;
 use app\common\service\mail\MailDriver;
 use app\common\utils\ConfigUtils;
+use Exception;
 
 /**
  * 邮件配置服务类
@@ -80,7 +81,7 @@ class EmailService extends Backend
                 ->subject('邮件测试发送标题')
                 ->body('邮件测试内容~~~')
                 ->send();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new SystemException(mb_substr($e->getMessage(), 0, 40));
         }
     }

@@ -17,7 +17,6 @@ namespace app\backend\service\setting\pc;
 
 use app\common\basics\Service;
 use app\common\model\dev\DevBanner;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -35,7 +34,6 @@ class BannerService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
     {
         $model = new DevBanner();
@@ -52,7 +50,7 @@ class BannerService extends Service
             $item['position'] = DevBanner::positionEnum(intval($item['position']));
         }
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**
@@ -69,7 +67,7 @@ class BannerService extends Service
         $model = new DevBanner();
         return $model->withoutField('is_delete,delete_time')
             ->where(['is_delete'=>0])
-            ->where(['id'=>intval($id)])
+            ->where(['id'=>$id])
             ->findOrFail()
             ->toArray();
     }

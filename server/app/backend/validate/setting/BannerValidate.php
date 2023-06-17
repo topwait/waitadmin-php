@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\validate\setting;
 
-
 use app\common\basics\Validate;
 
 /**

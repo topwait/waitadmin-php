@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\backend\service;
 
-
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;

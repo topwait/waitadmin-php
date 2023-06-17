@@ -22,7 +22,6 @@ use app\common\basics\Service;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
-use app\common\model\user\UserAuth;
 use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
 use Exception;

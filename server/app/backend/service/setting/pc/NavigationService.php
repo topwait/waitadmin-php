@@ -56,7 +56,7 @@ class NavigationService extends Service
     {
         $model = new DevNavigation();
         return $model->withoutField('is_delete,delete_time')
-            ->where(['id'=>intval($id)])
+            ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
@@ -113,6 +113,6 @@ class NavigationService extends Service
         DevNavigation::update([
             'is_delete'   => 1,
             'delete_time' => time()
-        ], ['id'=>intval($id)]);
+        ], ['id'=>$id]);
     }
 }
