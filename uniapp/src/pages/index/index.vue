@@ -1,6 +1,6 @@
 <template>
     <!-- 轮播图片 -->
-    <view class="banner">
+    <view class="layout-banner-widget">
         <view class="diy-swiper">
             <image class="bgImage" :src="diyItem.bgHead" />
             <u-swiper
@@ -60,7 +60,7 @@ onShow(async () => {
 </script>
 
 <style lang="scss">
-.banner {
+.layout-banner-widget {
     position: relative;
     .bgImage { width: 100%; height: 300rpx; }
     .diy-swiper {
