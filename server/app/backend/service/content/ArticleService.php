@@ -18,7 +18,6 @@ namespace app\backend\service\content;
 use app\common\basics\Service;
 use app\common\model\article\Article;
 use app\common\utils\AttachUtils;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -35,7 +34,6 @@ class ArticleService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(): array
     {
         self::setSearch([
@@ -61,7 +59,7 @@ class ArticleService extends Service
             $item['category'] = $item['category']['name'] ?? '无';
         }
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**

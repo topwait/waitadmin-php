@@ -17,7 +17,6 @@ namespace app\backend\service\setting;
 
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 政策协议服务类
@@ -30,14 +29,13 @@ class PolicyService extends Service
      * @return array
      * @author zero
      */
-    #[ArrayShape(['service' => "string", 'privacy' => "string"])]
     public static function detail(): array
     {
         $detail = ConfigUtils::get('policy')??[];
         return [
             'service' => $detail['service']??'',
             'privacy' => $detail['privacy']??''
-        ];
+        ] ?? [];
     }
 
     /**

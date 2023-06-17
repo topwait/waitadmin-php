@@ -18,8 +18,10 @@ namespace app\backend\service\diy;
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
-use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * 底部导航服务类
+ */
 class TabbarService extends Service
 {
     /**
@@ -28,7 +30,6 @@ class TabbarService extends Service
      * @return array
      * @author zero
      */
-    #[ArrayShape(['style' => "array", 'list' => "array"])]
     public static function detail(): array
     {
         $config = ConfigUtils::get('diy', 'tabbar', []);
@@ -44,7 +45,7 @@ class TabbarService extends Service
             $list[] = $item;
         }
 
-        return ['style'=>$style, 'list'=>$list];
+        return ['style'=>$style, 'list'=>$list] ?? [];
     }
 
     /**

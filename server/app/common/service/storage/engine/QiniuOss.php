@@ -23,9 +23,6 @@ use Qiniu\Storage\UploadManager;
 
 /**
  * 七牛云OSS
- *
- * Class Qiniu
- * @package app\common\service\storage\engine
  */
 class QiniuOss
 {

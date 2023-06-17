@@ -19,6 +19,7 @@ return array(
     'f598d06aa772fa33d905e87be6398fb1' => $vendorDir . '/symfony/polyfill-intl-idn/bootstrap.php',
     '0d59ee240a4cd96ddbb4ff164fccea4d' => $vendorDir . '/symfony/polyfill-php73/bootstrap.php',
     'd767e4fc2dc52fe66584ab8c6684783e' => $vendorDir . '/adbario/php-dot-notation/src/helpers.php',
+    '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     'b067bc7112e384b61c701452d53a14a8' => $vendorDir . '/mtdowling/jmespath.php/src/JmesPath.php',
     'c5521cebe610a9bf42c44b3a5163adfd' => $vendorDir . '/overtrue/socialite/src/Contracts/FactoryInterface.php',
     'ccd11c8e7dd9b33638b248681bdfba27' => $vendorDir . '/overtrue/socialite/src/Contracts/UserInterface.php',

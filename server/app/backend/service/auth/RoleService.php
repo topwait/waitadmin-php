@@ -23,7 +23,6 @@ use app\common\model\auth\AuthPerm;
 use app\common\model\auth\AuthRole;
 use app\common\utils\ArrayUtils;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -61,7 +60,6 @@ class RoleService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -89,7 +87,7 @@ class RoleService extends Service
                 ->count();
         }
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**

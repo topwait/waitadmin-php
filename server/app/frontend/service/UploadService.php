@@ -22,7 +22,6 @@ use app\common\model\attach\Attach;
 use app\common\service\storage\StorageDriver;
 use app\common\utils\UrlUtils;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use think\facade\Filesystem;
 
 /**
@@ -38,7 +37,6 @@ class UploadService extends Service
      * @return array
      * @throws UploadException
      */
-    #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'path' => "string", 'url' => "string"])]
     public static function permanent(string $type, int $userId): array
     {
         try {
@@ -66,7 +64,7 @@ class UploadService extends Service
                 'size' => $fileInfo['size'],
                 'path' => $fileInfo['fileName'],
                 'url'  => UrlUtils::toAbsoluteUrl($fileInfo['fileName'])
-            ];
+            ] ?? [];
         } catch (Exception $e) {
             throw new UploadException($e->getMessage());
         }
@@ -80,7 +78,6 @@ class UploadService extends Service
      * @throws UploadException
      * @author zero
      */
-    #[ArrayShape(['name' => "string", 'ext' => "string", 'size' => "int", 'url' => "string"])]
     public static function temporary(string $type): array
     {
         try {
@@ -99,7 +96,7 @@ class UploadService extends Service
                 'size' => $file->getSize(),
                 'ext'  => $file->extension(),
                 'url'  => UrlUtils::toAbsoluteUrl('temporary/' . $name)
-            ];
+            ] ?? [];
         } catch (Exception $e) {
             throw new UploadException($e->getMessage());
         }

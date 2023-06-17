@@ -21,7 +21,6 @@ use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;
 use app\common\utils\AttachUtils;
 use app\common\utils\UrlUtils;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -39,7 +38,6 @@ class AdminService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -75,7 +73,7 @@ class AdminService extends Service
             $item['last_login_time'] = $item['last_login_time'] ? date('Y-m-d H:i:s', $item['last_login_time']) : '-';
         }
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**

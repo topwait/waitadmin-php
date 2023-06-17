@@ -15,16 +15,12 @@ declare (strict_types = 1);
 
 namespace app\common\service\mail;
 
-
 use app\common\utils\ConfigUtils;
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * 邮件驱动类
- *
- * Class MailDriver
- * @package app\common\service\mail
  */
 class MailDriver
 {

@@ -136,10 +136,10 @@ class DeptService extends Service
         // 验证数据
         $modelAuthDept = new AuthDept();
         $modelAuthDept->checkDataDoesNotExist(['id'=>$id, 'is_delete'=>0]);
-        $modelAuthDept->checkDataDoesNotExist(['id'=>$pid, 'is_delete'=>0], '父级菜单已不存在!');
 
         // 验证父级
         if ($pid > 1) {
+            $modelAuthDept->checkDataDoesNotExist(['id'=>$pid, 'is_delete'=>0], '父级菜单已不存在!');
             if (in_array($pid, self::child($id))) {
                 throw new OperateException('父级不允许是自身或子级!');
             }
@@ -175,7 +175,7 @@ class DeptService extends Service
 
         // 处理关系
         $relation = $authDept['relation'];
-        if ($pid === 1) {
+        if ($pid === 0) {
             $replaceLevel = $authDept['level'] - 1;
             $replacePaths = '0,'.$authDept['id'];
         } else {

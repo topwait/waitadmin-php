@@ -168,7 +168,7 @@ class ArticleService extends Service
 
         // 上一条记录
         $detail['prev'] = $model->field('id,title')
-            ->where('id', '<', intval($id))
+            ->where('id', '<', $id)
             ->where('is_delete', '=', 0)
             ->order('sort desc, id desc')
             ->findOrEmpty()
@@ -176,7 +176,7 @@ class ArticleService extends Service
 
         // 下一条记录
         $detail['next'] = $model->field('id,title')
-            ->where('id', '>', intval($id))
+            ->where('id', '>', $id)
             ->where('is_delete', '=', 0)
             ->order('sort desc, id desc')
             ->findOrEmpty()

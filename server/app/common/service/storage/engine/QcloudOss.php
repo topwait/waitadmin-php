@@ -19,9 +19,6 @@ use Qcloud\Cos\Client;
 
 /**
  * 腾讯云OSS
- *
- * Class Qcloud
- * @package app\common\service\storage\engine
  */
 class QcloudOss
 {

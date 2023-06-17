@@ -20,9 +20,6 @@ use think\facade\Filesystem;
 
 /**
  * 本地上传类
- *
- * Class Local
- * @package app\common\service\storage\engine
  */
 class LocalOss
 {

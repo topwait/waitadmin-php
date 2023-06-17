@@ -18,7 +18,6 @@ namespace app\backend\service\setting;
 use app\common\basics\Service;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 渠道配置服务类
@@ -31,7 +30,6 @@ class ChannelService extends Service
      * @return array[]
      * @author zero
      */
-    #[ArrayShape(['wx' => "array", 'oa' => "array", 'op' => "array"])]
     public static function detail(): array
     {
         $wxChannel = ConfigUtils::get('wx_channel');
@@ -57,7 +55,7 @@ class ChannelService extends Service
                 'app_id'      => $opChannel['app_id']     ?? '',
                 'app_secret'  => $opChannel['app_secret'] ?? '',
             ]
-        ];
+        ] ?? [];
     }
 
     /**

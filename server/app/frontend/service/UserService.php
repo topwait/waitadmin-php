@@ -24,7 +24,6 @@ use app\common\model\user\UserAuth;
 use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
 use app\common\utils\AttachUtils;
-use app\common\utils\FileUtils;
 use app\common\utils\UrlUtils;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;

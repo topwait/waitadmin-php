@@ -16,8 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service\setting;
 
 use app\common\basics\Service;
-use app\common\model\NoticeSetting;
-use JetBrains\PhpStorm\ArrayShape;
+use app\common\model\notice\NoticeSetting;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -35,7 +34,6 @@ class NoticeService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -65,7 +63,7 @@ class NoticeService extends Service
             unset($item['is_captcha']);
         }
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**

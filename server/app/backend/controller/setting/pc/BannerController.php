@@ -19,7 +19,7 @@ use app\backend\service\setting\pc\BannerService;
 use app\backend\validate\PageValidate;
 use app\backend\validate\setting\BannerValidate;
 use app\common\basics\Backend;
-use app\common\model\DevBanner;
+use app\common\model\dev\DevBanner;
 use app\common\utils\AjaxUtils;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;

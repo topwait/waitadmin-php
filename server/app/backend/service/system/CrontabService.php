@@ -17,7 +17,6 @@ namespace app\backend\service\system;
 
 use app\common\basics\Service;
 use app\common\model\sys\SysCrontab;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -35,7 +34,6 @@ class CrontabService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
     {
         $model = new SysCrontab();
@@ -48,7 +46,7 @@ class CrontabService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**
@@ -64,7 +62,7 @@ class CrontabService extends Service
     {
         $model = new SysCrontab();
         return $model->withoutField('create_time,update_time')
-            ->where(['id'=>intval($id)])
+            ->where(['id'=>$id])
             ->findOrFail()
             ->toArray();
     }
@@ -113,7 +111,7 @@ class CrontabService extends Service
      */
     public static function del(int $id): void
     {
-        SysCrontab::destroy(intval($id));
+        SysCrontab::destroy($id);
     }
 
     /**
@@ -127,7 +125,7 @@ class CrontabService extends Service
         SysCrontab::update([
             'status'      => 2,
             'update_time' => time()
-        ], ['id'=>intval($id)]);
+        ], ['id'=>$id]);
     }
 
     /**
@@ -144,6 +142,6 @@ class CrontabService extends Service
             'exe_time'    => 0,
             'max_time'    => 0,
             'update_time' => time()
-        ], ['id'=>intval($id)]);
+        ], ['id'=>$id]);
     }
 }

@@ -20,6 +20,7 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         'd767e4fc2dc52fe66584ab8c6684783e' => __DIR__ . '/..' . '/adbario/php-dot-notation/src/helpers.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         'b067bc7112e384b61c701452d53a14a8' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/JmesPath.php',
         'c5521cebe610a9bf42c44b3a5163adfd' => __DIR__ . '/..' . '/overtrue/socialite/src/Contracts/FactoryInterface.php',
         'ccd11c8e7dd9b33638b248681bdfba27' => __DIR__ . '/..' . '/overtrue/socialite/src/Contracts/UserInterface.php',
@@ -53,6 +54,10 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         'a' => 
         array (
             'app\\' => 4,
+        ),
+        'Z' => 
+        array (
+            'ZipStream\\' => 10,
         ),
         'T' => 
         array (
@@ -94,6 +99,7 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
+            'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'O' => 
@@ -110,6 +116,7 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         array (
             'MyCLabs\\Enum\\' => 13,
             'Monolog\\' => 8,
+            'Matrix\\' => 7,
         ),
         'L' => 
         array (
@@ -132,6 +139,10 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         'E' => 
         array (
             'EasyWeChat\\' => 11,
+        ),
+        'C' => 
+        array (
+            'Complex\\' => 8,
         ),
         'A' => 
         array (
@@ -177,6 +188,10 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
+        ),
+        'ZipStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
         ),
         'TheNorthMemory\\Xml\\' => 
         array (
@@ -296,6 +311,10 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'PhpOffice\\PhpSpreadsheet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
@@ -323,6 +342,10 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Matrix\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
         'League\\MimeTypeDetection\\' => 
         array (
@@ -364,6 +387,10 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         array (
             0 => __DIR__ . '/..' . '/w7corp/easywechat/src',
         ),
+        'Complex\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+        ),
         'AlibabaCloud\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/alibabacloud/client/src',
@@ -371,6 +398,16 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         'Adbar\\' => 
         array (
             0 => __DIR__ . '/..' . '/adbario/php-dot-notation/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
         ),
     );
 
@@ -395,6 +432,7 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$prefixesPsr0;
             $loader->fallbackDirsPsr0 = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$fallbackDirsPsr0;
             $loader->classMap = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$classMap;
 

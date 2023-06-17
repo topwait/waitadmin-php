@@ -19,7 +19,6 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;
 use app\common\model\auth\AuthPost;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -56,7 +55,6 @@ class PostService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -76,7 +74,7 @@ class PostService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**

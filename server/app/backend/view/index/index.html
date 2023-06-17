@@ -78,7 +78,7 @@
                                         </a>
                                         <dl>
                                             {volist name="$item.children" id="sub"}
-                                                <dd><a lay-id="{$item.id}" lay-attr="{:route($sub.perms)}">{$sub.title}</a></dd>
+                                                <dd><a lay-id="{$sub.id}" lay-attr="{:route($sub.perms)}">{$sub.title}</a></dd>
                                             {/volist}
                                         </dl>
                                     </dd>
@@ -144,7 +144,7 @@
                 waitUtil.popup({
                     title: '基本信息',
                     url: '{:route("auth.Admin/info")}',
-                    area: ["510px", "580px"],
+                    area: ['510px', '590px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data){
                             data.field['id'] = '{$Request.session.adminUser.id}';

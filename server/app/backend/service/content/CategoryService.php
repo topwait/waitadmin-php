@@ -19,8 +19,6 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\article\Article;
 use app\common\model\article\ArticleCategory;
-use app\common\utils\AjaxUtils;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -56,7 +54,6 @@ class CategoryService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(): array
     {
         self::setSearch([
@@ -76,7 +73,7 @@ class CategoryService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**
@@ -92,7 +89,7 @@ class CategoryService extends Service
     {
         $model = new ArticleCategory();
         return $model->withoutField('is_delete,delete_time')
-            ->where(['id'=>intval($id)])
+            ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrFail()
             ->toArray();
@@ -147,6 +144,6 @@ class CategoryService extends Service
         ArticleCategory::update([
             'is_delete'   => 1,
             'delete_time' => time()
-        ], ['id'=>intval($id)]);
+        ], ['id'=>$id]);
     }
 }

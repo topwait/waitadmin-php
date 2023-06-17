@@ -4,17 +4,17 @@
 .layout-global-header .navigation .container { display: flex; }
 .layout-global-header .navigation .logo { display: flex; align-items: center; width: 160px; height: 50px; }
 .layout-global-header .navigation .logo img { max-width: 100%; max-height: 100%; }
-.layout-global-header .navigation ul.nav { display: flex; flex: 1; align-items: center; }
-.layout-global-header .navigation ul.nav li { height: 60px; line-height: 60px; }
+.layout-global-header .navigation ul.nav { display: flex; flex: 1; align-items: center; overflow: hidden; }
+.layout-global-header .navigation ul.nav li { height: 60px; line-height: 60px; flex-shrink: 0; }
 .layout-global-header .navigation ul.nav li.active { background: #345dcd; }
 .layout-global-header .navigation ul.nav li:hover { background: #345dcd; }
 .layout-global-header .navigation ul.nav li a { position: relative; display: block; padding: 0 28px; font-size: 16px; color: #ffffff; }
-.layout-global-header .navigation ul.nav li.children > a::before { position: absolute; top: 22px; right: 12px; border-top: 5px solid #ffffff; border-right: 4px solid transparent; border-left: 4px solid transparent; content: ""; }
+.layout-global-header .navigation ul.nav li.children > a::before { position: absolute; top: 28px; right: 12px; border-top: 5px solid #ffffff; border-right: 4px solid transparent; border-left: 4px solid transparent; content: ""; }
 .layout-global-header .navigation ul.nav li:hover > dl { display: block; transition: all 300ms; }
-.layout-global-header .navigation ul.nav li dl { position: absolute; z-index: 2000; display: none; width: 120px; background: #ffffff; transition: all 300ms; }
-.layout-global-header .navigation ul.nav li dl dd { padding: 0; width: 100%; height: 36px; text-align: center; line-height: 36px; }
-.layout-global-header .navigation ul.nav dl dd:hover { background: #fcfbfb; }
-.layout-global-header .navigation ul.nav li dl dd a { padding: 0; font-size: 14px; color: #333333; }
+.layout-global-header .navigation ul.nav li dl { position: absolute; padding: 5px 0; z-index: 2000; display: none;  min-width: 140px; border-radius: 2px; border: 1px solid #e6e6e6;     box-shadow: 0 6px 12px rgba(0,0,0,0.175); background: #ffffff; transition: all 300ms; }
+.layout-global-header .navigation ul.nav li dl dd { line-height: normal; }
+.layout-global-header .navigation ul.nav dl dd:hover { background: #f3f3f3; }
+.layout-global-header .navigation ul.nav li dl dd a { display: block; line-height: 1; font-size: 15px; color: #677282; padding: 11px 20px; }
 .layout-global-header .navigation .layui-nav { display: flex; align-items: center; color: #ffffff; cursor: pointer; background-color: #3a67e4; }
 .layout-global-header .navigation .layui-nav .sign-in a { display: inline-block; padding: 0 8px; font-size: 16px; color: #ffffff; }
 .layout-global-header .navigation .layui-nav .sign-in a:hover { opacity: .9; }
@@ -71,7 +71,7 @@
 .index-modular-sticker ul { display: flex; flex-wrap: wrap; }
 .index-modular-sticker ul li { float: left; margin-top: 15px; width: 50%; height: 72px; }
 .index-modular-sticker ul li > a { display: block; float: left; margin-right: 10px; width: 72px; height: 72px; }
-.index-modular-sticker ul li > a img { width: 100%; height: 100%; }
+.index-modular-sticker ul li > a img { width: 100%; height: 100%; border-radius: 2px; }
 .index-modular-sticker ul li::after { display: block; clear: both; height: 0; visibility: hidden; content: ""; line-height: 0; }
 .index-modular-sticker ul li:nth-of-type(1) { margin-top: 0; }
 .index-modular-sticker ul li:nth-of-type(2) { margin-top: 0; }
@@ -87,7 +87,7 @@
 .index-modular-lists ul li:last-child { border: none; }
 .index-modular-lists ul li::after { display: block; clear: both; height: 0; visibility: hidden; content: ""; line-height: 0; }
 .index-modular-lists ul li a.image { display: block; float: left; margin-right: 15px; width: 200px; height: 132px; }
-.index-modular-lists a.image img { width: 100%; height: 100%; }
+.index-modular-lists a.image img { width: 100%; height: 100%; border-radius: 4px; }
 .index-modular-lists .empty { padding: 100px 0 80px; text-align: center; color: #cccccc; }
 .index-modular-lists .empty i { font-size: 120px; }
 .index-modular-lists .empty p { margin-top: 20px; }

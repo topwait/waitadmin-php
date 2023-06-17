@@ -19,7 +19,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\MiniApp\Application as MiniApplication;
 use EasyWeChat\OfficialAccount\Application as OfficialApplication;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
@@ -35,7 +34,6 @@ class WeChatService
      * @throws Exception
      * @author zero
      */
-    #[ArrayShape(['openid' => "string", 'unionid' => "string", 'nickname' => "string", 'avatarUrl' => "string", 'gender' => "int"])]
     public static function oaAuth2session(string $code): array
     {
         try {
@@ -59,7 +57,7 @@ class WeChatService
                 'nickname'  => $response['nickname']   ?? '',
                 'avatarUrl' => $response['headimgurl'] ?? '',
                 'gender'    => intval($response['sex'] ?? 0),
-            ];
+            ] ?? [];
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
         }
@@ -98,7 +96,6 @@ class WeChatService
      * @throws Exception
      * @author zero
      */
-    #[ArrayShape(['openid' => "string", 'unionid' => "string", 'nickname' => "string", 'avatarUrl' => "string", 'gender' => "int"])]
     public static function opAuth2session(string $code): array
     {
         try {
@@ -122,7 +119,7 @@ class WeChatService
                 'nickname'  => $response['nickname']   ?? '',
                 'avatarUrl' => $response['headimgurl'] ?? "",
                 'gender'    => intval($response['sex'] ?? 0),
-            ];
+            ] ?? [];
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
         }
@@ -159,7 +156,6 @@ class WeChatService
      * @throws Exception
      * @author zero
      */
-    #[ArrayShape(['session_key' => "string", 'openid' => "string", 'unionid' => "string"])]
     public static function wxJsCode2session(string $code): array
     {
         try {
@@ -183,7 +179,7 @@ class WeChatService
                 'session_key' => $response['session_key'] ?? '',
                 'openid'      => $response['openid'] ?? '',
                 'unionid'     => $response['unionid'] ?? '',
-            ];
+            ] ?? [];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         } catch (TransportExceptionInterface $e) {
@@ -199,7 +195,6 @@ class WeChatService
      * @return array ['countryCode', 'phoneNumber']
      * @throws Exception
      */
-    #[ArrayShape(['countryCode' => "int", 'phoneNumber' => "int"])]
     public static function wxPhoneNumber(string $code): array
     {
         try {
@@ -219,12 +214,11 @@ class WeChatService
             return [
                 'countryCode' => $result['phone_info']['countryCode'],
                 'phoneNumber' => $result['phone_info']['phoneNumber']
-            ];
+            ] ?? [];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         } catch (TransportExceptionInterface $e) {
             throw new Exception($e->getMessage());
         }
     }
-
 }

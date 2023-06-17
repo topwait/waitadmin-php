@@ -15,12 +15,10 @@ declare (strict_types = 1);
 
 namespace app\backend\service\user;
 
-
 use app\common\basics\Service;
 use app\common\enums\GenderEnum;
 use app\common\model\user\User;
 use app\common\utils\UrlUtils;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -38,7 +36,6 @@ class UsersService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function lists(array $get): array
     {
         self::setSearch([
@@ -75,7 +72,7 @@ class UsersService extends Service
             $item['groups'] = $item['groups'] ?: '-';
         }
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**

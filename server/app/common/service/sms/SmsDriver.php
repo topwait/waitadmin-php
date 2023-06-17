@@ -14,10 +14,12 @@
 
 namespace app\common\service\sms;
 
-
 use app\common\utils\ConfigUtils;
 use Exception;
 
+/**
+ * 短信驱动类
+ */
 class SmsDriver
 {
     /**

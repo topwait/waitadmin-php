@@ -16,8 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service\setting\pc;
 
 use app\common\basics\Service;
-use app\common\model\DevLinks;
-use JetBrains\PhpStorm\ArrayShape;
+use app\common\model\dev\DevLinks;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -35,7 +34,6 @@ class LinksService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
     public static function lists(array $get): array
     {
         $model = new DevLinks();
@@ -48,7 +46,7 @@ class LinksService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
     /**
@@ -65,7 +63,7 @@ class LinksService extends Service
         $model = new DevLinks();
         return $model->withoutField('is_delete,delete_time')
             ->where(['is_delete'=>0])
-            ->where(['id'=>intval($id)])
+            ->where(['id'=>$id])
             ->findOrFail()
             ->toArray();
     }

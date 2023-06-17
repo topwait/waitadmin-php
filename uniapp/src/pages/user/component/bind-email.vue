@@ -97,5 +97,4 @@ const onBindEmail = async () => {
         uni.$u.toast('绑定成功')
     }, 100)
 }
-
 </script>
