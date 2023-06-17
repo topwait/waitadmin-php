@@ -62,6 +62,9 @@
 
         // 监听提交登录
         form.on('submit(loginSubmit)', function(data) {
+            if (data.field['captcha'].length < 4) {
+                return;
+            }
             const that = $(this)
             rememberPass();
             waitUtil.locking(that);
