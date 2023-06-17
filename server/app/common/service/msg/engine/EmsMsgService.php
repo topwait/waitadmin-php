@@ -3,8 +3,7 @@
 namespace app\common\service\msg\engine;
 
 use app\common\enums\NoticeEnum;
-use app\common\exception\SystemException;
-use app\common\model\NoticeRecord;
+use app\common\model\notice\NoticeRecord;
 use app\common\service\mail\MailDriver;
 use Exception;
 

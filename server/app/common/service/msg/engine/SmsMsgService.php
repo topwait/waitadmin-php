@@ -3,7 +3,7 @@
 namespace app\common\service\msg\engine;
 
 use app\common\enums\NoticeEnum;
-use app\common\model\NoticeRecord;
+use app\common\model\notice\NoticeRecord;
 use app\common\service\sms\SmsDriver;
 use app\common\utils\ConfigUtils;
 

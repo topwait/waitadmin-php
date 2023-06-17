@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service\setting\pc;
 
 use app\common\basics\Service;
-use app\common\model\DevBanner;
+use app\common\model\dev\DevBanner;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;

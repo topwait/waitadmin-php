@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service\setting\pc;
 
 use app\common\basics\Service;
-use app\common\model\DevNavigation;
+use app\common\model\dev\DevNavigation;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;

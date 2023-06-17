@@ -12,9 +12,7 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-
-namespace app\common\model;
-
+namespace app\common\model\dev;
 
 use app\common\basics\Models;
 

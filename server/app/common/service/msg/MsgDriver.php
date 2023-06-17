@@ -3,8 +3,8 @@
 namespace app\common\service\msg;
 
 use app\common\enums\NoticeEnum;
-use app\common\model\NoticeRecord;
-use app\common\model\NoticeSetting;
+use app\common\model\notice\NoticeRecord;
+use app\common\model\notice\NoticeSetting;
 use app\common\service\msg\engine\EmsMsgService;
 use app\common\service\msg\engine\SmsMsgService;
 

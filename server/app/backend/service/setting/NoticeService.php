@@ -16,7 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service\setting;
 
 use app\common\basics\Service;
-use app\common\model\NoticeSetting;
+use app\common\model\notice\NoticeSetting;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;

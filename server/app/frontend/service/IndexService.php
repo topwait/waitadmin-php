@@ -16,8 +16,8 @@ declare (strict_types = 1);
 namespace app\frontend\service;
 
 use app\common\basics\Service;
-use app\common\model\DevBanner;
-use app\common\model\DevLinks;
+use app\common\model\dev\DevBanner;
+use app\common\model\dev\DevLinks;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;

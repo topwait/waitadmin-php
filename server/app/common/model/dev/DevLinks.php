@@ -12,20 +12,19 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\common\model;
+namespace app\common\model\dev;
 
 use app\common\basics\Models;
 
 /**
- * 导航模型
+ * 友情链接模型
  */
-class DevNavigation extends Models
+class DevLinks extends Models
 {
     // 设置字段信息
     protected $schema = [
         'id'           => 'int',     //主键
-        'pid'          => 'int',     //父级
-        'name'         => 'string',  //名称
+        'title'        => 'string',  //友链名称
         'target'       => 'string',  //跳转方式
         'url'          => 'string',  //跳转链接
         'sort'         => 'int',     //排序编号

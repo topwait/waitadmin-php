@@ -1,8 +1,20 @@
 <?php
+// +----------------------------------------------------------------------
+// | WaitAdmin快速开发后台管理系统
+// +----------------------------------------------------------------------
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
+// +----------------------------------------------------------------------
+// | Author: WaitAdmin Team <2474369941@qq.com>
+// +----------------------------------------------------------------------
+declare (strict_types = 1);
 
 namespace app\common\service\excel;
 
-use JetBrains\PhpStorm\NoReturn;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -11,6 +23,9 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+/**
+ * Excel工具类
+ */
 class ExcelDriver
 {
     /**
@@ -27,14 +42,14 @@ class ExcelDriver
     public static function export(array $fields, array $lists, array $options = []): string
     {
         $exportName = trim($options['exportName'] ?? 'excel');
-        $exportUuid = md5(uniqid(time(),true).mt_rand().$exportName);
+        $exportUuid = md5(uniqid(strval(time()),true).mt_rand().$exportName);
         $exportPath = root_path().'runtime/export/'.date('Ymd').'/'.$exportUuid.'/';
         $option = [
             // 导出名称
             'exportName'      => trim($options['exportName'] ?? 'excel'),
             // 导出方式: [flow=流式, path=路径]
             'exportMethod'    => trim($options['exportMethod'] ?? 'flow'),
-            // 导出路径: [系统路径: 紧path模式下需要,且必须]
+            // 导出路径: [系统路径: path模式下才生效]
             'exportPath'      => trim($options['exportPath'] ?? $exportPath),
             // 行头高度
             'headerRowHeight' => intval($options['cellRowHeight'] ?? 30),
@@ -197,9 +212,48 @@ class ExcelDriver
 
     /**
      * 导入
+     *
+     * @param string $path
+     * @param array $fields
+     * @param array $options
+     * @return array
      */
-    public static function import()
+    public static function import(string $path, array $fields, array $options = []): array
     {
+        $option = [
+            // 跳过第几行
+            'skip'  => intval($options['skip']??1),
+            // 写入数据行
+            'write' => $options['write'] ?? false,
+            // 操作的模型
+            'model' => $options['model'] ?? null
+        ];
 
+        // 读取表格
+        $spreadsheet = IOFactory::load($path);
+        $sheetData = $spreadsheet->getActiveSheet()->toArray(true, true, true, true, true);
+
+        // 循环数据
+        $i = 1;
+        $lists = [];
+        foreach ($sheetData as $rows) {
+            if ($i == $option['skip']) {
+                $i++;
+                continue;
+            }
+
+            $data = [];
+            foreach ($fields as $key => $field) {
+                $data[$field] = $rows[$key];
+            }
+
+            $lists[] = $data;
+        }
+
+        if ($option['write']) {
+            app($option['model'])->saveAll($lists);
+        }
+
+        return $lists;
     }
 }
