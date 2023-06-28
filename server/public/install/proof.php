@@ -29,7 +29,9 @@ class Proof
 
     /**
      * 是否允许下一步
+     *
      * @return bool
+     * @author zero
      */
     public function checkAllowNext(): bool
     {
