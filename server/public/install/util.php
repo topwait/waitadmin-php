@@ -132,7 +132,7 @@ class Util
         $backendEntrance = 'admin.php';
         if ($handle = opendir(PUBLIC_ROOT)) {
             while (false !== ($file = readdir($handle))) {
-                if (str_ends_with($file, '.php')) {
+                if (str_ends_with($file, '.php') && $file != 'index.php') {
                     $filePath = str_replace('\\', '/', PUBLIC_ROOT . '/' . $file);
                     $fileContents = file_get_contents($filePath);
                     $checkStr01 = 'namespace think;';
@@ -147,8 +147,8 @@ class Util
                         str_contains($fileContents, $checkStr05)
                     ) {
                         $backendEntrance = strval($file);
+                        break;
                     }
-                    break;
                 }
             }
             closedir($handle);
