@@ -15,6 +15,9 @@
 namespace app\common\model\sys;
 
 use app\common\basics\Models;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 字典类型模型
@@ -33,4 +36,25 @@ class SysDictType extends Models
         'update_time' => 'int',     //更新时间
         'delete_time' => 'int'      //删除时间
     ];
+
+    /**
+     * 查询所有启用的字段
+     *
+     * @return array
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @author zero
+     */
+    public static function queryAllEnable(): array
+    {
+        $model = new self();
+        return $model
+            ->field(['id','name','type'])
+            ->where(['is_enable'=>1])
+            ->where(['is_delete'=>0])
+            ->order('id desc')
+            ->select()
+            ->toArray();
+    }
 }

@@ -21,6 +21,7 @@ use app\backend\service\auth\MenuService;
 use app\common\basics\Backend;
 use app\common\exception\OperateException;
 use app\common\exception\SystemException;
+use app\common\model\sys\SysDictType;
 use app\common\utils\AjaxUtils;
 use app\common\utils\ArrayUtils;
 use Exception;
@@ -96,7 +97,8 @@ class GenController extends Backend
             'columns' => $detail['columns'],
             'primary' => VelocityService::getPrimary($detail['columns']),
             'tables'  => GenerateService::tables([]),
-            'menus'   => ArrayUtils::toTreeHtml(MenuService::lists())
+            'menus'   => ArrayUtils::toTreeHtml(MenuService::lists()),
+            'dict'    => SysDictType::queryAllEnable()
         ]);
     }
 

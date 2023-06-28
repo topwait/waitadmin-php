@@ -40,6 +40,7 @@ class CurdTableColumn extends Models
         'is_query'       => 'int',     //是否列表: [0=否, 1=是]
         'query_type'     => 'string',  //查询条件
         'html_type'      => 'string',  //显示类型
+        'dict_type'      => 'string',  //字典类型
         'create_time'    => 'int',     //创建时间
         'update_time'    => 'int'      //更新时间
     ];
