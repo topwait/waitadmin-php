@@ -429,7 +429,7 @@ class GenerateService extends Service
 
         foreach (VelocityService::getTemplates($table) as $k => $v) {
             $vars = VelocityService::prepareContext($table, $columns, $dictList);
-            $view = view('tpl\\'.$k, $vars);
+            $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();
             $content = str_replace(';#;', ' ', $content);
@@ -490,7 +490,7 @@ class GenerateService extends Service
         $genPath  = $rootPath . $table['gen_module'] . '/';
         foreach (VelocityService::getTemplates($table) as $k => $v) {
             $vars = VelocityService::prepareContext($table, $columns, $dictList);
-            $view = view('tpl\\'.$k, $vars);
+            $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();
             $content = str_replace('>>>', '', $content);
