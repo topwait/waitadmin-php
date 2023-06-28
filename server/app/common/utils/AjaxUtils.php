@@ -16,7 +16,6 @@ declare (strict_types = 1);
 namespace app\common\utils;
 
 use app\common\enums\ErrorEnum;
-use JetBrains\PhpStorm\ArrayShape;
 use think\response\Json;
 
 /**
@@ -33,14 +32,14 @@ class AjaxUtils
      * @return array
      * @author zero
      */
-    #[ArrayShape(['code' => "int", 'msg' => "string", 'data' => "array"])]
+
     private static function result(int $code, string $msg, array $data=[]): array
     {
         return [
             'code' => $code,
             'msg'  => $msg,
             'data' => $data
-        ];
+        ] ?? [];
     }
 
     /**

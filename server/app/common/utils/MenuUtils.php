@@ -22,9 +22,6 @@ use Exception;
 
 /**
  * 插件菜单工具
- *
- * Class MenuUtils
- * @package app\common\utils
  */
 class MenuUtils
 {

@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\common\utils;
 
-
 use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -23,9 +22,6 @@ use ZipArchive;
 
 /**
  * 压缩工具
- *
- * Class ZipUtils
- * @package app\common\utils
  */
 class ZipUtils
 {

@@ -15,15 +15,11 @@ declare (strict_types = 1);
 
 namespace app\common\utils;
 
-
 use app\common\model\sys\SysConfig;
 use think\facade\Cache;
 
 /**
  * 配置工具
- *
- * Class ConfigUtils
- * @package app\common\utils
  */
 class ConfigUtils
 {

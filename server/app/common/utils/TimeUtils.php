@@ -20,9 +20,6 @@ use JetBrains\PhpStorm\Pure;
 
 /**
  * 时间工具
- *
- * Class TimeUtils
- * @package app\common\utils
  */
 class TimeUtils
 {
