@@ -567,6 +567,10 @@ class GenerateService extends Service
             return;
         }
 
+        if (!$table['menu_name']) {
+            throw new OperateException('请填写菜单名称');
+        }
+
         $route = VelocityService::makeRoutes($table);
         $modelMenu = new AuthMenu();
         $menu = $modelMenu->field('id')
@@ -579,10 +583,6 @@ class GenerateService extends Service
 
         if (!$menu->isEmpty()) {
             return;
-        }
-
-        if (!$table['menu_name']) {
-            throw new OperateException('请填写菜单名称');
         }
 
         $authMenu = AuthMenu::create([
@@ -614,7 +614,7 @@ class GenerateService extends Service
                 'pid'     => $authMenu['id'],
                 'title'   => $title,
                 'icon'    => '',
-                'perms'   => strtolower($route.'/'.$item),
+                'perms'   => $route.'/'.$item,
                 'sort'    => 0,
                 'is_menu' => $isMenu
             ]);
