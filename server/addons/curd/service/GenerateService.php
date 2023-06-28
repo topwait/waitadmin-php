@@ -571,7 +571,7 @@ class GenerateService extends Service
             throw new OperateException('请填写菜单名称');
         }
 
-        $route = VelocityService::makeRoutes($table);
+        $route = lcfirst(VelocityService::makeRoutes($table));
         $modelMenu = new AuthMenu();
         $menu = $modelMenu->field('id')
             ->where(['module' => 'app'])
