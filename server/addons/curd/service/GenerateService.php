@@ -20,6 +20,7 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\exception\SystemException;
 use app\common\model\auth\AuthMenu;
+use app\common\model\sys\SysDictType;
 use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -195,6 +196,31 @@ class GenerateService extends Service
                 'primary_key'  => '',
                 'foreign_key'  => ''
             ];
+        }
+
+        $dictTypeArray = [];
+        foreach ($detail['columns'] as $column) {
+            $allowType = ['select', 'checkbox', 'radio'];
+            if ($column['dict_type'] && in_array($column['html_type'], $allowType)) {
+                $dictTypeArray[] = $column['dict_type'];
+            }
+        }
+
+        if (!empty($dictTypeArray)) {
+            $dictResults = (new SysDictType())
+                ->field(['id,name,type'])
+                ->with(['datas'])
+                ->whereIn('type', $dictTypeArray)
+                ->where(['is_enable'=>1])
+                ->where(['is_delete'=>0])
+                ->select()
+                ->toArray();
+
+            $data = [];
+            foreach ($dictResults as $item) {
+                $data[$item['type']] = $item['datas'];
+            }
+            $detail['dictList'] = $data;
         }
 
         return $detail;
@@ -501,11 +527,14 @@ class GenerateService extends Service
     {
         $detail = [];
         $tableData = self::detail($id);
-        $table   = (array)$tableData['table'];
-        $columns = (array)$tableData['columns'];
+        $table    = (array)$tableData['table'];
+        $columns  = (array)$tableData['columns'];
+        $dictList = (array)$tableData['dictList']??[];
 
         foreach (VelocityService::getTemplates($table) as $k => $v) {
             $vars = VelocityService::prepareContext($table, $columns);
+            $vars['dictList'] = $dictList;
+
             $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();

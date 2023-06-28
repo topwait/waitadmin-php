@@ -18,6 +18,7 @@ use app\common\basics\Models;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\model\relation\HasMany;
 
 /**
  * 字典类型模型
@@ -36,6 +37,20 @@ class SysDictType extends Models
         'update_time' => 'int',     //更新时间
         'delete_time' => 'int'      //删除时间
     ];
+
+    /**
+     * 一对多关联数据
+     *
+     * @return HasMany|SysDictType
+     * @author zero
+     */
+    public function datas(): HasMany|SysDictType
+    {
+        return $this->hasMany(SysDictData::class, 'type_id', 'id')
+            ->field('id,type_id,name,value')
+            ->where(['is_enable'=>1])
+            ->where(['is_delete'=>0]);
+    }
 
     /**
      * 查询所有启用的字段

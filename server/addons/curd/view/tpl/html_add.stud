@@ -1,5 +1,5 @@
 {%%%extend name="common/layout" /}
-
+;#;
 {%%%block name="body"}
 <form class="layui-form">
     <!-- 主体内容 -->
@@ -7,6 +7,7 @@
 {foreach $columns as $vo}
 {if $vo.is_insert}
 {switch $vo.html_type}
+
 {case text}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
@@ -17,6 +18,7 @@
             </div>
         </div>
 {/case}
+
 {case number}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
@@ -26,6 +28,8 @@
                     class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
             </div>
         </div>
+{/case}
+
 {case textarea}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
@@ -37,40 +41,65 @@
             </div>
         </div>
 {/case}
+
 {case select}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
             <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
             <div class="layui-input-block">
+{if $dictList[$vo.dict_type]??[]}
+                <select id="{$vo.column_name}" name="{$vo.dict_type}"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
+                    <option value="">请选择</option>
+{volist name="$dictList[$vo.dict_type]" id="dictItem"}
+                    <option value="{$dictItem.value}">{$dictItem.name}</option>
+{/volist}
+                </select>
+{else}
                 <select id="{$vo.column_name}" name="{$vo.column_name}"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
                     <option value="">请选择</option>
                     <option value="1">1</option>
                     <option value="1">1</option>
                 </select>
+{/if}
             </div>
         </div>
 {/case}
+
 {case checkbox}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
             <label class="layui-form-label">{$vo.column_comment}：</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="{$vo.column_name}[]" title="写作">
-                <input type="checkbox" name="{$vo.column_name}[]" title="阅读" checked>
-                <input type="checkbox" name="{$vo.column_name}[]" title="发呆">
+{if $dictList[$vo.dict_type]??[]}
+{volist name="$dictList[$vo.dict_type]" id="dictItem"}
+                <input type="checkbox" name="{$vo.dict_type}[]" value="{$dictItem.value}" title="{$dictItem.name}">
+{/volist}
+{else}
+                <input type="checkbox" name="{$vo.column_name}[]" value="1" title="写作">
+                <input type="checkbox" name="{$vo.column_name}[]" value="2" title="阅读" checked>
+                <input type="checkbox" name="{$vo.column_name}[]" value="3" title="发呆">
+{/if}
             </div>
         </div>
 {/case}
+
 {case radio}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
             <label class="layui-form-label">{$vo.column_comment}：</label>
             <div class="layui-input-block">
+{if $dictList[$vo.dict_type]??[]}
+{volist name="$dictList[$vo.dict_type]" id="dictItem"}
+                <input type="radio" name="{$vo.dict_type}" value="{$dictItem.value}" title="{$dictItem.name}">
+{/volist}
+{else}
                 <input type="radio" name="{$vo.column_name}" value="0" title="男">
                 <input type="radio" name="{$vo.column_name}" value="1" title="女" checked>
+{/if}
             </div>
         </div>
 {/case}
+
 {case switch}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
@@ -80,6 +109,7 @@
             </div>
         </div>
 {/case}
+
 {case image}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
@@ -99,6 +129,7 @@
             </div>
         </div>
 {/case}
+
 {case video}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
@@ -118,6 +149,7 @@
             </div>
         </div>
 {/case}
+
 {case datetime}
        <!-- {$vo.column_comment} -->
        <div class="layui-form-item">
@@ -128,6 +160,7 @@
            </div>
        </div>
 {/case}
+
 {case editor}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
@@ -137,6 +170,7 @@
             </div>
         </div>
 {/case}
+
 {/switch}
 {/if}
 {/foreach}
