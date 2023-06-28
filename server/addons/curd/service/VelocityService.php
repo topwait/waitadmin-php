@@ -77,16 +77,18 @@ class VelocityService extends Service
     /**
      * 设置模板变量
      *
-     * @param array $table   (表信息)
-     * @param array $columns (列信息)
+     * @param array $table    (表信息)
+     * @param array $columns  (列信息)
+     * @param array $dictList (字典列表)
      * @author zero
      */
-    public static function prepareContext(array $table, array $columns): array
+    public static function prepareContext(array $table, array $columns, array $dictList): array
     {
         $table['gen_model'] = self::toCamel($table['table_name']);
         $detail = [
             'table'      => $table,
             'columns'    => $columns,
+            'dictList'   => $dictList,
             'routes'     => self::makeRoutes($table),
             'namespace'  => '', // 命名空间路径
             'primaryKey' => '', // 主键字段名称
@@ -94,6 +96,7 @@ class VelocityService extends Service
             'joinLsArr'  => [], // 连表列表字段
             'joinDtArr'  => [], // 连表详情字段
             'searchArr'  => [], // 搜索字段数组
+            'searchDict' => [], // 搜索字典数组
             'listIgnore' => [], // 列表忽略数组
             'layImport'  => []  // 前端导入字段
         ];
@@ -110,6 +113,44 @@ class VelocityService extends Service
             if ($column['is_query']) {
                 $alias = $table['join_status'] ? $table['table_alias'].'.' : '';
                 $detail['searchArr'][$column['query_type']][] = $alias.$column['column_name'];
+
+                $k = [
+                    'is_enable'  => [['name'=>'正常', 'value'=>1], ['name'=>'停用', 'value'=>0]],
+                    'is_disable' => [['name'=>'启用', 'value'=>0], ['name'=>'禁用', 'value'=>1]],
+                    'is_stop'    => [['name'=>'启用', 'value'=>0], ['name'=>'停用', 'value'=>1]],
+                    'status'     => [['name'=>'是', 'value'=>1], ['name'=>'否', 'value'=>0]],
+                ];
+
+                $allowType = ['select', 'checkbox', 'radio'];
+                if ($column['dict_type'] && in_array($column['html_type'], $allowType)) {
+                    $detail['searchDict'][$column['column_name']] = [
+                        'type' => 'select',
+                        'name' => $column['column_comment'],
+                        'list' => $dictList[$column['dict_type']]??[],
+                    ];
+                } elseif (str_starts_with($column['column_name'], 'is_') && in_array($column['column_type'], ['int', 'tinyint'])) {
+                    $detail['searchDict'][$column['column_name']] = [
+                        'type' => 'select',
+                        'name' => $column['column_comment'],
+                        'list' => $k[$column['column_name']] ?? $k['status']
+                    ];
+                } elseif ($column['column_name'] == 'status' && in_array($column['column_type'], ['int', 'tinyint'])) {
+                    $detail['searchDict'][$column['column_name']] = [
+                        'type' => 'select',
+                        'name' => $column['column_comment'],
+                        'list' => $k['status']
+                    ];
+                } elseif ($column['query_type'] == 'datetime') {
+                    $detail['searchDict'][$column['column_name']] = [
+                        'type' => 'datetime',
+                        'name' => $column['column_comment'],
+                    ];
+                } else {
+                    $detail['searchDict'][$column['column_name']] = [
+                        'type' => 'input',
+                        'name' => $column['column_comment'],
+                    ];
+                }
             }
 
             // 普通列表需忽略的字段

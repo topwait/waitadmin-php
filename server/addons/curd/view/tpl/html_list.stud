@@ -1,35 +1,43 @@
 {%%%extend name="common/layout" /}
-
+;#;
 {%%%block name="body"}
 <div class="container">
 {if !empty($searchArr)}
     <!-- 搜索栏 -->
     <form class="layui-form layui-search">
         <div class="layui-form-item">
-{volist name="$columns" id="vo"}
-{if $vo.is_query}
-{if str_starts_with($vo.column_name, 'is_')}
+{foreach $searchDict as $key => $item}
+{if $item.type == 'select'}
             <div class="layui-inline">
-                <label for="status" class="layui-form-label">状态：</label>
+                <label for="{$key}" class="layui-form-label">{$item.name}：</label>
                 <div class="layui-input-inline">
-                    <select id="status" name="status">
+                    <select id="{$key}" name="{$key}">
                         <option value="" selected>全部</option>
-                        <option value="0">正常</option>
-                        <option value="1">禁用</option>
+______________________{volist name="$item.list" id="vo"}
+                        <option value="{$vo.value}">{$vo.name}</option>
+______________________{/volist}
                     </select>
+                </div>
+            </div>
+{elseif $item.type == 'datetime'}
+            <div class="layui-inline">
+                <label for="{$key}" class="layui-form-label">{$item.name}：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="{$key}" name="{$key}"
+                        class="layui-input" placeholder="请选择{$item.name}" autocomplete="off" readonly>
                 </div>
             </div>
 {else}
             <div class="layui-inline">
-                <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
+                <label for="{$key}" class="layui-form-label">{$item.name}：</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="{$vo.column_name}" name="{$vo.column_name}"
-                        class="layui-input" placeholder="请输入{$vo.column_comment}" autocomplete="off">
+                    <input type="text" id="{$key}" name="{$key}"
+                        class="layui-input" placeholder="请输入{$item.name}" autocomplete="off">
                 </div>
             </div>
 {/if}
-{/if}
-{/volist}
+{/foreach}
+
             <div class="layui-inline">
                 <a class="layui-btn layui-btn-sm layui-btn-default" lay-submit lay-filter="search">查询</a>
                 <a class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="clear-search">重置</a>
@@ -79,6 +87,8 @@
     </div>
 </div>
 {/block}
+
+;#;
 
 {%%%block name="js"}
 <script>
@@ -140,6 +150,19 @@
             ]]
         });
 {/if}
+
+;#;
+
+{if !empty($searchArr)}
+{foreach $searchDict as $key => $item}
+{if $item.type == 'datetime'}
+       // 时间选择
+       layui.laydate.render({elem: '#{$key}', type: 'datetime', trigger: 'click'});
+{/if}
+{/foreach}
+{/if}
+
+;#;
 
         // 逻辑事件
         waitUtil.event({
@@ -211,6 +234,7 @@
         });
 
 {if !empty($searchArr)}
+;#;
         // 搜索事件
         waitUtil.search(table);
 {/if}

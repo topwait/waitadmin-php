@@ -532,15 +532,14 @@ class GenerateService extends Service
         $dictList = (array)$tableData['dictList']??[];
 
         foreach (VelocityService::getTemplates($table) as $k => $v) {
-            $vars = VelocityService::prepareContext($table, $columns);
-            $vars['dictList'] = $dictList;
-
+            $vars = VelocityService::prepareContext($table, $columns, $dictList);
             $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();
             $content = str_replace('%%%', '', $content);
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('>>>', '', $content);
+            $content = str_replace('__', '', $content);
             $detail[$v] = $content;
         }
 
