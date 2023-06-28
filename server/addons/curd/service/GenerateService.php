@@ -25,7 +25,6 @@ use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\facade\Db;
 use ZipArchive;
 
 /**
@@ -88,7 +87,7 @@ class GenerateService extends Service
             $sql .= ' AND comment LIKE "%' . $get['comment'] . '%"';
         }
 
-        $tables = Db::query($sql);
+        $tables = app('db')->query($sql);
         $offset = max(0, ($pageNo - 1) * $pageSize);
         $lists = array_map("array_change_key_case", $tables);
         $lists = array_slice($lists, $offset, $pageSize, true);
@@ -353,7 +352,7 @@ class GenerateService extends Service
         try {
             foreach ($tables as $table) {
                 // 生成表信息
-                $className = VelocityService::toCamel($table['name']);
+                $className = VelocityService::underscoreToCamel($table['name']);
                 $genTable = CurdTable::create([
                     'table_name'    => $table['name'],
                     'table_engine'  => $table['engine'],

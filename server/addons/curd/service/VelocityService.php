@@ -15,7 +15,6 @@
 namespace addons\curd\service;
 
 use app\common\basics\Service;
-use think\facade\Db;
 
 /**
  * 生成处理服务类
@@ -46,7 +45,7 @@ class VelocityService extends Service
             }
         }
 
-        $tables = Db::query('SHOW TABLE STATUS WHERE name in '.$InArray);
+        $tables = app('db')->query('SHOW TABLE STATUS WHERE name in '.$InArray);
         $collection = [];
         foreach ($tables as $item) {
             $collection[] = [
@@ -71,7 +70,7 @@ class VelocityService extends Service
     {
         $tablePrefix = config('database.connections.mysql.prefix');
         $tableNameMy = str_replace($tablePrefix, '', $tableName);
-        return Db::name($tableNameMy)->getFields();
+        return app('db')->name($tableNameMy)->getFields();
     }
 
     /**
@@ -84,7 +83,7 @@ class VelocityService extends Service
      */
     public static function prepareContext(array $table, array $columns, array $dictList): array
     {
-        $table['gen_model'] = self::toCamel($table['table_name']);
+        $table['gen_model'] = self::underscoreToCamel($table['table_name']);
         $detail = [
             'table'      => $table,
             'columns'    => $columns,
@@ -204,7 +203,7 @@ class VelocityService extends Service
             'php_controller' => $table['gen_class'].'Controller.php',
             'php_service'    => $table['gen_class'].'Service.php',
             'php_validate'   => $table['gen_class'].'Validate.php',
-            'php_model'      => self::toCamel($table['table_name']).'.php',
+            'php_model'      => self::underscoreToCamel($table['table_name']).'.php',
             'html_list'      => 'index.html',
             'html_add'       => 'add.html',
             'html_edit'      => 'edit.html',
@@ -343,7 +342,7 @@ class VelocityService extends Service
      * @return string
      * @author zero
      */
-    public static function toCamel(string $string): string
+    public static function underscoreToCamel(string $string): string
     {
         $prefix = env('database.prefix', '');
         $separator = '_';
