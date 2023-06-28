@@ -590,7 +590,7 @@ class GenerateService extends Service
             'pid'     => $table['menu_pid'],
             'title'   => $table['menu_name'],
             'icon'    => $table['menu_icon'],
-            'perms'   => strtolower($table['menu_pid']>0 ? $route.'/index' : ''),
+            'perms'   => $table['menu_pid']>0 ? $route.'/index' : '',
             'sort'    => 0,
             'is_menu' => 1
         ]);
