@@ -167,6 +167,7 @@ class GenController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @throws OperateException
      * @author zero
      */
     public function exports(): Json
@@ -224,6 +225,7 @@ class GenController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @throws OperateException
      * @author zero
      */
     public function initMenu(): Json

@@ -353,6 +353,21 @@ class VelocityService extends Service
     }
 
     /**
+     * 驼峰转下划线
+     *
+     * @param string $string
+     * @return string
+     * @author zero
+     */
+    public static function camelToUnderscore(string $string): string
+    {
+        $pattern = '/([a-z])([A-Z])/';
+        $replacement = '$1_$2';
+        $underscored = preg_replace($pattern, $replacement, $string);
+        return strtolower($underscored);
+    }
+
+    /**
      * 生成请求路由
      *
      * @param array $table (表信息)

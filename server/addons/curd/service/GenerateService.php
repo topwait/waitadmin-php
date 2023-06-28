@@ -116,6 +116,10 @@ class GenerateService extends Service
      */
     public static function update(array $post): void
     {
+        if ($post['menu_type'] == 'auto' && !$post['menu_name']) {
+            throw new OperateException('请填写菜单名称');
+        }
+
         $modelTable = new CurdTable();
         $modelTable->startTrans();
         try {
@@ -415,6 +419,7 @@ class GenerateService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @throws OperateException
      * @author zero
      */
     public static function exports(int $id): void
@@ -435,6 +440,7 @@ class GenerateService extends Service
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('%%%', '', $content);
             $content = str_replace('>>>', '', $content);
+            $content = str_replace('__', '', $content);
 
             $genFolder = str_replace('\\', '/', $table['gen_folder']);
             $writePath = match ($k) {
@@ -444,7 +450,7 @@ class GenerateService extends Service
                 'php_model'      => $rootPath . 'common/model' . $genFolder . '/' . $v,
                 'html_list',
                 'html_add',
-                'html_edit'      => $genPath . 'view' . $genFolder . '/' . strtolower($table['gen_class']) . '/' . $v
+                'html_edit'      => $genPath . 'view' . $genFolder . '/' . VelocityService::camelToUnderscore($table['gen_class']) . '/' . $v
             };
 
             if (!file_exists(dirname($writePath))) {
@@ -496,6 +502,7 @@ class GenerateService extends Service
             $content = str_replace('>>>', '', $content);
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('%%%', '', $content);
+            $content = str_replace('__', '', $content);
 
             $genFolder = str_replace('\\', '/', $table['gen_folder']);
             $writePath = match ($k) {
@@ -505,7 +512,7 @@ class GenerateService extends Service
                 'php_model'      => $rootPath . 'common/model' . $genFolder . '/' . $v,
                 'html_list',
                 'html_edit',
-                'html_add' => $genPath . 'view' . $genFolder . '/' . strtolower($table['gen_class']) . '/' . $v
+                'html_add' => $genPath . 'view' . $genFolder . '/' . VelocityService::camelToUnderscore($table['gen_class']) . '/' . $v
             };
 
             $zip->addFromString($writePath, $content);
@@ -553,6 +560,7 @@ class GenerateService extends Service
      * 初始化菜单
      *
      * @param array $table
+     * @throws OperateException
      * @author zero
      */
     public static function initMenu(array $table) {
@@ -572,6 +580,10 @@ class GenerateService extends Service
 
         if (!$menu->isEmpty()) {
             return;
+        }
+
+        if (!$table['menu_name']) {
+            throw new OperateException('请填写菜单名称');
         }
 
         $authMenu = AuthMenu::create([

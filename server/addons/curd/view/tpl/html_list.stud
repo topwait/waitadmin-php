@@ -151,18 +151,14 @@ ______________________{/volist}
         });
 {/if}
 
-;#;
-
 {if !empty($searchArr)}
+;#;
 {foreach $searchDict as $key => $item}
 {if $item.type == 'datetime'}
-       // 时间选择
-       layui.laydate.render({elem: '#{$key}', type: 'datetime', trigger: 'click'});
+        layui.laydate.render({elem: '#{$key}', type: 'datetime', trigger: 'click'});
 {/if}
 {/foreach}
 {/if}
-
-;#;
 
         // 逻辑事件
         waitUtil.event({
