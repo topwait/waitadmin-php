@@ -422,7 +422,7 @@ class GenerateService extends Service
         $tableData = self::detail($id);
         $table    = (array)$tableData['table'];
         $columns  = (array)$tableData['columns'];
-        $dictList = (array)$tableData['dictList']??[];
+        $dictList = (array)($tableData['dictList']??[]);
 
         $rootPath = str_replace('\\', '/', root_path()).'app/';
         $genPath  = $rootPath . $table['gen_module'] . '/';
@@ -471,7 +471,7 @@ class GenerateService extends Service
         $tableData = self::detail($id);
         $table    = (array)$tableData['table'];
         $columns  = (array)$tableData['columns'];
-        $dictList = (array)$tableData['dictList']??[];
+        $dictList = (array)($tableData['dictList']??[]);
 
         $path = root_path() . 'runtime/generate/WaitAdmin-curd.zip';
         $path = str_replace('\\', '/', $path);
@@ -529,9 +529,10 @@ class GenerateService extends Service
     {
         $detail = [];
         $tableData = self::detail($id);
+
         $table    = (array)$tableData['table'];
         $columns  = (array)$tableData['columns'];
-        $dictList = (array)$tableData['dictList']??[];
+        $dictList = (array)($tableData['dictList']??[]);
 
         foreach (VelocityService::getTemplates($table) as $k => $v) {
             $vars = VelocityService::prepareContext($table, $columns, $dictList);
