@@ -423,6 +423,42 @@ CREATE TABLE `wait_sys_log`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for wait_sys_dict_data
+-- ----------------------------
+DROP TABLE IF EXISTS `wait_sys_dict_data`;
+CREATE TABLE `wait_sys_dict_data` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '键名',
+  `value` varchar(200) NOT NULL DEFAULT '' COMMENT '数值',
+  `remark` varchar(200) NOT NULL DEFAULT '' COMMENT '备注',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用: [0=否, 1=是]',
+  `is_delete` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除: [0=否, 1=是]',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='字典数据表';
+
+-- ----------------------------
+-- Table structure for wait_sys_dict_type
+-- ----------------------------
+DROP TABLE IF EXISTS `wait_sys_dict_type`;
+CREATE TABLE `wait_sys_dict_type` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '字典名称',
+  `type` varchar(100) NOT NULL DEFAULT '' COMMENT '字典类型',
+  `remark` varchar(200) NOT NULL DEFAULT '' COMMENT '字典备注',
+  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用: [0=否, 1=是]',
+  `is_delete` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除: [0=否, 1=是]',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='字典类型表';
+
+-- ----------------------------
 -- Table structure for wait_user
 -- ----------------------------
 DROP TABLE IF EXISTS `wait_user`;
