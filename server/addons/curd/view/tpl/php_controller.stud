@@ -44,7 +44,7 @@ class {$table.gen_class}Controller extends Backend
     {
         if ($this->isAjaxGet()) {
             (new PageValidate())->goCheck();
-            $list = {$table.gen_class}Service::lists();
+            $list = {$table.gen_class}Service::lists($this->request->get());
             return AjaxUtils::success($list);
         }
 ;#;

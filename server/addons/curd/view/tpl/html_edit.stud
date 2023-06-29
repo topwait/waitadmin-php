@@ -11,7 +11,7 @@
 {case text}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
+            <label for="{$vo.column_name}" class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
                 <input type="text" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off" value="{%%%$detail.{$vo.column_name}}"
                     class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
@@ -22,7 +22,7 @@
 {case number}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
+            <label for="{$vo.column_name}" class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
                 <input type="number" min="0" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off" value="{%%%$detail.{$vo.column_name}}"
                     class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
@@ -33,7 +33,7 @@
 {case textarea}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
+            <label for="{$vo.column_name}" class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
                 <textarea id="{$vo.column_name}" name="{$vo.column_name}" class="layui-textarea"
                     lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
@@ -46,7 +46,7 @@
 {case select}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
+            <label for="{$vo.column_name}" class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
 ______________{if $dictList[$vo.dict_type]??[]}
                 <select id="{$vo.column_name}" name="{$vo.dict_type}"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
@@ -70,16 +70,16 @@ ______________{/if}
 {case checkbox}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label class="layui-form-label">{$vo.column_comment}：</label>
+            <label class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
 ____________{if $dictList[$vo.dict_type]??[]}
 ____________{volist name="$dictList[$vo.dict_type]" id="dictItem"}
-                <input type="checkbox" name="{$vo.dict_type}[]" value="{$dictItem.value}" title="{$dictItem.name}" {%%%if $detail.{$vo.column_name}=={$dictItem.value}}checked{%%%/if}>
+                <input type="checkbox" name="{$vo.dict_type}[]" value="{$dictItem.value}" title="{$dictItem.name}" {%%%if in_array($detail.{$vo.column_name}, json_decode($detail.{$vo.column_name}, true))}checked{%%%/if}>
 ____________{/volist}
 ____________{else}
-                <input type="checkbox" name="{$vo.column_name}[]" value="1" title="写作">
-                <input type="checkbox" name="{$vo.column_name}[]" value="2" title="阅读" checked>
-                <input type="checkbox" name="{$vo.column_name}[]" value="3" title="发呆">
+                <input type="checkbox" name="{$vo.column_name}[]" value="1" title="写作" {%%%if in_array(1, json_decode($detail.{$vo.column_name}, true))}checked{%%%/if}>
+                <input type="checkbox" name="{$vo.column_name}[]" value="2" title="阅读" {%%%if in_array(2, json_decode($detail.{$vo.column_name}, true))}checked{%%%/if}>
+                <input type="checkbox" name="{$vo.column_name}[]" value="3" title="发呆" {%%%if in_array(3, json_decode($detail.{$vo.column_name}, true))}checked{%%%/if}>
 ____________{/if}
             </div>
         </div>
@@ -88,7 +88,7 @@ ____________{/if}
 {case radio}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label class="layui-form-label">{$vo.column_comment}：</label>
+            <label class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
 ____________{if $dictList[$vo.dict_type]??[]}
 ____________{volist name="$dictList[$vo.dict_type]" id="dictItem"}
@@ -105,7 +105,7 @@ ____________{/if}
 {case switch}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label for="{$vo.column_name} class="layui-form-label">{$vo.column_comment}：</label>
+            <label for="{$vo.column_name} class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
               <input type="checkbox" id="{$vo.column_name}" name="{$vo.column_name}" lay-skin="switch">
             </div>
@@ -115,7 +115,7 @@ ____________{/if}
 {case image}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
+            <label for="{$vo.column_name}" class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
                 <div class="thumbnail" data-type="image" data-field="{$vo.column_name}" data-limit="1">
                     <div class="musters">
@@ -143,7 +143,7 @@ ____________{/if}
 {case video}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label class="layui-form-label">{$vo.column_comment}：</label>
+            <label class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
                 <div class="thumbnail" data-type="video" data-field="{$vo.column_name}" data-limit="1">
                     <div class="musters"></div>
@@ -163,7 +163,7 @@ ____________{/if}
 {case datetime}
        <!-- {$vo.column_comment} -->
        <div class="layui-form-item">
-           <label for="{$vo.column_name}" class="layui-form-label"><span class="asterisk">*</span>{$vo.column_comment}：</label>
+           <label for="{$vo.column_name}" class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
            <div class="layui-input-block">
                <input type="text" id="{$vo.column_name}" name="{$vo.column_name}" autocomplete="off" value="{%%%$detail.{$vo.column_name}}"
                    class="layui-input" lay-verType="tips"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
@@ -174,7 +174,7 @@ ____________{/if}
 {case editor}
         <!-- {$vo.column_comment} -->
         <div class="layui-form-item">
-            <label for="{$vo.column_name}" class="layui-form-label">{$vo.column_comment}：</label>
+            <label for="{$vo.column_name}" class="layui-form-label">{if $vo.is_required}<span class="asterisk">*</span>{/if}{$vo.column_comment}：</label>
             <div class="layui-input-block">
                 <textarea id="{$vo.column_name}" name="{$vo.column_name}"></textarea>
             </div>

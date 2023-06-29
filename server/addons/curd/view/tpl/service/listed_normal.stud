@@ -1,11 +1,12 @@
     /**
      * {$table.table_comment}列表
      *
+     * @param array $get
      * @return array
      * @throws DbException
      * @author {$table.author} ;#;
      */
-    public static function lists(): array
+    public static function lists(array $get): array
     {
 {if !empty($searchArr)}
         self::setSearch([
