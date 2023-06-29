@@ -19,6 +19,7 @@ use app\backend\service\system\DictDataService;
 use app\backend\validate\PageValidate;
 use app\backend\validate\system\DictDataValidate;
 use app\common\basics\Backend;
+use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -55,6 +56,7 @@ class DictDataController extends Backend
      * 字典数据新增
      *
      * @return Json|View
+     * @throws OperateException
      * @author zero
      */
     public function add(): View|Json
@@ -74,6 +76,7 @@ class DictDataController extends Backend
      * @return Json|View
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
+     * @throws OperateException
      * @author zero
      */
     public function edit(): View|Json

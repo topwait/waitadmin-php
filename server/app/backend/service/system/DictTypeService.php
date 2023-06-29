@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service\system;
 
 use app\common\basics\Service;
+use app\common\exception\OperateException;
 use app\common\model\sys\SysDictType;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -81,15 +82,23 @@ class DictTypeService extends Service
      * 字典类型新增
      *
      * @param array $post
+     * @throws OperateException
      * @author zero
      */
-    public static function add(array $post)
+    public static function add(array $post): void
     {
+        $modelSysDictType = new SysDictType();
+        $modelSysDictType->checkDataAlreadyExist([
+            ['name', '=', $post['name']],
+            ['type', '=', $post['type']],
+            ['is_delete', '=', 0]
+        ], '该字典类型已存在!');
+
         SysDictType::create([
             'name'      => $post['name'],
             'type'      => $post['type'],
             'remark'    => $post['remark']??'',
-            'is_enable' => $post['is_enable'],
+            'is_enable' => $post['is_enable']
         ]);
     }
 
@@ -97,10 +106,19 @@ class DictTypeService extends Service
      * 字典类型编辑
      *
      * @param array $post
+     * @throws OperateException
      * @author zero
      */
-    public static function edit(array $post)
+    public static function edit(array $post): void
     {
+        $modelSysDictType = new SysDictType();
+        $modelSysDictType->checkDataAlreadyExist([
+            ['id', '<>', intval($post['id'])],
+            ['name', '=', $post['name']],
+            ['type', '=', $post['type']],
+            ['is_delete', '=', 0]
+        ], '该字典类型已存在!');
+
         SysDictType::update([
             'name'        => $post['name'],
             'type'        => $post['type'],
@@ -116,7 +134,7 @@ class DictTypeService extends Service
      * @param array $ids
      * @author zero
      */
-    public static function del(array $ids)
+    public static function del(array $ids): void
     {
         SysDictType::update([
             'is_enable'   => 0,

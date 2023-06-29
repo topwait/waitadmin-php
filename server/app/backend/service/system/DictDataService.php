@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\backend\service\system;
 
 use app\common\basics\Service;
+use app\common\exception\OperateException;
 use app\common\model\sys\SysDictData;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -75,10 +76,18 @@ class DictDataService extends Service
      * 字典数据新增
      *
      * @param array $post
+     * @throws OperateException
      * @author zero
      */
-    public static function add(array $post)
+    public static function add(array $post): void
     {
+        $modelSysDictData = new SysDictData();
+        $modelSysDictData->checkDataAlreadyExist([
+            ['type_id', '=', intval($post['type_id'])],
+            ['value', '=', $post['value']],
+            ['is_delete', '=', 0],
+        ], '改字典数据值已存在!');
+
         SysDictData::create([
             'type_id'   => $post['type_id'],
             'name'      => $post['name'],
@@ -93,10 +102,19 @@ class DictDataService extends Service
      * 字典数据编辑
      *
      * @param array $post
+     * @throws OperateException
      * @author zero
      */
-    public static function edit(array $post)
+    public static function edit(array $post): void
     {
+        $modelSysDictData = new SysDictData();
+        $modelSysDictData->checkDataAlreadyExist([
+            ['id', '<>', intval($post['id'])],
+            ['type_id', '=', intval($post['type_id'])],
+            ['value', '=', $post['value']],
+            ['is_delete', '=', 0],
+        ], '改字典数据值已存在!');
+
         SysDictData::update([
             'name'        => $post['name'],
             'value'       => $post['value'],
@@ -113,7 +131,7 @@ class DictDataService extends Service
      * @param array $ids
      * @author zero
      */
-    public static function del(array $ids)
+    public static function del(array $ids): void
     {
         SysDictData::update([
             'is_enable'   => 0,
