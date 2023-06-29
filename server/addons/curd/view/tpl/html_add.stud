@@ -89,8 +89,8 @@ ____________{/if}
             <label class="layui-form-label">{$vo.column_comment}：</label>
             <div class="layui-input-block">
 ____________{if $dictList[$vo.dict_type]??[]}
-____________{volist name="$dictList[$vo.dict_type]" id="dictItem"}
-                <input type="radio" name="{$vo.dict_type}" value="{$dictItem.value}" title="{$dictItem.name}">
+____________{volist name="$dictList[$vo.dict_type]" id="dictItem" key="k"}
+                <input type="radio" name="{$vo.dict_type}" value="{$dictItem.value}" title="{$dictItem.name}" {%%%if {$k}==1}checked{%%%/if}>
 ____________{/volist}
 ____________{else}
                 <input type="radio" name="{$vo.column_name}" value="0" title="男">
