@@ -678,7 +678,15 @@ INSERT INTO `wait_auth_menu` VALUES (3028, 3020, 'app', '分组删除', '', 'att
 INSERT INTO `wait_auth_menu` VALUES (3030, 3000, 'app', '上传管理', '', '', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3031, 3030, 'app', '附件上传', '', 'upload/attach', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3032, 3030, 'app', '临时上传', '', 'upload/temporary', 0, 0, 0, 0, 1648696695, 1678713499, 0);
-INSERT INTO `wait_auth_menu` VALUES (3033, 3030, 'app', '临时上传', '', 'upload/temporary', 0, 0, 0, 1, 1648696695, 1678713491, 1678713491);
+INSERT INTO `wait_auth_menu` VALUES (3050, 3000, 'app', '字典管理', '', 'system.dictType/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3051, 3050, 'app', '字典类型列表', '', 'system.dictType/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3052, 3050, 'app', '字典类型新增', '', 'system.dictType/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3053, 3050, 'app', '字典类型编辑', '', 'system.dictType/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3054, 3050, 'app', '字典类型删除', '', 'system.dictType/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3055, 3050, 'app', '字典数据列表', '', 'system.dictData/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3056, 3050, 'app', '字典数据新增', '', 'system.dictData/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3057, 3050, 'app', '字典数据编辑', '', 'system.dictData/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3058, 3050, 'app', '字典数据删除', '', 'system.dictData/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3500, 0, 'app', '内容', 'layui-icon icon-text-doc', '', 20, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3501, 3500, 'app', '分类管理', '', 'content.category/index', 20, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3502, 3501, 'app', '分类列表', '', 'content.category/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
