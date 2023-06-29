@@ -17,8 +17,6 @@ namespace app\frontend\controller;
 
 use app\common\basics\Frontend;
 use app\common\exception\OperateException;
-use app\common\model\Test;
-use app\common\service\excel\ExcelDriver;
 use app\common\service\msg\MsgDriver;
 use app\common\utils\AjaxUtils;
 use app\common\utils\ConfigUtils;
@@ -37,26 +35,6 @@ use think\response\View;
 class IndexController extends Frontend
 {
     protected array $notNeedLogin = ['test', 'index', 'protocol', 'sendSms', 'sendEmail'];
-
-    public function test()
-    {
-        $fields = [
-            30 => '客户姓名',
-            28 => '客户电话'
-        ];
-
-        $lists = [
-            ['name'=>'小明', 'mobile'=>'13800138000'],
-            ['name'=>'小红', 'mobile'=>'12800128000'],
-        ];
-
-        ExcelDriver::export($fields, $lists, [
-            'exportName'   => '所有客户表格',
-            'exportMethod' => 'path',
-            'exportPath'   => '/www/runtime/user.xlsx'
-        ]);
-        dump($a);exit;
-    }
 
     /**
      * 首页

@@ -423,6 +423,42 @@ CREATE TABLE `wait_sys_log`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for wait_sys_dict_data
+-- ----------------------------
+DROP TABLE IF EXISTS `wait_sys_dict_data`;
+CREATE TABLE `wait_sys_dict_data` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '键名',
+  `value` varchar(200) NOT NULL DEFAULT '' COMMENT '数值',
+  `remark` varchar(200) NOT NULL DEFAULT '' COMMENT '备注',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用: [0=否, 1=是]',
+  `is_delete` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除: [0=否, 1=是]',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='字典数据表';
+
+-- ----------------------------
+-- Table structure for wait_sys_dict_type
+-- ----------------------------
+DROP TABLE IF EXISTS `wait_sys_dict_type`;
+CREATE TABLE `wait_sys_dict_type` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '字典名称',
+  `type` varchar(100) NOT NULL DEFAULT '' COMMENT '字典类型',
+  `remark` varchar(200) NOT NULL DEFAULT '' COMMENT '字典备注',
+  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用: [0=否, 1=是]',
+  `is_delete` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除: [0=否, 1=是]',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='字典类型表';
+
+-- ----------------------------
 -- Table structure for wait_user
 -- ----------------------------
 DROP TABLE IF EXISTS `wait_user`;
@@ -678,7 +714,15 @@ INSERT INTO `wait_auth_menu` VALUES (3028, 3020, 'app', '分组删除', '', 'att
 INSERT INTO `wait_auth_menu` VALUES (3030, 3000, 'app', '上传管理', '', '', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3031, 3030, 'app', '附件上传', '', 'upload/attach', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3032, 3030, 'app', '临时上传', '', 'upload/temporary', 0, 0, 0, 0, 1648696695, 1678713499, 0);
-INSERT INTO `wait_auth_menu` VALUES (3033, 3030, 'app', '临时上传', '', 'upload/temporary', 0, 0, 0, 1, 1648696695, 1678713491, 1678713491);
+INSERT INTO `wait_auth_menu` VALUES (3050, 3000, 'app', '字典管理', '', 'system.dictType/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3051, 3050, 'app', '字典类型列表', '', 'system.dictType/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3052, 3050, 'app', '字典类型新增', '', 'system.dictType/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3053, 3050, 'app', '字典类型编辑', '', 'system.dictType/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3054, 3050, 'app', '字典类型删除', '', 'system.dictType/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3055, 3050, 'app', '字典数据列表', '', 'system.dictData/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3056, 3050, 'app', '字典数据新增', '', 'system.dictData/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3057, 3050, 'app', '字典数据编辑', '', 'system.dictData/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3058, 3050, 'app', '字典数据删除', '', 'system.dictData/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3500, 0, 'app', '内容', 'layui-icon icon-text-doc', '', 20, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3501, 3500, 'app', '分类管理', '', 'content.category/index', 20, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3502, 3501, 'app', '分类列表', '', 'content.category/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);

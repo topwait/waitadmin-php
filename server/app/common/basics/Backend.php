@@ -118,7 +118,7 @@ abstract class Backend extends BaseController
      */
     protected function checkPower(): bool
     {
-        $requestUrl = strtolower(request()->controller().'/'.request()->action());
+        $requestUrl = lcfirst(request()->controller()).'/'.request()->action();
         if (in_array(request()->action(), $this->notNeedLogin) ||
             in_array(request()->action(), $this->notNeedPower) ||
             $requestUrl === 'index/index' ||
@@ -141,7 +141,7 @@ abstract class Backend extends BaseController
             ->column('perms');
 
         $perms = array_map(function ($p) {
-            return strtolower($p);
+            return lcfirst($p);
         }, $perms);
 
         if (!in_array($requestUrl, array_unique($perms))) {

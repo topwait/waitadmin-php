@@ -82,8 +82,8 @@
                 {field:'gen_module', title:'生成模块', width:85, align:'center'},
                 {field:'menu_type', title:'菜单构建', width:85, align:'center'},
                 {field:'join_status', title:'子表关联', width:85, align:'center'},
-                {field:'create_time', title:'创建时间', width:160, align:'center'},
-                {field:'update_time', title:'更新时间', width:160, align:'center'},
+                {field:'create_time', title:'创建时间', width:165, align:'center'},
+                {field:'update_time', title:'更新时间', width:165, align:'center'},
                 {fixed:'right', title:'操作', width:160, align:'center', toolbar:'#table-operate'}
             ]]
         });
@@ -133,7 +133,7 @@
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
-                                waitUtil.locking(this);
+                                waitUtil.unlock(this);
                                 if (res.code === 0) {
                                     table.reload();
                                     layer.close(index);
@@ -141,6 +141,7 @@
                             }).catch(() => {
                                 waitUtil.unlock(this);
                             });
+                            return true;
                         });
                     }
                 });
@@ -196,10 +197,13 @@
                 });
             },
             synchrony: function (obj) {
-                waitUtil.ajax({
-                    url: '{:route("addons/curd/gen/synchrony")}',
-                    type: 'POST',
-                    data: {id: obj.data.id}
+                layer.confirm(`确定要同步表结构吗？`, function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("addons/curd/gen/synchrony")}',
+                        type: 'POST',
+                        data: {id: obj.data.id}
+                    });
                 });
             },
             leave: function () {

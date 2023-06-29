@@ -1,0 +1,46 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 字典名称 -->
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label"><span class="asterisk">*</span>字典名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 字典类型 -->
+        <div class="layui-form-item">
+            <label for="type" class="layui-form-label"><span class="asterisk">*</span>字典类型：</label>
+            <div class="layui-input-block">
+                <input type="text" id="type" name="type"
+                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 是否启用 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="asterisk">*</span>是否启用：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_enable" value="1" title="正常" checked>
+                <input type="radio" name="is_enable" value="0" title="停用">
+            </div>
+        </div>
+        <!-- 备注信息 -->
+        <div class="layui-form-item">
+            <label for="remark" class="layui-form-label">备注信息：</label>
+            <div class="layui-input-block">
+                <textarea id="remark" name="remark" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}

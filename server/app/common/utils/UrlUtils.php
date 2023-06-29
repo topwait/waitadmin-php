@@ -15,12 +15,8 @@ declare (strict_types = 1);
 
 namespace app\common\utils;
 
-
 /**
  * Url工具
- *
- * Class UrlUtils
- * @package app\common\utils
  */
 class UrlUtils
 {
