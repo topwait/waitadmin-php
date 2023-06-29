@@ -1,0 +1,152 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <!-- 表格栏 -->
+    <table id="wait-table-list" lay-filter="wait-table-list"></table>
+    <script type="text/html" id="toolbar">
+        <div class="layui-btn-container">
+            <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="add">
+                <i class="layui-icon icon-add"></i>
+                <span>新增</span>
+            </a>
+            <a class="layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" lay-event="leave">
+                <i class="layui-icon icon-del"></i>
+                <span>删除</span>
+            </a>
+        </div>
+    </script>
+    <script type="text/html" id="table-status">
+        {{#  if(d.is_enable === 1){ }}
+            <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="正常"></i></span>
+        {{# } else { }}
+            <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="停用"></i></span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="table-operate">
+        <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit">
+            <i class="layui-icon icon-edit"></i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
+            <i class="layui-icon icon-del"></i>
+        </button>
+    </script>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function() {
+
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("system.dictData/index")}?type_id={$typeId}'
+            ,height: 523
+            ,limits: [10, 20, 30, 40, 50, 60, 70, 80]
+            ,cols: [[
+                {type:'checkbox', width:48},
+                {field:'id', title:'ID', width:60, align:'center', event:'id'},
+                {field:'name', title:'字典标签', width:150},
+                {field:'value', title:'字典键值', width:150},
+                {field:'remark', title:'备注'},
+                {field:'sort', title:'排序', width:80, align:'center'},
+                {field:'status', title:'状态', width:60, align:'center', templet:'#table-status'},
+                {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
+            ]]
+        });
+
+        // 逻辑事件
+        waitUtil.event({
+            add: function () {
+                waitUtil.popup({
+                    title: '新增',
+                    url: '{:route("system.dictData/add")}',
+                    area: ['500px', '440px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data) {
+                            waitUtil.locking(this);
+                            data.field['type_id'] = '{$typeId}';
+                            waitUtil.ajax({
+                                url: '{:route("system.dictData/add")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                waitUtil.unlock(this);
+                                if (res.code === 0) {
+                                    table.reload({page: {curr: 1}});
+                                    layer.close(index);
+                                }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
+                            });
+                        });
+                    }
+                });
+            },
+            edit: function (obj) {
+                waitUtil.popup({
+                    title: '编辑',
+                    url: '{:route("system.dictData/edit")}?id='+obj.data.id,
+                    area: ['500px', '440px'],
+                    success: function (layero, index) {
+                        layero.layui.form.on('submit(addForm)', function(data) {
+                            waitUtil.locking(this);
+                            data.field['id'] = obj.data.id;
+                            data.field['type_id'] = '{$typeId}';
+                            waitUtil.ajax({
+                                url: '{:route("system.dictData/edit")}',
+                                type: 'POST',
+                                data: data.field
+                            }).then((res) => {
+                                waitUtil.unlock(this);
+                                if (res.code === 0) {
+                                    table.reload();
+                                    layer.close(index);
+                                }
+                            }).catch(() => {
+                                waitUtil.unlock(this);
+                            });
+                        });
+                    }
+                });
+            },
+            del: function (obj) {
+                layer.confirm('确定要删除此项数据吗？', function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("system.dictData/del")}',
+                        type: 'POST',
+                        data: {ids: [obj.data.id]}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            },
+            leave: function () {
+                let ids = waitUtil.checkbox();
+                if (!ids.length) {
+                    return layer.msg('请至少选择一项！', {icon: 2});
+                }
+                layer.confirm(`确定要删除选中的${ids.length}项数据吗？`, function(index) {
+                    layer.close(index);
+                    waitUtil.ajax({
+                        url: '{:route("system.dictData/del")}',
+                        type: 'POST',
+                        data: {ids: ids}
+                    }).then((res) => {
+                        if (res.code === 0) {
+                            table.reload();
+                        }
+                    });
+                });
+            }
+        });
+
+        // 搜索事件
+        waitUtil.search(table);
+    });
+</script>
+{/block}

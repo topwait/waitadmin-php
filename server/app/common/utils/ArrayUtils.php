@@ -18,9 +18,6 @@ namespace app\common\utils;
 
 /**
  * 数组工具
- *
- * Class ArrayService
- * @package app\common\service
  */
 class ArrayUtils
 {

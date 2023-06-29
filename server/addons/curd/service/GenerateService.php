@@ -20,11 +20,11 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\exception\SystemException;
 use app\common\model\auth\AuthMenu;
+use app\common\model\sys\SysDictType;
 use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\facade\Db;
 use ZipArchive;
 
 /**
@@ -87,7 +87,7 @@ class GenerateService extends Service
             $sql .= ' AND comment LIKE "%' . $get['comment'] . '%"';
         }
 
-        $tables = Db::query($sql);
+        $tables = app('db')->query($sql);
         $offset = max(0, ($pageNo - 1) * $pageSize);
         $lists = array_map("array_change_key_case", $tables);
         $lists = array_slice($lists, $offset, $pageSize, true);
@@ -115,6 +115,10 @@ class GenerateService extends Service
      */
     public static function update(array $post): void
     {
+        if ($post['menu_type'] == 'auto' && !$post['menu_name']) {
+            throw new OperateException('请填写菜单名称');
+        }
+
         $modelTable = new CurdTable();
         $modelTable->startTrans();
         try {
@@ -143,7 +147,8 @@ class GenerateService extends Service
                     'column_comment' => $item['column_comment'],
                     'model_type'     => $item['model_type'],
                     'query_type'     => $item['query_type'],
-                    'html_type'      => $item['html_type'],
+                    'html_type'      => $item['html_type']??'',
+                    'dict_type'      => $item['dict_type']??'',
                     'is_required'    => $item['is_required']??0,
                     'is_insert'      => $item['is_insert']??0,
                     'is_edit'        => $item['is_edit']??0,
@@ -194,6 +199,31 @@ class GenerateService extends Service
                 'primary_key'  => '',
                 'foreign_key'  => ''
             ];
+        }
+
+        $dictTypeArray = [];
+        foreach ($detail['columns'] as $column) {
+            $allowType = ['select', 'checkbox', 'radio'];
+            if ($column['dict_type'] && in_array($column['html_type'], $allowType)) {
+                $dictTypeArray[] = $column['dict_type'];
+            }
+        }
+
+        if (!empty($dictTypeArray)) {
+            $dictResults = (new SysDictType())
+                ->field(['id,name,type'])
+                ->with(['datas'])
+                ->whereIn('type', $dictTypeArray)
+                ->where(['is_enable'=>1])
+                ->where(['is_delete'=>0])
+                ->select()
+                ->toArray();
+
+            $data = [];
+            foreach ($dictResults as $item) {
+                $data[$item['type']] = $item['datas'];
+            }
+            $detail['dictList'] = $data;
         }
 
         return $detail;
@@ -322,7 +352,7 @@ class GenerateService extends Service
         try {
             foreach ($tables as $table) {
                 // 生成表信息
-                $className = VelocityService::toCamel($table['name']);
+                $className = VelocityService::underscoreToCamel($table['name']);
                 $genTable = CurdTable::create([
                     'table_name'    => $table['name'],
                     'table_engine'  => $table['engine'],
@@ -388,25 +418,28 @@ class GenerateService extends Service
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @throws OperateException
      * @author zero
      */
     public static function exports(int $id): void
     {
         $tableData = self::detail($id);
-        $table   = (array)$tableData['table'];
-        $columns = (array)$tableData['columns'];
+        $table    = (array)$tableData['table'];
+        $columns  = (array)$tableData['columns'];
+        $dictList = (array)($tableData['dictList']??[]);
 
         $rootPath = str_replace('\\', '/', root_path()).'app/';
         $genPath  = $rootPath . $table['gen_module'] . '/';
 
         foreach (VelocityService::getTemplates($table) as $k => $v) {
-            $vars = VelocityService::prepareContext($table, $columns);
-            $view = view('tpl\\'.$k, $vars);
+            $vars = VelocityService::prepareContext($table, $columns, $dictList);
+            $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('%%%', '', $content);
             $content = str_replace('>>>', '', $content);
+            $content = str_replace('__', '', $content);
 
             $genFolder = str_replace('\\', '/', $table['gen_folder']);
             $writePath = match ($k) {
@@ -416,7 +449,7 @@ class GenerateService extends Service
                 'php_model'      => $rootPath . 'common/model' . $genFolder . '/' . $v,
                 'html_list',
                 'html_add',
-                'html_edit'      => $genPath . 'view' . $genFolder . '/' . strtolower($table['gen_class']) . '/' . $v
+                'html_edit'      => $genPath . 'view' . $genFolder . '/' . VelocityService::camelToUnderscore($table['gen_class']) . '/' . $v
             };
 
             if (!file_exists(dirname($writePath))) {
@@ -441,8 +474,9 @@ class GenerateService extends Service
     public static function download(int $id): string
     {
         $tableData = self::detail($id);
-        $table   = (array)$tableData['table'];
-        $columns = (array)$tableData['columns'];
+        $table    = (array)$tableData['table'];
+        $columns  = (array)$tableData['columns'];
+        $dictList = (array)($tableData['dictList']??[]);
 
         $path = root_path() . 'runtime/generate/WaitAdmin-curd.zip';
         $path = str_replace('\\', '/', $path);
@@ -460,13 +494,14 @@ class GenerateService extends Service
         $rootPath = 'app/';
         $genPath  = $rootPath . $table['gen_module'] . '/';
         foreach (VelocityService::getTemplates($table) as $k => $v) {
-            $vars = VelocityService::prepareContext($table, $columns);
-            $view = view('tpl\\'.$k, $vars);
+            $vars = VelocityService::prepareContext($table, $columns, $dictList);
+            $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();
             $content = str_replace('>>>', '', $content);
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('%%%', '', $content);
+            $content = str_replace('__', '', $content);
 
             $genFolder = str_replace('\\', '/', $table['gen_folder']);
             $writePath = match ($k) {
@@ -476,7 +511,7 @@ class GenerateService extends Service
                 'php_model'      => $rootPath . 'common/model' . $genFolder . '/' . $v,
                 'html_list',
                 'html_edit',
-                'html_add' => $genPath . 'view' . $genFolder . '/' . strtolower($table['gen_class']) . '/' . $v
+                'html_add' => $genPath . 'view' . $genFolder . '/' . VelocityService::camelToUnderscore($table['gen_class']) . '/' . $v
             };
 
             $zip->addFromString($writePath, $content);
@@ -500,17 +535,20 @@ class GenerateService extends Service
     {
         $detail = [];
         $tableData = self::detail($id);
-        $table   = (array)$tableData['table'];
-        $columns = (array)$tableData['columns'];
+
+        $table    = (array)$tableData['table'];
+        $columns  = (array)$tableData['columns'];
+        $dictList = (array)($tableData['dictList']??[]);
 
         foreach (VelocityService::getTemplates($table) as $k => $v) {
-            $vars = VelocityService::prepareContext($table, $columns);
+            $vars = VelocityService::prepareContext($table, $columns, $dictList);
             $view = view('tpl/'.$k, $vars);
 
             $content = $view->getContent();
             $content = str_replace('%%%', '', $content);
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('>>>', '', $content);
+            $content = str_replace('__', '', $content);
             $detail[$v] = $content;
         }
 
@@ -521,6 +559,7 @@ class GenerateService extends Service
      * 初始化菜单
      *
      * @param array $table
+     * @throws OperateException
      * @author zero
      */
     public static function initMenu(array $table) {
@@ -528,7 +567,11 @@ class GenerateService extends Service
             return;
         }
 
-        $route = VelocityService::makeRoutes($table);
+        if (!$table['menu_name']) {
+            throw new OperateException('请填写菜单名称');
+        }
+
+        $route = lcfirst(VelocityService::makeRoutes($table));
         $modelMenu = new AuthMenu();
         $menu = $modelMenu->field('id')
             ->where(['module' => 'app'])
@@ -547,7 +590,7 @@ class GenerateService extends Service
             'pid'     => $table['menu_pid'],
             'title'   => $table['menu_name'],
             'icon'    => $table['menu_icon'],
-            'perms'   => strtolower($table['menu_pid']>0 ? $route.'/index' : ''),
+            'perms'   => $table['menu_pid']>0 ? $route.'/index' : '',
             'sort'    => 0,
             'is_menu' => 1
         ]);
@@ -571,7 +614,7 @@ class GenerateService extends Service
                 'pid'     => $authMenu['id'],
                 'title'   => $title,
                 'icon'    => '',
-                'perms'   => strtolower($route.'/'.$item),
+                'perms'   => $route.'/'.$item,
                 'sort'    => 0,
                 'is_menu' => $isMenu
             ]);

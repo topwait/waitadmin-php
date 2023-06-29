@@ -1,12 +1,12 @@
     /**
      * {$table.table_comment}列表
      *
+     * @param array $get
      * @return array
      * @throws DbException
      * @author {$table.author} ;#;
      */
-    #[ArrayShape(['count' => "mixed", 'list' => "mixed"])]
-    public static function lists(): array
+    public static function lists(array $get): array
     {
 {if !empty($searchArr)}
         self::setSearch([
@@ -39,7 +39,7 @@
 {/if}
 ;#;
 {if $table.tpl_type == 'curd'}
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
 {else}
         return $lists;
 {/if}

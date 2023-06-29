@@ -72,6 +72,13 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .layer-skin-black .layui-layer-setwin .layui-layer-max:after { border-color: #ffffff; }
 .layer-skin-black .layui-layer-setwin .layui-layer-max:before { border-color: #ffffff; }
 .layer-skin-black .layui-layer-setwin .layui-layer-min::before { background-color: #ffffff; }
+.popup-skin-window { border-radius: 10px; visibility: hidden; }
+.popup-skin-window .layui-layer-content { height: auto !important; border-radius: 10px; }
+@media screen and (max-width: 1100px) {
+    .popup-skin-window.layui-layer-iframe {
+        overflow-y: unset;
+    }
+}
 
 /** 按钮样式 **/
 .layui-btn-gloomy { background-color: #444c69; }

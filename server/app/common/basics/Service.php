@@ -196,9 +196,13 @@ class Service
                             continue;
                         }
 
-                        list($start, $end) = explode(' - ', $params[$key]);
-                        $where[] = [$val, '>=', strtotime($start)];
-                        $where[] = [$val, '<=', strtotime($end)];
+                        if (str_contains($params[$key], ' - ')) {
+                            list($start, $end) = explode(' - ', $params[$key]);
+                            $where[] = [$val, '>=', strtotime($start)];
+                            $where[] = [$val, '<=', strtotime($end)];
+                        } else {
+                            $where[] = [$val, '>=', strtotime($params[$key])];
+                        }
                     }
                     break;
                 case 'keyword':

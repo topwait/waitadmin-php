@@ -257,6 +257,7 @@
                                 <th style="text-align:center;">查询</th>
                                 <th style="width:130px; min-width:130px;">查询条件</th>
                                 <th style="width:130px; min-width:130px;">显示类型</th>
+                                <th style="width:130px; min-width:130px;">字典类型</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -333,6 +334,17 @@
                                         <option value="video"    {if $vo.html_type=='video'}selected{/if}>视频控件</option>
                                         <option value="datetime" {if $vo.html_type=='datetime'}selected{/if}>日期控件</option>
                                         <option value="editor"   {if $vo.html_type=='editor'}selected{/if}>富文本控件</option>
+                                    </select>
+                                </td>
+                                <!-- 字典类型 -->
+                                <td>
+                                    <select name="cols[{$k}][dict_type]">
+                                        <option value="">请选择</option>
+                                        {volist name="$dict" id="dictItem"}
+                                            <option value="{$dictItem.type}" {if $vo.dict_type==$dictItem.type}selected{/if}>
+                                                {$dictItem.name}
+                                            </option>
+                                        {/volist}
                                     </select>
                                 </td>
                             </tr>
