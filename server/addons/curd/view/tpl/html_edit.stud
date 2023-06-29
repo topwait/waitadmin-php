@@ -58,8 +58,9 @@ ______________{/volist}
 ______________{else}
                 <select id="{$vo.column_name}" name="{$vo.column_name}"{eq name="$vo.is_required" value="1"} lay-verify="required"{/eq}>
                     <option value="">请选择</option>
-                    <option value="1">选项一</option>
-                    <option value="2">选项二</option>
+                    <option value="1" {%%%if $detail.{$vo.column_name}==1}selected{%%%/if}>选项一</option>
+                    <option value="2" {%%%if $detail.{$vo.column_name}==2}selected{%%%/if}>选项二</option>
+                    <option value="3" {%%%if $detail.{$vo.column_name}==3}selected{%%%/if}>选项三</option>
                 </select>
 ______________{/if}
             </div>

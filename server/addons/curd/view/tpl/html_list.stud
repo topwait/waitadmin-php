@@ -142,7 +142,7 @@ ______________________{/volist}
 {elseif $vo.column_name=='image'}
                 {field:'{$vo.column_name}', title:'{$vo.column_comment}', width:60, align:'center', templet:'#table-{$vo.column_name}'},
 {else}
-                {field:'{$vo.column_name}', title:'{$vo.column_comment}',{if $vo.column_name=='id'} width:60,{/if} align:'center'},
+                {field:'{$vo.column_name}', title:'{$vo.column_comment}',{if $vo.column_name=='id'} width:90,{/if} align:'center'},
 {/if}
 {/if}
 {/volist}
@@ -207,7 +207,7 @@ ______________________{/volist}
                                     layer.close(index);
                                 }
                             }).catch(() => {
-                              waitUtil.unlock(this);
+                                waitUtil.unlock(this);
                             });
                         });
                     }

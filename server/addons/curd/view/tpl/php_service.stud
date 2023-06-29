@@ -18,7 +18,6 @@ namespace app\{$table.gen_module}\service{if $table.gen_folder}{$table.gen_folde
 ;#;
 use app\common\basics\Service;
 use app\common\model{if $table.gen_folder}{$table.gen_folder}{/if}\{$table.gen_model};
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -49,15 +48,15 @@ class {$table.gen_class}Service extends Service
         {$table.gen_model}::create([
 {volist name="$columns" id="vo"}
 {if $vo.is_insert}
-{if in_array($vo.column_name, ['create_time', 'update_time', 'delete_time'])}
+____{if in_array($vo.column_name, ['create_time', 'update_time', 'delete_time'])}
             '{$vo.column_name}' => time(),
-{else}
-{if in_array($vo.model_type, ['int', 'float', 'double'])}
+    {elseif $vo.is_required}
+            '{$vo.column_name}' => {if $vo.html_type=='checkbox'}json_encode($post['{$vo.column_name}']){else}$post['{$vo.column_name}']{/if},
+____{elseif in_array($vo.model_type, ['int', 'float', 'double', 'integer'])}
             '{$vo.column_name}' => $post['{$vo.column_name}'] ?? 0,
-{else}
-            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? '',
-{/if}
-{/if}
+____{else}
+            '{$vo.column_name}' => {if $vo.html_type=='checkbox'}json_encode($post['{$vo.column_name}']??[]){else}$post['{$vo.column_name}']??''{/if},
+____{/if}
 {/if}
 {/volist}
         ]);
@@ -74,15 +73,13 @@ class {$table.gen_class}Service extends Service
         {$table.gen_model}::update([
 {volist name="$columns" id="vo"}
 {if $vo.is_edit}
-{if $vo.is_required}
-            '{$vo.column_name}' => $post['{$vo.column_name}'],
-{else}
-{if in_array($vo.model_type, ['int', 'float', 'double'])}
+____{if $vo.is_required}
+            '{$vo.column_name}' => {if $vo.html_type=='checkbox'}json_encode($post['{$vo.column_name}']){else}$post['{$vo.column_name}']{/if},
+____{elseif in_array($vo.model_type, ['int', 'float', 'double', 'integer'])}
             '{$vo.column_name}' => $post['{$vo.column_name}'] ?? 0,
-{else}
-            '{$vo.column_name}' => $post['{$vo.column_name}'] ?? '',
-{/if}
-{/if}
+____{else}
+            '{$vo.column_name}' => {if $vo.html_type=='checkbox'}json_encode($post['{$vo.column_name}']??[]){else}$post['{$vo.column_name}']??''{/if},
+____{/if}
 {/if}
 {/volist}
         ], ['id'=>intval($post['{$primaryKey}'])]);
