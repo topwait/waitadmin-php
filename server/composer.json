@@ -35,7 +35,7 @@
         "ext-mbstring": "*",
         "ext-pdo": "*",
         "aliyuncs/oss-sdk-php": "^2.6",
-        "qcloud/cos-sdk-v5": "^2.5",
+        "qcloud/cos-sdk-v5": "^v2.6",
         "qiniu/php-sdk": "^7.6",
         "phpmailer/phpmailer": "^6.6",
         "symfony/var-exporter": "5.4.10",
