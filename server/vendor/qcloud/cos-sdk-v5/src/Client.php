@@ -207,10 +207,11 @@ use GuzzleHttp\Psr7;
  * @method object GetFileUncompressResult(array $args) 查询文件解压结果
  * @method object CreateFileCompressJobs(array $args) 提交多文件打包压缩任务
  * @method object GetFileCompressResult(array $args) 查询多文件打包压缩结果
+ * @method object CreateM3U8PlayListJobs(array $args) 查询多文件打包压缩结果
  * @see \Qcloud\Cos\Service::getService()
  */
 class Client extends GuzzleClient {
-    const VERSION = '2.6.2';
+    const VERSION = '2.6.3';
 
     public $httpClient;
     
@@ -260,6 +261,7 @@ class Client extends GuzzleClient {
         }
         if ($this->cosConfig['token'] != null) {
             $handler->push(Middleware::mapRequest(function (RequestInterface $request) {
+                $request = $request->withHeader('x-ci-security-token', $this->cosConfig['token']);
                 return $request->withHeader('x-cos-security-token', $this->cosConfig['token']);
             }));
         }
