@@ -3,7 +3,7 @@
         'name' => 'topthink/think',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => 'd568703d52680be9c8d86807a70ac13f9fa55f0b',
+        'reference' => '7d25e251a62dee9c5512f583bc9a2080398c3bd6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -245,9 +245,9 @@
             'dev_requirement' => false,
         ),
         'psr/cache' => array(
-            'pretty_version' => '2.0.0',
-            'version' => '2.0.0.0',
-            'reference' => '213f9dbc5b9bfbc4f8db86d2838dc968752ce13b',
+            'pretty_version' => '3.0.0',
+            'version' => '3.0.0.0',
+            'reference' => 'aa5030cfa5405eccfdcb1083ce040c2cb8d253bf',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/cache',
             'aliases' => array(),
@@ -256,7 +256,7 @@
         'psr/cache-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
+                0 => '2.0|3.0',
             ),
         ),
         'psr/container' => array(
@@ -340,7 +340,7 @@
         'psr/simple-cache-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
+                0 => '1.0|2.0|3.0',
             ),
         ),
         'qcloud/cos-sdk-v5' => array(
@@ -371,18 +371,18 @@
             'dev_requirement' => false,
         ),
         'symfony/cache' => array(
-            'pretty_version' => 'v5.4.25',
-            'version' => '5.4.25.0',
-            'reference' => 'e2013521c0f07473ae69a01fce0af78fc3ec0f23',
+            'pretty_version' => 'v6.0.19',
+            'version' => '6.0.19.0',
+            'reference' => '81ca309f056e836480928b20280ec52ce8369bb3',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/cache',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'symfony/cache-contracts' => array(
-            'pretty_version' => 'v2.5.2',
-            'version' => '2.5.2.0',
-            'reference' => '64be4a7acb83b6f2bf6de9a02cee6dad41277ebc',
+            'pretty_version' => 'v3.0.2',
+            'version' => '3.0.2.0',
+            'reference' => '1c0a181c9ee221afe4fa55b2d13fc63c5ae14348',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/cache-contracts',
             'aliases' => array(),
@@ -391,7 +391,7 @@
         'symfony/cache-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
+                0 => '1.1|2.0|3.0',
             ),
         ),
         'symfony/deprecation-contracts' => array(
@@ -490,15 +490,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'symfony/polyfill-php73' => array(
-            'pretty_version' => 'v1.27.0',
-            'version' => '1.27.0.0',
-            'reference' => '9e8ecb5f92152187c4799efd3c96b78ccab18ff9',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/polyfill-php73',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'symfony/polyfill-php80' => array(
             'pretty_version' => 'v1.27.0',
             'version' => '1.27.0.0',
@@ -536,9 +527,9 @@
             'dev_requirement' => false,
         ),
         'symfony/var-dumper' => array(
-            'pretty_version' => 'v4.4.47',
-            'version' => '4.4.47.0',
-            'reference' => '1069c7a3fca74578022fab6f81643248d02f8e63',
+            'pretty_version' => 'v6.0.19',
+            'version' => '6.0.19.0',
+            'reference' => 'eb980457fa6899840fe1687e8627a03a7d8a3d52',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/var-dumper',
             'aliases' => array(),
@@ -563,18 +554,18 @@
             'dev_requirement' => false,
         ),
         'tencentcloud/common' => array(
-            'pretty_version' => '3.0.923',
-            'version' => '3.0.923.0',
-            'reference' => 'ae778c1e4a81281274b677a88b644e5c0776eb43',
+            'pretty_version' => '3.0.924',
+            'version' => '3.0.924.0',
+            'reference' => '6f6697404c3debff9e22b8931d771f14da30969d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../tencentcloud/common',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'tencentcloud/sms' => array(
-            'pretty_version' => '3.0.923',
-            'version' => '3.0.923.0',
-            'reference' => 'eddbc1348f104280c6a3dce0b3f825e89cd674c2',
+            'pretty_version' => '3.0.924',
+            'version' => '3.0.924.0',
+            'reference' => '85fa96b7031472f5208c73edc6d0f6d7acfdfd6f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../tencentcloud/sms',
             'aliases' => array(),
@@ -601,7 +592,7 @@
         'topthink/think' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => 'd568703d52680be9c8d86807a70ac13f9fa55f0b',
+            'reference' => '7d25e251a62dee9c5512f583bc9a2080398c3bd6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
