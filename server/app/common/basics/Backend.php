@@ -141,10 +141,10 @@ abstract class Backend extends BaseController
             ->column('perms');
 
         $perms = array_map(function ($p) {
-            return lcfirst($p);
+            return strtolower($p);
         }, $perms);
 
-        if (!in_array($requestUrl, array_unique($perms))) {
+        if (!in_array(strtolower($requestUrl), array_unique($perms))) {
             if (request()->isAjax()) {
                 throw new NotAuthException();
             }
