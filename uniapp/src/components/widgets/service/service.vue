@@ -84,7 +84,6 @@ const props = defineProps({
     }
 })
 
-
 const gridWidth = computed(() => {
     let arr = {1: '100%', 2: '50%', 3:'33.33%', 4:'25%', 5:'20%'}
     return arr[parseInt(props.grid)]
