@@ -27,21 +27,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => false, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -135,6 +133,35 @@ class Descriptions {
                                             'properties' => array(
                                                 'IsHlsEncrypt' => array( 'type' => 'string', 'location' => 'xml', ),
                                                 'UriKey' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                                'AudioMixArray' => array(
+                                    'type' => 'array',
+                                    'location' => 'xml',
+                                    'data' => array(
+                                        'xmlFlattened' => true,
+                                    ),
+                                    'items' => array(
+                                        'type' => 'object',
+                                        'name' => 'AudioMix',
+                                        'sentAs' => 'AudioMix',
+                                        'properties' => array(
+                                            'AudioSource' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'MixMode' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'Replace' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'EffectConfig' => array(
+                                                'type' => 'object',
+                                                'location' => 'xml',
+                                                'properties' => array(
+                                                    'EnableStartFadein' => array( 'type' => 'string', 'location' => 'xml', ),
+                                                    'StartFadeinTime' => array( 'type' => 'string', 'location' => 'xml', ),
+                                                    'EnableEndFadeout' => array( 'type' => 'string', 'location' => 'xml', ),
+                                                    'EndFadeoutTime' => array( 'type' => 'string', 'location' => 'xml', ),
+                                                    'EnableBgmFade' => array( 'type' => 'string', 'location' => 'xml', ),
+                                                    'BgmFadeTime' => array( 'type' => 'string', 'location' => 'xml', ),
+                                                ),
                                             ),
                                         ),
                                     ),
@@ -273,19 +300,17 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => false, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'CallBack' => array( 'required' => false, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
+                'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'array',
                     'location' => 'xml',
                     'data' => array(
@@ -709,13 +734,11 @@ class Descriptions {
                     'location' => 'uri',
                 ),
                 'Tag' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'tag',
                 ),
                 'QueueId' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'queueId',
@@ -797,27 +820,24 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'CallBack' => array( 'required' => false, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
+                'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
                         'TemplateId' => array( 'type' => 'string', 'location' => 'xml', ),
                         'Output' => array(
-                            'required' => true,
                             'type' => 'object',
                             'location' => 'xml',
                             'properties' => array(
@@ -900,21 +920,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true, 
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' =>false, 'type' => 'string', 'location' => 'xml', ), // 拼接任务Input可以为空，完全用数组内的元素拼接
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ), // 拼接任务Input可以为空，完全用数组内的元素拼接
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -922,13 +940,12 @@ class Descriptions {
                         'UserData' => array( 'type' => 'string', 'location' => 'xml', ),
                         'JobLevel' => array( 'type' => 'string', 'location' => 'xml', ),
                         'Output' => array(
-                            'required' => true,
                             'type' => 'object',
                             'location' => 'xml',
                             'properties' => array(
-                                'Region' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
-                                'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
-                                'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                                'Region' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Bucket' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                             ),
                         ),
                         'ConcatTemplate' => array(
@@ -1108,6 +1125,16 @@ class Descriptions {
                             'type' => 'integer',
                             'location' => 'xml',
                         ),
+                        'Freeze' => array(
+                            'location' => 'xml',
+                            'type' => 'object',
+                            'properties' => array(
+                                'PornScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'AdsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'PoliticsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'TerrorismScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -1261,6 +1288,7 @@ class Descriptions {
                                     'Url' => array( 'type' => 'string', 'location' => 'xml', ),
                                     'Text' => array( 'type' => 'string', 'location' => 'xml', ),
                                     'Label' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml', ),
                                     'OffsetTime' => array( 'type' => 'integer', 'location' => 'xml', ),
                                     'Duration' => array( 'type' => 'integer', 'location' => 'xml', ),
                                     'Result' => array( 'type' => 'integer', 'location' => 'xml', ),
@@ -1685,6 +1713,7 @@ class Descriptions {
                         'Label' => array( 'type' => 'string', 'location' => 'xml', ),
                         'SubLabel' => array( 'type' => 'string', 'location' => 'xml', ),
                         'Result' => array( 'type' => 'integer', 'location' => 'xml', ),
+                        'ForbidState' => array( 'type' => 'integer', 'location' => 'xml', ),
                         'PornInfo' => array(
                             'type' => 'object',
                             'location' => 'xml',
@@ -1991,6 +2020,17 @@ class Descriptions {
                                 'Role' => array( 'type' => 'string', 'location' => 'xml', ),
                             ),
                         ),
+                        'Encryption' => array(
+                            'location' => 'xml',
+                            'type' => 'object',
+                            'properties' => array(
+                                'Algorithm' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Key' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'IV' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'KeyId' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'KeyType' => array( 'type' => 'integer', 'location' => 'xml', ),
+                            ),
+                        ),
                     ),
                 ),
                 'Conf' => array(
@@ -2010,6 +2050,16 @@ class Descriptions {
                                 'Mode' => array( 'type' => 'string', 'location' => 'xml', ),
                                 'Count' => array( 'type' => 'string', 'location' => 'xml', ),
                                 'TimeInterval' => array( 'type' => 'numeric', 'location' => 'xml', ),
+                            ),
+                        ),
+                        'Freeze' => array(
+                            'location' => 'xml',
+                            'type' => 'object',
+                            'properties' => array(
+                                'PornScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'AdsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'PoliticsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'TerrorismScore' => array( 'type' => 'integer', 'location' => 'xml', ),
                             ),
                         ),
                     ),
@@ -2096,6 +2146,7 @@ class Descriptions {
                         'SnapshotCount' => array('type' => 'string', 'location' => 'xml',),
                         'Label' => array('type' => 'string', 'location' => 'xml',),
                         'Result' => array('type' => 'integer', 'location' => 'xml',),
+                        'ForbidState' => array('type' => 'integer', 'location' => 'xml',),
                         'PornInfo' => array(
                             'type' => 'object',
                             'location' => 'xml',
@@ -2146,6 +2197,7 @@ class Descriptions {
                                     'SnapshotTime' => array('type' => 'integer', 'location' => 'xml',),
                                     'Text' => array('type' => 'string', 'location' => 'xml',),
                                     'Label' => array('type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                     'Result' => array('type' => 'integer', 'location' => 'xml',),
                                     'PornInfo' => array(
                                         'type' => 'object',
@@ -2164,6 +2216,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Text' => array('type' => 'integer', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'integer', 'location' => 'xml',),
                                                         'Keywords' => array(
                                                             'type' => 'array',
                                                             'location' => 'xml',
@@ -2191,6 +2244,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                         'Location' => array(
                                                             'type' => 'object',
                                                             'location' => 'xml',
@@ -2236,6 +2290,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Text' => array('type' => 'integer', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'integer', 'location' => 'xml',),
                                                         'Keywords' => array(
                                                             'type' => 'array',
                                                             'location' => 'xml',
@@ -2263,6 +2318,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                         'Location' => array(
                                                             'type' => 'object',
                                                             'location' => 'xml',
@@ -2308,6 +2364,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Text' => array('type' => 'integer', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'integer', 'location' => 'xml',),
                                                         'Keywords' => array(
                                                             'type' => 'array',
                                                             'location' => 'xml',
@@ -2335,6 +2392,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                         'Location' => array(
                                                             'type' => 'object',
                                                             'location' => 'xml',
@@ -2380,6 +2438,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Text' => array('type' => 'integer', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'integer', 'location' => 'xml',),
                                                         'Keywords' => array(
                                                             'type' => 'array',
                                                             'location' => 'xml',
@@ -2407,6 +2466,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                         'Location' => array(
                                                             'type' => 'object',
                                                             'location' => 'xml',
@@ -2452,6 +2512,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Text' => array('type' => 'integer', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'integer', 'location' => 'xml',),
                                                         'Keywords' => array(
                                                             'type' => 'array',
                                                             'location' => 'xml',
@@ -2479,6 +2540,7 @@ class Descriptions {
                                                     'location' => 'xml',
                                                     'properties' => array(
                                                         'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                        'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                         'Location' => array(
                                                             'type' => 'object',
                                                             'location' => 'xml',
@@ -2521,6 +2583,7 @@ class Descriptions {
                                     'OffsetTime' => array('type' => 'integer', 'location' => 'xml',),
                                     'Duration' => array('type' => 'integer', 'location' => 'xml',),
                                     'Label' => array('type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                     'Result' => array('type' => 'integer', 'location' => 'xml',),
                                     'PornInfo' => array(
                                         'type' => 'object',
@@ -2529,6 +2592,7 @@ class Descriptions {
                                             'HitFlag' => array('type' => 'string', 'location' => 'xml',),
                                             'Score' => array('type' => 'string', 'location' => 'xml',),
                                             'Category' => array('type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -2560,6 +2624,7 @@ class Descriptions {
                                             'HitFlag' => array('type' => 'string', 'location' => 'xml',),
                                             'Score' => array('type' => 'string', 'location' => 'xml',),
                                             'Category' => array('type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -2591,6 +2656,7 @@ class Descriptions {
                                             'HitFlag' => array('type' => 'string', 'location' => 'xml',),
                                             'Score' => array('type' => 'string', 'location' => 'xml',),
                                             'Category' => array('type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -2622,6 +2688,7 @@ class Descriptions {
                                             'HitFlag' => array('type' => 'string', 'location' => 'xml',),
                                             'Score' => array('type' => 'string', 'location' => 'xml',),
                                             'Category' => array('type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -2653,6 +2720,7 @@ class Descriptions {
                                             'HitFlag' => array('type' => 'string', 'location' => 'xml',),
                                             'Score' => array('type' => 'string', 'location' => 'xml',),
                                             'Category' => array('type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -2776,6 +2844,16 @@ class Descriptions {
                         'Callback' => array( 'type' => 'string', 'location' => 'xml', ),
                         'BizType' => array( 'type' => 'string', 'location' => 'xml', ),
                         'CallbackType' => array( 'type' => 'integer', 'location' => 'xml', ),
+                        'Freeze' => array(
+                            'location' => 'xml',
+                            'type' => 'object',
+                            'properties' => array(
+                                'PornScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'AdsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'PoliticsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'TerrorismScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -2860,6 +2938,7 @@ class Descriptions {
                         'Object' => array('type' => 'string', 'location' => 'xml',),
                         'Url' => array('type' => 'string', 'location' => 'xml',),
                         'PageCount' => array('type' => 'integer', 'location' => 'xml',),
+                        'ForbidState' => array('type' => 'integer', 'location' => 'xml',),
                         'Labels' => array(
                             'type' => 'object',
                             'location' => 'xml',
@@ -2931,6 +3010,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Text' => array('type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                                 'Keywords' => array(
                                                                     'type' => 'array',
                                                                     'location' => 'xml',
@@ -2958,6 +3038,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                                 'Location' => array(
                                                                     'type' => 'object',
                                                                     'location' => 'xml',
@@ -3002,6 +3083,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Text' => array('type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                                 'Keywords' => array(
                                                                     'type' => 'array',
                                                                     'location' => 'xml',
@@ -3029,6 +3111,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                                 'Location' => array(
                                                                     'type' => 'object',
                                                                     'location' => 'xml',
@@ -3073,6 +3156,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Text' => array('type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                                 'Keywords' => array(
                                                                     'type' => 'array',
                                                                     'location' => 'xml',
@@ -3100,6 +3184,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                                 'Location' => array(
                                                                     'type' => 'object',
                                                                     'location' => 'xml',
@@ -3144,6 +3229,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Text' => array('type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                                 'Keywords' => array(
                                                                     'type' => 'array',
                                                                     'location' => 'xml',
@@ -3171,6 +3257,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Name' => array('type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                                                                 'Location' => array(
                                                                     'type' => 'object',
                                                                     'location' => 'xml',
@@ -3264,46 +3351,40 @@ class Descriptions {
                     'location' => 'uri',
                 ),
                 'Tag' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'xml',
                 ),
                 'QueueId' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'xml',
                 ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
                         'Output' => array(
-                            'required' => true,
                             'type' => 'object',
                             'location' => 'xml',
                             'properties' => array(
                                 'Region' => array(
-                                    'type' => 'string','required' => true,'location' => 'xml',
+                                    'type' => 'string','location' => 'xml',
                                 ),
                                 'Bucket' => array(
-                                    'type' => 'string','required' => true,'location' => 'xml',
+                                    'type' => 'string','location' => 'xml',
                                 ),
                                 'Object' => array(
-                                    'type' => 'string','required' => true,'location' => 'xml',
+                                    'type' => 'string','location' => 'xml',
                                 ),
                             ),
                         ),
                         'DocProcess' => array(
-                            'required' => true,
                             'type' => 'object',
                             'location' => 'xml',
                             'properties' => array(
@@ -3730,13 +3811,11 @@ class Descriptions {
                     'location' => 'uri',
                 ),
                 'Tag' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'tag',
                 ),
                 'QueueId' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'queueId',
@@ -3987,6 +4066,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Keywords' => array(
                                         'type' => 'array',
                                         'location' => 'xml',
@@ -4014,6 +4094,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Location' => array(
                                         'type' => 'object',
                                         'location' => 'xml',
@@ -4061,6 +4142,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Keywords' => array(
                                         'type' => 'array',
                                         'location' => 'xml',
@@ -4088,6 +4170,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Location' => array(
                                         'type' => 'object',
                                         'location' => 'xml',
@@ -4135,6 +4218,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Keywords' => array(
                                         'type' => 'array',
                                         'location' => 'xml',
@@ -4162,6 +4246,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Location' => array(
                                         'type' => 'object',
                                         'location' => 'xml',
@@ -4209,6 +4294,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Keywords' => array(
                                         'type' => 'array',
                                         'location' => 'xml',
@@ -4236,6 +4322,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Location' => array(
                                         'type' => 'object',
                                         'location' => 'xml',
@@ -4283,6 +4370,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Keywords' => array(
                                         'type' => 'array',
                                         'location' => 'xml',
@@ -4310,6 +4398,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Location' => array(
                                         'type' => 'object',
                                         'location' => 'xml',
@@ -4357,6 +4446,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Keywords' => array(
                                         'type' => 'array',
                                         'location' => 'xml',
@@ -4384,6 +4474,7 @@ class Descriptions {
                                 'location' => 'xml',
                                 'properties' => array(
                                     'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                    'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                     'Location' => array(
                                         'type' => 'object',
                                         'location' => 'xml',
@@ -4470,6 +4561,17 @@ class Descriptions {
                                     'Role' => array( 'type' => 'string', 'location' => 'xml', ),
                                 ),
                             ),
+                            'Encryption' => array(
+                                'location' => 'xml',
+                                'type' => 'object',
+                                'properties' => array(
+                                    'Algorithm' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'Key' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'IV' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'KeyId' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'KeyType' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -4481,6 +4583,16 @@ class Descriptions {
                         'BizType' => array( 'type' => 'string', 'location' => 'xml', ),
                         'Async' => array( 'type' => 'integer', 'location' => 'xml', ),
                         'Callback' => array( 'type' => 'string', 'location' => 'xml', ),
+                        'Freeze' => array(
+                            'type' => 'object',
+                            'location' => 'xml',
+                            'properties' => array(
+                                'PornScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'AdsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'PoliticsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'TerrorismScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -4510,6 +4622,7 @@ class Descriptions {
                             'Label' => array( 'type' => 'string', 'location' => 'xml',),
                             'Result' => array( 'type' => 'integer', 'location' => 'xml',),
                             'Score' => array( 'type' => 'integer', 'location' => 'xml',),
+                            'ForbidState' => array( 'type' => 'integer', 'location' => 'xml',),
                             'Category' => array( 'type' => 'string', 'location' => 'xml',),
                             'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                             'Text' => array( 'type' => 'string', 'location' => 'xml',),
@@ -4534,6 +4647,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Keywords' => array(
                                                     'type' => 'array',
                                                     'location' => 'xml',
@@ -4561,6 +4675,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Location' => array(
                                                     'type' => 'object',
                                                     'location' => 'xml',
@@ -4608,6 +4723,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Keywords' => array(
                                                     'type' => 'array',
                                                     'location' => 'xml',
@@ -4635,6 +4751,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Location' => array(
                                                     'type' => 'object',
                                                     'location' => 'xml',
@@ -4682,6 +4799,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Keywords' => array(
                                                     'type' => 'array',
                                                     'location' => 'xml',
@@ -4709,6 +4827,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Location' => array(
                                                     'type' => 'object',
                                                     'location' => 'xml',
@@ -4756,6 +4875,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Keywords' => array(
                                                     'type' => 'array',
                                                     'location' => 'xml',
@@ -4783,6 +4903,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Location' => array(
                                                     'type' => 'object',
                                                     'location' => 'xml',
@@ -4830,6 +4951,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Keywords' => array(
                                                     'type' => 'array',
                                                     'location' => 'xml',
@@ -4857,6 +4979,7 @@ class Descriptions {
                                             'location' => 'xml',
                                             'properties' => array(
                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                 'Location' => array(
                                                     'type' => 'object',
                                                     'location' => 'xml',
@@ -5128,6 +5251,7 @@ class Descriptions {
                         'SubLabel' => array('type' => 'string', 'location' => 'xml',),
                         'Result' => array('type' => 'integer', 'location' => 'xml',),
                         'Score' => array('type' => 'integer', 'location' => 'xml',),
+                        'ForbidState' => array('type' => 'integer', 'location' => 'xml',),
                         'PornInfo' => array(
                             'type' => 'object',
                             'location' => 'xml',
@@ -5145,6 +5269,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -5172,6 +5297,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Location' => array(
                                                 'type' => 'object',
                                                 'location' => 'xml',
@@ -5217,6 +5343,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -5244,6 +5371,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Location' => array(
                                                 'type' => 'object',
                                                 'location' => 'xml',
@@ -5289,6 +5417,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -5316,6 +5445,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Location' => array(
                                                 'type' => 'object',
                                                 'location' => 'xml',
@@ -5361,6 +5491,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -5388,6 +5519,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Location' => array(
                                                 'type' => 'object',
                                                 'location' => 'xml',
@@ -5433,6 +5565,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Keywords' => array(
                                                 'type' => 'array',
                                                 'location' => 'xml',
@@ -5460,6 +5593,7 @@ class Descriptions {
                                         'location' => 'xml',
                                         'properties' => array(
                                             'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                            'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                             'Location' => array(
                                                 'type' => 'object',
                                                 'location' => 'xml',
@@ -5544,21 +5678,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -5735,6 +5867,7 @@ class Descriptions {
                     'location' => 'xml',
                     'type' => 'object',
                     'properties' => array(
+                        'BizType' => array( 'type' => 'string', 'location' => 'xml', ),
                         'DetectType' => array( 'type' => 'string', 'location' => 'xml', ),
                         'Callback' => array( 'type' => 'string', 'location' => 'xml', ),
                         'ReturnHighlightHtml' => array( 'type' => 'string', 'location' => 'xml', ),
@@ -5892,6 +6025,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                                 'Keywords' => array(
                                                                     'type' => 'array',
                                                                     'location' => 'xml',
@@ -5919,6 +6053,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                                 'Location' => array(
                                                                     'type' => 'object',
                                                                     'location' => 'xml',
@@ -5963,6 +6098,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                                 'Keywords' => array(
                                                                     'type' => 'array',
                                                                     'location' => 'xml',
@@ -5990,6 +6126,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                                 'Location' => array(
                                                                     'type' => 'object',
                                                                     'location' => 'xml',
@@ -6034,6 +6171,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                                 'Keywords' => array(
                                                                     'type' => 'array',
                                                                     'location' => 'xml',
@@ -6061,6 +6199,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                                 'Location' => array(
                                                                     'type' => 'object',
                                                                     'location' => 'xml',
@@ -6105,6 +6244,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Text' => array( 'type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                                 'Keywords' => array(
                                                                     'type' => 'array',
                                                                     'location' => 'xml',
@@ -6132,6 +6272,7 @@ class Descriptions {
                                                             'location' => 'xml',
                                                             'properties' => array(
                                                                 'Name' => array( 'type' => 'string', 'location' => 'xml',),
+                                                                'SubLabel' => array( 'type' => 'string', 'location' => 'xml',),
                                                                 'Location' => array(
                                                                     'type' => 'object',
                                                                     'location' => 'xml',
@@ -6597,21 +6738,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'CallBack' => array( 'required' => false, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
+                'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -6630,13 +6769,12 @@ class Descriptions {
                             ),
                         ),
                         'Output' => array(
-                            'required' => true,
                             'type' => 'object',
                             'location' => 'xml',
                             'properties' => array(
-                                'Region' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
-                                'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
-                                'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                                'Region' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Bucket' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                             ),
                         ),
                     ),
@@ -6697,21 +6835,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'CallBack' => array( 'required' => false, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
+                'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -6938,21 +7074,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -7089,21 +7223,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'CallBack' => array( 'required' => false, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
+                'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -7212,21 +7344,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -7308,17 +7438,16 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
@@ -7410,32 +7539,29 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
                         'UserData' => array( 'type' => 'string', 'location' => 'xml', ),
                         'JobLevel' => array( 'type' => 'string', 'location' => 'xml', ),
                         'VideoTag' => array(
-                            'required' => true,
                             'type' => 'object',
                             'location' => 'xml',
                             'properties' => array(
-                                'Scenario' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                                'Scenario' => array( 'type' => 'string', 'location' => 'xml', ),
                             ),
                         ),
                     ),
@@ -7496,21 +7622,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -7721,21 +7845,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -7934,21 +8056,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -8030,21 +8150,19 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -8153,6 +8271,13 @@ class Descriptions {
                         'Callback' => array( 'type' => 'string', 'location' => 'xml', ),
                         'BizType' => array( 'type' => 'string', 'location' => 'xml', ),
                         'CallbackType' => array( 'type' => 'integer', 'location' => 'xml', ),
+                    ),
+                ),
+                'StorageConf' => array(
+                    'location' => 'xml',
+                    'type' => 'object',
+                    'properties' => array(
+                        'Path' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
             ),
@@ -8426,10 +8551,9 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Snapshot' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
@@ -8586,8 +8710,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Container' => array(
                     'type' => 'object',
                     'location' => 'xml',
@@ -8845,8 +8969,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Container' => array(
                     'type' => 'object',
                     'location' => 'xml',
@@ -9050,8 +9174,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Container' => array(
                     'type' => 'object',
                     'location' => 'xml',
@@ -9207,8 +9331,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'ConcatTemplate' => array(
                     'type' => 'object',
                     'location' => 'xml',
@@ -9408,8 +9532,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'ColorEnhance' => array(
                     'type' => 'object',
                     'location' => 'xml',
@@ -9543,8 +9667,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Duration' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Container' => array(
                     'type' => 'object',
@@ -9722,9 +9846,9 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'AudioMode' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
+                'AudioMode' => array( 'location' => 'xml', 'type' => 'string', ),
                 'AudioConfig' => array(
                     'type' => 'object',
                     'location' => 'xml',
@@ -9843,8 +9967,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Resolution' => array( 'location' => 'xml', 'type' => 'string', ),
                 'EnableScaleUp' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Version' => array( 'location' => 'xml', 'type' => 'string', ),
@@ -9948,8 +10072,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'PicProcess' => array(
                     'type' => 'object',
                     'location' => 'xml',
@@ -10063,8 +10187,8 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'Name' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'Name' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Watermark' => array(
                     'type' => 'object',
                     'location' => 'xml',
@@ -10612,17 +10736,16 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
@@ -11694,7 +11817,7 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Key' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
+                'Key' => array( 'type' => 'string', 'location' => 'uri', ),
                 'Name' => array( 'type' => 'string', 'location' => 'xml', ),
                 'QueueID' => array( 'type' => 'string', 'location' => 'xml', ),
                 'State' => array( 'type' => 'string', 'location' => 'xml', ),
@@ -11760,7 +11883,7 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
                 'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
@@ -11844,17 +11967,16 @@ class Descriptions {
             ),
             'parameters' => array(
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
-                'Tag' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
-                'QueueId' => array( 'required' => true, 'location' => 'xml', 'type' => 'string', ),
+                'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'Input' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'xml',
                     'properties' => array(
-                        'Object' => array( 'required' => true, 'type' => 'string', 'location' => 'xml', ),
+                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
                 'Operation' => array(
@@ -12885,6 +13007,129 @@ class Descriptions {
                     ),
                 ),
                 'NonExistJobIds' => array('type' => 'string', 'location' => 'xml',),
+            ),
+        );
+    }
+
+    public static function CreateM3U8PlayListJobs() {
+        return array(
+            'httpMethod' => 'POST',
+            'uri' => '/{Bucket}m3u8_playlist',
+            'class' => 'Qcloud\\Cos\\Command',
+            'responseClass' => 'CreateM3U8PlayListJobsOutput',
+            'responseType' => 'model',
+            'data' => array(
+                'xmlRoot' => array(
+                    'name' => 'Request',
+                ),
+            ),
+            'parameters' => array(
+                'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
+                'StartTime' => array( 'location' => 'query', 'type' => 'integer', 'sentAs' => 'startTime'),
+                'EndTime' => array( 'location' => 'query', 'type' => 'integer', 'sentAs' => 'endTime'),
+                'Operation' => array(
+                    'type' => 'object',
+                    'location' => 'xml',
+                    'properties' => array(
+                        'M3U8List' => array(
+                            'type' => 'array',
+                            'location' => 'xml',
+                            'data' => array('xmlFlattened' => true),
+                            'items' => array(
+                                'name' => 'M3U8List',
+                                'type' => 'object',
+                                'sentAs' => 'M3U8List',
+                                'properties' => array(
+                                    'BucketId' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'Index' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'ObjectPath' => array( 'type' => 'string', 'location' => 'xml', ),
+                                ),
+                            ),
+                        ),
+                        'Output' => array(
+                            'type' => 'object',
+                            'location' => 'xml',
+                            'properties' => array(
+                                'Region' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Bucket' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Object' => array( 'type' => 'string', 'location' => 'xml', ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+    public static function CreateM3U8PlayListJobsOutput() {
+        return array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'RequestId' => array(
+                    'type' => 'string',
+                    'location' => 'header',
+                    'sentAs' => 'x-ci-request-id',
+                ),
+                'ContentType' => array(
+                    'type' => 'string',
+                    'location' => 'header',
+                    'sentAs' => 'Content-Type',
+                ),
+                'ContentLength' => array(
+                    'type' => 'numeric',
+                    'minimum'=> 0,
+                    'location' => 'header',
+                    'sentAs' => 'Content-Length',
+                ),
+                'State' => array( 'type' => 'string', 'location' => 'xml', ),
+                'Operation' => array(
+                    'type' => 'object',
+                    'location' => 'xml',
+                    'properties' => array(
+                        'M3U8List' => array(
+                            'type' => 'array',
+                            'location' => 'xml',
+                            'items' => array(
+                                'type' => 'object',
+                                'location' => 'xml',
+                                'properties' => array(
+                                    'BucketId' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'Index' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'ObjectPath' => array( 'type' => 'string', 'location' => 'xml', ),
+                                ),
+                            ),
+                        ),
+                        'Output' => array(
+                            'type' => 'object',
+                            'location' => 'xml',
+                            'properties' => array(
+                                'Region' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Bucket' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Object' => array( 'type' => 'string', 'location' => 'xml', ),
+                            ),
+                        ),
+                    ),
+                ),
+                'ResultInfo' => array(
+                    'type' => 'object',
+                    'location' => 'xml',
+                    'properties' => array(
+                        'OutputUrl' => array( 'type' => 'string', 'location' => 'xml', ),
+                        'ErrorInfo' => array(
+                            'type' => 'array',
+                            'location' => 'xml',
+                            'items' => array(
+                                'type' => 'object',
+                                'location' => 'xml',
+                                'properties' => array(
+                                    'ObjectPath' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'Message' => array( 'type' => 'string', 'location' => 'xml', ),
+                                    'Code' => array( 'type' => 'string', 'location' => 'xml', ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             ),
         );
     }

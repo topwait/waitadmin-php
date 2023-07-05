@@ -21,12 +21,13 @@
     ],
     "require": {
         "php": ">=8.0",
-        "topthink/framework": "^6.0.0",
-        "topthink/think-orm": "^2.0",
+        "topthink/framework": "^8.0.0",
+        "topthink/think-orm": "^3.0",
         "topthink/think-multi-app": "^1.0",
-        "topthink/think-view": "^1.0",
+        "topthink/think-view": "^2.0",
         "topthink/think-captcha": "^3.0",
         "topthink/think-image": "^1.0",
+        "topthink/think-filesystem": "^2.0",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zip": "*",
@@ -34,11 +35,10 @@
         "ext-mbstring": "*",
         "ext-pdo": "*",
         "aliyuncs/oss-sdk-php": "^2.6",
-        "qcloud/cos-sdk-v5": "^2.5",
+        "qcloud/cos-sdk-v5": "^v2.6",
         "qiniu/php-sdk": "^7.6",
         "phpmailer/phpmailer": "^6.6",
         "symfony/var-exporter": "5.4.10",
-        "topthink/think-filesystem": "^2.0",
         "w7corp/easywechat": "6.10",
         "alibabacloud/client": "^1.5",
         "topwait/wait-addons": "^1.0",
@@ -46,8 +46,8 @@
         "phpoffice/phpspreadsheet": "^1.29"
     },
     "require-dev": {
-        "symfony/var-dumper": "^4.2",
-        "topthink/think-trace":"^1.0"
+        "symfony/var-dumper": "^6.0",
+        "topthink/think-trace": "^1.0"
     },
     "autoload": {
         "psr-4": {

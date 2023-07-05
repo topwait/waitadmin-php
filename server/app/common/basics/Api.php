@@ -55,6 +55,8 @@ class Api extends BaseController
     {
         parent::__construct($app);
 
+        $this->handleResponse();
+
         $this->checkLogin();
 
         $this->initialize();
@@ -107,5 +109,16 @@ class Api extends BaseController
         $this->userId   = $userId;
         $this->terminal = $terminal;
         return true;
+    }
+
+    /**
+     * 处理响应
+     */
+    private function handleResponse()
+    {
+        $structure = $this->request->header('Structure');
+        if ($structure) {
+            header("Structure: true");
+        }
     }
 }

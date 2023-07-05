@@ -3513,6 +3513,18 @@ class Service {
                                 'BizType' => array( 'type' => 'string', 'location' => 'xml', ),
                                 'CallbackVersion' => array( 'type' => 'string', 'location' => 'xml', ),
                                 'CallbackType' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'Freeze' => array(
+                                    'location' => 'xml',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'PornScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                        'AdsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                        'IllegalScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                        'AbuseScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                        'PoliticsScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                        'TerrorismScore' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                    ),
+                                ),
                             ),
                         ),
                     ),
@@ -3792,6 +3804,7 @@ class Service {
                 'GetFileUncompressResult' => Descriptions::GetFileUncompressResult(), // 查询文件解压结果
                 'CreateFileCompressJobs' => Descriptions::CreateFileCompressJobs(), // 提交多文件打包压缩任务
                 'GetFileCompressResult' => Descriptions::GetFileCompressResult(), // 查询多文件打包压缩结果
+                'CreateM3U8PlayListJobs' => Descriptions::CreateM3U8PlayListJobs(), // 查询多文件打包压缩结果
             ),
             'models' => array(
                 'AbortMultipartUploadOutput' => array(
@@ -7401,6 +7414,7 @@ class Service {
                 'GetFileUncompressResultOutput' => Descriptions::GetFileUncompressResultOutput(),
                 'CreateFileCompressJobsOutput' => Descriptions::CreateFileCompressJobsOutput(),
                 'GetFileCompressResultOutput' => Descriptions::GetFileCompressResultOutput(),
+                'CreateM3U8PlayListJobsOutput' => Descriptions::CreateM3U8PlayListJobsOutput(),
             )
         );
     }
