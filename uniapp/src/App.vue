@@ -17,5 +17,6 @@ onLaunch(async () => {
 <style lang="scss">
 // #ifdef H5
 * { touch-action: pan-y; }
+
 // #endif
 </style>
