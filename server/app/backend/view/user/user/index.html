@@ -56,11 +56,13 @@
                 </div>
             </script>
             <script type="text/html" id="table-info">
-                <img src="{{d.avatar}}" alt="头像" style="height:80px; width:80px; margin-right:10px;">
+                <div class="table-image-wrap size-80-80 mr-10">
+                    <img src="{{d.avatar}}" alt="头像" class="previewImage">
+                </div>
                 <div class="layui-input-inline" style="width:145px;">
-                    <p>编号：{{d.sn || '未知'}}</p>
-                    <p>昵称：{{d.nickname || '未知'}}</p>
-                    <p>电话：{{d.mobile || '无'}}</p>
+                    <p>编号：{{d.sn || '-'}}</p>
+                    <p>昵称：{{d.nickname || '-'}}</p>
+                    <p>电话：{{d.mobile || '-'}}</p>
                 </div>
             </script>
             <script type="text/html" id="table-disable">
