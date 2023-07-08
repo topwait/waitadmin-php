@@ -70,10 +70,16 @@
                 <u-divider>其它登录方式</u-divider>
                 <view class="flex justify-center mt-40">
                     <button
-                        v-if="wayInclude(LoginAuthEnum.WX) && isWeixin"
+                        v-if="wayInclude(LoginAuthEnum.WX) && isWeixin && isAuthsMobile"
                         open-type="getPhoneNumber"
                         style="background-color: #ffffff;"
                         @getphonenumber="onWxLogin"
+                    >
+                        <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
+                    </button>
+                    <button
+                        v-else-if="wayInclude(LoginAuthEnum.WX) && isWeixin && !isAuthsMobile"
+                        style="background-color: #ffffff;"
                         @click="onWxLogin"
                     >
                         <u-icon name="weixin-circle-fill" color="#19d46b" size="80" />
@@ -162,6 +168,15 @@ const isForceMobileUa = computed(() => appStore.loginConfigVal.force_mobile === 
 const isOpenAgreement = computed(() => appStore.loginConfigVal.is_agreement === 1)
 const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other.length)
 
+// 授权手机
+const isAuthsMobile = ref(false)
+
+// #ifdef MP-WEIXIN
+if (appStore.loginConfigVal.auths_mobile === 1) {
+    isAuthsMobile.value = true
+}
+// #endif
+
 // 绑定手机
 const showPopup = ref(false)
 const phoneForm = {
@@ -195,9 +210,7 @@ onShow(async () => {
         if (userStore.isLogin) {
             uni.navigateBack()
         }
-    } catch (error) {
-        uni.hideLoading()
-    }
+    } catch (e) { }
 })
 
 // 验证码(登录)
@@ -306,6 +319,8 @@ const onSaLogin = (scene) => {
 
     $loginApi(params).then(async result => {
         __loginHandle(result)
+    }).catch(() => {
+        loading.value = false
     })
 }
 
@@ -314,18 +329,20 @@ const onWxLogin = async (e) => {
     // #ifdef MP-WEIXIN
     const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
-    LoginApi.$loginApi({
+    const result = await $loginApi({
         scene: LoginSceneEnum.WX,
         code: code,
         wxCode: wxCode
-    }).then(result => {
-        if (result.code === 1) {
-            phoneForm.sign = result.data.sign
-            showPopup.value = true
-        } else {
-            __loginHandle(result)
-        }
+    }).catch(() => {
+        loading.value = false
     })
+
+    if (result.code === 1) {
+        phoneForm.sign = result.data.sign
+        showPopup.value = true
+    } else {
+        __loginHandle(result)
+    }
     // #endif
 
     // #ifdef H5
@@ -354,26 +371,21 @@ const onOaLogin = async (code) => {
 // 处理登录
 const __loginHandle = (result) => {
     if (result.code !== 0) {
-        uni.$u.toast(result.msg)
-        return false
+        return uni.$u.toast(result.msg)
     }
 
     userStore.login(result.data.token)
-    setTimeout(() => {
-        uni.$u.toast('登录成功')
-    }, 100)
-
     const pages = toolUtil.currentPage()
     if (pages.length > 1) {
         const prevPage = pages.at(-2)
-        uni.navigateBack({
+        return uni.navigateBack({
             success: () => {
                 const { onLoad, options } = prevPage
                 onLoad && onLoad(options)
             }
         })
     } else {
-        uni.reLaunch({
+        return uni.reLaunch({
             url: '/pages/index/index'
         })
     }

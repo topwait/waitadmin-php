@@ -41,7 +41,7 @@
 <script setup>
 import { ref } from 'vue'
 import IndexApi from '@/api/IndexApi'
-import UserApi from '@/api/UserApi'
+import LoginApi from '@/api/LoginApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -72,7 +72,7 @@ const onSendSms = async () => {
 
     if (uCodeRef.value?.canGetCode) {
         await IndexApi.sendSms({
-            scene: smsEnum.LOGIN,
+            scene: smsEnum.REGISTER,
             mobile: form.value.mobile
         })
         uCodeRef.value?.start()
@@ -101,7 +101,7 @@ const onRegister = async () => {
         return uni.$u.toast('两次密码不一致')
     }
 
-    await UserApi.register(form)
+    await LoginApi.register(form.value)
     uni.$u.toast('注册成功')
     uni.navigateBack()
 }

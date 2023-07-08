@@ -31,6 +31,14 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="asterisk">*</span>微信授权手机:</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="auths_mobile" value="1" title="开启" {if $detail.auths_mobile==1}checked{/if}>
+                        <input type="radio" name="auths_mobile" value="0" title="关闭" {if $detail.auths_mobile==0}checked{/if}>
+                        <div class="layui-form-mid layui-word-aux float-none">仅微信环境下生效,默认短信方式,强制绑定手机时生效</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label"><span class="asterisk">*</span>通用登录方式:</label>
                     <div class="layui-input-block">
                         <input type="checkbox" name="login_modes[]" value="1" title="手机短信登录" lay-skin="primary" {if in_array(1, $detail.login_modes)}checked{/if}>
@@ -64,7 +72,6 @@
         let form = layui.form;
 
         form.on('submit(addForm)', function(data) {
-            waitUtil.locking(this)
             layer.confirm('确定保存当前配置吗?', function (index) {
                 layer.close(index);
                 waitUtil.ajax({

@@ -575,8 +575,9 @@ INSERT INTO `wait_sys_config` VALUES (52, 'h5', 'status', '1', 'H5状态', 16653
 INSERT INTO `wait_sys_config` VALUES (53, 'h5', 'close_url', '', 'H5关闭页面', 1665319505, 1679125300);
 INSERT INTO `wait_sys_config` VALUES (60, 'login', 'is_agreement', '1', '显示登录协议', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (61, 'login', 'force_mobile', '1', '强制绑定手机', 1665319505, 1665319505);
-INSERT INTO `wait_sys_config` VALUES (62, 'login', 'login_modes', '[\"1\",\"2\"]', '通用登录方式', 1665319505, 1665319505);
-INSERT INTO `wait_sys_config` VALUES (63, 'login', 'login_other', '[\"1\"]', '第三方登录', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (62, 'login', 'auths_mobile', '0', '微信授权手机', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (63, 'login', 'login_modes', '[\"1\",\"2\"]', '通用登录方式', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (64, 'login', 'login_other', '[\"1\"]', '第三方登录', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (70, 'mail', 'smtp_type', 'smtp', '邮件方式', 1665319505, 1679046920);
 INSERT INTO `wait_sys_config` VALUES (71, 'mail', 'smtp_host', 'smtp.163.com', 'SMTP服务', 1665319505, 1679046920);
 INSERT INTO `wait_sys_config` VALUES (72, 'mail', 'smtp_port', '25', 'SMTP端口', 1665319505, 1679046920);

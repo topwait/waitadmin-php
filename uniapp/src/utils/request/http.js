@@ -20,9 +20,10 @@ const install = (Vue) => {
         const result = response.data
         const { logout } = useUserStore()
 
+        const isStructure = response.header.structure || response.header.Structure
         switch (result.code) {
             case errorEnum.SUCCESS:
-                return response.header.Structure ? result : result.data
+                return isStructure ? result : result.data
             case errorEnum.SYSTEM_ERROR:
             case errorEnum.PARAMS_ERROR:
             case errorEnum.METHOD_ERROR:
@@ -36,12 +37,11 @@ const install = (Vue) => {
             case errorEnum.LOGIN_EMPTY_ERROR:
             case errorEnum.LOGIN_EXPIRE_ERROR:
                 logout()
-                uni.navigateTo({url: '/pages/login/enroll'})
+                uni.navigateTo({ url: '/pages/login/enroll' })
                 return Promise.reject(result)
             default:
-                return Promise.reject(result)
+                return result
         }
-
     }
 }
 

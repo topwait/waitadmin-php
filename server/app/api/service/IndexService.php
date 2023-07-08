@@ -69,6 +69,7 @@ class IndexService extends Service
         $detail['login'] = [
             'is_agreement' => intval($loginConfig['is_agreement']??0),
             'force_mobile' => intval($loginConfig['force_mobile']??0),
+            'auths_mobile' => intval($loginConfig['auths_mobile']??0),
             'login_modes'  => $loginModes??[],
             'login_other'  => $loginOther??[],
         ];
