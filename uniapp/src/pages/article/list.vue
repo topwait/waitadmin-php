@@ -37,7 +37,7 @@ const currentInstance = getCurrentInstance()
 const keyword = ref('')
 
 onLoad(() => {
-    queryCategory()
+    queryCategoryList()
 })
 
 const onSearch = (e) => {
@@ -60,7 +60,7 @@ const animations = (e) => {
     current.value = index
 }
 
-const queryCategory = async () => {
+const queryCategoryList = async () => {
     tabList.value = await ArticleApi.category()
 }
 </script>
