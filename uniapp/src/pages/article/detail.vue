@@ -16,7 +16,7 @@
 <script setup>
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import ArticleApi from '@/api/articleApi'
+import ArticleApi from '@/api/ArticleApi'
 
 const detail = ref({})
 

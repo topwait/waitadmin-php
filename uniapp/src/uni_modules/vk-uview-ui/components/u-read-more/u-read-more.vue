@@ -111,15 +111,26 @@
 			return {
 				isLongContent: false, // 是否需要隐藏一部分内容
 				showMore: false, // 当前隐藏与显示的状态，true-显示，false-收起
-				elId: this.$u.guid(), // 生成唯一class
+				elId: this.$u ? this.$u.guid() : uni.$u.guid(), // 生成唯一class
 			};
 		},
 		mounted() {
 			this.$nextTick(() => {
 				this.init();
+				this.createIntersectionObserver();
 			})
 		},
 		methods: {
+			createIntersectionObserver() {
+				try {
+					const observer = uni.createIntersectionObserver(this);
+					observer.relativeToViewport().observe('.u-content', (res) => {
+						const { height } = res.intersectionRect;
+						//console.log('元素的高度：', height);
+						this.init();
+					});
+				} catch(err){}
+			},
 			init() {
 				this.$uGetRect('.' + this.elId).then(res => {
 					// 判断高度，如果真实内容高度大于占位高度，则显示收起与展开的控制按钮

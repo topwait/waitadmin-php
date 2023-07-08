@@ -24,13 +24,21 @@ export default class {
      * 发送短信
      */
     static sendSms(params) {
-        return uni.$u.http.post('index/sendSms', params)
+        const param = {
+            scene: params.scene,
+            mobile: params.mobile
+        }
+        return uni.$u.http.post('index/sendSms', param)
     }
 
     /**
      * 发送邮件
      */
     static sendEmail(params) {
-        return uni.$u.http.post('index/sendEmail', params)
+        const param = {
+            scene: params.scene,
+            email: params.email
+        }
+        return uni.$u.http.post('index/sendEmail', param)
     }
 }

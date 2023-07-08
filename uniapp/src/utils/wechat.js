@@ -1,5 +1,5 @@
 import weixin from 'weixin-js-sdk'
-import LoginApi from '@/api/loginApi'
+import LoginApi from '@/api/LoginApi'
 import clientUtil from '@/utils/clientUtil'
 
 const wechatOa = {

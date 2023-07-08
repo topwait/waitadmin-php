@@ -26,7 +26,7 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import ArticleApi from '@/api/articleApi'
+import ArticleApi from '@/api/ArticleApi'
 import ArticlePagInList from './component/article-pagin-list'
 import ArticleSearchInput from './component/article-search-input'
 

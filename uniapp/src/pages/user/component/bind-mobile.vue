@@ -25,8 +25,8 @@
 
 <script setup>
 import { ref, defineEmits } from 'vue'
-import IndexApi from '@/api/indexApi'
-import UserApi from '@/api/userApi'
+import IndexApi from '@/api/IndexApi'
+import UserApi from '@/api/UserApi.js'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 

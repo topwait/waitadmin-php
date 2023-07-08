@@ -7,7 +7,7 @@
         :data-key="swiperIndex"
         :fixed="false"
         height="100%"
-        @query="queryList"
+        @query="queryArticleList"
     >
         <view class="layout-article-widget">
             <view v-for="(item, index) in dataList" :key="index" class="item" @click="$go('/pages/article/detail?id='+item.id)">
@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, watch, nextTick } from 'vue'
-import ArticleApi from '@/api/articleApi'
+import ArticleApi from '@/api/ArticleApi'
 
 const paging = ref(null)
 const isFirst = ref(false)
@@ -76,7 +76,7 @@ watch(
     }
 )
 
-const queryList = async (pageNo, pageSize) => {
+const queryArticleList = async (pageNo, pageSize) => {
     const params = {
         cid: props.cid,
         pageNo,

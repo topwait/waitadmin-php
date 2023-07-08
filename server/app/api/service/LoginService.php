@@ -25,7 +25,6 @@ use app\common\model\user\User;
 use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 登录服务类
@@ -42,7 +41,6 @@ class LoginService extends Service
      * @throws Exception
      * @author zero
      */
-    #[ArrayShape(['token' => "string"])]
     public static function register(array $post, int $terminal): array
     {
         // 接收参数
@@ -66,7 +64,7 @@ class LoginService extends Service
 
         // 登录账号
         $token = UserWidget::granToken($userId, $terminal);
-        return ['token'=>$token];
+        return ['token'=>$token] ?? [];
     }
 
     /**
@@ -79,7 +77,6 @@ class LoginService extends Service
      * @throws OperateException
      * @author zero
      */
-    #[ArrayShape(['token' => "string"])]
     public static function accountLogin(string $account, string $password, int $terminal): array
     {
         // 查询账户
@@ -109,7 +106,7 @@ class LoginService extends Service
 
         // 登录账户
         $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
-        return ['token'=>$token];
+        return ['token'=>$token] ?? [];
     }
 
     /**
@@ -122,7 +119,6 @@ class LoginService extends Service
      * @throws OperateException
      * @author zero
      */
-    #[ArrayShape(['token' => "string"])]
     public static function mobileLogin(string $mobile, string $code, int $terminal): array
     {
         // 短信验证
@@ -151,7 +147,7 @@ class LoginService extends Service
 
         // 登录账户
         $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
-        return ['token'=>$token];
+        return ['token'=>$token] ?? [];
     }
 
     /**
@@ -166,7 +162,6 @@ class LoginService extends Service
      * @throws Exception
      * @author zero
      */
-    #[ArrayShape(['token' => "string"])]
     public static function baLogin(string $mobile, string $code, string $sign, int $terminal): array
     {
         // 短信验证
@@ -195,7 +190,7 @@ class LoginService extends Service
 
         // 登录账户
         $token = UserWidget::granToken($userId, $terminal);
-        return ['token'=>$token];
+        return ['token'=>$token] ?? [];
     }
 
     /**
@@ -208,7 +203,6 @@ class LoginService extends Service
      * @throws Exception
      * @author zero
      */
-    #[ArrayShape(['token' => "string"])]
     public static function wxLogin(string $code, string $wxCode, int $terminal): array
     {
         // 微信授权
@@ -232,7 +226,7 @@ class LoginService extends Service
 
         // 登录账户
         $token = UserWidget::granToken($userId, $terminal);
-        return ['token'=>$token];
+        return ['token'=>$token] ?? [];
     }
 
     /**
@@ -245,7 +239,6 @@ class LoginService extends Service
      * @throws Exception
      * @author zero
      */
-    #[ArrayShape(['token' => "string"])]
     public static function oaLogin(string $code, string $state, int $terminal): array
     {
         $check = OaUrlCache::get($state);
@@ -267,7 +260,7 @@ class LoginService extends Service
 
         // 登录账户
         $token = UserWidget::granToken($userId, $terminal);
-        return ['token'=>$token];
+        return ['token'=>$token] ?? [];
     }
 
     /**
@@ -278,12 +271,11 @@ class LoginService extends Service
      * @throws Exception
      * @author zero
      */
-    #[ArrayShape(['url' => "string"])]
     public static function oaCodeUrl(string $url): array
     {
         $state = md5(time().rand(10000, 99999));
         OaUrlCache::set($state);
 
-        return ['url'=>WeChatService::oaBuildAuthUrl($url, $state)];
+        return ['url'=>WeChatService::oaBuildAuthUrl($url, $state)] ?? [];
     }
 }

@@ -37,7 +37,7 @@
 				</view>
 				<view class="u-select__body">
 					<picker-view @change="columnChange" class="u-select__body__picker-view" :value="defaultSelector" @pickstart="pickstart" @pickend="pickend">
-						<picker-view-column v-for="(item, index) in columnData" :key="index">
+						<picker-view-column v-if="showColumnCom" v-for="(item, index) in columnData" :key="index">
 							<view class="u-select__body__picker-view__item" v-for="(item1, index1) in item" :key="index1">
 								<view class="u-line-1">{{ item1[labelName] }}</view>
 							</view>
@@ -182,31 +182,46 @@ export default {
 			// 列数
 			columnNum: 0,
 			// 列是否还在滑动中，微信小程序如果在滑动中就点确定，结果可能不准确
-			moving: false
+			moving: false,
+			reset: false,
 		};
 	},
 	watch: {
 		// 在select弹起的时候，重新初始化所有数据
-		value: {
+		valueCom: {
 			immediate: true,
 			handler(val) {
-				if(val) setTimeout(() => this.init(), 10);
-        this.popupValue = val;
+				if (val) {
+					this.reset = true;
+					setTimeout(() => this.init(), 10);
+				} 
+				this.popupValue = val;
 			}
-		},
-    modelValue: {
-    	immediate: true,
-    	handler(val) {
-    		if(val) setTimeout(() => this.init(), 10);
-        this.popupValue = val;
-    	}
-    },
+		}
 	},
 	computed: {
 		uZIndex() {
 			// 如果用户有传递z-index值，优先使用
 			return this.zIndex ? this.zIndex : this.$u.zIndex.popup;
 		},
+		valueCom() {
+			// #ifndef VUE3
+			return this.value;
+			// #endif
+		
+			// #ifdef VUE3
+			return this.modelValue;
+			// #endif
+		},
+		// 用来兼容小程序、App、h5
+		showColumnCom(){
+			// #ifdef MP
+			return !this.reset;
+			// #endif
+			// #ifndef MP
+			return true;
+			// #endif
+		}
 	},
 	methods: {
 		// 标识滑动开始，只有微信小程序才有这样的事件
@@ -222,6 +237,7 @@ export default {
 			// #endif
 		},
 		init() {
+			this.reset = false;
 			this.setColumnNum();
 			this.setDefaultSelector();
 			this.setColumnData();
@@ -283,11 +299,12 @@ export default {
 			for(let i = 0; i < this.columnNum; i++) {
 				tmp = this.columnData[i][this.defaultSelector[i]];
 				let data = {
+					index: this.defaultSelector[i],
 					value: tmp ? tmp[this.valueName] : null,
 					label: tmp ? tmp[this.labelName] : null
 				};
 				// 判断是否存在额外的参数，如果存在，就返回
-				if(tmp && tmp.extra) data.extra = tmp.extra;
+				if(tmp && tmp.extra !== undefined) data.extra = tmp.extra;
 				this.selectValue.push(data)
 			}
 		},
@@ -315,13 +332,13 @@ export default {
 				columnIndex.map((item, index) => {
 					let data = this.columnData[index][columnIndex[index]];
 					let tmp = {
+						index: columnIndex[index],
 						value: data ? data[this.valueName] : null,
 						label: data ? data[this.labelName] : null,
 					};
 					// 判断是否有需要额外携带的参数
 					if(data && data.extra !== undefined) tmp.extra = data.extra;
 					this.selectValue.push(tmp);
-
 				})
 				// 保存这一次的结果，用于下次列发生变化时作比较
 				this.lastSelectIndex = columnIndex;
@@ -329,25 +346,29 @@ export default {
 				let data = this.columnData[0][columnIndex[0]];
 				// 初始默认选中值
 				let tmp = {
+					index: columnIndex[0],
 					value: data ? data[this.valueName] : null,
 					label: data ? data[this.labelName] : null,
 				};
 				// 判断是否有需要额外携带的参数
 				if(data && data.extra !== undefined) tmp.extra = data.extra;
 				this.selectValue.push(tmp);
+				this.lastSelectIndex = columnIndex;
 			} else if(this.mode == 'mutil-column') {
 				// 初始默认选中值
 				columnIndex.map((item, index) => {
 					let data = this.columnData[index][columnIndex[index]];
 					// 初始默认选中值
 					let tmp = {
+						index: columnIndex[index],
 						value: data ? data[this.valueName] : null,
 						label: data ? data[this.labelName] : null,
 					};
 					// 判断是否有需要额外携带的参数
 					if(data && data.extra !== undefined) tmp.extra = data.extra;
 					this.selectValue.push(tmp);
-				})
+				});
+				this.lastSelectIndex = columnIndex;
 			}
 		},
 		close() {

@@ -20,7 +20,7 @@
 <script setup>
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
-import DesignApi from '@/api/designApi'
+import DesignApi from '@/api/DesignApi'
 
 const diyItems = ref({})
 

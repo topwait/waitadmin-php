@@ -37,8 +37,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import IndexApi from '@/api/indexApi'
-import UserApi from '@/api/userApi'
+import IndexApi from '@/api/IndexApi'
+import UserApi from '@/api/UserApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 

@@ -32,7 +32,7 @@ import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/userStore'
-import DesignApi from '@/api/designApi'
+import DesignApi from '@/api/DesignApi'
 import UserApi from '@/api/userApi'
 
 const userStore = useUserStore()

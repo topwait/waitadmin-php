@@ -7,7 +7,7 @@
 <script setup>
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import IndexApi from '@/api/indexApi'
+import IndexApi from '@/api/IndexApi'
 
 const content = ref('')
 
