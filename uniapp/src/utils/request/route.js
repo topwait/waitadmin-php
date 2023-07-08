@@ -18,12 +18,12 @@ export default {
             case 'to':
                 return uni.navigateTo({ url: url })
             case 'tab':
-                return uni.switchTab({ url: url})
+                return uni.switchTab({ url: url })
             case 'back':
                 if (url === undefined) {
                     return uni.navigateBack({})
                 }
-                return uni.navigateBack({ url: url})
+                return uni.navigateBack({ url: url })
         }
     },
     intercept() {
