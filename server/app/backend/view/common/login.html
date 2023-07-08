@@ -92,13 +92,6 @@
             });
         });
 
-        // 回车事件
-        $(document).keyup(function(event){
-            if(event.keyCode === 13){
-                $('#login').trigger('click');
-            }
-        });
-
         // 取出密码自动填充
         let user = localStorage.getItem('keyName');
         let pass = localStorage.getItem('keyPass');
