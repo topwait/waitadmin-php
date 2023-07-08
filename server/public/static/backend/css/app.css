@@ -138,6 +138,10 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .line-h-38 { line-height: 38px; }
 .line-h-40 { line-height: 40px; }
 
+/** 文本换行 **/
+.word-nowrap { white-space:nowrap; }
+.word-break { word-break:break-all; white-space:pre-wrap; }
+
 /** 宽度比例 **/
 .w-scale-2 { width: 50%; }
 .w-scale-3 { width: 33.333%; }

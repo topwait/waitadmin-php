@@ -4,6 +4,19 @@
 <style>
     .layui-form-label { width: 95px; }
     .layui-table { width: 415px; }
+    @media screen and (max-width: 450px) {
+        .layui-form-item .layui-input-inline {
+            margin-left: 125px;
+        }
+        .layui-form-item .layui-input-inline+.layui-form-mid {
+            margin-left: 125px;
+        }
+    }
+    @media screen and (max-width: 600px) {
+        .layui-form-mid {
+            margin-left: 125px !important;
+        }
+    }
 </style>
 {/block}
 
@@ -54,7 +67,7 @@
                 <div class="layui-input-inline">
                     <input type="text" id="fonts" name="fonts" value="{$detail.fonts}" class="layui-input" autocomplete="off">
                 </div>
-                <div class="layui-form-mid layui-word-aux">开启文字水印时生效</div>
+                <div class="layui-form-mid layui-word-aux word-nowrap">开启文字水印时生效</div>
             </div>
             <!-- 水印字体大小 -->
             <div class="layui-form-item">
@@ -62,7 +75,7 @@
                 <div class="layui-input-inline">
                     <input type="number" id="size" name="size" value="{$detail.size}" class="layui-input" autocomplete="off">
                 </div>
-                <div class="layui-form-mid layui-word-aux">文字的大小，示例值: 16</div>
+                <div class="layui-form-mid layui-word-aux word-nowrap">文字的大小, 示例值: 16</div>
             </div>
             <!-- 水印字体颜色 -->
             <div class="layui-form-item">
@@ -70,7 +83,7 @@
                 <div class="layui-input-inline">
                     <input type="text" id="color" name="color" value="{$detail.color}" class="layui-input" autocomplete="off">
                 </div>
-                <div class="layui-form-mid layui-word-aux">文字的颜色，默认值是#000000</div>
+                <div class="layui-form-mid layui-word-aux word-nowrap">文字的颜色, 默认值是#000000</div>
             </div>
             <!-- 水印字体偏移 -->
             <div class="layui-form-item">
@@ -78,7 +91,7 @@
                 <div class="layui-input-inline">
                     <input type="text" id="offset" name="offset" value="{$detail.offset}" class="layui-input" autocomplete="off">
                 </div>
-                <div class="layui-form-mid layui-word-aux">文字相对当前位置的偏移量，默认值是0</div>
+                <div class="layui-form-mid layui-word-aux word-nowrap">文字相对当前位置的偏移量(默认0)</div>
             </div>
             <!-- 水印字体倾斜 -->
             <div class="layui-form-item">
@@ -86,7 +99,7 @@
                 <div class="layui-input-inline">
                     <input type="text" id="angle" name="angle" value="{$detail.angle}" class="layui-input" autocomplete="off">
                 </div>
-                <div class="layui-form-mid layui-word-aux">字体的倾斜角度，默认值是0</div>
+                <div class="layui-form-mid layui-word-aux word-nowrap">字体的倾斜角度，默认值是0</div>
             </div>
             <!-- 水印图透明度 -->
             <div class="layui-form-item">
@@ -94,12 +107,12 @@
                 <div class="layui-input-inline">
                     <input type="number" id="alpha" name="alpha" value="{$detail.alpha}" class="layui-input" autocomplete="off">
                 </div>
-                <div class="layui-form-mid layui-word-aux">透明度取值0~100，默认值是100</div>
+                <div class="layui-form-mid layui-word-aux word-nowrap">透明度取值0~100，默认值是100</div>
             </div>
             <!-- 水印位置 -->
             <div class="layui-form-item">
                 <label class="layui-form-label">水印位置：</label>
-                <div class="layui-input-block">
+                <div class="layui-input-block" style="overflow-x: auto;">
                     <table class="layui-table">
                         <tbody>
                             <tr>
