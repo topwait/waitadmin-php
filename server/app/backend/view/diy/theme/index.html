@@ -1,0 +1,74 @@
+{extend name="common/layout" /}
+
+{block name="style"}
+<style>
+    .theme-radio-group { display: flex; padding: 20px 0 20px 30px; }
+    .theme-radio-group .theme-radio-title { margin-right: 10px; color: #515a6e; }
+    .theme-radio-group .theme-radio-body { display: flex; }
+    .theme-radio-group .item { display: flex; align-items: center; justify-content: center; margin-right: 20px; width: 120px; height: 50px; color: #666666; border: 1px solid #dcdee2; border-radius: 4px; text-align: center; line-height: 40px; }
+    .theme-radio-group .item.active { border-color: #2d8cf0; }
+    .theme-radio-group .item .color {margin-right: 10px;width: 20px;height: 20px;border: 0;border-radius: 3px;}
+    .theme-radio-group .item .color.blue { background-color: #1db0fc; }
+    .theme-radio-group .item .color.red { background-color: #e93323; }
+    .theme-radio-group .item .color.green {  background-color: #42ca4d; }
+    .theme-radio-group .image { width: 800px; height: 100%; }
+</style>
+{/block}
+
+{block name="body"}
+<div class="container layui-form">
+    <div class="layui-card">
+        <div class="layui-card-header">主题风格</div>
+        <div class="layui-card-body">
+            <!-- 选择配色方案 -->
+            <div class="theme-radio-group">
+                <div class="theme-radio-title">选择配色方案：</div>
+                <div class="theme-radio-body">
+                    <div class="item {if $detail.type=='blue'}active{/if}" data-type="blue">
+                        <span class="color blue"></span>
+                        <div class="text">天空蓝</div>
+                    </div>
+                    <div class="item {if $detail.type=='red'}active{/if}" data-type="red">
+                        <span class="color red"></span>
+                        <div class="text">热情红</div>
+                    </div>
+                    <div class="item {if $detail.type=='green'}active{/if}" data-type="green">
+                        <span class="color green"></span>
+                        <div class="text">生鲜绿</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 当前风格示例 -->
+            <div class="theme-radio-group">
+                <div class="theme-radio-title">当前风格示例：</div>
+                <div class="theme-radio-body">
+                    <div class="image">
+                        <img class="w-h-full" src="__BACKEND__/images/diy/theme-blue.jpg" alt="blue">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(function () {
+        let $ = layui.$;
+
+        $(document).on('click', '.theme-radio-body .item', function () {
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+
+            const type = $(this).attr('data-type');
+            waitUtil.ajax({
+                url: '{:route("diy.theme/save")}',
+                type: 'POST',
+                data: {type: type, color: '#2b85e4'}
+            });
+        });
+    })
+</script>
+{/block}
