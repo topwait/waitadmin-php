@@ -1,5 +1,5 @@
 <template>
-    <view>
+    <view :class="themeName">
         <view class="layout-header-widget">
             <view class="grid-skinny-unit">
                 <view class="flex items-center">

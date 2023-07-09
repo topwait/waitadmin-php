@@ -1,6 +1,8 @@
 <template>
-    <view class="layout-policy-widget">
-        <u-parse :html="content" />
+    <view :class="themeName">
+        <view class="layout-policy-widget">
+            <u-parse :html="content" />
+        </view>
     </view>
 </template>
 
@@ -29,7 +31,6 @@ onLoad((options) => {
 const queryPolicy = async (type) => {
     try {
         const data = await IndexApi.policy({ type })
-        console.log(data)
         content.value = data.content
     } catch (e) {
         return false

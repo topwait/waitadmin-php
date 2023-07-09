@@ -26,7 +26,9 @@
             </template>
         </u-form-item>
     </u-form>
-    <w-button pt="30" pb="30" @on-click="onPwdEdit()">确定</w-button>
+    <view class="py-30">
+        <u-button type="normal" shape="circle" @click="onPwdEdit()">确定</u-button>
+    </view>
 </template>
 
 <script setup>

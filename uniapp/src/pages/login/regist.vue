@@ -1,39 +1,41 @@
 <template>
-    <view class="layout-regist-widget">
-        <view class="head">
-            <view class="title">注册账号</view>
-        </view>
-        <view class="form">
-            <u-form ref="uForm" :model="form">
-                <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
-                </u-form-item>
-                <u-form-item left-icon="fingerprint" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
-                </u-form-item>
-                <u-form-item left-icon="fingerprint" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.againPwd" type="password" placeholder="请再次确认密码" />
-                </u-form-item>
-                <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
-                </u-form-item>
-                <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
-                    <template #right>
-                        <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
-                        <u-button
-                            :plain="true"
-                            type="primary"
-                            hover-class="none"
-                            size="mini"
-                            shape="circle"
-                            @click="onSendSms()"
-                        >{{ codeTips }}
-                        </u-button>
-                    </template>
-                </u-form-item>
-            </u-form>
-            <w-button pt="60" @on-click="onRegister()">注册账号</w-button>
+    <view :class="themeName">
+        <view class="layout-regist-widget">
+            <view class="head">
+                <view class="title">注册账号</view>
+            </view>
+            <view class="form">
+                <u-form ref="uForm" :model="form">
+                    <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
+                    </u-form-item>
+                    <u-form-item left-icon="fingerprint" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
+                    </u-form-item>
+                    <u-form-item left-icon="fingerprint" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.againPwd" type="password" placeholder="请再次确认密码" />
+                    </u-form-item>
+                    <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
+                    </u-form-item>
+                    <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
+                        <template #right>
+                            <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
+                            <u-button
+                                :plain="true"
+                                type="primary"
+                                hover-class="none"
+                                size="mini"
+                                shape="circle"
+                                @click="onSendSms()"
+                            >{{ codeTips }}
+                            </u-button>
+                        </template>
+                    </u-form-item>
+                </u-form>
+                <w-button pt="60" @on-click="onRegister()">注册账号</w-button>
+            </view>
         </view>
     </view>
 </template>

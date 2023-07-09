@@ -1,11 +1,16 @@
 <template>
-    <view class="layout-about-widget">
-        <view class="icon">
-            <u-icon name="star-fill" size="100" color="#fff" />
+    <view :class="themeName">
+        <view class="layout-about-widget">
+            <view class="icon">
+                <u-icon name="star-fill" size="100" color="#fff" />
+            </view>
+            <view class="version">v1.3.0</view>
         </view>
-        <view class="version">v1.3.0</view>
     </view>
 </template>
+
+<script setup>
+</script>
 
 <style lang="scss">
 .layout-about-widget {

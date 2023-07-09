@@ -20,7 +20,9 @@
             </template>
         </u-form-item>
     </u-form>
-    <w-button pt="30" pb="30" @on-click="onBindEmail()">确定</w-button>
+    <view class="py-30">
+        <u-button type="normal" shape="circle" @click="onBindEmail()">确定</u-button>
+    </view>
 </template>
 
 <script setup>

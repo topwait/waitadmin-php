@@ -1,26 +1,28 @@
 <template>
-    <z-paging-swiper>
-        <template #top>
-            <ArticleSearchInput @search="onSearch" />
-            <u-tabs-swiper
-                ref="uTabs"
-                inactive-color="#999999"
-                :list="tabList"
-                :current="current"
-                @change="tabChange"
-            />
-        </template>
-        <swiper :current="swiperCurrent" style="height: 100%;" @transition="transition" @animationfinish="animations">
-            <swiper-item v-for="(item, index) in tabList" :key="index">
-                <ArticlePagInList
-                    :cid="item.id"
-                    :keyword="keyword"
-                    :tab-index="current"
-                    :swiper-index="index"
+    <view :class="themeName">
+        <z-paging-swiper>
+            <template #top>
+                <ArticleSearchInput @search="onSearch" />
+                <u-tabs-swiper
+                    ref="uTabs"
+                    inactive-color="#999999"
+                    :list="tabList"
+                    :current="current"
+                    @change="tabChange"
                 />
-            </swiper-item>
-        </swiper>
-    </z-paging-swiper>
+            </template>
+            <swiper :current="swiperCurrent" style="height: 100%;" @transition="transition" @animationfinish="animations">
+                <swiper-item v-for="(item, index) in tabList" :key="index">
+                    <ArticlePagInList
+                        :cid="item.id"
+                        :keyword="keyword"
+                        :tab-index="current"
+                        :swiper-index="index"
+                    />
+                </swiper-item>
+            </swiper>
+        </z-paging-swiper>
+    </view>
 </template>
 
 <script setup>

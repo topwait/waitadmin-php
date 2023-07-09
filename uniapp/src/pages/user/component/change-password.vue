@@ -11,7 +11,9 @@
             <u-input v-model="form.ackPassword" placeholder="请再次确认密码" :border="false" />
         </u-form-item>
     </u-form>
-    <w-button pt="30" pb="30" @on-click="onPwdEdit()">确定</w-button>
+    <view class="py-30">
+        <u-button type="normal" shape="circle" @click="onPwdEdit()">确定</u-button>
+    </view>
 </template>
 
 <script setup>

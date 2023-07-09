@@ -1,24 +1,27 @@
 <template>
-    <block v-if="mod === 'normal'">
-        <view :class="[pt?('pt-'+pt):'', pb?('pb-'+pb):'']">
-            <button
-                class="button"
-                :class="[bgColor?bgColor:'', load?'load':'']"
-                @tap="$u.debounce(onClick, 200)"
-            >
-                <u-loading mode="flower" :show="loading" /> <slot></slot>
-            </button>
-        </view>
-    </block>
-
     <block v-if="mod === 'together'">
-        <view class="flex" :class="[pt?('pt-'+mt):'', pb?('pb-'+mb):'']">
-            <button class="button rounded-tr-0 rounded-br-0">
+        <view class="flex" :class="[
+            pt?('pt-'+pt):'', 
+            pb?('pb-'+pb):'',
+            pl?('pl-'+pl):'',
+            pr?('pb-'+pr):''
+        ]">
+            <u-button 
+                :type="btn1Type" 
+                shape='circle' 
+                class="w-h-full rounded-tr-0 rounded-br-0"
+                @tap="trigger"
+            >
                 <slot name="left"></slot>
-            </button>
-            <button class="button rounded-tl-0 rounded-bl-0">
+            </u-button> 
+            <u-button 
+                :type="btn2Type" 
+                shape='circle' 
+                class="w-h-full rounded-tl-0 rounded-bl-0"
+                @tap="trigger"
+            >
                 <slot name="right"></slot>
-            </button>
+            </u-button> 
         </view>
     </block>
 </template>
@@ -27,62 +30,49 @@
 import { ref, watch } from 'vue'
 import { defineEmits } from 'vue'
 
-const emit = defineEmits(['on-click'])
+const emit = defineEmits(['trigger'])
 const loading = ref(false)
 
 const props = defineProps({
-    // 渲染模式: [normal/together/stand]
+    // 渲染模式: [normal/together]
     mod: {
         type: String,
-        default: 'normal'
+        default: 'together'
     },
-    // 是否加载
-    load: {
-        type: Boolean,
-        default: false
-    },
-    // 顶部边距
+    // 顶内边距:  [0-100]
     pt: {
         type: String,
         default: null
     },
-    // 底部边距
+    // 底内边距:  [0-100]
     pb: {
         type: String,
         default: null
     },
-    // 背景颜色
-    bgColor: {
+    // 左内边距:  [0-100]
+    pl: {
         type: String,
         default: null
+    },
+    // 右内边距:  [0-100]
+    pr: {
+        type: String,
+        default: null
+    },
+    // 按钮1类型
+    btn1Type: {
+       type: String,
+       default: 'warning'
+    },
+    // 按钮2类型
+    btn2Type: {
+       type: String,
+       default: 'error' 
     }
 })
 
-// 监听属性
-watch(() => props.load,
-    (val) => {
-        loading.value = val
-    }, { immediate: true }
-)
-
 // 点击事件
 const onClick = () => {
-    emit('on-click')
+    emit('trigger')
 }
 </script>
-
-<style lang="scss">
-.button {
-    padding: 2rpx 0;
-    width: 100%;
-    font-size: 32rpx;
-    border-radius: 50rpx;
-    text-align: center;
-    color: #ffffff;
-    line-height: 2.3;
-    background-color: $uni-bg-theme;
-    &.load {
-        background-color: #5896ff;
-    }
-}
-</style>

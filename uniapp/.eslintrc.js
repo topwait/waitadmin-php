@@ -69,7 +69,7 @@ module.exports = {
         'quotes': ['warn', 'single', 'avoid-escape'],
         'switch-case-space': 'off',
         'switch-colon-spacing': 'off',
-        'switch-space': [4, 'always'],
+        'switch-space': [0, 'always'],
 
         'vue/require-default-prop': 0,
         'vue/multi-word-component-names': 0,

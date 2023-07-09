@@ -5,7 +5,9 @@
             <u-input v-model="formValue" placeholder="请输入昵称" :border="false" />
         </u-form-item>
     </u-form>
-    <w-button pt="30" pb="30" @on-click="onUpdateUser()">确定</w-button>
+    <view class="py-30">
+        <u-button type="normal" shape="circle" @click="onUpdateUser()">确定</u-button>
+    </view>
 </template>
 
 <script setup>
@@ -55,7 +57,7 @@ const onUpdateUser = async () => {
 
     emit('close')
     setTimeout(() => {
-        uni.$u.toast('修改成功')
+        uni.$u.toast('修改成功') 
     }, 100)
 }
 </script>

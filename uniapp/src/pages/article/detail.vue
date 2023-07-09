@@ -1,14 +1,16 @@
 <template>
-    <view class="layout-detail-widget">
-        <view class="header">
-            <view class="pb-30">{{ detail.title }}</view>
-            <view class="flex justify-between">
-                <view class="font-xs font-weight-thin color-main">发布时间: {{ detail.create_time }}</view>
-                <view class="font-xs font-weight-thin color-main">{{ detail.browse }}人浏览</view>
+    <view :class="themeName">
+        <view class="layout-detail-widget">
+            <view class="header">
+                <view class="pb-30">{{ detail.title }}</view>
+                <view class="flex justify-between">
+                    <view class="font-xs font-weight-thin color-main">发布时间: {{ detail.create_time }}</view>
+                    <view class="font-xs font-weight-thin color-main">{{ detail.browse }}人浏览</view>
+                </view>
             </view>
-        </view>
-        <view class="content">
-            <u-parse :html="detail.content" />
+            <view class="content">
+                <u-parse :html="detail.content" />
+            </view>
         </view>
     </view>
 </template>

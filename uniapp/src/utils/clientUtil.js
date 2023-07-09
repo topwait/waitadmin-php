@@ -9,7 +9,6 @@ export default {
         // #ifndef MP-WEIXIN
         try {
             let ua = navigator.userAgent.toLowerCase()
-            console.log(ua)
             if (ua.match(/MicroMessenger/i)[0] === 'micromessenger') {
                 wxBoolean = true
             } else {

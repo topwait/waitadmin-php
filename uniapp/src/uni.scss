@@ -1,10 +1,10 @@
 @import "@/uni_modules/vk-uview-ui/theme.scss";
 
 /* 背景颜色 */
+$uni-bg-theme: #2979ff;
 $uni-bg-pages: #f6f6f6;
 $uni-bg-white: #ffffff;
 $uni-bg-black: #000000;
-$uni-bg-theme: #2979ff;
 $uni-bg-muted: #2b85e4;
 $uni-bg-normal: #30cfff;
 $uni-bg-light: #ecf5ff;
@@ -14,9 +14,9 @@ $uni-bg-error: #dd524d;
 $uni-bg-mask: rgb(0 0 0 / 40%);
 
 /* 文字颜色 */
+$uni-color-theme: #2b85e4;
 $uni-color-white: #ffffff;
 $uni-color-black: #000000;
-$uni-color-theme: #2b85e4;
 $uni-color-main: #333333;
 $uni-color-text: #666666;
 $uni-color-muted: #999999;
