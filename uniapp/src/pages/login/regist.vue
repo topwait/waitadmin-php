@@ -117,8 +117,8 @@ const onRegister = async () => {
         .title {
             padding-top: 20rpx;
             font-size: 48rpx;
-            text-align: center;
             color: #ffffff;
+            text-align: center;
         }
     }
     .form {

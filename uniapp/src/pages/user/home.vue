@@ -83,10 +83,10 @@ onShow(async () => {
             padding: 8rpx;
             width: 170rpx;
             font-size: 28rpx;
+            color: #ffffff;
             border: 2rpx solid #ffffff;
             border-radius: 50rpx;
             text-align: center;
-            color: #ffffff;
         }
         .icon {
             margin-top: 14rpx;

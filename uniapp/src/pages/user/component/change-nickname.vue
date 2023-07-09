@@ -57,7 +57,7 @@ const onUpdateUser = async () => {
 
     emit('close')
     setTimeout(() => {
-        uni.$u.toast('修改成功') 
+        uni.$u.toast('修改成功')
     }, 100)
 }
 </script>

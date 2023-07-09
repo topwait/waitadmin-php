@@ -38,8 +38,8 @@ page { background: #ffffff; }
         padding: 30rpx;
         font-size: 36rpx;
         font-weight: bold;
-        border-bottom: 1rpx solid #f2f2f2;
         color: #333333;
+        border-bottom: 1rpx solid #f2f2f2;
     }
     .content {
         margin: 30rpx 20rpx;
