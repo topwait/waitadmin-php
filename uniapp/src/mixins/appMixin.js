@@ -1,5 +1,4 @@
 import { useAppStore } from '@/stores/appStore'
-import { initTheme } from '@dcloudio/uni-cli-shared'
 
 export default {
     data() {
@@ -10,7 +9,7 @@ export default {
     },
     async onLoad() {
         await this.$onLaunched
-        initTheme()
+        this.initTheme()
     },
     methods: {
         initTheme() {
@@ -18,8 +17,8 @@ export default {
             this.themeName = appStore.themeConfigVal.subject
             if (this.themeName) {
                 uni.setNavigationBarColor({
-                    frontColor: appStore.themeConfigVal.frontColor      || 'white',
-                    frontColor: appStore.themeConfigVal.backgroundColor || '#2979ff',
+                    frontColor: appStore.themeConfigVal.frontColor,
+                    backgroundColor: appStore.themeConfigVal.backgroundColor,
                 })
             }
         }
