@@ -24,17 +24,23 @@
             <div class="theme-radio-group">
                 <div class="theme-radio-title">选择配色方案：</div>
                 <div class="theme-radio-body">
-                    <div class="item {if $detail.type=='blue'}active{/if}" data-type="blue">
+                    <!-- 天空蓝 -->
+                    <div class="item {if $detail.type=='blue-theme'}active{/if}"
+                         data-subject="blue-theme"
+                         data-style="white"
+                         data-color="#2979ff"
+                    >
                         <span class="color blue"></span>
                         <div class="text">天空蓝</div>
                     </div>
-                    <div class="item {if $detail.type=='red'}active{/if}" data-type="red">
+                    <!-- 热情红 -->
+                    <div class="item {if $detail.type=='red-theme'}active{/if}"
+                         data-subject="red-theme"
+                         data-style="white"
+                         data-color="#ff5058"
+                    >
                         <span class="color red"></span>
                         <div class="text">热情红</div>
-                    </div>
-                    <div class="item {if $detail.type=='green'}active{/if}" data-type="green">
-                        <span class="color green"></span>
-                        <div class="text">生鲜绿</div>
                     </div>
                 </div>
             </div>
@@ -62,11 +68,24 @@
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
 
-            const type = $(this).attr('data-type');
+            const subject         = $(this).attr('data-subject');
+            const frontColor      = $(this).attr('data-style');
+            const backgroundColor = $(this).attr('data-color');
+
             waitUtil.ajax({
                 url: '{:route("diy.theme/save")}',
                 type: 'POST',
-                data: {type: type, color: '#2b85e4'}
+                fulShow: false,
+                data: {
+                    subject: subject,
+                    frontColor: frontColor,
+                    backgroundColor: backgroundColor
+                }
+            }).then(res => {
+                if (res.code === 0) {
+                    return layer.msg('切换成功');
+                }
+                return layer.msg(res.msg);
             });
         });
     })
