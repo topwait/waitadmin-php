@@ -1,4 +1,5 @@
 import { useAppStore } from '@/stores/appStore'
+import PagesJSON from '@/pages.json'
 
 export default {
     data() {
@@ -9,17 +10,31 @@ export default {
     },
     async onLoad() {
         await this.$onLaunched
-        this.initTheme()
+        await this.initTheme()
     },
     methods: {
         initTheme() {
             const appStore = useAppStore()
+            const routes = getCurrentPages();
+            const currentRoute = routes[routes.length - 1].route
+
             this.themeName = appStore.themeConfigVal.subject
             if (this.themeName) {
-                uni.setNavigationBarColor({
-                    frontColor: appStore.themeConfigVal.frontColor,
-                    backgroundColor: appStore.themeConfigVal.backgroundColor,
-                })
+                for (let i = 0; i < PagesJSON.pages.length; i++) {
+                    const paths = PagesJSON.pages[i]['path']
+                    if (paths === currentRoute) {
+                        const style = PagesJSON.pages[i]['style']
+                        const navigationBarFontsTextStyle  = (style||[])['navigationBarTextStyle']
+                        const navigationBarBackgroundColor = (style||[])['navigationBarBackgroundColor']
+                        if (style && (navigationBarFontsTextStyle !== 'black' && navigationBarBackgroundColor !== '#ffffff')) {
+                            uni.setNavigationBarColor({
+                                frontColor: appStore.themeConfigVal.frontColor,
+                                backgroundColor: appStore.themeConfigVal.backgroundColor
+                            })
+                        }
+                        break
+                    }
+                }
             }
         }
     }
