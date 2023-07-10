@@ -83,6 +83,14 @@ class IndexService extends Service
             'close_url' => strval($h5Config['close_url']??'')
         ];
 
+        // 主题风格
+        $themeConfig = ConfigUtils::get('diy', 'theme');
+        $detail['theme'] = [
+            'subject'   => $themeConfig['subject']   ?? 'default',
+            'textStyle' => $themeConfig['textStyle'] ?? 'white',
+            'bgColor'   => $themeConfig['bgColor']   ?? '#2979ff',
+        ];
+
         // 底部导航
         $tabBar = ConfigUtils::get('diy', 'tabbar', []);
         $detail['tabBar'] = [
