@@ -3,11 +3,17 @@ import { useAppStore } from '@/stores/appStore'
 export default {
     data() {
         return {
-            themeName: 'light-theme'
+            themeName: 'light-theme',
+            themeStyle: 'white',
+            themeBgColor: ''
         }
     },
-    onLoad() {
+    async onLoad() {
+        await this.$onLaunched
         const appStore = useAppStore()
-        console.log(appStore.themeConfigVal)
+
+        //this.themeName = appStore.themeConfigVal.subject
+        //this.textStyle = appStore.themeConfigVal.textStyle
+        //this.bgColor = appStore.themeConfigVal.bgColor
     }
 }
