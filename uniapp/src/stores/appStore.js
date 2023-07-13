@@ -9,6 +9,7 @@ export const useAppStore = defineStore({
             config: {
                 h5: {},
                 login: {},
+                theme: {},
                 tabBar: []
             }
         }
@@ -16,6 +17,7 @@ export const useAppStore = defineStore({
     getters: {
         h5ConfigVal: (state) => state.config.h5 || {},
         loginConfigVal: (state) => state.config.login || {},
+        themeConfigVal: (state) => state.config.theme || {},
         tabBarConfigVal: (state) => state.config.tabBar || []
     },
     actions: {
