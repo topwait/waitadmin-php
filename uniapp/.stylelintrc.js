@@ -6,13 +6,9 @@ module.exports = {
         'stylelint-config-recommended-vue/scss'
     ],
     plugins: ['stylelint-order'],
-    ignoreFiles: [],
+    ignoreFiles: ['src/uni_modules/**/*'],
     rules: {
         'unit-case': null,
-        'indentation': 4,
-        'max-line-length': 200,
-        'string-quotes': 'double',
-        'color-hex-case': 'lower',
         'no-empty-source': null,
         'color-hex-length': 'long',
         'property-no-unknown': null,
@@ -20,7 +16,6 @@ module.exports = {
         'rule-empty-line-before': 'never',
         "selector-class-pattern": null,
         'no-descending-specificity': null,
-        'block-opening-brace-space-before': 'always',
         'scss/at-import-partial-extension': 'always',
         'font-family-no-missing-generic-family-keyword': null,
         'declaration-block-single-line-max-declarations': 10,
