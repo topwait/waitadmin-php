@@ -59,13 +59,14 @@
                 </view>
 
                 <!-- 登录按钮 -->
-                <u-button
-                    :loading="loading"
-                    type="theme"
-                    shape="circle"
-                    class="mt-40"
-                    @click="onSaLogin(loginWays)"
-                >登录</u-button>
+                <view class="pt-40">
+                    <u-button
+                        :loading="loading"
+                        type="theme"
+                        shape="circle"
+                        @click="onSaLogin(loginWays)"
+                    >登录</u-button>
+                </view>
 
                 <!-- 登录协议 -->
                 <view v-if="isOpenAgreement" class="treaty">

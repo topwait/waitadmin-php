@@ -21,7 +21,7 @@ export default {
             const currentRoute = routes[routes.length - 1].route
 
             this.themeName = appStore.themeConfigVal.subject || 'default-theme'
-            this.themeColor = appStore.themeConfigVal.color || '#2b85e4'
+            this.themeColor = appStore.themeConfigVal.color || '#2979ff'
 
             if (this.themeName) {
                 for (let i = 0; i < PagesJSON.pages.length; i++) {
