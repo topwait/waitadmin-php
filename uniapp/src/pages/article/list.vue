@@ -6,6 +6,7 @@
                 <u-tabs-swiper
                     ref="uTabs"
                     inactive-color="#999999"
+                    :active-color="themeColor"
                     :list="tabList"
                     :current="current"
                     @change="tabChange"

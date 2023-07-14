@@ -223,7 +223,7 @@ onShow(async () => {
         if (userStore.isLogin) {
             uni.navigateBack()
         }
-    } catch (e) { /* empty */ }
+    } catch (e) { }
 })
 
 // 验证码(登录)

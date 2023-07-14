@@ -63,7 +63,7 @@
         <!-- 退出登录 -->
         <view class="logout">
             <u-button
-                type="normal"
+                type="theme"
                 shape="circle"
                 @click="onLogout()"
             >退出登录</u-button>

@@ -2,6 +2,7 @@
     <view :class="themeName">
         <view class="layout-regist-widget">
             <view class="head">
+                <view class="backdrop" />
                 <view class="title">注册账号</view>
             </view>
             <view class="form">
@@ -127,10 +128,19 @@ const onRegister = async () => {
 <style lang="scss">
 .layout-regist-widget {
     .head {
-        height: 240rpx;
+        height: 300rpx;
         background-color: var(--theme-background);
+        .backdrop {
+            height: 300rpx;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: var(--theme-background);
+            background-image: url("/static/bg_head_honour.png");
+        }
         .title {
-            padding-top: 20rpx;
+            position: absolute;
+            top: 10rpx;
+            left: 35%;
             font-size: 48rpx;
             color: #ffffff;
             text-align: center;
@@ -138,7 +148,7 @@ const onRegister = async () => {
     }
     .form {
         margin: 20px;
-        margin-top: -100rpx;
+        margin-top: -180rpx;
         padding: 60rpx;
         border-radius: 14rpx;
         background-color: #ffffff;

@@ -25,7 +25,7 @@ module.exports = {
     'rules': {
         'semi': ['warn', 'never'],
         'no-var': 'warn',
-        'no-empty': 'warn',
+        'no-empty': 'off',
         'no-undef': 'off',
         'no-shadow': 'off',
         'no-console': 'warn',

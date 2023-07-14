@@ -3,7 +3,7 @@
         <!-- 轮播图片 -->
         <view class="layout-banner-widget">
             <view class="diy-swiper">
-                <image class="bgImage" :src="diyItem.bgHead" />
+                <view class="backdrop" />
                 <u-swiper
                     :list="diyItem?.banner"
                     class="swiper"
@@ -63,10 +63,16 @@ onShow(async () => {
 <style lang="scss">
 .layout-banner-widget {
     position: relative;
-    .bgImage { width: 100%; height: 300rpx; }
+    .backdrop {
+        height: 300rpx;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: var(--theme-background);
+        background-image: url("/static/bg_head_honour.png");
+    }
     .diy-swiper {
         position: relative;
-        height: 303rpx;
+        height: 300rpx;
         .swiper {
             position: absolute;
             top: 0;

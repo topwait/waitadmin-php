@@ -104,7 +104,6 @@ const onBindEmail = async () => {
         return uni.$u.toast('请输入验证码')
     }
 
-
     await $bindEmailApi(form.value).then(() => {
         emit('close')
         setTimeout(() => {

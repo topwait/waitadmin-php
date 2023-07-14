@@ -1,4 +1,3 @@
 export default {
-    // 登录令牌
-    TOKEN_KEY: 'token'
+    TOKEN_KEY: 'token'  // 登录令牌
 }
