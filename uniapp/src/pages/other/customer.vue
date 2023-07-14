@@ -12,7 +12,10 @@
                     </view>
                 </view>
                 <view class="pt-40 px-60">
-                    <u-button type="normal" shape="circle">保存二维码</u-button>
+                    <u-button
+                        type="theme"
+                        shape="circle"
+                    >保存二维码</u-button>
                 </view>
             </view>
         </view>
