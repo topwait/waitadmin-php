@@ -36,14 +36,13 @@ const queryPolicy = async (type) => {
         return false
     }
 }
-
 </script>
 
 <style lang="scss">
 page {
     background-color: #ffffff;
-}
-.layout-policy-widget {
-    padding: 20rpx 10rpx;
+    .layout-policy-widget {
+        padding: 20rpx 10rpx;
+    }
 }
 </style>
