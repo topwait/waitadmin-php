@@ -3,18 +3,16 @@
 .blue-theme {
     --theme-color: #2979ff;
     --theme-background: #2979ff;
+    .color-theme { color: #2b85e4; }
     .u-btn--theme {
         color: #ffffff; 
         border-color: #2979ff; 
         background-color: #2979ff; 
     }
     .u-btn--theme--plain {
-        color: #2979ff !important;
-        border-color: #a0cfff !important;
-        background-color: #ecf5ff !important;
-    }
-    .color-theme {
-        color: #2b85e4;
+        color: #2979ff;
+        border-color: #a0cfff;
+        background-color: #ecf5ff;
     }
 }
 
@@ -22,9 +20,15 @@
 .red-theme {
     --theme-color: #ff5058;
     --theme-background: #ff5058;
-    .u-btn--theme { color: #ffffff; border-color: #ff5058; background-color: #ff5058; }
-    .u-btn--theme--plain { color: #ff5058 !important; border-color: #ffa0a0 !important; background-color: #ffecec !important; }
-    .color-theme {
-        color: #ff5058;
+    .color-theme { color: #ff5058; }
+    .u-btn--theme { 
+        color: #ffffff; 
+        border-color: #ff5058; 
+        background-color: #ff5058; 
+    }
+    .u-btn--theme--plain { 
+        color: #ff5058; 
+        border-color: #ffa0a0; 
+        background-color: #ffecec; 
     }
 }

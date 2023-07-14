@@ -12,12 +12,18 @@
         </u-form-item>
     </u-form>
     <view class="py-30">
-        <u-button type="normal" shape="circle" @click="onPwdEdit()">确定</u-button>
+        <u-button
+            :loading="loading"
+            type="theme"
+            shape="circle"
+            @click="onPwdEdit()"
+        >确定</u-button>
     </view>
 </template>
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
+import { useLock } from '@/hooks/useLock'
 import UserApi from '@/api/UserApi.js'
 import checkUtil from '@/utils/checkUtil'
 
@@ -47,6 +53,7 @@ watch(() => props.value,
 )
 
 // 密码修改
+const { loading, methodAPI:$changePwdApi } = useLock(UserApi.changePwd)
 const onPwdEdit = async () => {
     if (checkUtil.isEmpty(form.value.oldPassword)) {
         return uni.$u.toast('请输入原始密码')
@@ -64,15 +71,11 @@ const onPwdEdit = async () => {
         return uni.$u.toast('两次不密码不一致')
     }
 
-    try {
-        await UserApi.changePwd(form.value)
-    } catch (e) {
-        return
-    }
-
-    emit('close')
-    setTimeout(() => {
-        uni.$u.toast('修改成功')
-    }, 100)
+    await $changePwdApi(form.value).then(() => {
+        emit('close')
+        setTimeout(() => {
+            uni.$u.toast('修改成功')
+        }, 100)
+    }).catch(() => {})
 }
 </script>

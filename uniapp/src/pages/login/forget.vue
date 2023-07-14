@@ -46,6 +46,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useLock } from '@/hooks/useLock'
 import IndexApi from '@/api/IndexApi'
 import UserApi from '@/api/UserApi'
 import smsEnum from '@/enums/smsEnum'
@@ -75,17 +76,35 @@ const onSendSms = async () => {
         return uni.$u.toast('请输入手机号')
     }
 
+    if (!checkUtil.isMobile(form.value.mobile)) {
+        return uni.$u.toast('非法的手机号')
+    }
+
     if (uCodeRef.value?.canGetCode) {
         await IndexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.value.mobile
-        })
-        uCodeRef.value?.start()
+        }).then(() => {
+            uCodeRef.value?.start()
+        }).catch(() => {})
     }
 }
 
 // 密码修改
+const { loading, methodAPI:$forgetPwdApi } = useLock(UserApi.forgetPwd)
 const onResetPwd = async () => {
+    if (checkUtil.isEmpty(form.value.mobile)) {
+        return uni.$u.toast('请输入手机号')
+    }
+
+    if (!checkUtil.isMobile(form.value.mobile)) {
+        return uni.$u.toast('非法的手机号')
+    }
+
+    if (checkUtil.isEmpty(form.value.code)) {
+        return uni.$u.toast('请输入验证码')
+    }
+
     if (checkUtil.isEmpty(form.value.newPassword)) {
         return uni.$u.toast('请输入新的密码')
     }
@@ -98,9 +117,10 @@ const onResetPwd = async () => {
         return uni.$u.toast('两次不密码不一致')
     }
 
-    await UserApi.forgetPwd(form.value)
-    uni.$u.toast('修改成功')
-    uni.navigateBack()
+    await $forgetPwdApi(form.value).then(() => {
+        uni.$u.toast('修改成功')
+        uni.navigateBack()
+    }).catch(() => {})
 }
 </script>
 

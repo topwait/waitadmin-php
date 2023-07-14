@@ -16,7 +16,7 @@
                 <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
                 <u-button
                     :plain="true"
-                    type="primary"
+                    type="theme"
                     hover-class="none"
                     size="mini"
                     shape="circle"
@@ -27,12 +27,18 @@
         </u-form-item>
     </u-form>
     <view class="py-30">
-        <u-button type="normal" shape="circle" @click="onPwdEdit()">确定</u-button>
+        <u-button
+            :loading="loading"
+            type="theme"
+            shape="circle"
+            @click="onPwdEdit()"
+        >确定</u-button>
     </view>
 </template>
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
+import { useLock } from '@/hooks/useLock'
 import IndexApi from '@/api/IndexApi'
 import UserApi from '@/api/UserApi'
 import smsEnum from '@/enums/smsEnum'
@@ -77,16 +83,22 @@ const onSendSms = async () => {
         return uni.$u.toast('请输入手机号')
     }
 
+    if (!checkUtil.isMobile(form.value.mobile)) {
+        return uni.$u.toast('非法的手机号')
+    }
+
     if (form.value?.canGetCode) {
         await IndexApi.sendSms({
             scene: smsEnum.FORGET_PWD,
             mobile: form.value.mobile
-        })
-        uCodeRef.value?.start()
+        }).then(() => {
+            uCodeRef.value?.start()
+        }).catch(() => {})
     }
 }
 
 // 密码修改
+const { loading, methodAPI:$forgetPwdApi } = useLock(UserApi.forgetPwd)
 const onPwdEdit = async () => {
     if (checkUtil.isEmpty(form.value.newPassword)) {
         return uni.$u.toast('请输入新的密码')
@@ -100,15 +112,11 @@ const onPwdEdit = async () => {
         return uni.$u.toast('两次不密码不一致')
     }
 
-    try {
-        await UserApi.forgetPwd(form.value)
-    } catch (e) {
-        return
-    }
-
-    emit('close')
-    setTimeout(() => {
-        uni.$u.toast('修改成功')
-    }, 100)
+    await $forgetPwdApi(form.value).then(() => {
+        emit('close')
+        setTimeout(() => {
+            uni.$u.toast('修改成功')
+        }, 100)
+    }).catch(() => {})
 }
 </script>

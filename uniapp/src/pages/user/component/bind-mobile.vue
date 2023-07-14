@@ -10,7 +10,7 @@
                 <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
                 <u-button
                     :plain="true"
-                    type="primary"
+                    type="theme"
                     hover-class="none"
                     size="mini"
                     shape="circle"
@@ -21,12 +21,18 @@
         </u-form-item>
     </u-form>
     <view class="py-30">
-        <u-button type="normal" shape="circle" @click="onBindMobile">确定</u-button>
+        <u-button
+            :loading="loading"
+            type="theme"
+            shape="circle"
+            @click="onBindMobile()"
+        >确定</u-button>
     </view>
 </template>
 
 <script setup>
 import { ref, defineEmits } from 'vue'
+import { useLock } from '@/hooks/useLock'
 import IndexApi from '@/api/IndexApi'
 import UserApi from '@/api/UserApi.js'
 import smsEnum from '@/enums/smsEnum'
@@ -63,6 +69,10 @@ const onSendSms = async () => {
         return uni.$u.toast('请输入手机号')
     }
 
+    if (!checkUtil.isMobile(form.value.mobile)) {
+        return uni.$u.toast('非法的手机号')
+    }
+
     if (uCodeRef.value?.canGetCode) {
         await IndexApi.sendSms({
             scene: smsEnum.BIND_MOBILE,
@@ -73,10 +83,15 @@ const onSendSms = async () => {
 }
 
 // 绑定手机
+const { loading, methodAPI:$bindMobileApi } = useLock(UserApi.bindMobile)
 const onBindMobile = async (e) => {
     if (e === undefined || !e.detail.code) {
         if (checkUtil.isEmpty(form.value.mobile)) {
             return uni.$u.toast('请输入手机号')
+        }
+
+        if (!checkUtil.isMobile(form.value.mobile)) {
+            return uni.$u.toast('非法的手机号')
         }
 
         if (checkUtil.isEmpty(form.value.code)) {
@@ -84,30 +99,22 @@ const onBindMobile = async (e) => {
         }
 
         form.value.type = props.value ? 'change' : 'bind'
-        try {
-            await UserApi.bindMobile(form.value)
-        } catch (e) {
-            return
-        }
-
-        emit('close')
-        setTimeout(() => {
-            uni.$u.toast('绑定成功')
-        }, 100)
+        await $bindMobileApi(form.value).then(() => {
+            emit('close')
+            setTimeout(() => {
+                uni.$u.toast('绑定成功')
+            }, 100)
+        }).catch(() => {})
     } else {
-        try {
-            await UserApi.bindMobile({
-                type: form.value.type,
-                code: e.detail.code
-            })
-        } catch (e) {
-            return
-        }
-
-        emit('close')
-        setTimeout(() => {
-            uni.$u.toast('绑定成功')
-        }, 100)
+        await $bindMobileApi({
+            type: form.value.type,
+            code: e.detail.code
+        }).then(() => {
+            emit('close')
+            setTimeout(() => {
+                uni.$u.toast('绑定成功')
+            }, 100)
+        }).catch(() => {})
     }
 }
 </script>

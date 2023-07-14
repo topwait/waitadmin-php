@@ -6,12 +6,18 @@
         </u-form-item>
     </u-form>
     <view class="py-30">
-        <u-button type="normal" shape="circle" @click="onUpdateUser()">确定</u-button>
+        <u-button
+            :loading="loading"
+            type="theme"
+            shape="circle"
+            @click="onUpdateUser()"
+        >确定</u-button>
     </view>
 </template>
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
+import { useLock } from '@/hooks/useLock'
 import UserApi from '@/api/UserApi'
 import checkUtil from '@/utils/checkUtil'
 
@@ -37,6 +43,7 @@ watch(() => props.value,
 )
 
 // 更新昵称
+const { loading, methodAPI:$userEditApi } = useLock(UserApi.edit)
 const onUpdateUser = async () => {
     if (checkUtil.isEmpty(formValue.value)) {
         return uni.$u.toast('昵称不允许为空')
@@ -46,18 +53,14 @@ const onUpdateUser = async () => {
         return uni.$u.toast('昵称未发生改变')
     }
 
-    try {
-        await UserApi.edit({
-            scene: 'nickname',
-            value: formValue.value
-        })
-    } catch (e) {
-        return
-    }
-
-    emit('close')
-    setTimeout(() => {
-        uni.$u.toast('修改成功')
-    }, 100)
+    await $userEditApi({
+        scene: 'nickname',
+        value: formValue.value
+    }).then(() => {
+        emit('close')
+        setTimeout(() => {
+            uni.$u.toast('修改成功')
+        }, 100)
+    }).catch(() => {})
 }
 </script>

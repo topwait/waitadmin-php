@@ -49,6 +49,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useLock } from '@/hooks/useLock'
 import IndexApi from '@/api/IndexApi'
 import LoginApi from '@/api/LoginApi'
 import smsEnum from '@/enums/smsEnum'
@@ -79,16 +80,22 @@ const onSendSms = async () => {
         return uni.$u.toast('请输入手机号')
     }
 
+    if (!checkUtil.isMobile(form.value.mobile)) {
+        return uni.$u.toast('非法的手机号')
+    }
+
     if (uCodeRef.value?.canGetCode) {
         await IndexApi.sendSms({
             scene: smsEnum.REGISTER,
             mobile: form.value.mobile
-        })
-        uCodeRef.value?.start()
+        }).then(() => {
+            uCodeRef.value?.start()
+        }).catch(() => {})
     }
 }
 
 // 注册账号
+const { loading, methodAPI:$registerApi } = useLock(LoginApi.register)
 const onRegister = async () => {
     if (checkUtil.isEmpty(form.value.account)) {
         return uni.$u.toast('请输登录账号')
@@ -110,9 +117,10 @@ const onRegister = async () => {
         return uni.$u.toast('两次密码不一致')
     }
 
-    await LoginApi.register(form.value)
-    uni.$u.toast('注册成功')
-    uni.navigateBack()
+    await $registerApi(form.value).then(() => {
+        uni.$u.toast('注册成功')
+        uni.navigateBack()
+    }).catch(() => {})
 }
 </script>
 
