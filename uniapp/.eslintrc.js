@@ -26,6 +26,7 @@ module.exports = {
         'semi': ['warn', 'never'],
         'no-var': 'warn',
         'no-empty': 'warn',
+        'no-undef': 'off',
         'no-shadow': 'off',
         'no-console': 'warn',
         'no-debugger': 'warn',
@@ -50,7 +51,7 @@ module.exports = {
         'no-delete-var': 'off',
 
         'dot-notation': 'warn',
-        'default-case': 'warn',
+        'default-case': 'off',
         'eqeqeq': 'warn',
         'curly': 'warn',
         'space-before-blocks': 'warn',
@@ -61,7 +62,6 @@ module.exports = {
         'array-bracket-spacing': 'warn',
         'brace-style': 'warn',
         'camelcase': 'off',
-        'indent': ['warn', 4],
         'max-depth': ['warn', 4],
         'max-statements': ['warn', 100],
         'max-nested-callbacks': ['warn', 3],
@@ -70,6 +70,11 @@ module.exports = {
         'switch-case-space': 'off',
         'switch-colon-spacing': 'off',
         'switch-space': [0, 'always'],
+        'indent': [
+            'warn',
+            4,
+            { 'SwitchCase': 1 }
+        ],
 
         'vue/require-default-prop': 0,
         'vue/multi-word-component-names': 0,

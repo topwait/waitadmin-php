@@ -15,16 +15,16 @@ const content = ref('')
 
 onLoad((options) => {
     switch (options.type) {
-    case 'service':
-        uni.setNavigationBarTitle({title: '服务协议'})
-        queryPolicy('service')
-        break
-    case 'privacy':
-        uni.setNavigationBarTitle({title: '隐私政策'})
-        queryPolicy('privacy')
-        break
-    default:
-        uni.setNavigationBarTitle({title: '政策协议'})
+        case 'service':
+            uni.setNavigationBarTitle({title: '服务协议'})
+            queryPolicy('service')
+            break
+        case 'privacy':
+            uni.setNavigationBarTitle({title: '隐私政策'})
+            queryPolicy('privacy')
+            break
+        default:
+            uni.setNavigationBarTitle({title: '政策协议'})
     }
 })
 

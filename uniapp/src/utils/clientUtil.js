@@ -28,9 +28,9 @@ export default {
         let u = navigator?.userAgent
         if (u) {
             return u.indexOf('Android') > -1 || u.indexOf('Adr') > -1
-        } else {
-            return uni.getSystemInfoSync().platform === 'android'
         }
+        return uni.getSystemInfoSync().platform === 'android'
+
     },
     /**
      * 取当前的客户端

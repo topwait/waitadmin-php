@@ -11,7 +11,7 @@ export function createApp() {
     const pinia = createPinia()
     const app = createSSRApp(App)
 
-    app.config.globalProperties.$onLaunched = new Promise(resolve => { 
+    app.config.globalProperties.$onLaunched = new Promise(resolve => {
         app.config.globalProperties.$isResolve = resolve
     })
 

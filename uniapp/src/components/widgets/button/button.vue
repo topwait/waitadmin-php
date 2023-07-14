@@ -30,13 +30,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { defineEmits } from 'vue'
-
-const emit = defineEmits(['trigger'])
-const loading = ref(false)
-
-const props = defineProps({
+defineProps({
     // 渲染模式: [normal/together]
     mod: {
         type: String,
@@ -73,9 +67,4 @@ const props = defineProps({
         default: 'error'
     }
 })
-
-// 点击事件
-const onClick = () => {
-    emit('trigger')
-}
 </script>

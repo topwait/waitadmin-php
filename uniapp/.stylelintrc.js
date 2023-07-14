@@ -18,7 +18,7 @@ module.exports = {
         'function-url-quotes': 'always',
         'rule-empty-line-before': 'never',
         'scss/at-import-partial-extension': 'always',
-        'font-family-no-missing-generic-family-keyword': 'never',
+        'font-family-no-missing-generic-family-keyword': null,
         'declaration-block-single-line-max-declarations': 10,
         'unit-no-unknown': [true, { ignoreUnits: ['/rpx/', '/upx/'] }],
         'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['deep'] }],

@@ -79,7 +79,7 @@ export default {
                 formData: { 'type': type },
                 success: res => {
                     let result = JSON.parse(res.data)
-                    if (result.code == 0) {
+                    if (result.code === 0) {
                         resolve(result.data)
                     } else {
                         reject()

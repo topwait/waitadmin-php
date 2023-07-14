@@ -222,7 +222,7 @@ onShow(async () => {
         if (userStore.isLogin) {
             uni.navigateBack()
         }
-    } catch (e) { }
+    } catch (e) { /* empty */ }
 })
 
 // 验证码(登录)

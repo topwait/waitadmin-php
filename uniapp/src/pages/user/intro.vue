@@ -259,34 +259,34 @@ const onBindMobile = (e) => {
 // 密码弹窗
 const onPwdPopup = (index) => {
     switch (index) {
-    case 0:
-        popupType.value = 'changePwd'
-        popupShow.value = true
-        break
-    case 1:
-        popupType.value = 'forgetPwd'
-        popupShow.value = true
-        break
-    default:
+        case 0:
+            popupType.value = 'changePwd'
+            popupShow.value = true
+            break
+        case 1:
+            popupType.value = 'forgetPwd'
+            popupShow.value = true
+            break
+        default:
     }
 }
 
 // 基础弹窗
 const onShowPopup = (type) => {
     switch (type) {
-    case 'gender':
-        popupType.value = type
-        genderPicker.value = true
-        genderIndex.value = userInfo.value.gender
-            ? userInfo.value.gender - 1 : userInfo.value.gender
-        break
-    case 'password':
-        popupType.value = type
-        pwdPicker.value = true
-        break
-    default:
-        popupType.value = type
-        popupShow.value = true
+        case 'gender':
+            popupType.value = type
+            genderPicker.value = true
+            genderIndex.value = userInfo.value.gender
+                ? userInfo.value.gender - 1 : userInfo.value.gender
+            break
+        case 'password':
+            popupType.value = type
+            pwdPicker.value = true
+            break
+        default:
+            popupType.value = type
+            popupShow.value = true
     }
 }
 
