@@ -12,7 +12,7 @@ module.exports = {
         'unit-case': null,
         'no-empty-source': null,
         'property-no-unknown': null,
-        "selector-class-pattern": null,
+        'selector-class-pattern': null,
         'no-descending-specificity': null,
         'color-hex-length': 'long',
         'function-url-quotes': 'always',
