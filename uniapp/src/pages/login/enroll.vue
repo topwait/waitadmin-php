@@ -14,6 +14,7 @@
                         :list="loginTabs"
                         :current="tabsIndex"
                         :font-size="34"
+                        :active-color="themeColor"
                         inactive-color="#999999"
                         @change="tabChange"
                     />
@@ -30,7 +31,7 @@
                             <u-verification-code ref="uCodeRefByLogin" seconds="60" @change="codeChangeByLogin" />
                             <u-button
                                 :plain="true"
-                                type="primary"
+                                type="theme"
                                 hover-class="none"
                                 size="mini"
                                 shape="circle"
@@ -59,8 +60,8 @@
 
                 <!-- 登录按钮 -->
                 <u-button
-                    :type="'primary'"
                     :loading="loading"
+                    type="theme"
                     shape="circle"
                     class="mt-40"
                     @click="onSaLogin(loginWays)"
@@ -68,7 +69,7 @@
 
                 <!-- 登录协议 -->
                 <view v-if="isOpenAgreement" class="treaty">
-                    <u-checkbox v-model="isCheckAgreement" shape="circle" active-color="#2979ff" />
+                    <u-checkbox v-model="isCheckAgreement" shape="circle" :active-color="themeColor" />
                     <text class="ml-10">已阅读并同意</text>
                     <text class="color-theme">《用户协议》</text>与
                     <text class="color-theme">《隐私协议》</text>

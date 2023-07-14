@@ -5,7 +5,9 @@ export default {
     data() {
         return {
             // 主题名称
-            themeName: ''
+            themeName: '',
+            // 主题颜色
+            themeColor: ''
         }
     },
     async onLoad() {
@@ -18,18 +20,18 @@ export default {
             const routes = getCurrentPages()
             const currentRoute = routes[routes.length - 1].route
 
-            this.themeName = appStore.themeConfigVal.subject
+            this.themeName = appStore.themeConfigVal.subject || 'default-theme'
+            this.themeColor = appStore.themeConfigVal.color || '#2b85e4'
+
             if (this.themeName) {
                 for (let i = 0; i < PagesJSON.pages.length; i++) {
                     const paths = PagesJSON.pages[i].path
                     if (paths === currentRoute) {
-                        const style = PagesJSON.pages[i].style
-                        const navigationBarFontsTextStyle  = (style || []).navigationBarTextStyle
-                        const navigationBarBackgroundColor = (style || []).navigationBarBackgroundColor
-                        if (style && (navigationBarFontsTextStyle !== 'black' && navigationBarBackgroundColor !== '#ffffff')) {
+                        const style = PagesJSON.pages[i].style || []
+                        if (style.navigationRetinueTheme !== false) {
                             uni.setNavigationBarColor({
-                                frontColor: appStore.themeConfigVal.frontColor,
-                                backgroundColor: appStore.themeConfigVal.backgroundColor
+                                frontColor: '#ffffff',
+                                backgroundColor: this.themeColor
                             })
                         }
                         break

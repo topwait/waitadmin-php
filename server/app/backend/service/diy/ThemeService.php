@@ -17,9 +17,8 @@ class ThemeService extends Service
     {
         $config = ConfigUtils::get('diy', 'theme');
         return [
-            'subject'         => $config['subject']         ?? '',
-            'frontColor'      => $config['frontColor']      ?? '',
-            'backgroundColor' => $config['backgroundColor'] ?? ''
+            'subject' => $config['subject'] ?? '',
+            'color'   => $config['color']   ?? ''
         ] ?? [];
     }
 
@@ -32,9 +31,8 @@ class ThemeService extends Service
     public static function save(array $post): void
     {
         ConfigUtils::set('diy', 'theme', [
-            'subject'         => $post['subject'],
-            'frontColor'      => $post['frontColor'],
-            'backgroundColor' => $post['backgroundColor']
+            'subject' => $post['subject'],
+            'color'   => $post['color']
         ]);
     }
 }

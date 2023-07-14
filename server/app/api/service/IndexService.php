@@ -86,9 +86,8 @@ class IndexService extends Service
         // 主题风格
         $themeConfig = ConfigUtils::get('diy', 'theme');
         $detail['theme'] = [
-            'subject'         => $themeConfig['subject']         ?? '',
-            'frontColor'      => $themeConfig['frontColor']      ?? '#ffffff',
-            'backgroundColor' => $themeConfig['backgroundColor'] ?? '#2979ff',
+            'subject' => $themeConfig['subject'] ?? '',
+            'color'   => $themeConfig['color']   ?? ''
         ];
 
         // 底部导航

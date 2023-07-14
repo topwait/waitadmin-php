@@ -64,7 +64,7 @@ onShow(async () => {
     background-position: center right;
     background-repeat: no-repeat;
     background-size: auto 100%;
-    background-color: $uni-bg-theme;
+    background-color: var(--theme-background);
     .grid-skinny-unit {
         display: flex;
         justify-content: space-between;

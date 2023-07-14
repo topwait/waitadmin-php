@@ -6,11 +6,10 @@
     .theme-radio-group .theme-radio-title { margin-right: 10px; color: #515a6e; }
     .theme-radio-group .theme-radio-body { display: flex; }
     .theme-radio-group .item { display: flex; align-items: center; justify-content: center; margin-right: 20px; width: 120px; height: 50px; color: #666666; border: 1px solid #dcdee2; border-radius: 4px; text-align: center; line-height: 40px; }
-    .theme-radio-group .item.active { border-color: #2d8cf0; }
+    .theme-radio-group .item.active { border-color: #2d8cf0; background: #f9f9f9; }
     .theme-radio-group .item .color {margin-right: 10px;width: 20px;height: 20px;border: 0;border-radius: 3px;}
     .theme-radio-group .item .color.blue { background-color: #2b85e4; }
     .theme-radio-group .item .color.red { background-color: #e93323; }
-    .theme-radio-group .item .color.green {  background-color: #42ca4d; }
     .theme-radio-group .image { width: 800px; height: 100%; }
 </style>
 {/block}
@@ -25,18 +24,16 @@
                 <div class="theme-radio-title">选择配色方案：</div>
                 <div class="theme-radio-body">
                     <!-- 天空蓝 -->
-                    <div class="item {if $detail.type=='blue-theme'}active{/if}"
+                    <div class="item {if $detail.subject=='blue-theme' || !$detail.subject}active{/if}"
                          data-subject="blue-theme"
-                         data-style="#ffffff"
                          data-color="#2979ff"
                     >
                         <span class="color blue"></span>
                         <div class="text">天空蓝</div>
                     </div>
                     <!-- 热情红 -->
-                    <div class="item {if $detail.type=='red-theme'}active{/if}"
+                    <div class="item {if $detail.subject=='red-theme'}active{/if}"
                          data-subject="red-theme"
-                         data-style="#ffffff"
                          data-color="#ff5058"
                     >
                         <span class="color red"></span>
@@ -68,9 +65,8 @@
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
 
-            const subject         = $(this).attr('data-subject');
-            const frontColor      = $(this).attr('data-style');
-            const backgroundColor = $(this).attr('data-color');
+            const subject = $(this).attr('data-subject');
+            const color   = $(this).attr('data-color');
 
             waitUtil.ajax({
                 url: '{:route("diy.theme/save")}',
@@ -78,8 +74,7 @@
                 fulShow: false,
                 data: {
                     subject: subject,
-                    frontColor: frontColor,
-                    backgroundColor: backgroundColor
+                    color: color
                 }
             }).then(res => {
                 if (res.code === 0) {

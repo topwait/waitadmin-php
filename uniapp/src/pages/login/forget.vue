@@ -15,7 +15,7 @@
                             <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
                             <u-button
                                 :plain="true"
-                                type="primary"
+                                type="theme"
                                 hover-class="none"
                                 size="mini"
                                 shape="circle"
@@ -31,7 +31,14 @@
                         <u-input v-model="form.ackPassword" type="password" placeholder="请再次确认新密码" />
                     </u-form-item>
                 </u-form>
-                <w-button pt="60" @on-click="onResetPwd()">重设密码</w-button>
+                <view class="pt-40">
+                    <u-button
+                        :loading="loading"
+                        type="theme"
+                        shape="circle"
+                        @click="onResetPwd()"
+                    >重设密码</u-button>
+                </view>
             </view>
         </view>
     </view>
@@ -101,7 +108,7 @@ const onResetPwd = async () => {
 .layout-regist-widget {
     .head {
         height: 240rpx;
-        background-color: #2979ff;
+        background-color: var(--theme-background);
         .title {
             padding-top: 20rpx;
             font-size: 48rpx;
