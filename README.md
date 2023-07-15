@@ -19,6 +19,11 @@ WaitAdmin是一款ThinkPHP6 + Layui的极速后台开发框架。
 - 账号：admin
 - 密码：123456
 
+## 其它项目
+- ChatGPT聊天系统: http://chat.waitadmin.cn
+- WaitShop单商户: https://gitee.com/wafts/WaitShop
+- 有源码需求的可加群,联系群管理员咨询。
+
 ## 环境要求
 
 | 运行环境  |要求版本   |推荐版本   |
