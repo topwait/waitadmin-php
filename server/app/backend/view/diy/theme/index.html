@@ -56,7 +56,7 @@
                 <div class="theme-radio-title">当前风格示例：</div>
                 <div class="theme-radio-body">
                     <div class="image">
-                        <img class="w-h-full" src="__BACKEND__/images/diy/theme-blue.jpg" alt="blue">
+                        <img class="w-h-full" src="__BACKEND__/images/diy/theme/{$detail.subject??'blue-theme'}.png" alt="blue">
                     </div>
                 </div>
             </div>
@@ -85,11 +85,10 @@
                     subject: subject,
                     color: color
                 }
-            }).then(res => {
-                if (res.code === 0) {
-                    // return layer.msg('切换成功');
-                }
-                return layer.msg(res.msg);
+            }).then(() => {
+                const src = '__BACKEND__/images/diy/theme/'+subject+'.png';
+                const el  = '.theme-radio-body img';
+                $(el).attr('src', src);
             });
         });
     })

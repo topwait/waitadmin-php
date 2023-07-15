@@ -32,3 +32,20 @@
         background-color: #ffecec; 
     }
 }
+
+// 生鲜绿主题
+.green-theme {
+    --theme-color: #40ca4d;
+    --theme-background: #40ca4d;
+    .color-theme { color: #40ca4d; }
+    .u-btn--theme { 
+        color: #ffffff; 
+        border-color: #40ca4d; 
+        background-color: #40ca4d; 
+    }
+    .u-btn--theme--plain { 
+        color: #40ca4d; 
+        border-color: #9efba7; 
+        background-color: #eafcec; 
+    }
+}
