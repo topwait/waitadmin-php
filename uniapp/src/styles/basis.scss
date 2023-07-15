@@ -11,7 +11,6 @@ page {
 .bg-pages { background-color: $uni-bg-pages; }
 .bg-white { background-color: $uni-bg-white; }
 .bg-black { background-color: $uni-bg-black; }
-.bg-theme { background-color: $uni-bg-theme; }
 .bg-muted { background-color: $uni-bg-muted; }
 .bg-normal { background-color: $uni-bg-normal; }
 .bg-light { background-color: $uni-bg-light; }
@@ -22,7 +21,6 @@ page {
 /* 字体颜色 */
 .color-white { color: $uni-color-white; }
 .color-black { color: $uni-color-black; }
-.color-theme { color: $uni-color-theme; }
 .color-main { color: $uni-color-main; }
 .color-text { color: $uni-color-text; }
 .color-muted { color: $uni-color-muted; }
@@ -250,7 +248,7 @@ page {
 .fix-absolute { position: absolute; }
 .fix-relative { position: relative; }
 .fix-sticky { position: sticky; }
-.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.inset-0 { inset: 0; }
 .inset-x-0 { right: 0; left: 0; }
 .inset-y-0 { top: 0; bottom: 0; }
 .z-0 { z-index: 0; }

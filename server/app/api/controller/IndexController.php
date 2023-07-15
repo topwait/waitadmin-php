@@ -29,7 +29,7 @@ use think\response\Json;
  */
 class IndexController extends Api
 {
-    protected array $notNeedLogin = ['index', 'config', 'sendSms', 'sendEmail'];
+    protected array $notNeedLogin = ['index', 'config', 'policy', 'sendSms', 'sendEmail'];
 
     /**
      * 首页数据
@@ -82,6 +82,7 @@ class IndexController extends Api
      */
     public function sendSms(): Json
     {
+        $this->validate($this->request->post(), ['scene'=>'require|number', 'mobile'=>'require|mobile']);
         $scene  = $this->request->post('scene');
         $mobile = $this->request->post('mobile');
 

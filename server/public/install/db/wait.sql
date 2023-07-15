@@ -411,9 +411,9 @@ CREATE TABLE `wait_sys_log`  (
   `url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '请求路由',
   `ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '请求IP',
   `ua` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '请求UA',
-  `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求参数',
-  `error` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '错误信息',
-  `trace` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '错误异常',
+  `params` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求参数',
+  `error` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '错误信息',
+  `trace` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '错误异常',
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '执行状态: 1=成功, 2=失败',
   `start_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '开始时间: 毫秒',
   `end_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '结束时间: 毫秒',
@@ -575,8 +575,9 @@ INSERT INTO `wait_sys_config` VALUES (52, 'h5', 'status', '1', 'H5状态', 16653
 INSERT INTO `wait_sys_config` VALUES (53, 'h5', 'close_url', '', 'H5关闭页面', 1665319505, 1679125300);
 INSERT INTO `wait_sys_config` VALUES (60, 'login', 'is_agreement', '1', '显示登录协议', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (61, 'login', 'force_mobile', '1', '强制绑定手机', 1665319505, 1665319505);
-INSERT INTO `wait_sys_config` VALUES (62, 'login', 'login_modes', '[\"1\",\"2\"]', '通用登录方式', 1665319505, 1665319505);
-INSERT INTO `wait_sys_config` VALUES (63, 'login', 'login_other', '[\"1\"]', '第三方登录', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (62, 'login', 'auths_mobile', '0', '微信授权手机', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (63, 'login', 'login_modes', '[\"1\",\"2\"]', '通用登录方式', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (64, 'login', 'login_other', '[\"1\"]', '第三方登录', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (70, 'mail', 'smtp_type', 'smtp', '邮件方式', 1665319505, 1679046920);
 INSERT INTO `wait_sys_config` VALUES (71, 'mail', 'smtp_host', 'smtp.163.com', 'SMTP服务', 1665319505, 1679046920);
 INSERT INTO `wait_sys_config` VALUES (72, 'mail', 'smtp_port', '25', 'SMTP端口', 1665319505, 1679046920);
@@ -613,6 +614,7 @@ INSERT INTO `wait_sys_config` VALUES (236, 'h5_channel', 'close_url', '', '关�
 INSERT INTO `wait_sys_config` VALUES (800, 'diy', 'tabbar', '{\"style\":{\"selectedColor\":\"#2979ff\",\"unselectedColor\":\"#333333\"},\"list\":[{\"text\":\"\\u9996\\u9875\",\"iconPath\":\"/static/common/images/init/tab_home.png\",\"selectedIconPath\":\"/static/common/images/init/tab_home_no.png\"},{\"text\":\"\\u8d44\\u8baf\",\"iconPath\":\"/static/common/images/init/tab_archive.png\",\"selectedIconPath\":\"/static/common/images/init/tab_archive_no.png\"},{\"text\":\"\\u6211\\u7684\",\"iconPath\":\"/static/common/images/init/tab_user.png\",\"selectedIconPath\":\"/static/common/images/init/tab_user_no.png\"}]}', 'tabBar导航', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (801, 'diy', 'person', '{\"service\":{\"base\":{\"layout\":\"col\",\"number\":\"5\",\"title\":\"\\u6211\\u7684\\u670d\\u52a1\"},\"list\":[{\"image\":\"/static/common/images/init/me_user.png\",\"name\":\"\\u4e2a\\u4eba\\u8bbe\\u7f6e\",\"link\":\"\\/pages\\/user\\/intro\"},{\"image\":\"/static/common/images/init/me_customer.png\",\"name\":\"\\u8054\\u7cfb\\u5ba2\\u670d\",\"link\":\"\\/pages\\/other\\/customer\"},{\"image\":\"/static/common/images/init/me_about.png\",\"name\":\"\\u5173\\u4e8e\\u6211\\u4eec\",\"link\":\"\\/pages\\/other\\/about\"}]},\"adv\":{\"base\":{\"open\":1},\"list\":[{\"image\":\"/static/common/images/init/adv01.jpg\",\"name\":\"\\u5c31\\u5c06\\u8ba1\\u5c31\\u8ba1\",\"link\":\"\\/pages\\/article\\/detail?id=1\"},{\"image\":\"/static/common/images/init/adv02.jpg\",\"name\":\"\\u5c31\\u5c06\\u8ba1\\u5c31\\u8ba1\",\"link\":\"\\/pages\\/article\\/detail?id=1\"}]}}', '个人中心装修', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (802, 'diy', 'contact', '{\"title\":\"\\u6dfb\\u52a0\\u5ba2\\u670d\\u4e8c\\u7ef4\\u7801\",\"datetime\":\"\\u65e9\\u4e0a 9:00 - \\u665a\\u4e0a17:00\",\"mobile\":\"13800138000\",\"qq\":\"2474369941\",\"image\":\"static/common/images/init/contact_qr.png\"}', '联系客服装修', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (803, 'diy', 'theme', '{\"type\":\"blue\",\"color\":\"#2b85e4\"}', '主题风格装修', 1665319505, 1688914676);
 
 INSERT INTO `wait_auth_menu` VALUES (1, 0, 'app', '首页', 'layui-icon icon-home-fill', 'index/console', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (10, 0, 'app', '权限', 'layui-icon icon-member-manage', '', 50, 1, 0, 0, 1648696695, 1678629659, 0);
@@ -749,14 +751,17 @@ INSERT INTO `wait_auth_menu` VALUES (4104, 4100, 'app', '分组编辑', '', 'use
 INSERT INTO `wait_auth_menu` VALUES (4105, 4100, 'app', '分组删除', '', 'user.group/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (5700, 0, 'app', '装修', 'layui-icon layui-icon-windows', '', 40, 1, 0, 0, 1648696695, 1678629666, 0);
 INSERT INTO `wait_auth_menu` VALUES (5720, 5700, 'app', '底部导航', '', 'diy.tabbar/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (5721, 5720, 'app', '装修页面', '', 'diy.tabbar/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (5722, 5720, 'app', '装修保存', '', 'diy.tabbar/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5721, 5720, 'app', '底部装修页面', '', 'diy.tabbar/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5722, 5720, 'app', '底部装修保存', '', 'diy.tabbar/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (5730, 5700, 'app', '个人中心', '', 'diy.person/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (5731, 5730, 'app', '装修页面', '', 'diy.person/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (5732, 5730, 'app', '装修保存', '', 'diy.person/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5731, 5730, 'app', '个人装修页面', '', 'diy.person/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5732, 5730, 'app', '个人装修保存', '', 'diy.person/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (5740, 5700, 'app', '客服设置', '', 'diy.contact/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (5741, 5740, 'app', '装修页面', '', 'diy.contact/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (5742, 5740, 'app', '装修保存', '', 'diy.contact/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5741, 5740, 'app', '客服装修页面', '', 'diy.contact/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5742, 5740, 'app', '客服装修保存', '', 'diy.contact/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5745, 5700, 'app', '主题风格', '', 'diy.theme/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5746, 5745, 'app', '主题装修页面', '', 'diy.theme/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (5747, 5745, 'app', '主题装修保存', '', 'diy.theme/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (6000, 3000, 'curd', '代码生成', 'layui-icon icon-seckill-flash', 'addons/curd/gen/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (6001, 6000, 'curd', '生成列表', '', 'addons/curd/gen/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (6002, 6000, 'curd', '查看库表', '', 'addons/curd/gen/tables', 0, 0, 0, 0, 1648696695, 1648696695, 0);

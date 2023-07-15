@@ -10,7 +10,7 @@
                 <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
                 <u-button
                     :plain="true"
-                    type="primary"
+                    type="theme"
                     hover-class="none"
                     size="mini"
                     shape="circle"
@@ -20,13 +20,21 @@
             </template>
         </u-form-item>
     </u-form>
-    <w-button pt="30" pb="30" @on-click="onBindEmail()">确定</w-button>
+    <view class="py-30">
+        <u-button
+            :loading="loading"
+            type="theme"
+            shape="circle"
+            @click="onBindEmail()"
+        >确定</u-button>
+    </view>
 </template>
 
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
-import IndexApi from '@/api/indexApi'
-import UserApi from '@/api/userApi'
+import { useLock } from '@/hooks/useLock'
+import IndexApi from '@/api/IndexApi'
+import UserApi from '@/api/UserApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -67,34 +75,40 @@ const onSendEmail = async () => {
         return uni.$u.toast('请输入邮箱号')
     }
 
+    if (!checkUtil.isEmail(form.value.email)) {
+        return uni.$u.toast('非法的邮箱号')
+    }
+
     if (uCodeRef.value?.canGetCode) {
         await IndexApi.sendEmail({
             scene: smsEnum.BIND_EMAIL,
             email: form.value.email
-        })
-        uCodeRef.value?.start()
+        }).then(() => {
+            uCodeRef.value?.start()
+        }).catch(() => {})
     }
 }
 
 // 绑定邮箱
+const { loading, methodAPI:$bindEmailApi } = useLock(UserApi.bindEmail)
 const onBindEmail = async () => {
-    if (checkUtil.isEmpty(form.value.mobile)) {
+    if (checkUtil.isEmpty(form.value.email)) {
         return uni.$u.toast('请输入邮箱号')
+    }
+
+    if (!checkUtil.isEmail(form.value.email)) {
+        return uni.$u.toast('非法的邮箱号')
     }
 
     if (checkUtil.isEmpty(form.value.code)) {
         return uni.$u.toast('请输入验证码')
     }
 
-    try {
-        await UserApi.bindEmail(form.value)
-    } catch (e) {
-        return
-    }
-
-    emit('close')
-    setTimeout(() => {
-        uni.$u.toast('绑定成功')
-    }, 100)
+    await $bindEmailApi(form.value).then(() => {
+        emit('close')
+        setTimeout(() => {
+            uni.$u.toast('绑定成功')
+        }, 100)
+    }).catch(() => {})
 }
 </script>

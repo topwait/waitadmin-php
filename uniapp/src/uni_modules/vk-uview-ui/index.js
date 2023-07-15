@@ -68,6 +68,8 @@ import {sys, os} from './libs/function/sys.js'
 import debounce from './libs/function/debounce.js'
 // 节流方法
 import throttle from './libs/function/throttle.js'
+// 对象转字符串，或者字符串转对象
+import addStyle from './libs/function/addStyle.js'
 
 
 // 配置信息
@@ -111,6 +113,7 @@ const $u = {
 	zIndex,
 	debounce,
 	throttle,
+	addStyle
 }
 
 // $u挂载到uni对象上

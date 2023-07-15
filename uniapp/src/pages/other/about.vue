@@ -1,11 +1,16 @@
 <template>
-    <view class="layout-about-widget">
-        <view class="icon">
-            <u-icon name="star-fill" size="100" color="#fff" />
+    <view :class="themeName">
+        <view class="layout-about-widget">
+            <view class="icon">
+                <u-icon name="star-fill" size="100" color="#fff" />
+            </view>
+            <view class="version">v1.2.2</view>
         </view>
-        <view class="version">v1.3.0</view>
     </view>
 </template>
+
+<script setup>
+</script>
 
 <style lang="scss">
 .layout-about-widget {
@@ -20,7 +25,7 @@
         width: 180rpx;
         height: 180rpx;
         border-radius: 14rpx;
-        background-color: #2979ff;
+        background-color: var(--theme-color);
     }
     .version {
         padding-top: 20rpx;

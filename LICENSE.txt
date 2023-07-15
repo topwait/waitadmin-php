@@ -1,6 +1,18 @@
 MIT License
 
-Copyright (c) 2022 WaitAdmin开源团队
+Copyright (c) 2023 WaitAdmin开源团队
+
+源码下载:
+    Gitee: https://gitee.com/wafts/WaitAdmin
+    Github: https://github.com/topwait/waitadmin
+    Website: www.waitadmin.cn
+
+协议说明:
+    本程序可以免费商业使用,但请不要删除或修改此LICENSE协议文件,但可以追加您协议。
+    如果程序需要用于商业用途,请给我们的开源项目点一个Star吧。(Gitee/Github)
+    关于版权信息能不能去除的问题:
+        页面展示的版本都是允许去除的
+        原底层代码中的注释请保留下来
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +31,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Additional statement
+
+If the program is intended for commercial use, please retain the program's authorization agreement.
+The version annotations of the underlying code are not allowed to be removed, but the code written by oneself is not restricted.
+The program can be changed for free commercial use, but you need to click on a start for the open source project.

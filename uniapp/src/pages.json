@@ -1,47 +1,43 @@
 {
-    "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    "pages": [ //pages数组中第一项表示应用启动页，参考: https://uniapp.dcloud.io/collocation/pages
         {
             "path": "pages/index/index",
             "style": {
                 "navigationBarTitleText": "WaitAdmin开源系统",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
+                "navigationBarTextStyle": "white"
             }
         },
         {
             "path": "pages/login/enroll",
             "style": {
                 "navigationBarTitleText": "登录",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
+                "navigationBarTextStyle": "white"
             }
         },
         {
             "path": "pages/login/regist",
             "style": {
                 "navigationBarTitleText": "注册",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
+                "navigationBarTextStyle": "white"
             }
         },
         {
             "path": "pages/login/forget",
             "style": {
                 "navigationBarTitleText": "忘记密码",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
+                "navigationBarTextStyle": "white"
             }
         },
         {
             "path": "pages/user/home",
             "style": {
                 "navigationBarTitleText": "个人中心",
-                "navigationBarTextStyle": "white",
-                "navigationBarBackgroundColor": "#2979ff"
+                "navigationBarTextStyle": "white"
             }
         },
         {
             "auth": true,
+            "vary": false,
             "path": "pages/user/intro",
             "style": {
                 "navigationBarTitleText": "个人简介",
@@ -51,6 +47,7 @@
         },
         {
             "path": "pages/article/list",
+            "vary": false,
             "style": {
                 "navigationBarTitleText": "资讯列表",
                 "navigationBarTextStyle": "black",
@@ -59,6 +56,7 @@
             }
         },
         {
+            "vary": false,
             "path": "pages/article/detail",
             "style": {
                 "navigationBarTitleText": "资讯详情",
@@ -67,6 +65,7 @@
             }
         },
         {
+            "vary": false,
             "path": "pages/other/about",
             "style": {
                 "navigationBarTitleText": "关于我们",
@@ -75,6 +74,7 @@
             }
         },
         {
+            "vary": false,
             "path": "pages/other/policy",
             "style": {
                 "navigationBarTitleText": "政策协议",
@@ -83,6 +83,7 @@
             }
         },
         {
+            "vary": false,
             "path": "pages/other/customer",
             "style": {
                 "navigationBarTitleText": "联系客服",
@@ -99,7 +100,7 @@
     },
     "tabBar": {
         "color": "#666666",
-        "selectedColor": "#2979ff",
+        "selectedColor": "#333333",
         "backgroundColor": "#ffffff",
         "list": [
             {

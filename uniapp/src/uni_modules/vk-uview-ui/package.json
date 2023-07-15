@@ -2,7 +2,7 @@
   "id": "vk-uview-ui",
 	"name": "vk-uview-ui",
   "displayName": "【开箱即用】uView Vue3 横空出世，继承uView1意志，再战江湖，风云再起！",
-  "version": "1.4.8",
+  "version": "1.5.0",
   "description": "同时支持 Vue3.0 和 Vue2.0，你没看错，现在 uView 支持 Vue3.0 了！（不支持nvue，此版本为uView1.0的分支）",
   "keywords": [
     "vk-uview-ui",

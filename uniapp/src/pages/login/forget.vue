@@ -1,44 +1,55 @@
 <template>
-    <view class="layout-regist-widget">
-        <view class="head">
-            <view class="title">重置密码</view>
-        </view>
-        <view class="form">
-            <u-form ref="uForm" :model="form">
-                <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
-                </u-form-item>
-                <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
-                    <template #right>
-                        <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
-                        <u-button
-                            :plain="true"
-                            type="primary"
-                            hover-class="none"
-                            size="mini"
-                            shape="circle"
-                            @click="onSendSms()"
-                        >{{ codeTips }}
-                        </u-button>
-                    </template>
-                </u-form-item>
-                <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.newPassword" type="password" placeholder="6~20位数字+字母或符号组合" />
-                </u-form-item>
-                <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                    <u-input v-model="form.ackPassword" type="password" placeholder="请再次确认新密码" />
-                </u-form-item>
-            </u-form>
-            <w-button pt="60" @on-click="onResetPwd()">重设密码</w-button>
+    <view :class="themeName">
+        <view class="layout-regist-widget">
+            <view class="head">
+                <view class="backdrop" />
+                <view class="title">重置密码</view>
+            </view>
+            <view class="form">
+                <u-form ref="uForm" :model="form">
+                    <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
+                    </u-form-item>
+                    <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.code" type="number" placeholder="请输入验证码" />
+                        <template #right>
+                            <u-verification-code ref="uCodeRef" seconds="60" @change="codeChange" />
+                            <u-button
+                                :plain="true"
+                                type="theme"
+                                hover-class="none"
+                                size="mini"
+                                shape="circle"
+                                @click="onSendSms()"
+                            >{{ codeTips }}
+                            </u-button>
+                        </template>
+                    </u-form-item>
+                    <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.newPassword" type="password" placeholder="6~20位数字+字母或符号组合" />
+                    </u-form-item>
+                    <u-form-item left-icon="account" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
+                        <u-input v-model="form.ackPassword" type="password" placeholder="请再次确认新密码" />
+                    </u-form-item>
+                </u-form>
+                <view class="pt-40">
+                    <u-button
+                        :loading="loading"
+                        type="theme"
+                        shape="circle"
+                        @click="onResetPwd()"
+                    >重设密码</u-button>
+                </view>
+            </view>
         </view>
     </view>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import IndexApi from '@/api/indexApi'
-import UserApi from '@/api/userApi'
+import { useLock } from '@/hooks/useLock'
+import IndexApi from '@/api/IndexApi'
+import UserApi from '@/api/UserApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -66,17 +77,35 @@ const onSendSms = async () => {
         return uni.$u.toast('请输入手机号')
     }
 
+    if (!checkUtil.isMobile(form.value.mobile)) {
+        return uni.$u.toast('非法的手机号')
+    }
+
     if (uCodeRef.value?.canGetCode) {
         await IndexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.value.mobile
-        })
-        uCodeRef.value?.start()
+        }).then(() => {
+            uCodeRef.value?.start()
+        }).catch(() => {})
     }
 }
 
 // 密码修改
+const { loading, methodAPI:$forgetPwdApi } = useLock(UserApi.forgetPwd)
 const onResetPwd = async () => {
+    if (checkUtil.isEmpty(form.value.mobile)) {
+        return uni.$u.toast('请输入手机号')
+    }
+
+    if (!checkUtil.isMobile(form.value.mobile)) {
+        return uni.$u.toast('非法的手机号')
+    }
+
+    if (checkUtil.isEmpty(form.value.code)) {
+        return uni.$u.toast('请输入验证码')
+    }
+
     if (checkUtil.isEmpty(form.value.newPassword)) {
         return uni.$u.toast('请输入新的密码')
     }
@@ -89,27 +118,37 @@ const onResetPwd = async () => {
         return uni.$u.toast('两次不密码不一致')
     }
 
-    await UserApi.forgetPwd(form.value)
-    uni.$u.toast('修改成功')
-    uni.navigateBack()
+    await $forgetPwdApi(form.value).then(() => {
+        uni.$u.toast('修改成功')
+        uni.navigateBack()
+    }).catch(() => {})
 }
 </script>
 
 <style lang="scss">
 .layout-regist-widget {
     .head {
-        height: 240rpx;
-        background-color: #2979ff;
+        height: 300rpx;
+        background-color: var(--theme-background);
+        .backdrop {
+            height: 300rpx;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: var(--theme-background);
+            background-image: url(../../static/bg_head_honour.png)
+        }
         .title {
-            padding-top: 20rpx;
+            position: absolute;
+            top: 10rpx;
+            left: 35%;
             font-size: 48rpx;
-            text-align: center;
             color: #ffffff;
+            text-align: center;
         }
     }
     .form {
         margin: 20px;
-        margin-top: -100rpx;
+        margin-top: -180rpx;
         padding: 60rpx;
         border-radius: 14rpx;
         background-color: #ffffff;

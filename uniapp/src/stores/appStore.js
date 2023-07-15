@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import IndexApi from '@/api/indexApi'
+import IndexApi from '@/api/IndexApi'
 import toolUtil from '@/utils/toolUtil'
 
 export const useAppStore = defineStore({
@@ -9,6 +9,7 @@ export const useAppStore = defineStore({
             config: {
                 h5: {},
                 login: {},
+                theme: {},
                 tabBar: []
             }
         }
@@ -16,12 +17,13 @@ export const useAppStore = defineStore({
     getters: {
         h5ConfigVal: (state) => state.config.h5 || {},
         loginConfigVal: (state) => state.config.login || {},
+        themeConfigVal: (state) => state.config.theme || {},
         tabBarConfigVal: (state) => state.config.tabBar || []
     },
     actions: {
         async getSysConfig() {
             this.config = await IndexApi.config()
-            toolUtil.setTabBar()
+            await toolUtil.setTabBar()
         },
         h5Intercepts() {
             // #ifdef H5

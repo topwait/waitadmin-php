@@ -1,105 +1,111 @@
 <template>
-    <!-- 基础信息 -->
-    <view class="mt-20">
-        <u-cell-group>
-            <u-cell-item :arrow="false">
-                <button open-type="chooseAvatar" style="height: 100%;background-color: unset;" @chooseavatar="onUploadAvatar" @tap="onUploadAvatar">
-                    <view class="flex flex-col items-center justify-center">
-                        <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
-                        <view class="mt-6 font-xs color-muted">点击修改头像</view>
-                    </view>
-                </button>
-            </u-cell-item>
-            <u-cell-item title="ID" :arrow="false">
-                <text class="u-margin-right-10">{{ userInfo?.sn }}</text>
-                <u-icon name="lock" size="28" color="#999" />
-            </u-cell-item>
-            <u-cell-item title="账号" :value="userInfo.account" @tap="onShowPopup('account')" />
-            <u-cell-item title="昵称" :value="userInfo.nickname" @tap="onShowPopup('nickname')" />
-            <u-cell-item title="性别" :value="genderEnumer[userInfo.gender]" @tap="onShowPopup('gender')" />
-        </u-cell-group>
-    </view>
-
-    <!-- 绑定信息 -->
-    <view class="mt-20">
-        <u-cell-group>
-            <u-cell-item title="登录密码" @tap="onShowPopup('password')" />
-            <u-cell-item title="绑定微信">
-                <button
-                    class="text-align-right color-muted button-hover"
-                    @tap="onBindWeChat()"
-                >{{ userInfo.isWeiChat ? '已绑定' : '未绑定' }}
-                </button>
-            </u-cell-item>
-            <u-cell-item title="绑定邮箱">
-                <button
-                    class="text-align-right color-muted button-hover"
-                    @tap="onShowPopup('email')"
-                >{{ userInfo.email ? userInfo?.email : '未绑定' }}
-                </button>
-            </u-cell-item>
-            <u-cell-item title="绑定手机">
-                <button
-                    class="text-align-right color-muted button-hover"
-                    open-type="getPhoneNumber"
-                    @getphonenumber="onBindMobile"
-                    @tap="onBindMobile"
-                >{{ userInfo.mobile ? userInfo?.mobile : '未绑定' }}
-                </button>
-            </u-cell-item>
-        </u-cell-group>
-    </view>
-
-    <!-- 协议信息 -->
-    <view class="mt-20">
-        <u-cell-group>
-            <u-cell-item title="隐私政策" @tap="$go('/pages/other/policy?type=privacy')" />
-            <u-cell-item title="服务协议" @tap="$go('/pages/other/policy?type=service')" />
-            <u-cell-item title="关于我们" :value="'v1.2.4'" @tap="$go('/pages/other/about')" />
-        </u-cell-group>
-    </view>
-
-    <!-- 退出登录 -->
-    <view class="logout">
-        <w-button @on-click="onLogout()">退出登录</w-button>
-    </view>
-
-    <!-- 性别修改 -->
-    <u-picker
-        v-model="genderPicker"
-        mode="selector"
-        confirm-color="#4173FF"
-        :default-selector="[genderIndex]"
-        :range="genderListed"
-        @confirm="onGenderEdit"
-    />
-
-    <!-- 密码修改 -->
-    <u-action-sheet
-        v-model="pwdPicker"
-        :list="pwdListed"
-        :safe-area-inset-bottom="true"
-        @click="onPwdPopup"
-    />
-
-    <!-- 弹窗部件 -->
-    <u-popup v-model="popupShow" mode="center" border-radius="12" :closeable="true">
-        <view class="popup-form-widget">
-            <BindEmail v-if="popupType === 'email'" :value="userInfo.email" @close="onClosePopup" />
-            <BindMobile v-if="popupType === 'mobile'" :value="userInfo.mobile" @close="onClosePopup" />
-            <ChangeAccount v-if="popupType === 'account'" :value="userInfo.account" @close="onClosePopup" />
-            <ChangeNickname v-if="popupType === 'nickname'" :value="userInfo.nickname" @close="onClosePopup" />
-            <ChangePassword v-if="popupType === 'changePwd'" :value="userInfo.password" @close="onClosePopup" />
-            <ForgetPassword v-if="popupType === 'forgetPwd'" :value="userInfo.password" @close="onClosePopup" />
+    <view :class="themeName">
+        <!-- 基础信息 -->
+        <view class="pt-20">
+            <u-cell-group>
+                <u-cell-item :arrow="false">
+                    <button open-type="chooseAvatar" style="height: 100%;background-color: unset;" @chooseavatar="onUploadAvatar" @tap="onUploadAvatar">
+                        <view class="flex flex-col items-center justify-center">
+                            <u-avatar :src="userInfo.avatar" mode="circle" size="100" class="h-100" />
+                            <view class="mt-6 font-xs color-muted">点击修改头像</view>
+                        </view>
+                    </button>
+                </u-cell-item>
+                <u-cell-item title="ID" :arrow="false">
+                    <text class="u-margin-right-10">{{ userInfo?.sn }}</text>
+                    <u-icon name="lock" size="28" color="#999" />
+                </u-cell-item>
+                <u-cell-item title="账号" :value="userInfo.account" @tap="onShowPopup('account')" />
+                <u-cell-item title="昵称" :value="userInfo.nickname" @tap="onShowPopup('nickname')" />
+                <u-cell-item title="性别" :value="genderEnumer[userInfo.gender]" @tap="onShowPopup('gender')" />
+            </u-cell-group>
         </view>
-    </u-popup>
+
+        <!-- 绑定信息 -->
+        <view class="pt-20">
+            <u-cell-group>
+                <u-cell-item title="登录密码" @tap="onShowPopup('password')" />
+                <u-cell-item title="绑定微信">
+                    <button
+                        class="text-align-right color-muted button-hover"
+                        @tap="onBindWeChat()"
+                    >{{ userInfo.isWeiChat ? '已绑定' : '未绑定' }}
+                    </button>
+                </u-cell-item>
+                <u-cell-item title="绑定邮箱">
+                    <button
+                        class="text-align-right color-muted button-hover"
+                        @tap="onShowPopup('email')"
+                    >{{ userInfo.email ? userInfo?.email : '未绑定' }}
+                    </button>
+                </u-cell-item>
+                <u-cell-item title="绑定手机">
+                    <button
+                        class="text-align-right color-muted button-hover"
+                        open-type="getPhoneNumber"
+                        @getphonenumber="onBindMobile"
+                        @tap="onBindMobile"
+                    >{{ userInfo.mobile ? userInfo?.mobile : '未绑定' }}
+                    </button>
+                </u-cell-item>
+            </u-cell-group>
+        </view>
+
+        <!-- 协议信息 -->
+        <view class="pt-20">
+            <u-cell-group>
+                <u-cell-item title="隐私政策" @tap="$go('/pages/other/policy?type=privacy')" />
+                <u-cell-item title="服务协议" @tap="$go('/pages/other/policy?type=service')" />
+                <u-cell-item title="关于我们" :value="'v1.2.4'" @tap="$go('/pages/other/about')" />
+            </u-cell-group>
+        </view>
+
+        <!-- 退出登录 -->
+        <view class="logout">
+            <u-button
+                type="theme"
+                shape="circle"
+                @click="onLogout()"
+            >退出登录</u-button>
+        </view>
+
+        <!-- 性别修改 -->
+        <u-picker
+            v-model="genderPicker"
+            mode="selector"
+            confirm-color="#4173FF"
+            :default-selector="[genderIndex]"
+            :range="genderListed"
+            @confirm="onGenderEdit"
+        />
+
+        <!-- 密码修改 -->
+        <u-action-sheet
+            v-model="pwdPicker"
+            :list="pwdListed"
+            :safe-area-inset-bottom="true"
+            @click="onPwdPopup"
+        />
+
+        <!-- 弹窗部件 -->
+        <u-popup v-model="popupShow" mode="center" border-radius="12" :closeable="true">
+            <view class="popup-form-widget">
+                <BindEmail v-if="popupType === 'email'" :value="userInfo.email" @close="onClosePopup" />
+                <BindMobile v-if="popupType === 'mobile'" :value="userInfo.mobile" @close="onClosePopup" />
+                <ChangeAccount v-if="popupType === 'account'" :value="userInfo.account" @close="onClosePopup" />
+                <ChangeNickname v-if="popupType === 'nickname'" :value="userInfo.nickname" @close="onClosePopup" />
+                <ChangePassword v-if="popupType === 'changePwd'" :value="userInfo.password" @close="onClosePopup" />
+                <ForgetPassword v-if="popupType === 'forgetPwd'" :value="userInfo.password" @close="onClosePopup" />
+            </view>
+        </u-popup>
+    </view>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/userStore'
-import UserApi from '@/api/userApi'
+import UserApi from '@/api/UserApi'
 import toolUtil from '@/utils/toolUtil'
 import clientUtil from '@/utils/clientUtil'
 
@@ -253,34 +259,34 @@ const onBindMobile = (e) => {
 // 密码弹窗
 const onPwdPopup = (index) => {
     switch (index) {
-    case 0:
-        popupType.value = 'changePwd'
-        popupShow.value = true
-        break
-    case 1:
-        popupType.value = 'forgetPwd'
-        popupShow.value = true
-        break
-    default:
+        case 0:
+            popupType.value = 'changePwd'
+            popupShow.value = true
+            break
+        case 1:
+            popupType.value = 'forgetPwd'
+            popupShow.value = true
+            break
+        default:
     }
 }
 
 // 基础弹窗
 const onShowPopup = (type) => {
     switch (type) {
-    case 'gender':
-        popupType.value = type
-        genderPicker.value = true
-        genderIndex.value = userInfo.value.gender
-            ? userInfo.value.gender - 1 : userInfo.value.gender
-        break
-    case 'password':
-        popupType.value = type
-        pwdPicker.value = true
-        break
-    default:
-        popupType.value = type
-        popupShow.value = true
+        case 'gender':
+            popupType.value = type
+            genderPicker.value = true
+            genderIndex.value = userInfo.value.gender
+                ? userInfo.value.gender - 1 : userInfo.value.gender
+            break
+        case 'password':
+            popupType.value = type
+            pwdPicker.value = true
+            break
+        default:
+            popupType.value = type
+            popupShow.value = true
     }
 }
 

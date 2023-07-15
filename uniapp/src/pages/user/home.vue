@@ -1,5 +1,5 @@
 <template>
-    <view>
+    <view :class="themeName">
         <view class="layout-header-widget">
             <view class="grid-skinny-unit">
                 <view class="flex items-center">
@@ -32,7 +32,7 @@ import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/userStore'
-import DesignApi from '@/api/designApi'
+import DesignApi from '@/api/DesignApi'
 import UserApi from '@/api/userApi'
 
 const userStore = useUserStore()
@@ -60,11 +60,11 @@ onShow(async () => {
 <style lang="scss">
 .layout-header-widget {
     min-height: 180rpx;
-    background: url("/static/bg_user.png");
+    background: url(../../static/bg_head_radiant.png);
     background-position: center right;
     background-repeat: no-repeat;
     background-size: auto 100%;
-    background-color: $uni-bg-theme;
+    background-color: var(--theme-background);
     .grid-skinny-unit {
         display: flex;
         justify-content: space-between;
@@ -83,10 +83,10 @@ onShow(async () => {
             padding: 8rpx;
             width: 170rpx;
             font-size: 28rpx;
+            color: #ffffff;
             border: 2rpx solid #ffffff;
             border-radius: 50rpx;
             text-align: center;
-            color: #ffffff;
         }
         .icon {
             margin-top: 14rpx;

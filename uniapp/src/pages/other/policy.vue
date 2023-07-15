@@ -1,48 +1,48 @@
 <template>
-    <view class="layout-policy-widget">
-        <u-parse :html="content" />
+    <view :class="themeName">
+        <view class="layout-policy-widget">
+            <u-parse :html="content" />
+        </view>
     </view>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import IndexApi from '@/api/indexApi'
+import IndexApi from '@/api/IndexApi'
 
 const content = ref('')
 
 onLoad((options) => {
     switch (options.type) {
-    case 'service':
-        uni.setNavigationBarTitle({title: '服务协议'})
-        queryPolicy('service')
-        break
-    case 'privacy':
-        uni.setNavigationBarTitle({title: '隐私政策'})
-        queryPolicy('privacy')
-        break
-    default:
-        uni.setNavigationBarTitle({title: '政策协议'})
+        case 'service':
+            uni.setNavigationBarTitle({title: '服务协议'})
+            queryPolicy('service')
+            break
+        case 'privacy':
+            uni.setNavigationBarTitle({title: '隐私政策'})
+            queryPolicy('privacy')
+            break
+        default:
+            uni.setNavigationBarTitle({title: '政策协议'})
     }
 })
 
 const queryPolicy = async (type) => {
     try {
         const data = await IndexApi.policy({ type })
-        console.log(data)
         content.value = data.content
     } catch (e) {
         return false
     }
 }
-
 </script>
 
 <style lang="scss">
 page {
     background-color: #ffffff;
-}
-.layout-policy-widget {
-    padding: 20rpx 10rpx;
+    .layout-policy-widget {
+        padding: 20rpx 10rpx;
+    }
 }
 </style>

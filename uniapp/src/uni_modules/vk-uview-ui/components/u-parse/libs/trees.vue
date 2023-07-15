@@ -90,14 +90,14 @@
 		sub: 1,
 		sup: 1
 	}
-	let global = {};
-	global.Parser = {};
-	import trees from './trees'
+	let globalData = {};
+	globalData.Parser = {};
+	//import trees from './trees'
 	import cfg from '../libs/config.js'
 	const errorImg = cfg.errorImg;
 	export default {
 		components: {
-			trees
+			//trees
 		},
 		name: 'trees',
 		data() {
@@ -116,6 +116,7 @@
 			nodes: Array,
 			lazyLoad: Boolean,
 			loading: String,
+			preview: Boolean,
 			// #ifdef MP-ALIPAY
 			c: String,
 			s: String
@@ -197,13 +198,13 @@
 			imgtap(e) {
 				var attrs = e.currentTarget.dataset.attrs;
 				if (!attrs.ignore) {
-					var preview = true,
+					var preview = this.preview,
 						data = {
 							id: e.target.id,
 							src: attrs.src,
 							ignore: () => preview = false
 						};
-					global.Parser.onImgtap && global.Parser.onImgtap(data);
+					globalData.Parser.onImgtap && globalData.Parser.onImgtap(data);
 					this.top.$emit('imgtap', data);
 					if (preview) {
 						var urls = this.top.imgList,
@@ -243,7 +244,7 @@
 				var jump = true,
 					attrs = e.currentTarget.dataset.attrs;
 				attrs.ignore = () => jump = false;
-				global.Parser.onLinkpress && global.Parser.onLinkpress(attrs);
+				globalData.Parser.onLinkpress && globalData.Parser.onLinkpress(attrs);
 				this.top.$emit('linkpress', attrs);
 				if (jump) {
 					// #ifdef MP

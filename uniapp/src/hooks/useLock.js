@@ -8,7 +8,10 @@ export function useLock(callback) {
         }
 
         loading.value = true
-        const reponse = await callback(params)
+        const reponse = await callback(params).catch(e => {
+            loading.value = false
+            return Promise.reject(e)
+        })
         loading.value = false
         return reponse
     }

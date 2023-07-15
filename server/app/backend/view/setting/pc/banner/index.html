@@ -20,7 +20,9 @@
                 </div>
             </script>
             <script type="text/html" id="table-image">
-                <img src="{{ d.image }}" alt="img" class="previewImage" style="max-width: 120px; width: 120px; height: 60px;">
+                <div class="table-image-wrap" style="width: 120px; height: 60px; background-color: unset;">
+                    <img src="{{ d.image }}" alt="img" class="previewImage">
+                </div>
             </script>
             <script type="text/html" id="table-url">
                 <p class="overflow-3 line-h-22" title="{{ d.url }}">{{ d.url }}</p>

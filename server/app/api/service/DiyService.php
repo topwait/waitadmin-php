@@ -34,7 +34,6 @@ class DiyService extends Service
     {
         // 此处只是临时使用的数据,以后可接入diy功能
         return [
-            'bgHead' => UrlUtils::toAbsoluteUrl('/static/common/images/init/bgHead.png'),
             'banner' => [
                 ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner01.jpg')],
                 ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner02.jpg')],

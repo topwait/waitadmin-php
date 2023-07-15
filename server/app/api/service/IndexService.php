@@ -69,6 +69,7 @@ class IndexService extends Service
         $detail['login'] = [
             'is_agreement' => intval($loginConfig['is_agreement']??0),
             'force_mobile' => intval($loginConfig['force_mobile']??0),
+            'auths_mobile' => intval($loginConfig['auths_mobile']??0),
             'login_modes'  => $loginModes??[],
             'login_other'  => $loginOther??[],
         ];
@@ -80,6 +81,13 @@ class IndexService extends Service
             'logo'      => UrlUtils::toAbsoluteUrl($h5Config['logo']??''),
             'status'    => intval($h5Config['status']??0),
             'close_url' => strval($h5Config['close_url']??'')
+        ];
+
+        // 主题风格
+        $themeConfig = ConfigUtils::get('diy', 'theme');
+        $detail['theme'] = [
+            'subject' => $themeConfig['subject'] ?? '',
+            'color'   => $themeConfig['color']   ?? ''
         ];
 
         // 底部导航

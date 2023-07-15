@@ -44,7 +44,7 @@ class ArticleService extends Service
 
         $model = new Article();
         $lists = $model
-            ->withoutField('is_delete,delete_time')
+            ->withoutField('content,is_delete,delete_time')
             ->with(['category'])
             ->where(['is_delete'=>0])
             ->where(self::$searchWhere)

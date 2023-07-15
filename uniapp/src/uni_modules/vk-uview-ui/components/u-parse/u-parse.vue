@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="u-parse">
 		<slot v-if="!nodes.length" />
 		<!--#ifdef APP-PLUS-NVUE-->
 		<web-view id="_top" ref="web" :style="'margin-top:-2px;height:'+height+'px'" @onPostMessage="_message" />
@@ -10,7 +10,7 @@
 			<div :id="'rtf'+uid"></div>
 			<!--#endif-->
 			<!--#ifndef H5 || MP-360-->
-			<trees :nodes="nodes" :lazyLoad="lazyLoad" :loading="loadingImg" />
+			<trees :nodes="nodes" :lazyLoad="lazyLoad" :loading="loadingImg" :preview="preview"/>
 			<!--#endif-->
 		</view>
 		<!--#endif-->
@@ -60,6 +60,7 @@
 	 * @property {Boolean} showWithAnimation 是否使用渐显动画
 	 * @property {Boolean} useAnchor 是否使用锚点
 	 * @property {Boolean} useCache 是否缓存解析结果
+	 * @property {Boolean} preview 点击图片是否自动预览
 	 * @event {Function} parse 解析完成事件
 	 * @event {Function} load dom 加载完成事件
 	 * @event {Function} ready 所有图片加载完毕事件
@@ -561,13 +562,14 @@
 			},
 			// #ifdef H5 || APP-PLUS-NVUE || MP-360
 			_handleHtml(html, append) {
+				const classPrefix = ".u-parse ";
 				if (!append) {
 					// 处理 tag-style 和 userAgentStyles
-					var style = '<style>@keyframes _show{0%{opacity:0}100%{opacity:1}}img{max-width:100%}';
+					var style = `<style>@keyframes _show{0%{opacity:0}100%{opacity:1}}${classPrefix}img{max-width:100%}`;
 					for (var item in cfg.userAgentStyles)
-						style += `${item}{${cfg.userAgentStyles[item]}}`;
+						style += `${classPrefix}${item}{${cfg.userAgentStyles[item]}}`;
 					for (item in this.tagStyle)
-						style += `${item}{${this.tagStyle[item]}}`;
+						style += `${classPrefix}${item}{${this.tagStyle[item]}}`;
 					style += '</style>';
 					html = style + html;
 				}
@@ -579,6 +581,7 @@
 			// #endif
 			// #ifdef APP-PLUS-NVUE
 			_message(e) {
+				var _ts = this;
 				// 接收 web-view 消息
 				var d = e.detail.data[0];
 				switch (d.action) {
@@ -599,7 +602,7 @@
 							this.imgList.setItem(i, d.imgList[i]);
 						break;
 					case 'preview':
-						var preview = true;
+						var preview = _ts.preview;
 						d.img.ignore = () => preview = false;
 						this.$emit('imgtap', d.img);
 						if (preview)
@@ -654,7 +657,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	@keyframes _show {
 		0% {
 			opacity: 0;
