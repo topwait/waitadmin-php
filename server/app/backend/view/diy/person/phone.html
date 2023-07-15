@@ -1,7 +1,8 @@
 <style>
-    .phone .top-bar { position: relative; min-height: 70px; background: url("/static/backend/images/diy/phone-top-white.png") center center / contain no-repeat #2979ff; }
+    .phone { --phone-color: {$detail.themeColor};}
+    .phone .top-bar { position: relative; min-height: 70px; background: url("/static/backend/images/diy/phone-top-white.png") center center / contain no-repeat var(--phone-color); }
     .phone .top-bar .title { position: absolute; bottom: 10px; left: 155px; font-size: 14px; color: #ffffff; }
-    .phone .header { display: flex; justify-content: space-between; background-color: #2979ff; }
+    .phone .header { display: flex; justify-content: space-between; background-color: var(--phone-color); }
     .phone .header .user { display: flex; align-items: center; padding: 6px 15px 20px; color: #ffffff; }
     .phone .header .user .avatar { width: 60px; height: 60px; border-radius: 50%; }
     .phone .header .user .login { margin-left: 10px; padding: 4px; width: 85px; font-size: 14px; border: 1px solid #ffffff; border-radius: 25px; text-align: center; color: #ffffff; }
@@ -16,7 +17,7 @@
 
     #phoneView { overflow: hidden; overflow-y: auto; padding: 10px 0; height: 494px; box-sizing: border-box; }
     .phone-diy { border: 2px rgb(220 223 230) dashed; }
-    .phone-diy.on { border: 2px #2979ff dashed; }
+    .phone-diy.on { border: 2px var(--phone-color) dashed; }
     .phone-service { margin: 0 10px; border-radius: 4px; background-color: #ffffff; }
     .phone-service .service-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 10px 5px; font-size: 15px; font-weight: 600; color: #282828; }
     .phone-service .service-mould { display: flex; align-items: center; flex-wrap: wrap; padding: 7px 0; }

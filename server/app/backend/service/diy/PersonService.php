@@ -55,6 +55,9 @@ class PersonService extends Service
             }
         }
 
+        $themeColor = ConfigUtils::get('diy', 'theme');
+        $data['themeColor'] = $themeColor['color'] ?? '#2979ff';
+
         return $data;
     }
 
