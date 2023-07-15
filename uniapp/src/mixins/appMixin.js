@@ -15,6 +15,7 @@ export default {
         await this.initTheme()
     },
     methods: {
+        // 初始化主题
         initTheme() {
             const appStore = useAppStore()
             const routes = getCurrentPages()
@@ -24,18 +25,41 @@ export default {
             this.themeColor = appStore.themeConfigVal.color || '#2979ff'
 
             if (this.themeName) {
-                for (let i = 0; i < PagesJSON.pages.length; i++) {
-                    const paths = PagesJSON.pages[i].path
-                    if (paths === currentRoute) {
-                        const style = PagesJSON.pages[i].style || []
-                        if (style.navigationRetinueTheme !== false) {
-                            uni.setNavigationBarColor({
-                                frontColor: '#ffffff',
-                                backgroundColor: this.themeColor
-                            })
+                if (currentRoute.startsWith('pages/')) {
+                    this.__changeTheme(PagesJSON.pages, currentRoute)
+                } else {
+                    const { subPackages } = PagesJSON
+                    for (let i = 0; i < subPackages.length; i++) {
+                        const subRoots = subPackages[i].root
+                        const currRoot = currentRoute.split('/')[0].toLowerCase()
+                        if (!subRoots || subRoots.toLowerCase() !== currRoot) {
+                            continue
                         }
-                        break
+
+                        const subPages = subPackages[i].pages
+                        for (let i = 0; i < subPages.length; i++) {
+                            this.__changeTheme(subPages, currentRoute, subRoots)
+                        }
                     }
+                }
+            }
+        },
+        // 改变主题色
+        __changeTheme(pages, currentRoute, subRoot) {
+            for (let i = 0; i < pages.length; i++) {
+                let paths = pages[i].path
+                if (subRoot) {
+                    paths = subRoot + '/' + paths
+                }
+                if (paths === currentRoute) {
+                    const style = pages[i].style || []
+                    if (style.navigationRetinueTheme !== false) {
+                        uni.setNavigationBarColor({
+                            frontColor: '#ffffff',
+                            backgroundColor: this.themeColor
+                        })
+                    }
+                    break
                 }
             }
         }
