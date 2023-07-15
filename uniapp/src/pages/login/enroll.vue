@@ -72,8 +72,8 @@
                 <view v-if="isOpenAgreement" class="treaty">
                     <u-checkbox v-model="isCheckAgreement" shape="circle" :active-color="themeColor" />
                     <text class="ml-10">已阅读并同意</text>
-                    <text class="color-theme">《用户协议》</text>与
-                    <text class="color-theme">《隐私协议》</text>
+                    <text class="color-theme" @click="$go('/pages/other/policy?type=service')">《用户协议》</text>与
+                    <text class="color-theme" @click="$go('/pages/other/policy?type=privacy')">《隐私协议》</text>
                 </view>
 
                 <!-- 其它登录 -->
