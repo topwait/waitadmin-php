@@ -1,6 +1,6 @@
 export const config = {
     // 请求的本域名
-    baseUrl: `${import.meta.env.VITE_APP_BASE_URL || ''}`,
+    baseUrl: `${import.meta.env.VITE_APP_BASE_URL || ''}/api`,
     // 设置为JSON
     dataType: 'json',
     // 显示请求中

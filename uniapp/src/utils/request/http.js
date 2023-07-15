@@ -4,6 +4,7 @@ import errorEnum from '@/enums/errorEnum'
 import clientUtil from '@/utils/clientUtil'
 
 const install = (Vue) => {
+
     // 参数配置
     Vue.config.globalProperties.$u.http.setConfig(config)
 

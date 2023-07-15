@@ -68,7 +68,7 @@ onShow(async () => {
         background-repeat: no-repeat;
         background-size: cover;
         background-color: var(--theme-background);
-        background-image: url("/static/bg_head_honour.png");
+        background-image: url(../../static/bg_head_honour.png);
     }
     .diy-swiper {
         position: relative;
