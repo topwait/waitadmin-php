@@ -166,7 +166,8 @@
                                     table.reload();
                                     layer.close(index);
                                 }
-                            }).catch(() => {
+                            }).catch((e) => {
+                                console.log(e)
                                 waitUtil.unlock(this);
                             });
                         });
