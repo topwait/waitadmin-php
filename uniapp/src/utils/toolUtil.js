@@ -106,10 +106,12 @@ export default {
         const diyBottomNav = appStore.tabBarConfigVal.list
 
         // 设置导航文本颜色
-        uni.setTabBarStyle({
-            color: diyBottomStyle.unselectedColor,
-            selectedColor: diyBottomStyle.selectedColor
-        })
+        if (diyBottomStyle.selectedColor) {
+            uni.setTabBarStyle({
+                color: diyBottomStyle.unselectedColor,
+                selectedColor: diyBottomStyle.selectedColor
+            })
+        }
 
         // APP端导航渲染
         // #ifdef APP-PLUS

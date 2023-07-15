@@ -37,58 +37,58 @@
         },
         {
             "auth": true,
+            "vary": false,
             "path": "pages/user/intro",
             "style": {
                 "navigationBarTitleText": "个人简介",
                 "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff",
-                "navigationRetinueTheme": false
+                "navigationBarBackgroundColor": "#ffffff"
             }
         },
         {
             "path": "pages/article/list",
+            "vary": false,
             "style": {
                 "navigationBarTitleText": "资讯列表",
                 "navigationBarTextStyle": "black",
                 "navigationBarBackgroundColor": "#ffffff",
-                "navigationRetinueTheme": false,
                 "disableScroll": true
             }
         },
         {
+            "vary": false,
             "path": "pages/article/detail",
             "style": {
                 "navigationBarTitleText": "资讯详情",
                 "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff",
-                "navigationRetinueTheme": false
+                "navigationBarBackgroundColor": "#ffffff"
             }
         },
         {
+            "vary": false,
             "path": "pages/other/about",
             "style": {
                 "navigationBarTitleText": "关于我们",
                 "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff",
-                "navigationRetinueTheme": false
+                "navigationBarBackgroundColor": "#ffffff"
             }
         },
         {
+            "vary": false,
             "path": "pages/other/policy",
             "style": {
                 "navigationBarTitleText": "政策协议",
                 "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff",
-                "navigationRetinueTheme": false
+                "navigationBarBackgroundColor": "#ffffff"
             }
         },
         {
+            "vary": false,
             "path": "pages/other/customer",
             "style": {
                 "navigationBarTitleText": "联系客服",
                 "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff",
-                "navigationRetinueTheme": false
+                "navigationBarBackgroundColor": "#ffffff"
             }
         }
     ],

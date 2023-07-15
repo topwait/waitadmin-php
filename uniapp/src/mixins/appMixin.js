@@ -52,8 +52,7 @@ export default {
                     paths = subRoot + '/' + paths
                 }
                 if (paths === currentRoute) {
-                    const style = pages[i].style || []
-                    if (style.navigationRetinueTheme !== false) {
+                    if (pages[i].vary !== false) {
                         uni.setNavigationBarColor({
                             frontColor: '#ffffff',
                             backgroundColor: this.themeColor

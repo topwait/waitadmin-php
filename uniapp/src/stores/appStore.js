@@ -23,7 +23,7 @@ export const useAppStore = defineStore({
     actions: {
         async getSysConfig() {
             this.config = await IndexApi.config()
-            toolUtil.setTabBar()
+            await toolUtil.setTabBar()
         },
         h5Intercepts() {
             // #ifdef H5
