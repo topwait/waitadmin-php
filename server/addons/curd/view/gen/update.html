@@ -407,7 +407,7 @@
             html = html.replace('layui-btn-warm', 'layui-btn-danger');
             html = html.replace('addInput', 'delInput');
             html = html.replace('icon-add', 'icon-del');
-            html = html.replaceAll('join[0]', 'join['+(joinLength+1)+']');
+            html = html.replaceAll('join[1]', 'join['+(joinLength+1)+']');
             node.append(html);
 
             let lastNode = $('.formJoinArray .layui-form-item').last();
