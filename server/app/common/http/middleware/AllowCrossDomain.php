@@ -31,17 +31,14 @@ class AllowCrossDomain
      */
     public function handle($request, Closure $next): mixed
     {
-        if (app()->http->getName() === 'api') {
-            header('Access-Control-Allow-Origin: *');
-            header('Access-Control-Allow-Headers: *');
-            header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE');
-            header('Access-Control-Max-Age: 1728000');
-            header('Access-Control-Allow-Credentials:true');
-            if (strtoupper($request->method()) == 'OPTIONS') {
-                return response();
-            }
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: *');
+        header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE');
+        header('Access-Control-Max-Age: 1728000');
+        header('Access-Control-Allow-Credentials:true');
+        if (strtoupper($request->method()) == 'OPTIONS') {
+            return response();
         }
-
         return $next($request);
     }
 }
