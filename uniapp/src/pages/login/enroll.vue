@@ -139,8 +139,8 @@ import { ref, computed, shallowRef } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import { useLock } from '@/hooks/useLock'
-import LoginApi from '@/api/LoginApi'
-import IndexApi from '@/api/IndexApi'
+import loginApi from '@/api/loginApi'
+import indexApi from '@/api/indexApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 import clientUtil from '@/utils/clientUtil'
@@ -247,7 +247,7 @@ const sendSmsByLogin = async () => {
         return uni.$u.toast('请输入手机号')
     }
     if (uCodeRefByLogin.value?.canGetCode) {
-        await IndexApi.sendSms({
+        await indexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.mobile
         })
@@ -262,7 +262,7 @@ const sendSmsByPhone = async () => {
         return uni.$u.toast('请输入手机号')
     }
     if (uCodeRefByPhone.value?.canGetCode) {
-        await IndexApi.sendSms({
+        await indexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.mobile
         })
@@ -291,7 +291,7 @@ const onUpLogin = () => {
         return uni.$u.toast('请输入验证码')
     }
 
-    LoginApi.login({
+    loginApi.login({
         scene: LoginSceneEnum.BIND,
         code: phoneForm.code,
         sign: phoneForm.sign,
@@ -303,7 +303,7 @@ const onUpLogin = () => {
 }
 
 // 普通登录
-const { loading, methodAPI:$loginApi } = useLock(LoginApi.login)
+const { loading, methodAPI:$loginApi } = useLock(loginApi.login)
 const onSaLogin = (scene) => {
     let params = {}
     if (scene === LoginSceneEnum.MOBILE) {

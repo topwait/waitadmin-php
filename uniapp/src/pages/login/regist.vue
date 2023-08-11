@@ -51,8 +51,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useLock } from '@/hooks/useLock'
-import IndexApi from '@/api/IndexApi'
-import LoginApi from '@/api/LoginApi'
+import indexApi from '@/api/indexApi'
+import loginApi from '@/api/loginApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -86,7 +86,7 @@ const onSendSms = async () => {
     }
 
     if (uCodeRef.value?.canGetCode) {
-        await IndexApi.sendSms({
+        await indexApi.sendSms({
             scene: smsEnum.REGISTER,
             mobile: form.value.mobile
         }).then(() => {
@@ -96,7 +96,7 @@ const onSendSms = async () => {
 }
 
 // 注册账号
-const { loading, methodAPI:$registerApi } = useLock(LoginApi.register)
+const { loading, methodAPI:$registerApi } = useLock(loginApi.register)
 const onRegister = async () => {
     if (checkUtil.isEmpty(form.value.account)) {
         return uni.$u.toast('请输登录账号')

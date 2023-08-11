@@ -33,8 +33,8 @@
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
 import { useLock } from '@/hooks/useLock'
-import IndexApi from '@/api/IndexApi'
-import UserApi from '@/api/UserApi'
+import indexApi from '@/api/indexApi'
+import userApi from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -80,7 +80,7 @@ const onSendEmail = async () => {
     }
 
     if (uCodeRef.value?.canGetCode) {
-        await IndexApi.sendEmail({
+        await indexApi.sendEmail({
             scene: smsEnum.BIND_EMAIL,
             email: form.value.email
         }).then(() => {
@@ -90,7 +90,7 @@ const onSendEmail = async () => {
 }
 
 // 绑定邮箱
-const { loading, methodAPI:$bindEmailApi } = useLock(UserApi.bindEmail)
+const { loading, methodAPI:$bindEmailApi } = useLock(userApi.bindEmail)
 const onBindEmail = async () => {
     if (checkUtil.isEmpty(form.value.email)) {
         return uni.$u.toast('请输入邮箱号')

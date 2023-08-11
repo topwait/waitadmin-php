@@ -18,7 +18,7 @@
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
 import { useLock } from '@/hooks/useLock'
-import UserApi from '@/api/UserApi'
+import userApi from '@/api/userApi'
 import checkUtil from '@/utils/checkUtil'
 
 // 定义事件s
@@ -43,7 +43,7 @@ watch(() => props.value,
 )
 
 // 更新用户
-const { loading, methodAPI:$userEditApi } = useLock(UserApi.edit)
+const { loading, methodAPI:$userEditApi } = useLock(userApi.edit)
 const onUpdateUser = async () => {
     if (checkUtil.isEmpty(formValue.value)) {
         return uni.$u.toast('账号不允许为空')
