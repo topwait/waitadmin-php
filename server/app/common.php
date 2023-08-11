@@ -202,6 +202,34 @@ if (!function_exists('active_url')) {
     }
 }
 
+if (!function_exists('user_agent')) {
+    /**
+     * 获取浏览器标识
+     *
+     * @return string
+     * @author zero
+     */
+    function user_agent(): string
+    {
+        $userAgent = request()->header('user-agent');
+        if (str_contains($userAgent, 'Chrome')) {
+            return 'chrome';
+        } elseif (str_contains($userAgent, 'Firefox')) {
+            return 'firefox';
+        } elseif (str_contains($userAgent, 'Safari')) {
+            return 'safari';
+        } elseif (str_contains($userAgent, 'Opera')) {
+            return 'opera';
+        } elseif (str_contains($userAgent, 'Edge')) {
+            return 'edge';
+        } elseif (str_contains($userAgent, 'MSIE') || str_contains($userAgent, 'Trident/')) {
+            return 'ie';
+        } else {
+            return 'other';
+        }
+    }
+}
+
 if (!function_exists('curl_get')) {
     /**
      * 发起GET请求
