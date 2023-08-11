@@ -76,6 +76,6 @@
         "stylelint-config-standard": "^34.0.0",
         "stylelint-config-standard-scss": "^10.0.0",
         "stylelint-order": "^6.0.3",
-        "vite": "^4.3.9"
+        "vite": "4.3.9"
     }
 }
