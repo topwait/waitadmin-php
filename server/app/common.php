@@ -211,7 +211,7 @@ if (!function_exists('user_agent')) {
      */
     function user_agent(): string
     {
-        $userAgent = request()->header('user-agent');
+        $userAgent = request()->header('user-agent', '');
         if (str_contains($userAgent, 'Chrome')) {
             return 'chrome';
         } elseif (str_contains($userAgent, 'Firefox')) {

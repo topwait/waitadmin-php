@@ -125,7 +125,13 @@
                                 </u-button>
                             </template>
                         </u-form-item>
-                        <w-button pt="60" @on-click="onUpLogin">确认</w-button>
+                        <view class="pt-60">
+                            <u-button
+                                type="theme"
+                                shape="circle"
+                                @click="onUpLogin()"
+                            >确认</u-button>
+                        </view>
                     </u-form>
                 </view>
             </u-popup>
