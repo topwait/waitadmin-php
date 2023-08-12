@@ -1,0 +1,13 @@
+{
+    "pages.index.index": "WaitAdmin",
+    "pages.login.enroll": "Login",
+    "pages.login.regist": "Register",
+    "pages.login.forget": "Forgot Password",
+    "pages.user.home": "Personal Center",
+    "pages.user.intro": "Personal Profile",
+    "pages.article.list": "information List",
+    "page.article.detail": "information Detail",
+    "pages.other.about": "About",
+    "pages.other.policy": "Policy",
+    "pages.other.customer": "Customer Service"
+}
