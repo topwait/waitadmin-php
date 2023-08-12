@@ -7,9 +7,9 @@ import uHttp from '@/utils/request/http'
 import uView from '@/uni_modules/vk-uview-ui'
 import minxinsApp from '@/mixins/appMixin'
 import './styles/index.scss'
-import en from './locale/en.json'
-import zhHans from './locale/zh-Hans.json'
-import zhHant from './locale/zh-Hant.json'
+import en from './lang/en.json'
+import zhHans from './lang/zh-Hans.json'
+import zhHant from './lang/zh-Hant.json'
 
 let i18nConfig = {
     locale: uni.getLocale(),
