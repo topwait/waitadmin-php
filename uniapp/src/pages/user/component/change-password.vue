@@ -24,7 +24,7 @@
 <script setup>
 import { ref, watch, defineEmits } from 'vue'
 import { useLock } from '@/hooks/useLock'
-import UserApi from '@/api/UserApi.js'
+import userApi from '@/api/userApi.js'
 import checkUtil from '@/utils/checkUtil'
 
 // 定义事件
@@ -53,7 +53,7 @@ watch(() => props.value,
 )
 
 // 密码修改
-const { loading, methodAPI:$changePwdApi } = useLock(UserApi.changePwd)
+const { loading, methodAPI:$changePwdApi } = useLock(userApi.changePwd)
 const onPwdEdit = async () => {
     if (checkUtil.isEmpty(form.value.oldPassword)) {
         return uni.$u.toast('请输入原始密码')

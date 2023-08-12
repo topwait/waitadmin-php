@@ -1,0 +1,144 @@
+{extend name="common/layout" /}
+
+{block name="body"}
+<div class="container">
+    <!-- 搜索栏 -->
+    <form class="layui-form layui-search">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label for="method" class="layui-form-label">请求方式：</label>
+                <div class="layui-input-inline layui-sm-select">
+                    <select id="method" name="method">
+                        <option value="" selected>全部</option>
+                        <option value="GET">GET</option>
+                        <option value="PUT">PUT</option>
+                        <option value="POST">POST</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label for="status" class="layui-form-label">操作状态：</label>
+                <div class="layui-input-inline layui-sm-select">
+                    <select id="status" name="status">
+                        <option value="" selected>全部</option>
+                        <option value="1">成功</option>
+                        <option value="2">失败</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label for="username" class="layui-form-label">操作人员：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" name="username" class="layui-input" placeholder="请输入操作人员" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label for="ip" class="layui-form-label">来源IP：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="ip" name="ip" class="layui-input" placeholder="请输入来源IP" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label for="url" class="layui-form-label">访问路由：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="url" name="url" class="layui-input" placeholder="请输入访问路由" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-inline layui-input-datetime">
+                <label for="datetime" class="layui-form-label">操作时间：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="datetime" name="datetime" class="layui-input" placeholder="开始时间 - 结束时间" readonly>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-sm layui-btn-default" lay-submit lay-filter="search">查询</a>
+                <a class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="clear-search">重置</a>
+            </div>
+        </div>
+    </form>
+
+    <!-- 表格栏 -->
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+            <script type="text/html" id="table-status">
+                {{#  if(d.status === 1){ }}
+                <span class="color-success" lay-tips="成功"><i class="layui-icon layui-icon-circle-dot"></i></span>
+                {{# } else { }}
+                <span class="color-error" lay-tips="失败"><i class="layui-icon layui-icon-circle-dot"></i></span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-operate">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">
+                    <i class="layui-icon icon-detail"></i><span>详情</span>
+                </button>
+            </script>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.use(['laydate', 'form'], function() {
+        let $       = layui.$;
+        let laydate = layui.laydate;
+        let form    = layui.form;
+
+        // 时间选择
+        laydate.render({elem: '#datetime' ,type: 'datetime' ,trigger: 'click' ,range: true});
+
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("user.visitor/index")}'
+            ,toolbar: false
+            ,cols: [[
+                {field:'id', title:'ID', width:80, align:'center'},
+                {field:'account', title:'操作人', width:90, align:'center'},
+                {field:'module', title:'所属模块', width:90, align:'center'},
+                {field:'method', title:'请求方式', width:90, align:'center'},
+                {field:'url', title:'请求路由', width:200},
+                {field:'ip', title:'来源IP', width:140, align:'center'},
+                {field:'browser', title:'来源UA', width:90, align:'center'},
+                {field:'task_time', title:'耗时', width:60, align:'center'},
+                {field:'status', title:'状态', width:60, align:'center', templet:'#table-status'},
+                {field:'create_time', title:'操作时间', width:170, align:'center'},
+                {fixed:'right', title:'操作', width:85, align:'center', toolbar:'#table-operate'},
+            ]]
+        });
+
+        // 逻辑事件
+        waitUtil.event({
+            detail: function (obj) {
+                waitUtil.popup({
+                    title: '详情',
+                    url: '{:route("user.visitor/detail")}?id='+obj.data.id,
+                    area: ['600px', '500px'],
+                    success: function () {}
+                });
+            }
+        });
+
+        // 监听搜索
+        form.on('submit(search)', function(data) {
+            table.reload({
+                where: data.field,
+                page: {curr: 1}
+            });
+        });
+
+        // 清空搜索
+        form.on('submit(clear-search)', function() {
+            $(".layui-search input").val("");
+            $(".layui-search select").val("");
+            form.render("select");
+            table.reload({
+                where: [],
+                page: {curr: 1}
+            });
+        });
+    });
+</script>
+{/block}

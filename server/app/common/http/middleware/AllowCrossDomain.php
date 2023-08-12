@@ -18,9 +18,6 @@ use Closure;
 
 /**
  * 自定义跨域中间件
- *
- * Class AllowCrossDomain
- * @package app\common\http\middleware
  */
 class AllowCrossDomain
 {
@@ -34,17 +31,14 @@ class AllowCrossDomain
      */
     public function handle($request, Closure $next): mixed
     {
-        $response = $next($request);
-        $response->header([
-            'Access-Control-Allow-Origin'      => '*',
-            'Access-Control-Allow-Headers'     => '*',
-            'Access-Control-Allow-Methods'     => 'GET, POST',
-            'Access-Control-Allow-Credentials' => 'true',
-            'Access-Control-Max-Age'           => '1728000',
-        ]);
-        if (strtoupper($request->method()) === 'OPTIONS') {
-            $response->code(204);
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: *');
+        header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE');
+        header('Access-Control-Max-Age: 1728000');
+        header('Access-Control-Allow-Credentials:true');
+        if (strtoupper($request->method()) == 'OPTIONS') {
+            return response();
         }
-        return $response;
+        return $next($request);
     }
 }

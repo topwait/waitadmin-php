@@ -15,24 +15,27 @@
 namespace app\common\http\middleware;
 
 use app\common\model\sys\SysLog;
+use app\common\model\sys\SysVisitor;
 use Closure;
 
 /**
  * 系统日志中间件
- *
- * Class LogMiddleware
- * @package app\admin\http\middleware
  */
 class LogsMiddleware
 {
     public function handle($request, Closure $next)
     {
-        $response = $next($request);
-        if (request()->isAjax() && app()->http->getName() === 'backend') {
-            $startTime = round(app()->getBeginTime(), 3);
-            $endTime   = round(microtime(true), 3);
-            $taskTime  = intval(($endTime - $startTime)*1000);
+        $startTime = round(app()->getBeginTime(), 3);
+        $response  = $next($request);
+        $endTime   = round(microtime(true), 3);
+        $taskTime  = intval(($endTime - $startTime)*1000);
 
+        $params = request()->param();
+        if (isset($params['password'])) {
+            $params['password'] = '******';
+        }
+
+        if (request()->isAjax() && app()->http->getName() === 'backend') {
             if (SysLog::$logId) {
                 SysLog::update([
                     'task_time' => $taskTime,
@@ -48,7 +51,31 @@ class LogsMiddleware
                     'url'         => str_replace('.html', '', $baseUrls),
                     'ip'          => request()->ip(),
                     'ua'          => request()->header('User-Agent'),
-                    'params'      => json_encode(request()->param(), JSON_UNESCAPED_UNICODE),
+                    'params'      => json_encode($params, JSON_UNESCAPED_UNICODE),
+                    'task_time'   => $taskTime,
+                    'start_time'  => $startTime,
+                    'end_time'    => $endTime,
+                    'create_time' => time()
+                ]);
+            }
+        } else if (app()->http->getName() !== 'backend') {
+            if (SysVisitor::$logId) {
+                SysVisitor::update([
+                    'task_time' => $taskTime,
+                    'end_time'  => $endTime
+                ], ['id'=>SysVisitor::$logId]);
+            } else {
+                $userId   = session('userId') ?? 0;
+                $baseUrls = request()->baseUrl();
+                SysVisitor::create([
+                    'user_id'     => $userId,
+                    'module'      => app()->http->getName(),
+                    'method'      => request()->method(),
+                    'url'         => str_replace('.html', '', $baseUrls),
+                    'ip'          => request()->ip(),
+                    'ua'          => request()->header('User-Agent'),
+                    'browser'     => user_agent(),
+                    'params'      => json_encode($params, JSON_UNESCAPED_UNICODE),
                     'task_time'   => $taskTime,
                     'start_time'  => $startTime,
                     'end_time'    => $endTime,

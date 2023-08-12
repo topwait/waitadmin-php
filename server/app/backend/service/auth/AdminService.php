@@ -114,11 +114,11 @@ class AdminService extends Service
             ->findOrEmpty()
             ->toArray();
 
-        $salt = make_rand_char(6);
-        $post['password'] = make_md5_str($post['password'], $salt);
+        $salt     = $admin['salt'];
+        $password = $admin['password'];
         if (!empty($post['password']) and $post['password']) {
-            $post['password'] = $admin['password'];
-            $salt = $admin['salt'];
+            $salt     = make_rand_char(6);
+            $password = make_md5_str($post['password'], $salt);
         }
 
         $avatar = UrlUtils::toRelativeUrl($post['avatar']??'');
@@ -131,7 +131,7 @@ class AdminService extends Service
             'salt'            => $salt,
             'avatar'          => $avatar,
             'nickname'        => $post['nickname'],
-            'password'        => $post['password'],
+            'password'        => $password,
             'phone'           => $post['phone'] ?? '',
             'email'           => $post['email'] ?? '',
             'is_disable'      => $post['is_disable'],

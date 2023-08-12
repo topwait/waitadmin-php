@@ -29,7 +29,7 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import ArticleApi from '@/api/ArticleApi'
+import articleApi from '@/api/articleApi'
 import ArticlePagInList from './component/article-pagin-list'
 import ArticleSearchInput from './component/article-search-input'
 
@@ -64,6 +64,6 @@ const animations = (e) => {
 }
 
 const queryCategoryList = async () => {
-    tabList.value = await ArticleApi.category()
+    tabList.value = await articleApi.category()
 }
 </script>

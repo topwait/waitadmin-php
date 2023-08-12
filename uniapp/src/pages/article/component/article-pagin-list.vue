@@ -34,7 +34,7 @@
 
 <script setup>
 import { ref, watch, nextTick } from 'vue'
-import ArticleApi from '@/api/ArticleApi'
+import articleApi from '@/api/articleApi'
 
 const paging = ref(null)
 const isFirst = ref(false)
@@ -92,7 +92,7 @@ const queryArticleList = async (pageNo, pageSize) => {
     if (props.keyword) {
         params.keyword = props.keyword
     }
-    ArticleApi.lists(params).then(res => {
+    articleApi.lists(params).then(res => {
         paging.value.complete(res.data)
         isFirst.value = true
     }).catch(() => {

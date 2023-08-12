@@ -33,8 +33,8 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
 import { useLock } from '@/hooks/useLock'
-import IndexApi from '@/api/IndexApi'
-import UserApi from '@/api/UserApi.js'
+import indexApi from '@/api/indexApi'
+import userApi from '@/api/userApi.js'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -74,7 +74,7 @@ const onSendSms = async () => {
     }
 
     if (uCodeRef.value?.canGetCode) {
-        await IndexApi.sendSms({
+        await indexApi.sendSms({
             scene: smsEnum.BIND_MOBILE,
             mobile: form.value.mobile
         })
@@ -83,7 +83,7 @@ const onSendSms = async () => {
 }
 
 // 绑定手机
-const { loading, methodAPI:$bindMobileApi } = useLock(UserApi.bindMobile)
+const { loading, methodAPI:$bindMobileApi } = useLock(userApi.bindMobile)
 const onBindMobile = async (e) => {
     if (e === undefined || !e.detail.code) {
         if (checkUtil.isEmpty(form.value.mobile)) {

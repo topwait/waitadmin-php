@@ -48,8 +48,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useLock } from '@/hooks/useLock'
-import IndexApi from '@/api/IndexApi'
-import UserApi from '@/api/UserApi'
+import indexApi from '@/api/indexApi'
+import userApi from '@/api/userApi'
 import smsEnum from '@/enums/smsEnum'
 import checkUtil from '@/utils/checkUtil'
 
@@ -82,7 +82,7 @@ const onSendSms = async () => {
     }
 
     if (uCodeRef.value?.canGetCode) {
-        await IndexApi.sendSms({
+        await indexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.value.mobile
         }).then(() => {
@@ -92,7 +92,7 @@ const onSendSms = async () => {
 }
 
 // 密码修改
-const { loading, methodAPI:$forgetPwdApi } = useLock(UserApi.forgetPwd)
+const { loading, methodAPI:$forgetPwdApi } = useLock(userApi.forgetPwd)
 const onResetPwd = async () => {
     if (checkUtil.isEmpty(form.value.mobile)) {
         return uni.$u.toast('请输入手机号')

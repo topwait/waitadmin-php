@@ -47,16 +47,16 @@
 <script setup>
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
-import DesignApi from '@/api/DesignApi'
-import IndexApi from '@/api/IndexApi'
+import designApi from '@/api/designApi'
+import indexApi from '@/api/indexApi'
 
 const diyItem = ref([])
 const article = ref([])
 
 onShow(async () => {
-    const results = await IndexApi.index()
+    const results = await indexApi.index()
     article.value = results.article
-    diyItem.value = await DesignApi.diyIndex()
+    diyItem.value = await designApi.diyIndex()
 })
 </script>
 
