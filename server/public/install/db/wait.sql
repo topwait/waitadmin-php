@@ -424,6 +424,30 @@ CREATE TABLE `wait_sys_log`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for wait_sys_visitor
+-- ----------------------------
+DROP TABLE IF EXISTS `wait_sys_visitor`;
+CREATE TABLE `wait_sys_visitor` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '操作人员',
+  `module` varchar(30) NOT NULL DEFAULT '' COMMENT '所属模块',
+  `method` varchar(30) NOT NULL DEFAULT '' COMMENT '请求方法',
+  `url` varchar(100) NOT NULL DEFAULT '' COMMENT '请求路由',
+  `ip` varchar(100) NOT NULL DEFAULT '' COMMENT '请求IP',
+  `ua` varchar(300) NOT NULL DEFAULT '' COMMENT '请求UA',
+  `browser` varchar(100) NOT NULL DEFAULT '' COMMENT '请求内核',
+  `params` text COMMENT '请求参数',
+  `error` text COMMENT '错误信息',
+  `trace` text COMMENT '错误异常',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '执行状态: 1=成功, 2=失败',
+  `start_time` varchar(20) NOT NULL DEFAULT '0' COMMENT '开始时间: 毫秒',
+  `end_time` varchar(20) NOT NULL DEFAULT '0' COMMENT '结束时间: 毫秒',
+  `task_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '耗时时间: 毫秒',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '操作时间',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1064 DEFAULT CHARSET=utf8mb4 COMMENT='浏览日志表';
+
+-- ----------------------------
 -- Table structure for wait_sys_dict_data
 -- ----------------------------
 DROP TABLE IF EXISTS `wait_sys_dict_data`;
@@ -750,6 +774,9 @@ INSERT INTO `wait_auth_menu` VALUES (4102, 4100, 'app', '分组详情', '', 'use
 INSERT INTO `wait_auth_menu` VALUES (4103, 4100, 'app', '分组新增', '', 'user.group/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4104, 4100, 'app', '分组编辑', '', 'user.group/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4105, 4100, 'app', '分组删除', '', 'user.group/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (4110, 4000, 'app', '用户足迹', '', 'user.visitor/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (4111, 4110, 'app', '足迹列表', '', 'user.visitor/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (4112, 4110, 'app', '足迹详情', '', 'user.visitor/detail', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (5700, 0, 'app', '装修', 'layui-icon layui-icon-windows', '', 40, 1, 0, 0, 1648696695, 1678629666, 0);
 INSERT INTO `wait_auth_menu` VALUES (5720, 5700, 'app', '底部导航', '', 'diy.tabbar/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (5721, 5720, 'app', '底部装修页面', '', 'diy.tabbar/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
