@@ -64,8 +64,8 @@ class IndexService extends Service
         // 登录配置
         $loginConfig = ConfigUtils::get('login');
         $loginOther  = array_map(function ($val) {return intval($val);}, $loginConfig['login_other']??[]);
-        if (in_array('1', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'account', 'name'=>'账号登录'];
-        if (in_array('2', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'mobile', 'name'=>'免密登录'];
+        if (in_array('2', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'account', 'name'=>'账号登录'];
+        if (in_array('1', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'mobile', 'name'=>'免密登录'];
         $detail['login'] = [
             'is_agreement' => intval($loginConfig['is_agreement']??0),
             'force_mobile' => intval($loginConfig['force_mobile']??0),

@@ -54,7 +54,7 @@ class LoginService extends Service
         ConfigUtils::set('login', 'is_agreement', intval($post['is_agreement'] ?? 0), '显示登录协议');
         ConfigUtils::set('login', 'force_mobile', intval($post['force_mobile'] ?? 0), '强制绑定手机');
         ConfigUtils::set('login', 'auths_mobile', intval($post['auths_mobile'] ?? 0), '微信授权手机');
-        ConfigUtils::set('login', 'login_modes', json_encode($post['login_modes'] ?? []), '通用登录方式');
-        ConfigUtils::set('login', 'login_other', json_encode($post['login_other'] ?? []), '第三方登录');
+        ConfigUtils::set('login', 'login_modes', $post['login_modes'] ?? [], '通用登录方式');
+        ConfigUtils::set('login', 'login_other', $post['login_other'] ?? [], '第三方登录');
     }
 }
