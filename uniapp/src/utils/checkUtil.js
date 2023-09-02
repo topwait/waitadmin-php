@@ -60,7 +60,7 @@ export default {
     },
     // Empty类型
     isEmpty(val) {
-        if (this.isArray(val) || this.isString(val)) {
+        if (this.isString(val) || this.isArray(val)) {
             return val.length === 0
         }
 
@@ -77,10 +77,6 @@ export default {
     // Undefined类型
     isUndefined(val) {
         return typeof val !== 'undefined'
-    },
-    // Undefined或Null
-    isNullOrUndefined(val) {
-        return this.isUndefined(val) || this.isNull(val)
     },
     // Window类型
     isWindow(val) {
