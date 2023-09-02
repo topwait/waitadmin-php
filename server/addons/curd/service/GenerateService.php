@@ -75,8 +75,8 @@ class GenerateService extends Service
      */
     public static function tables(array $get): array
     {
-        $pageNo = $get['page'] ?? 1;
-        $pageSize = $get['limit'] ?? 5;
+        $pageNo   = $get['page'] ?? 1;
+        $pageSize = $get['limit'] ?? 1000;
 
         $sql = 'SHOW TABLE STATUS WHERE 1=1 ';
         if (!empty($get['name'])) {

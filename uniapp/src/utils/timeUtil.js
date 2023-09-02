@@ -58,7 +58,7 @@ export default {
     /**
      * 日期格式转时间戳
      *
-     * @param {Date} datetime 日期时间
+     * @param {格式化后的日期} datetime 日期时间
      * @returns 转换后的时间戳(秒)
      */
     toTimeFormat(datetime) {
