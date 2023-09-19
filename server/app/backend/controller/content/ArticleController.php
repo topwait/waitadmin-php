@@ -45,7 +45,7 @@ class ArticleController extends Backend
     {
         if ($this->isAjaxGet()) {
             (new PageValidate())->goCheck();
-            $list = ArticleService::lists();
+            $list = ArticleService::lists($this->request->get());
             return AjaxUtils::success($list);
         }
 

@@ -30,11 +30,12 @@ class ArticleService extends Service
     /**
      * 文章列表
      *
+     * @param array $get
      * @return array
      * @throws DbException
      * @author zero
      */
-    public static function lists(): array
+    public static function lists(array $get): array
     {
         self::setSearch([
             '%like%'   => ['title'],
