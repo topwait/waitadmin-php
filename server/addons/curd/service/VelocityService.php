@@ -111,7 +111,11 @@ class VelocityService extends Service
             // 查找出那些字段需搜索
             if ($column['is_query']) {
                 $alias = $table['join_status'] ? $table['table_alias'].'.' : '';
-                $detail['searchArr'][$column['query_type']][] = $alias.$column['column_name'];
+                if ($alias) {
+                    $detail['searchArr'][$column['query_type']][] = $column['column_name'].'@'.$alias.$column['column_name'];
+                } else {
+                    $detail['searchArr'][$column['query_type']][] = $alias . $column['column_name'];
+                }
 
                 $k = [
                     'is_enable'  => [['name'=>'正常', 'value'=>1], ['name'=>'停用', 'value'=>0]],
