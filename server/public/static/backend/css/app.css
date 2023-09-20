@@ -15,6 +15,13 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .wait-blockquote.danger { border-color: #d9534f; color: #d9534f; background-color: #fdf7f7; }
 .wait-blockquote.info { border-color: #5bc0de; color: #5bc0de; background-color: #f4f8fa; }
 
+/** 标签样式 **/
+.wait-tag { border: 1px solid #e9e9eb; background: #f4f4f5; color: #909399; font-size: 12px; border-radius: 2px; padding: 4px 6px; }
+.wait-tag.normal { border-color: #d9ecff; background: #ecf5ff; color: #409eff; }
+.wait-tag.success { border-color: #e1f3d8; background: #f0f9eb; color: #67c23a; }
+.wait-tag.warning { border-color: #faecd8; background: #fdf6ec; color: #e6a23c; }
+.wait-tag.danger { border-color: #fde2e2; background: #fef0f0; color: #f56c6c; }
+
 /** 轮播样式 **/
 .wait-carousel { height: 185px !important; background-color: #ffffff; }
 .wait-carousel .layui-carousel-ind li { background-color: #e2e2e2; }
