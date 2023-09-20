@@ -8,11 +8,12 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace think;
 
 use DateInterval;
+use DateTimeInterface;
 use Psr\SimpleCache\CacheInterface;
 use think\cache\Driver;
 use think\cache\TagSet;
@@ -83,10 +84,10 @@ class Cache extends Manager implements CacheInterface
     /**
      * 连接或者切换缓存
      * @access public
-     * @param string $name 连接配置名
+     * @param string|null $name 连接配置名
      * @return Driver
      */
-    public function store(string $name = null): Driver
+    public function store(string $name = null)
     {
         return $this->driver($name);
     }
@@ -118,10 +119,10 @@ class Cache extends Manager implements CacheInterface
      * @access public
      * @param string        $key   缓存变量名
      * @param mixed         $value 存储数据
-     * @param int|\DateTime $ttl   有效时间 0为永久
+     * @param int|DateTimeInterface|DateInterval $ttl   有效时间 0为永久
      * @return bool
      */
-    public function set(string $key, mixed $value, int|DateInterval $ttl = null): bool
+    public function set(string $key, mixed $value, int|DateInterval|DateTimeInterface $ttl = null): bool
     {
         return $this->store()->set($key, $value, $ttl);
     }
@@ -157,7 +158,7 @@ class Cache extends Manager implements CacheInterface
      * @param null|int|\DateInterval $ttl    有效时间 0为永久
      * @return bool
      */
-    public function setMultiple(iterable $values, int|DateInterval $ttl = null): bool
+    public function setMultiple(iterable $values, int|DateInterval|DateTimeInterface $ttl = null): bool
     {
         return $this->store()->setMultiple($values, $ttl);
     }

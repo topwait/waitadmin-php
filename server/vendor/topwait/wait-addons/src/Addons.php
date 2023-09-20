@@ -66,11 +66,11 @@ abstract class Addons
      *
      * @param string $template 模板文件名
      * @param array $vars      模板输出变量
-     * @return string          响应模板内容
+     * @return mixed           响应模板内容
      * @throws Exception
      * @author zero
      */
-    protected function fetch(string $template = '', array $vars = []): string
+    protected function fetch(string $template = '', array $vars = []): mixed
     {
         return $this->view->fetch($template, $vars);
     }
@@ -79,11 +79,11 @@ abstract class Addons
      * 渲染内容输出
      *
      * @param string $content 模板内容
-     * @param array $vars    模板输出变量
-     * @return string
+     * @param array $vars     模板输出变量
+     * @return mixed
      * @author zero
      */
-    protected function display(string $content = '', array $vars = []): string
+    protected function display(string $content = '', array $vars = []): mixed
     {
         return $this->view->display($content, $vars);
     }

@@ -1,7 +1,9 @@
 <?php
+
 namespace Qiniu\Http;
 
 use Qiniu\Config;
+use Qiniu\Http\Middleware;
 
 final class Client
 {
@@ -14,7 +16,7 @@ final class Client
     public static function get($url, array $headers = array(), $opt = null)
     {
         $request = new Request('GET', $url, $headers, null, $opt);
-        return self::sendRequest($request);
+        return self::sendRequestWithMiddleware($request);
     }
 
     /**
@@ -123,6 +125,19 @@ final class Client
      * @param Request $request
      * @return Response
      */
+    public static function sendRequestWithMiddleware($request)
+    {
+        $middlewares = $request->opt->middlewares;
+        $handle = Middleware\compose($middlewares, function ($req) {
+            return Client::sendRequest($req);
+        });
+        return $handle($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public static function sendRequest($request)
     {
         $t1 = microtime(true);
@@ -130,8 +145,6 @@ final class Client
         $options = array(
             CURLOPT_USERAGENT => self::userAgent(),
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_HEADER => true,
             CURLOPT_NOBODY => false,
             CURLOPT_CUSTOMREQUEST => $request->method,

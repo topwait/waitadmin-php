@@ -13,6 +13,13 @@ i, em { font-style: normal; }
 .layui-btn-default { background-color: #3a67e4; }
 .layui-btn-forbid, .layui-btn-forbid:hover { cursor: not-allowed; opacity: 0.65; pointer-events: none; }
 
+/** 标签样式 **/
+.wait-tag { border: 1px solid #e9e9eb; background: #f4f4f5; color: #909399; font-size: 12px; border-radius: 2px; padding: 4px 6px; }
+.wait-tag.normal { border-color: #d9ecff; background: #ecf5ff; color: #409eff; }
+.wait-tag.success { border-color: #e1f3d8; background: #f0f9eb; color: #67c23a; }
+.wait-tag.warning { border-color: #faecd8; background: #fdf6ec; color: #e6a23c; }
+.wait-tag.danger { border-color: #fde2e2; background: #fef0f0; color: #f56c6c; }
+
 /** Layui重置 **/
 .layui-card { border-radius: 4px; }
 .layui-card .layui-card-header {font-weight: 500; font-size: 16px; color:#333; font-family: "Source Sans Pro", Sans-serif, serif}

@@ -123,11 +123,7 @@ trait Conversion
     {
         $relation = Str::camel($attr);
 
-        if (isset($this->relation[$relation])) {
-            $model = $this->relation[$relation];
-        } else {
-            $model = $this->getRelationData($this->$relation());
-        }
+        $model = $this->relation[$relation] ?? $this->getRelationData($this->$relation());
 
         if ($model instanceof Model) {
             foreach ($append as $key => $attr) {
@@ -268,7 +264,7 @@ trait Conversion
                     $val->hidden($hidden[$key], true);
                 }
                 // 关联模型对象
-                if (!isset($hidden[$key]) || true !== $hidden[$key]) {
+                if (!array_key_exists($key, $this->relation) || (array_key_exists($key, $this->with) && (!isset($hidden[$key]) || true !== $hidden[$key]))) {
                     $item[$key] = $val->toArray();
                 }
             } elseif (isset($visible[$key])) {
@@ -376,7 +372,7 @@ trait Conversion
     }
 
     // JsonSerializable
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

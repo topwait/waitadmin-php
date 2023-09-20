@@ -39,7 +39,7 @@
         "qiniu/php-sdk": "^7.6",
         "phpmailer/phpmailer": "^6.6",
         "symfony/var-exporter": "5.4.10",
-        "w7corp/easywechat": "6.10",
+        "w7corp/easywechat": "6.12",
         "alibabacloud/client": "^1.5",
         "topwait/wait-addons": "^1.0",
         "tencentcloud/sms": "^3.0",

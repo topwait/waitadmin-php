@@ -193,7 +193,7 @@ class Mysql
         $time = time();
         $username = $this->post['admin_user'];
         $password = $this->post['admin_pwd'];
-        $avatar = '/static/backend/images/default/avatar.png';
+        $avatar = '/static/backend/images/avatar.png';
 
         $salt = substr(md5($time . $username), 0, 6);
         $baseStr = md5('CORRECT');

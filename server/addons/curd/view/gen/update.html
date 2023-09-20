@@ -323,7 +323,7 @@
                                 </td>
                                 <!-- 显示类型 -->
                                 <td>
-                                    <select name="cols[{$k}][html_type]">
+                                    <select name="cols[{$k}][html_type]" lay-filter="html-type-filter">
                                         <option value="text"     {if $vo.html_type=='text'}selected{/if}>文本框</option>
                                         <option value="number"   {if $vo.html_type=='number'}selected{/if}>数字框</option>
                                         <option value="textarea" {if $vo.html_type=='textarea'}selected{/if}>文本域</option>
@@ -338,7 +338,7 @@
                                 </td>
                                 <!-- 字典类型 -->
                                 <td>
-                                    <select name="cols[{$k}][dict_type]">
+                                    <select name="cols[{$k}][dict_type]" {if !in_array($vo.html_type, ['select', 'checkbox', 'radio'])}disabled{/if}>
                                         <option value="">请选择</option>
                                         {volist name="$dict" id="dictItem"}
                                             <option value="{$dictItem.type}" {if $vo.dict_type==$dictItem.type}selected{/if}>
@@ -433,6 +433,24 @@
                 $('.formJoinArray').show();
             }
         });
+
+        // 字典禁选
+        form.on('select(html-type-filter)', function(data){
+            const value = data.value;
+            const dictElem = $(data.elem).parent().next().children('select');
+            if (['select', 'checkbox', 'radio'].includes(value)) {
+                dictElem.removeClass('layui-disabled');
+                dictElem.removeAttr('disabled');
+                form.render('select');
+            } else {
+                dictElem.attr('disabled', 'disabled');
+                form.render('select');
+                if (!dictElem.hasClass('layui-disabled')) {
+                    dictElem.addClass('layui-disabled');
+                }
+            }
+        });
+
 
         // 参数验证
         form.verify({

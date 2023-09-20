@@ -3,7 +3,7 @@
 /** 全局样式 **/
 html,
 body { margin: 0; padding: 0; font-size: 13px; }
-body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto !important; }
+body, a, dl, dt, dd, li, img { cursor: url("../images/cursor.cur"), auto !important; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { border-radius: 10px; background-color: #e1e1e1; }
 .container { margin: 0; padding: 15px; }
@@ -14,6 +14,13 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/default/cursor.cur"), auto
 .wait-blockquote.success { border-color: #50af51; color: #50af51; background-color: #f3f8f3; }
 .wait-blockquote.danger { border-color: #d9534f; color: #d9534f; background-color: #fdf7f7; }
 .wait-blockquote.info { border-color: #5bc0de; color: #5bc0de; background-color: #f4f8fa; }
+
+/** 标签样式 **/
+.wait-tag { border: 1px solid #e9e9eb; background: #f4f4f5; color: #909399; font-size: 12px; border-radius: 2px; padding: 4px 6px; }
+.wait-tag.normal { border-color: #d9ecff; background: #ecf5ff; color: #409eff; }
+.wait-tag.success { border-color: #e1f3d8; background: #f0f9eb; color: #67c23a; }
+.wait-tag.warning { border-color: #faecd8; background: #fdf6ec; color: #e6a23c; }
+.wait-tag.danger { border-color: #fde2e2; background: #fef0f0; color: #f56c6c; }
 
 /** 轮播样式 **/
 .wait-carousel { height: 185px !important; background-color: #ffffff; }

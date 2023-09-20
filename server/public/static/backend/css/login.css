@@ -1,12 +1,12 @@
 @charset "utf-8";
 
 /**  =================== 登录的样式 ===================  **/
-body, a, dl, dt, dd, li, img, button { cursor: url("../images/default/cursor.cur"), auto !important; }
+body, a, dl, dt, dd, li, img, button { cursor: url("../images/cursor.cur"), auto !important; }
 body {
     min-height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url(../images/default/login.jpg);
+    background-image: url(../images/login.jpg);
 }
 body::before { position: fixed; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0, 0, 0, .2); content: ""; }
 .login-wrapper { position: relative; z-index: 2; margin: 0 auto; padding: 20px; max-width: 420px; box-sizing: border-box; }

@@ -15,7 +15,7 @@
                     </div>
                 </script>
                 <script type="text/html" id="table-aTitle">
-                    <a href="/frontend/article/detail?id={{ d.article_id }}" target="_blank">{{ d.title }}</a>
+                    <a href="{:route('article/detail')}?id={{ d.article_id }}" target="_blank">{{ d.title }}</a>
                 </script>
                 <table id="wait-table-article" lay-filter="wait-table-article"></table>
             </div>
@@ -34,7 +34,7 @@
     layui.use(function() {
         let articleTable = waitUtil.table({
             elem: '#wait-table-article'
-            ,url: '/frontend/user/collect'
+            ,url: "{:route('user/collect')}"
             ,toolbar: false
             ,limit: 12
             ,cols: [[
@@ -51,7 +51,7 @@
             layer.confirm('确定要删除此项收藏吗？', function(index) {
                 layer.close(index);
                 waitUtil.ajax({
-                    url: '/frontend/article/collect',
+                    url: "{:route('article/collect')}",
                     type: 'POST',
                     data: {id: obj.data['article_id']}
                 }).then((res) => {

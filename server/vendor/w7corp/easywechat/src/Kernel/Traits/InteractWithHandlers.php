@@ -52,7 +52,6 @@ trait InteractWithHandlers
     }
 
     /**
-     * @param  callable|string  $handler
      * @return array{hash: string, handler: callable}
      *
      * @throws InvalidArgumentException
@@ -94,6 +93,7 @@ trait InteractWithHandlers
         if (class_exists($handler) && method_exists($handler, '__invoke')) {
             /**
              * @psalm-suppress InvalidFunctionCall
+             *
              * @phpstan-ignore-next-line https://github.com/phpstan/phpstan/issues/5867
              */
             return fn (): mixed => (new $handler())(...func_get_args());

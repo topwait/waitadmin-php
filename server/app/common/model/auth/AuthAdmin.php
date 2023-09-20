@@ -20,9 +20,6 @@ use think\model\relation\HasOne;
 
 /**
  * 管理员模型
- *
- * Class AuthAdmin
- * @package app\common\model\auth
  */
 class AuthAdmin extends Models
 {

@@ -27,7 +27,7 @@
                             <div class="line">
                                 <span>上一篇：</span>
                                 {if $detail.prev}
-                                    <a href="/frontend/article/detail?id={$detail.prev.id}">{$detail.prev.title}</a>
+                                    <a href="{:route('article/detail', ['id'=>$detail.prev.id])}">{$detail.prev.title}</a>
                                 {else}
                                     暂无数据
                                 {/if}
@@ -35,7 +35,7 @@
                             <div class="line">
                                 <span>下一篇：</span>
                                 {if $detail.next}
-                                    <a href="/frontend/article/detail?id={$detail.next.id}">{$detail.next.title}</a>
+                                    <a href="{:route('article/detail', ['id'=>$detail.next.id])}">{$detail.next.title}</a>
                                 {else}
                                     暂无数据
                                 {/if}
@@ -52,7 +52,7 @@
                     <div class="layui-card-body">
                         <ul>
                             {volist name="lately" id="vo"}
-                            <li><a href="/frontend/article/detail?id={$vo.id}"><span>[{$vo.category}] · </span>{$vo.title}</a></li>
+                            <li><a href="{:route('article/detail', ['id'=>$vo.id])}"><span>[{$vo.category}] · </span>{$vo.title}</a></li>
                             {/volist}
                         </ul>
                     </div>
@@ -64,7 +64,7 @@
                     <div class="layui-card-body">
                         <ul>
                             {volist name="ranking" id="vo" key="k"}
-                            <li><span>0{$k}</span><a href="/frontend/article/detail?id={$vo.id}">{$vo.title}</a></li>
+                                <li><span>0{$k}</span><a href="{:route('article/detail', ['id'=>$vo.id])}">{$vo.title}</a></li>
                             {/volist}
                         </ul>
                     </div>
@@ -87,7 +87,7 @@
             collect: function () {
                 let that = $(this)
                 waitUtil.ajax({
-                    url: '/frontend/article/collect',
+                    url: "{:route('article/collect')}",
                     type: 'POST',
                     data: {id: '{$detail.id}'}
                 }).then((res) => {

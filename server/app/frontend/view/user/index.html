@@ -164,7 +164,7 @@
             'changePwd': function () {
                 waitUtil.popup({
                     title: '修改密码',
-                    url: '/frontend/user/binding?field=changePwd',
+                    url: "{:route('user/binding', ['field'=>'changePwd'])}",
                     area: ['320px', '300px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data) {
@@ -181,7 +181,7 @@
                             }
 
                             waitUtil.ajax({
-                                url: '/frontend/user/binding',
+                                url: "{:route('user/binding')}",
                                 type: 'POST',
                                 data: {
                                     field: 'changePwd',
@@ -200,7 +200,7 @@
             },
             'bindWeChat': function () {
                 waitUtil.ajax({
-                    url: '/frontend/login/opCodeUrl?url=https://waitadmin.cn',
+                    url: "{:route('login/opCodeUrl', ['url'=>'https://www.waitadmin.cn'])}",
                     type: 'GET',
                 }).then((res) => {
                     console.info(res.data.url)
@@ -210,12 +210,12 @@
             'bindMobile': function () {
                 waitUtil.popup({
                     title: '绑定手机号',
-                    url: '/frontend/user/binding?field=bindMobile&value={$userInfo.mobile}',
-                    area: ['320px', '220px'],
+                    url: "{:route('user/binding', ['field'=>'bindMobile', 'value'=>$userInfo.mobile])}",
+                    area: ['370px', '250px'],
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data){
                             waitUtil.ajax({
-                                url: '/frontend/user/binding',
+                                url: "{:route('user/binding')}",
                                 type: 'POST',
                                 data: {field: 'bindMobile', mobile: data.field['mobile'], code: data.field['code']}
                             }).then((res) => {
@@ -230,13 +230,13 @@
             'bindEmail': function () {
                 waitUtil.popup({
                     title: '绑定邮箱',
-                    url: '/frontend/user/binding?field=bindEmail&value={$userInfo.email}',
-                    area: ['320px', '220px'],
+                    url: "{:route('user/binding', ['field'=>'bindEmail', 'value'=>$userInfo.email])}",
+                    area: ['370px', '250px'],
                     maxmin: false,
                     success: function (layero, index) {
                         layero.layui.form.on('submit(addForm)', function(data){
                             waitUtil.ajax({
-                                url: '/frontend/user/update',
+                                url: "{:route('user/binding')}" ,
                                 type: 'POST',
                                 data: {field: 'bindEmail', mobile: data.field['email'], code: data.field['code']}
                             }).then(res => {
@@ -255,7 +255,7 @@
             layer.confirm('您确定要进行更新吗？', function(index) {
                 layer.close(index);
                 waitUtil.ajax({
-                    url: '/frontend/user/edit',
+                    url: "{:route('user/edit')}",
                     type: 'POST',
                     data: data.field
                 });
@@ -267,10 +267,9 @@
             const that = $(this)
             waitUtil.locking(that);
             layer.confirm('您确定要进行保存吗？', function(index) {
-
                 layer.close(index);
                 waitUtil.ajax({
-                    url: '/frontend/user/binding',
+                    url: "{:route('user/binding')}",
                     type: 'POST',
                     data: {field: 'changeAvatar', avatar: data.field['avatar']}
                 }).then(() => {
