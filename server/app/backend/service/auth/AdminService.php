@@ -123,7 +123,7 @@ class AdminService extends Service
 
         $avatar = UrlUtils::toRelativeUrl($post['avatar']??'');
         if (empty($post['avatar'])) {
-            $avatar = '/static/backend/images/default/avatar.png';
+            $avatar = '/static/backend/images/avatar.png';
         }
 
         AttachUtils::markUpdate($admin, $post, ['avatar']);
@@ -149,7 +149,7 @@ class AdminService extends Service
     {
         $salt = make_rand_char(6);
         $pwd  = make_md5_str($post['password'], $salt);
-        $defaultAvatar = '/static/backend/images/default/avatar.png';
+        $defaultAvatar = '/static/backend/images/avatar.png';
 
         AuthAdmin::create([
             'dept_id'         => $post['dept_id'] ?? 0,
