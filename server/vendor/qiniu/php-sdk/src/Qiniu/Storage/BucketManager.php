@@ -6,6 +6,7 @@ use Qiniu\Auth;
 use Qiniu\Config;
 use Qiniu\Http\Error;
 use Qiniu\Http\Client;
+use Qiniu\Http\Proxy;
 
 /**
  * 主要涉及了空间资源管理及批量操作接口的实现，具体的接口规格可以参考
@@ -16,15 +17,22 @@ final class BucketManager
 {
     private $auth;
     private $config;
+    private $proxy;
 
-    public function __construct(Auth $auth, Config $config = null)
-    {
+    public function __construct(
+        Auth $auth,
+        Config $config = null,
+        $proxy = null,
+        $proxy_auth = null,
+        $proxy_user_password = null
+    ) {
         $this->auth = $auth;
         if ($config == null) {
             $this->config = new Config();
         } else {
             $this->config = $config;
         }
+        $this->proxy = new Proxy($proxy, $proxy_auth, $proxy_user_password);
     }
 
     /**
@@ -39,7 +47,7 @@ final class BucketManager
         if ($shared === true) {
             $includeShared = "true";
         }
-        return $this->getV2($this->config->getUcHost(). '/buckets?shared=' . $includeShared);
+        return $this->getV2($this->config->getUcHost() . '/buckets?shared=' . $includeShared);
     }
 
     /**
@@ -155,6 +163,8 @@ final class BucketManager
     /**
      * 列取空间的文件列表
      *
+     * @deprecated API 可能返回仅包含 marker，不包含 item 或 dir 的项，请使用 {@link listFiles}
+     *
      * @param string $bucket 空间名
      * @param string $prefix 列举前缀
      * @param string $marker 列举标识符
@@ -181,7 +191,11 @@ final class BucketManager
         \Qiniu\setWithoutEmpty($query, 'skipconfirm', $skipconfirm);
         $path = '/v2/list?' . http_build_query($query);
 
-        list($host, $err) = $this->config->getRsfHostV2($this->auth->getAccessKey(), $bucket);
+        list($host, $err) = $this->config->getRsfHostV2(
+            $this->auth->getAccessKey(),
+            $bucket,
+            $this->proxy->makeReqOpt()
+        );
 
         if ($err != null) {
             return array(null, $err);
@@ -189,7 +203,7 @@ final class BucketManager
 
         $url = $host . $path;
         $headers = $this->auth->authorizationV2($url, 'POST', null, 'application/x-www-form-urlencoded');
-        $ret = Client::post($url, null, $headers);
+        $ret = Client::post($url, null, $headers, $this->proxy->makeReqOpt());
         if (!$ret->ok()) {
             return array(null, new Error($url, $ret));
         }
@@ -775,7 +789,7 @@ final class BucketManager
         $ak = $this->auth->getAccessKey();
 
 
-        list($ioHost, $err) = $this->config->getIovipHostV2($ak, $bucket);
+        list($ioHost, $err) = $this->config->getIovipHostV2($ak, $bucket, $this->proxy->makeReqOpt());
         if ($err != null) {
             return array(null, $err);
         }
@@ -877,7 +891,7 @@ final class BucketManager
         $path = '/prefetch/' . $resource;
 
         $ak = $this->auth->getAccessKey();
-        list($ioHost, $err) = $this->config->getIovipHostV2($ak, $bucket);
+        list($ioHost, $err) = $this->config->getIovipHostV2($ak, $bucket, $this->proxy->makeReqOpt());
 
         if ($err != null) {
             return array(null, $err);
@@ -1017,7 +1031,11 @@ final class BucketManager
 
     private function rsfGet($bucket, $path)
     {
-        list($host, $err) = $this->config->getRsfHostV2($this->auth->getAccessKey(), $bucket);
+        list($host, $err) = $this->config->getRsfHostV2(
+            $this->auth->getAccessKey(),
+            $bucket,
+            $this->proxy->makeReqOpt()
+        );
 
         if ($err != null) {
             return array(null, $err);
@@ -1028,7 +1046,11 @@ final class BucketManager
 
     private function rsGet($bucket, $path)
     {
-        list($host, $err) = $this->config->getRsHostV2($this->auth->getAccessKey(), $bucket);
+        list($host, $err) = $this->config->getRsHostV2(
+            $this->auth->getAccessKey(),
+            $bucket,
+            $this->proxy->makeReqOpt()
+        );
 
         if ($err != null) {
             return array(null, $err);
@@ -1039,7 +1061,11 @@ final class BucketManager
 
     private function rsPost($bucket, $path, $body = null)
     {
-        list($host, $err) = $this->config->getRsHostV2($this->auth->getAccessKey(), $bucket);
+        list($host, $err) = $this->config->getRsHostV2(
+            $this->auth->getAccessKey(),
+            $bucket,
+            $this->proxy->makeReqOpt()
+        );
 
         if ($err != null) {
             return array(null, $err);
@@ -1050,7 +1076,11 @@ final class BucketManager
 
     private function apiGet($bucket, $path)
     {
-        list($host, $err) = $this->config->getApiHostV2($this->auth->getAccessKey(), $bucket);
+        list($host, $err) = $this->config->getApiHostV2(
+            $this->auth->getAccessKey(),
+            $bucket,
+            $this->proxy->makeReqOpt()
+        );
 
         if ($err != null) {
             return array(null, $err);
@@ -1062,7 +1092,11 @@ final class BucketManager
     private function apiPost($bucket, $path, $body = null)
     {
 
-        list($host, $err) = $this->config->getApiHostV2($this->auth->getAccessKey(), $bucket);
+        list($host, $err) = $this->config->getApiHostV2(
+            $this->auth->getAccessKey(),
+            $bucket,
+            $this->proxy->makeReqOpt()
+        );
 
         if ($err != null) {
             return array(null, $err);
@@ -1086,7 +1120,7 @@ final class BucketManager
     private function getV2($url)
     {
         $headers = $this->auth->authorizationV2($url, 'GET', null, 'application/x-www-form-urlencoded');
-        $ret = Client::get($url, $headers);
+        $ret = Client::get($url, $headers, $this->proxy->makeReqOpt());
         if (!$ret->ok()) {
             return array(null, new Error($url, $ret));
         }
@@ -1096,7 +1130,7 @@ final class BucketManager
     private function postV2($url, $body)
     {
         $headers = $this->auth->authorizationV2($url, 'POST', $body, 'application/x-www-form-urlencoded');
-        $ret = Client::post($url, $body, $headers);
+        $ret = Client::post($url, $body, $headers, $this->proxy->makeReqOpt());
         if (!$ret->ok()) {
             return array(null, new Error($url, $ret));
         }

@@ -8,11 +8,12 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace think\cache\driver;
 
 use DateInterval;
+use DateTimeInterface;
 use FilesystemIterator;
 use think\App;
 use think\cache\Driver;
@@ -143,12 +144,12 @@ class File extends Driver
     /**
      * 写入缓存
      * @access public
-     * @param string        $name   缓存变量名
-     * @param mixed         $value  存储数据
-     * @param int|DateInterval $expire 有效时间 0为永久
+     * @param string                 $name   缓存变量名
+     * @param mixed                  $value  存储数据
+     * @param int|\DateInterval|DateTimeInterface|null $expire 有效时间 0为永久
      * @return bool
      */
-    public function set(string $name, mixed $value, int|DateInterval $expire = null): bool
+    public function set(string $name, mixed $value, int|DateInterval|DateTimeInterface $expire = null): bool
     {
         $this->writeTimes++;
 
@@ -176,8 +177,14 @@ class File extends Driver
             $data = gzcompress($data, 3);
         }
 
-        $data   = "<?php\n//" . sprintf('%012d', $expire) . "\n exit();?>\n" . $data;
-        $result = file_put_contents($filename, $data, LOCK_EX);
+        $data = "<?php\n//" . sprintf('%012d', $expire) . "\n exit();?>\n" . $data;
+
+        if (str_contains($filename, '://') && !str_starts_with($filename, 'file://')) {
+            //虚拟文件不加锁
+            $result = file_put_contents($filename, $data);
+        } else {
+            $result = file_put_contents($filename, $data, LOCK_EX);
+        }
 
         if ($result) {
             clearstatcache();

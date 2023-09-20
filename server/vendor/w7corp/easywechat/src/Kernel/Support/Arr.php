@@ -10,14 +10,15 @@ use JetBrains\PhpStorm\Pure;
 class Arr
 {
     /**
-     * @param  array<string|int, mixed>  $array
-     * @param  string|int|null  $key
      * @param  mixed  $default
-     * @return mixed
      */
     #[Pure]
-    public static function get(array $array, string|int|null $key, mixed $default = null): mixed
+    public static function get(mixed $array, string|int|null $key, mixed $default = null): mixed
     {
+        if (! is_array($array)) {
+            return $default;
+        }
+
         if (is_null($key)) {
             return $array;
         }
@@ -41,8 +42,6 @@ class Arr
 
     /**
      * @param  array<int|string, mixed>  $array
-     * @param  string|int  $key
-     * @return bool
      */
     public static function exists(array $array, string|int $key): bool
     {
@@ -51,8 +50,6 @@ class Arr
 
     /**
      * @param  array<string|int, mixed>  $array
-     * @param  string|int|null  $key
-     * @param  mixed  $value
      * @return array<string|int, mixed>
      */
     public static function set(array &$array, string|int|null $key, mixed $value): array
@@ -83,7 +80,6 @@ class Arr
 
     /**
      * @param  array<string|int, mixed>  $array
-     * @param  string  $prepend
      * @return array<string|int, mixed>
      */
     public static function dot(array $array, string $prepend = ''): array
@@ -104,7 +100,6 @@ class Arr
     /**
      * @param  array<string|int, mixed>  $array
      * @param  string|int|array<string|int, mixed>|null  $keys
-     * @return bool
      */
     #[Pure]
     public static function has(array $array, string|int|array|null $keys): bool
