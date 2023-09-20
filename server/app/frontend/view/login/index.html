@@ -30,7 +30,7 @@
         form.on('submit(loginSubmit)', function(data) {
             waitUtil.locking(this)
             waitUtil.ajax({
-                url: '/frontend/login/login',
+                url: "{:route('login/login')}",
                 type: 'POST',
                 data: data.field
             }).then((res) => {
