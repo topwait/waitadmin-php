@@ -20,7 +20,6 @@ use app\backend\service\content\CategoryService;
 use app\backend\validate\content\ArticleValidate;
 use app\backend\validate\PageValidate;
 use app\common\basics\Backend;
-use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
