@@ -72,7 +72,7 @@ export default {
         return new Promise((resolve, reject) => {
             uni.uploadFile({
                 name: 'file',
-                url: `${import.meta.env.VITE_APP_BASE_URL}/upload/${scene}`,
+                url: `${import.meta.env.VITE_APP_BASE_URL}/api/upload/${scene}`,
                 filePath: filePath,
                 fileType: fileType,
                 header: { 'token': token, 'terminal': terminal },
