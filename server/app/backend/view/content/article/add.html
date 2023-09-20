@@ -83,7 +83,7 @@
         <!-- 内容 -->
         <div class="layui-form-item">
             <label for="content" class="layui-form-label">内容：</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="max-width: 880px;">
                 <textarea id="content" name="content"></textarea>
             </div>
         </div>
@@ -106,6 +106,7 @@
             elem: '#content'
             ,module: 'backend'
             ,attach: 'attach image media'
+            ,height: 900
         });
     });
 </script>
