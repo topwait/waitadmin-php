@@ -143,12 +143,18 @@ class GenerateService extends Service
             ], ['id'=>intval($post['id'])]);
 
             foreach ($post['cols']??[] as $item) {
+                $html_type = $item['html_type']??'';
+                $dict_type = $item['dict_type']??'';
+                if (!in_array($html_type, ['select', 'checkbox', 'radio'])) {
+                    $dict_type = '';
+                }
+
                 CurdTableColumn::update([
                     'column_comment' => $item['column_comment'],
                     'model_type'     => $item['model_type'],
                     'query_type'     => $item['query_type'],
-                    'html_type'      => $item['html_type']??'',
-                    'dict_type'      => $item['dict_type']??'',
+                    'html_type'      => $html_type,
+                    'dict_type'      => $dict_type,
                     'is_required'    => $item['is_required']??0,
                     'is_insert'      => $item['is_insert']??0,
                     'is_edit'        => $item['is_edit']??0,
