@@ -80,6 +80,7 @@ class Wa extends Command
                 return false;
         }
 
+        echo "\n";
         return true;
     }
 
@@ -195,5 +196,6 @@ class Wa extends Command
         FileUtils::rmdir(root_path().'runtime/backend/');
         FileUtils::rmdir(root_path().'runtime/frontend/');
         FileUtils::rmdir(root_path().'runtime/generate/');
+        echo 'successful~~~';
     }
 }
