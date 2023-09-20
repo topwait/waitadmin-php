@@ -24,7 +24,7 @@
             <div class="layui-form-item">
                 <label for="code" class="layui-form-label"><span class="asterisk">*</span>验证码：</label>
                 <div class="layui-input-block flex-wrap">
-                    <input type="text" id="code" name="code" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input">
+                    <input type="text" id="code" name="code" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input" style="width: 110px;">
                     <button type="button" class="layui-btn layui-btn-sm layui-btn-default" id="sendSms" style="margin-left: 10px">获取验证码</button>
                 </div>
             </div>
@@ -41,7 +41,7 @@
             <div class="layui-form-item">
                 <label for="codeSms" class="layui-form-label"><span class="asterisk">*</span>验证码：</label>
                 <div class="layui-input-block flex-wrap">
-                    <input type="text" id="codeSms" name="code" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input">
+                    <input type="text" id="codeSms" name="code" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input" style="width: 110px;">
                     <button type="button" class="layui-btn layui-btn-sm layui-btn-default" id="sendEmail" style="margin-left: 10px">获取验证码</button>
                 </div>
             </div>
@@ -84,6 +84,8 @@
 <script>
     layui.use(function () {
         let $ = layui.$;
+        let countdown = 60;
+        let isSending = false;
 
         $(document).on('click', '#sendEmail', function () {
             let email = $('#email').val();
@@ -95,17 +97,22 @@
                 return layer.msg('该邮箱号已被绑定');
             }
 
+            if (isSending) {
+                return layer.msg('操作频繁,请稍后再试!');
+            }
+
             let that = $(this);
             waitUtil.locking(this);
             waitUtil.ajax({
-                url: '/frontend/index/sendEmail',
+                url: "{:route('index/sendEmail')}",
                 type: 'POST',
                 data: {scene: 106, email: email}
             }).then((res) => {
-                waitUtil.unlock(this);
                 if (res.code === 0) {
                     timing(that);
                 }
+            }).catch(() => {
+                waitUtil.unlock(that);
             });
         });
 
@@ -119,37 +126,43 @@
                 return layer.msg('该手机号已被绑定');
             }
 
+            if (isSending) {
+                return layer.msg('操作频繁,请稍后再试!');
+            }
+
             let that = $(this);
             waitUtil.locking(this);
             waitUtil.ajax({
-                url: '/frontend/index/sendEmail',
+                url: "{:route('index/sendSms')}",
                 type: 'POST',
                 data: {scene: 105, mobile: mobile}
             }).then((res) => {
-                waitUtil.unlock(this);
                 if (res.code === 0) {
                     timing(that);
                 }
+            }).catch(() => {
+                waitUtil.unlock(that);
             });
         });
 
         function timing(that) {
-            let time = 60;
-            that.html(time+'秒后可再次发送');
+            isSending = true;
+            that.html(countdown+'秒后可再次发送');
             that.addClass('layui-btn-forbid');
             let timer = setInterval(function () {
-                time = time - 1;
-                if (time>=0) {
-                    that.html(time + '秒后可再次发送');
+                countdown = countdown - 1;
+                if (countdown>=0) {
+                    that.html(countdown + '秒后可再次发送');
                 } else {
-                    that.html('获取验证码');
+                    countdown = 60;
+                    isSending = false;
                     clearInterval(timer);
+                    waitUtil.unlock(that);
+                    that.html('获取验证码');
                     that.removeClass('layui-btn-forbid');
-
                 }
             }, 1000);
         }
-
     });
 </script>
 {/block}
