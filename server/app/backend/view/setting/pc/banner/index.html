@@ -56,15 +56,15 @@
             ,url: '{:route("setting.pc.banner/index")}'
             ,cols: [[
                 {type:'checkbox', width:48},
-                {field:'id', title:'ID', width:60, align:'center', event:'id'},
-                {field:'image', title:'轮播图片', width:160, align:'center', templet:'#table-image'},
-                {field:'position', title:'轮播位置', width:100, align:'center'},
-                {field:'title', title:'轮播标题', width:180},
-                {field:'target', title:'跳转方式', width:90, align:'center'},
-                {field:'url', title:'跳转链接', width:220, templet:'#table-url'},
-                {field:'sort', title:'排序', width:80, align:'center'},
-                {field:'disable', title:'状态', width:60, align:'center', templet:'#table-disable'},
-                {field:'create_time', title:'创建时间', width:170, align:'center'},
+                {field:'id', title:'ID', width:70, align:'center', event:'id'},
+                {field:'image', title:'轮播图片', minWidth:160, align:'center', templet:'#table-image'},
+                {field:'position', title:'轮播位置', minWidth:100, align:'center'},
+                {field:'title', title:'轮播标题', minWidth:180},
+                {field:'target', title:'跳转方式', minWidth:90, align:'center'},
+                {field:'url', title:'跳转链接', minWidth:220, templet:'#table-url'},
+                {field:'sort', title:'排序', minWidth:70, align:'center'},
+                {field:'disable', title:'状态', minWidth:60, align:'center', templet:'#table-disable'},
+                {field:'create_time', title:'创建时间', minWidth:170, align:'center'},
                 {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
             ]]
         });

@@ -55,6 +55,10 @@ class DictTypeService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
+        foreach ($lists['data'] as &$item) {
+            $item['remark'] = $item['remark'] ?: '-';
+        }
+
         return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 

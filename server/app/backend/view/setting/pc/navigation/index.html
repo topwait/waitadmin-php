@@ -63,13 +63,14 @@
             ,url: '{:route("setting.pc.navigation/index")}'
             ,toolbar: '#toolbar'
             ,defaultToolbar: ['filter', 'exports', 'print']
+            ,skin: 'line'
             ,cols: [[
                 {field:'id', title:'ID', width:70, align:'center'},
-                {field:'name', title:'名称', width:200},
-                {field:'target', title:'跳转', width:80},
-                {field:'url', title:'链接', width:300},
-                {field:'sort', title:'排序', width:80, align:'center'},
-                {field:'is_disable', title:'状态', width:60, align:'center', templet:'#table-disable'},
+                {field:'name', title:'名称', minWidth:200},
+                {field:'target', title:'跳转', minWidth:80},
+                {field:'url', title:'链接', minWidth:300},
+                {field:'sort', title:'排序', minWidth:70, align:'center'},
+                {field:'is_disable', title:'状态', minWidth:60, align:'center', templet:'#table-disable'},
                 {field:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'},
             ]]
         });
