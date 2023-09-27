@@ -96,15 +96,15 @@
             ,toolbar: false
             ,cols: [[
                 {field:'id', title:'ID', width:80, align:'center'},
-                {field:'account', title:'操作人', width:90, align:'center'},
-                {field:'module', title:'所属模块', width:90, align:'center'},
-                {field:'method', title:'请求方式', width:90, align:'center'},
-                {field:'url', title:'请求路由', width:200},
-                {field:'ip', title:'来源IP', width:140, align:'center'},
-                {field:'browser', title:'来源UA', width:90, align:'center'},
-                {field:'task_time', title:'耗时', width:60, align:'center'},
-                {field:'status', title:'状态', width:60, align:'center', templet:'#table-status'},
-                {field:'create_time', title:'操作时间', width:170, align:'center'},
+                {field:'account', title:'操作人', minWidth:90, align:'center'},
+                {field:'module', title:'所属模块', minWidth:90, align:'center'},
+                {field:'method', title:'请求方式', minWidth:90, align:'center'},
+                {field:'url', title:'请求路由', minWidth:200},
+                {field:'ip', title:'来源IP', minWidth:140, align:'center'},
+                {field:'browser', title:'来源UA', minWidth:90, align:'center'},
+                {field:'task_time', title:'耗时', minWidth:60, align:'center'},
+                {field:'status', title:'状态', minWidth:60, align:'center', templet:'#table-status'},
+                {field:'create_time', title:'操作时间', minWidth:170, align:'center'},
                 {fixed:'right', title:'操作', width:85, align:'center', toolbar:'#table-operate'},
             ]]
         });

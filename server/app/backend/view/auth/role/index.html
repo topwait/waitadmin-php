@@ -75,13 +75,13 @@
             ,url: '{:route("auth.role/index")}'
             ,cols: [[
                 {type:'checkbox', width:48},
-                {field:'id', title:'ID', width:60, align:'center'},
-                {field:'name', title:'角色名称', width:150, align:'center'},
-                {field:'adminCount', title:'管理员数', width:90, align:'center'},
-                {field:'describe', title:'角色描述', width:250},
-                {field:'create_time', title:'创建时间', width:170, align:'center'},
-                {field:'sort', title:'排序', width:60, align:'center'},
-                {field:'disable', title:'状态', width:60, align:'center', templet:'#table-disable'},
+                {field:'id', title:'ID', width:70, align:'center'},
+                {field:'name', title:'角色名称', minWidth:150, align:'center'},
+                {field:'adminCount', title:'管理员数', minWidth:90, align:'center'},
+                {field:'describe', title:'角色描述', minWidth:200},
+                {field:'create_time', title:'创建时间', minWidth:170, align:'center'},
+                {field:'sort', title:'排序', minWidth:60, align:'center'},
+                {field:'disable', title:'状态', minWidth:60, align:'center', templet:'#table-disable'},
                 {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'},
             ]]
         });

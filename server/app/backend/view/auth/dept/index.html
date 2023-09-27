@@ -66,14 +66,14 @@
             ,url: '{:route("auth.dept/index")}'
             ,toolbar: '#toolbar'
             ,defaultToolbar: ['filter', 'exports', 'print']
+            ,skin: 'line'
             ,cols: [[
-                {field:'id', title:'ID', width:60, align:'center'},
-                {field:'name', title:'部门名称', width:160},
-                {field:'mobile', title:'部门电话', width:120},
-                {field:'duty', title:'负责人', width:120},
-                {field:'sort', title:'排序', width:80, align:'center'},
-                {field:'is_disable', title:'状态', width:60, align:'center', templet:'#table-disable'},
-                {field:'create_time', title:'创建时间', width:170,  align:'center'},
+                {field:'name', title:'部门名称', minWidth:300},
+                {field:'mobile', title:'部门电话', minWidth:100, align:'center'},
+                {field:'duty', title:'负责人', minWidth:100, align:'center'},
+                {field:'sort', title:'排序', minWidth:70, align:'center'},
+                {field:'is_disable', title:'状态', minWidth:60, align:'center', templet:'#table-disable'},
+                {field:'create_time', title:'创建时间', minWidth:170,  align:'center'},
                 {field:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'},
             ]]
         });

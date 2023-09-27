@@ -88,18 +88,20 @@
         let table = waitUtil.table({
             elem: '#wait-table-list'
             ,url: '{:route("auth.admin/index")}'
+            ,skin: 'line'
+            ,cellExpandedMode: 'tips'
             ,cols: [[
                 {type:'checkbox', width:48},
-                {field:'id', title:'ID', width:60, align:'center', event:'id'},
-                {field:'nickname', title:'用户昵称', width:100, align:'center'},
-                {field:'username', title:'登录账号', width:100, align:'center'},
-                {field:'role', title:'所属角色', width:120, align:'center', templet:'#table-role'},
-                {field:'dept', title:'所属部门', width:140, align:'center'},
-                {field:'post', title:'所属岗位', width:140, align:'center'},
-                {field:'email', title:'电子邮箱', width:190, align:'center'},
-                {field:'last_login_ip', title:'最后登录IP', width:120, align:'center'},
-                {field:'last_login_time', title:'最后登录时间', width:170, align:'center'},
-                {field:'disable', title:'状态', width:60, align:'center', templet:'#table-disable'},
+                {field:'id', title:'ID', width:70, align:'center', event:'id'},
+                {field:'nickname', title:'用户昵称', minWidth:100, align:'center'},
+                {field:'username', title:'登录账号', minWidth:100, align:'center'},
+                {field:'role', title:'所属角色', minWidth:120, align:'center', templet:'#table-role'},
+                {field:'dept', title:'所属部门', minWidth:140, align:'center'},
+                {field:'post', title:'所属岗位', minWidth:140, align:'center'},
+                {field:'email', title:'电子邮箱', minWidth:190, align:'center'},
+                {field:'last_login_ip', title:'最后登录IP', minWidth:140, align:'center'},
+                {field:'last_login_time', title:'最后登录时间', minWidth:170, align:'center'},
+                {field:'disable', title:'状态', minWidth:60, align:'center', templet:'#table-disable'},
                 {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
             ]]
             ,done: function(res) {

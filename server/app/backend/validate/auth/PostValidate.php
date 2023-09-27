@@ -27,7 +27,7 @@ class PostValidate extends Validate
         'ids'        => 'require|array',
         'code'       => 'require|max:30|alphaNum|unique:authPost',
         'name'       => 'require|max:30|chsAlphaNum|unique:authPost',
-        'sort'       => 'number|minValue:0',
+        'sort'       => 'number|minValue:0|maxValue:99999',
         'remarks'    => 'max:200',
         'is_disable' => 'require|in:0,1'
     ];
@@ -37,8 +37,8 @@ class PostValidate extends Validate
         $this->field = [
             'code'       => '岗位编码',
             'name'       => '岗位名称',
-            'remarks'    => '岗位备注',
             'sort'       => '岗位排序',
+            'remarks'    => '岗位备注',
             'is_disable' => '岗位状态'
         ];
 

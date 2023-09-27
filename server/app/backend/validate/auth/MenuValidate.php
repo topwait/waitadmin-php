@@ -28,7 +28,7 @@ class MenuValidate extends Validate
         'title'      => 'require|max:20',
         'perms'      => 'max:100',
         'icon'       => 'max:100',
-        'sort'       => 'number|minValue:0',
+        'sort'       => 'number|minValue:0|maxValue:99999',
         'is_menu'    => 'require|in:0,1',
         'is_disable' => 'require|in:0,1'
     ];

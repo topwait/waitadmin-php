@@ -285,26 +285,26 @@
                                 </td>
                                 <!-- 必填 -->
                                 {if in_array($vo.column_name, [$primary, 'create_time', 'update_time', 'delete_time', 'is_delete'])}
-                                    <td><input type="checkbox" name="cols[{$k}][is_required]" value="1" lay-skin="primary" class="layui-btn-disabled" disabled></td>
+                                    <td style="text-align: center;"><input type="checkbox" name="cols[{$k}][is_required]" value="1" lay-skin="primary" class="layui-btn-disabled" disabled></td>
                                 {else}
-                                    <td><input type="checkbox" name="cols[{$k}][is_required]" value="1" lay-skin="primary" {if $vo.is_required}checked{/if}></td>
+                                    <td style="text-align: center;"><input type="checkbox" name="cols[{$k}][is_required]" value="1" lay-skin="primary" {if $vo.is_required}checked{/if}></td>
                                 {/if}
                                 <!-- 插入 -->
                                 {if in_array($vo.column_name, [$primary, 'create_time', 'update_time', 'delete_time', 'is_delete'])}
-                                    <td><input type="checkbox" name="cols[{$k}][is_insert]" value="1" lay-skin="primary" class="layui-btn-disabled" disabled></td>
+                                    <td style="text-align: center;"><input type="checkbox" name="cols[{$k}][is_insert]" value="1" lay-skin="primary" class="layui-btn-disabled" disabled></td>
                                 {else}
-                                    <td><input type="checkbox" name="cols[{$k}][is_insert]" value="1" lay-skin="primary" {if $vo.is_insert}checked{/if}></td>
+                                    <td style="text-align: center;"><input type="checkbox" name="cols[{$k}][is_insert]" value="1" lay-skin="primary" {if $vo.is_insert}checked{/if}></td>
                                 {/if}
                                 <!-- 编辑 -->
                                 {if in_array($vo.column_name, [$primary, 'create_time', 'update_time', 'delete_time', 'is_delete'])}
-                                    <td><input type="checkbox" name="cols[{$k}][is_edit]" value="0" lay-skin="primary" class="layui-btn-disabled" disabled></td>
+                                    <td style="text-align: center;"><input type="checkbox" name="cols[{$k}][is_edit]" value="0" lay-skin="primary" class="layui-btn-disabled" disabled></td>
                                 {else}
-                                    <td><input type="checkbox" name="cols[{$k}][is_edit]" value="1" lay-skin="primary" {if $vo.is_insert}checked{/if}></td>
+                                    <td style="text-align: center;"<input type="checkbox" name="cols[{$k}][is_edit]" value="1" lay-skin="primary" {if $vo.is_insert}checked{/if}></td>
                                 {/if}
                                 <!-- 列表 -->
-                                <td><input type="checkbox" name="cols[{$k}][is_list]" value="1" lay-skin="primary" {if $vo.is_list}checked{/if}></td>
+                                <td style="text-align: center;"><input type="checkbox" name="cols[{$k}][is_list]" value="1" lay-skin="primary" {if $vo.is_list}checked{/if}></td>
                                 <!-- 查询 -->
-                                <td><input type="checkbox" name="cols[{$k}][is_query]" value="1" lay-skin="primary" {if $vo.is_query}checked{/if}></td>
+                                <td style="text-align: center;"><input type="checkbox" name="cols[{$k}][is_query]" value="1" lay-skin="primary" {if $vo.is_query}checked{/if}></td>
                                 <!-- 查询条件 -->
                                 <td>
                                     <select name="cols[{$k}][query_type]">

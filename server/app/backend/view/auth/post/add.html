@@ -33,7 +33,8 @@
             <label for="sort" class="layui-form-label">岗位排序：</label>
             <div class="layui-input-block">
                 <input type="number" id="sort" name="sort"
-                       autocomplete="off" class="layui-input" lay-verType="tips">
+                       autocomplete="off" class="layui-input" lay-verType="tips"
+                       oninput="value=value.replace(/[^\d]/g,'').substring(0, 5)">
             </div>
         </div>
         <!-- 岗位备注 -->
