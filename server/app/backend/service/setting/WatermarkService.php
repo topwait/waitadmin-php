@@ -66,7 +66,7 @@ class WatermarkService extends Service
         ConfigUtils::set('watermark', 'alpha', $post['alpha']??100, '水印图透明度');
         ConfigUtils::set('watermark', 'position', $post['position']??1, '水印所在位置');
 
-        $icon = ($post['icon']??'') ? 'static/common/watermark.png' : '';
+        $icon = ($post['icon']??'') ? 'static/common/images/watermark.png' : '';
         if ($icon) {
             $source = public_path() . UrlUtils::toRelativeUrl($post['icon']);
             $target = public_path() . $icon;
