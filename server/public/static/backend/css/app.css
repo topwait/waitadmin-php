@@ -13,6 +13,7 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/cursor.cur"), auto !import
 .wait-blockquote { padding: 15px; border: 1px solid #ded9d9; border-radius: 4px; background-color: #f9fafa; }
 .wait-blockquote.success { border-color: #50af51; color: #50af51; background-color: #f3f8f3; }
 .wait-blockquote.danger { border-color: #d9534f; color: #d9534f; background-color: #fdf7f7; }
+.wait-blockquote.warning { border-color: #ea9e2d; color: #e6a23c; background-color: #fdf6ec; }
 .wait-blockquote.info { border-color: #5bc0de; color: #5bc0de; background-color: #f4f8fa; }
 
 /** 标签样式 **/
