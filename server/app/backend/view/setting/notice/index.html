@@ -47,13 +47,13 @@
             ,url: '{:route("setting.notice/index")}'
             ,toolbar: false
             ,cols: [[
-                {field:'id', title:'ID', width:60, align:'center', event:'id'},
-                {field:'name', title:'通知场景', width:170, align:'left'},
-                {field:'scene', title:'场景编号', width:90, align:'center'},
-                {field:'type', title:'通知类型', width:90, align:'center'},
-                {field:'sysStatus', title:'系统', width:60, align:'center', templet:'#table-sysStatus'},
-                {field:'emsStatus', title:'邮件', width:60, align:'center', templet:'#table-emsStatus'},
-                {field:'smsStatus', title:'短信', width:60, align:'center', templet:'#table-smsStatus'},
+                {field:'id', title:'ID', width:70, align:'center', event:'id'},
+                {field:'name', title:'通知场景', minWidth:170, align:'left'},
+                {field:'scene', title:'场景编号', minWidth:90, align:'center'},
+                {field:'type', title:'通知类型', minWidth:90, align:'center'},
+                {field:'sysStatus', title:'系统', minWidth:60, align:'center', templet:'#table-sysStatus'},
+                {field:'emsStatus', title:'邮件', minWidth:60, align:'center', templet:'#table-emsStatus'},
+                {field:'smsStatus', title:'短信', minWidth:60, align:'center', templet:'#table-smsStatus'},
                 {fixed:'right', title:'操作', width:70, align:'center', toolbar:'#table-operate'}
             ]]
         });

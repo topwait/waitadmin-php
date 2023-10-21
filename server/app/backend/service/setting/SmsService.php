@@ -124,7 +124,7 @@ class SmsService extends Service
         ConfigUtils::set('sms', $alias, $param);
         if ($engine === $alias && !($post['enable']??0)) {
             ConfigUtils::set('sms', 'default', '');
-        } else {
+        } else if (($post['enable']??0)) {
             ConfigUtils::set('sms', 'default', $alias);
         }
     }

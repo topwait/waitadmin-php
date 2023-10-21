@@ -9,7 +9,7 @@
             <label for="name" class="layui-form-label"><span class="asterisk">*</span>短信渠道：</label>
             <div class="layui-input-block">
                 <input type="text" id="name" name="name" value="{$detail.name ?? ''}" autocomplete="off"
-                       disabled readonly class="layui-input layui-disabled" lay-verType="tips" lay-verify="required">
+                       disabled readonly class="layui-input layui-disabled" lay-verType="tips">
             </div>
         </div>
         <!-- 短信签名 -->
@@ -17,7 +17,7 @@
             <label for="sign" class="layui-form-label"><span class="asterisk">*</span>短信签名：</label>
             <div class="layui-input-block">
                 <input type="text" id="sign" name="sign" value="{$detail.params.sign ?? ''}"
-                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+                       autocomplete="off" class="layui-input" lay-verType="tips">
             </div>
         </div>
         <!-- accessKeyId -->
@@ -25,7 +25,7 @@
             <label for="access_key_id" class="layui-form-label"><span class="asterisk">*</span>accessKeyId：</label>
             <div class="layui-input-block">
                 <input type="text" id="access_key_id" name="access_key_id" value="{$detail.params.access_key_id ?? ''}"
-                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+                       autocomplete="off" class="layui-input" lay-verType="tips">
             </div>
         </div>
         <!-- accessSecret -->
@@ -33,7 +33,7 @@
             <label for="access_secret" class="layui-form-label"><span class="asterisk">*</span>accessSecret：</label>
             <div class="layui-input-block">
                 <input type="text" id="access_secret" name="access_secret" value="{$detail.params.access_secret ?? ''}"
-                       autocomplete="off" class="layui-input" lay-verType="tips" lay-verify="required">
+                       autocomplete="off" class="layui-input" lay-verType="tips">
             </div>
         </div>
         <!-- 状态 -->

@@ -2,25 +2,30 @@
 
 {block name="body"}
 <div class="container">
-    <div class="layui-card layui-form">
-        <div class="layui-tab layui-tab-card">
-            <ul class="layui-tab-title">
-                <li class="layui-this">服务协议</li>
-                <li>隐私政策</li>
-            </ul>
-            <div class="layui-tab-content" style="padding: 15px;">
-                <!-- 1、服务协议 -->
-                <div class="layui-tab-item layui-show">
-                    <label for="service"><textarea id="service" name="service">{$detail.service ?? ''}</textarea></label>
+    <div class="layui-form">
+        <!-- 服务协议 -->
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-card">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">服务协议</li>
+                    <li>隐私政策</li>
+                </ul>
+                <div class="layui-tab-content" style="padding: 15px;">
+                    <!-- 1、服务协议 -->
+                    <div class="layui-tab-item layui-show">
+                        <label for="service"><textarea id="service" name="service">{$detail.service ?? ''}</textarea></label>
+                    </div>
+                    <!-- 2、隐私政策 -->
+                    <div class="layui-tab-item">
+                        <label for="privacy"><textarea id="privacy" name="privacy">{$detail.privacy ?? ''}</textarea></label>
+                    </div>
                 </div>
-                <!-- 2、隐私政策 -->
-                <div class="layui-tab-item">
-                    <label for="privacy"><textarea id="privacy" name="privacy">{$detail.privacy ?? ''}</textarea></label>
-                </div>
-                <!-- 5、保存 -->
-                <div style="margin-top: 20px;">
-                    <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存内容</button>
-                </div>
+            </div>
+        </div>
+        <!-- 保存配置 -->
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
             </div>
         </div>
     </div>

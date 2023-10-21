@@ -5,7 +5,7 @@
     <!-- 表格栏 -->
     <div class="layui-card">
         <div class="layui-card-header">友情链接</div>
-        <div class="layui-card-body wait-table-cell">
+        <div class="layui-card-body">
             <table id="wait-table-list" lay-filter="wait-table-list"></table>
             <script type="text/html" id="toolbar">
                 <div class="layui-btn-container">
@@ -52,13 +52,13 @@
             ,url: '{:route("setting.pc.links/index")}'
             ,cols: [[
                 {type:'checkbox', width:48},
-                {field:'id', title:'ID', width:60, align:'center', event:'id'},
-                {field:'title', title:'友链名称', width:150},
-                {field:'target', title:'跳转方式', width:90, align:'center'},
-                {field:'url', title:'跳转链接', width:240},
-                {field:'sort', title:'排序', width:80, align:'center'},
-                {field:'disable', title:'状态', width:60, align:'center', templet:'#table-disable'},
-                {field:'create_time', title:'创建时间', width:170, align:'center'},
+                {field:'id', title:'ID', width:70, align:'center', event:'id'},
+                {field:'title', title:'友链名称', minWidth:150},
+                {field:'target', title:'跳转方式', minWidth:90, align:'center'},
+                {field:'url', title:'跳转链接', minWidth:260},
+                {field:'sort', title:'排序', minWidth:80, align:'center'},
+                {field:'disable', title:'状态', minWidth:60, align:'center', templet:'#table-disable'},
+                {field:'create_time', title:'创建时间', minWidth:170, align:'center'},
                 {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
             ]]
         });

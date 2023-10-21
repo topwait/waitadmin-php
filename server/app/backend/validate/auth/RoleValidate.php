@@ -26,7 +26,7 @@ class RoleValidate extends Validate
         'id'         => 'require|integer',
         'ids'        => 'require|array',
         'name'       => 'require|max:20|chsAlphaNum|unique:authRole',
-        'sort'       => 'number|minValue:0',
+        'sort'       => 'number|minValue:0|maxValue:99999',
         'describe'   => 'max:200',
         'is_disable' => 'require|in:0,1'
     ];
@@ -35,8 +35,8 @@ class RoleValidate extends Validate
     {
         $this->field = [
             'name'       => '角色名称',
-            'describe'   => '角色描述',
             'sort'       => '角色排序',
+            'describe'   => '角色描述',
             'is_disable' => '角色状态'
         ];
 

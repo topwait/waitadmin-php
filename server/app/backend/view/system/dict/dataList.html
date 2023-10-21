@@ -42,16 +42,16 @@
         let table = waitUtil.table({
             elem: '#wait-table-list'
             ,url: '{:route("system.dictData/index")}?type_id={$typeId}'
-            ,height: 523
+            ,height: 430
             ,limits: [10, 20, 30, 40, 50, 60, 70, 80]
             ,cols: [[
                 {type:'checkbox', width:48},
-                {field:'id', title:'ID', width:60, align:'center', event:'id'},
-                {field:'name', title:'字典标签', width:150},
-                {field:'value', title:'字典键值', width:150},
-                {field:'remark', title:'备注'},
-                {field:'sort', title:'排序', width:80, align:'center'},
-                {field:'status', title:'状态', width:60, align:'center', templet:'#table-status'},
+                {field:'id', title:'ID', width:70, align:'center', event:'id'},
+                {field:'name', title:'字典标签', minWidth:150},
+                {field:'value', title:'字典键值', minWidth:150},
+                {field:'remark', title:'备注', minWidth: 150},
+                {field:'sort', title:'排序', minWidth:80, align:'center'},
+                {field:'status', title:'状态', minWidth:60, align:'center', templet:'#table-status'},
                 {fixed:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'}
             ]]
         });

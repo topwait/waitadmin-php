@@ -29,7 +29,7 @@ class DeptValidate extends Validate
         'name'       => 'require|chsDash|unique:authDept',
         'duty'       => 'require|chsDash|max:30',
         'mobile'     => 'require|mobile',
-        'sort'       => 'number|minValue:0',
+        'sort'       => 'number|minValue:0|maxValue:99999',
         'is_disable' => 'require|in:0,1'
     ];
 

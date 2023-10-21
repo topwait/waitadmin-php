@@ -49,7 +49,8 @@
             <label for="sort" class="layui-form-label">菜单排序：</label>
             <div class="layui-input-block">
                 <input type="text" id="sort" name="sort" value="{$detail.sort}"
-                       class="layui-input" autocomplete="off" lay-verify="required|number">
+                       class="layui-input" autocomplete="off" lay-verify="required|number"
+                       oninput="value=value.replace(/[^\d]/g,'').substring(0, 5)">
             </div>
         </div>
         <!-- 是否菜单 -->

@@ -36,7 +36,22 @@ class LoginCache
     public static function get(int $terminal, string $token): int
     {
         $cacheKey = self::$prefix.$terminal.':'.$token;
-        return intval(Cache::get($cacheKey, 0));
+        $cacheVal = Cache::get($cacheKey, '');
+        if (!$cacheVal) {
+            return 0;
+        }
+
+        $value = explode(':', $cacheVal);
+        $userId = intval($value[0]??0);
+        $time   = intval($value[1]??0);
+
+        // 续签令牌 (低于30分钟)
+        $expire = ($time + self::$ttl) - (60 * 30);
+        if ($time && time() >= $expire) {
+            self::set($userId, $terminal, $token);
+        }
+
+        return $userId;
     }
 
     /**
@@ -50,6 +65,20 @@ class LoginCache
     public static function set(int $userId, int $terminal, string $token): void
     {
         $cacheKey = self::$prefix.$terminal.':'.$token;
-        Cache::set($cacheKey, $userId, self::$ttl);
+        $cacheVal = $userId . ':' . time();
+        Cache::set($cacheKey, $cacheVal, self::$ttl);
+    }
+
+    /**
+     * 删除
+     *
+     * @param int $terminal
+     * @param string $token
+     * @author zero
+     */
+    public static function del(int $terminal, string $token)
+    {
+        $cacheKey = self::$prefix.$terminal.':'.$token;
+        Cache::delete($cacheKey);
     }
 }

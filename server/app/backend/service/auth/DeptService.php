@@ -40,13 +40,20 @@ class DeptService extends Service
     public static function lists(): array
     {
         $modelAuthDept = new AuthDept();
-        return $modelAuthDept
+        $lists = $modelAuthDept
             ->withoutField('is_delete,update_time,delete_time')
             ->where(self::$searchWhere)
             ->where(['is_delete'=>0])
             ->order('sort desc, id desc')
             ->select()
             ->toArray();
+
+        foreach ($lists as &$item) {
+            $item['duty']   = $item['duty'] ?: '-';
+            $item['mobile'] = $item['mobile'] ?: '-';
+        }
+
+        return $lists;
     }
 
     /**

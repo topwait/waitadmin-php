@@ -13,6 +13,7 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/cursor.cur"), auto !import
 .wait-blockquote { padding: 15px; border: 1px solid #ded9d9; border-radius: 4px; background-color: #f9fafa; }
 .wait-blockquote.success { border-color: #50af51; color: #50af51; background-color: #f3f8f3; }
 .wait-blockquote.danger { border-color: #d9534f; color: #d9534f; background-color: #fdf7f7; }
+.wait-blockquote.warning { border-color: #ea9e2d; color: #e6a23c; background-color: #fdf6ec; }
 .wait-blockquote.info { border-color: #5bc0de; color: #5bc0de; background-color: #f4f8fa; }
 
 /** 标签样式 **/
@@ -52,6 +53,8 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/cursor.cur"), auto !import
 .layui-search .layui-input-datetime .layui-input-block { margin-left: 65px; }
 
 /** 表格样式 **/
+.layui-table-view { border-radius: 3px; }
+.layui-table-view table tbody tr { height: 50px; }
 .layui-table-view .layui-table-fixed { z-index: 999; }
 .layui-table-view .layui-btn-container .layui-btn i { padding: 0; font-size: 12px; }
 .layui-table-view .layui-table-cell .layui-btn-xs { margin: 0; padding: 0 2px; }
@@ -64,6 +67,9 @@ body, a, dl, dt, dd, li, img { cursor: url("../images/cursor.cur"), auto !import
 .layui-table-view .layui-table-cell .table-image-wrap.size-60-60 { width: 60px; height: 60px; }
 .layui-table-view .layui-table-cell .table-image-wrap.size-70-70 { width: 70px; height: 70px; }
 .layui-table-view .layui-table-cell .table-image-wrap.size-80-80 { width: 80px; height: 80px; }
+.layui-table-view .layui-table-tool { border-color: #e6e6e6; background-color: #f2f2f2; }
+.layui-table-view .layui-table-header { border-color: #e6e6e6; background-color: #f2f2f2; }
+.layui-table-view .layui-table-header thead { border-color: #e6e6e6; background-color: #f2f2f2; }
 .layui-table-view .layui-table-header th { font-size: 13px; font-weight: bold; }
 .layui-table-view .layui-icon-circle-dot { cursor: pointer; }
 .wait-table-cell .layui-table-cell { height: auto !important; white-space: normal; word-wrap: break-word; }

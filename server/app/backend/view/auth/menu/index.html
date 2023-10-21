@@ -21,7 +21,7 @@
             </script>
             <script type="text/html" id="table-menu">
                 {{#  if(d.is_menu === 0){ }}
-                    <span class="color-warning"><i class="layui-icon layui-icon-circle-dot" lay-tips="否"></i></span>
+                    <span class="color-error"><i class="layui-icon layui-icon-circle-dot" lay-tips="否"></i></span>
                 {{# } else { }}
                     <span class="color-success"><i class="layui-icon layui-icon-circle-dot" lay-tips="是"></i></span>
                 {{#  } }}
@@ -67,13 +67,13 @@
             ,url: '{:route("auth.menu/index")}'
             ,toolbar: '#toolbar'
             ,defaultToolbar: ['filter', 'exports', 'print']
+            ,skin: 'line'
             ,cols: [[
-                {field:'id', title:'ID', width:70, align:'center'},
-                {field:'title', title:'标题', width:200},
-                {field:'icon', title:'图标', width:80, align:'center', templet:'#table-icon'},
-                {field:'perms', title:'权限', width:300},
-                {field:'sort', title:'排序', width:80, align:'center'},
-                {field:'is_menu', title:'菜单', width:60, align:'center', templet:'#table-menu'},
+                {field:'title', title:'标题', minWidth:200},
+                {field:'icon', title:'图标', minWidth:60, align:'center', templet:'#table-icon'},
+                {field:'perms', title:'权限', minWidth:250},
+                {field:'sort', title:'排序', minWidth:80, align:'center'},
+                {field:'is_menu', title:'菜单', minWidth:60, align:'center', templet:'#table-menu'},
                 {field:'right', title:'操作', width:90, align:'center', toolbar:'#table-operate'},
             ]]
         });

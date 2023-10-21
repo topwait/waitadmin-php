@@ -66,12 +66,13 @@ class WatermarkService extends Service
         ConfigUtils::set('watermark', 'alpha', $post['alpha']??100, '水印图透明度');
         ConfigUtils::set('watermark', 'position', $post['position']??1, '水印所在位置');
 
-        $icon = ($post['icon']??'') ? 'static/common/watermark.png' : '';
-        if ($icon) {
+        $icon = 'static/common/images/watermark.png';
+        if (($post['icon']??'')) {
             $source = public_path() . UrlUtils::toRelativeUrl($post['icon']);
             $target = public_path() . $icon;
             FileUtils::move($source, $target);
         }
+
         ConfigUtils::set('watermark', 'icon', $icon, '水印图片文件');
     }
 }

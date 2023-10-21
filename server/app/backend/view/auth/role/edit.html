@@ -17,7 +17,8 @@
             <label for="sort" class="layui-form-label">角色排序：</label>
             <div class="layui-input-block">
                 <input type="number" id="sort" name="sort" value="{$detail.sort}"
-                       class="layui-input" autocomplete="off" lay-verType="tips">
+                       class="layui-input" autocomplete="off" lay-verType="tips"
+                       oninput="value=value.replace(/[^\d]/g,'').substring(0, 5)">
             </div>
         </div>
         <!-- 角色描述 -->

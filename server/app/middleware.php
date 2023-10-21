@@ -4,6 +4,7 @@
 // +----------------------------------------------------------------------
 
 use app\common\http\middleware\AllowCrossDomain;
+use app\common\http\middleware\DemoMiddleware;
 use app\common\http\middleware\LogsMiddleware;
 use think\middleware\LoadLangPack;
 use think\middleware\SessionInit;
@@ -16,5 +17,7 @@ return [
     // 系统跨域中间件
     AllowCrossDomain::class,
     // 系统日志中间件
-    LogsMiddleware::class
+    LogsMiddleware::class,
+    // 演示站点中间件
+    DemoMiddleware::class
 ];

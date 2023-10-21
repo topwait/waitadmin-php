@@ -63,16 +63,16 @@
             elem: '#wait-table-list'
             ,url: '{:route("system.crontab/index")}'
             ,cols: [[
-                {field:'id', title:'ID', width:60, align:'center'},
-                {field:'name', title:'计划名称', width:140},
-                {field:'command', title:'命令', width:140},
-                {field:'params', title:'参数', width:100},
-                {field:'rules', title:'规则', width:100},
-                {field:'error', title:'错误原因', width:160},
-                {field:'status', title:'状态', width:100, align:'center', templet:'#table-status'},
-                {field:'exe_time', title:'时长', width:70, align:'center'},
-                {field:'max_time', title:'最大时长', width:90, align:'center'},
-                {field:'last_time', title:'最后执行时间', width:170, align:'center'},
+                {field:'id', title:'ID', width:70, align:'center'},
+                {field:'name', title:'计划名称', minWidth:140},
+                {field:'command', title:'命令', minWidth:140},
+                {field:'params', title:'参数', minWidth:100},
+                {field:'rules', title:'规则', minWidth:100},
+                {field:'error', title:'错误原因', minWidth:160},
+                {field:'status', title:'状态', minWidth:100, align:'center', templet:'#table-status'},
+                {field:'exe_time', title:'时长', minWidth:70, align:'center'},
+                {field:'max_time', title:'最大时长', minWidth:90, align:'center'},
+                {field:'last_time', title:'最后执行时间', minWidth:170, align:'center'},
                 {fixed:'right', title:'操作', width:120, align:'center', toolbar:'#table-operate'},
             ]]
         });

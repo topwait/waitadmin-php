@@ -74,6 +74,10 @@ class PostService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
+        foreach ($lists['data'] as &$item) {
+            $item['remarks'] = $item['remarks'] ?: '-';
+        }
+
         return ['count'=>$lists['total'], 'list'=>$lists['data']] ?? [];
     }
 
@@ -132,9 +136,9 @@ class PostService extends Service
         AuthPost::update([
             'code'        => $post['code'],
             'name'        => $post['name'],
-            'remarks'     => $post['remarks'],
-            'sort'        => empty($post['sort']) ? 0 : $post['sort'],
-            'is_disable'  => $post['is_disable'],
+            'remarks'     => $post['remarks']??'',
+            'sort'        => $post['sort']??0,
+            'is_disable'  => $post['is_disable']??0,
             'update_time' => time()
         ], ['id'=>intval($post['id'])]);
     }

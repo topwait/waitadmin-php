@@ -100,15 +100,15 @@
             ,url: '{:route("user.user/index")}'
             ,cols: [[
                 {type:'checkbox', width:48},
-                {field:'id', title:'ID', width:60, align:'center', event:'id'},
-                {field:'info', title:'用户信息', width:270, templet:'#table-info'},
-                {field:'groups', title:'用户分组', align:'center', width:100},
-                {field:'username', title:'登录账号', align:'center', width:100},
-                {field:'email', title:'电子邮箱', align:'center', width:100},
-                {field:'login', title:'登录数', align:'center', width:80},
-                {field:'gender', title:'性别', align:'center', width:60},
-                {field:'disable', title:'状态', align:'center', width:60, templet:'#table-disable'},
-                {field:'create_time', title:'创建时间', width:130, align:'center'},
+                {field:'id', title:'ID', width:70, align:'center', event:'id'},
+                {field:'info', title:'用户信息', minWidth:270, templet:'#table-info'},
+                {field:'groups', title:'用户分组', minWidth:100, align:'center'},
+                {field:'username', title:'登录账号', minWidth:100, align:'center'},
+                {field:'email', title:'电子邮箱', minWidth:180, align:'center'},
+                {field:'login', title:'登录数', minWidth:70, align:'center'},
+                {field:'gender', title:'性别', minWidth:60, align:'center'},
+                {field:'disable', title:'状态', minWidth:60, align:'center', templet:'#table-disable'},
+                {field:'create_time', title:'创建时间', minWidth:130, align:'center'},
                 {fixed:'right', title:'操作', width:150, align:'center', toolbar:'#table-operate'}
             ]]
         });

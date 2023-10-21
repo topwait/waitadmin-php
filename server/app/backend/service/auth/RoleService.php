@@ -81,6 +81,7 @@ class RoleService extends Service
 
         $modelAdmin = new AuthAdmin();
         foreach ($lists['data'] as &$item) {
+            $item['describe'] = $item['describe'] ?: '-';
             $item['adminCount'] = $modelAdmin
                 ->where(['role_id'=>$item['id']])
                 ->where(['is_delete'=>0])
