@@ -18,10 +18,10 @@
                 <li class="{if $k==0}layui-this{/if}">{$v}</li>
             {/foreach}
         </ul>
-        <div class="layui-tab-content" style="padding-top: 10px;">
+        <div class="layui-tab-content " style="padding-top: 10px;">
             {foreach $values as $k=>$v}
                 <div class="layui-tab-item {if $k==0}layui-show{/if}">
-                    <pre class="layui-code layui-code-view layui-code-dark">{$v}</pre>
+                    <pre class="layui-code layui-code-view layui-code-dark code">{$v}</pre>
                 </div>
             {/foreach}
         </div>
@@ -32,7 +32,10 @@
 {block name="js"}
 <script>
     layui.use(['code'], function () {
-        layui.code({title: 'code', skin: 'notepad'});
+        layui.code({
+            elem: '.code',
+            theme: 'dark'
+        });
     });
 </script>
 {/block}
