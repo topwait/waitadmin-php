@@ -5,6 +5,8 @@
     .layui-tab-item { padding: 0 20px; }
     .layui-elem-field .layui-field-box { padding-top: 20px; }
     .layui-form-item .layui-col-md4 { max-width: 410px; }
+    .layui-form-item .layui-form-label { width: 145px; }
+    .layui-form-item .layui-disabled { background-color: #f8f8f8; }
 </style>
 {/block}
 
@@ -15,7 +17,7 @@
         <div class="layui-card ">
             <div class="layui-tab layui-tab-card" lay-filter="tab">
                 <ul class="layui-tab-title">
-                    <li data-tab="wx" class="layui-this">微信小程序</li>
+                     <li data-tab="wx" class="layui-this">微信小程序</li>
                     <li data-tab="oa">微信公众号</li>
                     <li data-tab="op">微信开发平台</li>
                 </ul>
@@ -50,11 +52,11 @@
                                         <div class="thumbnail" data-type="image" data-field="wx_qr_code" data-limit="1">
                                             <div class="musters">
                                                 {if $detail.wx.qr_code}
-                                                    <div class="preview">
-                                                        <input type="hidden" id="wx_qr_code" name="wx_qr_code" value="{$detail.wx.qr_code}">
-                                                        <i class="layui-icon layui-icon-close"></i>
-                                                        <img src="{$detail.wx.qr_code}" alt="img" class="previewImage">
-                                                    </div>
+                                                <div class="preview">
+                                                    <input type="hidden" id="wx_qr_code" name="wx_qr_code" value="{$detail.wx.qr_code}">
+                                                    <i class="layui-icon layui-icon-close"></i>
+                                                    <img src="{$detail.wx.qr_code}" alt="img" class="previewImage">
+                                                </div>
                                                 {/if}
                                             </div>
                                             <div class="builder {if $detail.wx.qr_code}layui-hide{/if}">
@@ -80,7 +82,7 @@
                                         <div class="layui-col-md4">
                                             <input type="text" id="wx_app_id" name="wx_app_id" value="{$detail.wx.app_id}" class="layui-input" autocomplete="off">
                                         </div>
-                                   </div>
+                                    </div>
                                 </div>
                                 <!-- AppSecret -->
                                 <div class="layui-form-item">
@@ -90,6 +92,77 @@
                                             <input type="text" id="wx_app_secret" name="wx_app_secret" value="{$detail.wx.app_secret}" class="layui-input" autocomplete="off">
                                             <div class="layui-form-mid layui-word-aux float-none">登录微信小程序平台: 开发>基本配置>开发者ID</div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="layui-elem-field layui-field-title">
+                            <legend>服务器域名</legend>
+                            <div class="layui-field-box">
+                                <!-- request合法域名 -->
+                                <div class="layui-form-item">
+                                    <label for="wx_request_domain" class="layui-form-label"><span class="asterisk">*</span>request合法域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="wx_request_domain" value="{$detail.wx.request_domain??''}" id="wx_request_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">小程序账号登录微信公众平台，点击设置>公众号设置>功能设置，填写业务域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
+                                    </div>
+                                </div>
+                                <!-- socket合法域名 -->
+                                <div class="layui-form-item">
+                                    <label for="wx_socket_domain" class="layui-form-label">socket合法域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="wx_socket_domain" value="{$detail.wx.socket_domain??''}" id="wx_socket_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">小程序账号登录微信公众平台，点击设置>公众号设置>功能设置，填写业务域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
+                                    </div>
+                                </div>
+                                <!-- uploadFile合法域名 -->
+                                <div class="layui-form-item">
+                                    <label for="wx_upload_file_domain" class="layui-form-label">uploadFile合法域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="wx_upload_file_domain" value="{$detail.wx.upload_file_domain??''}" id="wx_upload_file_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">小程序账号登录微信公众平台，点击设置>公众号设置>功能设置，填写业务域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
+                                    </div>
+                                </div>
+                                <!-- downloadFile合法域名 -->
+                                <div class="layui-form-item">
+                                    <label for="wx_download_file_domain" class="layui-form-label">downloadFile合法域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="wx_download_file_domain" value="{$detail.wx.download_file_domain??''}" id="wx_download_file_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">小程序账号登录微信公众平台，点击设置>公众号设置>功能设置，填写业务域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
+                                    </div>
+                                </div>
+                                <!-- udp合法域名 -->
+                                <div class="layui-form-item">
+                                    <label for="wx_udp_domain" class="layui-form-label">udp合法域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="wx_udp_domain" value="{$detail.wx.udp_domain??''}" id="wx_udp_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">小程序账号登录微信公众平台，点击设置>公众号设置>功能设置，填写业务域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
+                                    </div>
+                                </div>
+                                <!-- tcp合法域名 -->
+                                <div class="layui-form-item">
+                                    <label for="wx_tcp_domain" class="layui-form-label">tcp合法域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="wx_tcp_domain" value="{$detail.wx.tcp_domain??''}" id="wx_tcp_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">小程序账号登录微信公众平台，点击设置>公众号设置>功能设置，填写业务域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
                                     </div>
                                 </div>
                             </div>
@@ -126,11 +199,11 @@
                                             <div class="thumbnail" data-type="image" data-field="oa_qr_code" data-limit="1">
                                                 <div class="musters">
                                                     {if $detail.oa.qr_code}
-                                                        <div class="preview">
-                                                            <input type="hidden" id="oa_qr_code" name="oa_qr_code" value="{$detail.oa.qr_code}">
-                                                            <i class="layui-icon layui-icon-close"></i>
-                                                            <img src="{$detail.oa.qr_code}" alt="img" class="previewImage">
-                                                        </div>
+                                                    <div class="preview">
+                                                        <input type="hidden" id="oa_qr_code" name="oa_qr_code" value="{$detail.oa.qr_code}">
+                                                        <i class="layui-icon layui-icon-close"></i>
+                                                        <img src="{$detail.oa.qr_code}" alt="img" class="previewImage">
+                                                    </div>
                                                     {/if}
                                                 </div>
                                                 <div class="builder {if $detail.oa.qr_code}layui-hide{/if}">
@@ -167,6 +240,93 @@
                                             <input type="text" id="oa_app_secret" name="oa_app_secret" value="{$detail.oa.app_secret}" class="layui-input" autocomplete="off">
                                             <div class="layui-form-mid layui-word-aux">登录微信公众平台: 点击开发>基本配置>公众号开发信息</div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="layui-elem-field layui-field-title">
+                            <legend>服务器配置</legend>
+                            <div class="layui-field-box">
+                                <!-- URL -->
+                                <div class="layui-form-item">
+                                    <label for="oa_url" class="layui-form-label">URL：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="oa_url" value="{$detail.oa.url??''}" id="oa_url" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">登录微信公众平台，点击开发>基本配置>服务器配置，填写服务器地址（URL）</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
+                                    </div>
+                                </div>
+                                <!-- Token -->
+                                <div class="layui-form-item">
+                                    <label for="oa_token" class="layui-form-label">Token：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="oa_token" value="{$detail.oa.token??''}" id="oa_token" class="layui-input" autocomplete="off">
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">登录微信公众平台，点击开发>基本配置>服务器配置，设置令牌Token</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- EncodingAESKey -->
+                                <div class="layui-form-item">
+                                    <label for="oa_aes_key" class="layui-form-label">EncodingAESKey：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="oa_aes_key" value="{$detail.oa.aes_key??''}" id="oa_aes_key" class="layui-input" autocomplete="off">
+                                            <div class="layui-form-mid layui-word-aux">消息加密密钥由43位字符组成，字符范围为A-Z,a-z,0-9</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 消息加密方式 -->
+                                <div class="layui-form-item">
+                                    <div class="layui-form-label">消息加密方式：</div>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="oa_encryption_type" value="1" title="明文模式(不使用消息体加解密功能，安全系数较低)" {if ($detail.oa.encryption_type??1)==1}checked{/if} >
+                                    </div>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="oa_encryption_type" value="2" title="兼容模式(明文、密文将共存，方便开发者调试和维护)" {if ($detail.oa.encryption_type??1)==2}checked{/if} >
+                                    </div>
+                                    <div class="layui-input-block" style="margin-left: 174px">
+                                        <input type="radio" name="oa_encryption_type"  value="3" title="安全模式（推荐）(消息包为纯密文，需要开发者加密和解密，安全系数高)" {if ($detail.oa.encryption_type??1)==3}checked{/if}  >
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="layui-elem-field layui-field-title">
+                            <legend>功能配置</legend>
+                            <div class="layui-field-box">
+                                <!-- 业务域名 -->
+                                <div class="layui-form-item">
+                                    <label for="oa_business_domain" class="layui-form-label">业务域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="oa_business_domain" value="{$detail.oa.domain??''}" id="oa_business_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">登录微信公众平台，点击设置>公众号设置>功能设置，填写业务域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
+                                    </div>
+                                </div>
+                                <!-- JS接口安全域名 -->
+                                <div class="layui-form-item">
+                                    <label for="oa_safety_domain" class="layui-form-label">JS接口安全域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="oa_safety_domain" value="{$detail.oa.domain??''}" id="oa_safety_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">登录微信公众平台，点击设置>公众号设置>功能设置，填写JS接口安全域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
+                                    </div>
+                                </div>
+                                <!-- 网页授权域名 -->
+                                <div class="layui-form-item">
+                                    <label for="oa_auth_domain" class="layui-form-label">网页授权域名：</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-md4">
+                                            <input type="text" name="oa_auth_domain" value="{$detail.oa.domain??''}" id="oa_auth_domain" class="layui-input layui-disabled" autocomplete="off" readonly>
+                                            <div class="layui-form-mid layui-word-aux" style="white-space: nowrap;">登录微信公众平台，点击设置>公众号设置>功能设置，填写网页授权域名</div>
+                                        </div>
+                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm copy mt-4 ml-10">复制</button>
                                     </div>
                                 </div>
                             </div>

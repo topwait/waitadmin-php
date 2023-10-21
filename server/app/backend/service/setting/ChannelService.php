@@ -35,27 +35,40 @@ class ChannelService extends Service
         $wxChannel = ConfigUtils::get('wx_channel');
         $oaChannel = ConfigUtils::get('oa_channel');
         $opChannel = ConfigUtils::get('op_channel');
+        $domain = $_SERVER['SERVER_NAME'];
 
         return [
-            'wx' => [
-                'name'        => $wxChannel['name']        ?? '',
-                'app_id'      => $wxChannel['app_id']      ?? '',
-                'app_secret'  => $wxChannel['app_secret']  ?? '',
-                'original_id' => $wxChannel['original_id'] ?? '',
-                'qr_code'     => UrlUtils::toAbsoluteUrl($wxChannel['qr_code'] ?? ''),
-            ],
-            'oa' => [
-                'name'        => $oaChannel['name']         ?? '',
-                'app_id'      => $oaChannel['app_id']      ?? '',
-                'app_secret'  => $oaChannel['app_secret']  ?? '',
-                'original_id' => $oaChannel['original_id'] ?? '',
-                'qr_code'     => UrlUtils::toAbsoluteUrl($oaChannel['qr_code'] ?? ''),
-            ],
-            'op' => [
-                'app_id'      => $opChannel['app_id']     ?? '',
-                'app_secret'  => $opChannel['app_secret'] ?? '',
-            ]
-        ] ?? [];
+                'wx' => [
+                    'name'                  => $wxChannel['name']        ?? '',
+                    'app_id'                => $wxChannel['app_id']      ?? '',
+                    'app_secret'            => $wxChannel['app_secret']  ?? '',
+                    'original_id'           => $wxChannel['original_id'] ?? '',
+                    'qr_code'               => UrlUtils::toAbsoluteUrl($wxChannel['qr_code'] ?? ''),
+                    'request_domain'        => 'https://'.$domain,
+                    'socket_domain'         => 'wss://'.$domain,
+                    'upload_file_domain'    => 'https://'.$domain,
+                    'download_file_domain'  => 'https://'.$domain,
+                    'udp_domain'            => 'udp://'.$domain,
+                    'tcp_domain'            => 'tcp://'.$domain,
+                    'business_domain'       => $domain,
+                ],
+                'oa' => [
+                    'name'                  => $oaChannel['name']        ?? '',
+                    'app_id'                => $oaChannel['app_id']      ?? '',
+                    'app_secret'            => $oaChannel['app_secret']  ?? '',
+                    'original_id'           => $oaChannel['original_id'] ?? '',
+                    'token'                 => $oaChannel['token']       ?? '',
+                    'aes_key'               => $oaChannel['aes_key']     ?? '',
+                    'encryption_type'       => $oaChannel['encryption_type'] ?? 1,
+                    'qr_code'               => UrlUtils::toAbsoluteUrl($oaChannel['qr_code'] ?? ''),
+                    'domain'                => $domain,
+                    'url'                   => url('api/official/reply', [],'',true).'',
+                ],
+                'op' => [
+                    'app_id'                => $opChannel['app_id']     ?? '',
+                    'app_secret'            => $opChannel['app_secret'] ?? '',
+                ]
+            ] ?? [];
     }
 
     /**
@@ -67,24 +80,27 @@ class ChannelService extends Service
     public static function save(array $post): void
     {
         ConfigUtils::setItem('wx_channel', [
-            'name'        => $post['wx_name']??'',
-            'app_id'      => $post['wx_app_id']??'',
-            'app_secret'  => $post['wx_app_secret']??'',
-            'original_id' => $post['wx_original_id']??'',
-            'qr_code'     => UrlUtils::toRelativeUrl($post['wx_qr_code']??''),
+            'name'        => trim($post['wx_name']??''),
+            'app_id'      => trim($post['wx_app_id']??''),
+            'app_secret'  => trim($post['wx_app_secret']??''),
+            'original_id' => trim($post['wx_original_id']??''),
+            'qr_code'     => UrlUtils::toRelativeUrl($post['wx_qr_code']??'')
         ]);
 
         ConfigUtils::setItem('oa_channel', [
-            'name'        => $post['oa_name']??'',
-            'app_id'      => $post['oa_app_id']??'',
-            'app_secret'  => $post['oa_app_secret']??'',
-            'original_id' => $post['oa_original_id']??'',
-            'qr_code'     => UrlUtils::toRelativeUrl($post['oa_qr_code']??''),
+            'name'            => trim($post['oa_name']??''),
+            'app_id'          => trim($post['oa_app_id']??''),
+            'app_secret'      => trim($post['oa_app_secret']??''),
+            'token'           => trim($post['oa_token']??''),
+            'aes_key'         => trim($post['oa_aes_key']??''),
+            'encryption_type' => intval($post['oa_encryption_type']??1),
+            'original_id'     => trim($post['oa_original_id']??''),
+            'qr_code'         => UrlUtils::toRelativeUrl($post['oa_qr_code']??'')
         ]);
 
         ConfigUtils::setItem('op_channel', [
-            'app_id'      => $post['op_app_id']??'',
-            'app_secret'  => $post['op_app_secret']??'',
+            'app_id'     => trim($post['op_app_id']??''),
+            'app_secret' => trim($post['op_app_secret']??'')
         ]);
     }
 }
