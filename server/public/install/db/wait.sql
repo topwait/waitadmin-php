@@ -632,6 +632,9 @@ INSERT INTO `wait_sys_config` VALUES (216, 'oa_channel', 'qr_code', '', '二维�
 INSERT INTO `wait_sys_config` VALUES (217, 'oa_channel', 'original_id', '', '原始ID', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (218, 'oa_channel', 'app_id', '', 'AppID', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (219, 'oa_channel', 'app_secret', '', 'AppSecret', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (220, 'oa_channel', 'token', 'waitadmin', 'Token', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (221, 'oa_channel', 'aes_key', '', 'EncodingAESKey', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (222, 'oa_channel', 'encryption_type', '1', '消息加密方式', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (230, 'op_channel', 'app_id', '', 'AppID', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (231, 'op_channel', 'app_secret', '', 'AppSecret', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (235, 'h5_channel', 'status', '0', '渠道状态', 1665319505, 1665319505);
