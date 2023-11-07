@@ -186,7 +186,7 @@
         let laypage = layui.laypage;
         let upload  = layui.upload;
         let type    = parseInt('{$type}');
-        let water   = Boolean('{$water|false}');
+        let water   = Boolean('{$water??"true"}');
         let cid     = -1;
 
         // 事件定义
