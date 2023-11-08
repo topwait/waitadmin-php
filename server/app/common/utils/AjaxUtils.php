@@ -35,11 +35,19 @@ class AjaxUtils
 
     private static function result(int $code, string $msg, array $data=[]): array
     {
-        return [
+        $data = [
             'code' => $code,
+            'mat'  => true,
             'msg'  => $msg,
             'data' => $data
-        ] ?? [];
+        ];
+
+        $structure = request()->header('Structure');
+        if (!$structure) {
+            unset($data['mat']);
+        }
+
+        return $data ?? [];
     }
 
     /**

@@ -21,10 +21,9 @@ const install = (Vue) => {
         const result = response.data
         const { logout } = useUserStore()
 
-        const isStructure = response.header.structure || response.header.Structure
         switch (result.code) {
             case errorEnum.SUCCESS:
-                return isStructure ? result : result.data
+                return result.mat ? result : result.data
             case errorEnum.SYSTEM_ERROR:
             case errorEnum.PARAMS_ERROR:
             case errorEnum.METHOD_ERROR:
