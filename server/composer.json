@@ -43,7 +43,8 @@
         "alibabacloud/client": "^1.5",
         "topwait/wait-addons": "^1.0",
         "tencentcloud/sms": "^3.0",
-        "phpoffice/phpspreadsheet": "^1.29"
+        "phpoffice/phpspreadsheet": "^1.29",
+        "dragonmantank/cron-expression": "^3.3"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.0",
