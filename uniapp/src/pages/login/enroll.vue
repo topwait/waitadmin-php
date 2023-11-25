@@ -21,7 +21,7 @@
                 </view>
 
                 <!-- 短信登录 -->
-                <u-form v-if="loginWays === 'mobile'" ref="uForm" :model="form">
+                <u-form v-if="(tabMethod || loginWays) === 'mobile'" ref="uForm" :model="form">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                         <u-input v-model="form.mobile" type="number" placeholder="请输入手机号" />
                     </u-form-item>
@@ -43,7 +43,7 @@
                 </u-form>
 
                 <!-- 账号登录 -->
-                <u-form v-if="loginWays === 'account'" ref="uForm" :model="form">
+                <u-form v-if="(tabMethod || loginWays) === 'account'" ref="uForm" :model="form">
                     <u-form-item left-icon="phone" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
                         <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
                     </u-form-item>
@@ -53,7 +53,7 @@
                 </u-form>
 
                 <!-- 注册重置 -->
-                <view v-if="loginWays === 'account'" class="flex justify-between mt-30">
+                <view v-if="(tabMethod || loginWays) === 'account'" class="flex justify-between mt-30">
                     <view class="font-sm color-muted" @click="$go('/pages/login/regist')">注册账号</view>
                     <view class="font-sm color-muted" @click="$go('/pages/login/forget')">忘记密码?</view>
                 </view>
@@ -64,7 +64,7 @@
                         :loading="loading"
                         type="theme"
                         shape="circle"
-                        @click="onSaLogin(loginWays)"
+                        @click="onSaLogin((tabMethod || loginWays))"
                     >登录</u-button>
                 </view>
 
@@ -98,7 +98,7 @@
                         </button>
                     </view>
                 </view>
-            <!-- #endif -->
+                <!-- #endif -->
             </view>
 
             <!-- 弹窗 -->
@@ -177,22 +177,20 @@ const LoginSceneEnum = {
 
 // 登录配置
 const tabsIndex = ref(0)
-const loginLogo = ref(appStore.h5ConfigVal.logo)
-const loginTabs = appStore.loginConfigVal.login_modes
-const loginAuth = appStore.loginConfigVal.login_other
-const loginWays = ref(loginTabs.length ? loginTabs[0].alias : '')
+const tabMethod = ref(null)
+const isAuthsMobile = ref(false)
 const isCheckAgreement = ref(false)
-
-// 计算属性
+const loginLogo = computed(() => appStore.h5ConfigVal.logo)
+const loginTabs = computed(() => appStore.loginConfigVal.login_modes)
+const loginAuth = computed(() => appStore.loginConfigVal.login_other)
+const loginWays = computed(() => loginTabs.value ? loginTabs.value[0].alias : '')
 const isForceMobileUa = computed(() => appStore.loginConfigVal.force_mobile === 1)
 const isOpenAgreement = computed(() => appStore.loginConfigVal.is_agreement === 1)
-const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other.length)
-
-// 授权手机
-const isAuthsMobile = ref(false)
+const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other?.length)
 
 // #ifdef MP-WEIXIN
-if (appStore.loginConfigVal.auths_mobile === 1) {
+const authsMobile = computed(() => appStore.loginConfigVal.auths_mobile)
+if (authsMobile.value === 1) {
     isAuthsMobile.value = true
 }
 // #endif
@@ -280,12 +278,12 @@ const sendSmsByPhone = async () => {
 // 切换登录
 const tabChange = (index) => {
     tabsIndex.value = index
-    loginWays.value = loginTabs[index].alias
+    tabMethod.value = loginTabs.value[index].alias
 }
 
 // 判断登录
 const wayInclude = (way) => {
-    return loginAuth.includes(way)
+    return loginAuth.value.includes(way)
 }
 
 // 绑定登录

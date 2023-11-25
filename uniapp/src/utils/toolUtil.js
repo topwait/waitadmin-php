@@ -1,3 +1,4 @@
+import { computed } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import clientUtil from '@/utils/clientUtil'
@@ -102,20 +103,20 @@ export default {
         }
 
         const appStore = useAppStore()
-        const diyBottomStyle = appStore.tabBarConfigVal.style
-        const diyBottomNav = appStore.tabBarConfigVal.list
+        const diyBottomStyle = computed(() => appStore.tabBarConfigVal?.style)
+        const diyBottomNav = computed(() => appStore.tabBarConfigVal?.list)
 
         // 设置导航文本颜色
-        if (diyBottomStyle.selectedColor) {
+        if (diyBottomStyle.value?.selectedColor) {
             uni.setTabBarStyle({
-                color: diyBottomStyle.unselectedColor,
-                selectedColor: diyBottomStyle.selectedColor
+                color: diyBottomStyle.value.unselectedColor,
+                selectedColor: diyBottomStyle.value.selectedColor
             })
         }
 
         // APP端导航渲染
         // #ifdef APP-PLUS
-        diyBottomNav.forEach((item, index) => {
+        diyBottomNav.value?.forEach((item, index) => {
             uni.downloadFile({
                 url: item.iconPath,
                 success: res => {
@@ -141,7 +142,7 @@ export default {
 
         // 非APP端导航渲染
         // #ifndef APP-PLUS
-        diyBottomNav.forEach((item, index) => {
+        diyBottomNav.value?.forEach((item, index) => {
             uni.setTabBarItem({
                 index,
                 text: item.text,
