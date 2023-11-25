@@ -1,18 +1,19 @@
 import { useAppStore } from '@/stores/appStore'
 import PagesJSON from '@/pages.json'
+import toolUtil from '@/utils/toolUtil'
 
 export default {
-    data() {
-        return {
-            // 主题名称
-            themeName: '',
-            // 主题颜色
-            themeColor: ''
-        }
+    onLoad() {
+        toolUtil.setTabBar()
     },
-    async onLoad() {
-        await this.$onLaunched
-        await this.initTheme()
+    computed: {
+        themeName() {
+            return this.initTheme()
+        },
+        themeColor() {
+            const appStore = useAppStore()
+            return appStore.themeConfigVal.color
+        }
     },
     methods: {
         // 初始化主题
@@ -21,12 +22,12 @@ export default {
             const routes = getCurrentPages()
             const currentRoute = routes[routes.length - 1].route
 
-            this.themeName = appStore.themeConfigVal.subject || 'default-theme'
-            this.themeColor = appStore.themeConfigVal.color || '#2979ff'
+            const themeName = appStore.themeConfigVal.subject
+            const themeColor = appStore.themeConfigVal.color
 
-            if (this.themeName) {
+            if (themeName) {
                 if (currentRoute.startsWith('pages/')) {
-                    this.__changeTheme(PagesJSON.pages, currentRoute)
+                    this.__changeTheme(PagesJSON.pages, currentRoute, '', themeColor)
                 } else {
                     const { subPackages } = PagesJSON
                     for (let i = 0; i < subPackages.length; i++) {
@@ -38,14 +39,16 @@ export default {
 
                         const subPages = subPackages[i].pages
                         for (let i = 0; i < subPages.length; i++) {
-                            this.__changeTheme(subPages, currentRoute, subRoots)
+                            this.__changeTheme(subPages, currentRoute, subRoots, themeColor)
                         }
                     }
                 }
             }
+
+            return themeName
         },
         // 改变主题色
-        __changeTheme(pages, currentRoute, subRoot) {
+        __changeTheme(pages, currentRoute, subRoot, themeColor) {
             for (let i = 0; i < pages.length; i++) {
                 let paths = pages[i].path
                 if (subRoot) {
@@ -55,7 +58,7 @@ export default {
                     if (pages[i].vary !== false) {
                         uni.setNavigationBarColor({
                             frontColor: '#ffffff',
-                            backgroundColor: this.themeColor
+                            backgroundColor: themeColor
                         })
                     }
                     break
