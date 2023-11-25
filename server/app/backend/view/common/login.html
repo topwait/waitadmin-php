@@ -62,7 +62,7 @@
 
         // 监听提交登录
         form.on('submit(loginSubmit)', function(data) {
-            if (data.field['captcha'].length < 4) {
+            if (data.field['captcha'].length < 1) {
                 return;
             }
             const that = $(this)
