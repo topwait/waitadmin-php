@@ -170,7 +170,7 @@ const LoginAuthEnum = {
 const LoginSceneEnum = {
     WX: 'wx',
     OA: 'oa',
-    BIND: 'bind',
+    BIND: 'ba',
     MOBILE: 'mobile',
     ACCOUNT: 'account'
 }
