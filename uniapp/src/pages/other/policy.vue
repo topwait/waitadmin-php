@@ -30,7 +30,7 @@ onLoad((options) => {
 
 const queryPolicy = async (type) => {
     try {
-        const data = await indexApi.policy({ type })
+        const data = await indexApi.policy(type)
         content.value = data.content
     } catch (e) {
         return false
