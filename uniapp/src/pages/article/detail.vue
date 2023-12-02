@@ -22,13 +22,13 @@ import articleApi from '@/api/articleApi'
 
 const detail = ref({})
 
+const queryArticleDetail = async (id) => {
+    detail.value = await articleApi.detail(id)
+}
+
 onLoad((options) => {
     queryArticleDetail(parseInt(options.id))
 })
-
-const queryArticleDetail = async (id) => {
-    detail.value = await articleApi.detail({ id })
-}
 </script>
 
 <style lang="scss">

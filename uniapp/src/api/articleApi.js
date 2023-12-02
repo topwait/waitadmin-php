@@ -9,19 +9,21 @@ export default class {
     /**
      * 文章列表
      */
-    static lists(params) {
-        const param = {
-            cid: params.cid || 0,
-            pageNo: params.pageNo || 1,
-            pageSize: params.pageSize || 10
+    static lists(cid = 0, pageNo = 1, keyword = '') {
+        let params = {
+            cid: cid,
+            page: pageNo
         }
-        return uni.$u.http.get('article/lists', param)
+        if (keyword) {
+            params.keyword = keyword
+        }
+        return uni.$u.http.get('article/lists', params)
     }
 
     /**
      * 文章详情
      */
-    static detail({ id }) {
+    static detail(id) {
         return uni.$u.http.get('article/detail', { id })
     }
 }

@@ -83,16 +83,8 @@ watch(
     }
 )
 
-const queryArticleList = async (pageNo, pageSize) => {
-    const params = {
-        cid: props.cid,
-        pageNo,
-        pageSize
-    }
-    if (props.keyword) {
-        params.keyword = props.keyword
-    }
-    articleApi.lists(params).then(res => {
+const queryArticleList = async (pageNo) => {
+    articleApi.lists(props.cid, pageNo, props.keyword).then(res => {
         paging.value.complete(res.data)
         isFirst.value = true
     }).catch(() => {
