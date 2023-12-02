@@ -224,29 +224,22 @@ const onGenderEdit = async (value) => {
 
 // 绑定微信
 const onBindWeChat = async () => {
-    let status = false
     uni.showModal({
         content: '是否绑定微信？',
-        confirmColor: '#4173FF',
-        success: ({ cancel }) => {
+        confirmColor: '#4173ff',
+        success: async ({ cancel }) => {
             if (!cancel) {
                 if (!clientUtil.isWeixin()) {
                     return uni.$u.toast('当前浏览器不支持绑定')
                 }
-                status = true
+
+                const code = await toolUtil.obtainWxCode()
+                await userApi.bindWeChat(code)
+                await queryUserInfo()
+                return uni.$u.toast('绑定成功')
             }
         }
     })
-
-    if (status) {
-        const code = await toolUtil.obtainWxCode()
-        try {
-            await bindWeChatApi({code: code})
-        } catch (e) {
-            return
-        }
-        queryUserInfo()
-    }
 }
 
 // 绑定手机
