@@ -4,7 +4,7 @@
             <view class="icon">
                 <u-icon name="star-fill" size="100" color="#fff" />
             </view>
-            <view class="version">v1.2.2</view>
+            <view class="version">v1.3.0</view>
         </view>
     </view>
 </template>
