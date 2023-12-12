@@ -9,15 +9,15 @@ export default class {
     /**
      * 文章列表
      */
-    static lists(cid = 0, pageNo = 1, keyword = '') {
-        let params = {
-            cid: cid,
-            page: pageNo
+    static lists(params) {
+        let param = {
+            cid: params.cid,
+            page: params.pageNo
         }
-        if (keyword) {
-            params.keyword = keyword
+        if (params.keyword) {
+            param.keyword = params.keyword
         }
-        return uni.$u.http.get('article/lists', params)
+        return uni.$u.http.get('article/lists', param)
     }
 
     /**

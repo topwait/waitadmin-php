@@ -18,8 +18,8 @@ export default class {
      */
     static edit(params) {
         const param = {
-            scene: params.scene || '',
-            value: params.value || ''
+            scene: params.scene,
+            value: params.value
         }
         return uni.$u.http.post('user/edit', param)
     }

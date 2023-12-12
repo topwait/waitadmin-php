@@ -1,5 +1,15 @@
 export default class {
     /**
+     * 公众URL
+     */
+    static oaCodeUrl() {
+        const param = {
+            url: location.href
+        }
+        return uni.$u.http.get('login/oaCodeUrl', param)
+    }
+
+    /**
      * 退出系统
      */
     static logout() {
@@ -9,43 +19,43 @@ export default class {
     /**
      * 登录系统
      */
-    static login(p) {
+    static login(params) {
         let param = {}
         switch (p.scene) {
             case 'account':
                 param = {
-                    scene: p.scene,
-                    account: p.account,
-                    password: p.password
+                    scene: params.scene,
+                    account: params.account,
+                    password: params.password
                 }
                 break
             case 'mobile':
                 param = {
-                    scene: p.scene,
-                    mobile: p.mobile,
-                    code: p.code
+                    scene: params.scene,
+                    mobile: params.mobile,
+                    code: params.code
                 }
                 break
             case 'wx':
                 param = {
-                    scene: p.scene,
-                    code: p.code,
-                    wxCode: p.wxCode || ''
+                    scene: params.scene,
+                    code: params.code,
+                    wxCode: params.wxCode
                 }
                 break
             case 'oa':
                 param = {
-                    scene: p.scene,
-                    code: p.code,
-                    state: p.state || ''
+                    scene: params.scene,
+                    code: params.code,
+                    state: params.state
                 }
                 break
             case 'ba':
                 param = {
-                    scene: p.scene,
-                    mobile: p.mobile,
-                    code: p.code,
-                    sign: p.sign
+                    scene: params.scene,
+                    mobile: params.mobile,
+                    code: params.code,
+                    sign: params.sign
                 }
                 break
         }
@@ -65,15 +75,5 @@ export default class {
             password: params.password
         }
         return uni.$u.http.post('login/register', param)
-    }
-
-    /**
-     * 公众URL
-     */
-    static oaCodeUrl() {
-        const param = {
-            url: location.href
-        }
-        return uni.$u.http.get('login/oaCodeUrl', param)
     }
 }
