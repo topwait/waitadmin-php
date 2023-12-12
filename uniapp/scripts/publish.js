@@ -30,7 +30,7 @@ class PublishClientScript {
         // eslint-disable-next-line no-console
         console.error('1.微信小程序')
         // eslint-disable-next-line no-console
-        console.error('2.公众号或者H5')
+        console.error('2.公众号或H5')
         const runClientRes = await this.promptUser('请输入打包的客户端：')
         switch (runClientRes) {
             case '0':
