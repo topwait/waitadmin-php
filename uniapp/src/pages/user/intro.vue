@@ -54,9 +54,9 @@
         <!-- 协议信息 -->
         <view class="pt-20">
             <u-cell-group>
-                <u-cell-item title="隐私政策" @tap="$go('/pages/other/policy?type=privacy')" />
-                <u-cell-item title="服务协议" @tap="$go('/pages/other/policy?type=service')" />
-                <u-cell-item title="关于我们" :value="'v1.2.4'" @tap="$go('/pages/other/about')" />
+                <u-cell-item title="隐私政策" @tap="$go('/pages/index/policy?type=privacy')" />
+                <u-cell-item title="服务协议" @tap="$go('/pages/index/policy?type=service')" />
+                <u-cell-item title="关于我们" :value="'v1.2.4'" @tap="$go('/pages/index/about')" />
             </u-cell-group>
         </view>
 

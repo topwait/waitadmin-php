@@ -60,7 +60,7 @@ onShow(async () => {
 <style lang="scss">
 .layout-header-widget {
     min-height: 180rpx;
-    background: url(../../static/bg_head_radiant.png);
+    background: url("../../static/bg_head_radiant.png");
     background-position: center right;
     background-repeat: no-repeat;
     background-size: auto 100%;

@@ -8,6 +8,33 @@
             }
         },
         {
+            "vary": false,
+            "path": "pages/index/about",
+            "style": {
+                "navigationBarTitleText": "关于我们",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        },
+        {
+            "vary": false,
+            "path": "pages/index/policy",
+            "style": {
+                "navigationBarTitleText": "政策协议",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        },
+        {
+            "vary": false,
+            "path": "pages/index/customer",
+            "style": {
+                "navigationBarTitleText": "联系客服",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        },
+        {
             "path": "pages/login/enroll",
             "style": {
                 "navigationBarTitleText": "登录",
@@ -60,33 +87,6 @@
             "path": "pages/article/detail",
             "style": {
                 "navigationBarTitleText": "资讯详情",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff"
-            }
-        },
-        {
-            "vary": false,
-            "path": "pages/other/about",
-            "style": {
-                "navigationBarTitleText": "关于我们",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff"
-            }
-        },
-        {
-            "vary": false,
-            "path": "pages/other/policy",
-            "style": {
-                "navigationBarTitleText": "政策协议",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#ffffff"
-            }
-        },
-        {
-            "vary": false,
-            "path": "pages/other/customer",
-            "style": {
-                "navigationBarTitleText": "联系客服",
                 "navigationBarTextStyle": "black",
                 "navigationBarBackgroundColor": "#ffffff"
             }
