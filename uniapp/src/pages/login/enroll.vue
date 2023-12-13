@@ -331,7 +331,7 @@ const onSaLogin = (scene) => {
         params = {scene: scene, account: form.account, password: form.password}
     }
 
-    if (isForceMobileUa.value && !isCheckAgreement.value) {
+    if (!isCheckAgreement.value) {
         return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
     }
 
@@ -344,6 +344,11 @@ const onSaLogin = (scene) => {
 
 // 微信登录
 const onWxLogin = async (e) => {
+    if (!isCheckAgreement.value) {
+        return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
+    }
+
+    loading.value = true
     // #ifdef MP-WEIXIN
     const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
@@ -355,7 +360,7 @@ const onWxLogin = async (e) => {
         loading.value = false
     })
 
-    if (result.code === 1) {
+    if (isForceMobileUa.value && result.code === 1) {
         phoneForm.sign = result.data.sign
         showPopup.value = true
     } else {
@@ -368,6 +373,7 @@ const onWxLogin = async (e) => {
         wechatOa.authUrl()
     }
     // #endif
+    loading.value = false
 }
 
 // 公众号登录
