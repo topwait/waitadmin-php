@@ -9,11 +9,7 @@ export default {
         // #ifndef MP-WEIXIN
         try {
             let ua = navigator.userAgent.toLowerCase()
-            if (ua.match(/MicroMessenger/i)[0] === 'micromessenger') {
-                wxBoolean = true
-            } else {
-                wxBoolean = false
-            }
+            wxBoolean = ua.match(/MicroMessenger/i)[0] === 'micromessenger'
         } catch (e) {
             wxBoolean = false
         }
@@ -21,6 +17,7 @@ export default {
 
         return wxBoolean
     },
+
     /**
      * 是否为安卓环境
      */
@@ -32,6 +29,7 @@ export default {
         return uni.getSystemInfoSync().platform === 'android'
 
     },
+
     /**
      * 取当前的客户端
      */
