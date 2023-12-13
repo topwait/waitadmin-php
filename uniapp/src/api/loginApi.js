@@ -21,7 +21,7 @@ export default class {
      */
     static login(params) {
         let param = {}
-        switch (p.scene) {
+        switch (params.scene) {
             case 'account':
                 param = {
                     scene: params.scene,

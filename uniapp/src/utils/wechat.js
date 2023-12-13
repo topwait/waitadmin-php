@@ -35,6 +35,9 @@ const wechatOa = {
         })
     },
 
+    /**
+     * 准备就绪
+     */
     ready() {
         return new Promise((resolve) => {
             weixin.ready(() => {
@@ -43,6 +46,10 @@ const wechatOa = {
         })
     },
 
+    /**
+     * 页面分享
+     * @param {*} options
+     */
     share(options) {
         this.ready().then(() => {
             const { shareTitle, shareLink, shareImage, shareDesc } = options
@@ -68,6 +75,9 @@ const wechatOa = {
         })
     },
 
+    /**
+     * 获取地址
+     */
     getAddress() {
         return new Promise((reslove, reject) => {
             this.ready().then(() => {
@@ -83,6 +93,9 @@ const wechatOa = {
         })
     },
 
+    /**
+     * 获取定位
+     */
     getLocation() {
         return new Promise((reslove, reject) => {
             this.ready().then(() => {

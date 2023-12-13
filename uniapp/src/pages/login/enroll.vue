@@ -307,7 +307,7 @@ const onUpLogin = () => {
 }
 
 // 普通登录
-const { loading, methodAPI:$loginApi } = useLock(loginApi.login)
+const { loading, methodAPI:$loginApi } = useLock(loginApi.login, 2000)
 const onSaLogin = (scene) => {
     let params = {}
     if (scene === LoginSceneEnum.MOBILE) {
@@ -393,20 +393,24 @@ const __loginHandle = (result) => {
     }
 
     userStore.login(result.data.token)
-    const pages = toolUtil.currentPage()
-    if (pages.length > 1) {
-        const prevPage = pages.at(-2)
-        return uni.navigateBack({
-            success: () => {
-                const { onLoad, options } = prevPage
-                onLoad && onLoad(options)
-            }
-        })
-    }
-    return uni.reLaunch({
-        url: '/pages/index/index'
-    })
+    uni.showToast({ title: '登陆成功' })
 
+    setTimeout(() => {
+        const pages = toolUtil.currentPage()
+        if (pages.length > 1) {
+            const prevPage = pages.at(-2)
+            return uni.navigateBack({
+                success: () => {
+                    const { onLoad, options } = prevPage
+                    onLoad && onLoad(options)
+                }
+            })
+        }
+        return uni.reLaunch({
+            url: '/pages/index/index'
+        })
+
+    }, 1000)
 }
 </script>
 

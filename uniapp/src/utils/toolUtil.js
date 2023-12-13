@@ -40,6 +40,7 @@ export default {
             })
         })
     },
+
     /**
      * 获取底部导航
      */
@@ -50,6 +51,7 @@ export default {
             'pages/user/home'
         ]
     },
+
     /**
      * 获取当前页面
      */
@@ -58,13 +60,14 @@ export default {
         const currentPage = pages[pages.length - 1]
         return currentPage || {}
     },
+
     /**
      * 上传文件资源
      *
-     * @param {String} filePath (本地文件路径)
-     * @param {String} fileType (文件类型: image/video/audio)
-     * @param {String} type     (上传类型: picture/video/document/package)
-     * @param {String} scene    (上传场景: permanent=永远存储,temporary=临时存储)
+     * @param {string} filePath 本地文件路径
+     * @param {string} fileType 文件类型: image/video/audio
+     * @param {string} type     上传类型: picture/video/document/package
+     * @param {string} scene    上传场景: permanent=永远存储,temporary=临时存储
      */
     uploadFile(filePath, fileType, type, scene = 'permanent') {
         const userStore = useUserStore()
@@ -93,6 +96,7 @@ export default {
             })
         })
     },
+
     /**
      * 渲染底部导航
      */

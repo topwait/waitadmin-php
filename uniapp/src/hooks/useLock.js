@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export function useLock(callback) {
+export function useLock(callback, delay = 0) {
     let loading = ref(false)
     const methodAPI = async (params) => {
         if (loading.value) {
@@ -9,10 +9,22 @@ export function useLock(callback) {
 
         loading.value = true
         const reponse = await callback(params).catch(e => {
-            loading.value = false
+            if (delay) {
+                setTimeout(() => {
+                    loading.value = false
+                }, delay)
+            } else {
+                loading.value = false
+            }
             return Promise.reject(e)
         })
-        loading.value = false
+        if (delay) {
+            setTimeout(() => {
+                loading.value = false
+            }, delay)
+        } else {
+            loading.value = false
+        }
         return reponse
     }
 
