@@ -27,7 +27,7 @@ use think\response\Json;
  */
 class LoginController extends Api
 {
-    protected array $notNeedLogin = ['register', 'login', 'oaCodeUrl'];
+    protected array $notNeedLogin = ['register', 'login', 'logout', 'oaCodeUrl'];
 
     /**
      * 注册
