@@ -25,7 +25,7 @@ use think\response\Json;
  */
 class DiyController extends Api
 {
-    protected array $notNeedLogin = ['index', 'tie', 'me'];
+    protected array $notNeedLogin = ['diy', 'tie', 'me'];
 
     /**
      * 首页页面装修
@@ -34,7 +34,7 @@ class DiyController extends Api
      * @method [GET]
      * @author zero
      */
-    public function index(): Json
+    public function diy(): Json
     {
         $result = DiyService::index();
         return AjaxUtils::success($result);

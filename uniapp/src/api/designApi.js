@@ -3,7 +3,7 @@ export default class {
      * 首页装修
      */
     static diyIndex() {
-        return uni.$u.http.get('diy/index')
+        return uni.$u.http.get('diy/diy')
     }
 
     /**
