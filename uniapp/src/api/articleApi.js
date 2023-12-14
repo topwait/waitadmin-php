@@ -10,9 +10,9 @@ export default class {
      * 文章列表
      */
     static lists(params) {
-        let param = {
-            cid: params.cid,
-            page: params.pageNo
+        let param = { cid: params.cid }
+        if (params.pageNo) {
+            param.page = params.pageNo
         }
         if (params.keyword) {
             param.keyword = params.keyword

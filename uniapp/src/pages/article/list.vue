@@ -39,10 +39,6 @@ const swiperCurrent = ref(0)
 const currentInstance = getCurrentInstance()
 const keyword = ref('')
 
-onLoad(() => {
-    queryCategoryList()
-})
-
 const onSearch = (e) => {
     keyword.value = e.keyword
 }
@@ -66,4 +62,8 @@ const animations = (e) => {
 const queryCategoryList = async () => {
     tabList.value = await articleApi.category()
 }
+
+onLoad(() => {
+    queryCategoryList()
+})
 </script>
