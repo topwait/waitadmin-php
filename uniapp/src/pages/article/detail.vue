@@ -22,12 +22,9 @@ import articleApi from '@/api/articleApi'
 
 const detail = ref({})
 
-const queryArticleDetail = async (id) => {
-    detail.value = await articleApi.detail(id)
-}
-
-onLoad((options) => {
-    queryArticleDetail(parseInt(options.id))
+onLoad(async (options) => {
+  const id = parseInt(options.id)
+  detail.value = await articleApi.detail(id)
 })
 </script>
 
