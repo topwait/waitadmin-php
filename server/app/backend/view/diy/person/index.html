@@ -304,10 +304,10 @@
         });
 
         // 输入框变化
-        $(document).on('input', '.editor .list .form label:first-child input', function () {
+        $(document).on('input', '.editor .list .form label:first-child input', waitUtil.debounce(200, function () {
             const diyData = {field: form.val('form-filter')}
             handleData(diyData)
-        });
+        }));
 
         // 提交表单
         form.on('submit(addForm)', function(data) {

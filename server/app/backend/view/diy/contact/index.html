@@ -18,7 +18,7 @@
 {/block}
 
 {block name="body"}
-<div class="container layui-form">
+<div class="container layui-form" lay-filter="form-filter">
     <div class="layui-card">
         <div class="layui-card-body">
             <!-- 手机端 -->
@@ -118,6 +118,7 @@
 {block name="js"}
 <script>
     layui.use(['form', 'laytpl'], function() {
+        let $ = layui.$;
         let form = layui.form;
         let laytpl = layui.laytpl;
 
@@ -144,6 +145,11 @@
                 renderTpl(data.field)
             });
         });
+
+        // 输入框变化
+        $(document).on('input', '.editor input', waitUtil.debounce(200, function () {
+            renderTpl(form.val('form-filter'));
+        }));
     });
 </script>
 {/block}
