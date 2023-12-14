@@ -115,10 +115,6 @@ class ExceptionHandle extends Handle
             $this->errMsg  = $e->getMessage();
             $this->errCode = $e->getCode();
             $this->errData = $e->data;
-        } elseif ($e instanceof HttpException) {
-            $this->errMsg  = $e->getMessage();
-            $this->errCode = ErrorEnum::CONTROl_ERROR;
-            exit;
         } elseif ($e instanceof ModelNotFoundException) {
             $this->errCode = ErrorEnum::FOUNDER_ERROR;
             $this->errMsg  = ErrorEnum::getMsgByCode($this->errCode);

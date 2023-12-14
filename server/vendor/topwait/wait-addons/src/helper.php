@@ -612,6 +612,39 @@ if (!function_exists('get_addon_tables')) {
     }
 }
 
+if (!function_exists('addons_vendor_autoload')) {
+    /**
+     * 加载插件内部第三方类库
+     *
+     * @param $addonsName (插件名称或插件数组)
+     * @return bool
+     * @author zero
+     */
+    function addons_vendor_autoload($addonsName) {
+        // 插件全局类库
+        if (is_array($addonsName)) {
+            foreach ($addonsName as $item) {
+                if (isset($item['autoload']) && $item['autoload']==1){
+                    $autoloadFile = root_path() . 'addons/' . $item['name'] . '/vendor/autoload.php';
+                    if (file_exists($autoloadFile)){
+                        require_once $autoloadFile;
+                    }
+                }
+            }
+        } else {
+            // 插件私有类库
+            $config = get_addons_info($addonsName);
+            if (isset($config['autoload']) && $Config['autoload']==2) {
+                $autoloadFile = root_path() . 'addons/' . $addonsName . '/vendor/autoload.php';
+                if (file_exists($autoloadFile)){
+                    require_once $autoloadFile;
+                }
+            }
+        }
+        return true;
+    }
+}
+
 if (!function_exists('get_source_assets_dir')) {
     /**
      * 获取插件原始资源目录
