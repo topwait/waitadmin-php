@@ -27,7 +27,7 @@ use think\response\Json;
  */
 class UserController extends Api
 {
-    protected array $notNeedLogin = ['forgetPwd'];
+    protected array $notNeedLogin = ['info', 'forgetPwd'];
 
     /**
      * 个人中心
