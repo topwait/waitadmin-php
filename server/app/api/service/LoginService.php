@@ -276,6 +276,7 @@ class LoginService extends Service
         $state = md5(time().rand(10000, 99999));
         OaUrlCache::set($state);
 
+        $url = explode('?', $url)[0];
         return ['url'=>WeChatService::oaBuildAuthUrl($url, $state)] ?? [];
     }
 }
