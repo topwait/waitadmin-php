@@ -1,1 +1,0 @@
-class t{static category(){return uni.$u.http.get("article/category")}static lists(t){let e={cid:t.cid,page:t.pageNo};return t.keyword&&(e.keyword=t.keyword),uni.$u.http.get("article/lists",e)}static detail(t){return uni.$u.http.get("article/detail",{id:t})}}export{t as a};
