@@ -133,6 +133,7 @@
                         </u-form-item>
                         <view class="pt-60">
                             <u-button
+                                :loading="loadingBind"
                                 type="theme"
                                 shape="circle"
                                 @click="onUpLogin()"
@@ -196,7 +197,8 @@ const loginWays = computed(() => loginTabs.value ? loginTabs.value[0].alias : ''
 const isForceMobileUa = computed(() => appStore.loginConfigVal.force_mobile === 1)
 const isOpenAgreement = computed(() => appStore.loginConfigVal.is_agreement === 1)
 const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other?.length)
-const loadingSms = ref(false)
+const loadingSms = ref(false)   // 发送短信加载中
+const loadingBind = ref(false)  // 绑定手机加载中
 
 // #ifdef MP-WEIXIN
 const authsMobile = computed(() => appStore.loginConfigVal.auths_mobile)
@@ -281,6 +283,9 @@ const sendSmsByPhone = async () => {
     if (checkUtil.isEmpty(phoneForm.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
+    if (checkUtil.isMobile(phoneForm.mobile)) {
+        return uni.$u.toast('手机号不合规')
+    }
     loadingSms.value = true
     if (uCodeRefByPhone.value?.canGetCode) {
         await indexApi.sendSms({
@@ -322,8 +327,9 @@ const onUpLogin = () => {
         sign: phoneForm.sign,
         mobile: phoneForm.mobile
     }).then(result => {
-        showPopup.value = false
         __loginHandle(result)
+        showPopup.value = false
+        loadingBind.value = false
     })
 }
 
