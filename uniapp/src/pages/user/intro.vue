@@ -119,6 +119,9 @@ import ChangeNickname from './component/change-nickname'
 import ChangePassword from './component/change-password'
 import ForgetPassword from './component/forget-password'
 
+// 首次加载
+const isFirstLoading = ref(false)
+
 // 用户数据
 const userStore = useUserStore()
 const userInfo = ref({
@@ -135,7 +138,6 @@ const userInfo = ref({
 // 弹窗参数
 const popupType = ref(null)
 const popupShow = ref(false)
-const isFirstLoading = ref(true)
 
 // 性别参数
 const genderIndex = ref(0)

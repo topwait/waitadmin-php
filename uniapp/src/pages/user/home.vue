@@ -41,13 +41,17 @@ import { useUserStore } from '@/stores/userStore'
 import designApi from '@/api/designApi'
 import userApi from '@/api/userApi'
 
+// 首次加载
+const isFirstLoading = ref(true)
+
+// 登录状态
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
 
-const userInfo = ref({})
-const diyAdv = ref({})
-const diyService = ref({})
-const isFirstLoading = ref(true)
+// 参数定义
+const userInfo = ref({})   // 用户信息
+const diyService = ref({}) // 服务工具
+const diyAdv = ref({})     // 轮播广告
 
 onShow(async () => {
     const diyItems = await designApi.diyMe()
