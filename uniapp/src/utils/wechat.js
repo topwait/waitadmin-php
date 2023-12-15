@@ -25,9 +25,13 @@ const wechatOa = {
     /**
      * 公众号授权登录
      */
-    authLogin(code) {
+    authLogin(code, state) {
         return new Promise((resolve, reject) => {
-            loginApi.login({ scene: 'oa', code }).then((res) => {
+            loginApi.login({
+                scene: 'oa',
+                code,
+                state
+            }).then((res) => {
                 resolve(res)
             }).catch((err) => {
                 reject(err)

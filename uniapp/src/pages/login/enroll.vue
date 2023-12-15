@@ -229,7 +229,7 @@ onLoad(async (options) => {
         })
     }
 
-    onOaLogin(options.code)
+    onOaLogin(options.code, options.state)
 })
 
 // 监听显示
@@ -398,9 +398,9 @@ const onWxLogin = async (e) => {
 }
 
 // 公众号登录
-const onOaLogin = async (code) => {
+const onOaLogin = async (code, state) => {
     // #ifdef H5
-    if (code) {
+    if (code && state) {
         wechatOa.authLogin(code).then(result => {
             if (result.code === 1) {
                 phoneForm.sign = result.data.sign
