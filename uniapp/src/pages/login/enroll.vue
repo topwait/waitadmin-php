@@ -285,7 +285,7 @@ const sendSmsByPhone = async () => {
     if (uCodeRefByPhone.value?.canGetCode) {
         await indexApi.sendSms({
             scene: smsEnum.BIND_MOBILE,
-            mobile: form.mobile
+            mobile: phoneForm.mobile
         }).then(() => {
             uCodeRefByPhone.value?.start()
             return uni.$u.toast('发送成功')
