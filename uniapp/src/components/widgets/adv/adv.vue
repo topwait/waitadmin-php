@@ -45,14 +45,14 @@ const advList = computed(() => {
 const onJump = (index) => {
     const url = advList.value[index].link
     if (toolUtil.tarBarList().includes(url.trim('/'))) {
-        uni.switchTab({ url: url})
+        uni.switchTab({ url: url })
     } else {
-        uni.navigateTo({url: url})
+        uni.navigateTo({ url: url })
     }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-adv-widget {
     padding: 0 20rpx;
     box-sizing: border-box;

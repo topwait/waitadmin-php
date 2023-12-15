@@ -28,7 +28,7 @@ onLoad(async (options) => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page { background: #ffffff; }
 .layout-detail-widget {
     .header {

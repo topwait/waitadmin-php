@@ -291,7 +291,7 @@ const onClosePopup = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .logout {
     margin: 0 30px;
     padding: 40rpx 0;

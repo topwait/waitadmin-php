@@ -98,7 +98,7 @@ const queryArticleList = async (pageNo) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-article-widget {
     margin-top: 20rpx;
     .item {

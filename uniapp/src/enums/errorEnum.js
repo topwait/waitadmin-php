@@ -10,5 +10,5 @@ export default {
     PURVIEW_ERROR: 5800,       // 权限不足,
 
     LOGIN_EMPTY_ERROR: 8000,   // 登录令牌空值
-    LOGIN_EXPIRE_ERROR: 8100,  // 登录令牌失效
+    LOGIN_EXPIRE_ERROR: 8100   // 登录令牌失效
 }

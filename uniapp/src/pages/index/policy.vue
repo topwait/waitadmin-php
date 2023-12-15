@@ -38,7 +38,7 @@ const queryPolicy = async (type) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
     background-color: #ffffff;
     .layout-policy-widget {

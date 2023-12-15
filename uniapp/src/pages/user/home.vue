@@ -57,7 +57,7 @@ onShow(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-header-widget {
     min-height: 180rpx;
     background: url("../../static/bg_head_radiant.png");

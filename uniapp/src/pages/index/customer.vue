@@ -34,7 +34,7 @@ onShow(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-service-widget {
     margin: 0 60rpx;
     padding-top: 40rpx;

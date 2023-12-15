@@ -30,6 +30,7 @@
                         <template #right>
                             <u-verification-code ref="uCodeRefByLogin" seconds="60" @change="codeChangeByLogin" />
                             <u-button
+                                :loading="loadingSms"
                                 :plain="true"
                                 type="theme"
                                 hover-class="none"
@@ -115,6 +116,7 @@
                             <template #right>
                                 <u-verification-code ref="uCodeRefByPhone" seconds="60" @change="codeChangeByPhone" />
                                 <u-button
+                                    :loading="loadingSms"
                                     :plain="true"
                                     type="primary"
                                     hover-class="none"
@@ -187,6 +189,7 @@ const loginWays = computed(() => loginTabs.value ? loginTabs.value[0].alias : ''
 const isForceMobileUa = computed(() => appStore.loginConfigVal.force_mobile === 1)
 const isOpenAgreement = computed(() => appStore.loginConfigVal.is_agreement === 1)
 const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other?.length)
+const loadingSms = ref(false)
 
 // #ifdef MP-WEIXIN
 const authsMobile = computed(() => appStore.loginConfigVal.auths_mobile)
@@ -250,13 +253,18 @@ const sendSmsByLogin = async () => {
     if (checkUtil.isEmpty(form.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
+    loadingSms.value = true
     if (uCodeRefByLogin.value?.canGetCode) {
         await indexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.mobile
+        }).then(() => {
+            uCodeRefByLogin.value?.start()
+            return uni.$u.toast('发送成功')
+        }).catch(e => {
+            loadingSms.value = false
+            return uni.$u.toast(e.msg)
         })
-        uCodeRefByLogin.value?.start()
-        return uni.$u.toast('发送成功')
     }
 }
 
@@ -265,13 +273,18 @@ const sendSmsByPhone = async () => {
     if (checkUtil.isEmpty(phoneForm.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
+    loadingSms.value = true
     if (uCodeRefByPhone.value?.canGetCode) {
         await indexApi.sendSms({
             scene: smsEnum.BIND_MOBILE,
             mobile: form.mobile
+        }).then(() => {
+            uCodeRefByPhone.value?.start()
+            return uni.$u.toast('发送成功')
+        }).catch(e => {
+            loadingSms.value = false
+            return uni.$u.toast(e.msg)
         })
-        uCodeRefByPhone.value?.start()
-        return uni.$u.toast('发送成功')
     }
 }
 
@@ -420,7 +433,7 @@ const __loginHandle = (result) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-login-widget {
     padding-top: 50rpx;
     .logo {

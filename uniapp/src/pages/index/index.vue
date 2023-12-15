@@ -60,13 +60,13 @@ onShow(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-banner-widget {
     position: relative;
     .backdrop {
         height: 300rpx;
-        background-repeat: no-repeat;
-        background-size: cover;
+        background-repeat: round;
+        background-size: contain;
         background-color: var(--theme-background);
         background-image: url("../../static/bg_head_honour.png");
     }
