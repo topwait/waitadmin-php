@@ -401,7 +401,7 @@ const onWxLogin = async (e) => {
 const onOaLogin = async (code, state) => {
     // #ifdef H5
     if (code && state) {
-        wechatOa.authLogin(code).then(result => {
+        wechatOa.authLogin(code, state).then(result => {
             if (result.code === 1) {
                 phoneForm.sign = result.data.sign
                 showPopup.value = true

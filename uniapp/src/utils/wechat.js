@@ -29,8 +29,8 @@ const wechatOa = {
         return new Promise((resolve, reject) => {
             loginApi.login({
                 scene: 'oa',
-                code,
-                state
+                code: code,
+                state: state
             }).then((res) => {
                 resolve(res)
             }).catch((err) => {
