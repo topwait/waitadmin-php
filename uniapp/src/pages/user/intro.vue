@@ -1,5 +1,8 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
         <!-- 基础信息 -->
         <view class="pt-20">
             <u-cell-group>
@@ -132,6 +135,7 @@ const userInfo = ref({
 // 弹窗参数
 const popupType = ref(null)
 const popupShow = ref(false)
+const isFirstLoading = ref(true)
 
 // 性别参数
 const genderIndex = ref(0)
@@ -144,8 +148,9 @@ const pwdPicker = ref(false)
 const pwdListed = ref([{text: '修改密码'}, {text: '忘记密码'}])
 
 // 显示监听
-onShow(() => {
-    queryUserInfo()
+onShow(async () => {
+    await queryUserInfo()
+    isFirstLoading.value = false
 })
 
 // 查询信息

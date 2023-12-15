@@ -6,6 +6,7 @@ import route from '@/utils/request/route'
 import uHttp from '@/utils/request/http'
 import uView from '@/uni_modules/vk-uview-ui'
 import minxinsApp from '@/mixins/appMixin'
+import 'default-passive-events'
 import './styles/index.scss'
 import en from './lang/en.json'
 import zhHans from './lang/zh-Hans.json'
@@ -17,7 +18,7 @@ let i18nConfig = {
         'en': en,
         'zh-Hans': zhHans,
         'zh-Hant': zhHant
-  	}
+    }
 }
 
 export function createApp() {

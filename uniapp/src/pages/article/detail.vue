@@ -1,5 +1,9 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
+        <!-- 文章详情 -->
         <view class="layout-detail-widget">
             <view class="header">
                 <view class="pb-30">{{ detail.title }}</view>
@@ -20,11 +24,16 @@ import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import articleApi from '@/api/articleApi'
 
+// 首次加载
+const isFirstLoading = ref(true)
+
+// 文章详情
 const detail = ref({})
 
 onLoad(async (options) => {
-  const id = parseInt(options.id)
-  detail.value = await articleApi.detail(id)
+    const id = parseInt(options.id)
+    detail.value = await articleApi.detail(id)
+    isFirstLoading.value = false
 })
 </script>
 

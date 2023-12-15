@@ -36,10 +36,12 @@
 import { ref, watch, nextTick } from 'vue'
 import articleApi from '@/api/articleApi'
 
+// 定义参数
 const paging = ref(null)
 const isFirst = ref(false)
 const dataList = ref([])
 
+// 接收参数
 const props = defineProps({
     cid: {
         type: Number,
@@ -58,6 +60,21 @@ const props = defineProps({
         default: 0
     }
 })
+
+// 获取文章
+const queryArticleList = async (pageNo) => {
+    let params = {
+        keyword: props.keyword,
+        cid: props.cid,
+        pageNo: pageNo
+    }
+    articleApi.lists(params).then(res => {
+        paging.value.complete(res.data)
+        isFirst.value = true
+    }).catch(() => {
+        paging.value.complete(false)
+    })
+}
 
 watch(
     () => props.tabIndex,
@@ -82,20 +99,6 @@ watch(
         paging.value?.reload()
     }
 )
-
-const queryArticleList = async (pageNo) => {
-    let params = {
-        keyword: props.keyword,
-        cid: props.cid,
-        pageNo: pageNo
-    }
-    articleApi.lists(params).then(res => {
-        paging.value.complete(res.data)
-        isFirst.value = true
-    }).catch(() => {
-        paging.value.complete(false)
-    })
-}
 </script>
 
 <style lang="scss" scoped>

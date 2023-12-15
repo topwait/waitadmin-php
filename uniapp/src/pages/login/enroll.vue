@@ -1,5 +1,9 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
+        <!-- 登录表单 -->
         <view class="layout-login-widget">
             <!-- 图标 -->
             <view class="logo">
@@ -49,7 +53,7 @@
                         <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
                     </u-form-item>
                     <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
+                        <u-input v-model="form.password" type="password" placeholder="请输入登录密码" autocomplete="off" />
                     </u-form-item>
                 </u-form>
 
@@ -157,6 +161,9 @@ import toolUtil from '@/utils/toolUtil'
 import wechatOa from '@/utils/wechat'
 // #endif
 
+// 首次加载
+const isFirstLoading = ref(true)
+
 // 基础参数
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -232,6 +239,7 @@ onShow(async () => {
             uni.navigateBack()
         }
     } catch (e) { }
+    isFirstLoading.value = false
 })
 
 // 验证码(登录)

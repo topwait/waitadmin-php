@@ -1,5 +1,9 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
+        <!-- 用户信息 -->
         <view class="layout-header-widget">
             <view class="grid-skinny-unit">
                 <view class="flex items-center">
@@ -16,6 +20,7 @@
             </view>
         </view>
 
+        <!-- 用户服务 -->
         <w-service
             :mod="diyService.base?.layout"
             :title="diyService.base?.title"
@@ -23,6 +28,7 @@
             :list="diyService?.list"
         />
 
+        <!-- 轮播广告 -->
         <w-adv :list="diyAdv?.list" />
     </view>
 </template>
@@ -41,19 +47,17 @@ const { isLogin } = storeToRefs(userStore)
 const userInfo = ref({})
 const diyAdv = ref({})
 const diyService = ref({})
+const isFirstLoading = ref(true)
 
 onShow(async () => {
-    try {
-        const diyItems = await designApi.diyMe()
-        diyAdv.value = diyItems.adv
-        diyService.value = diyItems.service
+    const diyItems = await designApi.diyMe()
+    diyAdv.value = diyItems.adv
+    diyService.value = diyItems.service
 
-        if (isLogin.value) {
-            userInfo.value = await userApi.center()
-        }
-    } catch (e) {
-        return false
+    if (isLogin.value) {
+        userInfo.value = await userApi.center()
     }
+    isFirstLoading.value = false
 })
 </script>
 

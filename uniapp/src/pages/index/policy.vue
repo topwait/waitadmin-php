@@ -1,5 +1,9 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
+        <!-- 协议内容 -->
         <view class="layout-policy-widget">
             <u-parse :html="content" />
         </view>
@@ -11,7 +15,22 @@ import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import indexApi from '@/api/indexApi'
 
+// 首次加载
+const isFirstLoading = ref(true)
+
+// 协议内容
 const content = ref('')
+
+// 获取协议
+const queryPolicy = async (type) => {
+    try {
+        const data = await indexApi.policy(type)
+        content.value = data.content
+        isFirstLoading.value = false
+    } catch (e) {
+        return false
+    }
+}
 
 onLoad((options) => {
     switch (options.type) {
@@ -27,15 +46,6 @@ onLoad((options) => {
             uni.setNavigationBarTitle({title: '政策协议'})
     }
 })
-
-const queryPolicy = async (type) => {
-    try {
-        const data = await indexApi.policy(type)
-        content.value = data.content
-    } catch (e) {
-        return false
-    }
-}
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,9 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
+        <!-- 客服信息 -->
         <view class="pt-60">
             <view class="layout-service-widget">
                 <view class="flex flex-col items-center">
@@ -27,10 +31,15 @@ import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import designApi from '@/api/designApi'
 
+// 首次加载
+const isFirstLoading = ref(true)
+
+// 装修组件
 const diyItems = ref({})
 
 onShow(async () => {
     diyItems.value = await designApi.diyTie()
+    isFirstLoading.value = false
 })
 </script>
 

@@ -1,5 +1,8 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
         <!-- 轮播图片 -->
         <view class="layout-banner-widget">
             <view class="diy-swiper">
@@ -50,6 +53,7 @@ import { onShow } from '@dcloudio/uni-app'
 import designApi from '@/api/designApi'
 import indexApi from '@/api/indexApi'
 
+const isFirstLoading = ref(true)
 const diyItem = ref([])
 const article = ref([])
 
@@ -57,6 +61,7 @@ onShow(async () => {
     const results = await indexApi.index()
     article.value = results.article
     diyItem.value = await designApi.diyIndex()
+    isFirstLoading.value = false
 })
 </script>
 
