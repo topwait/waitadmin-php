@@ -96,7 +96,10 @@
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "uni-app",
         "navigationBarBackgroundColor": "#F8F8F8",
-        "backgroundColor": "#f8f8f8"
+        "backgroundColor": "#f8f8f8",
+        "h5": {
+            "navigationStyle": "custom"
+        }
     },
     "tabBar": {
         "color": "#666666",

@@ -86,6 +86,10 @@ onShow(async () => {
             padding: 0 20rpx;
         }
     }
+    // #ifdef H5
+    .diy-swiper { height: 320rpx;  }
+    .diy-swiper .swiper { padding-top: 20rpx; }
+    // #endif
 }
 .layout-news-widget {
     margin: 20rpx;
