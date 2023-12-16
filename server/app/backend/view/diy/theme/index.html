@@ -83,19 +83,21 @@
         $(document).on('click', '.theme-radio-body .item', function () {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
+
+            const subject = $(this).attr('data-subject');
+            const src = '__BACKEND__/images/diy/theme/'+subject+'.png';
+            const el  = '.theme-radio-body img';
+            $(el).attr('src', src);
         });
 
         form.on('submit(addForm)', function() {
-            let that = this;
+            const that = this;
             waitUtil.locking(that)
             layer.confirm('确定保存当前配置吗?', function (index) {
+                layer.close(index);
                 const app = $('.theme-radio-body .item.active');
                 const subject = app.attr('data-subject');
                 const color   = app.attr('data-color');
-                console.log(subject)
-                console.log(color)
-                waitUtil.unlock(that);
-                layer.close(index);
                 waitUtil.ajax({
                     url: '{:route("diy.theme/save")}',
                     type: 'POST',
@@ -105,9 +107,9 @@
                         color: color
                     }
                 }).then(() => {
-                    const src = '__BACKEND__/images/diy/theme/'+subject+'.png';
-                    const el  = '.theme-radio-body img';
-                    $(el).attr('src', src);
+                    waitUtil.unlock(that);
+                }).catch(() => {
+                    waitUtil.unlock(that);
                 });
             });
         });
