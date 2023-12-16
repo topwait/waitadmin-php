@@ -14,7 +14,7 @@ import zhHant from './lang/zh-Hant.json'
 
 let i18nConfig = {
     locale: uni.getLocale(),
-    messages:{
+    messages: {
         'en': en,
         'zh-Hans': zhHans,
         'zh-Hant': zhHant
