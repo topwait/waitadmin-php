@@ -10,7 +10,7 @@
     .phone .customer .text { margin-top: 10px; font-size: 15px; font-weight: 500; }
     .phone .customer .info { margin-top: 20px; color: #666666; }
     .phone .customer .info div { margin: 4px 0; }
-    .phone .customer .btn { margin-top: 30px; padding: 10px 0; width: 200px; border-radius: 30px; text-align: center; color: #ffffff; background-color: #3b91ff; }
+    .phone .customer .btn { margin-top: 30px; padding: 10px 0; width: 200px; border-radius: 30px; text-align: center; color: #ffffff; background-color: var(--theme-color); }
     .editor { width: 400px; }
     .editor .layui-form-label { width: 55px; }
     .editor .layui-input-block { margin-left: 85px; }
@@ -27,7 +27,7 @@
                     <div class="customer">
                         <div class="image">
                             {{#  if(d.image){ }}
-                                <img src="{{ d.image }}" alt="img">
+                                <img src="{{ d.image }}" alt="img" class="w-h-full">
                             {{#  } else { }}
                                 <i class="layui-icon layui-icon-picture"></i>
                             {{#  } }}
@@ -37,7 +37,7 @@
                             {{#  if(d.datetime){ }}
                                 <div class="datetime">服务时间：{{ d.datetime }}</div>
                             {{#  } }}
-                            {{#  if(d.qq){ }}
+                            {{#  if(d.mobile){ }}
                                 <div class="mobile">客服电话：{{ d.mobile }}</div>
                             {{#  } }}
                             {{#  if(d.qq){ }}
@@ -87,15 +87,13 @@
                             <div class="layui-input-block">
                                 <div class="thumbnail" data-type="image" data-limit="1">
                                     <div class="musters">
-                                        {if $detail.image}
-                                            <div class="preview">
-                                                <input type="hidden" id="image" name="image" value="{$detail.image}">
-                                                <i class="layui-icon layui-icon-close"></i>
-                                                <img src="{$detail.image}" alt="img">
-                                            </div>
-                                        {/if}
+                                        <div class="preview {if !$detail.image}layui-hide{/if}">
+                                            <em class="layui-icon layui-icon-close"></em>
+                                            <input type="hidden" id="image" name="image" value="{$detail.image}">
+                                            <img src="{$detail.image}" alt="img">
+                                        </div>
                                     </div>
-                                    <div class="builder layui-auto {if $detail.image}layui-hide{/if}">
+                                    <div class="builder {if $detail.image}layui-hide{/if}">
                                         <i class="layui-icon layui-icon-camera"></i>
                                         <p>二维码</p>
                                     </div>
@@ -122,6 +120,7 @@
         let form = layui.form;
         let laytpl = layui.laytpl;
 
+        // 渲染方法
         function renderTpl(data) {
             let getTpl = document.getElementById('phoneTpl').innerHTML;
             let view = document.getElementById('phoneView');
@@ -130,7 +129,38 @@
             });
         }
 
+        // 渲染数据
         renderTpl(JSON.parse('{$jsonp|raw}'));
+
+        // 输入框变化
+        $(document).on('input', '.editor input', waitUtil.debounce(200, function () {
+            renderTpl(form.val('form-filter'));
+        }));
+
+        // 上传二维码
+        $(document).on('click', '.thumbnail .builder', function (e) {
+            e.preventDefault();
+            const that = $(this);
+            waitUtil.uploader().then(data => {
+                const preNode = that.prev().children('.preview');
+                that.addClass('layui-hide');
+                preNode.removeClass('layui-hide');
+                preNode.children('img').attr('src', data[0].url);
+                preNode.children('input').val(data[0].url);
+                renderTpl(form.val('form-filter'));
+            });
+        });
+
+        // 删除二维码
+        $(document).on('click', '.thumbnail .layui-icon-close', function (e) {
+            e.preventDefault();
+            const that = $(this);
+            that.parent().addClass('layui-hide');
+            that.parent().children('img').attr('src', '');
+            that.parent().children('input').val('');
+            that.parent().parent().next().removeClass('layui-hide');
+            renderTpl(form.val('form-filter'));
+        });
 
         // 提交表单
         form.on('submit(addForm)', function(data){
@@ -145,11 +175,6 @@
                 renderTpl(data.field)
             });
         });
-
-        // 输入框变化
-        $(document).on('input', '.editor input', waitUtil.debounce(200, function () {
-            renderTpl(form.val('form-filter'));
-        }));
     });
 </script>
 {/block}

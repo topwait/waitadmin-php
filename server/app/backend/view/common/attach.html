@@ -373,7 +373,8 @@
             let id   = parseInt($(this).attr('data-id'));
             let url  = $(this).attr('data-url');
             let icon = $(this).find('img').attr('src');
-            let text = $(this).find('p').html().trim();
+            let text = $(this).find('p').html();
+
             if (type === 20) {
                 icon = $(this).find('video').attr('src');
             }
@@ -596,7 +597,7 @@
             let id   = layui.$(this).attr('data-id');
             let url  = layui.$(this).attr('data-url');
             let icon = layui.$(this).attr('data-icon');
-            let text = layui.$(this).attr('data-text');
+            let text = layui.$(this).attr('title');
             urls.push({id: id, text: text, url: url, icon: icon});
         });
 
