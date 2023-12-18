@@ -109,16 +109,12 @@
             $('.wx-login').removeClass('layui-hide');
 
             waitUtil.ajax({
-                url: "{:route('login/pcQrCodeUrl')}",
+                url: "{:route('login/login')}",
                 fulShow: false,
-                type: 'GET',
-                data: {}
+                type: 'POST',
+                data: {scene: 'op'}
             }).then((res) => {
                 $('.wx-login .qrCode img').attr('src', res.data.url)
-                console.log(res)
-                // if (res.code === 0) {
-                //     parent.location.href = res.data.url;
-                // }
             });
         });
 

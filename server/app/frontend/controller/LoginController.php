@@ -21,6 +21,7 @@ use app\common\utils\AjaxUtils;
 use app\frontend\service\LoginService;
 use app\frontend\validate\LoginValidate;
 use Exception;
+use think\facade\Log;
 use think\response\Json;
 use think\response\View;
 
@@ -29,7 +30,7 @@ use think\response\View;
  */
 class LoginController extends Frontend
 {
-    protected array $notNeedLogin = ['index', 'login', 'register', 'pcQrCodeUrl', 'ticketByUser', 'forgetPwd'];
+    protected array $notNeedLogin = ['index', 'login', 'register', 'wxOaLogin', 'ticketByUser', 'forgetPwd'];
 
     /**
      * 弹出页面
@@ -97,8 +98,10 @@ class LoginController extends Frontend
                     LoginService::baLogin(strval($post['mobile']), $post['code'], $sign, $this->terminal);
                     break;
                 case 'op':
-                    $validate->goCheck('op');
-                    LoginService::opLogin($post['code'], $post['state'], $this->terminal);
+                    $response = LoginService::oaQrCodeUrl();
+                    return AjaxUtils::success($response);
+//                    $validate->goCheck('op');
+//                    LoginService::opLogin($post['code'], $post['state'], $this->terminal);
             }
 
             return AjaxUtils::success('登录成功');
@@ -119,18 +122,11 @@ class LoginController extends Frontend
         $this->redirect(route('index/index'), 302);
     }
 
-    /**
-     * PC微信链接
-     *
-     * @return Json
-     * @throws Exception
-     * @method [GET]
-     * @author zero
-     */
-    public function pcQrCodeUrl(): Json
+    public function wxOaLogin()
     {
-        $response = LoginService::pcQrCodeUrl();
-        return AjaxUtils::success($response);
+        $get = $this->request->get();
+        Log::write("\n\n=== 公招登录 === \n");
+        Log::write(json_encode($get, JSON_UNESCAPED_UNICODE));
     }
 
     /**
@@ -143,7 +139,7 @@ class LoginController extends Frontend
      */
     public function ticketByUser(): Json
     {
-        $key = $this->request->get('key', '');
+        $key = $this->request->get("key", '');
         if (!$key) {
             return AjaxUtils::error('缺失参数key');
         }

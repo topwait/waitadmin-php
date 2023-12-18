@@ -196,38 +196,38 @@ class LoginService extends Service
         session('userId', $userId);
     }
 
-//    /**
-//     * PC微信登录
-//     *
-//     * @param string $code
-//     * @param string $state
-//     * @param int $terminal
-//     * @throws Exception
-//     * @author zero
-//     */
-//    public static function opLogin(string $code, string $state, int $terminal)
-//    {
-//        // 验证时效
-//        $check = ScanLoginCache::get($state);
-//        if (empty($check)) {
-//            throw new OperateException('二维码不存在或已失效!');
-//        }
-//
-//        // 微信授权
-//        $response = WeChatService::opAuth2session($code);
-//        $response['terminal'] = $terminal;
-//
-//        // 验证账户
-//        $userInfo = UserWidget::getUserAuthByResponse($response);
-//        if (empty($userInfo)) {
-//            $userId = UserWidget::createUser($response);
-//        } else {
-//            $userId = UserWidget::updateUser($response);
-//        }
-//
-//        // 登录账户
-//        session('userId', $userId);
-//    }
+    /**
+     * PC微信登录
+     *
+     * @param string $code
+     * @param string $state
+     * @param int $terminal
+     * @throws Exception
+     * @author zero
+     */
+    public static function oaLogin(string $code, string $state, int $terminal)
+    {
+        // 验证时效
+        $check = ScanLoginCache::get($state);
+        if (empty($check)) {
+            throw new OperateException('二维码不存在或已失效!');
+        }
+
+        // 微信授权
+        $response = WeChatService::opAuth2session($code);
+        $response['terminal'] = $terminal;
+
+        // 验证账户
+        $userInfo = UserWidget::getUserAuthByResponse($response);
+        if (empty($userInfo)) {
+            $userId = UserWidget::createUser($response);
+        } else {
+            $userId = UserWidget::updateUser($response);
+        }
+
+        // 登录账户
+        session('userId', $userId);
+    }
 
     /**
      * PC微信扫码链接
@@ -235,7 +235,7 @@ class LoginService extends Service
      * @return array
      * @throws Exception
      */
-    public static function pcQrCodeUrl(): array
+    public static function oaQrCodeUrl(): array
     {
         // 设置扫码有效期
         $uniqId    = uniqid();
