@@ -47,7 +47,6 @@ class OfficialService extends Service
         $oaServer = $app->getServer();
 
         $oaServer->addMessageListener('event', function ($message) {
-            $openId   = $message['FromUserName'];
             $eventKey = $message['EventKey'];
             $url = WeChatService::oaBuildAuthUrl('http://wa.waitshop.cn/frontend/login/oaLogin', $eventKey);
             return '<a href="'.$url.'">点击登录</a>';
