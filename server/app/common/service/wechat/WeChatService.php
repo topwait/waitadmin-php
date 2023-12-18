@@ -133,64 +133,64 @@ class WeChatService
         }
     }
 
-    /**
-     * PC开发平台登录凭证
-     *
-     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-     * @return array ['openid', 'unionid', 'access_token']
-     * @throws Exception
-     * @author zero
-     */
-    public static function opAuth2session(string $code): array
-    {
-        try {
-            $config = WeChatConfig::getOpConfig();
-            $app    = new OfficialApplication($config);
-            $oauth  = $app->getOauth();
+//    /**
+//     * PC开发平台登录凭证
+//     *
+//     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+//     * @return array ['openid', 'unionid', 'access_token']
+//     * @throws Exception
+//     * @author zero
+//     */
+//    public static function opAuth2session(string $code): array
+//    {
+//        try {
+//            $config = WeChatConfig::getOaConfig();
+//            $app    = new OfficialApplication($config);
+//            $oauth  = $app->getOauth();
+//
+//            $response = $oauth
+//                ->scopes(['snsapi_login'])
+//                ->userFromCode($code)
+//                ->getRaw();
+//
+//            if (!isset($response['openid']) || empty($response['openid'])) {
+//                $error = $response['errcode'].'：'.$response['errmsg'];
+//                throw new Exception($error);
+//            }
+//
+//            return [
+//                'openid'    => $response['openid']     ?? '',
+//                'unionid'   => $response['unionid']    ?? '',
+//                'nickname'  => $response['nickname']   ?? '',
+//                'avatarUrl' => $response['headimgurl'] ?? "",
+//                'gender'    => intval($response['sex'] ?? 0),
+//            ] ?? [];
+//        } catch (InvalidArgumentException $e) {
+//            throw new Exception($e->getMessage());
+//        }
+//    }
 
-            $response = $oauth
-                ->scopes(['snsapi_login'])
-                ->userFromCode($code)
-                ->getRaw();
-
-            if (!isset($response['openid']) || empty($response['openid'])) {
-                $error = $response['errcode'].'：'.$response['errmsg'];
-                throw new Exception($error);
-            }
-
-            return [
-                'openid'    => $response['openid']     ?? '',
-                'unionid'   => $response['unionid']    ?? '',
-                'nickname'  => $response['nickname']   ?? '',
-                'avatarUrl' => $response['headimgurl'] ?? "",
-                'gender'    => intval($response['sex'] ?? 0),
-            ] ?? [];
-        } catch (InvalidArgumentException $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * PC开发平台链接生成
-     *
-     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-     * @param string $redirectUrl (重定向地址)
-     * @param string $state (状态码,用于标记是否超时)
-     * @return string url
-     * @throws Exception
-     */
-    public static function opBuildAuthUrl(string $redirectUrl, string $state): string
-    {
-        try {
-            $config = WeChatConfig::getOaConfig();
-            $app    = new OfficialApplication($config);
-            $oauth  = $app->getOauth();
-
-            return $oauth->scopes(['snsapi_login'])->withState($state)->redirect($redirectUrl);
-        } catch (InvalidArgumentException $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
+//    /**
+//     * PC开发平台链接生成
+//     *
+//     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+//     * @param string $redirectUrl (重定向地址)
+//     * @param string $state (状态码,用于标记是否超时)
+//     * @return string url
+//     * @throws Exception
+//     */
+//    public static function opBuildAuthUrl(string $redirectUrl, string $state): string
+//    {
+//        try {
+//            $config = WeChatConfig::getOpConfig();
+//            $app    = new OfficialApplication($config);
+//            $oauth  = $app->getOauth();
+//
+//            return $oauth->scopes(['snsapi_login'])->withState($state)->redirect($redirectUrl);
+//        } catch (InvalidArgumentException $e) {
+//            throw new Exception($e->getMessage());
+//        }
+//    }
 
     /**
      * 小程序登录凭证

@@ -17,6 +17,7 @@ namespace app\frontend\service;
 
 use app\common\basics\Service;
 use app\common\service\wechat\WeChatConfig;
+use app\common\service\wechat\WeChatService;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
@@ -49,7 +50,9 @@ class OfficialService extends Service
             $openId = $message['FromUserName'];
             Log::write('======== 来了 ========');
             Log::write(json_encode($message, JSON_UNESCAPED_UNICODE));
-            return '登录成功';
+            $url = WeChatService::oaBuildAuthUrl('http://wa.waitshop.cn/', '11');
+
+            return '<a href="'.$url.'">点击登录</a>';
         });
 
         return $oaServer->serve();
