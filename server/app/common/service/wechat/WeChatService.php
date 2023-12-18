@@ -137,7 +137,7 @@ class WeChatService
     public static function opBuildAuthUrl(string $redirectUrl, string $state): string
     {
         try {
-            $config = WeChatConfig::getOpConfig();
+            $config = WeChatConfig::getOaConfig();
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
 
