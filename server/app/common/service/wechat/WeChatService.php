@@ -106,9 +106,10 @@ class WeChatService
             $config = WeChatConfig::getOaConfig();
             $app    = new OfficialApplication($config);
             $client = $app->getClient();
+            $accessToken = $app->getAccessToken()->getToken();
 
             // 获取二维码
-            $createQrcode = $client->post('/cgi-bin/qrcode/create', [
+            $createQrcode = $client->post('/cgi-bin/qrcode/create?access_token='.$accessToken, [
                 'body' => json_encode([
                     'expire_seconds' => 120,
                     'action_name'    => 'QR_STR_SCENE',
@@ -119,7 +120,23 @@ class WeChatService
             // 二维码内容
             $createQrcode = json_decode($createQrcode, true);
             if (!isset($createQrcode['ticket'])) {
-                throw new Exception('生成失败,请稍后重试');
+                // access_token失效
+                if (isset($createQrcode['errcode']) == 40001) {
+                    $accessToken = $accessToken->refresh();
+                    $createQrcode = $client->post('/cgi-bin/qrcode/create?access_token='.$accessToken, [
+                        'body' => json_encode([
+                            'expire_seconds' => 120,
+                            'action_name'    => 'QR_STR_SCENE',
+                            'action_info'    => ['scene' => ['scene_str' => $ticketCode]],
+                        ])
+                    ])->getContent();
+                }
+
+                if (!isset($createQrcode['ticket'])) {
+                    throw new Exception($createQrcode['errmsg']);
+                }
+            } else {
+                throw new Exception($createQrcode['errmsg']);
             }
 
             return [
