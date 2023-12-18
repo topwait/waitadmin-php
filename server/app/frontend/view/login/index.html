@@ -108,13 +108,13 @@
             $('.ac-login').addClass('layui-hide');
             $('.wx-login').removeClass('layui-hide');
 
-            let url = window.location.protocol+'//'+window.location.host;
             waitUtil.ajax({
-                url: "{:route('login/opCodeUrl')}?url="+ url,
+                url: "{:route('login/pcQrCodeUrl')}",
                 fulShow: false,
                 type: 'GET',
                 data: {}
             }).then((res) => {
+                $('.wx-login .qrCode img').attr('src', res.data.url)
                 console.log(res)
                 // if (res.code === 0) {
                 //     parent.location.href = res.data.url;
