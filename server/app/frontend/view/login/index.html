@@ -210,6 +210,12 @@
         }
 
         function ticketByUser(key) {
+            if (!key) {
+                if (timer !== null) {
+                    clearInterval(timer);
+                    timer = null;
+                }
+            }
             timer = setInterval(function () {
                 waitUtil.ajax({
                     url: "{:route('login/ticketByUser')}?key="+key,
@@ -218,8 +224,10 @@
                 }).then((res) => {
                     if (res.data.status === undefined) {
                         clearInterval(timer);
+                        timer = null;
                     } else if (res.data.status === 2) {
                         clearInterval(timer);
+                        timer = null;
                     } else if (res.data.status === 1) {
                         layui.msg('登录成功')
                     }
