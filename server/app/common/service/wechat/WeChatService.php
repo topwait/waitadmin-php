@@ -122,7 +122,7 @@ class WeChatService
             if (!isset($createQrcode['ticket'])) {
                 // access_token失效
                 if (isset($createQrcode['errcode']) == 40001) {
-                    $accessToken = $accessToken->refresh();
+                    $accessToken = $app->getAccessToken()->refresh();
                     $createQrcode = $client->post('/cgi-bin/qrcode/create?access_token='.$accessToken, [
                         'body' => json_encode([
                             'expire_seconds' => 120,
@@ -135,8 +135,6 @@ class WeChatService
                 if (!isset($createQrcode['ticket'])) {
                     throw new Exception($createQrcode['errmsg']);
                 }
-            } else {
-                throw new Exception($createQrcode['errmsg']);
             }
 
             return [
