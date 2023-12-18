@@ -231,7 +231,7 @@ onLoad(async (options) => {
         })
     }
 
-    onOaLogin(options.code, options.state)
+    onOaLogin(options?.code, options?.state)
 })
 
 // 监听显示
@@ -375,7 +375,6 @@ const onWxLogin = async (e) => {
         return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
     }
 
-    loading.value = true
     // #ifdef MP-WEIXIN
     const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
@@ -383,11 +382,9 @@ const onWxLogin = async (e) => {
         scene: LoginSceneEnum.WX,
         code: code,
         wxCode: wxCode
-    }).catch(() => {
-        loading.value = false
     })
 
-    if (isForceMobileUa.value && result.code === 1) {
+    if (result && result.code === 1 && isForceMobileUa.value) {
         phoneForm.sign = result.data.sign
         showPopup.value = true
     } else {
@@ -400,7 +397,6 @@ const onWxLogin = async (e) => {
         wechatOa.authUrl()
     }
     // #endif
-    loading.value = false
 }
 
 // 公众号登录
