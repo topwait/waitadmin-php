@@ -50,7 +50,7 @@ class OfficialService extends Service
             $openId = $message['FromUserName'];
             Log::write('======== 来了 ========');
             Log::write(json_encode($message, JSON_UNESCAPED_UNICODE));
-            $url = WeChatService::oaBuildAuthUrl('http://wa.waitshop.cn/', '11');
+            $url = WeChatService::oaBuildAuthUrl('http://wa.waitshop.cn/login/wxOaLogin', '11');
 
             return '<a href="'.$url.'">点击登录</a>';
         });
