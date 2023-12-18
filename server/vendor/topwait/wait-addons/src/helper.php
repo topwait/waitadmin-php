@@ -558,8 +558,8 @@ if (!function_exists('uninstall_addons_sql')) {
         $sqlFile = $addonsPath . $name . DS . 'uninstall.sql';
         if (is_file($sqlFile)) {
             $sql = file_get_contents($sqlFile);
-            $sql = str_replace('__PREFIX__', config('database.connections.mysql.prefix'),$sql);
-            $sql = explode("\r\n",$sql);
+            $sql = str_replace('__PREFIX__', config('database.connections.mysql.prefix'), $sql);
+            $sql = explode("\r\n", $sql);
             foreach ($sql as $v){
                 if(str_contains(strtolower($v), 'drop table')){
                     try {
@@ -574,8 +574,8 @@ if (!function_exists('uninstall_addons_sql')) {
             // 根据安装表的表名删除
             $tables = get_addon_tables($name);
             if ($tables) {
-                foreach ($tables as $index => $table) {
-                    Db::execute("DROP TABLE IF EXISTS `{$table}`");
+                foreach ($tables as $table) {
+                    Db::execute("DROP TABLE IF EXISTS `$table`");
                 }
             }
         }
@@ -592,7 +592,7 @@ if (!function_exists('get_addon_tables')) {
      * @return array
      * @author zero
      */
-    function get_addon_tables($name)
+    function get_addon_tables($name): array
     {
         $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
@@ -609,39 +609,6 @@ if (!function_exists('get_addon_tables')) {
             }
         }
         return $tables;
-    }
-}
-
-if (!function_exists('addons_vendor_autoload')) {
-    /**
-     * 加载插件内部第三方类库
-     *
-     * @param $addonsName (插件名称或插件数组)
-     * @return bool
-     * @author zero
-     */
-    function addons_vendor_autoload($addonsName) {
-        // 插件全局类库
-        if (is_array($addonsName)) {
-            foreach ($addonsName as $item) {
-                if (isset($item['autoload']) && $item['autoload']==1){
-                    $autoloadFile = root_path() . 'addons/' . $item['name'] . '/vendor/autoload.php';
-                    if (file_exists($autoloadFile)){
-                        require_once $autoloadFile;
-                    }
-                }
-            }
-        } else {
-            // 插件私有类库
-            $config = get_addons_info($addonsName);
-            if (isset($config['autoload']) && $Config['autoload']==2) {
-                $autoloadFile = root_path() . 'addons/' . $addonsName . '/vendor/autoload.php';
-                if (file_exists($autoloadFile)){
-                    require_once $autoloadFile;
-                }
-            }
-        }
-        return true;
     }
 }
 
@@ -671,6 +638,40 @@ if (!function_exists('get_target_assets_dir')) {
     function get_target_assets_dir(string $name): string
     {
         return app()->getRootPath() . "public".DS."static".DS."addons".DS."$name".DS;
+    }
+}
+
+if (!function_exists('addons_vendor_autoload')) {
+    /**
+     * 加载插件内部第三方类库
+     *
+     * @param $addonsName (插件名称或插件数组)
+     * @return bool
+     * @author zero
+     */
+    function addons_vendor_autoload($addonsName): bool
+    {
+        // 插件全局类库
+        if (is_array($addonsName)) {
+            foreach ($addonsName as $item) {
+                if (isset($item['autoload']) && $item['autoload']==1){
+                    $autoloadFile = root_path() . 'addons/' . $item['name'] . '/vendor/autoload.php';
+                    if (file_exists($autoloadFile)){
+                        require_once $autoloadFile;
+                    }
+                }
+            }
+        } else {
+            // 插件私有类库
+            $config = get_addons_info($addonsName);
+            if (isset($config['autoload']) && $config['autoload']==2) {
+                $autoloadFile = root_path() . 'addons/' . $addonsName . '/vendor/autoload.php';
+                if (file_exists($autoloadFile)){
+                    require_once $autoloadFile;
+                }
+            }
+        }
+        return true;
     }
 }
 

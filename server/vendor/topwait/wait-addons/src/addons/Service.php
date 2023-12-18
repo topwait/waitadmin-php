@@ -33,9 +33,9 @@ class Service extends \think\Service
 
     /**
      * 所有插件init
-     * @var string
+     * @var array
      */
-    protected array $addonsInis = [];
+    protected array $addonsIniArray = [];
 
     /**
      * 注册服务
@@ -166,7 +166,7 @@ class Service extends \think\Service
                 $addonIni = parse_ini_file($ini, true, INI_SCANNER_TYPED) ?: [];
                 if(!$addonIni['status']) continue;
                 if(!$addonIni['install']) continue;
-                $this->addonsInis[$addonIni['name']] = $addonIni;
+                $this->addonsIniArray[$addonIni['name']] = $addonIni;
 
                 // 循环将钩子方法写入配置中
                 $methods = (array)get_class_methods('\\addons\\' . $name . '\\' . $info['filename']);
@@ -185,7 +185,7 @@ class Service extends \think\Service
             }
         }
 
-        addons_vendor_autoload($this->addonsInis);
+        addons_vendor_autoload($this->addonsIniArray);
         Config::set($config, 'addons');
     }
 
@@ -248,6 +248,10 @@ class Service extends \think\Service
 
             $addonDir = $this->addonsPath . $name . DS;
             if (!is_dir($addonDir)) {
+                continue;
+            }
+
+            if (!is_file($addonDir . ucfirst($name) . '.php')) {
                 continue;
             }
 

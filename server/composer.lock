@@ -3871,16 +3871,16 @@
         },
         {
             "name": "tencentcloud/common",
-            "version": "3.0.1045",
+            "version": "3.0.1047",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tencentcloud-sdk-php/common.git",
-                "reference": "57e2491cc59428b3069412f8452e671b215f1a57"
+                "reference": "5bec993420893365dafea322d59ea5d998080285"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tencentcloud-sdk-php/common/zipball/57e2491cc59428b3069412f8452e671b215f1a57",
-                "reference": "57e2491cc59428b3069412f8452e671b215f1a57",
+                "url": "https://api.github.com/repos/tencentcloud-sdk-php/common/zipball/5bec993420893365dafea322d59ea5d998080285",
+                "reference": "5bec993420893365dafea322d59ea5d998080285",
                 "shasum": ""
             },
             "require": {
@@ -3909,26 +3909,26 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/common",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/common/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1045"
+                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1047"
             },
-            "time": "2023-12-14T08:19:32+00:00"
+            "time": "2023-12-17T20:26:06+00:00"
         },
         {
             "name": "tencentcloud/sms",
-            "version": "3.0.1045",
+            "version": "3.0.1047",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tencentcloud-sdk-php/sms.git",
-                "reference": "dbbd3c92aacf77ce797747527213ebb8335d01e0"
+                "reference": "df7375d6a154c91bf28e58e295070e378e2cdff4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tencentcloud-sdk-php/sms/zipball/dbbd3c92aacf77ce797747527213ebb8335d01e0",
-                "reference": "dbbd3c92aacf77ce797747527213ebb8335d01e0",
+                "url": "https://api.github.com/repos/tencentcloud-sdk-php/sms/zipball/df7375d6a154c91bf28e58e295070e378e2cdff4",
+                "reference": "df7375d6a154c91bf28e58e295070e378e2cdff4",
                 "shasum": ""
             },
             "require": {
-                "tencentcloud/common": "3.0.1045"
+                "tencentcloud/common": "3.0.1047"
             },
             "type": "library",
             "autoload": {
@@ -3952,9 +3952,9 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/sms",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/sms/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1045"
+                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1047"
             },
-            "time": "2023-12-14T08:44:15+00:00"
+            "time": "2023-12-17T20:49:18+00:00"
         },
         {
             "name": "thenorthmemory/xml",
@@ -4448,16 +4448,16 @@
         },
         {
             "name": "topwait/wait-addons",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/topwait/wait-addons.git",
-                "reference": "97f5ee2ed72638a494d2968546a72d71de1d909f"
+                "reference": "9af5cde5dcff958274d26a504567fa3edffd19ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/topwait/wait-addons/zipball/97f5ee2ed72638a494d2968546a72d71de1d909f",
-                "reference": "97f5ee2ed72638a494d2968546a72d71de1d909f",
+                "url": "https://api.github.com/repos/topwait/wait-addons/zipball/9af5cde5dcff958274d26a504567fa3edffd19ed",
+                "reference": "9af5cde5dcff958274d26a504567fa3edffd19ed",
                 "shasum": ""
             },
             "require": {
@@ -4499,9 +4499,9 @@
             "description": "The ThinkPHP6 Addons Package",
             "support": {
                 "issues": "https://github.com/topwait/wait-addons/issues",
-                "source": "https://github.com/topwait/wait-addons/tree/v1.1.1"
+                "source": "https://github.com/topwait/wait-addons/tree/v1.1.2"
             },
-            "time": "2023-09-19T13:43:24+00:00"
+            "time": "2023-12-17T12:57:52+00:00"
         },
         {
             "name": "w7corp/easywechat",
