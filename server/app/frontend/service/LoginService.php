@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\frontend\service;
 
 use app\common\basics\Service;
+use app\common\enums\ClientEnum;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
@@ -229,21 +230,51 @@ class LoginService extends Service
     }
 
     /**
-     * PC微信授权链接
+     * PC微信扫码链接
      *
-     * @param string $url
      * @return array
      * @throws Exception
      */
-    public static function opCodeUrl(string $url): array
+    public static function pcQrCodeUrl(): array
     {
         // 设置扫码有效期
-        $state = md5(time() . rand(10000, 99999));
-        ScanLoginCache::set($state);
+        $uniqId    = uniqid();
+        $ip        = request()->ip();
+        $microTime = microtime();
+        $rand      = rand(1,1000);
+        $state     = md5($uniqId.$ip.$microTime.$rand);
 
-        // 生成扫码二维码
-        $detail['url'] = WeChatService::opBuildAuthUrl($url, $state);
-        return $detail;
+        ScanLoginCache::set($state, ['status'=>0]);
+
+        return WeChatService::oaQrCodeUrl($state);
+    }
+
+    /**
+     * PC微信扫码检测
+     *
+     * @param string $key
+     * @return array
+     * @throws Exception
+     * @author zero
+     */
+    public static function ticketByUser(string $key): array
+    {
+        $results = ScanLoginCache::get($key);
+        if (empty($results['status']) || empty($results['openId'])) {
+            return $results;
+        }
+
+        $userInfo = UserWidget::getUserAuthByResponse($results);
+        if (!$userInfo) {
+            UserWidget::createUser([
+                'openid'    => $results['openid'],
+                'terminal'  => ClientEnum::PC
+            ]);
+        }
+
+        // 登录账户
+        session('userId', $userInfo['id']);
+        return $results;
     }
 
     /**
@@ -293,5 +324,4 @@ class LoginService extends Service
             'update_time' => time()
         ], ['id'=>$userInfo['id']]);
     }
-
 }

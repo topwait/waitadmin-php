@@ -19,6 +19,9 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\MiniApp\Application as MiniApplication;
 use EasyWeChat\OfficialAccount\Application as OfficialApplication;
 use Exception;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
@@ -71,6 +74,7 @@ class WeChatService
      * @param string $state (状态码,用于标记是否超时)
      * @return string url
      * @throws Exception
+     * @author zero
      */
     public static function oaBuildAuthUrl(string $redirectUrl, string $state): string
     {
@@ -84,6 +88,47 @@ class WeChatService
                 ->scopes(['snsapi_userinfo'])
                 ->redirect($redirectUrl);
         } catch (InvalidArgumentException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * 公众号扫码链接
+     *
+     * @param string $ticketCode
+     * @return array
+     * @throws Exception
+     * @author zero
+     */
+    public static function oaQrCodeUrl(string $ticketCode): array
+    {
+        try {
+            $config = WeChatConfig::getOaConfig();
+            $app    = new OfficialApplication($config);
+            $client = $app->getClient();
+
+            // 获取二维码
+            $createQrcode = $client->post('/cgi-bin/qrcode/create', [
+                'body' => json_encode([
+                    'expire_seconds' => 120,
+                    'action_name'    => 'QR_STR_SCENE',
+                    'action_info'    => ['scene' => ['scene_str' => $ticketCode]],
+                ])
+            ])->getContent();
+
+            // 二维码内容
+            $createQrcode = json_decode($createQrcode, true);
+            if (!isset($createQrcode['ticket'])) {
+                throw new Exception('生成失败,请稍后重试');
+            }
+
+            return [
+                'url'    => 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$createQrcode['ticket'],
+                'key'    => $ticketCode,
+                'ticket' => $createQrcode['ticket'],
+                'expire_seconds' => $createQrcode['expire_seconds']
+            ]??[];
+        } catch (Exception|ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $e) {
             throw new Exception($e->getMessage());
         }
     }

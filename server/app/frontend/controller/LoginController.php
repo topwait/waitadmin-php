@@ -29,7 +29,7 @@ use think\response\View;
  */
 class LoginController extends Frontend
 {
-    protected array $notNeedLogin = ['index', 'login', 'register', 'opCodeUrl', 'forgetPwd'];
+    protected array $notNeedLogin = ['index', 'login', 'register', 'pcQrCodeUrl', 'ticketByUser', 'forgetPwd'];
 
     /**
      * 弹出页面
@@ -127,12 +127,28 @@ class LoginController extends Frontend
      * @method [GET]
      * @author zero
      */
-    public function opCodeUrl(): Json
+    public function pcQrCodeUrl(): Json
     {
-        (new LoginValidate())->goCheck('url');
-        $url = $this->request->get('url');
+        $response = LoginService::pcQrCodeUrl();
+        return AjaxUtils::success($response);
+    }
 
-        $response = LoginService::opCodeUrl($url);
+    /**
+     * PC微信扫码检测
+     *
+     * @return Json
+     * @throws Exception
+     * @method [GET]
+     * @author zero
+     */
+    public function ticketByUser(): Json
+    {
+        $key = $this->request->get('key', '');
+        if (!$key) {
+            return AjaxUtils::error('缺失参数key');
+        }
+
+        $response = LoginService::ticketByUser($key);
         return AjaxUtils::success($response);
     }
 
@@ -155,5 +171,4 @@ class LoginController extends Frontend
 
         return AjaxUtils::error();
     }
-
 }

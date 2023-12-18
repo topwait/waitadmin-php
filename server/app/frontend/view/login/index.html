@@ -21,7 +21,6 @@
         let sceneArray = {'login': 101, 'register': 102, 'resetting': 103}
         let sceneCode = sceneArray['{$scene}'];
 
-
         form.render();
 
         timing($('.get_code'))
@@ -106,6 +105,9 @@
 
         // 微信登录
         $(document).on('click', '#wxLogin', function () {
+            $('.ac-login').addClass('layui-hide');
+            $('.wx-login').removeClass('layui-hide');
+
             let url = window.location.protocol+'//'+window.location.host;
             waitUtil.ajax({
                 url: "{:route('login/opCodeUrl')}?url="+ url,
@@ -113,11 +115,18 @@
                 type: 'GET',
                 data: {}
             }).then((res) => {
-                if (res.code === 0) {
-                    parent.location.href = res.data.url;
-                }
+                console.log(res)
+                // if (res.code === 0) {
+                //     parent.location.href = res.data.url;
+                // }
             });
         });
+
+        // 切换方式
+        $(document).on('click', '.wx-login .switch', function () {
+            $('.wx-login').addClass('layui-hide');
+            $('.ac-login').removeClass('layui-hide');
+        })
 
         // 验证码
         $(document).on('click', '.get_code', function () {
