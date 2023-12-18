@@ -20,6 +20,7 @@
         let form = layui.form;
         let sceneArray = {'login': 101, 'register': 102, 'resetting': 103}
         let sceneCode = sceneArray['{$scene}'];
+        let timer = null;
 
         form.render();
 
@@ -114,7 +115,8 @@
                 type: 'POST',
                 data: {scene: 'oa'}
             }).then((res) => {
-                $('.wx-login .qrCode img').attr('src', res.data.url)
+                $('.wx-login .qrCode img').attr('src', res.data.url);
+                ticketByUser(res.data.key);
             });
         });
 
@@ -205,6 +207,24 @@
                     that.removeClass('layui-btn-forbid');
                 }
             }, 1000);
+        }
+
+        function ticketByUser(key) {
+            timer = setInterval(function () {
+                waitUtil.ajax({
+                    url: "{:route('login/ticketByUser')}?key="+key,
+                    fulShow: false,
+                    type: 'GET'
+                }).then((res) => {
+                    if (res.data.status === undefined) {
+                        clearInterval(timer);
+                    } else if (res.data.status === 2) {
+                        clearInterval(timer);
+                    } else if (res.data.status === 1) {
+                        layui.msg('登录成功')
+                    }
+                });
+            }, 1500)
         }
     });
 </script>

@@ -216,8 +216,7 @@ class LoginService extends Service
         // 微信授权
         $response = WeChatService::oaAuth2session($code);
         $response['terminal'] = ClientEnum::PC;
-        Log::write("\n\n ==== 登录乐乐 ===== \n");
-        Log::write(json_encode($response, JSON_UNESCAPED_UNICODE));
+
         // 验证账户
         $userInfo = UserWidget::getUserAuthByResponse($response);
         if (empty($userInfo)) {
@@ -228,9 +227,6 @@ class LoginService extends Service
 
         // 通知PC接口登录成功了
         ScanLoginCache::set($state, ['status'=>ScanLoginCache::$OK, 'userId'=>$userId]);
-
-        // 登录账户
-        // session('userId', $userId);
     }
 
     /**
