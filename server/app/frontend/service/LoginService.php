@@ -26,6 +26,7 @@ use app\frontend\cache\ScanLoginCache;
 use app\frontend\cache\WebEnrollCache;
 use app\frontend\widgets\UserWidget;
 use Exception;
+use think\facade\Log;
 
 /**
  * 登录服务类
@@ -201,11 +202,10 @@ class LoginService extends Service
      *
      * @param string $code
      * @param string $state
-     * @param int $terminal
      * @throws Exception
      * @author zero
      */
-    public static function oaLogin(string $code, string $state, int $terminal)
+    public static function oaLogin(string $code, string $state)
     {
         // 验证时效
         $check = ScanLoginCache::get($state);
@@ -214,9 +214,10 @@ class LoginService extends Service
         }
 
         // 微信授权
-        $response = WeChatService::opAuth2session($code);
-        $response['terminal'] = $terminal;
-
+        $response = WeChatService::oaAuth2session($code);
+        $response['terminal'] = ClientEnum::PC;
+        Log::write("\n\n ==== 登录乐乐 ===== \n");
+        Log::write(json_encode($response, JSON_UNESCAPED_UNICODE));
         // 验证账户
         $userInfo = UserWidget::getUserAuthByResponse($response);
         if (empty($userInfo)) {
@@ -225,8 +226,11 @@ class LoginService extends Service
             $userId = UserWidget::updateUser($response);
         }
 
+        // 通知PC接口登录成功了
+        ScanLoginCache::set($state, ['status'=>ScanLoginCache::$OK, 'userId'=>$userId]);
+
         // 登录账户
-        session('userId', $userId);
+        // session('userId', $userId);
     }
 
     /**
@@ -235,16 +239,16 @@ class LoginService extends Service
      * @return array
      * @throws Exception
      */
-    public static function oaQrCodeUrl(): array
+    public static function oaCodeUrl(): array
     {
         // 设置扫码有效期
         $uniqId    = uniqid();
         $ip        = request()->ip();
         $microTime = microtime();
-        $rand      = rand(1,1000);
+        $rand      = rand(1, 1000);
         $state     = md5($uniqId.$ip.$microTime.$rand);
 
-        ScanLoginCache::set($state, ['status'=>0]);
+        ScanLoginCache::set($state, ['status'=>ScanLoginCache::$ING]);
         return WeChatService::oaQrCodeUrl($state);
     }
 

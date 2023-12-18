@@ -31,7 +31,7 @@ class LoginValidate extends Validate
     public function sceneScene(): LoginValidate
     {
         return $this->only(['scene'])
-            ->append('scene', 'require|in:account,mobile,op,ba');
+            ->append('scene', 'require|in:account,mobile,oa,ba');
     }
 
     /**

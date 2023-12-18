@@ -25,6 +25,10 @@ class ScanLoginCache
     private static int $ttl = 120;
     private static string $prefix = 'login:scan:';
 
+    public static int $ING  = 0;
+    public static int $OK   = 1;
+    public static int $FAIL = 2;
+
     /**
      * 读取
      *

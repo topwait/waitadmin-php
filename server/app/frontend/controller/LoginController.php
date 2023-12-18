@@ -30,7 +30,7 @@ use think\response\View;
  */
 class LoginController extends Frontend
 {
-    protected array $notNeedLogin = ['index', 'login', 'register', 'wxOaLogin', 'ticketByUser', 'forgetPwd'];
+    protected array $notNeedLogin = ['index', 'login', 'register', 'oaLogin', 'ticketByUser', 'forgetPwd'];
 
     /**
      * 弹出页面
@@ -97,11 +97,9 @@ class LoginController extends Frontend
                     $sign = $post['sign'] ?? '';
                     LoginService::baLogin(strval($post['mobile']), $post['code'], $sign, $this->terminal);
                     break;
-                case 'op':
-                    $response = LoginService::oaQrCodeUrl();
+                case 'oa':
+                    $response = LoginService::oaCodeUrl();
                     return AjaxUtils::success($response);
-//                    $validate->goCheck('op');
-//                    LoginService::opLogin($post['code'], $post['state'], $this->terminal);
             }
 
             return AjaxUtils::success('登录成功');
@@ -122,11 +120,18 @@ class LoginController extends Frontend
         $this->redirect(route('index/index'), 302);
     }
 
-    public function wxOaLogin()
+    /**
+     * PC公众号登录
+     *
+     * @throws Exception
+     * @method [GET]
+     * @author zero
+     */
+    public function oaLogin()
     {
-        $get = $this->request->get();
-        Log::write("\n\n=== 公招登录 === \n");
-        Log::write(json_encode($get, JSON_UNESCAPED_UNICODE));
+        $code  = $this->request->get('code', '');
+        $state = $this->request->get('state', '');
+        LoginService::oaLogin($code, $state);
     }
 
     /**
