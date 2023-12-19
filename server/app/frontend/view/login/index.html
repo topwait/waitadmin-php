@@ -267,23 +267,24 @@
                     type: 'GET'
                 }).then((res) => {
                     if (res.data.status === undefined || res.data.status === 2) {
+                        stopInterval();
                         const el = '.wx-login .masking';
                         $(el).show();
-                        stopInterval();
                         layer.msg(res.data.error);
                     } else if (res.data.status === 1) {
                         stopInterval();
                         if (res.data.force) {
                             const el = '.wx-login';
                             const et = '.ba-mobile';
+                            const es = '.ba-mobile .sign';
                             $(el).hide();
                             $(et).show();
-                            sign = res.data.sign;
+                            $(es).val(res.data.sign)
                         } else {
                             layer.msg(res.data.error);
-                            // setTimeout(function () {
-                            //     location.reload();
-                            // }, 1000);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
                         }
                     }
                 });
