@@ -48,11 +48,7 @@ class OfficialService extends Service
 
         $oaServer->addMessageListener('event', function ($message) {
             $eventArr = explode(':', $message['EventKey']);
-            $eventKey = $eventArr[0];
-            Log::write("\n\n====== 来了 ===== \n\n");
-            Log::write($eventArr[0]);
-            Log::write($eventArr[1]);
-            switch ($eventKey) {
+            switch ($eventArr[0]) {
                 case 'login':
                     $redirectUrl = request()->domain() . '/frontend/login/oaLogin';
                     $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $eventArr[1]);

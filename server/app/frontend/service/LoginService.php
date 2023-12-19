@@ -240,10 +240,6 @@ class LoginService extends Service
         // 验证账户
         try {
             $userInfo = UserWidget::getUserAuthByResponse($response);
-
-            Log::write("\n\n===== 微信哈哈哈 =====\n");
-            Log::write(json_encode($userInfo, JSON_UNESCAPED_UNICODE));
-            Log::write("\n\n");
             if (empty($userInfo)) {
                 $userId = UserWidget::createUser($response);
             } else {
