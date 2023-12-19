@@ -127,14 +127,13 @@ class LoginController extends Frontend
      * @method [GET]
      * @author zero
      */
-    public function oaLogin(): View
+    public function oaLogin()
     {
-        dump(request()->domain() . '/frontend/login/oaLogin');exit;
         $code  = $this->request->get('code', '');
         $state = $this->request->get('state', '');
         LoginService::oaLogin($code, $state);
 
-        return view();
+        $this->redirect('/');
     }
 
     /**

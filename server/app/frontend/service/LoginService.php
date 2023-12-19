@@ -198,6 +198,26 @@ class LoginService extends Service
     }
 
     /**
+     * PC微信扫码链接
+     *
+     * @return array
+     * @throws Exception
+     * @author zero
+     */
+    public static function oaCodeUrl(): array
+    {
+        // 设置扫码有效期
+        $uniqId    = uniqid();
+        $ip        = request()->ip();
+        $microTime = microtime();
+        $rand      = rand(1, 1000);
+        $state     = md5($uniqId.$ip.$microTime.$rand);
+
+        ScanLoginCache::set($state, ['status'=>ScanLoginCache::$ING]);
+        return WeChatService::oaQrCodeUrl($state);
+    }
+
+    /**
      * PC微信登录
      *
      * @param string $code
@@ -218,34 +238,29 @@ class LoginService extends Service
         $response['terminal'] = ClientEnum::PC;
 
         // 验证账户
-        $userInfo = UserWidget::getUserAuthByResponse($response);
-        if (empty($userInfo)) {
-            $userId = UserWidget::createUser($response);
-        } else {
-            $userId = UserWidget::updateUser($response);
+        try {
+            $userInfo = UserWidget::getUserAuthByResponse($response);
+            if (empty($userInfo)) {
+                $userId = UserWidget::createUser($response);
+            } else {
+                $userId = UserWidget::updateUser($response);
+            }
+
+            ScanLoginCache::set($state, [
+                'status' => ScanLoginCache::$OK,
+                'userId' => $userId
+            ]);
+        } catch (OperateException $e) {
+             if ($e->code !== 1) {
+                throw new OperateException($e->getMessage());
+             }
+
+             ScanLoginCache::set($state, [
+                 'status' => ScanLoginCache::$OK,
+                 'force'  => true,
+                 'data'   => $e->data
+             ]);
         }
-
-        // 通知PC接口登录成功了
-        ScanLoginCache::set($state, ['status'=>ScanLoginCache::$OK, 'userId'=>$userId]);
-    }
-
-    /**
-     * PC微信扫码链接
-     *
-     * @return array
-     * @throws Exception
-     */
-    public static function oaCodeUrl(): array
-    {
-        // 设置扫码有效期
-        $uniqId    = uniqid();
-        $ip        = request()->ip();
-        $microTime = microtime();
-        $rand      = rand(1, 1000);
-        $state     = md5($uniqId.$ip.$microTime.$rand);
-
-        ScanLoginCache::set($state, ['status'=>ScanLoginCache::$ING]);
-        return WeChatService::oaQrCodeUrl($state);
     }
 
     /**
@@ -263,19 +278,48 @@ class LoginService extends Service
             return $results;
         }
 
-        $userInfo = UserWidget::getUserAuthByResponse($results);
-        if (!$userInfo) {
-            UserWidget::createUser([
-                'openid'    => $results['openid'],
-                'terminal'  => ClientEnum::PC
-            ]);
+        // 完成登录需强制绑定手机
+        if ($results['status'] == ScanLoginCache::$OK && !empty($results['force']) && $results['force']) {
+            ScanLoginCache::delete($key);
+            return $results;
         }
 
-        // 登录失败
+        // 验证是否存在用户标识ID
+        if ($results['status'] == ScanLoginCache::$OK && empty($results['userId'])) {
+            $results['status'] = ScanLoginCache::$FAIL;
+            $results['error'] = '登录异常,请重新登录!';
+            ScanLoginCache::delete($key);
+            return $results;
+        }
 
+        // 查询用户信息
+        $modelUser = new User();
+        $userInfo = $modelUser
+            ->field(['id,sn,is_disable'])
+            ->where(['id'=>intval($results['userId'])])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
 
-        // 登录账户
+        // 验证用户存在
+        if (empty($userInfo)) {
+            $results['status'] = ScanLoginCache::$FAIL;
+            $results['error'] = '账号异常,请重新登录!';
+            ScanLoginCache::delete($key);
+            return $results;
+        }
+
+        // 验证是否被禁用
+        if ($userInfo['is_disable']) {
+            $results['status'] = ScanLoginCache::$FAIL;
+            $results['error'] = '账号已被停用,请联系客服!';
+            ScanLoginCache::delete($key);
+            return $results;
+        }
+
+        // 登录成功了
         session('userId', $userInfo['id']);
+        ScanLoginCache::delete($key);
         return $results;
     }
 
