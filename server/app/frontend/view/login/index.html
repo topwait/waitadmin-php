@@ -267,19 +267,22 @@
                     type: 'GET'
                 }).then((res) => {
                     if (res.data.status === undefined || res.data.status === 2) {
+                        const el = '.wx-login .masking';
+                        $(el).removeClass('layui-hide');
                         stopInterval();
-                        $('.wx-login .masking').removeClass('layui-hide');
+                        layer.msg(res.data.error);
                     } else if (res.data.status === 1) {
                         stopInterval();
                         if (res.data.force) {
+                            const el = '.wx-login';
+                            $(el).addClass('layui-hide');
                             sign = res.data.sign;
-                            $('.wx-login').addClass('layui-hide');
                         } else {
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
+                            layer.msg(res.data.error);
+                            // setTimeout(function () {
+                            //     location.reload();
+                            // }, 1000);
                         }
-                        layer.msg('登录成功');
                     }
                 });
             }, 1500)
