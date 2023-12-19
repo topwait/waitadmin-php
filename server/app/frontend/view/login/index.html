@@ -231,7 +231,8 @@
                         clearInterval(timer);
                         timer = null;
                     } else if (res.data.status === 1) {
-                        location.reload();
+                        console.log(res.data)
+                        // location.reload();
                         clearInterval(timer);
                         timer = null;
                         layer.msg('登录成功');
