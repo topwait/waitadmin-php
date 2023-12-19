@@ -13,41 +13,51 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\frontend\controller;
+namespace app\backend\service;
 
-use app\common\basics\Frontend;
-use app\frontend\service\OfficialService;
+use app\common\basics\Service;
+use app\common\service\wechat\WeChatConfig;
+use app\common\service\wechat\WeChatService;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\OfficialAccount\Application as OfficialApplication;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionException;
-use think\Response;
 use Throwable;
 
-/**
- * 微信公众信息应答
- */
-class OfficialController extends Frontend
+class OfficialService extends Service
 {
-    protected array $notNeedLogin = ['reply'];
 
     /**
      * 微信公众号回调应答
      *
-     * @return Response
+     * @return ResponseInterface
      * @throws InvalidArgumentException
      * @throws BadRequestException
      * @throws RuntimeException
      * @throws ReflectionException
      * @throws Throwable
-     * @method [GET|POST]
-     * @author loneboat
      */
-    public function reply(): Response
+    public static function reply(): ResponseInterface
     {
-        $result = OfficialService::reply();
-        return response($result->getBody())->header([
-            'Content-Type' => 'text/plain;charset=utf-8'
-        ]);
+        $config   = WeChatConfig::getOaConfig();
+        $app      = new OfficialApplication($config);
+        $oaServer = $app->getServer();
+
+        $oaServer->addMessageListener('event', function ($message) {
+            $eventArr = explode(':', $message['EventKey']);
+            $eventKey = $eventArr[0];
+            switch ($eventKey) {
+                case 'login':
+                    $redirectUrl = request()->domain() . '/frontend/login/oaLogin';
+                    $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $eventArr[1]);
+                    return '<a href="'. $oaBuildUrl .'">点击登录</a>';
+                default:
+                    return 'Welcome';
+            }
+        });
+
+        return $oaServer->serve();
     }
 }

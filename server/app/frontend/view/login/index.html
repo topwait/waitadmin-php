@@ -209,6 +209,7 @@
             }, 1000);
         }
 
+        // 心跳检测登录
         function ticketByUser(key) {
             if (!key) {
                 if (timer !== null) {
@@ -230,7 +231,10 @@
                         clearInterval(timer);
                         timer = null;
                     } else if (res.data.status === 1) {
-                        layui.msg('登录成功')
+                        location.reload();
+                        clearInterval(timer);
+                        timer = null;
+                        layer.msg('登录成功');
                     }
                 });
             }, 1500)

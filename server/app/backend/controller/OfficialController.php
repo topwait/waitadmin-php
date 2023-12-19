@@ -13,45 +13,41 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace app\frontend\service;
+namespace app\backend\controller;
 
-use app\common\basics\Service;
-use app\common\service\wechat\WeChatConfig;
-use app\common\service\wechat\WeChatService;
+use app\common\basics\Backend;
+use app\backend\service\OfficialService;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\OfficialAccount\Application as OfficialApplication;
-use Psr\Http\Message\ResponseInterface;
 use ReflectionException;
-use think\facade\Log;
+use think\Response;
 use Throwable;
 
-class OfficialService extends Service
+/**
+ * 公众号响应管理
+ */
+class OfficialController extends Backend
 {
+    protected array $notNeedLogin = ['reply'];
 
     /**
      * 微信公众号回调应答
      *
-     * @return ResponseInterface
+     * @return Response
      * @throws InvalidArgumentException
      * @throws BadRequestException
      * @throws RuntimeException
      * @throws ReflectionException
      * @throws Throwable
+     * @method [GET|POST]
+     * @author loneboat
      */
-    public static function reply(): ResponseInterface
+    public function reply(): Response
     {
-        $config   = WeChatConfig::getOaConfig();
-        $app      = new OfficialApplication($config);
-        $oaServer = $app->getServer();
-
-        $oaServer->addMessageListener('event', function ($message) {
-            $eventKey = $message['EventKey'];
-            $url = WeChatService::oaBuildAuthUrl('http://wa.waitshop.cn/frontend/login/oaLogin', $eventKey);
-            return '<a href="'.$url.'">点击登录</a>';
-        });
-
-        return $oaServer->serve();
+        $result = OfficialService::reply();
+        return response($result->getBody())->header([
+            'Content-Type' => 'text/plain;charset=utf-8'
+        ]);
     }
 }

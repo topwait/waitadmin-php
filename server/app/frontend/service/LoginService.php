@@ -259,7 +259,7 @@ class LoginService extends Service
     public static function ticketByUser(string $key): array
     {
         $results = ScanLoginCache::get($key);
-        if (empty($results['status']) || empty($results['openId'])) {
+        if (empty($results['status'])) {
             return $results;
         }
 
@@ -270,6 +270,9 @@ class LoginService extends Service
                 'terminal'  => ClientEnum::PC
             ]);
         }
+
+        // 登录失败
+
 
         // 登录账户
         session('userId', $userInfo['id']);
