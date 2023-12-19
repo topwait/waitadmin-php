@@ -1,4 +1,4 @@
-<div class="layui-tab layui-tab-brief ac-login">
+<div class="ac-login layui-tab layui-tab-brief">
     <ul class="layui-tab-title">
         <li class="layui-this">账号登录</li>
         <li>验证码登录</li>
@@ -34,7 +34,7 @@
                     <em class="area_code">+86</em>
                     <input type="hidden" name="scene" value="mobile">
                     <input type="text" name="mobile" autocomplete="off" placeholder="短信登录仅限中国大陆用户"
-                           class="layui-input" lay-verType="tips" lay-verify="required|phone">
+                           class="layui-input login-mobile" lay-verType="tips" lay-verify="required|phone">
                 </label>
                 <label class="verify">
                     <em class="get_code" data-type="101">获取验证码</em>
@@ -57,11 +57,11 @@
     </div>
 </div>
 
-<div class="wx-login layui-hide">
+<div class="wx-login" style="display: none;">
     <div class="switch"></div>
     <div class="title">微信扫码登录或注册</div>
     <div class="qrCode">
-        <img src="" alt="qr" class="layui-hide">
+        <img src="" alt="qr" style="display: none;">
         <div class="masking layui-hide">
             <p>二维码失效</p>
             <a href="javascript:" class="refresh">刷新</a>
@@ -71,4 +71,26 @@
     <div class="treaty">
         登录即同意本网站<a href="{:route('index/protocol', ['type'=>'privacy'])}" target="_blank">《隐私政策》</a>
     </div>
+</div>
+
+<div class="ba-mobile" style="display: none;">
+    <div class="title">绑定手机号完成登录</div>
+    <div class="tips">首次登录需要绑定手机号</div>
+    <form class="layui-form">
+        <label class="phone">
+            <em class="area_code">+86</em>
+            <input type="hidden" name="scene" value="ba">
+            <input type="text" name="mobile" autocomplete="off" placeholder="短信登录仅限中国大陆用户"
+                   class="layui-input bind-mobile" lay-verType="tips" lay-verify="required|phone">
+        </label>
+        <label class="verify">
+            <em class="get_code" data-type="105">获取验证码</em>
+            <input type="text" name="code" autocomplete="off" placeholder="请输入正确验证码"
+                   class="layui-input" lay-verType="tips" lay-verify="required|number">
+        </label>
+        <a href="javascript:" class="confirm" lay-filter="bindSubmit" lay-submit>登录</a>
+        <div class="treaty mt-10 mb-20">
+            登录即同意本网站<a href="{:route('index/protocol', ['type'=>'privacy'])}" target="_blank">《隐私政策》</a>
+        </div>
+    </form>
 </div>

@@ -21,6 +21,7 @@
         let sceneArray = {'login': 101, 'register': 102, 'resetting': 103}
         let sceneCode = sceneArray['{$scene}'];
         let timer = null;
+        let sign = null;
 
         form.render();
 
@@ -71,6 +72,27 @@
             });
         });
 
+        // 绑定手机
+        form.on('submit(bindSubmit)', function(data) {
+            data.field['sign'] = sign;
+            waitUtil.locking(this);
+            waitUtil.ajax({
+                url: "{:route('login/login')}",
+                type: 'POST',
+                data: data.field
+            }).then((res) => {
+                if (res.code === 0) {
+                    setTimeout(() => {
+                        parent.location.href = '/';
+                    }, 1500);
+                } else {
+                    waitUtil.unlock(this);
+                }
+            }).catch(() => {
+                waitUtil.unlock(this);
+            });
+        });
+
         // 忘记密码
         form.on('submit(resetSubmit)', function(data) {
             waitUtil.locking(this);
@@ -106,8 +128,8 @@
 
         // 微信登录
         $(document).on('click', '#wxLogin', function () {
-            $('.ac-login').addClass('layui-hide');
-            $('.wx-login').removeClass('layui-hide');
+            $('.ac-login').hide();
+            $('.wx-login').show();
 
             waitUtil.ajax({
                 url: "{:route('login/login')}",
@@ -116,16 +138,16 @@
                 data: {scene: 'oa'}
             }).then((res) => {
                 const elem = $('.wx-login .qrCode img');
+                elem.show();
                 elem.attr('src', res.data.url);
-                elem.removeClass('layui-hide');
                 ticketByUser(res.data.key);
             });
         });
 
         // 切换方式
         $(document).on('click', '.wx-login .switch', function () {
-            $('.wx-login').addClass('layui-hide');
-            $('.ac-login').removeClass('layui-hide');
+            $('.wx-login').hide();
+            $('.ac-login').show();
             stopInterval();
         })
 
@@ -141,13 +163,13 @@
                 const elem = $('.wx-login .qrCode img');
                 const node = $('.wx-login .qrCode .masking');
                 elem.attr('src', res.data.url);
-                elem.removeClass('layui-hide');
-                node.addClass('layui-hide');
+                elem.hide();
+                node.show();
                 ticketByUser(res.data.key);
             });
-        })
+        });
 
-        // 验证码
+        // 发送验证码
         $(document).on('click', '.get_code', function () {
             let that  = $(this);
             let scene = $(this).attr('data-type');
@@ -164,18 +186,20 @@
 
             switch (scene) {
                 case '101': // 短信登录
+                    if (!value) { return layer.tips('手机号码不能为空', '.login-mobile', {tips: 1}); }
+                    if (!waitCheck.isMobile(value)) { return layer.tips('手机号码格式错误', '.ba-mobile', {tips: 1}); }
+                    break;
                 case '102': // 短信注册
-                    if (!value) {
-                        return layer.tips('手机号码不能为空', '#mobile', {tips: 1});
-                    }
-
-                    if (!waitCheck.isMobile(value)) {
-                        return layer.tips('手机号码格式错误', '#mobile', {tips: 1});
-                    }
+                    if (!value) { return layer.tips('手机号码不能为空', '.register-mobile', {tips: 1}); }
+                    if (!waitCheck.isMobile(value)) { return layer.tips('手机号码格式错误', '.ba-mobile', {tips: 1}); }
+                    break;
+                case '105': // 绑定手机
+                    if (!value) { return layer.tips('手机号码不能为空', '.bind-mobile', {tips: 1}); }
+                    if (!waitCheck.isMobile(value)) { return layer.tips('手机号码格式错误', '.ba-mobile', {tips: 1}); }
                     break;
                 case '103': // 找回密码
                     if (!waitCheck.isMobile(value) && !waitCheck.isEmail(value)) {
-                        return layer.tips('手机号码/邮箱格式不正确', '#mobile', {tips: 1});
+                        return layer.tips('手机号码/邮箱格式不正确', '.reset-mobile', {tips: 1});
                     }
 
                     if (waitCheck.isEmail(value)) {
@@ -206,7 +230,7 @@
             });
         });
 
-        // 倒计时
+        // 倒计时方法
         function timing(that) {
             let { expire, value } = waitCache.get('sms:code:'+sceneCode, true);
             if (!expire || !value) {
@@ -248,8 +272,8 @@
                     } else if (res.data.status === 1) {
                         stopInterval();
                         if (res.force) {
-                            console.log(res.data)
-                            // 弹出绑定手机号的框
+                            sign = res.data.sign;
+                            $('.wx-login').addClass('layui-hide');
                         } else {
                             layer.msg('登录成功');
                             setTimeout(function () {
