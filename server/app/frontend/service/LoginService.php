@@ -256,7 +256,7 @@ class LoginService extends Service
                  'status' => ScanLoginCache::$OK,
                  'force'  => true,
                  'error'  => $e->getMessage(),
-                 'data'   => $e->data
+                 'sing'   => $e->data['sign']??''
              ]);
         }
     }
@@ -318,6 +318,7 @@ class LoginService extends Service
         // 登录成功了
         session('userId', $userInfo['id']);
         ScanLoginCache::delete($key);
+        $results['error'] = '登录成功';
         return $results;
     }
 
