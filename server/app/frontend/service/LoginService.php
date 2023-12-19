@@ -236,16 +236,18 @@ class LoginService extends Service
         // 微信授权
         $response = WeChatService::oaAuth2session($code);
         $response['terminal'] = ClientEnum::PC;
-        Log::write("\n\n===== 微信哈哈哈 =====\n");
-        Log::write(json_encode($response, JSON_UNESCAPED_UNICODE));
-        Log::write("\n\n");
 
         // 验证账户
         try {
             $userInfo = UserWidget::getUserAuthByResponse($response);
+
+            Log::write("\n\n===== 微信哈哈哈 =====\n");
+            Log::write(json_encode($userInfo, JSON_UNESCAPED_UNICODE));
+            Log::write("\n\n");
             if (empty($userInfo)) {
                 $userId = UserWidget::createUser($response);
             } else {
+                $response['user_id'] = $userInfo['user_id'];
                 $userId = UserWidget::updateUser($response);
             }
 
