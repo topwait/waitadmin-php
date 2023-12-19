@@ -115,7 +115,9 @@
                 type: 'POST',
                 data: {scene: 'oa'}
             }).then((res) => {
-                $('.wx-login .qrCode img').attr('src', res.data.url);
+                const elem = $('.wx-login .qrCode img');
+                elem.attr('src', res.data.url);
+                elem.removeClass('layui-hide');
                 ticketByUser(res.data.key);
             });
         });
@@ -125,6 +127,24 @@
             $('.wx-login').addClass('layui-hide');
             $('.ac-login').removeClass('layui-hide');
             stopInterval();
+        })
+
+        // 刷新二维码
+        $(document).on('click', '.wx-login .refresh', function () {
+            stopInterval();
+            waitUtil.ajax({
+                url: "{:route('login/login')}",
+                fulShow: false,
+                type: 'POST',
+                data: {scene: 'oa'}
+            }).then((res) => {
+                const elem = $('.wx-login .qrCode img');
+                const node = $('.wx-login .qrCode .masking');
+                elem.attr('src', res.data.url);
+                elem.removeClass('layui-hide');
+                node.addClass('layui-hide');
+                ticketByUser(res.data.key);
+            });
         })
 
         // 验证码
@@ -222,10 +242,9 @@
                     fulShow: false,
                     type: 'GET'
                 }).then((res) => {
-                    if (res.data.status === undefined) {
+                    if (res.data.status === undefined || res.data.status === 2) {
                         stopInterval();
-                    } else if (res.data.status === 2) {
-                        stopInterval();
+                        $('.wx-login .masking').removeClass('layui-hide');
                     } else if (res.data.status === 1) {
                         stopInterval();
                         if (res.force) {
