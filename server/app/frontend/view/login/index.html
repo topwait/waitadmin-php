@@ -268,14 +268,16 @@
                 }).then((res) => {
                     if (res.data.status === undefined || res.data.status === 2) {
                         const el = '.wx-login .masking';
-                        $(el).removeClass('layui-hide');
+                        $(el).show();
                         stopInterval();
                         layer.msg(res.data.error);
                     } else if (res.data.status === 1) {
                         stopInterval();
                         if (res.data.force) {
                             const el = '.wx-login';
-                            $(el).addClass('layui-hide');
+                            const et = '.ba-mobile';
+                            $(el).hide();
+                            $(et).show();
                             sign = res.data.sign;
                         } else {
                             layer.msg(res.data.error);
