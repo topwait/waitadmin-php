@@ -129,6 +129,8 @@ class LoginController extends Frontend
      */
     public function oaLogin()
     {
+        Log::write("\n\n微信登录\n\n");
+        Log::write(Log::write(json_encode($this->request->get(), JSON_UNESCAPED_UNICODE)));
         $code  = $this->request->get('code', '');
         $state = $this->request->get('state', '');
         LoginService::oaLogin($code, $state);

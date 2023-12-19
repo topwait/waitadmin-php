@@ -24,6 +24,7 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OfficialAccount\Application as OfficialApplication;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionException;
+use think\facade\Log;
 use Throwable;
 
 class OfficialService extends Service
@@ -48,6 +49,9 @@ class OfficialService extends Service
         $oaServer->addMessageListener('event', function ($message) {
             $eventArr = explode(':', $message['EventKey']);
             $eventKey = $eventArr[0];
+            Log::write("\n\n====== 来了 ===== \n\n");
+            Log::write($eventArr[0]);
+            Log::write($eventArr[1]);
             switch ($eventKey) {
                 case 'login':
                     $redirectUrl = request()->domain() . '/frontend/login/oaLogin';

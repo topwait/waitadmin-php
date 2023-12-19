@@ -251,15 +251,15 @@ class LoginService extends Service
                 'userId' => $userId
             ]);
         } catch (OperateException $e) {
-             if ($e->code !== 1) {
-                throw new OperateException($e->getMessage());
+             if ($e->code === 1) {
+                 ScanLoginCache::set($state, [
+                     'status' => ScanLoginCache::$OK,
+                     'force'  => true,
+                     'data'   => $e->data
+                 ]);
              }
 
-             ScanLoginCache::set($state, [
-                 'status' => ScanLoginCache::$OK,
-                 'force'  => true,
-                 'data'   => $e->data
-             ]);
+            throw new OperateException($e->getMessage());
         }
     }
 
