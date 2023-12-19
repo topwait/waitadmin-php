@@ -266,6 +266,7 @@
                     fulShow: false,
                     type: 'GET'
                 }).then((res) => {
+                    console.log(res)
                     if (res.data.status === undefined || res.data.status === 2) {
                         stopInterval();
                         $('.wx-login .masking').removeClass('layui-hide');
@@ -276,9 +277,9 @@
                             $('.wx-login').addClass('layui-hide');
                         } else {
                             layer.msg('登录成功');
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
+                            // setTimeout(function () {
+                            //     location.reload();
+                            // }, 1000);
                         }
                     }
                 });
