@@ -124,6 +124,7 @@
         $(document).on('click', '.wx-login .switch', function () {
             $('.wx-login').addClass('layui-hide');
             $('.ac-login').removeClass('layui-hide');
+            stopInterval();
         })
 
         // 验证码
@@ -212,10 +213,7 @@
         // 心跳检测登录
         function ticketByUser(key) {
             if (!key) {
-                if (timer !== null) {
-                    clearInterval(timer);
-                    timer = null;
-                }
+                stopInterval();
                 return;
             }
             timer = setInterval(function () {
@@ -225,20 +223,31 @@
                     type: 'GET'
                 }).then((res) => {
                     if (res.data.status === undefined) {
-                        clearInterval(timer);
-                        timer = null;
+                        stopInterval();
                     } else if (res.data.status === 2) {
-                        clearInterval(timer);
-                        timer = null;
+                        stopInterval();
                     } else if (res.data.status === 1) {
-                        console.log(res.data)
-                        // location.reload();
-                        clearInterval(timer);
-                        timer = null;
-                        layer.msg('登录成功');
+                        stopInterval();
+                        if (res.force) {
+                            console.log(res.data)
+                            // 弹出绑定手机号的框
+                        } else {
+                            layer.msg('登录成功');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        }
                     }
                 });
             }, 1500)
+        }
+
+        // 停止心跳检测
+        function stopInterval() {
+            if (timer !== null) {
+                clearInterval(timer);
+                timer = null;
+            }
         }
     });
 </script>
