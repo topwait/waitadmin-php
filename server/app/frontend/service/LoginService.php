@@ -256,7 +256,7 @@ class LoginService extends Service
                  'status' => ScanLoginCache::$OK,
                  'force'  => true,
                  'error'  => $e->getMessage(),
-                 'sing'   => $e->data['sign']??''
+                 'sign'   => $e->data['sign']??''
              ]);
         }
     }
