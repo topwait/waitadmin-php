@@ -255,6 +255,7 @@ class LoginService extends Service
         if (empty($userInfo)) {
             $userId = UserWidget::createUser($response);
         } else {
+            $response['user_id'] = $userInfo['user_id'];
             $userId = UserWidget::updateUser($response);
         }
 
