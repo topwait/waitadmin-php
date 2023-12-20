@@ -162,9 +162,9 @@ class FileUtils
      */
     public static function download(string $url, String $saveTo)
     {
-        $basePath = str_replace(basename($url), '', $url);
-        if (!file_exists(base_path($basePath))) {
-            mkdir(base_path($basePath), 0775, true);
+        $basePath = str_replace(basename($saveTo), '', $saveTo);
+        if (!file_exists($basePath)) {
+            mkdir($basePath, 0775, true);
         }
 
         $content = file_get_contents($url);
