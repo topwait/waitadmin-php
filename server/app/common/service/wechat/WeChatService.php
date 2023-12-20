@@ -33,19 +33,25 @@ class WeChatService
      * 公众号登录凭证
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+     * @param string $scopes (授权: [snsapi_base=只能取openId, snsapi_userinfo=用户信息, snsapi_login=开放平台])
      * @return array ['openid', 'unionid', 'nickname', 'avatarUrl', 'gender']
      * @throws Exception
      * @author zero
      */
-    public static function oaAuth2session(string $code): array
+    public static function oaAuth2session(string $code, string $scopes = 'snsapi_userinfo'): array
     {
         try {
-            $config = WeChatConfig::getOaConfig();
+            if ($scopes === 'snsapi_login') {
+                $config = WeChatConfig::getOpConfig();
+            } else {
+                $config = WeChatConfig::getOaConfig();
+            }
+
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
 
             $response = $oauth
-                ->scopes(['snsapi_userinfo'])
+                ->scopes([$scopes])
                 ->userFromCode($code)
                 ->getRaw();
 
@@ -72,20 +78,26 @@ class WeChatService
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @param string $redirectUrl (重定向地址)
      * @param string $state (状态码,用于标记是否超时)
+     * @param string $scopes (授权: [snsapi_base=只能取openId, snsapi_userinfo=用户信息, snsapi_login=开放平台])
      * @return string url
      * @throws Exception
      * @author zero
      */
-    public static function oaBuildAuthUrl(string $redirectUrl, string $state): string
+    public static function oaBuildAuthUrl(string $redirectUrl, string $state, string $scopes = 'snsapi_userinfo'): string
     {
         try {
-            $config = WeChatConfig::getOaConfig();
+            if ($scopes === 'snsapi_login') {
+                $config = WeChatConfig::getOpConfig();
+            } else {
+                $config = WeChatConfig::getOaConfig();
+            }
+
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
 
             return $oauth
                 ->withState($state)
-                ->scopes(['snsapi_userinfo'])
+                ->scopes([$scopes])
                 ->redirect($redirectUrl);
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
@@ -93,7 +105,7 @@ class WeChatService
     }
 
     /**
-     * 公众号扫码链接
+     * 公众号二维码生成
      *
      * @param string $ticketCode (唯一编码)
      * @param string $event (事件: login=登录,bind=绑定微信)
@@ -101,7 +113,7 @@ class WeChatService
      * @throws Exception
      * @author zero
      */
-    public static function oaQrCodeUrl(string $ticketCode, string $event): array
+    public static function oaBuildQrCode(string $ticketCode, string $event): array
     {
         try {
             $config = WeChatConfig::getOaConfig();

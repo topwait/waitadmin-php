@@ -138,7 +138,7 @@ class UserController extends Frontend
 
             $event = 'bind';
             ScanLoginCache::set($state, ['status'=>ScanLoginCache::$ING, 'userId'=>$this->userId]);
-            return AjaxUtils::success(WeChatService::oaQrCodeUrl($state, $event));
+            return AjaxUtils::success(WeChatService::oaBuildQrCode($state, $event));
         }
 
         return view('wx');

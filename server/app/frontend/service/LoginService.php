@@ -215,7 +215,7 @@ class LoginService extends Service
 
         $event = 'login';
         ScanLoginCache::set($state, ['status'=>ScanLoginCache::$ING]);
-        return WeChatService::oaQrCodeUrl($state, $event);
+        return WeChatService::oaBuildQrCode($state, $event);
     }
 
     /**
