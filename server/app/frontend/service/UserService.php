@@ -271,7 +271,7 @@ class UserService extends Service
     {
         // 验证时效
         $check = ScanLoginCache::get($state);
-        if (empty($check)) {
+        if (empty($check) || empty($check['userId'])) {
             ScanLoginCache::set($state, [
                 'status' => ScanLoginCache::$FAIL,
                 'error'  => '二维码不存在或已失效!'
@@ -285,17 +285,8 @@ class UserService extends Service
 
         // 验证账户
         try {
-            $userInfo = UserWidget::getUserAuthByResponse($response);
-            if (empty($userInfo)) {
-                ScanLoginCache::set($state, [
-                    'status' => ScanLoginCache::$FAIL,
-                    'error'  => '账号异常,请重新登录再试!'
-                ]);
-                return;
-            } else {
-                $response['user_id'] = $userInfo['user_id'];
-                $userId = UserWidget::updateUser($response);
-            }
+            $response['user_id'] = intval($check['userId']);
+            $userId = UserWidget::updateUser($response);
 
             ScanLoginCache::set($state, [
                 'status' => ScanLoginCache::$OK,
