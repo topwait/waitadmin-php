@@ -55,8 +55,8 @@ class OfficialService extends Service
             $openId = $message['FromUserName'];
             $eventArr = explode(':', $message['EventKey']);
             return match ($eventArr[0]) {
-                'login' => $this->pcWxLogin($eventArr[1], $openId),
-                'bind'  => $this->pcWxBind($eventArr[1]),
+                'login' => self::pcWxLogin($eventArr[1], $openId),
+                'bind'  => self::pcWxBind($eventArr[1]),
                 default => 'Welcome'
             };
         });
@@ -73,7 +73,7 @@ class OfficialService extends Service
      * @throws Exception
      * @author zero
      */
-    private function pcWxLogin(string $state, string $openId): string
+    private static function pcWxLogin(string $state, string $openId): string
     {
         $auth = (new UserAuth())->where(['openid'=>$openId])->findOrEmpty();
         if ($auth->isEmpty()) {
@@ -85,6 +85,7 @@ class OfficialService extends Service
                 'status' => ScanLoginCache::$OK,
                 'userId' => $auth['user_id']
             ]);
+            Log::write()
             return '登录成功';
         }
     }
@@ -97,7 +98,7 @@ class OfficialService extends Service
      * @throws Exception
      * @author zero
      */
-    private function pcWxBind(string $state): string
+    private static function pcWxBind(string $state): string
     {
         $redirectUrl = request()->domain() . '/frontend/user/bindWeChat';
         $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $state);
