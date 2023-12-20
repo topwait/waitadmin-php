@@ -95,12 +95,13 @@ class WeChatService
     /**
      * 公众号扫码链接
      *
-     * @param string $ticketCode
+     * @param string $ticketCode (唯一编码)
+     * @param string $event (事件: login=登录,bind=绑定微信)
      * @return array
      * @throws Exception
      * @author zero
      */
-    public static function oaQrCodeUrl(string $ticketCode): array
+    public static function oaQrCodeUrl(string $ticketCode, string $event): array
     {
         try {
             $config = WeChatConfig::getOaConfig();
@@ -113,7 +114,7 @@ class WeChatService
                 'body' => json_encode([
                     'expire_seconds' => 120,
                     'action_name'    => 'QR_STR_SCENE',
-                    'action_info'    => ['scene' => ['scene_str' => 'login:'.$ticketCode]],
+                    'action_info'    => ['scene' => ['scene_str' => $event.':'.$ticketCode]],
                 ])
             ])->getContent();
 
@@ -127,7 +128,7 @@ class WeChatService
                         'body' => json_encode([
                             'expire_seconds' => 120,
                             'action_name'    => 'QR_STR_SCENE',
-                            'action_info'    => ['scene' => ['scene_str' => 'login:'.$ticketCode]],
+                            'action_info'    => ['scene' => ['scene_str' => $event.':'.$ticketCode]],
                         ])
                     ])->getContent();
                 }

@@ -264,6 +264,10 @@
                 return;
             }
             timer = setInterval(function () {
+                if ($('.wx-login').length <= 0) {
+                    stopInterval();
+                    return;
+                }
                 waitUtil.ajax({
                     url: "{:route('login/ticketByUser')}?key="+key,
                     fulShow: false,

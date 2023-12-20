@@ -213,8 +213,9 @@ class LoginService extends Service
         $rand      = rand(1, 1000);
         $state     = md5($uniqId.$ip.$microTime.$rand);
 
+        $event = 'login';
         ScanLoginCache::set($state, ['status'=>ScanLoginCache::$ING]);
-        return WeChatService::oaQrCodeUrl($state);
+        return WeChatService::oaQrCodeUrl($state, $event);
     }
 
     /**
@@ -230,7 +231,11 @@ class LoginService extends Service
         // 验证时效
         $check = ScanLoginCache::get($state);
         if (empty($check)) {
-            throw new OperateException('二维码不存在或已失效!');
+            ScanLoginCache::set($state, [
+                'status' => ScanLoginCache::$FAIL,
+                'error'  => '二维码不存在或已失效!'
+            ]);
+            return;
         }
 
         // 微信授权

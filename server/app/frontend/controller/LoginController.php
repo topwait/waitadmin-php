@@ -146,7 +146,7 @@ class LoginController extends Frontend
      */
     public function ticketByUser(): Json
     {
-        $key = $this->request->get("key", '');
+        $key = $this->request->get('key', '');
         if (!$key) {
             return AjaxUtils::error('缺失参数key');
         }

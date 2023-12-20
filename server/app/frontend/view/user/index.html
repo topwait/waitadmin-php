@@ -158,6 +158,7 @@
         let $ = layui.$;
         let form = layui.form;
         let upload = layui.upload;
+        let timerWx = null;
 
         // 监听事件
         waitUtil.event({
@@ -199,12 +200,27 @@
                 });
             },
             'bindWeChat': function () {
-                waitUtil.ajax({
-                    url: "{:route('login/opCodeUrl', ['url'=>'https://www.waitadmin.cn'])}",
-                    type: 'GET',
-                }).then((res) => {
-                    console.info(res.data.url)
-                    location.href = res.data.url
+                layer.closeAll();
+                $.ajax({
+                    url: "{:route('user/buildWxUrl')}",
+                    dataType: 'html',
+                    cache: false,
+                    async: false,
+                    success: function (res) {
+                        layer.open({
+                            type: 1,
+                            resize: false,
+                            scrollbar: false,
+                            title: false,
+                            skin: 'popup-skin-session',
+                            shade: 0.5,
+                            area: ['380px'],
+                            content: res,
+                            success: function(layero) {
+                                queryWxCodeUrl(layero)
+                            }
+                        });
+                    }
                 });
             },
             'bindMobile': function () {
@@ -296,6 +312,64 @@
                 }
             }
         });
+
+        // 微信二维码
+        function queryWxCodeUrl(that) {
+            waitUtil.ajax({
+                url:  "{:route('user/buildWxUrl')}",
+                fulShow: false,
+                type: 'POST'
+            }).then((res) => {
+                const elem = $(that).find('.qrCode img');
+                elem.show();
+                elem.attr('src', res.data.url);
+                ticketBindWx(res.data.key);
+            });
+        }
+
+        // 心跳检测绑定
+        function ticketBindWx(key) {
+            if (!key) {
+                stopInterval();
+                return;
+            }
+            timerWx = setInterval(function () {
+                const el = '.user-modular-bindWx .masking';
+                if ($(el).length <= 0) {
+                    stopInterval();
+                    return;
+                }
+                waitUtil.ajax({
+                    url: "{:route('user/ticketBindWx')}?key="+key,
+                    fulShow: false,
+                    type: 'GET'
+                }).then((res) => {
+                    if (res.code !== 0) {
+                        stopInterval();
+                        layer.msg(res.msg);
+                    } else if (res.data.status === undefined || res.data.status === 2) {
+                        stopInterval();
+                        const el = '.user-modular-bindWx .masking';
+                        $(el).show();
+                        layer.msg(res.data.error);
+                    } else if (res.data.status === 1) {
+                        stopInterval();
+                        layer.msg(res.data.error);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                });
+            }, 1500)
+        }
+
+        // 停止心跳检测
+        function stopInterval() {
+            if (timerWx !== null) {
+                clearInterval(timerWx);
+                timerWx = null;
+            }
+        }
     });
 </script>
 {/block}

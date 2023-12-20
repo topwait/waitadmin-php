@@ -19,6 +19,7 @@ use think\facade\Cache;
 
 /**
  * 微信扫码登录缓存类
+ * 使用场景: [PC微信扫码登录 / PC绑定微信]
  */
 class ScanLoginCache
 {
@@ -45,7 +46,7 @@ class ScanLoginCache
      * 设置
      *
      * @param string $state (令牌)
-     * @param array $data   (['status'=>0=进行中,1=成功,2=失败, 'openid'=>''])
+     * @param array $data   (['status'=>0=进行中,1=成功,2=失败])
      * @author zero
      */
     public static function set(string $state, array $data): void

@@ -53,6 +53,10 @@ class OfficialService extends Service
                     $redirectUrl = request()->domain() . '/frontend/login/oaLogin';
                     $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $eventArr[1]);
                     return '<a href="'. $oaBuildUrl .'">点击登录</a>';
+                case 'bind':
+                    $redirectUrl = request()->domain() . '/frontend/user/bindWeChat';
+                    $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $eventArr[1]);
+                    return '<a href="'. $oaBuildUrl .'">点击绑定</a>';
                 default:
                     return 'Welcome';
             }
