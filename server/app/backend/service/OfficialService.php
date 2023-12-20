@@ -16,14 +16,17 @@ declare (strict_types = 1);
 namespace app\backend\service;
 
 use app\common\basics\Service;
+use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use app\common\service\wechat\WeChatConfig;
 use app\common\service\wechat\WeChatService;
+use app\common\utils\ConfigUtils;
 use app\frontend\cache\ScanLoginCache;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OfficialAccount\Application as OfficialApplication;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionException;
 use think\facade\Log;
@@ -51,29 +54,53 @@ class OfficialService extends Service
         $oaServer->addMessageListener('event', function ($message) {
             $openId = $message['FromUserName'];
             $eventArr = explode(':', $message['EventKey']);
-            switch ($eventArr[0]) {
-                case 'login':
-                    $auth = (new UserAuth())->where(['openid'=>$openId])->findOrEmpty();
-                    if ($auth->isEmpty()) {
-                        $redirectUrl = request()->domain() . '/frontend/login/oaLogin';
-                        $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $eventArr[1]);
-                        return '<a href="' . $oaBuildUrl . '">点击登录</a>';
-                    } else {
-                        ScanLoginCache::set($eventArr[1], [
-                            'status' => ScanLoginCache::$OK,
-                            'userId' => $auth['user_id']
-                        ]);
-                        return '登录成功';
-                    }
-                case 'bind':
-                    $redirectUrl = request()->domain() . '/frontend/user/bindWeChat';
-                    $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $eventArr[1]);
-                    return '<a href="'. $oaBuildUrl .'">点击绑定</a>';
-                default:
-                    return 'Welcome';
-            }
+            return match ($eventArr[0]) {
+                'login' => $this->pcWxLogin($eventArr[1], $openId),
+                'bind'  => $this->pcWxBind($eventArr[1]),
+                default => 'Welcome'
+            };
         });
 
         return $oaServer->serve();
+    }
+
+    /**
+     * PC端微信登录
+     *
+     * @param string $openId
+     * @param string $state
+     * @return string
+     * @throws Exception
+     * @author zero
+     */
+    private function pcWxLogin(string $state, string $openId): string
+    {
+        $auth = (new UserAuth())->where(['openid'=>$openId])->findOrEmpty();
+        if ($auth->isEmpty()) {
+            $redirectUrl = request()->domain() . '/frontend/login/oaLogin';
+            $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $state);
+            return '<a href="'. $oaBuildUrl .'">点击登录</a>';
+        } else {
+            ScanLoginCache::set($state, [
+                'status' => ScanLoginCache::$OK,
+                'userId' => $auth['user_id']
+            ]);
+            return '登录成功';
+        }
+    }
+
+    /**
+     * PC端微信绑定
+     *
+     * @param string $state
+     * @return string
+     * @throws Exception
+     * @author zero
+     */
+    private function pcWxBind(string $state): string
+    {
+        $redirectUrl = request()->domain() . '/frontend/user/bindWeChat';
+        $oaBuildUrl  = WeChatService::oaBuildAuthUrl($redirectUrl, $state);
+        return '<a href="'. $oaBuildUrl .'">点击绑定</a>';
     }
 }
