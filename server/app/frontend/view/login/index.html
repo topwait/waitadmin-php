@@ -21,11 +21,11 @@
         let sceneArray = {'login': 101, 'register': 102, 'resetting': 103}
         let sceneCode = sceneArray['{$scene}'];
         let timer = null;
-        let sign = null;
 
         form.render();
 
-        timing($('.get_code'))
+        const getCodeEl = $('.get_code');
+        timing(getCodeEl)
 
         // 账号登录
         form.on('submit(loginSubmit)', function(data) {
@@ -145,9 +145,9 @@
 
         // 切换方式
         $(document).on('click', '.wx-login .switch', function () {
+            stopInterval();
             $('.wx-login').hide();
             $('.ac-login').show();
-            stopInterval();
         })
 
         // 刷新二维码
@@ -169,13 +169,15 @@
         });
 
         // 发送验证码
-        $(document).on('click', '.get_code', function () {
-            let that  = $(this);
-            let scene = $(this).attr('data-type');
-            let value = $(this).parent().parent().find('input[name="mobile"]').val();
+        $(getCodeEl).on('click', '', waitUtil.debounce(100, function () {
+            waitUtil.locking(this);
+            let that  = $(this)
+            let scene = that.attr('data-type');
+            let value = that.parent().parent().find('input[name="mobile"]').val();
 
             let sendStatus = waitCache.get('sms:code:'+scene);
             if (sendStatus) {
+                waitUtil.unlock(this);
                 return layer.msg('操作频繁,请稍后再试');
             }
 
@@ -183,25 +185,28 @@
             let url = '{:route("index/sendSms")}';
             let data = {scene: scene, mobile: value};
 
+            const els = {'101': '.login-mobile', '102': '.register-mobile', '103': '.bind-mobile'}
             switch (scene) {
                 case '101': // 短信登录
-                    if (!value) { return layer.tips('手机号码不能为空', '.login-mobile', {tips: 1}); }
-                    if (!waitCheck.isMobile(value)) { return layer.tips('手机号码格式错误', '.ba-mobile', {tips: 1}); }
-                    break;
                 case '102': // 短信注册
-                    if (!value) { return layer.tips('手机号码不能为空', '.register-mobile', {tips: 1}); }
-                    if (!waitCheck.isMobile(value)) { return layer.tips('手机号码格式错误', '.ba-mobile', {tips: 1}); }
-                    break;
                 case '105': // 绑定手机
-                    if (!value) { return layer.tips('手机号码不能为空', '.bind-mobile', {tips: 1}); }
-                    if (!waitCheck.isMobile(value)) { return layer.tips('手机号码格式错误', '.ba-mobile', {tips: 1}); }
+                    if (!value) {
+                        waitUtil.unlock(this);
+                        return layer.tips('手机号码不能为空', els[scene], {tips: 1});
+                    }
+                    if (!waitCheck.isMobile(value)) {
+                        waitUtil.unlock(this);
+                        return layer.tips('手机号码格式错误', els[scene], {tips: 1});
+                    }
                     break;
                 case '103': // 找回密码
                     if (!waitCheck.isMobile(value) && !waitCheck.isEmail(value)) {
+                        waitUtil.unlock(this);
                         return layer.tips('手机号码/邮箱格式不正确', '.reset-mobile', {tips: 1});
                     }
 
                     if (waitCheck.isEmail(value)) {
+                        waitUtil.unlock(this);
                         url = '{:route("index/sendEmail")}';
                         data = {scene: scene, email: value};
                     }
@@ -210,7 +215,6 @@
                     return layer.msg('操作异常!');
             }
 
-            waitUtil.locking(this);
             waitUtil.ajax({
                 url: url,
                 type: 'POST',
@@ -227,7 +231,7 @@
                 waitCache.remove('sms:code:'+scene)
                 waitUtil.unlock(this);
             });
-        });
+        }));
 
         // 倒计时方法
         function timing(that) {
