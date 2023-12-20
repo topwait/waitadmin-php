@@ -121,7 +121,7 @@ class UserWidget extends Service
                         'quote'     => 1,
                         'file_type' => AttachEnum::getCodeByMsg('picture'),
                         'file_path' => $saveTo,
-                        'file_name' => 'avatar'.$user['id'],
+                        'file_name' => 'avatar'.$user['sn'],
                         'file_ext'  => 'jpg',
                         'file_size' => FileUtils::getFileSize(public_path() . $saveTo),
                         'is_user'   => 1,
@@ -151,6 +151,7 @@ class UserWidget extends Service
         // 接收参数
         $terminal = intval($response['terminal']);
         $userId   = intval($response['user_id']);
+        $avatar   = $response['avatarUrl'] ?? '';
         $openId   = $response['openid']  ?? '';
         $unionId  = $response['unionid'] ?? '';
         $mobile   = $response['mobile']  ?? '';
@@ -195,6 +196,27 @@ class UserWidget extends Service
                     'update_time' => time()
                 ], ['user_id'=>$userId, 'terminal'=>$terminal]);
             }
+
+            // 更新头像
+            try {
+                if ($avatar) {
+                    $saveTo = 'storage/picture/' . date('Ymd') . '/' . md5((string)$userInfo['id']) . '.jpg';
+                    FileUtils::download($avatar, public_path() . $saveTo);
+                    User::update(['avatar'=>$saveTo], ['id'=>$userInfo['id']]);
+                    Attach::create([
+                        'cid'       => 0,
+                        'quote'     => 1,
+                        'uid'       => $userInfo['id'],
+                        'file_type' => AttachEnum::getCodeByMsg('picture'),
+                        'file_path' => $saveTo,
+                        'file_name' => 'avatar'.$userInfo['sn'],
+                        'file_ext'  => 'jpg',
+                        'file_size' => FileUtils::getFileSize(public_path() . $saveTo),
+                        'is_user'   => 1,
+                        'is_attach' => 0
+                    ]);
+                }
+            } catch (Exception) {}
 
             self::dbCommit();
             return $userId;
