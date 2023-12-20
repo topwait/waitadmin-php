@@ -16,11 +16,9 @@ declare (strict_types = 1);
 namespace app\backend\service;
 
 use app\common\basics\Service;
-use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use app\common\service\wechat\WeChatConfig;
 use app\common\service\wechat\WeChatService;
-use app\common\utils\ConfigUtils;
 use app\frontend\cache\ScanLoginCache;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
@@ -29,7 +27,6 @@ use EasyWeChat\OfficialAccount\Application as OfficialApplication;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionException;
-use think\facade\Log;
 use Throwable;
 
 class OfficialService extends Service
@@ -85,7 +82,6 @@ class OfficialService extends Service
                 'status' => ScanLoginCache::$OK,
                 'userId' => $auth['user_id']
             ]);
-            Log::write()
             return '登录成功';
         }
     }
