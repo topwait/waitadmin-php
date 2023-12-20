@@ -112,7 +112,9 @@ class UserWidget extends Service
             // 下载头像
             try {
                 if ($avatar) {
-                    $saveTo = 'storage/picture/' . date('Ymd') . '/' . md5((string)$user['id']) . '.jpg';
+                    $cTime = strtotime($user['create_time']);
+                    $date  = date('Ymd', $cTime);
+                    $saveTo = 'storage/picture/' . $date . '/' . md5((string)$user['id']) . '.jpg';
                     FileUtils::download($avatar, public_path() . $saveTo);
                     User::update(['avatar' => $saveTo], ['id'=>$user['id']]);
                     Attach::create([
@@ -200,7 +202,8 @@ class UserWidget extends Service
             // 更新头像
             try {
                 if ($avatar) {
-                    $saveTo = 'storage/picture/' . date('Ymd') . '/' . md5((string)$userInfo['id']) . '.jpg';
+                    $date = date('Ymd', strtotime($userInfo['create_time']));
+                    $saveTo = 'storage/picture/' . $date . '/' . md5((string)$userInfo['id']) . '.jpg';
                     FileUtils::download($avatar, public_path() . $saveTo);
                     User::update(['avatar'=>$saveTo], ['id'=>$userInfo['id']]);
                     Attach::create([
