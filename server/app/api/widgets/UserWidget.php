@@ -22,6 +22,7 @@ use app\common\exception\OperateException;
 use app\common\model\attach\Attach;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
+use app\common\service\storage\StorageDriver;
 use app\common\utils\ConfigUtils;
 use app\common\utils\FileUtils;
 use Exception;
@@ -232,20 +233,26 @@ class UserWidget extends Service
     /**
      * 下载并更新用户头像
      *
-     * @param string $avatar     (http头像链接)
+     * @param string $avatarUrl  (http头像链接)
      * @param int $userId        (用户ID)
      * @param string $createTime (用户创建日期)
      * @author zero
      */
-    private static function downUpdateAvatar(string $avatar, int $userId, string $createTime)
+    private static function downUpdateAvatar(string $avatarUrl, int $userId, string $createTime)
     {
         try {
-            if ($avatar) {
+            if ($avatarUrl) {
                 $date = date('Ymd', strtotime($createTime));
                 $saveTo = 'storage/avatars/' . $date . '/' . md5((string)$userId) . '.jpg';
 
-                // todo 需要看存储方式
-                FileUtils::download($avatar, public_path() . $saveTo);
+                $engine = ConfigUtils::get('storage', 'default', 'local');
+                if ($engine === 'local') {
+                    FileUtils::download($avatarUrl, public_path() . $saveTo);
+                } else {
+                    $storageDriver = new StorageDriver();
+                    $storageDriver->fetch($avatarUrl, $saveTo);
+                }
+
                 User::update(['avatar'=>$saveTo], ['id'=>$userId]);
             }
         } catch (Exception) {}
