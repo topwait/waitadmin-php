@@ -110,27 +110,7 @@ class UserWidget extends Service
             }
 
             // 下载头像
-            try {
-                if ($avatar) {
-                    $cTime = strtotime($user['create_time']);
-                    $date  = date('Ymd', $cTime);
-                    $saveTo = 'storage/picture/' . $date . '/' . md5((string)$user['id']) . '.jpg';
-                    FileUtils::download($avatar, public_path() . $saveTo);
-                    User::update(['avatar' => $saveTo], ['id'=>$user['id']]);
-                    Attach::create([
-                        'uid'       => $user['id'],
-                        'cid'       => 0,
-                        'quote'     => 1,
-                        'file_type' => AttachEnum::getCodeByMsg('picture'),
-                        'file_path' => $saveTo,
-                        'file_name' => 'avatar'.$user['sn'],
-                        'file_ext'  => 'jpg',
-                        'file_size' => FileUtils::getFileSize(public_path() . $saveTo),
-                        'is_user'   => 1,
-                        'is_attach' => 0
-                    ]);
-                }
-            } catch (Exception) {}
+            self::downUpdateAvatar($avatar, $user['id'], $user['create_time']);
 
             self::dbCommit();
             return intval($user['id']);
@@ -200,26 +180,9 @@ class UserWidget extends Service
             }
 
             // 更新头像
-            try {
-                if ($avatar) {
-                    $date = date('Ymd', strtotime($userInfo['create_time']));
-                    $saveTo = 'storage/picture/' . $date . '/' . md5((string)$userInfo['id']) . '.jpg';
-                    FileUtils::download($avatar, public_path() . $saveTo);
-                    User::update(['avatar'=>$saveTo], ['id'=>$userInfo['id']]);
-                    Attach::create([
-                        'cid'       => 0,
-                        'quote'     => 1,
-                        'uid'       => $userInfo['id'],
-                        'file_type' => AttachEnum::getCodeByMsg('picture'),
-                        'file_path' => $saveTo,
-                        'file_name' => 'avatar'.$userInfo['sn'],
-                        'file_ext'  => 'jpg',
-                        'file_size' => FileUtils::getFileSize(public_path() . $saveTo),
-                        'is_user'   => 1,
-                        'is_attach' => 0
-                    ]);
-                }
-            } catch (Exception) {}
+            if (!$userInfo['avatar']) {
+                self::downUpdateAvatar($avatar, $userInfo['id'], $userInfo['create_time']);
+            }
 
             self::dbCommit();
             return $userId;
@@ -250,5 +213,25 @@ class UserWidget extends Service
                     $query->whereOr(['au.unionid'=>$unionId]);
                 }
             })->findOrEmpty()->toArray();
+    }
+
+    /**
+     * 下载并更新用户头像
+     *
+     * @param string $avatar     (http头像链接)
+     * @param int $userId        (用户ID)
+     * @param string $createTime (用户创建日期)
+     * @author zero
+     */
+    private static function downUpdateAvatar(string $avatar, int $userId, string $createTime)
+    {
+        try {
+            if ($avatar) {
+                $date = date('Ymd', strtotime($createTime));
+                $saveTo = 'storage/avatars/' . $date . '/' . md5((string)$userId) . '.jpg';
+                FileUtils::download($avatar, public_path() . $saveTo);
+                User::update(['avatar'=>$saveTo], ['id'=>$userId]);
+            }
+        } catch (Exception) {}
     }
 }
