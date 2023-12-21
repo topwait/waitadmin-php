@@ -15,7 +15,6 @@ declare (strict_types = 1);
 
 namespace app\common\utils;
 
-use Exception;
 use FilesystemIterator;
 use JetBrains\PhpStorm\Pure;
 use RecursiveIteratorIterator;
