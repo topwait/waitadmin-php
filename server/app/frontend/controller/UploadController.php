@@ -32,7 +32,7 @@ class UploadController extends Frontend
      *
      * @return Json
      * @throws UploadException
-     * @author zeri
+     * @author zero
      */
     public function permanent(): Json
     {

@@ -21,7 +21,6 @@ use app\common\utils\AjaxUtils;
 use app\frontend\service\LoginService;
 use app\frontend\validate\LoginValidate;
 use Exception;
-use think\facade\Log;
 use think\response\Json;
 use think\response\View;
 

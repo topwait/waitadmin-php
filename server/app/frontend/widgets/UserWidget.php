@@ -17,9 +17,7 @@ namespace app\frontend\widgets;
 
 use app\api\cache\EnrollCache;
 use app\common\basics\Service;
-use app\common\enums\AttachEnum;
 use app\common\exception\OperateException;
-use app\common\model\attach\Attach;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use app\common\service\storage\StorageDriver;
