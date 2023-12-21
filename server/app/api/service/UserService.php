@@ -68,7 +68,7 @@ class UserService extends Service
                 $modelUserAuth = new UserAuth();
                 return !$modelUserAuth->field(['id'])
                     ->where(['user_id'=>$id])
-                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA])
+                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA, ClientEnum::H5])
                     ->findOrEmpty()
                     ->isEmpty();
             }])

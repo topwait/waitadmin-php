@@ -54,7 +54,11 @@ class UserService extends Service
             ->toArray();
 
         $modelUserAuth = new UserAuth();
-        $userAuth = $modelUserAuth->where(['user_id'=>$userId])->findOrEmpty()->toArray();
+        $userAuth = $modelUserAuth
+            ->where(['user_id'=>$userId])
+            ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA, ClientEnum::H5])
+            ->findOrEmpty()
+            ->toArray();
 
         $user['isWeChat'] = (bool) $userAuth;
         $user['last_login_time'] = date('Y-m-d H:i:s', $user['last_login_time']??0);
