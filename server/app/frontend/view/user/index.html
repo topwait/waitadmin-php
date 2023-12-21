@@ -324,6 +324,9 @@
                 elem.show();
                 elem.attr('src', res.data.url);
                 ticketBindWx(res.data.key);
+                setTimeout(function () {
+                    $(that).find('.loading').hide();
+                }, 100)
             });
         }
 

@@ -140,6 +140,9 @@
                 elem.show();
                 elem.attr('src', res.data.url);
                 ticketByUser(res.data.key);
+                setTimeout(function () {
+                    $('.wx-login .loading').hide();
+                }, 100)
             });
         });
 
