@@ -60,6 +60,11 @@ class UserService extends Service
             ->findOrEmpty()
             ->toArray();
 
+        if (!$user['avatar']) {
+            $defaultAvatar = 'static/common/images/avatar.png';
+            $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
+        }
+
         $user['isWeChat'] = (bool) $userAuth;
         $user['last_login_time'] = date('Y-m-d H:i:s', $user['last_login_time']??0);
         return $user;

@@ -42,12 +42,19 @@ class UserService extends Service
     public static function center(int $id): array
     {
         $modelUser = new User();
-        return $modelUser
+        $user = $modelUser
             ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
+
+        if (!$user['avatar']) {
+            $defaultAvatar = 'static/common/images/avatar.png';
+            $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
+        }
+
+        return $user;
     }
 
     /**
@@ -60,7 +67,7 @@ class UserService extends Service
     public static function info(int $id): array
     {
         $modelUser = new User();
-        return $modelUser
+        $user = $modelUser
             ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
@@ -75,6 +82,13 @@ class UserService extends Service
             ->append(['isWeiChat'])
             ->findOrEmpty()
             ->toArray();
+
+        if (!$user['avatar']) {
+            $defaultAvatar = 'static/common/images/avatar.png';
+            $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
+        }
+
+        return $user;
     }
 
     /**
