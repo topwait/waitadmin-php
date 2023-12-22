@@ -183,6 +183,18 @@ class UserWidget extends Service
                     'create_time' => time(),
                     'update_time' => time()
                 ]);
+
+                $oaAuth = (new UserAuth())->where(['user_id'=>$userId])->where(['terminal'=>ClientEnum::PC])->findOrEmpty();
+                if ($oaAuth->isEmpty()) {
+                    UserAuth::create([
+                        'user_id'     => $userId,
+                        'terminal'    => ClientEnum::PC,
+                        'openid'      => $openId,
+                        'unionid'     => $unionId,
+                        'create_time' => time(),
+                        'update_time' => time()
+                    ]);
+                }
             }
 
             // 更新关联
