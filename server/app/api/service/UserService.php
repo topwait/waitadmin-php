@@ -83,7 +83,7 @@ class UserService extends Service
             ->findOrEmpty()
             ->toArray();
 
-        if (!$user['avatar']) {
+        if (isset($user['avatar']) && !$user['avatar']) {
             $defaultAvatar = 'static/common/images/avatar.png';
             $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
         }
