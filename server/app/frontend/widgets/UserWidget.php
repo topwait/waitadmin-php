@@ -17,6 +17,7 @@ namespace app\frontend\widgets;
 
 use app\api\cache\EnrollCache;
 use app\common\basics\Service;
+use app\common\enums\ClientEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
@@ -106,6 +107,20 @@ class UserWidget extends Service
                     'create_time' => time(),
                     'update_time' => time()
                 ]);
+
+                // 公众号端同步授权 (因为openId/unionid是一样的)
+                // 因为PC端也是采用公众号扫码的方式授权,如果你改用开放平台的方式,那就不一样了
+                $oaAuth = (new UserAuth())->where(['user_id'=>$user['id']])->where(['terminal'=>ClientEnum::OA])->findOrEmpty();
+                if ($oaAuth->isEmpty()) {
+                    UserAuth::create([
+                        'user_id'     => $user['id'],
+                        'terminal'    => ClientEnum::OA,
+                        'openid'      => $openId,
+                        'unionid'     => $unionId,
+                        'create_time' => time(),
+                        'update_time' => time()
+                    ]);
+                }
             }
 
             // 下载头像
