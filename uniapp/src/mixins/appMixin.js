@@ -4,6 +4,7 @@ import toolUtil from '@/utils/toolUtil'
 
 export default {
     onLoad() {
+        toolUtil.walksPage(true)
         toolUtil.setTabBar()
     },
     computed: {

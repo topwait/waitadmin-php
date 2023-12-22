@@ -37,7 +37,7 @@ onLoad(async (options) => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 page { background: #ffffff; }
 .layout-detail-widget {
     .header {
@@ -49,6 +49,7 @@ page { background: #ffffff; }
     }
     .content {
         margin: 30rpx 20rpx;
+        padding-bottom: 10rpx;
     }
 }
 </style>

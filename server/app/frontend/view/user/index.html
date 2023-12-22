@@ -290,6 +290,8 @@
                     data: {field: 'changeAvatar', avatar: data.field['avatar']}
                 }).then(() => {
                     waitUtil.unlock(that);
+                }).catch(() => {
+                    waitUtil.unlock(that);
                 });
             });
         });
@@ -297,7 +299,7 @@
         // 上传头像
         upload.render({
             elem: '#uploadAvatar'
-            ,url: '{:route("upload/permanent")}'
+            ,url: '{:route("upload/temporary")}'
             ,field: 'file'
             ,accept: 'images'
             ,acceptMime: 'image/*'
@@ -305,10 +307,11 @@
             ,size: 1024 * 10
             ,data: {type: 'picture'}
             ,done: function (res) {
-                layer.msg(res.msg);
                 if (res.code === 0) {
                     $('#avatar').val(res.data.url);
                     $('#uploadAvatar').attr('src', res.data.url);
+                } else {
+                    layer.msg(res.msg);
                 }
             }
         });

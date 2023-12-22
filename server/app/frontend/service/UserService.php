@@ -78,7 +78,6 @@ class UserService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function collect(int $userId): array
     {
         $modelArticleCollect = new ArticleCollect();
@@ -94,7 +93,7 @@ class UserService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']]??[];
     }
 
     /**
@@ -141,10 +140,12 @@ class UserService extends Service
             throw new OperateException('账号疑是丢失了!');
         }
 
-        $avatar = UrlUtils::toRelativeUrl($avatarUrl);
-        if ($user['avatar'] !== $avatar) {
-            AttachUtils::markUpdate($user, $post, ['avatar']);
-            User::update(['avatar'=>$avatar, 'update_time'=>time()], ['id'=>$userId]);
+        if ($user['avatar'] !== UrlUtils::toRelativeUrl($avatarUrl)) {
+            $avatar = UrlUtils::toRoot($avatarUrl);
+            $crDate = date('Ymd', strtotime($user['create_time']));
+            $target = 'storage/avatar/'.$crDate.'/'.md5(strval($userId)).'.jpg';
+            UrlUtils::autoUpload($avatar, $target);
+            User::update(['avatar'=>$target, 'update_time'=>time()], ['id'=>$userId]);
         }
     }
 

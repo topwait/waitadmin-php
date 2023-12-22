@@ -435,6 +435,7 @@ const __loginHandle = (result) => {
                 }
             })
         }
+
         return uni.reLaunch({
             url: '/pages/index/index'
         })

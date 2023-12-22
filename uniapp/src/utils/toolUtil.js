@@ -2,6 +2,8 @@ import { computed } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import clientUtil from '@/utils/clientUtil'
+import cacheUtil from '@/utils/cacheUtil'
+import cacheEnum from '@/enums/cacheEnum'
 
 export default {
     /**
@@ -62,8 +64,31 @@ export default {
     },
 
     /**
+     * 页面浏览足迹
+     * @param {boolean} write (true=写入足迹,false=返回上一次访问页面)
+     * @param {boolean} all   (是否返回所有足迹路径)
+     * @returns {string|array}
+     */
+    walksPage(write = false, all = false) {
+        let footrint = cacheUtil.get(cacheEnum.FOOTPRINT) || []
+
+        if (write === true) {
+            let pageRoute = this.currentPage().route
+            footrint.push(pageRoute)
+            footrint = footrint.slice(-5)
+            cacheUtil.set(cacheEnum.FOOTPRINT, footrint)
+            return pageRoute
+        }
+
+        if (all) {
+            return footrint
+        }
+
+        return footrint[0] || ''
+    },
+
+    /**
      * 上传文件资源
-     *
      * @param {string} filePath 本地文件路径
      * @param {string} fileType 文件类型: image/video/audio
      * @param {string} type     上传类型: picture/video/document/package
