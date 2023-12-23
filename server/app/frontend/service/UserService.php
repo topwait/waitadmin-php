@@ -222,6 +222,8 @@ class UserService extends Service
             ->isEmpty()
         ) { throw new OperateException('该手机已绑定其他账号!'); }
 
+        MsgDriver::useCode(NoticeEnum::BIND_MOBILE, $code);
+
         User::update([
             'mobile'      => $mobile,
             'update_time' => time()
@@ -262,6 +264,8 @@ class UserService extends Service
             ->findOrEmpty()
             ->isEmpty()
         ) { throw new OperateException('该邮箱已绑定其他账号!'); }
+
+        MsgDriver::useCode(NoticeEnum::BIND_EMAIL, $code);
 
         User::update([
             'email'       => $email,

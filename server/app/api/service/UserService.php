@@ -304,7 +304,7 @@ class UserService extends Service
         } else {
             // 短信验证
             $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
-            if (!MsgDriver::checkCode($nCode, $code)) {
+            if (!MsgDriver::checkCode($nCode, $code, true)) {
                 throw new OperateException('验证码错误');
             }
         }
@@ -386,6 +386,9 @@ class UserService extends Service
         if ($emailCheck) {
             throw new OperateException('检测到邮箱号已被占用!');
         }
+
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::BIND_EMAIL, $code);
 
         // 更新信息
         User::update([

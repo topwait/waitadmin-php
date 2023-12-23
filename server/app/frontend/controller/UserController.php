@@ -113,6 +113,7 @@ class UserController extends Frontend
             return AjaxUtils::success();
         }
 
+        $get = $this->request->get();
         return view('', [
             'field' => $get['field'] ?? '',
             'value' => $get['value'] ?? ''

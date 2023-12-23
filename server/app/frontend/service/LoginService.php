@@ -74,6 +74,9 @@ class LoginService extends Service
             'terminal' => $terminal
         ]);
 
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::REGISTER, $code);
+
         // 登录账号
         session('userId', $userId);
     }
@@ -151,6 +154,9 @@ class LoginService extends Service
             throw new OperateException('账号已被禁用!');
         }
 
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::LOGIN, $code);
+
         // 登录账户
         session('userId', $userInfo['id']);
     }
@@ -192,6 +198,9 @@ class LoginService extends Service
             $response['user_id'] = intval($userInfo['id']);
             $userId = UserWidget::updateUser($response);
         }
+
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::BIND_MOBILE, $code);
 
         // 登录账户
         session('userId', $userId);

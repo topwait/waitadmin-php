@@ -145,6 +145,9 @@ class LoginService extends Service
             throw new OperateException('账号已被禁用!');
         }
 
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::LOGIN, $code);
+
         // 登录账户
         $token = UserWidget::granToken(intval($userInfo['id']), $terminal);
         return ['token'=>$token] ?? [];
@@ -187,6 +190,9 @@ class LoginService extends Service
             $response['user_id'] = intval($userInfo['id']);
             $userId = UserWidget::updateUser($response);
         }
+
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::BIND_MOBILE, $code);
 
         // 登录账户
         $token = UserWidget::granToken($userId, $terminal);
