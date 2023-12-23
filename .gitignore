@@ -6,5 +6,4 @@ server/.vscode/
 server/.htaccess
 server/.install.lock
 server/install.lock
-server/public/mobile
 server/public/nginx.htaccess

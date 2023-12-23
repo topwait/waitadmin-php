@@ -33,29 +33,30 @@ import articleApi from '@/api/articleApi'
 import ArticlePagInList from './component/article-pagin-list'
 import ArticleSearchInput from './component/article-search-input'
 
+// 参数定义
+const keyword = ref('')
 const tabList = ref([])
 const current = ref(0)
 const swiperCurrent = ref(0)
 const currentInstance = getCurrentInstance()
-const keyword = ref('')
 
-onLoad(() => {
-    queryCategoryList()
-})
-
+// 发起搜索
 const onSearch = (e) => {
     keyword.value = e.keyword
 }
 
+// 切换页面
 const tabChange = (e) => {
     swiperCurrent.value = e
 }
 
+// 切换过度
 const transition = (e) => {
     let dx = e.detail.dx
     currentInstance.ctx.$refs.uTabs.setDx(dx)
 }
 
+// 切换动画
 const animations = (e) => {
     let index = e.detail.current
     currentInstance.ctx.$refs.uTabs.setFinishCurrent(index)
@@ -63,7 +64,7 @@ const animations = (e) => {
     current.value = index
 }
 
-const queryCategoryList = async () => {
+onLoad(async () => {
     tabList.value = await articleApi.category()
-}
+})
 </script>

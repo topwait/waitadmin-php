@@ -56,12 +56,14 @@ class MsgDriver
      *
      * @param int $scene
      * @param string $code
+     * @param bool $use
      * @return bool
      */
-    public static function checkCode(int $scene, string $code): bool
+    public static function checkCode(int $scene, string $code, bool $use=false): bool
     {
         $modelNoticeRecord = new NoticeRecord();
-        $noticeRecord = $modelNoticeRecord->field(['id,scene,code,expire_time'])
+        $noticeRecord = $modelNoticeRecord
+            ->field(['id,scene,code,expire_time'])
             ->where(['scene'=>$scene])
             ->where(['status'=>NoticeEnum::STATUS_OK])
             ->where(['is_read'=>NoticeEnum::VIEW_UNREAD])
@@ -80,12 +82,40 @@ class MsgDriver
             $result = false;
         }
 
-        NoticeRecord::update([
-            'is_read'     => NoticeEnum::VIEW_READ,
-            'update_time' => time()
-        ], ['id'=>$noticeRecord['id']]);
+        if ($use) {
+            NoticeRecord::update([
+                'is_read' => NoticeEnum::VIEW_READ,
+                'update_time' => time()
+            ], ['id' => $noticeRecord['id']]);
+        }
 
         return $result;
     }
 
+    /**
+     * 消费验证码
+     *
+     * @param int $scene
+     * @param string $code
+     * @author zero
+     */
+    public static function useCode(int $scene, string $code): void
+    {
+        $modelNoticeRecord = new NoticeRecord();
+        $noticeRecord = $modelNoticeRecord
+            ->field(['id,scene,code,expire_time'])
+            ->where(['scene'=>$scene])
+            ->where(['status'=>NoticeEnum::STATUS_OK])
+            ->where(['is_captcha'=>1])
+            ->where(['code'=>$code])
+            ->findOrEmpty()
+            ->toArray();
+
+        if ($noticeRecord) {
+            NoticeRecord::update([
+                'is_read' => NoticeEnum::VIEW_READ,
+                'update_time' => time()
+            ], ['id' => $noticeRecord['id']]);
+        }
+    }
 }

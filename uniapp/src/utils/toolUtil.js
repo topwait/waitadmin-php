@@ -2,6 +2,8 @@ import { computed } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import clientUtil from '@/utils/clientUtil'
+import cacheUtil from '@/utils/cacheUtil'
+import cacheEnum from '@/enums/cacheEnum'
 
 export default {
     /**
@@ -23,6 +25,7 @@ export default {
             })
         })
     },
+
     /**
      * 提取微信位置
      */
@@ -39,6 +42,7 @@ export default {
             })
         })
     },
+
     /**
      * 获取底部导航
      */
@@ -49,6 +53,7 @@ export default {
             'pages/user/home'
         ]
     },
+
     /**
      * 获取当前页面
      */
@@ -57,13 +62,37 @@ export default {
         const currentPage = pages[pages.length - 1]
         return currentPage || {}
     },
+
+    /**
+     * 页面浏览足迹
+     * @param {boolean} write (true=写入足迹,false=返回上一次访问页面)
+     * @param {boolean} all   (是否返回所有足迹路径)
+     * @returns {string|array}
+     */
+    walksPage(write = false, all = false) {
+        let footrint = cacheUtil.get(cacheEnum.FOOTPRINT) || []
+
+        if (write === true) {
+            let pageRoute = this.currentPage().route
+            footrint.push(pageRoute)
+            footrint = footrint.slice(-5)
+            cacheUtil.set(cacheEnum.FOOTPRINT, footrint)
+            return pageRoute
+        }
+
+        if (all) {
+            return footrint
+        }
+
+        return footrint[0] || ''
+    },
+
     /**
      * 上传文件资源
-     *
-     * @param {String} filePath (本地文件路径)
-     * @param {String} fileType (文件类型: image/video/audio)
-     * @param {String} type     (上传类型: picture/video/document/package)
-     * @param {String} scene    (上传场景: permanent=永远存储,temporary=临时存储)
+     * @param {string} filePath 本地文件路径
+     * @param {string} fileType 文件类型: image/video/audio
+     * @param {string} type     上传类型: picture/video/document/package
+     * @param {string} scene    上传场景: permanent=永远存储,temporary=临时存储
      */
     uploadFile(filePath, fileType, type, scene = 'permanent') {
         const userStore = useUserStore()
@@ -92,6 +121,7 @@ export default {
             })
         })
     },
+
     /**
      * 渲染底部导航
      */

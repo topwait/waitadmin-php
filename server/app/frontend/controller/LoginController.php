@@ -29,7 +29,7 @@ use think\response\View;
  */
 class LoginController extends Frontend
 {
-    protected array $notNeedLogin = ['index', 'login', 'register', 'opCodeUrl', 'forgetPwd'];
+    protected array $notNeedLogin = ['index', 'login', 'register', 'oaLogin', 'ticketByUser', 'forgetPwd'];
 
     /**
      * 弹出页面
@@ -96,9 +96,9 @@ class LoginController extends Frontend
                     $sign = $post['sign'] ?? '';
                     LoginService::baLogin(strval($post['mobile']), $post['code'], $sign, $this->terminal);
                     break;
-                case 'op':
-                    $validate->goCheck('op');
-                    LoginService::opLogin($post['code'], $post['state'], $this->terminal);
+                case 'oa':
+                    $response = LoginService::oaCodeUrl();
+                    return AjaxUtils::success($response);
             }
 
             return AjaxUtils::success('登录成功');
@@ -120,19 +120,37 @@ class LoginController extends Frontend
     }
 
     /**
-     * PC微信链接
+     * PC公众号登录
+     *
+     * @throws Exception
+     * @method [GET]
+     * @author zero
+     */
+    public function oaLogin()
+    {
+        $code  = $this->request->get('code', '');
+        $state = $this->request->get('state', '');
+        LoginService::oaLogin($code, $state);
+
+        $this->redirect('/');
+    }
+
+    /**
+     * PC微信扫码检测
      *
      * @return Json
      * @throws Exception
      * @method [GET]
      * @author zero
      */
-    public function opCodeUrl(): Json
+    public function ticketByUser(): Json
     {
-        (new LoginValidate())->goCheck('url');
-        $url = $this->request->get('url');
+        $key = $this->request->get('key', '');
+        if (!$key) {
+            return AjaxUtils::error('缺失参数key');
+        }
 
-        $response = LoginService::opCodeUrl($url);
+        $response = LoginService::ticketByUser($key);
         return AjaxUtils::success($response);
     }
 
@@ -155,5 +173,4 @@ class LoginController extends Frontend
 
         return AjaxUtils::error();
     }
-
 }

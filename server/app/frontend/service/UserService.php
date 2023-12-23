@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\frontend\service;
 
 use app\common\basics\Service;
+use app\common\enums\ClientEnum;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\article\ArticleCollect;
@@ -25,6 +26,8 @@ use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
 use app\common\utils\AttachUtils;
 use app\common\utils\UrlUtils;
+use app\frontend\cache\ScanLoginCache;
+use app\frontend\widgets\UserWidget;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DbException;
@@ -51,7 +54,16 @@ class UserService extends Service
             ->toArray();
 
         $modelUserAuth = new UserAuth();
-        $userAuth = $modelUserAuth->where(['user_id'=>$userId])->findOrEmpty()->toArray();
+        $userAuth = $modelUserAuth
+            ->where(['user_id'=>$userId])
+            ->whereIn('terminal', [ClientEnum::PC, ClientEnum::OA])
+            ->findOrEmpty()
+            ->toArray();
+
+        if (!$user['avatar']) {
+            $defaultAvatar = 'static/common/images/avatar.png';
+            $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
+        }
 
         $user['isWeChat'] = (bool) $userAuth;
         $user['last_login_time'] = date('Y-m-d H:i:s', $user['last_login_time']??0);
@@ -66,7 +78,6 @@ class UserService extends Service
      * @throws DbException
      * @author zero
      */
-    #[ArrayShape(['count' => "int", 'list' => "array"])]
     public static function collect(int $userId): array
     {
         $modelArticleCollect = new ArticleCollect();
@@ -82,7 +93,7 @@ class UserService extends Service
                 'var_page'  => 'page'
             ])->toArray();
 
-        return ['count'=>$lists['total'], 'list'=>$lists['data']];
+        return ['count'=>$lists['total'], 'list'=>$lists['data']]??[];
     }
 
     /**
@@ -129,10 +140,12 @@ class UserService extends Service
             throw new OperateException('账号疑是丢失了!');
         }
 
-        $avatar = UrlUtils::toRelativeUrl($avatarUrl);
-        if ($user['avatar'] !== $avatar) {
-            AttachUtils::markUpdate($user, $post, ['avatar']);
-            User::update(['avatar'=>$avatar, 'update_time'=>time()], ['id'=>$userId]);
+        if ($user['avatar'] !== UrlUtils::toRelativeUrl($avatarUrl)) {
+            $avatar = UrlUtils::toRoot($avatarUrl);
+            $crDate = date('Ymd', strtotime($user['create_time']));
+            $target = 'storage/avatar/'.$crDate.'/'.md5(strval($userId)).'.jpg';
+            UrlUtils::autoUpload($avatar, $target);
+            User::update(['avatar'=>$target, 'update_time'=>time()], ['id'=>$userId]);
         }
     }
 
@@ -175,56 +188,6 @@ class UserService extends Service
     }
 
     /**
-     * 绑定微信
-     *
-     * @param array $get
-     * @param int $userId
-     * @throws OperateException
-     * @throws Exception
-     */
-    public static function bindWeChat(array $get, int $userId): void
-    {
-        // 接收参数
-        $code = $get['code'];
-
-        // 微信授权
-        $response = WeChatService::wxJsCode2session($code);
-
-        // 验证账户
-        $modeUserAuth = new UserAuth();
-        $userAuth = $modeUserAuth->field(['id,openid,unionid,terminal'])
-            ->where(['id'=>$userId])
-            ->where(['terminal'=>1])
-            ->findOrEmpty()
-            ->toArray();
-
-        // 验证绑定
-        if ($userAuth
-            && $userAuth['openid'] == $response['openid']
-            && $userAuth['unionid'] == $response['unionid']) {
-            throw new OperateException('已绑定了,请勿重复操作!');
-        }
-
-        //更新授权
-        if ($userAuth) {
-            UserAuth::update([
-                'openid'      => $response['openid'] ?? $userAuth['openid'],
-                'unionid'     => $response['unionid'] ?? $userAuth['unionid'],
-                'update_time' => time(),
-            ], ['id'=>intval($userAuth['id'])]) ;
-        } else {
-            UserAuth::create([
-                'user_id'  => $userId,
-                'openid'   => $response['openid']??'',
-                'unionid'  => $response['unionid']??'',
-                'terminal' => 1,
-                'create_time' => time(),
-                'update_time' => time()
-            ]);
-        }
-    }
-
-    /**
      * 绑定手机
      *
      * @param array $post
@@ -258,6 +221,8 @@ class UserService extends Service
             ->findOrEmpty()
             ->isEmpty()
         ) { throw new OperateException('该手机已绑定其他账号!'); }
+
+        MsgDriver::useCode(NoticeEnum::BIND_MOBILE, $code);
 
         User::update([
             'mobile'      => $mobile,
@@ -300,10 +265,97 @@ class UserService extends Service
             ->isEmpty()
         ) { throw new OperateException('该邮箱已绑定其他账号!'); }
 
+        MsgDriver::useCode(NoticeEnum::BIND_EMAIL, $code);
+
         User::update([
             'email'       => $email,
             'update_time' => time()
         ], ['id'=>$userId]);
     }
 
+    /**
+     * 绑定微信扫码链接
+     *
+     * @param string $code
+     * @param string $state
+     * @throws Exception
+     * @author zero
+     */
+    public static function bindWeChat(string $code, string $state): void
+    {
+        // 验证时效
+        $check = ScanLoginCache::get($state);
+        if (empty($check) || empty($check['userId'])) {
+            ScanLoginCache::set($state, [
+                'status' => ScanLoginCache::$FAIL,
+                'error'  => '二维码不存在或已失效!'
+            ]);
+            return;
+        }
+
+        // 微信授权
+        $response = WeChatService::oaAuth2session($code);
+        $response['terminal'] = ClientEnum::PC;
+
+        // 验证账户
+        try {
+            $response['user_id'] = intval($check['userId']);
+            $userId = UserWidget::updateUser($response);
+
+            ScanLoginCache::set($state, [
+                'status' => ScanLoginCache::$OK,
+                'userId' => $userId
+            ]);
+        } catch (OperateException|Exception $e) {
+            ScanLoginCache::set($state, [
+                'status' => ScanLoginCache::$FAIL,
+                'error'  => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * 检测微信绑定
+     *
+     * @param string $key
+     * @return array
+     * @author zero
+     */
+    public static function ticketBindWx(string $key): array
+    {
+        $results = ScanLoginCache::get($key);
+        if (empty($results['status'])) {
+            return $results;
+        }
+
+        // 验证是否存在用户标识ID
+        if ($results['status'] == ScanLoginCache::$OK && empty($results['userId'])) {
+            $results['status'] = ScanLoginCache::$FAIL;
+            $results['error'] = '操作异常,请刷新页面!';
+            ScanLoginCache::delete($key);
+            return $results;
+        }
+
+        // 查询用户信息
+        $modelUser = new User();
+        $userInfo = $modelUser
+            ->field(['id,sn,is_disable'])
+            ->where(['is_delete'=>0])
+            ->where(['id'=>intval($results['userId'])])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证用户存在
+        if (empty($userInfo)) {
+            $results['status'] = ScanLoginCache::$FAIL;
+            $results['error'] = '账号异常,请重新登录!';
+            ScanLoginCache::delete($key);
+            return $results;
+        }
+
+        // 登录成功了
+        ScanLoginCache::delete($key);
+        $results['error'] = '绑定成功';
+        return $results;
+    }
 }

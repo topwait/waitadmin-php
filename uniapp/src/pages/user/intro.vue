@@ -1,5 +1,8 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
         <!-- 基础信息 -->
         <view class="pt-20">
             <u-cell-group>
@@ -54,9 +57,9 @@
         <!-- 协议信息 -->
         <view class="pt-20">
             <u-cell-group>
-                <u-cell-item title="隐私政策" @tap="$go('/pages/other/policy?type=privacy')" />
-                <u-cell-item title="服务协议" @tap="$go('/pages/other/policy?type=service')" />
-                <u-cell-item title="关于我们" :value="'v1.2.4'" @tap="$go('/pages/other/about')" />
+                <u-cell-item title="隐私政策" @tap="$go('/pages/index/policy?type=privacy')" />
+                <u-cell-item title="服务协议" @tap="$go('/pages/index/policy?type=service')" />
+                <u-cell-item title="关于我们" :value="'v1.2.4'" @tap="$go('/pages/index/about')" />
             </u-cell-group>
         </view>
 
@@ -116,6 +119,9 @@ import ChangeNickname from './component/change-nickname'
 import ChangePassword from './component/change-password'
 import ForgetPassword from './component/forget-password'
 
+// 首次加载
+const isFirstLoading = ref(false)
+
 // 用户数据
 const userStore = useUserStore()
 const userInfo = ref({
@@ -144,8 +150,9 @@ const pwdPicker = ref(false)
 const pwdListed = ref([{text: '修改密码'}, {text: '忘记密码'}])
 
 // 显示监听
-onShow(() => {
-    queryUserInfo()
+onShow(async () => {
+    await queryUserInfo()
+    isFirstLoading.value = false
 })
 
 // 查询信息
@@ -224,29 +231,22 @@ const onGenderEdit = async (value) => {
 
 // 绑定微信
 const onBindWeChat = async () => {
-    let status = false
     uni.showModal({
         content: '是否绑定微信？',
-        confirmColor: '#4173FF',
-        success: ({ cancel }) => {
+        confirmColor: '#4173ff',
+        success: async ({ cancel }) => {
             if (!cancel) {
                 if (!clientUtil.isWeixin()) {
                     return uni.$u.toast('当前浏览器不支持绑定')
                 }
-                status = true
+
+                const code = await toolUtil.obtainWxCode()
+                await userApi.bindWeChat(code)
+                await queryUserInfo()
+                return uni.$u.toast('绑定成功')
             }
         }
     })
-
-    if (status) {
-        const code = await toolUtil.obtainWxCode()
-        try {
-            await bindWeChatApi({code: code})
-        } catch (e) {
-            return
-        }
-        queryUserInfo()
-    }
 }
 
 // 绑定手机
@@ -298,7 +298,7 @@ const onClosePopup = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .logout {
     margin: 0 30px;
     padding: 40rpx 0;

@@ -1,5 +1,9 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
+        <!-- 用户信息 -->
         <view class="layout-header-widget">
             <view class="grid-skinny-unit">
                 <view class="flex items-center">
@@ -16,6 +20,7 @@
             </view>
         </view>
 
+        <!-- 用户服务 -->
         <w-service
             :mod="diyService.base?.layout"
             :title="diyService.base?.title"
@@ -23,6 +28,7 @@
             :list="diyService?.list"
         />
 
+        <!-- 轮播广告 -->
         <w-adv :list="diyAdv?.list" />
     </view>
 </template>
@@ -35,32 +41,34 @@ import { useUserStore } from '@/stores/userStore'
 import designApi from '@/api/designApi'
 import userApi from '@/api/userApi'
 
+// 首次加载
+const isFirstLoading = ref(true)
+
+// 登录状态
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
 
-const userInfo = ref({})
-const diyAdv = ref({})
-const diyService = ref({})
+// 参数定义
+const userInfo = ref({})   // 用户信息
+const diyService = ref({}) // 服务工具
+const diyAdv = ref({})     // 轮播广告
 
 onShow(async () => {
-    try {
-        const diyItems = await designApi.diyMe()
-        diyAdv.value = diyItems.adv
-        diyService.value = diyItems.service
+    const diyItems = await designApi.diyMe()
+    diyAdv.value = diyItems.adv
+    diyService.value = diyItems.service
 
-        if (isLogin.value) {
-            userInfo.value = await userApi.center()
-        }
-    } catch (e) {
-        return false
+    if (isLogin.value) {
+        userInfo.value = await userApi.center()
     }
+    isFirstLoading.value = false
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-header-widget {
     min-height: 180rpx;
-    background: url(../../static/bg_head_radiant.png);
+    background: url("../../static/bg_head_radiant.png");
     background-position: center right;
     background-repeat: no-repeat;
     background-size: auto 100%;

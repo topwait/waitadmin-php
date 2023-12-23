@@ -12,6 +12,7 @@ const wechatOa = {
         }
         return clientUtil.isAndroid() ? location.href.split('#')[0] : window.signLink
     },
+
     /**
      * 公众号授权链接
      */
@@ -20,18 +21,27 @@ const wechatOa = {
             location.href = res.url
         })
     },
+
     /**
      * 公众号授权登录
      */
-    authLogin(code) {
+    authLogin(code, state) {
         return new Promise((resolve, reject) => {
-            loginApi.login({ scene: 'oa', code }).then((res) => {
+            loginApi.login({
+                scene: 'oa',
+                code: code,
+                state: state
+            }).then((res) => {
                 resolve(res)
             }).catch((err) => {
                 reject(err)
             })
         })
     },
+
+    /**
+     * 准备就绪
+     */
     ready() {
         return new Promise((resolve) => {
             weixin.ready(() => {
@@ -39,6 +49,11 @@ const wechatOa = {
             })
         })
     },
+
+    /**
+     * 页面分享
+     * @param {*} options
+     */
     share(options) {
         this.ready().then(() => {
             const { shareTitle, shareLink, shareImage, shareDesc } = options
@@ -63,6 +78,10 @@ const wechatOa = {
             })
         })
     },
+
+    /**
+     * 获取地址
+     */
     getAddress() {
         return new Promise((reslove, reject) => {
             this.ready().then(() => {
@@ -77,6 +96,10 @@ const wechatOa = {
             })
         })
     },
+
+    /**
+     * 获取定位
+     */
     getLocation() {
         return new Promise((reslove, reject) => {
             this.ready().then(() => {

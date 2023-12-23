@@ -1,5 +1,9 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
+        <!-- 登录表单 -->
         <view class="layout-login-widget">
             <!-- 图标 -->
             <view class="logo">
@@ -30,6 +34,7 @@
                         <template #right>
                             <u-verification-code ref="uCodeRefByLogin" seconds="60" @change="codeChangeByLogin" />
                             <u-button
+                                :loading="loadingSms"
                                 :plain="true"
                                 type="theme"
                                 hover-class="none"
@@ -48,7 +53,7 @@
                         <u-input v-model="form.account" type="text" placeholder="请输入登录账号" />
                     </u-form-item>
                     <u-form-item left-icon="lock" :left-icon-style="{'color': '#999999', 'font-size': '36rpx'}">
-                        <u-input v-model="form.password" type="password" placeholder="请输入登录密码" />
+                        <u-input v-model="form.password" type="password" placeholder="请输入登录密码" autocomplete="off" />
                     </u-form-item>
                 </u-form>
 
@@ -115,6 +120,7 @@
                             <template #right>
                                 <u-verification-code ref="uCodeRefByPhone" seconds="60" @change="codeChangeByPhone" />
                                 <u-button
+                                    :loading="loadingSms"
                                     :plain="true"
                                     type="primary"
                                     hover-class="none"
@@ -127,6 +133,7 @@
                         </u-form-item>
                         <view class="pt-60">
                             <u-button
+                                :loading="loadingBind"
                                 type="theme"
                                 shape="circle"
                                 @click="onUpLogin()"
@@ -155,6 +162,9 @@ import toolUtil from '@/utils/toolUtil'
 import wechatOa from '@/utils/wechat'
 // #endif
 
+// 首次加载
+const isFirstLoading = ref(true)
+
 // 基础参数
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -170,7 +180,7 @@ const LoginAuthEnum = {
 const LoginSceneEnum = {
     WX: 'wx',
     OA: 'oa',
-    BIND: 'bind',
+    BIND: 'ba',
     MOBILE: 'mobile',
     ACCOUNT: 'account'
 }
@@ -187,6 +197,8 @@ const loginWays = computed(() => loginTabs.value ? loginTabs.value[0].alias : ''
 const isForceMobileUa = computed(() => appStore.loginConfigVal.force_mobile === 1)
 const isOpenAgreement = computed(() => appStore.loginConfigVal.is_agreement === 1)
 const isOpenOtherAuth = computed(() => appStore.loginConfigVal.login_other?.length)
+const loadingSms = ref(false)   // 发送短信加载中
+const loadingBind = ref(false)  // 绑定手机加载中
 
 // #ifdef MP-WEIXIN
 const authsMobile = computed(() => appStore.loginConfigVal.auths_mobile)
@@ -219,7 +231,7 @@ onLoad(async (options) => {
         })
     }
 
-    onOaLogin(options.code)
+    onOaLogin(options?.code, options?.state)
 })
 
 // 监听显示
@@ -229,6 +241,7 @@ onShow(async () => {
             uni.navigateBack()
         }
     } catch (e) { }
+    isFirstLoading.value = false
 })
 
 // 验证码(登录)
@@ -250,13 +263,18 @@ const sendSmsByLogin = async () => {
     if (checkUtil.isEmpty(form.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
+    loadingSms.value = true
     if (uCodeRefByLogin.value?.canGetCode) {
         await indexApi.sendSms({
             scene: smsEnum.LOGIN,
             mobile: form.mobile
+        }).then(() => {
+            uCodeRefByLogin.value?.start()
+            return uni.$u.toast('发送成功')
+        }).catch(e => {
+            loadingSms.value = false
+            return uni.$u.toast(e.msg)
         })
-        uCodeRefByLogin.value?.start()
-        return uni.$u.toast('发送成功')
     }
 }
 
@@ -265,13 +283,21 @@ const sendSmsByPhone = async () => {
     if (checkUtil.isEmpty(phoneForm.mobile)) {
         return uni.$u.toast('请输入手机号')
     }
+    if (checkUtil.isMobile(phoneForm.mobile)) {
+        return uni.$u.toast('手机号不合规')
+    }
+    loadingSms.value = true
     if (uCodeRefByPhone.value?.canGetCode) {
         await indexApi.sendSms({
-            scene: smsEnum.LOGIN,
-            mobile: form.mobile
+            scene: smsEnum.BIND_MOBILE,
+            mobile: phoneForm.mobile
+        }).then(() => {
+            uCodeRefByPhone.value?.start()
+            return uni.$u.toast('发送成功')
+        }).catch(e => {
+            loadingSms.value = false
+            return uni.$u.toast(e.msg)
         })
-        uCodeRefByPhone.value?.start()
-        return uni.$u.toast('发送成功')
     }
 }
 
@@ -301,13 +327,14 @@ const onUpLogin = () => {
         sign: phoneForm.sign,
         mobile: phoneForm.mobile
     }).then(result => {
-        showPopup.value = false
         __loginHandle(result)
+        showPopup.value = false
+        loadingBind.value = false
     })
 }
 
 // 普通登录
-const { loading, methodAPI:$loginApi } = useLock(loginApi.login)
+const { loading, methodAPI:$loginApi } = useLock(loginApi.login, 2000)
 const onSaLogin = (scene) => {
     let params = {}
     if (scene === LoginSceneEnum.MOBILE) {
@@ -331,7 +358,7 @@ const onSaLogin = (scene) => {
         params = {scene: scene, account: form.account, password: form.password}
     }
 
-    if (isForceMobileUa.value && !isCheckAgreement.value) {
+    if (!isCheckAgreement.value) {
         return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
     }
 
@@ -344,6 +371,10 @@ const onSaLogin = (scene) => {
 
 // 微信登录
 const onWxLogin = async (e) => {
+    if (!isCheckAgreement.value) {
+        return uni.$u.toast('请勾选已阅读并同意《服务协议》和《隐私协议》')
+    }
+
     // #ifdef MP-WEIXIN
     const wxCode = e.detail.code || ''
     const code = await toolUtil.obtainWxCode()
@@ -351,11 +382,9 @@ const onWxLogin = async (e) => {
         scene: LoginSceneEnum.WX,
         code: code,
         wxCode: wxCode
-    }).catch(() => {
-        loading.value = false
     })
 
-    if (result.code === 1) {
+    if (result && result.code === 1 && isForceMobileUa.value) {
         phoneForm.sign = result.data.sign
         showPopup.value = true
     } else {
@@ -371,10 +400,10 @@ const onWxLogin = async (e) => {
 }
 
 // 公众号登录
-const onOaLogin = async (code) => {
+const onOaLogin = async (code, state) => {
     // #ifdef H5
-    if (code) {
-        wechatOa.authLogin(code).then(result => {
+    if (code && state) {
+        wechatOa.authLogin(code, state).then(result => {
             if (result.code === 1) {
                 phoneForm.sign = result.data.sign
                 showPopup.value = true
@@ -393,24 +422,29 @@ const __loginHandle = (result) => {
     }
 
     userStore.login(result.data.token)
-    const pages = toolUtil.currentPage()
-    if (pages.length > 1) {
-        const prevPage = pages.at(-2)
-        return uni.navigateBack({
-            success: () => {
-                const { onLoad, options } = prevPage
-                onLoad && onLoad(options)
-            }
-        })
-    }
-    return uni.reLaunch({
-        url: '/pages/index/index'
-    })
+    uni.showToast({ title: '登陆成功' })
 
+    setTimeout(() => {
+        const pages = toolUtil.currentPage()
+        if (pages.length > 1) {
+            const prevPage = pages.at(-2)
+            return uni.navigateBack({
+                success: () => {
+                    const { onLoad, options } = prevPage
+                    onLoad && onLoad(options)
+                }
+            })
+        }
+
+        return uni.reLaunch({
+            url: '/pages/index/index'
+        })
+
+    }, 1000)
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-login-widget {
     padding-top: 50rpx;
     .logo {

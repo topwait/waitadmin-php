@@ -90,7 +90,7 @@ const gridWidth = computed(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-service-widget {
     margin: 20rpx;
     border-radius: 14rpx;

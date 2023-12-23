@@ -1,31 +1,30 @@
 export default {
     /**
      * 格式化日期格式
-     *
-     * @param {Date} date 需格式化的日志
-     * @return 格式化后的日期
+     * @param {date} date 日期时间
+     * @return {string} 格式日期
      */
     formatDate(date) {
-        let myyear = date.getFullYear()
-        let mymonth = date.getMonth() + 1
-        let myweekday = date.getDate()
+        let myYear = date.getFullYear()
+        let myMonth = date.getMonth() + 1
+        let myWeekday = date.getDate()
 
-        if (mymonth < 10) {
-            mymonth = '0' + mymonth
+        if (myMonth < 10) {
+            myMonth = '0' + myMonth
         }
 
-        if (myweekday < 10) {
-            myweekday = '0' + myweekday
+        if (myWeekday < 10) {
+            myWeekday = '0' + myWeekday
         }
 
-        return myyear + '-' + mymonth + '-' + myweekday
+        return myYear + '-' + myMonth + '-' + myWeekday
     },
+
     /**
      * 时间戳转时间格式
-     *
-     * @param {Number} timestamp 时间戳
-     * @param {String} format 时间格式
-     * @returns 转换后的日期时间
+     * @param {number} timestamp 时间戳值
+     * @param {string} format 时间格式
+     * @returns {string} 日期时间
      */
     toDateFormat(timestamp, format = 'YY-MM-DD hh:mm:ss') {
         if (String(timestamp).length <= 10) {
@@ -45,21 +44,19 @@ export default {
             return '0' + index
         })
 
-        const newTime = format
-            .replace(/YY/g, year)
+        return format
+            .replace(/YY/g, year + '')
             .replace(/MM/g, preArr[month] || month)
             .replace(/DD/g, preArr[day] || day)
             .replace(/hh/g, preArr[hour] || hour)
             .replace(/mm/g, preArr[min] || min)
             .replace(/ss/g, preArr[sec] || sec)
-
-        return newTime
     },
+
     /**
-     * 日期格式转时间戳
-     *
-     * @param {格式化后的日期} datetime 日期时间
-     * @returns 转换后的时间戳(秒)
+     * 日期格式转时间戳(秒)
+     * @param {string} datetime 日期时间
+     * @returns {number} 秒级时间戳
      */
     toTimeFormat(datetime) {
         let f = datetime.split(' ', 2)
@@ -74,15 +71,28 @@ export default {
             parseInt(t[2], 10) || null
         ).getTime() / 1000
     },
+
     /**
-     * 获取的当前时间戳
+     * 获取当前毫秒数
+     * @returns {number} 毫秒时间戳
      */
-    time() {
-        let date = new Date()
+    timestamp() {
+        const date = new Date()
         return date.getTime()
     },
+
+    /**
+     * 获取当前的秒数
+     * @returns {number} 秒时间戳
+     */
+    time() {
+        const date = new Date()
+        return parseInt(date.getTime() / 1000 + '')
+    },
+
     /**
      * 返回今日开始和结束的时间戳
+     * @returns {number[]}
      */
     today() {
         let date = new Date()
@@ -93,8 +103,10 @@ export default {
         let t = date.getTime() / 1000
         return [t, t + (86400 - 1)]
     },
+
     /**
      * 返回昨日开始和结束的时间戳
+     * @returns {number[]}
      */
     yesterday() {
         let date = new Date()
@@ -105,8 +117,10 @@ export default {
         let t = this.today()[0] - 86400
         return [t, t + (86400 - 1)]
     },
+
     /**
      * 返回本周开始和结束的时间戳
+     * @returns {number[]}
      */
     week() {
         let startDate = new Date(new Date().setHours(0, 0, 0) - (new Date().getDay() - 1) * 24 * 60 * 60 * 1000)
@@ -115,8 +129,10 @@ export default {
         let endTime = this.toTimeFormat(this.formatDate(endDate))
         return [startTime, endTime + (86400 - 1)]
     },
+
     /**
      * 返回本月开始和结束的时间戳
+     * @returns {number[]}
      */
     month() {
         let startDate = new Date(new Date(new Date().getFullYear(), new Date().getMonth(), 1).setHours(0, 0, 0))
@@ -125,8 +141,10 @@ export default {
         let endTime = this.toTimeFormat(this.formatDate(endDate))
         return [startTime, endTime + (86400 - 1)]
     },
+
     /**
      * 返回今年开始和结束的时间戳
+     * @returns {number[]}
      */
     year() {
         let startDate = new Date(new Date().getFullYear(), 0, 1)

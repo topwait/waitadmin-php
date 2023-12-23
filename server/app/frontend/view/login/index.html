@@ -20,11 +20,12 @@
         let form = layui.form;
         let sceneArray = {'login': 101, 'register': 102, 'resetting': 103}
         let sceneCode = sceneArray['{$scene}'];
-
+        let timer = null;
 
         form.render();
 
-        timing($('.get_code'))
+        const getCodeEl = $('.get_code');
+        timing(getCodeEl)
 
         // 账号登录
         form.on('submit(loginSubmit)', function(data) {
@@ -56,6 +57,26 @@
 
             waitUtil.ajax({
                 url: "{:route('login/register')}",
+                type: 'POST',
+                data: data.field
+            }).then((res) => {
+                if (res.code === 0) {
+                    setTimeout(() => {
+                        parent.location.href = '/';
+                    }, 1500);
+                } else {
+                    waitUtil.unlock(this);
+                }
+            }).catch(() => {
+                waitUtil.unlock(this);
+            });
+        });
+
+        // 绑定手机
+        form.on('submit(bindSubmit)', function(data) {
+            waitUtil.locking(this);
+            waitUtil.ajax({
+                url: "{:route('login/login')}",
                 type: 'POST',
                 data: data.field
             }).then((res) => {
@@ -106,27 +127,60 @@
 
         // 微信登录
         $(document).on('click', '#wxLogin', function () {
-            let url = window.location.protocol+'//'+window.location.host;
+            $('.ac-login').hide();
+            $('.wx-login').show();
+
             waitUtil.ajax({
-                url: "{:route('login/opCodeUrl')}?url="+ url,
+                url: "{:route('login/login')}",
                 fulShow: false,
-                type: 'GET',
-                data: {}
+                type: 'POST',
+                data: {scene: 'oa'}
             }).then((res) => {
-                if (res.code === 0) {
-                    parent.location.href = res.data.url;
-                }
+                const elem = $('.wx-login .qrCode img');
+                elem.show();
+                elem.attr('src', res.data.url);
+                ticketByUser(res.data.key);
+                setTimeout(function () {
+                    $('.wx-login .loading').hide();
+                }, 100)
             });
         });
 
-        // 验证码
-        $(document).on('click', '.get_code', function () {
-            let that  = $(this);
-            let scene = $(this).attr('data-type');
-            let value = $(this).parent().parent().find('input[name="mobile"]').val();
+        // 切换方式
+        $(document).on('click', '.wx-login .switch', function () {
+            stopInterval();
+            $('.wx-login').hide();
+            $('.ac-login').show();
+        })
+
+        // 刷新二维码
+        $(document).on('click', '.wx-login .refresh', function () {
+            stopInterval();
+            waitUtil.ajax({
+                url: "{:route('login/login')}",
+                fulShow: false,
+                type: 'POST',
+                data: {scene: 'oa'}
+            }).then((res) => {
+                const elem = $('.wx-login .qrCode img');
+                const node = $('.wx-login .qrCode .masking');
+                elem.attr('src', res.data.url);
+                elem.hide();
+                node.show();
+                ticketByUser(res.data.key);
+            });
+        });
+
+        // 发送验证码
+        $(getCodeEl).on('click', '', waitUtil.debounce(100, function () {
+            waitUtil.locking(this);
+            let that  = $(this)
+            let scene = that.attr('data-type');
+            let value = that.parent().parent().find('input[name="mobile"]').val();
 
             let sendStatus = waitCache.get('sms:code:'+scene);
             if (sendStatus) {
+                waitUtil.unlock(this);
                 return layer.msg('操作频繁,请稍后再试');
             }
 
@@ -134,23 +188,28 @@
             let url = '{:route("index/sendSms")}';
             let data = {scene: scene, mobile: value};
 
+            const els = {'101': '.login-mobile', '102': '.register-mobile', '103': '.bind-mobile'}
             switch (scene) {
                 case '101': // 短信登录
                 case '102': // 短信注册
+                case '105': // 绑定手机
                     if (!value) {
-                        return layer.tips('手机号码不能为空', '#mobile', {tips: 1});
+                        waitUtil.unlock(this);
+                        return layer.tips('手机号码不能为空', els[scene], {tips: 1});
                     }
-
                     if (!waitCheck.isMobile(value)) {
-                        return layer.tips('手机号码格式错误', '#mobile', {tips: 1});
+                        waitUtil.unlock(this);
+                        return layer.tips('手机号码格式错误', els[scene], {tips: 1});
                     }
                     break;
                 case '103': // 找回密码
                     if (!waitCheck.isMobile(value) && !waitCheck.isEmail(value)) {
-                        return layer.tips('手机号码/邮箱格式不正确', '#mobile', {tips: 1});
+                        waitUtil.unlock(this);
+                        return layer.tips('手机号码/邮箱格式不正确', '.reset-mobile', {tips: 1});
                     }
 
                     if (waitCheck.isEmail(value)) {
+                        waitUtil.unlock(this);
                         url = '{:route("index/sendEmail")}';
                         data = {scene: scene, email: value};
                     }
@@ -159,7 +218,6 @@
                     return layer.msg('操作异常!');
             }
 
-            waitUtil.locking(this);
             waitUtil.ajax({
                 url: url,
                 type: 'POST',
@@ -176,9 +234,9 @@
                 waitCache.remove('sms:code:'+scene)
                 waitUtil.unlock(this);
             });
-        });
+        }));
 
-        // 倒计时
+        // 倒计时方法
         function timing(that) {
             let { expire, value } = waitCache.get('sms:code:'+sceneCode, true);
             if (!expire || !value) {
@@ -200,6 +258,55 @@
                     that.removeClass('layui-btn-forbid');
                 }
             }, 1000);
+        }
+
+        // 心跳检测登录
+        function ticketByUser(key) {
+            if (!key) {
+                stopInterval();
+                return;
+            }
+            timer = setInterval(function () {
+                if ($('.wx-login').length <= 0) {
+                    stopInterval();
+                    return;
+                }
+                waitUtil.ajax({
+                    url: "{:route('login/ticketByUser')}?key="+key,
+                    fulShow: false,
+                    type: 'GET'
+                }).then((res) => {
+                    if (res.data.status === undefined || res.data.status === 2) {
+                        stopInterval();
+                        const el = '.wx-login .masking';
+                        $(el).show();
+                        layer.msg(res.data.error);
+                    } else if (res.data.status === 1) {
+                        stopInterval();
+                        if (res.data.force) {
+                            const el = '.wx-login';
+                            const et = '.ba-mobile';
+                            const es = '.ba-mobile .sign';
+                            $(el).hide();
+                            $(et).show();
+                            $(es).val(res.data.sign)
+                        } else {
+                            layer.msg(res.data.error);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        }
+                    }
+                });
+            }, 1500)
+        }
+
+        // 停止心跳检测
+        function stopInterval() {
+            if (timer !== null) {
+                clearInterval(timer);
+                timer = null;
+            }
         }
     });
 </script>

@@ -19,35 +19,39 @@ use think\facade\Cache;
 
 /**
  * 微信扫码登录缓存类
+ * 使用场景: [PC微信扫码登录 / PC绑定微信]
  */
 class ScanLoginCache
 {
-    private static int $ttl = 600;
+    private static int $ttl = 120;
     private static string $prefix = 'login:scan:';
+
+    public static int $ING  = 0;
+    public static int $OK   = 1;
+    public static int $FAIL = 2;
 
     /**
      * 读取
      *
      * @param string $state
-     * @return string
+     * @return array
      * @author zero
      */
-    public static function get(string $state): string
+    public static function get(string $state): array
     {
-        $value = Cache::get(self::$prefix . $state);
-        self::delete($value);
-        return $value;
+        return Cache::get(self::$prefix . $state, []);
     }
 
     /**
      * 设置
      *
-     * @param string $state
+     * @param string $state (令牌)
+     * @param array $data   (['status'=>0=进行中,1=成功,2=失败])
      * @author zero
      */
-    public static function set(string $state): void
+    public static function set(string $state, array $data): void
     {
-        Cache::set(self::$prefix . $state, $state, self::$ttl);
+        Cache::set(self::$prefix . $state, $data, self::$ttl);
     }
 
     /**

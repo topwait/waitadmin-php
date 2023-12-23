@@ -15,6 +15,8 @@ declare (strict_types = 1);
 
 namespace app\common\utils;
 
+use app\common\service\storage\StorageDriver;
+
 /**
  * Url工具
  */
@@ -97,6 +99,25 @@ class UrlUtils
         $rootPath = public_path() . $url;
         $rootPath = str_replace('\\', '/', $rootPath) ;
         return strval($rootPath);
+    }
+
+    /**
+     * 自动适配转移文件
+     * 说明: 多数用于临时文件的转存
+     *
+     * @param string $path     本地文件: /www/temporary/image/20220819/ad06320.jpeg
+     * @param string $savePath 保存路径: storage/image/20220819/ad06320.jpeg
+     * @author zero
+     */
+    public static function autoUpload(string $path, string $savePath)
+    {
+        $engine = ConfigUtils::get('storage', 'default', 'local');
+        if ($engine === 'local') {
+            FileUtils::move($path, public_path() . $savePath);
+        } else {
+            $storageDriver = new StorageDriver();
+            $storageDriver->putFile($path, $savePath);
+        }
     }
 
     /**

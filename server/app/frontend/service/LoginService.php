@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\frontend\service;
 
 use app\common\basics\Service;
+use app\common\enums\ClientEnum;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
@@ -25,6 +26,7 @@ use app\frontend\cache\ScanLoginCache;
 use app\frontend\cache\WebEnrollCache;
 use app\frontend\widgets\UserWidget;
 use Exception;
+use think\facade\Log;
 
 /**
  * 登录服务类
@@ -71,6 +73,9 @@ class LoginService extends Service
             'password' => trim($password),
             'terminal' => $terminal
         ]);
+
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::REGISTER, $code);
 
         // 登录账号
         session('userId', $userId);
@@ -149,6 +154,9 @@ class LoginService extends Service
             throw new OperateException('账号已被禁用!');
         }
 
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::LOGIN, $code);
+
         // 登录账户
         session('userId', $userInfo['id']);
     }
@@ -191,8 +199,32 @@ class LoginService extends Service
             $userId = UserWidget::updateUser($response);
         }
 
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::BIND_MOBILE, $code);
+
         // 登录账户
         session('userId', $userId);
+    }
+
+    /**
+     * PC微信扫码链接
+     *
+     * @return array
+     * @throws Exception
+     * @author zero
+     */
+    public static function oaCodeUrl(): array
+    {
+        // 设置扫码有效期
+        $uniqId    = uniqid();
+        $ip        = request()->ip();
+        $microTime = microtime();
+        $rand      = rand(1, 1000);
+        $state     = md5($uniqId.$ip.$microTime.$rand);
+
+        $event = 'login';
+        ScanLoginCache::set($state, ['status'=>ScanLoginCache::$ING]);
+        return WeChatService::oaBuildQrCode($state, $event);
     }
 
     /**
@@ -200,50 +232,108 @@ class LoginService extends Service
      *
      * @param string $code
      * @param string $state
-     * @param int $terminal
      * @throws Exception
      * @author zero
      */
-    public static function opLogin(string $code, string $state, int $terminal)
+    public static function oaLogin(string $code, string $state)
     {
         // 验证时效
         $check = ScanLoginCache::get($state);
         if (empty($check)) {
-            throw new OperateException('二维码不存在或已失效!');
+            ScanLoginCache::set($state, [
+                'status' => ScanLoginCache::$FAIL,
+                'error'  => '二维码不存在或已失效!'
+            ]);
+            return;
         }
 
         // 微信授权
-        $response = WeChatService::opAuth2session($code);
-        $response['terminal'] = $terminal;
+        $response = WeChatService::oaAuth2session($code);
+        $response['terminal'] = ClientEnum::PC;
 
         // 验证账户
-        $userInfo = UserWidget::getUserAuthByResponse($response);
-        if (empty($userInfo)) {
-            $userId = UserWidget::createUser($response);
-        } else {
-            $userId = UserWidget::updateUser($response);
-        }
+        try {
+            $userInfo = UserWidget::getUserAuthByResponse($response);
+            if (empty($userInfo)) {
+                $userId = UserWidget::createUser($response);
+            } else {
+                $response['user_id'] = $userInfo['user_id'];
+                $userId = UserWidget::updateUser($response);
+            }
 
-        // 登录账户
-        session('userId', $userId);
+            ScanLoginCache::set($state, [
+                'status' => ScanLoginCache::$OK,
+                'userId' => $userId
+            ]);
+        } catch (OperateException $e) {
+             ScanLoginCache::set($state, [
+                 'status' => ScanLoginCache::$OK,
+                 'force'  => true,
+                 'error'  => $e->getMessage(),
+                 'sign'   => $e->data['sign']??''
+             ]);
+        }
     }
 
     /**
-     * PC微信授权链接
+     * PC微信扫码检测
      *
-     * @param string $url
+     * @param string $key
      * @return array
      * @throws Exception
+     * @author zero
      */
-    public static function opCodeUrl(string $url): array
+    public static function ticketByUser(string $key): array
     {
-        // 设置扫码有效期
-        $state = md5(time() . rand(10000, 99999));
-        ScanLoginCache::set($state);
+        $results = ScanLoginCache::get($key);
+        if (empty($results['status'])) {
+            return $results;
+        }
 
-        // 生成扫码二维码
-        $detail['url'] = WeChatService::opBuildAuthUrl($url, $state);
-        return $detail;
+        // 完成登录需强制绑定手机
+        if ($results['status'] == ScanLoginCache::$OK && !empty($results['force']) && $results['force']) {
+            ScanLoginCache::delete($key);
+            return $results;
+        }
+
+        // 验证是否存在用户标识ID
+        if ($results['status'] == ScanLoginCache::$OK && empty($results['userId'])) {
+            $results['status'] = ScanLoginCache::$FAIL;
+            $results['error'] = '登录异常,请重新登录!';
+            ScanLoginCache::delete($key);
+            return $results;
+        }
+
+        // 查询用户信息
+        $modelUser = new User();
+        $userInfo = $modelUser
+            ->field(['id,sn,is_disable'])
+            ->where(['id'=>intval($results['userId'])])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证用户存在
+        if (empty($userInfo)) {
+            $results['status'] = ScanLoginCache::$FAIL;
+            $results['error'] = '账号异常,请重新登录!';
+            ScanLoginCache::delete($key);
+            return $results;
+        }
+
+        // 验证是否被禁用
+        if ($userInfo['is_disable']) {
+            $results['status'] = ScanLoginCache::$FAIL;
+            $results['error'] = '账号已被停用,请联系客服!';
+            ScanLoginCache::delete($key);
+            return $results;
+        }
+
+        // 登录成功了
+        session('userId', $userInfo['id']);
+        ScanLoginCache::delete($key);
+        $results['error'] = '登录成功';
+        return $results;
     }
 
     /**
@@ -293,5 +383,4 @@ class LoginService extends Service
             'update_time' => time()
         ], ['id'=>$userInfo['id']]);
     }
-
 }

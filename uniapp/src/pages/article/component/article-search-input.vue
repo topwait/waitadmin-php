@@ -18,10 +18,9 @@ const onInputBlur = (val) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-input-widget {
-    padding: 0 20rpx;
-    padding-bottom: 12rpx;
+    padding: 12rpx 20rpx;
     border-bottom: 1px solid #f2f2f2;
     background-color: #ffffff;
 }

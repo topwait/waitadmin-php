@@ -17,11 +17,11 @@ namespace app\api\widgets;
 use app\api\cache\EnrollCache;
 use app\api\cache\LoginCache;
 use app\common\basics\Service;
-use app\common\enums\AttachEnum;
+use app\common\enums\ClientEnum;
 use app\common\exception\OperateException;
-use app\common\model\attach\Attach;
 use app\common\model\user\User;
 use app\common\model\user\UserAuth;
+use app\common\service\storage\StorageDriver;
 use app\common\utils\ConfigUtils;
 use app\common\utils\FileUtils;
 use Exception;
@@ -100,35 +100,31 @@ class UserWidget extends Service
             // 创建授权
             if ($openId || $unionId) {
                 UserAuth::create([
-                    'user_id' => $user['id'],
-                    'openid' => $openId,
-                    'unionid' => $unionId,
-                    'terminal' => $terminal,
+                    'user_id'     => $user['id'],
+                    'openid'      => $openId,
+                    'unionid'     => $unionId,
+                    'terminal'    => $terminal,
                     'create_time' => time(),
                     'update_time' => time()
                 ]);
+
+                // 公众号端同步授权 (因为openId/unionid是一样的)
+                // 因为PC端也是采用公众号扫码的方式授权,如果你改用开放平台的方式,那就不一样了
+                $oaAuth = (new UserAuth())->where(['user_id'=>$user['id']])->where(['terminal'=>ClientEnum::PC])->findOrEmpty();
+                if ($oaAuth->isEmpty()) {
+                    UserAuth::create([
+                        'user_id'     => $user['id'],
+                        'terminal'    => ClientEnum::PC,
+                        'openid'      => $openId,
+                        'unionid'     => $unionId,
+                        'create_time' => time(),
+                        'update_time' => time()
+                    ]);
+                }
             }
 
             // 下载头像
-            try {
-                if ($avatar) {
-                    $saveTo = 'storage/picture/' . date('Ymd') . '/' . md5((string)$user['id']) . 'jpg';
-                    FileUtils::download($avatar, public_path() . $saveTo);
-                    User::update(['avatar' => $saveTo], ['id'=>$user['id']]);
-                    Attach::create([
-                        'uid'       => $user['id'],
-                        'quote'     => 1,
-                        'cid'       => 0,
-                        'file_type' => AttachEnum::getCodeByMsg('picture'),
-                        'file_path' => $saveTo,
-                        'file_name' => 'avatar'.$user['id'],
-                        'file_ext'  => 'jpg',
-                        'file_size' => FileUtils::getFileSize(public_path() . $saveTo),
-                        'is_user'   => 1,
-                        'is_attach' => 0
-                    ]);
-                }
-            } catch (Exception) {}
+            self::downUpdateAvatar($avatar, intval($user['id']), $user['create_time']);
 
             self::dbCommit();
             return intval($user['id']);
@@ -154,6 +150,7 @@ class UserWidget extends Service
         $mobile   = $response['mobile']  ?? '';
         $openId   = $response['openid']  ?? '';
         $unionId  = $response['unionid'] ?? '';
+        $avatar   = $response['avatar'] ?? '';
 
         // 用户信息
         $userInfo = (new User())->where(['id'=>$userId])->findOrEmpty()->toArray();
@@ -186,6 +183,18 @@ class UserWidget extends Service
                     'create_time' => time(),
                     'update_time' => time()
                 ]);
+
+                $oaAuth = (new UserAuth())->where(['user_id'=>$userId])->where(['terminal'=>ClientEnum::PC])->findOrEmpty();
+                if ($oaAuth->isEmpty()) {
+                    UserAuth::create([
+                        'user_id'     => $userId,
+                        'terminal'    => ClientEnum::PC,
+                        'openid'      => $openId,
+                        'unionid'     => $unionId,
+                        'create_time' => time(),
+                        'update_time' => time()
+                    ]);
+                }
             }
 
             // 更新关联
@@ -194,6 +203,11 @@ class UserWidget extends Service
                     'unionid'     => $response['unionid'],
                     'update_time' => time()
                 ], ['user_id'=>$userId, 'terminal'=>$terminal]);
+            }
+
+            // 更新头像
+            if (!$userInfo['avatar']) {
+                self::downUpdateAvatar($avatar, intval($userInfo['id']), $userInfo['create_time']);
             }
 
             self::dbCommit();
@@ -239,5 +253,33 @@ class UserWidget extends Service
         $token = make_md5_str(time().$userId);
         LoginCache::set($userId, $terminal, $token);
         return $token;
+    }
+
+    /**
+     * 下载并更新用户头像
+     *
+     * @param string $avatarUrl  (http头像链接)
+     * @param int $userId        (用户ID)
+     * @param string $createTime (用户创建日期)
+     * @author zero
+     */
+    private static function downUpdateAvatar(string $avatarUrl, int $userId, string $createTime)
+    {
+        try {
+            if ($avatarUrl) {
+                $date = date('Ymd', strtotime($createTime));
+                $saveTo = 'storage/avatars/' . $date . '/' . md5((string)$userId) . '.jpg';
+
+                $engine = ConfigUtils::get('storage', 'default', 'local');
+                if ($engine === 'local') {
+                    FileUtils::download($avatarUrl, public_path() . $saveTo);
+                } else {
+                    $storageDriver = new StorageDriver();
+                    $storageDriver->fetch($avatarUrl, $saveTo);
+                }
+
+                User::update(['avatar'=>$saveTo], ['id'=>$userId]);
+            }
+        } catch (Exception) {}
     }
 }

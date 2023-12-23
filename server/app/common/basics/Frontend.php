@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\BaseController;
+use app\common\enums\ClientEnum;
 use app\common\model\dev\DevNavigation;
 use app\common\utils\ArrayUtils;
 use app\common\utils\ConfigUtils;
@@ -38,7 +39,7 @@ abstract class Frontend extends BaseController
      * 设备
      * @var int
      */
-    protected int $terminal = 1;
+    protected int $terminal = ClientEnum::PC;
 
     /**
      * 用户ID

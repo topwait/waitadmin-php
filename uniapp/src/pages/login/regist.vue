@@ -125,7 +125,7 @@ const onRegister = async () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-regist-widget {
     .head {
         height: 300rpx;
@@ -135,7 +135,7 @@ const onRegister = async () => {
             background-repeat: no-repeat;
             background-size: cover;
             background-color: var(--theme-background);
-            background-image: url(../../static/bg_head_honour.png);
+            background-image: url("../../static/bg_head_honour.png");
         }
         .title {
             position: absolute;

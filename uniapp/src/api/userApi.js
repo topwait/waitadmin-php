@@ -18,8 +18,8 @@ export default class {
      */
     static edit(params) {
         const param = {
-            scene: params.scene || '',
-            value: params.value || ''
+            scene: params.scene,
+            value: params.value
         }
         return uni.$u.http.post('user/edit', param)
     }
@@ -50,11 +50,8 @@ export default class {
     /**
      * 绑定微信
      */
-    static bindWeChat(params) {
-        const param = {
-            code: params.code
-        }
-        return uni.$u.http.post('user/bindWeChat', param)
+    static bindWeChat(code) {
+        return uni.$u.http.post('user/bindWeChat', { code })
     }
 
     /**

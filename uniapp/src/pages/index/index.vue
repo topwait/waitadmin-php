@@ -1,5 +1,8 @@
 <template>
     <view :class="themeName">
+        <!-- 首次加载 -->
+        <w-loading v-if="isFirstLoading" />
+
         <!-- 轮播图片 -->
         <view class="layout-banner-widget">
             <view class="diy-swiper">
@@ -50,6 +53,7 @@ import { onShow } from '@dcloudio/uni-app'
 import designApi from '@/api/designApi'
 import indexApi from '@/api/indexApi'
 
+const isFirstLoading = ref(true)
 const diyItem = ref([])
 const article = ref([])
 
@@ -57,16 +61,17 @@ onShow(async () => {
     const results = await indexApi.index()
     article.value = results.article
     diyItem.value = await designApi.diyIndex()
+    isFirstLoading.value = false
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-banner-widget {
     position: relative;
     .backdrop {
         height: 300rpx;
-        background-repeat: no-repeat;
-        background-size: cover;
+        background-repeat: round;
+        background-size: contain;
         background-color: var(--theme-background);
         background-image: url("../../static/bg_head_honour.png");
     }
@@ -81,6 +86,10 @@ onShow(async () => {
             padding: 0 20rpx;
         }
     }
+    // #ifdef H5
+    .diy-swiper { height: 320rpx;  }
+    .diy-swiper .swiper { padding-top: 20rpx; }
+    // #endif
 }
 .layout-news-widget {
     margin: 20rpx;

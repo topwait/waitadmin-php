@@ -16,7 +16,7 @@ export default class {
     /**
      * 政策协议
      */
-    static policy({ type }) {
+    static policy(type) {
         return uni.$u.http.get('index/policy', { type })
     }
 

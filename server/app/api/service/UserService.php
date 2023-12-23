@@ -42,12 +42,19 @@ class UserService extends Service
     public static function center(int $id): array
     {
         $modelUser = new User();
-        return $modelUser
+        $user = $modelUser
             ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
+
+        if (!$user['avatar']) {
+            $defaultAvatar = 'static/common/images/avatar.png';
+            $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
+        }
+
+        return $user;
     }
 
     /**
@@ -60,7 +67,7 @@ class UserService extends Service
     public static function info(int $id): array
     {
         $modelUser = new User();
-        return $modelUser
+        $user = $modelUser
             ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
@@ -68,13 +75,20 @@ class UserService extends Service
                 $modelUserAuth = new UserAuth();
                 return !$modelUserAuth->field(['id'])
                     ->where(['user_id'=>$id])
-                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA])
+                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA, ClientEnum::H5])
                     ->findOrEmpty()
                     ->isEmpty();
             }])
             ->append(['isWeiChat'])
             ->findOrEmpty()
             ->toArray();
+
+        if (isset($user['avatar']) && !$user['avatar']) {
+            $defaultAvatar = 'static/common/images/avatar.png';
+            $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
+        }
+
+        return $user;
     }
 
     /**
@@ -290,7 +304,7 @@ class UserService extends Service
         } else {
             // 短信验证
             $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
-            if (!MsgDriver::checkCode($nCode, $code)) {
+            if (!MsgDriver::checkCode($nCode, $code, true)) {
                 throw new OperateException('验证码错误');
             }
         }
@@ -372,6 +386,9 @@ class UserService extends Service
         if ($emailCheck) {
             throw new OperateException('检测到邮箱号已被占用!');
         }
+
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::BIND_EMAIL, $code);
 
         // 更新信息
         User::update([

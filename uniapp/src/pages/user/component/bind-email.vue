@@ -14,7 +14,7 @@
                     hover-class="none"
                     size="mini"
                     shape="circle"
-                    @tap="onSendEmail()"
+                    @click="onSendEmail()"
                 >{{ codeTips }}
                 </u-button>
             </template>

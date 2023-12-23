@@ -10,10 +10,12 @@ export default class {
      * 文章列表
      */
     static lists(params) {
-        const param = {
-            cid: params.cid || 0,
-            pageNo: params.pageNo || 1,
-            pageSize: params.pageSize || 10
+        let param = { cid: params.cid }
+        if (params.pageNo) {
+            param.page = params.pageNo
+        }
+        if (params.keyword) {
+            param.keyword = params.keyword
         }
         return uni.$u.http.get('article/lists', param)
     }
@@ -21,7 +23,7 @@ export default class {
     /**
      * 文章详情
      */
-    static detail({ id }) {
+    static detail(id) {
         return uni.$u.http.get('article/detail', { id })
     }
 }

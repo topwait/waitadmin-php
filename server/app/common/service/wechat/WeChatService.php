@@ -19,6 +19,9 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\MiniApp\Application as MiniApplication;
 use EasyWeChat\OfficialAccount\Application as OfficialApplication;
 use Exception;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
@@ -30,19 +33,25 @@ class WeChatService
      * 公众号登录凭证
      *
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+     * @param string $scopes (授权: [snsapi_base=只能取openId, snsapi_userinfo=用户信息, snsapi_login=开放平台])
      * @return array ['openid', 'unionid', 'nickname', 'avatarUrl', 'gender']
      * @throws Exception
      * @author zero
      */
-    public static function oaAuth2session(string $code): array
+    public static function oaAuth2session(string $code, string $scopes = 'snsapi_userinfo'): array
     {
         try {
-            $config = WeChatConfig::getOaConfig();
+            if ($scopes === 'snsapi_login') {
+                $config = WeChatConfig::getOpConfig();
+            } else {
+                $config = WeChatConfig::getOaConfig();
+            }
+
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
 
             $response = $oauth
-                ->scopes(['snsapi_userinfo'])
+                ->scopes([$scopes])
                 ->userFromCode($code)
                 ->getRaw();
 
@@ -69,19 +78,26 @@ class WeChatService
      * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      * @param string $redirectUrl (重定向地址)
      * @param string $state (状态码,用于标记是否超时)
+     * @param string $scopes (授权: [snsapi_base=只能取openId, snsapi_userinfo=用户信息, snsapi_login=开放平台])
      * @return string url
      * @throws Exception
+     * @author zero
      */
-    public static function oaBuildAuthUrl(string $redirectUrl, string $state): string
+    public static function oaBuildAuthUrl(string $redirectUrl, string $state, string $scopes = 'snsapi_userinfo'): string
     {
         try {
-            $config = WeChatConfig::getOaConfig();
+            if ($scopes === 'snsapi_login') {
+                $config = WeChatConfig::getOpConfig();
+            } else {
+                $config = WeChatConfig::getOaConfig();
+            }
+
             $app    = new OfficialApplication($config);
             $oauth  = $app->getOauth();
 
             return $oauth
                 ->withState($state)
-                ->scopes(['snsapi_userinfo'])
+                ->scopes([$scopes])
                 ->redirect($redirectUrl);
         } catch (InvalidArgumentException $e) {
             throw new Exception($e->getMessage());
@@ -89,60 +105,58 @@ class WeChatService
     }
 
     /**
-     * PC开发平台登录凭证
+     * 公众号二维码生成
      *
-     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-     * @return array ['openid', 'unionid', 'access_token']
+     * @param string $ticketCode (唯一编码)
+     * @param string $event (事件: login=登录,bind=绑定微信)
+     * @return array
      * @throws Exception
      * @author zero
      */
-    public static function opAuth2session(string $code): array
+    public static function oaBuildQrCode(string $ticketCode, string $event): array
     {
         try {
-            $config = WeChatConfig::getOpConfig();
+            $config = WeChatConfig::getOaConfig();
             $app    = new OfficialApplication($config);
-            $oauth  = $app->getOauth();
+            $client = $app->getClient();
+            $accessToken = $app->getAccessToken()->getToken();
 
-            $response = $oauth
-                ->scopes(['snsapi_login'])
-                ->userFromCode($code)
-                ->getRaw();
+            // 获取二维码
+            $createQrcode = $client->post('/cgi-bin/qrcode/create?access_token='.$accessToken, [
+                'body' => json_encode([
+                    'expire_seconds' => 120,
+                    'action_name'    => 'QR_STR_SCENE',
+                    'action_info'    => ['scene' => ['scene_str' => $event.':'.$ticketCode]],
+                ])
+            ])->getContent();
 
-            if (!isset($response['openid']) || empty($response['openid'])) {
-                $error = $response['errcode'].'：'.$response['errmsg'];
-                throw new Exception($error);
+            // 二维码内容
+            $createQrcode = json_decode($createQrcode, true);
+            if (!isset($createQrcode['ticket'])) {
+                // access_token失效
+                if (isset($createQrcode['errcode']) == 40001) {
+                    $accessToken = $app->getAccessToken()->refresh();
+                    $createQrcode = $client->post('/cgi-bin/qrcode/create?access_token='.$accessToken, [
+                        'body' => json_encode([
+                            'expire_seconds' => 120,
+                            'action_name'    => 'QR_STR_SCENE',
+                            'action_info'    => ['scene' => ['scene_str' => $event.':'.$ticketCode]],
+                        ])
+                    ])->getContent();
+                }
+
+                if (!isset($createQrcode['ticket'])) {
+                    throw new Exception($createQrcode['errmsg']);
+                }
             }
 
             return [
-                'openid'    => $response['openid']     ?? '',
-                'unionid'   => $response['unionid']    ?? '',
-                'nickname'  => $response['nickname']   ?? '',
-                'avatarUrl' => $response['headimgurl'] ?? "",
-                'gender'    => intval($response['sex'] ?? 0),
-            ] ?? [];
-        } catch (InvalidArgumentException $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * PC开发平台链接生成
-     *
-     * @document: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-     * @param string $redirectUrl (重定向地址)
-     * @param string $state (状态码,用于标记是否超时)
-     * @return string url
-     * @throws Exception
-     */
-    public static function opBuildAuthUrl(string $redirectUrl, string $state): string
-    {
-        try {
-            $config = WeChatConfig::getOpConfig();
-            $app    = new OfficialApplication($config);
-            $oauth  = $app->getOauth();
-
-            return $oauth->scopes(['snsapi_login'])->withState($state)->redirect($redirectUrl);
-        } catch (InvalidArgumentException $e) {
+                'url'    => 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$createQrcode['ticket'],
+                'key'    => $ticketCode,
+                'ticket' => $createQrcode['ticket'],
+                'expire_seconds' => $createQrcode['expire_seconds']
+            ]??[];
+        } catch (Exception|ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $e) {
             throw new Exception($e->getMessage());
         }
     }

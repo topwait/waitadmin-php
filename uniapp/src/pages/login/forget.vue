@@ -125,7 +125,7 @@ const onResetPwd = async () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .layout-regist-widget {
     .head {
         height: 300rpx;

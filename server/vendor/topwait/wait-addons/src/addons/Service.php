@@ -32,6 +32,12 @@ class Service extends \think\Service
     protected string $addonsPath;
 
     /**
+     * 所有插件init
+     * @var array
+     */
+    protected array $addonsIniArray = [];
+
+    /**
      * 注册服务
      */
     public function register()
@@ -152,6 +158,17 @@ class Service extends \think\Service
             $info = pathinfo($addonsFile);
             $name = pathinfo($info['dirname'], PATHINFO_FILENAME);
             if (strtolower($info['filename']) === 'plugin') {
+                // 读取出所有插件的Ini配置
+                $ini= $info['dirname'] .DS. 'service.ini';
+                if (!is_file($ini)) {
+                    continue;
+                }
+                $addonIni = parse_ini_file($ini, true, INI_SCANNER_TYPED) ?: [];
+                if(!$addonIni['status']) continue;
+                if(!$addonIni['install']) continue;
+                $this->addonsIniArray[$addonIni['name']] = $addonIni;
+
+                // 循环将钩子方法写入配置中
                 $methods = (array)get_class_methods('\\addons\\' . $name . '\\' . $info['filename']);
                 $hooks = array_diff($methods, $base);
                 foreach ($hooks as $hook) {
@@ -168,6 +185,7 @@ class Service extends \think\Service
             }
         }
 
+        addons_vendor_autoload($this->addonsIniArray);
         Config::set($config, 'addons');
     }
 
