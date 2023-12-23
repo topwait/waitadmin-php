@@ -239,8 +239,8 @@
 .layout-global-session .control a:hover { opacity: 0.85; }
 .layout-global-session .confirm { display: block; margin-top: 15px; height: 46px; font-size: 16px; border-radius: 24px; text-align: center; color: #ffffff; background-color: #3a67e4; line-height: 46px; }
 .layout-global-session .confirm:hover { background-color: #3a67e4; }
-.layout-global-session .jump { display: block; padding: 15px 0; text-align: center; font-size: 16px; color: #3a67e4; line-height: 24px; }
-.layout-global-session .jump:hover { opacity: 0.85; }
+.layout-global-session .jumps { display: block; padding: 15px 0; text-align: center; font-size: 16px; color: #3a67e4; line-height: 24px; }
+.layout-global-session .jumps:hover { opacity: 0.85; }
 .layout-global-session .empower { display: flex; justify-content: center; padding: 15px 0; }
 .layout-global-session .empower i { padding: 0 10px; font-size: 38px; color: #00c777; cursor: pointer; }
 .layout-global-session .treaty { padding-top: 10px; font-size: 14px; text-align: center; color: #9199a1; }
