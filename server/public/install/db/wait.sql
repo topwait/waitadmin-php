@@ -742,7 +742,7 @@ INSERT INTO `wait_auth_menu` VALUES (3026, 3020, 'app', '分组新增', '', 'att
 INSERT INTO `wait_auth_menu` VALUES (3027, 3020, 'app', '分组命名', '', 'attach/cateRename', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3028, 3020, 'app', '分组删除', '', 'attach/cateDel', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3030, 3000, 'app', '上传管理', '', '', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (3031, 3030, 'app', '附件上传', '', 'upload/attach', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3031, 3030, 'app', '附件上传', '', 'upload/permanent', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3032, 3030, 'app', '临时上传', '', 'upload/temporary', 0, 0, 0, 0, 1648696695, 1678713499, 0);
 INSERT INTO `wait_auth_menu` VALUES (3050, 3000, 'app', '字典管理', '', 'system.dictType/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3051, 3050, 'app', '字典类型列表', '', 'system.dictType/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
