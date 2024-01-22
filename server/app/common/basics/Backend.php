@@ -118,7 +118,9 @@ abstract class Backend extends BaseController
      */
     protected function checkPower(): bool
     {
-        $requestUrl = lcfirst(request()->controller()).'/'.request()->action();
+        $prefixName = config('project.backend_entrance') .'/';
+        $requestUrl = lcfirst(str_replace($prefixName, '', request()->baseUrl()));
+
         if (in_array(request()->action(), $this->notNeedLogin) ||
             in_array(request()->action(), $this->notNeedPower) ||
             $requestUrl === 'index/index' ||
