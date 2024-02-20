@@ -186,7 +186,7 @@ if (!function_exists('check_perms')) {
         if ($perms && (in_array($auths, $perms) || $super)) {
             return '';
         } else {
-            return 'no-permission';
+            return 'layui-hide no-permission';
         }
     }
 }
