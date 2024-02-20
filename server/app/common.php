@@ -163,11 +163,12 @@ if (!function_exists('check_perms')) {
     /**
      * 后台按钮权限验证
      *
-     * @param string $url
+     * @param string $url (权限标识)
+     * @param bool $hide  (隐藏元素)
      * @return string
      * @author zero
      */
-    function check_perms(string $url): string
+    function check_perms(string $url, bool $hide=true): string
     {
         if (str_contains($url, '/')) {
             $auths = $url;
@@ -186,7 +187,10 @@ if (!function_exists('check_perms')) {
         if ($perms && (in_array($auths, $perms) || $super)) {
             return '';
         } else {
-            return 'layui-hide no-permission';
+            if ($hide) {
+                return 'layui-hide no-permission';
+            }
+            return 'layui-btn-forbid layui-btn-disabled';
         }
     }
 }

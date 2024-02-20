@@ -49,7 +49,7 @@
             <table id="wait-table-list" lay-filter="wait-table-list"></table>
             <script type="text/html" id="toolbar">
                 <div class="layui-btn-container">
-                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="group">
+                    <a class="layui-btn layui-btn-sm layui-btn-default {:check_perms('group')}" lay-event="group">
                         <i class="layui-icon icon-team-fill"></i>
                         <span>设置分组</span>
                     </a>
@@ -73,7 +73,7 @@
                 {{#  } }}
             </script>
             <script type="text/html" id="table-operate">
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary {:check_perms('detail')}" lay-event="detail">
                     <i class="layui-icon icon-detail"></i><span>详情</span>
                 </button>
             </script>

@@ -83,7 +83,7 @@
                 <div class="folder">
                     <ul class="groups"></ul>
                     <div class="footer">
-                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm cateCreate">添加分组</button>
+                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm cateCreate {:check_perms('attach/cateAdd', false)}">添加分组</button>
                     </div>
                 </div>
                 <!-- 附件 -->
@@ -91,12 +91,12 @@
                     <!-- 工具 -->
                     <div class="header">
                         <div class="layui-btn-group">
-                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal" data-type="10" id="imageUpload">上传图片</button>
-                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide" data-type="20" id="videoUpload">上传视频</button>
-                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide" data-type="30" id="packageUpload">上传压缩</button>
-                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide" data-type="40" id="documentUpload">上传文件</button>
-                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" id="delete">删除文件</button>
-                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-warm layui-btn-forbid" id="move">
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal {:check_perms('upload/permanent', false)}" data-type="10" id="imageUpload">上传图片</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide {:check_perms('upload/permanent', false)}" data-type="20" id="videoUpload">上传视频</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide {:check_perms('upload/permanent', false)}" data-type="30" id="packageUpload">上传压缩</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-normal layui-hide {:check_perms('upload/permanent', false)}" data-type="40" id="documentUpload">上传文件</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid {:check_perms('del', false)}" id="delete">删除文件</button>
+                            <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-warm layui-btn-forbid {:check_perms('move', false)}" id="move">
                                 移动至<i class="layui-icon layui-icon-triangle-d"></i>
                                 <span class="dropdown" id="groupDrop"></span>
                             </button>

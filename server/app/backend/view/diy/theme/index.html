@@ -68,7 +68,7 @@
     <!-- 保存配置 -->
     <div class="layui-card">
         <div class="layui-card-body">
-            <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
+            <button class="layui-btn layui-btn-default {:check_perms('save', false)}" lay-submit lay-filter="addForm">保存配置</button>
         </div>
     </div>
 </div>
