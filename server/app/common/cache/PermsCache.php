@@ -1,15 +1,15 @@
 <?php
 // +----------------------------------------------------------------------
-// | likeadmin快速开发前后端分离管理后台（PHP版）
+// | WaitAdmin快速开发后台管理系统
 // +----------------------------------------------------------------------
-// | 欢迎阅读学习系统程序代码，建议反馈是我们前进的动力
-// | 开源版本可自由商用，可去除界面版权logo
-// | gitee下载：https://gitee.com/likeshop_gitee/likeadmin
-// | github下载：https://github.com/likeshop-github/likeadmin
-// | 访问官网：https://www.likeadmin.cn
-// | likeadmin团队 版权所有 拥有最终解释权
+// | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
+// | 程序完全开源可支持商用,允许去除界面版权信息
+// | gitee:   https://gitee.com/wafts/WaitAdmin
+// | github:  https://github.com/topwait/waitadmin
+// | 官方网站: https://www.waitadmin.cn
+// | WaitAdmin团队版权所有并拥有最终解释权
 // +----------------------------------------------------------------------
-// | author: likeadminTeam
+// | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
 namespace app\common\cache;
