@@ -3,6 +3,7 @@
 // | 公共类库
 // +----------------------------------------------------------------------
 
+use app\common\cache\PermsCache;
 use app\common\utils\FileUtils;
 use JetBrains\PhpStorm\Pure;
 use think\facade\Lang;
@@ -155,6 +156,38 @@ if (!function_exists('make_rand_code')) {
             return make_rand_code($model, $field, $length);
         }
         return $code;
+    }
+}
+
+if (!function_exists('check_perms')) {
+    /**
+     * 后台按钮权限验证
+     *
+     * @param string $url
+     * @return string
+     * @author zero
+     */
+    function check_perms(string $url): string
+    {
+        if (str_contains($url, '/')) {
+            $auths = $url;
+        } else {
+            $urlArray = explode('/', ltrim(request()->baseUrl(), '/'));
+            array_shift($urlArray);
+            array_pop($urlArray);
+            $auths = implode('/', $urlArray) . '/' . $url;
+        }
+
+        $adminUser = session('adminUser');
+        $adminId = $adminUser ? intval($adminUser['id']??0) : 0;
+        $perms = PermsCache::get($adminId);
+
+        $super = count($perms) == 1 && $perms[0] == '*';
+        if ($perms && (in_array($auths, $perms) || $super)) {
+            return '';
+        } else {
+            return 'no-permission';
+        }
     }
 }
 

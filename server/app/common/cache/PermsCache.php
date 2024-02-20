@@ -14,7 +14,38 @@
 
 namespace app\common\cache;
 
+use think\facade\Cache;
+
+/**
+ * 权限缓存类型
+ */
 class PermsCache
 {
+    private static string $prefix = 'admin:perms:';
 
+    /**
+     * 读取
+     *
+     * @param string|int $key
+     * @return array
+     * @author zero
+     */
+    public static function get(string|int $key): array
+    {
+        $k = self::$prefix . $key;
+        return Cache::get($k);
+    }
+
+    /**
+     * 设置
+     *
+     * @param string|int $key
+     * @param array $value
+     * @author zero
+     */
+    public static function set(string|int $key, array $value)
+    {
+        $k = self::$prefix . $key;
+        Cache::set($k, $value);
+    }
 }
