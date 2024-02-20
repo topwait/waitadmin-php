@@ -31,30 +31,30 @@
             <table id="wait-table-list" lay-filter="wait-table-list"></table>
             <script type="text/html" id="toolbar">
                 <div class="layui-btn-container">
-                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="import">
+                    <a class="layui-btn layui-btn-sm layui-btn-default {:check_perms('import')}" lay-event="import">
                         <i class="layui-icon icon-add"></i>
                         <span>导入表结构</span>
                     </a>
-                    <a class="layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" lay-event="leave">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid {:check_perms('del')}" lay-event="leave">
                         <i class="layui-icon icon-del"></i>
                         <span>删除</span>
                     </a>
                 </div>
             </script>
             <script type="text/html" id="table-operate">
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary layui-border-green" lay-event="preview" lay-tips="预览">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-primary layui-border-green {:check_perms('preview')}" lay-event="preview" lay-tips="预览">
                     <i class="layui-icon icon-eye-fill"></i>
                 </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="update" lay-tips="编辑">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-default {:check_perms('update')}" lay-event="update" lay-tips="编辑">
                     <i class="layui-icon icon-edit"></i>
                 </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="synchrony" lay-tips="同步">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-warm {:check_perms('synchrony')}" lay-event="synchrony" lay-tips="同步">
                     <i class="layui-icon icon-seckill-flash"></i>
                 </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-gloomy" lay-event="exports" lay-tips="生成">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-gloomy {:check_perms('exports')}" lay-event="exports" lay-tips="生成">
                     <i class="layui-icon icon-download-arrow"></i>
                 </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="destroy" lay-tips="销毁">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger {:check_perms('destroy')}" lay-event="destroy" lay-tips="销毁">
                     <i class="layui-icon icon-del"></i>
                 </button>
             </script>
