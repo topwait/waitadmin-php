@@ -36,7 +36,7 @@ abstract class Backend extends BaseController
     /**
      * 管理员ID
      */
-    protected int $adminId;
+    protected int $adminId=0;
 
     /**
      * 不校验登录的方法
@@ -119,14 +119,20 @@ abstract class Backend extends BaseController
      */
     protected function checkPower(): bool
     {
-        $prefixName = config('project.backend_entrance') .'/';
+        $prefixName = config('project.backend_entrance');
+
         $requestUrl = lcfirst(str_replace($prefixName, '', request()->baseUrl()));
+        $requestUrl = ltrim($requestUrl, '/');
+        $requestUrl = ($requestUrl == 'index' || !$requestUrl) ? 'index/index' : $requestUrl;
 
         if (in_array(request()->action(), $this->notNeedLogin) ||
             in_array(request()->action(), $this->notNeedPower) ||
             $requestUrl === 'index/index' ||
-            $this->adminId === 1) {
-            PermsCache::set($this->adminId, ['*']);
+            $this->adminId === 1)
+        {
+            if ($this->adminId) {
+                PermsCache::set($this->adminId, ['*']);
+            }
             return true;
         }
 
