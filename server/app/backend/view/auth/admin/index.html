@@ -40,11 +40,11 @@
             <table id="wait-table-list" lay-filter="wait-table-list"></table>
             <script type="text/html" id="toolbar">
                 <div class="layui-btn-container">
-                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="add">
+                    <a class="layui-btn layui-btn-sm layui-btn-default {:check_perms('add')}" lay-event="add">
                         <i class="layui-icon icon-add"></i>
                         <span>新增</span>
                     </a>
-                    <a class="layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid" lay-event="leave">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger layui-btn-forbid {:check_perms('del')}" lay-event="leave">
                         <i class="layui-icon icon-del"></i>
                         <span>删除</span>
                     </a>
@@ -66,10 +66,10 @@
             </script>
             <script type="text/html" id="table-operate">
                 {{#  if(d.id !== 1){ }}
-                    <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit">
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-default {:check_perms('edit')}" lay-event="edit">
                         <i class="layui-icon icon-edit"></i>
                     </button>
-                    <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-danger {:check_perms('del')}" lay-event="del">
                         <i class="layui-icon icon-del"></i>
                     </button>
                 {{#  } }}

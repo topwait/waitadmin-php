@@ -254,7 +254,7 @@ class UserWidget extends Service
         try {
             if ($avatarUrl) {
                 $date = date('Ymd', strtotime($createTime));
-                $saveTo = 'storage/avatars/' . $date . '/' . md5((string)$userId) . '.jpg';
+                $saveTo = 'storage/avatars/' . $date . '/' . md5((string)$userId) . trim('.jpg');
 
                 $engine = ConfigUtils::get('storage', 'default', 'local');
                 if ($engine === 'local') {

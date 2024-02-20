@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\basics;
 
 use app\BaseController;
+use app\common\cache\PermsCache;
 use app\common\enums\ErrorEnum;
 use app\common\exception\NotAuthException;
 use app\common\model\auth\AuthMenu;
@@ -35,7 +36,7 @@ abstract class Backend extends BaseController
     /**
      * 管理员ID
      */
-    protected int $adminId;
+    protected int $adminId=0;
 
     /**
      * 不校验登录的方法
@@ -118,11 +119,20 @@ abstract class Backend extends BaseController
      */
     protected function checkPower(): bool
     {
-        $requestUrl = lcfirst(request()->controller()).'/'.request()->action();
+        $prefixName = config('project.backend_entrance');
+
+        $requestUrl = lcfirst(str_replace($prefixName, '', request()->baseUrl()));
+        $requestUrl = ltrim($requestUrl, '/');
+        $requestUrl = ($requestUrl == 'index' || !$requestUrl) ? 'index/index' : $requestUrl;
+
         if (in_array(request()->action(), $this->notNeedLogin) ||
             in_array(request()->action(), $this->notNeedPower) ||
             $requestUrl === 'index/index' ||
-            $this->adminId === 1) {
+            $this->adminId === 1)
+        {
+            if ($this->adminId) {
+                PermsCache::set($this->adminId, ['*']);
+            }
             return true;
         }
 
@@ -133,18 +143,20 @@ abstract class Backend extends BaseController
             ->where(['role_id'=>intval($this->adminUser['role_id'])])
             ->column('menu_id');
 
-        $perms = $authMenu->field(true)
+        $perms = array_unique($authMenu->field(true)
             ->whereIn('id', $menus)
             ->where(['is_delete'=>0])
             ->where(['is_disable'=>0])
             ->order('sort asc, id asc')
-            ->column('perms');
+            ->column('perms'));
+
+        PermsCache::set($this->adminId, $perms);
 
         $perms = array_map(function ($p) {
             return strtolower($p);
         }, $perms);
 
-        if (!in_array(strtolower($requestUrl), array_unique($perms))) {
+        if (!in_array(strtolower($requestUrl), $perms)) {
             if (request()->isAjax()) {
                 throw new NotAuthException();
             }

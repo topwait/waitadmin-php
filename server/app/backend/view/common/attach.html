@@ -69,19 +69,19 @@
         <div class="folder">
             <ul class="groups"> </ul>
             <div class="footer">
-                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm cateCreate">添加分组</button>
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm cateCreate {:check_perms('cateAdd', false)}">添加分组</button>
             </div>
         </div>
         <div class="attach">
             <div class="header">
                 {if $type==10}
-                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="imageUpload">上传图片</button>
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default {:check_perms('upload/permanent', false)}" id="imageUpload">上传图片</button>
                 {elseif $type==20}
-                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="videoUpload">上传视频</button>
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default {:check_perms('upload/permanent', false)}" id="videoUpload">上传视频</button>
                 {elseif $type==30}
-                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="packageUpload">上传压缩</button>
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default {:check_perms('upload/permanent', false)}" id="packageUpload">上传压缩</button>
                 {elseif $type==40}
-                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default" id="documentUpload">上传文件</button>
+                    <button type="button" class="layui-btn layui-btn layui-btn-sm layui-btn-default {:check_perms('upload/permanent', false)}" id="documentUpload">上传文件</button>
                 {/if}
                 <div class="search">
                     <label><input type="text" name="keyword" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>

@@ -21,7 +21,7 @@
             <table id="wait-table-list" lay-filter="wait-table-list"></table>
             <script type="text/html" id="toolbar">
                 <div class="layui-btn-container">
-                    <a class="layui-btn layui-btn-sm layui-btn-default" lay-event="add">
+                    <a class="layui-btn layui-btn-sm layui-btn-default {:check_perms('add')}" lay-event="add">
                         <i class="layui-icon icon-add"></i>
                         <span>新增</span>
                     </a>
@@ -34,19 +34,19 @@
             </script>
             <script type="text/html" id="table-operate">
                 {{#  if(d.status === 1){ }}
-                    <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="stop" lay-tips="运行中">
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-primary {:check_perms('stop')}" lay-event="stop" lay-tips="运行中">
                         <i class="layui-icon icon-stop"></i>
                     </button>
                 {{#  } }}
                 {{#  if(d.status === 2 || d.status === 3){ }}
-                    <button type="button" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="run" lay-tips="已暂停">
+                    <button type="button" class="layui-btn layui-btn-xs layui-btn-warm {:check_perms('run')}" lay-event="run" lay-tips="已暂停">
                         <i class="layui-icon icon-run"></i>
                     </button>
                 {{#  } }}
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-default" lay-event="edit" lay-tips="编辑">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-default {:check_perms('edit')}" lay-event="edit" lay-tips="编辑">
                     <i class="layui-icon icon-edit"></i>
                 </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" lay-tips="删除">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger {:check_perms('del')}" lay-event="del" lay-tips="删除">
                     <i class="layui-icon icon-del"></i>
                 </button>
             </script>

@@ -102,7 +102,7 @@
                             <tbody>
                                 <tr>
                                     <td>操作系统</td>
-                                    <td>WINNT</td>
+                                    <td>Linux</td>
                                     <td><?php echo PHP_OS; ?></td>
                                 </tr>
                                 <tr>
@@ -126,7 +126,7 @@
                                 </tr>
                                 <tr>
                                     <td>PHP版本</td>
-                                    <td>>8.0.0</td>
+                                    <td>>8.0.26</td>
                                     <td>
                                         <?php echo $proof->successOrFail($proof->checkPHP()) ?>
                                         <?php echo PHP_VERSION; ?>

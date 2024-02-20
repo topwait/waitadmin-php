@@ -72,7 +72,7 @@
                     </fieldset>
                     <!-- 提交按钮 -->
                     <div style="margin-top:20px;">
-                        <button class="layui-btn layui-btn-default" lay-submit lay-filter="addForm">保存配置</button>
+                        <button class="layui-btn layui-btn-default {:check_perms('save', false)}" lay-submit lay-filter="addForm">保存配置</button>
                     </div>
                 </div>
             </div>
