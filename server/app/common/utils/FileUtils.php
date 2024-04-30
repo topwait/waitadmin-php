@@ -16,7 +16,6 @@ declare (strict_types = 1);
 namespace app\common\utils;
 
 use FilesystemIterator;
-use JetBrains\PhpStorm\Pure;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
@@ -159,7 +158,7 @@ class FileUtils
      * @param string $url (远程链接)
      * @param String $saveTo (保存路径)
      */
-    public static function download(string $url, String $saveTo)
+    public static function download(string $url, String $saveTo): void
     {
         $basePath = str_replace(basename($saveTo), '', $saveTo);
         if (!file_exists($basePath)) {
@@ -195,7 +194,7 @@ class FileUtils
         }
 
         closedir($handle);
-        return $sizeResult === false ? -1 : 0;
+        return $sizeResult;
     }
 
     /**
@@ -205,7 +204,6 @@ class FileUtils
      * @return int
      * @author zero
      */
-    #[Pure]
     public static function getFileSize(string $path): int
     {
         $size = filesize($path);
@@ -282,7 +280,7 @@ class FileUtils
      */
     public static function isWritable(string $dir): bool
     {
-        if (DIRECTORY_SEPARATOR == '/' AND @ ini_get("safe_mode") == FALSE) {
+        if (DIRECTORY_SEPARATOR == '/' AND !@ini_get("safe_mode")) {
             return is_writable($dir);
         }
 

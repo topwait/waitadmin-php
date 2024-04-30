@@ -109,7 +109,7 @@ class UrlUtils
      * @param string $savePath 保存路径: storage/image/20220819/ad06320.jpeg
      * @author zero
      */
-    public static function autoUpload(string $path, string $savePath)
+    public static function autoUpload(string $path, string $savePath): void
     {
         $engine = ConfigUtils::get('storage', 'default', 'local');
         if ($engine === 'local') {

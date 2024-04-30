@@ -32,7 +32,7 @@ class Wa extends Command
     /**
      * 指令配置
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('wa')
             ->setDescription('工具指令')

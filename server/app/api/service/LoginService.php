@@ -70,9 +70,9 @@ class LoginService extends Service
     /**
      * 账号登录
      *
-     * @param $account  (账号)
-     * @param $password (密码)
-     * @param $terminal (设备)
+     * @param string $account  (账号)
+     * @param string $password (密码)
+     * @param int $terminal (设备)
      * @return array
      * @throws OperateException
      * @author zero

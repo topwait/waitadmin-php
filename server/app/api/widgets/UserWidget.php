@@ -263,7 +263,7 @@ class UserWidget extends Service
      * @param string $createTime (用户创建日期)
      * @author zero
      */
-    private static function downUpdateAvatar(string $avatarUrl, int $userId, string $createTime)
+    private static function downUpdateAvatar(string $avatarUrl, int $userId, string $createTime): void
     {
         try {
             if ($avatarUrl) {

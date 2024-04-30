@@ -116,7 +116,7 @@ class AdminService extends Service
 
         $salt     = $admin['salt'];
         $password = $admin['password'];
-        if (!empty($post['password']) and $post['password']) {
+        if (!empty($post['password'])) {
             $salt     = make_rand_char(6);
             $password = make_md5_str($post['password'], $salt);
         }
@@ -190,7 +190,7 @@ class AdminService extends Service
         }
 
         $salt = make_rand_char(6);
-        if (!empty($post['password']) and $post['password']) {
+        if (!empty($post['password'])) {
             $post['password'] = make_md5_str($post['password'], $salt);
         } else {
             $admin = $modelAuthAdmin->field('id,salt,password')

@@ -327,13 +327,13 @@ if (!function_exists('set_addons_info')) {
     /**
      * 设置插件信息
      *
-     * @param $name   (插件名称)
-     * @param $array  (插件数据)
+     * @param string $name   (插件名称)
+     * @param array $array  (插件数据)
      * @return bool
      * @throws Exception
      * @author zero
      */
-    function set_addons_info($name, $array): bool
+    function set_addons_info(string $name, array $array): bool
     {
         $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
@@ -546,12 +546,12 @@ if (!function_exists('uninstall_addons_sql')) {
     /**
      * 卸载插件数据库
      *
-     * @param $name (插件名称)
+     * @param string $name (插件名称)
      * @return bool
      * @throws Exception
      * @author zero
      */
-    function uninstall_addons_sql($name): bool
+    function uninstall_addons_sql(string $name): bool
     {
         $service = new Service(app());
         $addonsPath = $service->getAddonsPath();

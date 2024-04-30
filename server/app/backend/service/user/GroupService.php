@@ -138,7 +138,7 @@ class GroupService extends Service
      * @throws OperateException
      * @author zero
      */
-    public static function del(int $id)
+    public static function del(int $id): void
     {
         $modelUserGroup = new UserGroup();
         $modelUserGroup->checkDataDoesNotExist(['id'=>$id, 'is_delete'=>0]);

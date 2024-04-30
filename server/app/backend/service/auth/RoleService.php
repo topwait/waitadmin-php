@@ -272,7 +272,7 @@ class RoleService extends Service
             if (!empty($item['children'])) {
                 self::getCheckedMenuIds($item['children']);
             } else {
-                array_push($data, $item['id']);
+                $data[] = $item['id'];
             }
         }
 

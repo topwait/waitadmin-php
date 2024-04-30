@@ -55,13 +55,13 @@ class WeChatService
                 ->userFromCode($code)
                 ->getRaw();
 
-            if (!isset($response['openid']) || empty($response['openid'])) {
+            if (!isset($response['openid']) || $response['openid'] == '') {
                 $error = $response['errcode'].'：'.$response['errmsg'];
                 throw new Exception($error);
             }
 
             return [
-                'openid'    => $response['openid']     ?? '',
+                'openid'    => $response['openid'],
                 'unionid'   => $response['unionid']    ?? '',
                 'nickname'  => $response['nickname']   ?? '',
                 'avatarUrl' => $response['headimgurl'] ?? '',
@@ -184,14 +184,14 @@ class WeChatService
             ]);
 
             $response = json_decode(strval($result), true);
-            if (!isset($response['openid']) || empty($response['openid'])) {
+            if (!isset($response['openid']) || $response['openid'] == '') {
                 $error = $response['errcode'].'：'.$response['errmsg'];
                 throw new Exception($error);
             }
 
             return [
                 'session_key' => $response['session_key'] ?? '',
-                'openid'      => $response['openid'] ?? '',
+                'openid'      => $response['openid'],
                 'unionid'     => $response['unionid'] ?? '',
             ] ?? [];
         } catch (Exception $e) {
