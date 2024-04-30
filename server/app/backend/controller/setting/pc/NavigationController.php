@@ -102,7 +102,7 @@ class NavigationController extends Backend
     {
         if ($this->isAjaxPost()) {
             (new NavigationValidate())->idCheck();
-            NavigationService::del($this->request->post('id'));
+            NavigationService::del(intval($this->request->post('id')));
             return AjaxUtils::success();
         }
 

@@ -37,7 +37,7 @@ class UploadController extends Api
     public function permanent(): Json
     {
         (new UploadValidate())->goCheck();
-        $type = $this->request->post('type');
+        $type = $this->request->get('type');
 
         $result = UploadService::permanent($type, $this->userId);
         return AjaxUtils::success('上传成功', $result);
