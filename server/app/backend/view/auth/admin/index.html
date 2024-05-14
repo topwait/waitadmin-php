@@ -158,7 +158,7 @@
                                 type: 'POST',
                                 data: data.field
                             }).then((res) => {
-                                waitUtil.locking(this);
+                                waitUtil.unlock(this);
                                 if (res.code === 0) {
                                     table.reload();
                                     layer.close(index);
