@@ -2062,20 +2062,20 @@
         },
         {
             "name": "psr/http-factory",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "e616d01114759c4c489f93b099585439f795fe35"
+                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/e616d01114759c4c489f93b099585439f795fe35",
-                "reference": "e616d01114759c4c489f93b099585439f795fe35",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
+                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0.0",
+                "php": ">=7.1",
                 "psr/http-message": "^1.0 || ^2.0"
             },
             "type": "library",
@@ -2099,7 +2099,7 @@
                     "homepage": "https://www.php-fig.org/"
                 }
             ],
-            "description": "Common interfaces for PSR-7 HTTP message factories",
+            "description": "PSR-17: Common interfaces for PSR-7 HTTP message factories",
             "keywords": [
                 "factory",
                 "http",
@@ -2111,9 +2111,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-factory/tree/1.0.2"
+                "source": "https://github.com/php-fig/http-factory"
             },
-            "time": "2023-04-10T20:10:41+00:00"
+            "time": "2024-04-15T12:06:14+00:00"
         },
         {
             "name": "psr/http-message",
@@ -3849,16 +3849,16 @@
         },
         {
             "name": "tencentcloud/common",
-            "version": "3.0.1132",
+            "version": "3.0.1143",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tencentcloud-sdk-php/common.git",
-                "reference": "3f1ef256fd21234ed908cd31d1f9f81c2d8f8aeb"
+                "reference": "d16dfb0aac41eecd2186796742b60d7eebbc1e29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tencentcloud-sdk-php/common/zipball/3f1ef256fd21234ed908cd31d1f9f81c2d8f8aeb",
-                "reference": "3f1ef256fd21234ed908cd31d1f9f81c2d8f8aeb",
+                "url": "https://api.github.com/repos/tencentcloud-sdk-php/common/zipball/d16dfb0aac41eecd2186796742b60d7eebbc1e29",
+                "reference": "d16dfb0aac41eecd2186796742b60d7eebbc1e29",
                 "shasum": ""
             },
             "require": {
@@ -3887,26 +3887,26 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/common",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/common/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1132"
+                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1143"
             },
-            "time": "2024-04-30T03:59:38+00:00"
+            "time": "2024-05-16T20:32:54+00:00"
         },
         {
             "name": "tencentcloud/sms",
-            "version": "3.0.1132",
+            "version": "3.0.1143",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tencentcloud-sdk-php/sms.git",
-                "reference": "45344ac0c3dd2087241c8eef7225de921fb65b6c"
+                "reference": "706419400ac372f72c642b89d911b6a3c4144a4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tencentcloud-sdk-php/sms/zipball/45344ac0c3dd2087241c8eef7225de921fb65b6c",
-                "reference": "45344ac0c3dd2087241c8eef7225de921fb65b6c",
+                "url": "https://api.github.com/repos/tencentcloud-sdk-php/sms/zipball/706419400ac372f72c642b89d911b6a3c4144a4d",
+                "reference": "706419400ac372f72c642b89d911b6a3c4144a4d",
                 "shasum": ""
             },
             "require": {
-                "tencentcloud/common": "3.0.1132"
+                "tencentcloud/common": "3.0.1143"
             },
             "type": "library",
             "autoload": {
@@ -3930,9 +3930,9 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/sms",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/sms/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1132"
+                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1143"
             },
-            "time": "2024-04-30T04:40:53+00:00"
+            "time": "2024-05-16T21:14:15+00:00"
         },
         {
             "name": "thenorthmemory/xml",
