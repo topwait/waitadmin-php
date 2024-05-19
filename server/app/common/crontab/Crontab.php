@@ -32,7 +32,7 @@ class Crontab extends Command
     /**
      * 指令配置
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('crontab')
             ->setDescription('定时任务');
@@ -83,7 +83,7 @@ class Crontab extends Command
                 SysCrontab::update(['error'=>$e->getMessage(), 'status'=>3], ['id'=>$cron['id']]);
             } finally {
                 $endTime = TimeUtils::millisecond() - $startTime;
-                $maxTime = $cron['max_time'] > $endTime ? $cron['max_time'] : $endTime;
+                $maxTime = max($cron['max_time'], $endTime);
                 SysCrontab::update(['last_time'=>time(), 'exe_time'=>$endTime, 'max_time'=>$maxTime], ['id'=>$cron['id']]);
             }
         }

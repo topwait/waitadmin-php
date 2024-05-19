@@ -55,7 +55,7 @@ class UserWidget extends Service
 
         // 密码信息
         $salt = make_rand_char(7-1);
-        if ($password && !empty($password)) {
+        if (!empty($password)) {
             $password = make_md5_str(trim($password), $salt);
         }
 
@@ -249,7 +249,7 @@ class UserWidget extends Service
      * @param string $createTime (用户创建日期)
      * @author zero
      */
-    private static function downUpdateAvatar(string $avatarUrl, int $userId, string $createTime)
+    private static function downUpdateAvatar(string $avatarUrl, int $userId, string $createTime): void
     {
         try {
             if ($avatarUrl) {

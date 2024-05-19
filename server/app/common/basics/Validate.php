@@ -55,7 +55,7 @@ class Validate extends \think\Validate
      * @param array $data
      * @return void
      */
-    public function idCheck(array $data=[])
+    public function idCheck(array $data=[]): void
     {
         $this->only(['id']);
         $this->goCheck('', $data);
@@ -68,7 +68,7 @@ class Validate extends \think\Validate
      * @param array $data
      * @return void
      */
-    public function idsCheck(array $data=[])
+    public function idsCheck(array $data=[]): void
     {
         $this->only(['ids']);
         $this->goCheck('', $data);
@@ -81,7 +81,7 @@ class Validate extends \think\Validate
      * @param array $data
      * @return void
      */
-    public function addCheck(array $data=[])
+    public function addCheck(array $data=[]): void
     {
         $this->remove('id', 'require');
         $this->remove('ids', 'require');
@@ -94,7 +94,7 @@ class Validate extends \think\Validate
      * @param array $data
      * @author zero
      */
-    public function editCheck(array $data=[])
+    public function editCheck(array $data=[]): void
     {
         $this->remove('ids', 'require');
         $this->goCheck('', $data);

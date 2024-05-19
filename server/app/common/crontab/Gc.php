@@ -28,7 +28,7 @@ class Gc extends Command
     /**
      * 指令配置
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('gc')
             ->setDescription('垃圾清理器');

@@ -113,10 +113,10 @@ abstract class BaseController
         $v->message($message);
 
         if ($batch || $this->batchValidate) {
-            $v->batch(true);
+            $v->batch();
         }
 
-        return $v->failException(true)->check($data);
+        return $v->failException()->check($data);
     }
 
     /**

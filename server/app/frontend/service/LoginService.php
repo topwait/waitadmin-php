@@ -26,7 +26,6 @@ use app\frontend\cache\ScanLoginCache;
 use app\frontend\cache\WebEnrollCache;
 use app\frontend\widgets\UserWidget;
 use Exception;
-use think\facade\Log;
 
 /**
  * 登录服务类
@@ -42,7 +41,7 @@ class LoginService extends Service
      * @throws Exception
      * @author zero
      */
-    public static function register(array $post, int $terminal)
+    public static function register(array $post, int $terminal): void
     {
         // 接收参数
         $code     = $post['code'];
@@ -84,12 +83,12 @@ class LoginService extends Service
     /**
      * 账号登录
      *
-     * @param $account  (账号)
-     * @param $password (密码)
+     * @param string $account (账号)
+     * @param string $password (密码)
      * @throws OperateException
      * @author zero
      */
-    public static function accountLogin(string $account, string $password)
+    public static function accountLogin(string $account, string $password): void
     {
         // 查询账户
         $modelUser = new User();
@@ -128,7 +127,7 @@ class LoginService extends Service
      * @throws OperateException
      * @author zero
      */
-    public static function mobileLogin(string $mobile, string $code)
+    public static function mobileLogin(string $mobile, string $code): void
     {
         // 短信验证
         if (!MsgDriver::checkCode(NoticeEnum::LOGIN, $code)) {
@@ -235,7 +234,7 @@ class LoginService extends Service
      * @throws Exception
      * @author zero
      */
-    public static function oaLogin(string $code, string $state)
+    public static function oaLogin(string $code, string $state): void
     {
         // 验证时效
         $check = ScanLoginCache::get($state);
@@ -291,7 +290,7 @@ class LoginService extends Service
         }
 
         // 完成登录需强制绑定手机
-        if ($results['status'] == ScanLoginCache::$OK && !empty($results['force']) && $results['force']) {
+        if ($results['status'] == ScanLoginCache::$OK && !empty($results['force'])) {
             ScanLoginCache::delete($key);
             return $results;
         }

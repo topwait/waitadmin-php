@@ -118,7 +118,6 @@ class TimeUtils
      * @author zero
      * @return array
      */
-    #[Pure]
     public static function lastMonth(): array
     {
         $y = date('Y');
@@ -256,7 +255,6 @@ class TimeUtils
      * @author zero
      * @return float
      */
-    #[Pure]
     public static function millisecond(): float
     {
         list($mse, $sec) = explode(' ', microtime());
@@ -269,7 +267,6 @@ class TimeUtils
      * @author zero
      * @return mixed
      */
-    #[Pure]
     public static function dayWeek(): string
     {
         $week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
@@ -283,7 +280,6 @@ class TimeUtils
      * @param int $month
      * @return string
      */
-    #[Pure]
     public static function capMonth(int $month=0): string
     {
         $month = $month > 0 ? $month : intval(date('m'));
