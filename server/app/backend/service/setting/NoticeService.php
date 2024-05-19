@@ -59,7 +59,7 @@ class NoticeService extends Service
             $item['smsStatus'] = ($item['sms_template']['status']??0) ? 1 : 0;
             unset($item['sys_template']);
             unset($item['ems_template']);
-            unset($item['ems_template']);
+            unset($item['sms_template']);
             unset($item['is_captcha']);
         }
 
@@ -97,7 +97,7 @@ class NoticeService extends Service
         $sysTemplate = [];
         if (isset($post['sys_status'])) {
             $sysTemplate = [
-                'status'  => $post['sys_status'] ?? 0,
+                'status'  => $post['sys_status'],
                 'content' => $post['sys_content'] ?? ''
             ];
         }
@@ -105,7 +105,7 @@ class NoticeService extends Service
         $emsTemplate = [];
         if (isset($post['ems_status'])) {
             $emsTemplate = [
-                'status'  => $post['ems_status'] ?? 0,
+                'status'  => $post['ems_status'],
                 'content' => $post['ems_content'] ?? ''
             ];
         }
@@ -113,7 +113,7 @@ class NoticeService extends Service
         $smsTemplate = [];
         if (isset($post['sms_status'])) {
             $smsTemplate = [
-                'status'        => $post['sms_status'] ?? 0,
+                'status'        => $post['sms_status'],
                 'content'       => $post['sms_content'] ?? '',
                 'template_code' => $post['sms_code'] ?? ''
             ];

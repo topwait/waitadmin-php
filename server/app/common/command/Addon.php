@@ -34,7 +34,7 @@ class Addon extends Command
     /**
      * 指令配置
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('addon')
             ->setDescription('插件管理指令')
@@ -95,7 +95,7 @@ class Addon extends Command
      * @throws OperateException
      * @author zero
      */
-    private function install(string $name)
+    private function install(string $name): void
     {
         // 获取本地的插件库
         $localAddons = get_addons_list()??[];
@@ -144,7 +144,7 @@ class Addon extends Command
      * @throws OperateException
      * @author zero
      */
-    private function uninstall(string $name)
+    private function uninstall(string $name): void
     {
         // 验证插件名称
         if (!preg_match("/^[a-zA-Z0-9]+$/", $name)) {
@@ -203,7 +203,7 @@ class Addon extends Command
      * @throws OperateException
      * @author zero
      */
-    private function enabled(string $name)
+    private function enabled(string $name): void
     {
         // 校验插件配置
         $ini = get_addons_info($name);
@@ -264,7 +264,7 @@ class Addon extends Command
      * @throws OperateException
      * @author zero
      */
-    private function disabled(string $name)
+    private function disabled(string $name): void
     {
         // 校验插件配置
         $ini = get_addons_info($name);

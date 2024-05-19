@@ -17,8 +17,6 @@ namespace app\backend\controller\setting;
 
 use app\backend\service\setting\BasicsService;
 use app\common\basics\Backend;
-use app\common\exception\OperateException;
-use app\common\exception\SystemException;
 use app\common\utils\AjaxUtils;
 use Exception;
 use think\response\Json;

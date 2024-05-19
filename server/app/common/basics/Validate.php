@@ -33,7 +33,7 @@ class Validate extends \think\Validate
      * @param array $data (扩展的验证参数)
      * @return void
      */
-    public function goCheck(string $scene='', array $data=[])
+    public function goCheck(string $scene='', array $data=[]): void
     {
         $params = request()->param();
         if (!empty($data)) {
@@ -55,7 +55,7 @@ class Validate extends \think\Validate
      * @param array $data
      * @return void
      */
-    public function idCheck(array $data=[])
+    public function idCheck(array $data=[]): void
     {
         $this->only(['id']);
         $this->goCheck('', $data);
@@ -68,7 +68,7 @@ class Validate extends \think\Validate
      * @param array $data
      * @return void
      */
-    public function idsCheck(array $data=[])
+    public function idsCheck(array $data=[]): void
     {
         $this->only(['ids']);
         $this->goCheck('', $data);
@@ -81,7 +81,7 @@ class Validate extends \think\Validate
      * @param array $data
      * @return void
      */
-    public function addCheck(array $data=[])
+    public function addCheck(array $data=[]): void
     {
         $this->remove('id', 'require');
         $this->remove('ids', 'require');
@@ -94,7 +94,7 @@ class Validate extends \think\Validate
      * @param array $data
      * @author zero
      */
-    public function editCheck(array $data=[])
+    public function editCheck(array $data=[]): void
     {
         $this->remove('ids', 'require');
         $this->goCheck('', $data);
@@ -103,12 +103,12 @@ class Validate extends \think\Validate
     /**
      * 验证正整数规则
      *
-     * @param $value(需验证的值)
+     * @param mixed $value (需验证的值)
      * @return bool
      * @author zero
      */
     #[Pure]
-    protected function posInteger($value): bool
+    protected function posInteger(mixed $value): bool
     {
         if (is_numeric($value) && is_int($value + 0) && ($value + 0) > 0) {
             return true;
@@ -119,12 +119,12 @@ class Validate extends \think\Validate
     /**
      * 验证最小值规则
      *
-     * @param $value (需验证的值)
-     * @param $rule (规则值)
+     * @param mixed $value (需验证的值)
+     * @param mixed $rule (规则值)
      * @return bool
      * @author zero
      */
-    protected function minValue($value, $rule): bool
+    protected function minValue(mixed $value, mixed $rule): bool
     {
         if ($value < $rule) {
             return false;
@@ -136,12 +136,12 @@ class Validate extends \think\Validate
     /**
      * 验证最大值规则
      *
-     * @param $value (需验证的值)
-     * @param $rule (规则值)
+     * @param mixed $value (需验证的值)
+     * @param mixed $rule (规则值)
      * @return bool
      * @author zero
      */
-    protected function maxValue($value, $rule): bool
+    protected function maxValue(mixed $value, mixed $rule): bool
     {
         if ($value > $rule) {
             return false;

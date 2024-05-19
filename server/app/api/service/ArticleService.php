@@ -60,7 +60,7 @@ class ArticleService extends Service
     public static function lists(array $get): array
     {
         $where = [];
-        if (!empty($get['cid']) && $get['cid']) {
+        if (!empty($get['cid'])) {
             $where[] = ['cid', '=', intval($get['cid'])];
         }
 

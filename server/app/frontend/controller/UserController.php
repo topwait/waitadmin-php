@@ -152,7 +152,7 @@ class UserController extends Frontend
      * @method [GET]
      * @author zero
      */
-    public function bindWeChat()
+    public function bindWeChat(): void
     {
         $code  = $this->request->get('code', '');
         $state = $this->request->get('state', '');

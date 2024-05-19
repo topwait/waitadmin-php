@@ -30,12 +30,12 @@ class AttachUtils
      * @param array $keys  (处理的键: postKey@sqlKey)
      * @author zero
      */
-    public static function markCreate(array $post, array $keys)
+    public static function markCreate(array $post, array $keys): void
     {
         // 读取路径
         foreach ($keys as $key) {
             // 跳过空值
-            if (empty($post[$key]) || !$post[$key]) {
+            if (empty($post[$key]) || $post[$key] == '') {
                 continue;
             }
 

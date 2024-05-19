@@ -40,7 +40,7 @@ class Service extends \think\Service
     /**
      * 注册服务
      */
-    public function register()
+    public function register(): void
     {
         // 获取插件路径
         $this->addonsPath = $this->getAddonsPath();
@@ -63,7 +63,7 @@ class Service extends \think\Service
     /**
      * 安装服务
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerRoutes(function (Route $route) {
             // 注册控制器路由
@@ -109,7 +109,7 @@ class Service extends \think\Service
                                             $k = explode('/', trim($k,'/'));
                                             $k = implode('/', $k);
                                             $route->rule($k, $execute)
-                                                ->completeMatch(true)
+                                                ->completeMatch()
                                                 ->append($rule);
                                         }
                                     });
@@ -118,7 +118,7 @@ class Service extends \think\Service
                                 foreach ($rules as $k => $rule) {
                                     $k = '/' . trim($k,'/');
                                     $route->rule($k, $execute)
-                                        ->completeMatch(true)
+                                        ->completeMatch()
                                         ->append($rule);
                                 }
                             }
@@ -127,7 +127,7 @@ class Service extends \think\Service
                         $val = rtrim($val, '/');
                         list($addon, $module, $controller, $action) = explode('/', $val);
                         $route->rule($key, $execute)
-                            ->completeMatch(true)
+                            ->completeMatch()
                             ->append([
                                 'addon'      => $addon,
                                 'module'     => $module,
@@ -169,10 +169,10 @@ class Service extends \think\Service
                 $this->addonsIniArray[$addonIni['name']] = $addonIni;
 
                 // 循环将钩子方法写入配置中
-                $methods = (array)get_class_methods('\\addons\\' . $name . '\\' . $info['filename']);
+                $methods = get_class_methods('\\addons\\' . $name . '\\' . $info['filename']);
                 $hooks = array_diff($methods, $base);
                 foreach ($hooks as $hook) {
-                    if (!isset($config['hooks'][$hook]) || empty($config['hooks'][$hook])) {
+                    if (empty($config['hooks'][$hook])) {
                         $config['hooks'][$hook] = [];
                     }
                     if (is_string($config['hooks'][$hook])) {
@@ -309,7 +309,7 @@ class Service extends \think\Service
     /**
      * 加载配置
      */
-    private function loadApp()
+    private function loadApp(): void
     {
         $app   = app();
         $rules = explode('/', ltrim($app->request->url(), '/'));
@@ -468,7 +468,7 @@ class Service extends \think\Service
      * @param string $target (目标目录路径)
      * @author zero
      */
-    private static function copyDir(string $source, string $target)
+    private static function copyDir(string $source, string $target): void
     {
         if (!is_dir($target)) {
             mkdir($target, 0755, true);
@@ -527,7 +527,7 @@ class Service extends \think\Service
      * @param string $dir (目录路径)
      * @author zero
      */
-    private static function removeEmptyDir(string $dir)
+    private static function removeEmptyDir(string $dir): void
     {
         try {
             $isDirEmpty = !(new FilesystemIterator($dir))->valid();

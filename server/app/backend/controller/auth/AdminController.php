@@ -87,6 +87,7 @@ class AdminController extends Backend
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @throws OperateException
      * @method [GET|POST]
      * @author zero
      */

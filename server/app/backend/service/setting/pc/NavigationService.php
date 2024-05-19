@@ -89,7 +89,7 @@ class NavigationService extends Service
      * @param array $post
      * @author zero
      */
-    public static function edit(array $post)
+    public static function edit(array $post): void
     {
         DevNavigation::update([
             'pid'         => $post['pid'],
@@ -108,7 +108,7 @@ class NavigationService extends Service
      * @param int $id
      * @author zero
      */
-    public static function del(int $id)
+    public static function del(int $id): void
     {
         DevNavigation::update([
             'is_delete'   => 1,

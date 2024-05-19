@@ -76,7 +76,7 @@ class LoginCache
      * @param string $token
      * @author zero
      */
-    public static function del(int $terminal, string $token)
+    public static function delete(int $terminal, string $token): void
     {
         $cacheKey = self::$prefix.$terminal.':'.$token;
         Cache::delete($cacheKey);

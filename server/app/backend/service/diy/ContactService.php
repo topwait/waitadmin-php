@@ -50,7 +50,7 @@ class ContactService extends Service
      * @param array $post
      * @author zero
      */
-    public static function save(array $post)
+    public static function save(array $post): void
     {
         ConfigUtils::set('diy', 'contact', [
             'title'    => $post['title']??'',

@@ -104,11 +104,11 @@ class ExceptionHandle extends Handle
      * Render an exception into an HTTP response.
      *
      * @access public
-     * @param Request   $request
+     * @param Request $request
      * @param Throwable $e
      * @return Response
      */
-    public function render($request, Throwable $e): Response
+    public function render(Request $request, Throwable $e): Response
     {
         // 自定义的异常处理机制
         if ($e instanceof BaseException) {

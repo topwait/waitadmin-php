@@ -35,7 +35,7 @@ class ClearService extends Service
         foreach (scandir(root_path().'runtime') as $dir) {
             if (!in_array($dir, ['.', '..', '.gitignore', 'log', 'session', 'cache'])) {
                 $path = str_replace('\\', '/', root_path().'runtime/'.$dir);
-                array_push($dirs, $path);
+                $dirs[] = $path;
             }
         }
 

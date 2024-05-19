@@ -32,7 +32,7 @@ class EmsMsgService
      * @param array $template (模板)
      * @author zero
      */
-    public function send(int $scene, array $params, array $template)
+    public function send(int $scene, array $params, array $template): void
     {
         // 创建发送记录
         $noticeRecord = NoticeRecord::create([

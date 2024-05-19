@@ -24,12 +24,10 @@ use app\common\model\user\User;
 use app\common\model\user\UserAuth;
 use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
-use app\common\utils\AttachUtils;
 use app\common\utils\UrlUtils;
 use app\frontend\cache\ScanLoginCache;
 use app\frontend\widgets\UserWidget;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use think\db\exception\DbException;
 
 /**

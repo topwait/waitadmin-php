@@ -142,7 +142,7 @@ class ConfigUtils
      * @param string $type   (类型)
      * @param array $results (集合)
      */
-    public static function setItem(string $type, array $results)
+    public static function setItem(string $type, array $results): void
     {
         foreach ($results as $key => $value) {
             self::set($type, $key, $value);

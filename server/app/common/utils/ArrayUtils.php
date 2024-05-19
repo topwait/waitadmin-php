@@ -24,7 +24,7 @@ class ArrayUtils
     /**
      * 转树形HTML结构数据
      *
-     * @param $data         (数据集)
+     * @param mixed $data   (数据集)
      * @param int $pid      (父级ID)
      * @param string $field (父级字段名)
      * @param string $pk    (主键)
@@ -34,7 +34,7 @@ class ArrayUtils
      * @return array
      * @author zero
      */
-    public static function toTreeHtml($data, int $pid=0, string $field='pid', string $pk='id', string $html='|--', int $level=0, bool $clear=true): array
+    public static function toTreeHtml(mixed $data, int $pid=0, string $field='pid', string $pk='id', string $html='|--', int $level=0, bool $clear=true): array
     {
         static $list = [];
         if ($clear) $list = [];
@@ -109,12 +109,12 @@ class ArrayUtils
     /**
      * 多维数组合并
      *
-     * @param $array1 (数组1)
-     * @param $array2 (数组2)
+     * @param array $array1 (数组1)
+     * @param array $array2 (数组2)
      * @return array
      * @author zero
      */
-    public static function arrayMergeMultiple($array1, $array2): array
+    public static function arrayMergeMultiple(array $array1, array $array2): array
     {
         $merge = $array1 + $array2;
         $data = [];

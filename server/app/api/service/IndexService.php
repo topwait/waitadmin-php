@@ -71,7 +71,7 @@ class IndexService extends Service
             'force_mobile' => intval($loginConfig['force_mobile']??0),
             'auths_mobile' => intval($loginConfig['auths_mobile']??0),
             'login_modes'  => $loginModes??[],
-            'login_other'  => $loginOther??[],
+            'login_other'  => $loginOther,
         ];
 
         // H5配置

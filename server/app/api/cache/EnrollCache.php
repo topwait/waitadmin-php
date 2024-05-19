@@ -63,7 +63,7 @@ class EnrollCache
      * @param string $key
      * @author zero
      */
-    public static function delete(string $key)
+    public static function delete(string $key): void
     {
         $key = self::$prefix . $key;
         Cache::delete($key);

@@ -121,7 +121,7 @@ class StorageDriver
      * @param string $key (键值)
      * @author zero
      */
-    public function putFile(string $url, string $key)
+    public function putFile(string $url, string $key): void
     {
         $this->engine->putFile($url, $key);
     }
@@ -133,7 +133,7 @@ class StorageDriver
      * @param string $key (键值)
      * @author zero
      */
-    public function fetch(string $url, string $key)
+    public function fetch(string $url, string $key): void
     {
         $this->engine->fetch($url, $key);
     }
@@ -144,7 +144,7 @@ class StorageDriver
      * @param string $url (地址)
      * @author zero
      */
-    public function delete(string $url)
+    public function delete(string $url): void
     {
         $this->engine->delete($url);
     }

@@ -113,7 +113,7 @@ class LoginController extends Frontend
      * @method [GET]
      * @author zero
      */
-    public function logout()
+    public function logout(): void
     {
         session('userId', null);
         $this->redirect(route('index/index'), 302);
@@ -126,7 +126,7 @@ class LoginController extends Frontend
      * @method [GET]
      * @author zero
      */
-    public function oaLogin()
+    public function oaLogin(): void
     {
         $code  = $this->request->get('code', '');
         $state = $this->request->get('state', '');

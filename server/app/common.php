@@ -134,13 +134,13 @@ if (!function_exists('make_rand_code')) {
     /**
      * 生成随机编码值
      *
-     * @param $model (模型实体)
+     * @param mixed $model (模型实体)
      * @param string $field (字符串名称)
      * @param int $length (生成长度)
      * @param string $prefix (生成前缀)
      * @return string
      */
-    function make_rand_code($model, string $field = 'sn', int $length = 8, string $prefix = ''): string
+    function make_rand_code(mixed $model, string $field = 'sn', int $length = 8, string $prefix = ''): string
     {
         $rand_str = '';
         for ($i = 0; $i < $length; $i++) {

@@ -43,7 +43,7 @@ class PermsCache
      * @param array $value
      * @author zero
      */
-    public static function set(string|int $key, array $value)
+    public static function set(string|int $key, array $value): void
     {
         $k = self::$prefix . $key;
         Cache::set($k, $value);

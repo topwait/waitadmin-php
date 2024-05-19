@@ -192,7 +192,7 @@ class Service
                         $paramsName = !strpos($whereField, '@') ? $whereField : explode('@', $whereField);
                         $key = is_array($paramsName) ? $paramsName[0] : $paramsName;
                         $val = is_array($paramsName) ? $paramsName[1] : $whereField;
-                        if (!isset($params[$key]) || empty($params[$key])) {
+                        if (!isset($params[$key]) || !$params[$key]) {
                             continue;
                         }
 
@@ -209,15 +209,13 @@ class Service
                     if (!isset($params['keyword_type']) || empty($params['keyword'])) {
                         break;
                     }
-                    if (isset($params['keyword']) and $params['keyword']) {
-                        $value = $whereFields[$params['keyword_type']];
-                        $where[] = match ($value[0]) {
-                            '=', '<>', '>', '>=', '<', '<=', 'in' => [$value[1], $value[0], $params['keyword']],
-                            '%like%' => [$value[1], 'like', '%' . $params['keyword'] . '%'],
-                            '%like'  => [$value[1], 'like', '%' . $params['keyword']],
-                            'like%'  => [$value[1], 'like', $params['keyword'] . '%'],
-                        };
-                    }
+                    $value = $whereFields[$params['keyword_type']];
+                    $where[] = match ($value[0]) {
+                        '=', '<>', '>', '>=', '<', '<=', 'in' => [$value[1], $value[0], $params['keyword']],
+                        '%like%' => [$value[1], 'like', '%' . $params['keyword'] . '%'],
+                        '%like'  => [$value[1], 'like', '%' . $params['keyword']],
+                        'like%'  => [$value[1], 'like', $params['keyword'] . '%'],
+                    };
                     break;
             }
         }

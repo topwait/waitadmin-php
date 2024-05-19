@@ -72,7 +72,7 @@ class EmailService extends Backend
      * @throws SystemException
      * @author zero
      */
-    public static function testEmail(string $recipient)
+    public static function testEmail(string $recipient): void
     {
         try {
             $mailDriver = new MailDriver();

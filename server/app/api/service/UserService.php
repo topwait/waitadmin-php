@@ -99,7 +99,7 @@ class UserService extends Service
      * @throws OperateException
      * @author zero
      */
-    public static function edit(array $post, int $userId)
+    public static function edit(array $post, int $userId): void
     {
         $scene = $post['scene'];
         $value = $post['value'];

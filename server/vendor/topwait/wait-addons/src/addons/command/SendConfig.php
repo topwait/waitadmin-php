@@ -17,7 +17,7 @@ use think\console\Output;
 
 class SendConfig extends Command
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('addons:config')
             ->setDescription('send config to config folder');
