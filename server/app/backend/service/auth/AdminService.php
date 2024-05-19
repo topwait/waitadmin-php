@@ -143,6 +143,7 @@ class AdminService extends Service
      * 管理员新增
      *
      * @param array $post
+     * @throws OperateException
      * @author zero
      */
     public static function add(array $post): void
@@ -150,6 +151,17 @@ class AdminService extends Service
         $salt = make_rand_char(6);
         $pwd  = make_md5_str($post['password'], $salt);
         $defaultAvatar = '/static/backend/images/avatar.png';
+
+        $modelAuthAdmin = new AuthAdmin();
+        $nickname = $modelAuthAdmin->field(['id'])->where(['nickname'=>$post['nickname'], 'is_delete'=>0])->findOrEmpty();
+        if (!$nickname->isEmpty()) {
+            throw new OperateException('用户昵称已被占用!');
+        }
+
+        $username = $modelAuthAdmin->field(['id'])->where(['username'=>$post['username'], 'is_delete'=>0])->findOrEmpty();
+        if (!$username->isEmpty()) {
+            throw new OperateException('登录账号已被占用!');
+        }
 
         AuthAdmin::create([
             'dept_id'         => $post['dept_id'] ?? 0,
@@ -187,6 +199,26 @@ class AdminService extends Service
 
         if ($post['id']==1 && $adminId !== 1) {
             throw new NotAuthException('您没有权限这样做!');
+        }
+
+        $nickname = $modelAuthAdmin->field(['id'])
+            ->where(['nickname'=>$post['nickname']])
+            ->where(['is_delete'=>0])
+            ->where('id', '<>', $post['id'])
+            ->findOrEmpty();
+
+        if (!$nickname->isEmpty()) {
+            throw new OperateException('用户昵称已被占用!');
+        }
+
+        $username = $modelAuthAdmin->field(['id'])
+            ->where(['username'=>$post['username']])
+            ->where(['is_delete'=>0])
+            ->where('id', '<>', $post['id'])
+            ->findOrEmpty();
+
+        if (!$username->isEmpty()) {
+            throw new OperateException('登录账号已被占用!');
         }
 
         $salt = make_rand_char(6);
