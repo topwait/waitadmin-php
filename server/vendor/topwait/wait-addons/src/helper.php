@@ -207,11 +207,11 @@ if (!function_exists('get_addons_config')) {
     /**
      * 获取插件的配置
      *
-     * @param $name (插件名称)
+     * @param string $name (插件名称)
      * @return array
      * @author zero
      */
-    function get_addons_config($name): array
+    function get_addons_config(string $name): array
     {
         $addon = get_addons_instance($name);
         if (!$addon) {
@@ -327,8 +327,8 @@ if (!function_exists('set_addons_info')) {
     /**
      * 设置插件信息
      *
-     * @param string $name   (插件名称)
-     * @param array $array  (插件数据)
+     * @param string $name (插件名称)
+     * @param array $array (插件数据)
      * @return bool
      * @throws Exception
      * @author zero
@@ -373,13 +373,13 @@ if (!function_exists('set_addons_config')) {
     /**
      * 设置插件配置
      *
-     * @param $name  (插件名称)
-     * @param $array (配置数组)
+     * @param string $name (插件名称)
+     * @param array $array (配置数组)
      * @return bool
      * @throws Exception|ExceptionInterface
      * @author zero
      */
-    function set_addons_config($name, $array): bool
+    function set_addons_config(string $name, array $array): bool
     {
         $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
@@ -460,7 +460,7 @@ if (!function_exists('autoload_addons_config')) {
             if (!$addon['install']) continue;
             if (!$addon['status']) continue;
             // 读取出所有的公共方法函数
-            $methods = (array)get_class_methods("\\addons\\" . $name . "\\" . 'Plugin');
+            $methods = get_class_methods("\\addons\\" . $name . "\\" . 'Plugin');
             // 跟插件基类方法比对得差异
             $hooks = array_diff($methods, $base);
             // 循环将钩子方法写入配置中
@@ -588,11 +588,11 @@ if (!function_exists('get_addon_tables')) {
     /**
      * 获取插件数据表名
      *
-     * @param $name (插件名称)
+     * @param string $name (插件名称)
      * @return array
      * @author zero
      */
-    function get_addon_tables($name): array
+    function get_addon_tables(string $name): array
     {
         $service = new Service(app());
         $addonsPath = $service->getAddonsPath();
@@ -645,11 +645,11 @@ if (!function_exists('addons_vendor_autoload')) {
     /**
      * 加载插件内部第三方类库
      *
-     * @param $addonsName (插件名称或插件数组)
+     * @param string|array $addonsName (插件名称或插件数组)
      * @return bool
      * @author zero
      */
-    function addons_vendor_autoload($addonsName): bool
+    function addons_vendor_autoload(string|array $addonsName): bool
     {
         // 插件全局类库
         if (is_array($addonsName)) {
@@ -685,7 +685,7 @@ if (!function_exists('is_really_writable')) {
      */
     function is_really_writable(string $dir): bool
     {
-        if (DIRECTORY_SEPARATOR == '/' AND @ ini_get("safe_mode") == FALSE) {
+        if (DIRECTORY_SEPARATOR == '/' AND !@ ini_get("safe_mode")) {
             return is_writable($dir);
         }
 
