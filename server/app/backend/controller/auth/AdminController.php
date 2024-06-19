@@ -37,6 +37,8 @@ use think\response\View;
  */
 class AdminController extends Backend
 {
+    protected array $notNeedPower = ['info'];
+
     /**
      * 管理员列表
      *
