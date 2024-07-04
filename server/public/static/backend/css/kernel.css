@@ -1,7 +1,7 @@
 @charset "utf-8";
 /** 全局样式 **/
 html,body { margin: 0; padding: 0; font-size: 13px; background-color: #f5f7f9; }
-body,a,dl,dt,dd,li,img { cursor: url("../images/cursor.cur"), auto !important; }
+body,a,dl,dt,dd,li,img { cursor: url('../images/cursor.cur'), auto !important; }
 ::-webkit-input-placeholder{ color: #ccc; }
 .layui-layer-adminRight { top: 50px !important; bottom: 0; overflow: auto; border-radius: 0; box-shadow: 1px 1px 10px rgba(0, 0, 0, .1); }
 
