@@ -16,6 +16,7 @@ declare (strict_types = 1);
 namespace app\common\service\storage\engine;
 
 use OSS\Core\OssException;
+use OSS\Http\RequestCore_Exception;
 use OSS\OssClient;
 
 /**
@@ -48,7 +49,7 @@ class AliyunOss
      * 文件上传
      *
      * @param array $fileInfo (文件信息)
-     * @throws OssException
+     * @throws OssException|RequestCore_Exception
      * @author zero
      */
     public function upload(array $fileInfo): void
@@ -65,7 +66,7 @@ class AliyunOss
      *
      * @param string $path
      * @param string $key
-     * @throws OssException
+     * @throws OssException|RequestCore_Exception
      */
     public function putFile(string $path, string $key): void
     {
@@ -77,6 +78,8 @@ class AliyunOss
      *
      * @param string $url
      * @param string $key
+     * @throws OssException
+     * @throws RequestCore_Exception
      * @author zero
      */
     public function fetch(string $url, string $key): void
@@ -93,6 +96,8 @@ class AliyunOss
      * 文件删除
      *
      * @param string $url
+     * @throws OssException
+     * @throws RequestCore_Exception
      * @author zero
      */
     public function delete(string $url): void

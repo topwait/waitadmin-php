@@ -107,6 +107,7 @@ class WeChatService
     /**
      * 公众号二维码生成
      *
+     * @document: https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html
      * @param string $ticketCode (唯一编码)
      * @param string $event (事件: login=登录,bind=绑定微信)
      * @return array

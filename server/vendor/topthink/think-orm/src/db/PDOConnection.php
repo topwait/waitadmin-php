@@ -723,10 +723,8 @@ abstract class PDOConnection extends Connection
             if (!$query->getOptions('force_cache')) {
                 $key = $cacheItem->getKey();
 
-                $data = $this->cache->get($key);
-
-                if (null !== $data) {
-                    return $data;
+                if ($this->cache->has($key)) {
+                    return $this->cache->get($key);
                 }
             }
         }
@@ -1252,14 +1250,16 @@ abstract class PDOConnection extends Connection
         $pdo = $this->getPDOStatement($sql, $query->getBind(), $options['master']);
 
         $result = $pdo->fetchColumn();
+        $result = false !== $result ? $result : $default;
+        $requireCache = $query->getOptions('cache_always') || !empty($result);
 
-        if (isset($cacheItem)) {
+        if (isset($cacheItem) && $requireCache) {
             // 缓存数据
             $cacheItem->set($result);
             $this->cacheData($cacheItem);
         }
 
-        return false !== $result ? $result : $default;
+        return $result;
     }
 
     /**
@@ -1374,7 +1374,9 @@ abstract class PDOConnection extends Connection
             $result = $resultSet;
         }
 
-        if (isset($cacheItem)) {
+        $requireCache = $query->getOptions('cache_always') || !empty($result);
+
+        if (isset($cacheItem) && $requireCache) {
             // 缓存数据
             $cacheItem->set($result);
             $this->cacheData($cacheItem);

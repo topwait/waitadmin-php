@@ -69,17 +69,49 @@
                     <dl class="wait-second-menu">
                         {volist name="$vo.children" id="item"}
                             {if !$item.children}
-                                <dd><a lay-id="{$item.id}" lay-attr="{:route($item.perms)}">{$item.title}</a></dd>
+                                <dd>
+                                    <a lay-id="{$item.id}" lay-attr="{:route($item.perms)}">
+                                        <i class="{$item.icon}"></i>
+                                        <cite>{$item.title}</cite>
+                                    </a>
+                                </dd>
                             {else}
                                 <dd>
                                     <a href="javascript:">
-                                        <i class="layui-icon icon-member-user"></i>
+                                        <i class="{$item.icon}"></i>
                                         <cite>{$item.title}</cite>
                                         <span class="layui-icon layui-icon-left"></span>
                                     </a>
                                     <dl>
                                         {volist name="$item.children" id="sub"}
-                                            <dd><a lay-id="{$sub.id}" lay-attr="{:route($sub.perms)}">{$sub.title}</a></dd>
+                                            {if !$sub.children}
+                                                <!-- 二级菜单 -->
+                                                <dd>
+                                                    <a lay-id="{$sub.id}" lay-attr="{:route($sub.perms)}">
+                                                        <i class="{$sub.icon}"></i>
+                                                        <cite>{$sub.title}</cite>
+                                                    </a>
+                                                </dd>
+                                            {else}
+                                                <!-- 三级菜单 -->
+                                                <dd class="tree">
+                                                    <a href="javascript:">
+                                                        <i class="{$sub.icon}"></i>
+                                                        <cite>{$sub.title}</cite>
+                                                        <span class="layui-icon layui-icon-left"></span>
+                                                    </a>
+                                                    <dl>
+                                                        {volist name="$sub.children" id="treeNode"}
+                                                            <dd>
+                                                                <a lay-id="{$treeNode.id}" lay-attr="{:route($treeNode.perms)}">
+                                                                    <i class="{$treeNode.icon}"></i>
+                                                                    <cite>{$treeNode.title}</cite>
+                                                                </a>
+                                                            </dd>
+                                                        {/volist}
+                                                    </dl>
+                                                </dd>
+                                            {/if}
                                         {/volist}
                                     </dl>
                                 </dd>
