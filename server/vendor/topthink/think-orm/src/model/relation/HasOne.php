@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\model\relation;
 
@@ -32,11 +32,11 @@ class HasOne extends OneToOne
      */
     public function __construct(Model $parent, string $model, string $foreignKey, string $localKey)
     {
-        $this->parent       = $parent;
-        $this->model        = $model;
-        $this->foreignKey   = $foreignKey;
-        $this->localKey     = $localKey;
-        $this->query        = (new $model())->db();
+        $this->parent     = $parent;
+        $this->model      = $model;
+        $this->foreignKey = $foreignKey;
+        $this->localKey   = $localKey;
+        $this->query      = (new $model())->db();
 
         if (get_class($parent) == $model) {
             $this->selfRelation = true;
@@ -74,7 +74,7 @@ class HasOne extends OneToOne
 
             $relationModel->setParent(clone $this->parent);
         } else {
-            $default = $this->query->getOptions('default_model');
+            $default       = $this->query->getOptions('default_model');
             $relationModel = $this->getDefaultModel($default);
         }
 
@@ -174,9 +174,9 @@ class HasOne extends OneToOne
      */
     public function hasWhere($where = [], $fields = null, string $joinType = '', Query $query = null): Query
     {
-        $table      = $this->query->getTable();
-        $model      = class_basename($this->parent);
-        $relation   = class_basename($this->model);
+        $table    = $this->query->getTable();
+        $model    = class_basename($this->parent);
+        $relation = class_basename($this->model);
 
         if (is_array($where)) {
             $this->getQueryWhere($where, $relation);
@@ -192,12 +192,15 @@ class HasOne extends OneToOne
         $query      = $query ?: $this->parent->db();
 
         return $query->alias($model)
+            ->via($model)
             ->field($fields)
             ->join([$table => $relation], $model . '.' . $this->localKey . '=' . $relation . '.' . $this->foreignKey, $joinType ?: $this->joinType)
             ->when($softDelete, function ($query) use ($softDelete, $relation) {
                 $query->where($relation . strstr($softDelete[0], '.'), '=' == $softDelete[1][0] ? $softDelete[1][1] : null);
             })
-            ->where($where);
+            ->where(function ($query) use ($where) {
+                $query->where($where);
+            });
     }
 
     /**
@@ -216,7 +219,7 @@ class HasOne extends OneToOne
         $localKey   = $this->localKey;
         $foreignKey = $this->foreignKey;
 
-        $range      = [];
+        $range = [];
         foreach ($resultSet as $result) {
             // 获取关联外键列表
             if (isset($result->$localKey)) {
@@ -226,12 +229,18 @@ class HasOne extends OneToOne
 
         if (!empty($range)) {
             $this->query->removeWhereField($foreignKey);
-            $default = $this->query->getOptions('default_model');
+            $default      = $this->query->getOptions('default_model');
             $defaultModel = $this->getDefaultModel($default);
 
             $data = $this->eagerlyWhere([
                 [$foreignKey, 'in', $range],
             ], $foreignKey, $subRelation, $closure, $cache);
+
+            // 动态绑定参数
+            $bindAttr = $this->query->getOptions('bind_attr');
+            if ($bindAttr) {
+                $this->bind($bindAttr);
+            }
 
             // 关联数据封装
             foreach ($resultSet as $result) {
@@ -279,7 +288,7 @@ class HasOne extends OneToOne
 
         // 关联模型
         if (!isset($data[$result->$localKey])) {
-            $default = $this->query->getOptions('default_model');
+            $default       = $this->query->getOptions('default_model');
             $relationModel = $this->getDefaultModel($default);
         } else {
             $relationModel = $data[$result->$localKey];
@@ -289,6 +298,12 @@ class HasOne extends OneToOne
 
         // 设置关联属性
         $result->setRelation($relation, $relationModel);
+
+        // 动态绑定参数
+        $bindAttr = $this->query->getOptions('bind_attr');
+        if ($bindAttr) {
+            $this->bind($bindAttr);
+        }
 
         if (!empty($this->bindAttr)) {
             // 绑定关联属性
