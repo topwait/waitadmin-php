@@ -9,14 +9,16 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\db;
 
+use BackedEnum;
 use Closure;
 use Stringable;
 use think\db\BaseQuery as Query;
 use think\db\exception\DbException as Exception;
+use UnitEnum;
 
 /**
  * Db Builder.
@@ -59,12 +61,14 @@ class Builder extends BaseBuilder
 
         foreach ($data as $key => $val) {
             $item = $this->parseKey($query, $key, true);
-
-            if ($val instanceof Raw) {
+            if ($val instanceof BackedEnum) {
+                $val = $val->value;
+            } elseif ($val instanceof UnitEnum) {
+                $val = $val->name;
+            } elseif ($val instanceof Raw) {
                 $result[$item] = $this->parseRaw($query, $val);
                 continue;
-            }elseif (is_null($val)) {
-                // json字段默认为NULL，需要优先处理，不然会出现json字段写入字符串null的情况
+            } elseif (is_null($val) && in_array($key, $fields, true)) {
                 $result[$item] = 'NULL';
                 continue;
             } elseif (!is_scalar($val) && (in_array($key, (array) $query->getOptions('json')) || 'json' == $query->getFieldType($key))) {
@@ -73,7 +77,7 @@ class Builder extends BaseBuilder
 
             if (str_contains($key, '->')) {
                 [$key, $name] = explode('->', $key, 2);
-                $item = $this->parseKey($query, $key);
+                $item         = $this->parseKey($query, $key);
 
                 $result[$item . '->' . $name] = 'json_set(' . $item . ', \'$.' . $name . '\', ' . $this->parseDataBind($query, $key . '->' . $name, $val, $bind) . ')';
             } elseif (!str_contains($key, '.') && !in_array($key, $fields, true)) {
@@ -82,9 +86,9 @@ class Builder extends BaseBuilder
                 }
             } elseif (is_array($val) && !empty($val) && is_string($val[0])) {
                 if (in_array(strtoupper($val[0]), ['INC', 'DEC'])) {
-                    $result[$item] =    match (strtoupper($val[0])) {
-                        'INC'   =>  $item . ' + ' . floatval($val[1]),
-                        'DEC'   =>  $item . ' - ' . floatval($val[1]),
+                    $result[$item] = match (strtoupper($val[0])) {
+                        'INC' => $item . ' + ' . floatval($val[1]),
+                        'DEC' => $item . ' - ' . floatval($val[1]),
                     };
                 }
             } elseif (is_scalar($val)) {
@@ -129,7 +133,7 @@ class Builder extends BaseBuilder
      *
      * @return string
      */
-    public function parseKey(Query $query, string|int|Raw $key, bool $strict = false): string
+    public function parseKey(Query $query, string | int | Raw $key, bool $strict = false): string
     {
         return $key;
     }
@@ -157,26 +161,23 @@ class Builder extends BaseBuilder
      */
     protected function parseField(Query $query, array $fields): string
     {
-        if (!empty($fields)) {
-            // 支持 'field1'=>'field2' 这样的字段别名定义
-            $array = [];
-
-            foreach ($fields as $key => $field) {
-                if ($field instanceof Raw) {
-                    $array[] = $this->parseRaw($query, $field);
-                } elseif (!is_numeric($key)) {
-                    $array[] = $this->parseKey($query, $key) . ' AS ' . $this->parseKey($query, $field, true);
-                } else {
-                    $array[] = $this->parseKey($query, $field);
-                }
-            }
-
-            $fieldsStr = implode(',', $array);
-        } else {
-            $fieldsStr = '*';
+        if (empty($fields)) {
+            return '*';
         }
 
-        return $fieldsStr;
+        // 支持 'field1' => 'field2' 这样的字段别名定义
+        $array = array_map(function ($field, $key) use ($query) {
+            if ($field instanceof Raw) {
+                return $this->parseRaw($query, $field);
+            } elseif (!is_numeric($key)) {
+                // 字段别名定义
+                return $this->parseKey($query, $key) . ' AS ' . $this->parseKey($query, $field, true);
+            } else {
+                return $this->parseKey($query, $field);
+            }
+        }, $fields, array_keys($fields));
+
+        return implode(',', $array);
     }
 
     /**
@@ -187,9 +188,9 @@ class Builder extends BaseBuilder
      *
      * @return string
      */
-    protected function parseTable(Query $query, array|string $tables): string
+    protected function parseTable(Query $query, array | string $tables): string
     {
-        $item = [];
+        $item    = [];
         $options = $query->getOptions();
 
         foreach ((array) $tables as $key => $table) {
@@ -217,14 +218,14 @@ class Builder extends BaseBuilder
      */
     protected function parseWhere(Query $query, array $where): string
     {
-        $options = $query->getOptions();
+        $options  = $query->getOptions();
         $whereStr = $this->buildWhere($query, $where);
 
         if (!empty($options['soft_delete'])) {
             // 附加软删除条件
             [$field, $condition] = $options['soft_delete'];
 
-            $binds = $query->getFieldsBindType();
+            $binds    = $query->getFieldsBindType();
             $whereStr = $whereStr ? '( ' . $whereStr . ' ) AND ' : '';
             $whereStr = $whereStr . $this->parseWhereItem($query, $field, $condition, $binds);
         }
@@ -269,12 +270,16 @@ class Builder extends BaseBuilder
         } elseif ($value instanceof Stringable) {
             // 对象数据写入
             $value = $value->__toString();
+        } elseif ($value instanceof BackedEnum) {
+            $value = $value->value;
+        } elseif ($value instanceof UnitEnum) {
+            $value = $value->name;
         }
 
         if (is_scalar($value) && !in_array($exp, ['EXP', 'NOT NULL', 'NULL', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN']) && !str_contains($exp, 'TIME')) {
             if (is_string($value) && str_starts_with($value, ':') && $query->isBind(substr($value, 1))) {
             } else {
-                $name = $query->bindValue($value, $bindType);
+                $name  = $query->bindValue($value, $bindType);
                 $value = ':' . $name;
             }
         }
@@ -308,7 +313,7 @@ class Builder extends BaseBuilder
         if (is_array($value)) {
             $array = [];
             foreach ($value as $item) {
-                $name = $query->bindValue($item, Connection::PARAM_STR);
+                $name    = $query->bindValue($item, Connection::PARAM_STR);
                 $array[] = $key . ' ' . $exp . ' :' . $name;
             }
 
@@ -368,7 +373,7 @@ class Builder extends BaseBuilder
      *
      * @return string
      */
-    protected function parseBetween(Query $query, string $key, string $exp, array|string $value, $field, int $bindType): string
+    protected function parseBetween(Query $query, string $key, string $exp, array | string $value, $field, int $bindType): string
     {
         // BETWEEN 查询
         $data = is_array($value) ? $value : explode(',', $value);
@@ -407,8 +412,8 @@ class Builder extends BaseBuilder
             if ($query->isAutoBind()) {
                 $array = [];
                 foreach ($value as $v) {
-                    $name       = $query->bindValue($v, $bindType);
-                    $array[]    = ':' . $name;
+                    $name    = $query->bindValue($v, $bindType);
+                    $array[] = ':' . $name;
                 }
                 $value = implode(',', $array);
             } elseif (Connection::PARAM_STR == $bindType) {
@@ -543,8 +548,8 @@ class Builder extends BaseBuilder
                 }
 
                 if (preg_match('/^[\w\.]+$/', $key)) {
-                    $sort = strtoupper($sort);
-                    $sort = in_array($sort, ['ASC', 'DESC'], true) ? ' ' . $sort : '';
+                    $sort    = strtoupper($sort);
+                    $sort    = in_array($sort, ['ASC', 'DESC'], true) ? ' ' . $sort : '';
                     $array[] = $this->parseKey($query, $key, true) . $sort;
                 } else {
                     throw new Exception('order express error:' . $key);
@@ -565,8 +570,8 @@ class Builder extends BaseBuilder
      */
     protected function parseRaw(Query $query, Raw $raw): string
     {
-        $sql    = $raw->getValue();
-        $bind   = $raw->getBind();
+        $sql  = $raw->getValue();
+        $bind = $raw->getBind();
 
         if ($bind) {
             $query->bindParams($sql, $bind);
@@ -624,7 +629,7 @@ class Builder extends BaseBuilder
      *
      * @return string
      */
-    protected function parseGroup(Query $query, string|array $group): string
+    protected function parseGroup(Query $query, string | array $group): string
     {
         if (empty($group)) {
             return '';
@@ -693,7 +698,7 @@ class Builder extends BaseBuilder
      *
      * @return string
      */
-    protected function parseForce(Query $query, string|array $index): string
+    protected function parseForce(Query $query, string | array $index): string
     {
         if (empty($index)) {
             return '';
@@ -714,7 +719,7 @@ class Builder extends BaseBuilder
      *
      * @return string
      */
-    protected function parseLock(Query $query, bool|string $lock = false): string
+    protected function parseLock(Query $query, bool | string $lock = false): string
     {
         if (is_bool($lock)) {
             return $lock ? ' FOR UPDATE ' : '';

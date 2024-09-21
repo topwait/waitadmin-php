@@ -4,8 +4,8 @@
 // +----------------------------------------------------------------------
 // | 欢迎阅读学习程序代码,建议反馈是我们前进的动力
 // | 程序完全开源可支持商用,允许去除界面版权信息
-// | gitee:   https://gitee.com/wafts/WaitAdmin
-// | github:  https://github.com/topwait/waitadmin
+// | gitee:   https://gitee.com/wafts/waitadmin-php
+// | github:  https://github.com/topwait/waitadmin-php
 // | 官方网站: https://www.waitadmin.cn
 // | WaitAdmin团队版权所有并拥有最终解释权
 // +----------------------------------------------------------------------
@@ -53,6 +53,7 @@ class AttachController extends Backend
             'type'          => $this->request->get('type'),
             'water'         => $this->request->get('water'),
             'limit'         => $this->request->get('limit', 1),
+            'urls'          => $this->request->get('urls', '[]'),
             'category'      => AttachService::cateLists(),
             'imageLimit'    => config('project.uploader.image'),
             'videoLimit'    => config('project.uploader.video'),

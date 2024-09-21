@@ -69,8 +69,8 @@
                         <p class="mt6 ml8">4．如果本软件带有其它软件的整合API示范例子包，这些文件版权不属于本软件官方，并且这些文件是没经过授权发布的，请参考相关软件的使用许可合法的使用。</p>
                         <p class="mt6 ml8">5．本程本身不是百分百的完善，如因使用过程中发现漏洞导致的损失，我们概不承担任何责任，请自行测试好再进行上线。</p>
                         <br><br>
-                        <p class="mt6">gitee:   https://gitee.com/wafts/waitAdmin</p>
-                        <p class="mt6">github:  https://github.com/topwait/waitadmin</p>
+                        <p class="mt6">gitee:   https://gitee.com/wafts/waitadmin-php</p>
+                        <p class="mt6">github:  https://github.com/topwait/waitadmin-php</p>
                         <p class="mt6">官方网站: https://www.waitadmin.cn</p>
                         <p class="mt6">-----------------------------------------------------</p>
                         <p class="mt6">邮箱: 2474369941@qq.com</p>

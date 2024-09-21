@@ -1,6 +1,6 @@
 <h1 align="center">WaitAdmin管理后台</h1>
 
-WaitAdmin是一款ThinkPHP8 + Layui2.8的极速后台开发框架。
+WaitAdmin是一款ThinkPHP8 + Layui2.9.*的极速后台开发框架。
 实现了后台系统常见的RBAC权限管理，并且内置了诸多好用的工具。
 
 ## 项目说明
@@ -12,8 +12,8 @@ WaitAdmin是一款ThinkPHP8 + Layui2.8的极速后台开发框架。
 
 ## 在线体验
 - 官方网址: https://www.waitadmin.cn
-- 开发文档: https://www.waitadmin.cn/docs
-- 演示站点: https://demo.waitadmin.cn/admin.php
+- 开发文档: https://www.waitadmin.cn/docs/php
+- 演示站点: https://php-demo.waitadmin.cn/admin.php
 
 ## 体验账号
 - 账号：admin
@@ -21,11 +21,11 @@ WaitAdmin是一款ThinkPHP8 + Layui2.8的极速后台开发框架。
 
 ## 环境要求
 
-| 运行环境  |要求版本   |推荐版本   |
-| :------------ | :------------ | :------------ |
-|PHP     | >=8.0.2  | 8.0.26  |
-|Mysql   | >=5.7    | 5.7     |
-|nginx 或 apache    |无限制| nginx  |
+| 运行环境           | 要求版本    | 推荐版本   |
+|:---------------|:--------|:-------|
+| PHP            | >=8.0.2 | 8.0.26 |
+| Mysql          | >=5.7   | 5.7    |
+| nginx 或 apache | 无限制     | nginx  |
 
 ## 主要特性
 - 基于RBAC的权限管理系统
@@ -58,20 +58,20 @@ WaitAdmin是一款ThinkPHP8 + Layui2.8的极速后台开发框架。
 ## 演示图
 <table>
     <tr>
-        <td><img src="https://www.waitadmin.cn/others/ts_01.png" height="200" width="400"/></td>
-        <td><img src="https://www.waitadmin.cn/others/ts_02.png" height="200" width="400"/></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_01.png" height="200" width="400" alt="" /></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_02.png" height="200" width="400" alt="" /></td>
     </tr>
     <tr>
-        <td><img src="https://www.waitadmin.cn/others/ts_03.png" height="200" width="400"/></td>
-        <td><img src="https://www.waitadmin.cn/others/ts_04.png" height="200" width="400"/></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_03.png" height="200" width="400" alt="" /></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_04.png" height="200" width="400" alt="" /></td>
     </tr>
     <tr>
-        <td><img src="https://www.waitadmin.cn/others/ts_05.png" height="200" width="400"/></td>
-        <td><img src="https://www.waitadmin.cn/others/ts_06.png" height="200" width="400"/></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_05.png" height="200" width="400" alt="" /></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_06.png" height="200" width="400" alt="" /></td>
     </tr>
     <tr>
-        <td><img src="https://www.waitadmin.cn/others/ts_07.png" height="200" width="400"/></td>
-        <td><img src="https://www.waitadmin.cn/others/ts_08.png" height="200" width="400"/></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_07.png" height="200" width="400" alt="" /></td>
+        <td><img src="https://www.waitadmin.cn/others/ts_08.png" height="200" width="400" alt="" /></td>
     </tr>
 </table>
 
