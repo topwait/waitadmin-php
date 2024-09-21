@@ -71,11 +71,27 @@ abstract class Backend extends BaseController
     /**
      * 初始方法
      *
-     * @author zero
      * @return void
+     * @throws NotAuthException
+     * @author zero
      */
     protected function initialize(): void
-    {}
+    {
+        $envDemo = env('project.env_demo', false);
+        if ($envDemo) {
+            $needPostApi = [
+                'login/check',
+                'login/logout'
+            ];
+
+            $prefixName = config('project.backend_entrance');
+            $requestUrl = lcfirst(str_replace($prefixName, '', request()->baseUrl()));
+            $requestUrl = ltrim($requestUrl, '/');
+            if (request()->method() === 'POST' and !in_array($requestUrl, $needPostApi)) {
+                throw new NotAuthException('演示环境不支持修改数据,请自行部署!');
+            }
+        }
+    }
 
     /**
      * 验证登录
