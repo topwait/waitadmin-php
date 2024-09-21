@@ -3,7 +3,7 @@ MIT License
 Copyright (c) 2023 WaitAdmin开源团队
 
 源码下载:
-    Gitee: https://gitee.com/wafts/WaitAdmin
+    Gitee: https://gitee.com/wafts/waitadmin-php
     Github: https://github.com/topwait/waitadmin
     Website: www.waitadmin.cn
 
