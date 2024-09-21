@@ -53,6 +53,7 @@ class AttachController extends Backend
             'type'          => $this->request->get('type'),
             'water'         => $this->request->get('water'),
             'limit'         => $this->request->get('limit', 1),
+            'urls'          => $this->request->get('urls', '[]'),
             'category'      => AttachService::cateLists(),
             'imageLimit'    => config('project.uploader.image'),
             'videoLimit'    => config('project.uploader.video'),

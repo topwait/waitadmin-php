@@ -46,10 +46,10 @@
 
     /** 选择 **/
     .file-container .select { display: flex; flex-direction: column; overflow: hidden; width: 125px; }
-    .file-container .select .header { display: flex; align-items: center; justify-content: space-between; padding: 0 10px; height: 50px; }
+    .file-container .select .header { display: flex; align-items: center; justify-content: space-between; padding: 0 10px; height: 40px; }
     .file-container .select .header span:first-child { font-size: 14px; color: #666666; }
     .file-container .select .header span:last-child { color: #ea5455; }
-    .file-container .select ul { display: flex; align-items: center; flex-direction: column; overflow: auto; }
+    .file-container .select ul { display: flex; align-items: center; flex-direction: column; overflow: auto; padding-top: 10px; }
     .file-container .select ul li { position: relative; margin-bottom: 10px; width: 90px; height: 90px; border-radius: 3px; border: 1px solid #f2f2f2; }
     .file-container .select ul li img { width: 100%; height: 100%; border-radius: 3px; }
     .file-container .select ul li video { width: 100%; height: 100%; border-radius: 3px; }
@@ -189,6 +189,8 @@
         let water   = Boolean('{$water??"true"}');
         let cid     = -1;
 
+        urlArr = JSON.parse('{$urls|raw}');
+
         // 事件定义
         let event = waitUtil.event({
             // 分组列表
@@ -247,6 +249,17 @@
                             }
                         }
                     });
+
+                    const urlElms = $(view).find('ul li');
+                    urlArr.forEach(item => {
+                        for (let i = 0; i < urlElms.length; i++) {
+                            const url = $(urlElms[i]).attr('data-url');
+                            if (url === item.url) {
+                                $(urlElms[i]).addClass('active');
+                                break;
+                            }
+                        }
+                    })
                 });
             },
             // 文件选择
@@ -382,7 +395,7 @@
             if ($(this).hasClass('active')) {
                 $(this).removeClass('active');
                 for (let i=0; i<urlArr.length; i++) {
-                    if (urlArr[i]['id'] === id) {
+                    if (urlArr[i]['url'] === url) {
                         urlArr.splice(i, 1);
                         break;
                     }
@@ -418,13 +431,22 @@
 
         // 选择销毁
         $(document).on('click', '.select li i', function () {
-            let id = parseInt($(this).parents('li').attr('data-id'));
-            $('.attach ul li[data-id="'+id+'"]').removeClass('active');
+            const url = $(this).parents('li').attr('data-url');
+            $('.attach ul li[data-url="'+url+'"]').removeClass('active');
             for (let i=0; i<urlArr.length; i++) {
-                if (urlArr[i]['id'] === id) {
+                if (urlArr[i]['url'] === url) {
                     urlArr.splice(i, 1);
                     break;
                 }
+            }
+
+            let okFileNode = $('#okFile');
+            if (urlArr.length <= 0) {
+                okFileNode.addClass('layui-btn-disabled');
+                okFileNode.removeClass('layui-btn-default');
+            } else {
+                okFileNode.addClass('layui-btn-default');
+                okFileNode.removeClass('layui-btn-disabled');
             }
 
             event.picks();
