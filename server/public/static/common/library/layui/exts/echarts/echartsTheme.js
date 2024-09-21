@@ -34,6 +34,7 @@ layui.define(function (exports) {
 
         // 提示框
         tooltip: {
+            borderColor: 'rgba(0,0,0,0)',
             backgroundColor: 'rgba(50,50,50,0.5)',   // 提示背景颜色，默认为透明度为0.7的黑色
             axisPointer: {      // 坐标轴指示器，坐标轴触发有效
                 type: 'line',     // 默认为直线，可选为：'line' | 'shadow'
@@ -46,6 +47,9 @@ layui.define(function (exports) {
                 shadowStyle: {           // 阴影指示器样式设置
                     color: 'rgba(200,200,200,0.2)'
                 }
+            },
+            textStyle: {
+                color: '#ffffff'
             }
         },
 
@@ -58,13 +62,16 @@ layui.define(function (exports) {
 
         // 网格
         grid: {
+            left: '7%',
+            right: '2%',
+            bottom: '7%',
             borderColor: '#eee'
         },
 
         // 类目轴 - X轴
         categoryAxis: {
             axisLine: {      // 坐标轴线
-                lineStyle: {     // 属性lineStyle控制线条样式
+                lineStyle: { // 属性lineStyle控制线条样式
                     color: '#009688'
                 }
             },
@@ -72,7 +79,7 @@ layui.define(function (exports) {
                 show: false
             },
             splitLine: {       // 分隔线
-                lineStyle: {     // 属性lineStyle（详见lineStyle）控制线条样式
+                lineStyle: {   // 属性lineStyle（详见lineStyle）控制线条样式
                     color: ['#eee']
                 }
             }
@@ -81,7 +88,7 @@ layui.define(function (exports) {
         // 数值型坐标轴默认参数 - Y轴
         valueAxis: {
             axisLine: {      // 坐标轴线
-                lineStyle: {     // 属性lineStyle控制线条样式
+                lineStyle: { // 属性lineStyle控制线条样式
                     color: '#009688'
                 }
             },
@@ -92,7 +99,7 @@ layui.define(function (exports) {
                 }
             },
             splitLine: {       // 分隔线
-                lineStyle: {     // 属性lineStyle（详见lineStyle）控制线条样式
+                lineStyle: {   // 属性lineStyle（详见lineStyle）控制线条样式
                     color: ['#eee']
                 }
             }
@@ -100,7 +107,7 @@ layui.define(function (exports) {
 
         polar: {
             axisLine: {      // 坐标轴线
-                lineStyle: {     // 属性lineStyle控制线条样式
+                lineStyle: { // 属性lineStyle控制线条样式
                     color: '#ddd'
                 }
             },
@@ -255,6 +262,7 @@ layui.define(function (exports) {
         },
 
         textStyle: {
+            color: '#333',
             fontFamily: '微软雅黑, Arial, Verdana, sans-serif'
         }
     });
