@@ -262,7 +262,7 @@ layui.use(['jquery', 'element'], function() {
                             });
                         }
                     });
-                });
+               });
             }
         }
 
