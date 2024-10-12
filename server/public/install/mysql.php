@@ -172,7 +172,8 @@ class Mysql
             if (str_contains($table, 'CREATE')) {
                 $tableName = explode('`', $table)[1];
                 $millisecond += random_int(3000, 7000);
-                $this->successTable[] = [$tableName, date('Y-m-d H:i:s', $millisecond / 10000)];
+                $someVariable = intval($millisecond / 10000);
+                $this->successTable[] = [$tableName, date('Y-m-d H:i:s', $someVariable)];
             }
 
             // 执行命令

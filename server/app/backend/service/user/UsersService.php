@@ -51,7 +51,7 @@ class UsersService extends Service
         $model = new User();
         $lists = $model->alias('u')
             ->field([
-                'ug.name as groups',
+                'ug.name as `groups`',
                 'u.id,u.sn,u.avatar,u.account,u.nickname',
                 'u.mobile,u.email,u.gender,u.is_disable,u.create_time'
             ])

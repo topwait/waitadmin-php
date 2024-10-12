@@ -107,6 +107,7 @@ class ExcelDriver
                 $temp[$key] = $fieldData;
             }
             $listsData[] = $temp;
+            $listsData[] = $row;
         }
 
         // 表头字段
@@ -114,6 +115,7 @@ class ExcelDriver
         $titleArray = array_values($fields);
         foreach ($titleArray as $key => $item) {
             if (is_array($item)) {
+                $item = [array_keys($item)[0], $item[array_keys($item)[0]]];
                 $titleWidth[] = intval($item[1]);
                 $item = $item[0];
             } else {
