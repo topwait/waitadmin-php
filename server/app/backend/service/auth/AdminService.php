@@ -184,7 +184,7 @@ class AdminService extends Service
     }
 
     /**
-     * 管理员删除
+     * 管理员编辑
      *
      * @param array $post
      * @param int $adminId
