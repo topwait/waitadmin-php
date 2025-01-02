@@ -76,7 +76,12 @@ WaitAdmin是一款ThinkPHP8 + Layui2.9.*的极速后台开发框架。
 </table>
 
 ## 交流群
-QQ群：
-<a href="https://gitee.com/link?target=https://jq.qq.com/?_wv=1027&k=TRrklD6W">
-    <img src="https://img.shields.io/badge/613667155-blue.svg" alt="加入QQ群">
+QQ群1(已满员)：
+<a href="https://gitee.com/link?target=http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=4oSCLEiY0Wuc0XlaJ_v2BCpAz_-iuZ1t&authKey=vUn9S0p0b6d5jwRI9qo8YU8TBGiS3eGu2xJfcUBE56vUsS9TyVTC4GRMaSW4CGbH&noverify=0&group_code=613667155">
+    <img src="https://img.shields.io/badge/613667155-blue.svg" alt="加入QQ群1(该群已满员)">
+</a>
+
+QQ群2：
+<a href="https://gitee.com/link?target=https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=XsxCMqxH9H1JRjE-TaBIKLWHl1EYg804&authKey=2lon5nRzzowAf4TIbYzuXRCyyxgLR8B%2FysM4N%2F0OK%2FvQdXcNSqPYABGkuF0jsu3t&noverify=0&group_code=1019900755">
+    <img src="https://img.shields.io/badge/1019900755-blue.svg" alt="加入QQ群2">
 </a>
