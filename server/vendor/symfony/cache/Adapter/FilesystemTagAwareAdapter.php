@@ -34,7 +34,7 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
      */
     private const TAG_FOLDER = 'tags';
 
-    public function __construct(string $namespace = '', int $defaultLifetime = 0, string $directory = null, MarshallerInterface $marshaller = null)
+    public function __construct(string $namespace = '', int $defaultLifetime = 0, ?string $directory = null, ?MarshallerInterface $marshaller = null)
     {
         $this->marshaller = new TagAwareMarshaller($marshaller);
         parent::__construct('', $defaultLifetime);
@@ -44,7 +44,7 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
     /**
      * {@inheritdoc}
      */
-    protected function doClear(string $namespace): bool
+    protected function doClear(string $namespace)
     {
         $ok = $this->doClearCache($namespace);
 
@@ -140,7 +140,7 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
                 continue;
             }
 
-            if (!@unlink($file)) {
+            if ((\PHP_VERSION_ID >= 70300 || '\\' !== \DIRECTORY_SEPARATOR) && !@unlink($file)) {
                 fclose($h);
                 continue;
             }
@@ -165,6 +165,10 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
             }
 
             fclose($h);
+
+            if (\PHP_VERSION_ID < 70300 && '\\' === \DIRECTORY_SEPARATOR) {
+                @unlink($file);
+            }
         }
     }
 

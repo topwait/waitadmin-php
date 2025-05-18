@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -38,7 +38,7 @@ abstract class Manager
      * @param null|string $name
      * @return mixed
      */
-    protected function driver(string $name = null)
+    protected function driver(?string $name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
 

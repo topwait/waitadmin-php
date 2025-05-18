@@ -55,6 +55,13 @@ class BelongsToMany extends Relation
     protected $pivotDataName = 'pivot';
 
     /**
+     * 绑定的关联属性.
+     *
+     * @var array
+     */
+    protected $bindAttr = [];
+
+    /**
      * 架构函数.
      *
      * @param Model  $parent     上级模型对象
@@ -110,6 +117,20 @@ class BelongsToMany extends Relation
     }
 
     /**
+     * 绑定关联表的属性到父模型属性.
+     *
+     * @param array $attr 要绑定的属性列表
+     *
+     * @return $this
+     */
+    public function bind(array $attr)
+    {
+        $this->bindAttr = $attr;
+
+        return $this;
+    }
+
+    /**
      * 实例化中间表模型.
      *
      * @param $data
@@ -138,7 +159,7 @@ class BelongsToMany extends Relation
      *
      * @return Collection
      */
-    public function getRelation(array $subRelation = [], Closure $closure = null): Collection
+    public function getRelation(array $subRelation = [], ?Closure $closure = null): Collection
     {
         if ($closure) {
             $closure($this->query);
@@ -158,13 +179,27 @@ class BelongsToMany extends Relation
      */
     protected function matchPivot(Model $result): array
     {
-        $pivot = [];
+        $pivot    = [];
+        $bindAttr = $this->query->getOptions('bind_attr');
+        if (empty($bindAttr)) {
+            $bindAttr = $this->bindAttr;
+        }
+
         foreach ($result->getData() as $key => $val) {
             if (str_contains($key, '__')) {
                 [$name, $attr] = explode('__', $key, 2);
 
                 if ('pivot' == $name) {
                     $pivot[$attr] = $val;
+                    $pos          = array_search($attr, $bindAttr);
+                    if (false !== $pos) {
+                        // 中间表属性绑定
+                        $attr = !is_numeric($pos) ? $pos : $attr;
+                        if (null !== $result->getOrigin($attr)) {
+                            throw new Exception('bind attr has exists:' . $attr);
+                        }
+                        $result->setAttr($attr, $val);
+                    }
                     unset($result->$key);
                 }
             }
@@ -191,7 +226,7 @@ class BelongsToMany extends Relation
      *
      * @return Model
      */
-    public function has(string $operator = '>=', $count = 1, $id = '*', string $joinType = 'INNER', Query $query = null)
+    public function has(string $operator = '>=', $count = 1, $id = '*', string $joinType = 'INNER', ?Query $query = null)
     {
         return $this->parent;
     }
@@ -208,7 +243,7 @@ class BelongsToMany extends Relation
      *
      * @return Query
      */
-    public function hasWhere($where = [], $fields = null, string $joinType = '', Query $query = null)
+    public function hasWhere($where = [], $fields = null, string $joinType = '', ?Query $query = null)
     {
         throw new Exception('relation not support: hasWhere');
     }
@@ -240,7 +275,7 @@ class BelongsToMany extends Relation
      *
      * @return void
      */
-    public function eagerlyResultSet(array &$resultSet, string $relation, array $subRelation, Closure $closure = null, array $cache = []): void
+    public function eagerlyResultSet(array &$resultSet, string $relation, array $subRelation, ?Closure $closure = null, array $cache = []): void
     {
         $localKey   = $this->localKey;
         $pk         = $resultSet[0]->getPk();
@@ -281,7 +316,7 @@ class BelongsToMany extends Relation
      *
      * @return void
      */
-    public function eagerlyResult(Model $result, string $relation, array $subRelation, Closure $closure = null, array $cache = []): void
+    public function eagerlyResult(Model $result, string $relation, array $subRelation, ?Closure $closure = null, array $cache = []): void
     {
         $pk = $result->getPk();
 
@@ -312,7 +347,7 @@ class BelongsToMany extends Relation
      *
      * @return int
      */
-    public function relationCount(Model $result, Closure $closure = null, string $aggregate = 'count', string $field = '*', string &$name = null)
+    public function relationCount(Model $result, ?Closure $closure = null, string $aggregate = 'count', string $field = '*', ?string &$name = null)
     {
         $pk = $result->getPk();
 
@@ -341,7 +376,7 @@ class BelongsToMany extends Relation
      *
      * @return string
      */
-    public function getRelationCountQuery(Closure $closure = null, string $aggregate = 'count', string $field = '*', string &$name = null): string
+    public function getRelationCountQuery(?Closure $closure = null, string $aggregate = 'count', string $field = '*', ?string &$name = null): string
     {
         if ($closure) {
             $closure($this->query, $name);
@@ -349,7 +384,7 @@ class BelongsToMany extends Relation
 
         return $this->belongsToManyQuery($this->foreignKey, $this->localKey, [
             [
-                'pivot.' . $this->localKey, 'exp', new Raw('=' . $this->parent->db(false)->getTable() . '.' . $this->parent->getPk()),
+                'pivot.' . $this->localKey, 'exp', new Raw('=' . $this->parent->db(false)->getTable(true) . '.' . $this->parent->getPk()),
             ],
         ])->fetchSql()->$aggregate($field);
     }
@@ -364,7 +399,7 @@ class BelongsToMany extends Relation
      *
      * @return array
      */
-    protected function eagerlyManyToMany(array $where, array $subRelation = [], Closure $closure = null, array $cache = []): array
+    protected function eagerlyManyToMany(array $where, array $subRelation = [], ?Closure $closure = null, array $cache = []): array
     {
         if ($closure) {
             $closure($this->query);
@@ -410,7 +445,7 @@ class BelongsToMany extends Relation
     {
         // 关联查询封装
         if (empty($this->baseQuery)) {
-            $tableName = $this->query->getTable();
+            $tableName = $this->query->getTable(true);
             $table = $this->pivot->db()->getTable();
             $fields = $this->getQueryFields($tableName);
 
@@ -644,7 +679,7 @@ class BelongsToMany extends Relation
 
             // 关联查询
             if (null === $this->parent->getKey()) {
-                $condition = ['pivot.' . $localKey, 'exp', new Raw('=' . $this->parent->getTable() . '.' . $this->parent->getPk())];
+                $condition = ['pivot.' . $localKey, 'exp', new Raw('=' . $this->parent->getTable(true) . '.' . $this->parent->getPk())];
             } else {
                 $condition = ['pivot.' . $localKey, '=', $this->parent->getKey()];
             }

@@ -29,10 +29,11 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
 {
     private const MAX_KEY_LENGTH = 250;
 
+    /** @var Collection */
     private $connection;
     private $marshaller;
 
-    public function __construct(Collection $connection, string $namespace = '', int $defaultLifetime = 0, MarshallerInterface $marshaller = null)
+    public function __construct(Collection $connection, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
     {
         if (!static::isSupported()) {
             throw new CacheException('Couchbase >= 3.0.0 < 4.0.0 is required.');
@@ -47,10 +48,17 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
         $this->marshaller = $marshaller ?? new DefaultMarshaller();
     }
 
-    public static function createConnection(array|string $dsn, array $options = []): Bucket|Collection
+    /**
+     * @param array|string $dsn
+     *
+     * @return Bucket|Collection
+     */
+    public static function createConnection($dsn, array $options = [])
     {
         if (\is_string($dsn)) {
             $dsn = [$dsn];
+        } elseif (!\is_array($dsn)) {
+            throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be array or string, "%s" given.', __METHOD__, get_debug_type($dsn)));
         }
 
         if (!static::isSupported()) {
@@ -71,7 +79,7 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
 
             foreach ($dsn as $server) {
                 if (0 !== strpos($server, 'couchbase:')) {
-                    throw new InvalidArgumentException(sprintf('Invalid Couchbase DSN: "%s" does not start with "couchbase:".', $server));
+                    throw new InvalidArgumentException('Invalid Couchbase DSN: it does not start with "couchbase:".');
                 }
 
                 preg_match($dsnPattern, $server, $matches);
@@ -191,7 +199,7 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    protected function doSave(array $values, $lifetime): array|bool
+    protected function doSave(array $values, $lifetime)
     {
         if (!$values = $this->marshaller->marshall($values, $failed)) {
             return $failed;

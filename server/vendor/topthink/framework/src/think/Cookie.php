@@ -1,14 +1,15 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace think;
 
@@ -111,6 +112,7 @@ class Cookie
         }
 
         $this->setCookie($name, $value, $expire, $config);
+        $this->request->setCookie($name, $value);
     }
 
     /**
@@ -158,6 +160,7 @@ class Cookie
     {
         $config = array_merge($this->config, array_change_key_case($options));
         $this->setCookie($name, '', time() - 3600, $config);
+        $this->request->setCookie($name, null);
     }
 
     /**
@@ -181,14 +184,14 @@ class Cookie
             [$value, $expire, $option] = $val;
 
             $this->saveCookie(
-                $name,
+                (string) $name,
                 $value,
                 $expire,
                 $option['path'],
                 $option['domain'],
-                $option['secure'] ? true : false,
-                $option['httponly'] ? true : false,
-                $option['samesite']
+                (bool) $option['secure'],
+                (bool) $option['httponly'],
+                $option['samesite'],
             );
         }
     }

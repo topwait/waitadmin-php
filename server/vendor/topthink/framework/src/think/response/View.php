@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -98,7 +98,7 @@ class View extends Response
      * @param  string $name 模板变量
      * @return mixed
      */
-    public function getVars(string $name = null)
+    public function getVars(?string $name = null)
     {
         if (is_null($name)) {
             return $this->vars;
@@ -131,7 +131,7 @@ class View extends Response
      * @param callable $filter
      * @return $this
      */
-    public function filter(callable $filter = null)
+    public function filter(?callable $filter = null)
     {
         $this->filter = $filter;
         return $this;

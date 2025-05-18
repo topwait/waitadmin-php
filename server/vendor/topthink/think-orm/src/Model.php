@@ -23,7 +23,7 @@ use think\db\BaseQuery as Query;
 /**
  * Class Model.
  *
- * @mixin Query
+ * @mixin \think\db\Query
  *
  * @method static void  onAfterRead(Model $model)     after_read事件定义
  * @method static mixed onBeforeInsert(Model $model)  before_insert事件定义
@@ -235,13 +235,17 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
      */
     public function invoke($method, array $vars = [])
     {
+        if (is_string($method)) {
+            $method = [$this, $method];
+        }
+
         if (self::$invoker) {
             $call = self::$invoker;
 
-            return $call($method instanceof Closure ? $method : Closure::fromCallable([$this, $method]), $vars);
+            return $call($method instanceof Closure ? $method : Closure::fromCallable($method), $vars);
         }
 
-        return call_user_func_array($method instanceof Closure ? $method : [$this, $method], $vars);
+        return call_user_func_array($method, $vars);
     }
 
     /**
@@ -388,7 +392,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
      */
     public function getSuffix(): string
     {
-        return $this->suffix ?: '';
+        return $this->suffix ?? '';
     }
 
     /**
@@ -599,7 +603,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
      *
      * @return bool
      */
-    public function save(array | object $data = [], string $sequence = null): bool
+    public function save(array | object $data = [], ?string $sequence = null): bool
     {
         if ($data instanceof Model) {
             $data = $data->getData();
@@ -754,7 +758,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
      *
      * @return bool
      */
-    protected function insertData(string $sequence = null): bool
+    protected function insertData(?string $sequence = null): bool
     {
         if (false === $this->trigger('BeforeInsert')) {
             return false;
@@ -937,14 +941,14 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
     /**
      * 写入数据.
      *
-     * @param array  $data       数据数组
-     * @param array  $allowField 允许字段
-     * @param bool   $replace    使用Replace
-     * @param string $suffix     数据表后缀
+     * @param array|object  $data 数据
+     * @param array  $allowField  允许字段
+     * @param bool   $replace     使用Replace
+     * @param string $suffix      数据表后缀
      *
      * @return static
      */
-    public static function create(array $data, array $allowField = [], bool $replace = false, string $suffix = ''): Model
+    public static function create(array | object $data, array $allowField = [], bool $replace = false, string $suffix = ''): Model
     {
         $model = new static();
 
@@ -964,14 +968,14 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
     /**
      * 更新数据.
      *
-     * @param array  $data       数据数组
-     * @param mixed  $where      更新条件
-     * @param array  $allowField 允许字段
-     * @param string $suffix     数据表后缀
+     * @param array|object  $data 数据数组
+     * @param mixed  $where       更新条件
+     * @param array  $allowField  允许字段
+     * @param string $suffix      数据表后缀
      *
      * @return static
      */
-    public static function update(array $data, $where = [], array $allowField = [], string $suffix = '')
+    public static function update(array | object $data, $where = [], array $allowField = [], string $suffix = '')
     {
         $model = new static();
 
@@ -1115,7 +1119,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
      *
      * @return Query
      */
-    public static function withoutGlobalScope(array $scope = null): Query
+    public static function withoutGlobalScope(?array $scope = null): Query
     {
         $model = new static();
 
@@ -1167,6 +1171,10 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
             return call_user_func_array(static::$macro[static::class][$method]->bindTo($this, static::class), $args);
         }
 
+        if ($this->exists && strtolower($method) == 'withattr') {
+            return call_user_func_array([$this, 'withFieldAttr'], $args);
+        }
+        
         return call_user_func_array([$this->db(), $method], $args);
     }
 

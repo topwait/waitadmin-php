@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -166,7 +166,7 @@ class RuleName
      * @param  string $method 请求类型
      * @return array
      */
-    public function getName(string $name = null, string $domain = null, string $method = '*'): array
+    public function getName(?string $name = null, ?string $domain = null, string $method = '*'): array
     {
         if (is_null($name)) {
             return $this->item;

@@ -205,11 +205,11 @@ class WeChat extends Base
             }
         }
 
-        if (\count($config) !== 2) {
+        if (2 !== \count($config)) {
             throw new Exceptions\InvalidArgumentException('Please check your config arguments were available.');
         }
 
-        if (\count($this->scopes) === 1 && \in_array('snsapi_login', $this->scopes)) {
+        if (1 === \count($this->scopes) && \in_array('snsapi_login', $this->scopes)) {
             $this->scopes = ['snsapi_base'];
         }
 
