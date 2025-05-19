@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -186,6 +186,10 @@ class Middleware
      */
     protected function buildMiddleware(array|string|Closure $middleware, string $type): array
     {
+        if (empty($middleware)) {
+            return [];
+        }
+        
         if (is_array($middleware)) {
             [$middleware, $params] = $middleware;
         }

@@ -114,7 +114,7 @@ class WeChat extends Base
     public function userFromCode(string $code): Contracts\UserInterface
     {
         if (\in_array('snsapi_base', $this->scopes)) {
-            return $this->mapUserToObject($this->fromJsonBody($this->getTokenFromCode($code)));
+            return $this->getSnsapiBaseUserFromCode($code);
         }
 
         $token = $this->tokenFromCode($code);
@@ -126,6 +126,19 @@ class WeChat extends Base
         return $user->setRefreshToken($token[Contracts\RFC6749_ABNF_REFRESH_TOKEN])
             ->setExpiresIn($token[Contracts\RFC6749_ABNF_EXPIRES_IN])
             ->setTokenResponse($token);
+    }
+
+    protected function getSnsapiBaseUserFromCode(string $code): Contracts\UserInterface
+    {
+        $token = $this->fromJsonBody($this->getTokenFromCode($code));
+        $user = [
+            'openid' => $token['openid'],
+        ];
+        if (isset($token['unionid'])) {
+            $user['unionid'] = $token['unionid'];
+        }
+
+        return $this->mapUserToObject($token)->setProvider($this)->setRaw($user)->setAccessToken($token[$this->accessTokenKey]);
     }
 
     protected function getUserByToken(string $token): array

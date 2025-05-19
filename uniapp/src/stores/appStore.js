@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import IndexApi from '@/api/IndexApi'
+import IndexApi from '@/api/indexApi'
 import toolUtil from '@/utils/toolUtil'
 
 export const useAppStore = defineStore({

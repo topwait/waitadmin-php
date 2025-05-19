@@ -14,6 +14,7 @@ declare (strict_types = 1);
 namespace think\db\concern;
 
 use think\db\Raw;
+use think\helper\Str;
 
 /**
  * JOIN和VIEW查询.
@@ -30,7 +31,7 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function join(array | string | Raw $join, string $condition = null, string $type = 'INNER', array $bind = [])
+    public function join(array | string | Raw $join, ?string $condition = null, string $type = 'INNER', array $bind = [])
     {
         $table = $this->getJoinTable($join);
 
@@ -52,7 +53,7 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function leftJoin(array | string | Raw $join, string $condition = null, array $bind = [])
+    public function leftJoin(array | string | Raw $join, ?string $condition = null, array $bind = [])
     {
         return $this->join($join, $condition, 'LEFT', $bind);
     }
@@ -66,7 +67,7 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function rightJoin(array | string | Raw $join, string $condition = null, array $bind = [])
+    public function rightJoin(array | string | Raw $join, ?string $condition = null, array $bind = [])
     {
         return $this->join($join, $condition, 'RIGHT', $bind);
     }
@@ -80,9 +81,9 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function fullJoin(array | string | Raw $join, string $condition = null, array $bind = [])
+    public function fullJoin(array | string | Raw $join, ?string $condition = null, array $bind = [])
     {
-        return $this->join($join, $condition, 'FULL');
+        return $this->join($join, $condition, 'FULL', $bind);
     }
 
     /**
@@ -94,7 +95,7 @@ trait JoinAndViewQuery
      *
      * @return string|array
      */
-    protected function getJoinTable(array | string | Raw $join, string &$alias = null)
+    protected function getJoinTable(array | string | Raw $join, ?string &$alias = null)
     {
         if (is_array($join)) {
             $table = $join;
@@ -103,16 +104,12 @@ trait JoinAndViewQuery
             return $table;
         }
 
-        if ($join instanceof Raw) {
+        if ($join instanceof Raw || str_contains($join, '(')) {
             return $join;
         }
 
         $join = trim($join);
 
-        if (str_contains($join, '(')) {
-            // 使用子查询
-            return $join;
-        }
         // 使用别名
         if (str_contains($join, ' ')) {
             // 使用别名
@@ -125,7 +122,7 @@ trait JoinAndViewQuery
         }
 
         if ($this->prefix && !str_contains($table, '.') && !str_starts_with($table, $this->prefix)) {
-            $table = $this->getTable($table);
+            $table = $this->prefix . Str::snake($table) . $this->suffix;
         }
 
         if (!empty($alias) && $table != $alias) {
@@ -146,7 +143,7 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function view(array | string | Raw $join, string | array | bool $field = true, string $on = null, string $type = 'INNER', array $bind = []): self
+    public function view(array | string | Raw $join, string | array | bool $field = true, ?string $on = null, string $type = 'INNER', array $bind = []): self
     {
         $this->options['view'] = true;
 

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -38,7 +38,7 @@ class Session extends Manager
      * @param mixed       $default 默认值
      * @return mixed
      */
-    public function getConfig(string $name = null, $default = null)
+    public function getConfig(?string $name = null, $default = null)
     {
         if (!is_null($name)) {
             return $this->app->config->get('session.' . $name, $default);

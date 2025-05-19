@@ -44,13 +44,13 @@ class DemoMiddleware
     {
         $response = $next($request);
 
-        if ($request->method() != 'POST' || !env('project.demo')) {
+        if ($request->method() != 'POST' || !env('demo.demo_status')) {
             return $response;
         }
 
         $adminUser = session('adminUser')??[];
         $adminId = intval($adminUser['id']??0);
-        if ($adminId === 1) {
+        if ($adminId === 1 and env('demo.demo_super')) {
             return $response;
         }
 

@@ -28,18 +28,18 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
     use ContractsTrait;
     use ProxyTrait;
 
-    private string $namespace = '';
-    private int $namespaceLen;
-    private string $poolHash;
-    private int $defaultLifetime;
+    private $namespace = '';
+    private $namespaceLen;
+    private $poolHash;
+    private $defaultLifetime;
 
-    private static \Closure $createCacheItem;
-    private static \Closure $setInnerItem;
+    private static $createCacheItem;
+    private static $setInnerItem;
 
     public function __construct(CacheItemPoolInterface $pool, string $namespace = '', int $defaultLifetime = 0)
     {
         $this->pool = $pool;
-        $this->poolHash = spl_object_hash($pool);
+        $this->poolHash = $poolHash = spl_object_hash($pool);
         if ('' !== $namespace) {
             \assert('' !== CacheItem::validateKey($namespace));
             $this->namespace = $namespace;
@@ -102,7 +102,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
     /**
      * {@inheritdoc}
      */
-    public function get(string $key, callable $callback, float $beta = null, array &$metadata = null): mixed
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
     {
         if (!$this->pool instanceof CacheInterface) {
             return $this->doGet($this, $key, $callback, $beta, $metadata);
@@ -120,7 +120,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
     /**
      * {@inheritdoc}
      */
-    public function getItem(mixed $key): CacheItem
+    public function getItem($key)
     {
         $item = $this->pool->getItem($this->getId($key));
 
@@ -130,7 +130,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
     /**
      * {@inheritdoc}
      */
-    public function getItems(array $keys = []): iterable
+    public function getItems(array $keys = [])
     {
         if ($this->namespaceLen) {
             foreach ($keys as $i => $key) {
@@ -143,16 +143,20 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
 
     /**
      * {@inheritdoc}
+     *
+     * @return bool
      */
-    public function hasItem(mixed $key): bool
+    public function hasItem($key)
     {
         return $this->pool->hasItem($this->getId($key));
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return bool
      */
-    public function clear(string $prefix = ''): bool
+    public function clear(string $prefix = '')
     {
         if ($this->pool instanceof AdapterInterface) {
             return $this->pool->clear($this->namespace.$prefix);
@@ -163,16 +167,20 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
 
     /**
      * {@inheritdoc}
+     *
+     * @return bool
      */
-    public function deleteItem(mixed $key): bool
+    public function deleteItem($key)
     {
         return $this->pool->deleteItem($this->getId($key));
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return bool
      */
-    public function deleteItems(array $keys): bool
+    public function deleteItems(array $keys)
     {
         if ($this->namespaceLen) {
             foreach ($keys as $i => $key) {
@@ -185,29 +193,35 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
 
     /**
      * {@inheritdoc}
+     *
+     * @return bool
      */
-    public function save(CacheItemInterface $item): bool
+    public function save(CacheItemInterface $item)
     {
         return $this->doSave($item, __FUNCTION__);
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return bool
      */
-    public function saveDeferred(CacheItemInterface $item): bool
+    public function saveDeferred(CacheItemInterface $item)
     {
         return $this->doSave($item, __FUNCTION__);
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return bool
      */
-    public function commit(): bool
+    public function commit()
     {
         return $this->pool->commit();
     }
 
-    private function doSave(CacheItemInterface $item, string $method): bool
+    private function doSave(CacheItemInterface $item, string $method)
     {
         if (!$item instanceof CacheItem) {
             return false;
@@ -245,7 +259,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
         }
     }
 
-    private function getId(mixed $key): string
+    private function getId($key): string
     {
         \assert('' !== CacheItem::validateKey($key));
 

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -31,7 +31,7 @@ class FormTokenCheck
      * @param string  $token 表单令牌Token名称
      * @return Response
      */
-    public function handle(Request $request, Closure $next, string $token = null): Response
+    public function handle(Request $request, Closure $next, ?string $token = null): Response
     {
         $check = $request->checkToken($token ?: '__token__');
 
