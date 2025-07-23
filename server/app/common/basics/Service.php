@@ -177,14 +177,17 @@ class Service
                     }
                     break;
                 case 'between':
-                    foreach ($whereFields as $whereField => $paramsValue) {
-                        $paramsName = explode('|', $paramsValue);
+                    foreach ($whereFields as $whereField) {
+                        $arrayInput = explode('@', $whereField);
+                        $keyArg = $arrayInput[0]??'';
+                        $dbName = $arrayInput[1]??'';
+                        $paramsName = explode('|', $keyArg);
                         if (empty($params[$paramsName[0]]) || empty($params[$paramsName[1]])) {
                             break;
                         }
                         $start = $params[$paramsName[0]];
                         $end   = $params[$paramsName[1]];
-                        $where[] = [$whereField, 'between', [$start, $end]];
+                        $where[] = [$dbName, 'between', [$start, $end]];
                     }
                     break;
                 case 'datetime':
