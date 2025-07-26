@@ -15,6 +15,7 @@ declare (strict_types = 1);
 
 namespace app\common\service\excel;
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -96,19 +97,14 @@ class ExcelDriver
         $worksheet   = $spreadsheet->getActiveSheet();
 
         // 表格数据
-        $listsData = [];
-        foreach ($lists as $row) {
+        $fieldKeys = array_keys($fields);
+        $listsData = array_map(function($row) use ($fieldKeys) {
             $temp = [];
-            foreach ($fields as $key => $val) {
-                $fieldData = $row[$key];
-                if (is_numeric($fieldData) && strlen($fieldData) >= 12) {
-                    $fieldData .= "\t";
-                }
-                $temp[$key] = $fieldData;
+            foreach ($fieldKeys as $key) {
+                $temp[$key] = $row[$key];
             }
-            $listsData[] = $temp;
-            $listsData[] = $row;
-        }
+            return $temp;
+        }, $lists);
 
         // 表头字段
         $titleWidth = [];
@@ -129,7 +125,16 @@ class ExcelDriver
         foreach ($listsData as $item) {
             $column = 1;
             foreach ($item as $value) {
-                $worksheet->setCellValue([$column, $row], $value);
+                // 处理超出11位的"字符类型"的"纯数字"正常显示,而不是科学计数法如: 1.28001E+12
+                if (is_numeric($value) && gettype('11') === 'string' && strlen($value) > 11) {
+                    $worksheet->setCellValueExplicit(
+                        [$column, $row],
+                        $value,
+                        DataType::TYPE_STRING
+                    );
+                } else {
+                    $worksheet->setCellValue([$column, $row], $value);
+                }
                 if (!empty($option['fontStyle']['name'])) {
                     $sty = explode('@', $option['fontStyle']['name']);
                     $col = count($sty) >= 2 ? intval($sty[0]) : $column;
@@ -178,7 +183,7 @@ class ExcelDriver
         }
 
         // 表头样式
-        $worksheet->getRowDimension(1)->setRowHeight($option['cellOtRowHeight']);
+        $worksheet->getRowDimension(1)->setRowHeight($option['headerRowHeight']);
         $worksheet->getStyle([1, 1, count($titleArray), 1])->applyFromArray($option['headerStyle']);
 
         // 基础样式
@@ -195,13 +200,13 @@ class ExcelDriver
 
         // 导出文件
         if ($option['exportMethod'] === 'path') {
-            if (!file_exists($exportPath)) {
-                mkdir($exportPath, 0775, true);
+            if (!file_exists($option['exportPath'])) {
+                mkdir($option['exportPath'], 0775, true);
             }
 
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-            $writer->save($exportPath . $exportName . '.xlsx');
-            return $exportPath . $exportName . '.xlsx';
+            $writer->save($option['exportPath'] . $exportName . '.xlsx');
+            return $option['exportPath'] . $exportName . '.xlsx';
         } else {
             header('Content-Type: application/vnd.ms-excel;charset=utf-8');
             header('Content-Disposition: attachment;filename="'.$option['exportName'].'.xlsx"');
