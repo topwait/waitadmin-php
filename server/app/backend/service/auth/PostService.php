@@ -32,9 +32,6 @@ class PostService extends Service
      * 所有岗位
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function all(): array

@@ -31,9 +31,6 @@ class ArticleService extends Service
      * 分类列表
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function category(): array

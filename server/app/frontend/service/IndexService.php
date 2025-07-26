@@ -18,9 +18,6 @@ namespace app\frontend\service;
 use app\common\basics\Service;
 use app\common\model\dev\DevBanner;
 use app\common\model\dev\DevLinks;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 
 /**
  * 主页服务类
@@ -32,9 +29,6 @@ class IndexService extends Service
      *
      * @param int $position
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function getBanner(int $position): array
@@ -53,9 +47,6 @@ class IndexService extends Service
      * 获取友情链接
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function getLinks(): array

@@ -19,7 +19,6 @@ use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\model\auth\AuthMenu;
 use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 
 /**
@@ -31,9 +30,6 @@ class MenuService extends Service
      * 菜单列表
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function lists(): array

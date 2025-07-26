@@ -23,9 +23,6 @@ use app\common\model\auth\AuthPerm;
 use app\common\model\article\Article;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 
 /**
  * 主页服务类
@@ -38,9 +35,6 @@ class IndexService extends Service
      * @param int $adminId
      * @param int $roleId
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function index(int $adminId, int $roleId): array
@@ -82,9 +76,6 @@ class IndexService extends Service
      * 控制台
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function console(): array

@@ -32,9 +32,6 @@ class CategoryService extends Service
      * 所有文章分类
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function all(): array

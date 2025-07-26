@@ -19,9 +19,6 @@ use app\common\basics\Service;
 use app\common\model\article\Article;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 
 /**
  * 主页服务类
@@ -32,9 +29,6 @@ class IndexService extends Service
      * 首页数据
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function index(): array
