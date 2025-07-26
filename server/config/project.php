@@ -8,7 +8,7 @@ return [
     'backend_entrance' => env('project.backend', '/admin.php'),
 
     // 版本号
-    'version'       => '1.3.7',
+    'version'       => '1.3.8',
 
     // 上传器
     'uploader' => [
