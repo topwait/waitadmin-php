@@ -13,6 +13,7 @@ import zhHans from './lang/zh-Hans.json'
 import zhHant from './lang/zh-Hant.json'
 
 let i18nConfig = {
+    legacy: false,
     locale: uni.getLocale(),
     messages: {
         'en': en,

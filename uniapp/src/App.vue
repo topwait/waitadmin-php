@@ -9,7 +9,10 @@ const userStore = useUserStore()
 const { proxy } = getCurrentInstance()
 
 onLaunch(async () => {
-    uni.hideTabBar({animation: false})
+    uni.hideTabBar({
+        animation: false,
+        fail() {}
+    })
     await appStore.getSysConfig()
     await appStore.h5Intercepts()
     await userStore.getUserInfo()

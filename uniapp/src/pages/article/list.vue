@@ -12,7 +12,12 @@
                     @change="tabChange"
                 />
             </template>
-            <swiper :current="swiperCurrent" style="height: 100%;" @transition="transition" @animationfinish="animations">
+            <swiper 
+                :current="swiperCurrent" 
+                style="height: 100%;" 
+                @transition="transition"
+                @animationfinish="animations"
+            >
                 <swiper-item v-for="(item, index) in tabList" :key="index">
                     <ArticlePagInList
                         :cid="item.id"
