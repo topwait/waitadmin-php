@@ -2088,24 +2088,18 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.29.10",
-            "version_normalized": "1.29.10.0",
+            "version": "1.29.12",
+            "version_normalized": "1.29.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "c80041b1628c4f18030407134fe88303661d4e4e"
+                "reference": "7c06eed662cce7ecab88f6f9f7626b443f5285df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/c80041b1628c4f18030407134fe88303661d4e4e",
-                "reference": "c80041b1628c4f18030407134fe88303661d4e4e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/7c06eed662cce7ecab88f6f9f7626b443f5285df",
+                "reference": "7c06eed662cce7ecab88f6f9f7626b443f5285df",
+                "shasum": ""
             },
             "require": {
                 "composer/pcre": "^1||^2||^3",
@@ -2151,7 +2145,7 @@
                 "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
                 "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
             },
-            "time": "2025-02-08T02:56:14+00:00",
+            "time": "2025-07-23T04:40:30+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2197,7 +2191,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.10"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.12"
             },
             "install-path": "../phpoffice/phpspreadsheet"
         },
@@ -4371,24 +4365,24 @@
         },
         {
             "name": "tencentcloud/common",
-            "version": "3.0.1381",
-            "version_normalized": "3.0.1381.0",
+            "version": "3.0.1414",
+            "version_normalized": "3.0.1414.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tencentcloud-sdk-php/common.git",
-                "reference": "c442c5d69e36a69a58fdcd0f8e55938ce503abff"
+                "reference": "ffac45b9c3d40491933a2b28cd1ed866fb627844"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tencentcloud-sdk-php/common/zipball/c442c5d69e36a69a58fdcd0f8e55938ce503abff",
-                "reference": "c442c5d69e36a69a58fdcd0f8e55938ce503abff",
+                "url": "https://api.github.com/repos/tencentcloud-sdk-php/common/zipball/ffac45b9c3d40491933a2b28cd1ed866fb627844",
+                "reference": "ffac45b9c3d40491933a2b28cd1ed866fb627844",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3||^7.0",
                 "php": ">=5.6.0"
             },
-            "time": "2025-05-18T20:33:46+00:00",
+            "time": "2025-07-05T15:39:42+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4412,29 +4406,29 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/common",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/common/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1381"
+                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1414"
             },
             "install-path": "../tencentcloud/common"
         },
         {
             "name": "tencentcloud/sms",
-            "version": "3.0.1381",
-            "version_normalized": "3.0.1381.0",
+            "version": "3.0.1414",
+            "version_normalized": "3.0.1414.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tencentcloud-sdk-php/sms.git",
-                "reference": "9ba17019db41f633821739b075c2d9c68ce56794"
+                "reference": "563413941f063c5e8ab19b3fc8465393fb34112f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tencentcloud-sdk-php/sms/zipball/9ba17019db41f633821739b075c2d9c68ce56794",
-                "reference": "9ba17019db41f633821739b075c2d9c68ce56794",
+                "url": "https://api.github.com/repos/tencentcloud-sdk-php/sms/zipball/563413941f063c5e8ab19b3fc8465393fb34112f",
+                "reference": "563413941f063c5e8ab19b3fc8465393fb34112f",
                 "shasum": ""
             },
             "require": {
-                "tencentcloud/common": "3.0.1381"
+                "tencentcloud/common": "3.0.1414"
             },
-            "time": "2025-05-18T21:12:46+00:00",
+            "time": "2025-07-05T16:21:59+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4458,7 +4452,7 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/sms",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/sms/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1381"
+                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1414"
             },
             "install-path": "../tencentcloud/sms"
         },
@@ -4518,24 +4512,18 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v8.1.2",
-            "version_normalized": "8.1.2.0",
+            "version": "v8.1.3",
+            "version_normalized": "8.1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "8faec5c9b7a7f2a66ca3140a57e81bd6cd37567c"
+                "reference": "e4207e98b66f92d26097ed6efd535930cba90e8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/8faec5c9b7a7f2a66ca3140a57e81bd6cd37567c",
-                "reference": "8faec5c9b7a7f2a66ca3140a57e81bd6cd37567c",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/top-think/framework/zipball/e4207e98b66f92d26097ed6efd535930cba90e8f",
+                "reference": "e4207e98b66f92d26097ed6efd535930cba90e8f",
+                "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
@@ -4556,7 +4544,7 @@
                 "mockery/mockery": "^1.2",
                 "phpunit/phpunit": "^9.5"
             },
-            "time": "2025-01-14T08:04:03+00:00",
+            "time": "2025-07-14T03:48:44+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4588,7 +4576,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v8.1.2"
+                "source": "https://github.com/top-think/framework/tree/v8.1.3"
             },
             "install-path": "../topthink/framework"
         },
@@ -5092,30 +5080,24 @@
         },
         {
             "name": "topthink/think-validate",
-            "version": "v3.0.5",
-            "version_normalized": "3.0.5.0",
+            "version": "v3.0.7",
+            "version_normalized": "3.0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-validate.git",
-                "reference": "f7dd85675270e9f8c0b04a13362133067629f53c"
+                "reference": "85063f6d4ef8ed122f17a36179dc3e0949b30988"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-validate/zipball/f7dd85675270e9f8c0b04a13362133067629f53c",
-                "reference": "f7dd85675270e9f8c0b04a13362133067629f53c",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/top-think/think-validate/zipball/85063f6d4ef8ed122f17a36179dc3e0949b30988",
+                "reference": "85063f6d4ef8ed122f17a36179dc3e0949b30988",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.0",
                 "topthink/think-container": ">=3.0"
             },
-            "time": "2025-03-05T06:11:48+00:00",
+            "time": "2025-06-11T05:51:40+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -5139,7 +5121,7 @@
             "description": "think validate",
             "support": {
                 "issues": "https://github.com/top-think/think-validate/issues",
-                "source": "https://github.com/top-think/think-validate/tree/v3.0.5"
+                "source": "https://github.com/top-think/think-validate/tree/v3.0.7"
             },
             "install-path": "../topthink/think-validate"
         },
