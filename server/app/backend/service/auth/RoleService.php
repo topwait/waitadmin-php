@@ -36,9 +36,6 @@ class RoleService extends Service
      * 所有角色
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function all(): array
@@ -97,9 +94,6 @@ class RoleService extends Service
      *
      * @param array $menuIds
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function checked(array $menuIds): array
@@ -214,7 +208,6 @@ class RoleService extends Service
      * 角色删除
      *
      * @param array $ids
-     * @throws DbException
      * @throws OperateException
      * @author zero
      */

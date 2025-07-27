@@ -87,9 +87,6 @@ class ArticleService extends Service
      * @param string $type
      * @param int $limit
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function recommend(string $type, int $limit = 10): array

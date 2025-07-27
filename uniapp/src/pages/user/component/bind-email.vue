@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineEmits } from 'vue'
+import { ref, watch } from 'vue'
 import { useLock } from '@/hooks/useLock'
 import indexApi from '@/api/indexApi'
 import userApi from '@/api/userApi'

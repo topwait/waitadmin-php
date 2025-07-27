@@ -4,8 +4,7 @@ import loginApi from '@/api/loginApi'
 import cacheEnum from '@/enums/cacheEnum'
 import cacheUtil from '@/utils/cacheUtil'
 
-export const useUserStore = defineStore({
-    id: 'userStore',
+export const useUserStore = defineStore('userStore', {
     state: () => {
         return {
             token: cacheUtil.get(cacheEnum.TOKEN_KEY),

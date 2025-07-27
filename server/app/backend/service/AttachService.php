@@ -21,9 +21,7 @@ use app\common\exception\OperateException;
 use app\common\model\attach\Attach;
 use app\common\model\attach\AttachCate;
 use app\common\utils\UrlUtils;
-use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 
 /**
  * 附件服务类
@@ -136,9 +134,6 @@ class AttachService extends Service
      * 分组列表
      *
      * @return array
-     * @throws DbException
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function cateLists(): array

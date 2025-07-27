@@ -52,12 +52,12 @@ class DiyService extends Service
                 [
                     'name'  => '联系我们',
                     'image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/ic_contact.png'),
-                    'link'  => '/pages/other/customer'
+                    'link'  => '/pages/index/customer'
                 ],
                 [
                     'name'  => '关于我们',
                     'image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/ic_about.png'),
-                    'link'  => '/pages/other/about'
+                    'link'  => '/pages/index/about'
                 ]
             ]
         ] ?? [];

@@ -33,7 +33,7 @@
                         :src="item.image"
                         style="flex-shrink: 0;"
                     />
-                    <view class="flex flex-col justify-between px-20">
+                    <view class="flex-1 flex flex-col justify-between px-20">
                         <view class="truncate-line-1 font-xl font-weight-medium color-main">{{ item.title }}</view>
                         <view class="truncate-line-2 font-xs color-text">{{ item.intro }}</view>
                         <view class="flex justify-between">

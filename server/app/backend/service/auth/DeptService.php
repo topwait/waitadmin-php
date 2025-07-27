@@ -20,7 +20,6 @@ use app\common\exception\OperateException;
 use app\common\model\auth\AuthAdmin;
 use app\common\model\auth\AuthDept;
 use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 
 /**
@@ -32,9 +31,6 @@ class DeptService extends Service
      * 部门列表
      *
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function lists(): array

@@ -2,8 +2,7 @@ import { defineStore } from 'pinia'
 import IndexApi from '@/api/indexApi'
 import toolUtil from '@/utils/toolUtil'
 
-export const useAppStore = defineStore({
-    id: 'appStore',
+export const useAppStore = defineStore('appStore', {
     state: () => {
         return {
             config: {
