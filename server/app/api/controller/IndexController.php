@@ -19,9 +19,6 @@ use app\api\service\IndexService;
 use app\common\basics\Api;
 use app\common\service\msg\MsgDriver;
 use app\common\utils\AjaxUtils;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 use think\response\Json;
 
 /**
@@ -35,9 +32,6 @@ class IndexController extends Api
      * 首页数据
      *
      * @return Json
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @method [GET]
      */
     public function index(): Json
