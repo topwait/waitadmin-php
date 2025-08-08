@@ -3,7 +3,7 @@
         'name' => 'topthink/think',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '3e8cc11e052333bf6891ffc3ddff3f0c2da80fab',
+        'reference' => '9c95f4390378678f18aec329a66bbee1bb63d732',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -155,7 +155,7 @@
             'dev_requirement' => false,
         ),
         'maennchen/zipstream-php' => array(
-            'pretty_version' => 'v2.4.0',
+            'pretty_version' => '2.4.0',
             'version' => '2.4.0.0',
             'reference' => '3fa72e4c71a43f9e9118752a5c90e476a8dc9eb3',
             'type' => 'library',
@@ -625,7 +625,7 @@
         'topthink/think' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '3e8cc11e052333bf6891ffc3ddff3f0c2da80fab',
+            'reference' => '9c95f4390378678f18aec329a66bbee1bb63d732',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

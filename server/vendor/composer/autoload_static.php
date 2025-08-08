@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3edf78865728c70144b426ecf532b51b
+class ComposerStaticInit4b5e1320ab435d48cdd617472128f924
 {
     public static $files = array (
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
@@ -181,14 +181,14 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-container/src',
-            1 => __DIR__ . '/..' . '/topthink/think-filesystem/src',
-            2 => __DIR__ . '/..' . '/topthink/think-helper/src',
-            3 => __DIR__ . '/..' . '/topthink/think-image/src',
-            4 => __DIR__ . '/..' . '/topthink/think-orm/src',
-            5 => __DIR__ . '/..' . '/topthink/think-template/src',
-            6 => __DIR__ . '/..' . '/topthink/think-validate/src',
-            7 => __DIR__ . '/..' . '/topthink/framework/src/think',
+            0 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            1 => __DIR__ . '/..' . '/topthink/think-validate/src',
+            2 => __DIR__ . '/..' . '/topthink/think-container/src',
+            3 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            4 => __DIR__ . '/..' . '/topthink/framework/src/think',
+            5 => __DIR__ . '/..' . '/topthink/think-filesystem/src',
+            6 => __DIR__ . '/..' . '/topthink/think-image/src',
+            7 => __DIR__ . '/..' . '/topthink/think-template/src',
         ),
         'clagiordano\\weblibs\\configmanager\\' => 
         array (
@@ -212,8 +212,8 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         ),
         'TencentCloud\\' => 
         array (
-            0 => __DIR__ . '/..' . '/tencentcloud/common/src/TencentCloud',
-            1 => __DIR__ . '/..' . '/tencentcloud/sms/src/TencentCloud',
+            0 => __DIR__ . '/..' . '/tencentcloud/sms/src/TencentCloud',
+            1 => __DIR__ . '/..' . '/tencentcloud/common/src/TencentCloud',
         ),
         'Symfony\\Polyfill\\Php81\\' => 
         array (
@@ -305,8 +305,8 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -452,11 +452,11 @@ class ComposerStaticInit3edf78865728c70144b426ecf532b51b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInit3edf78865728c70144b426ecf532b51b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4b5e1320ab435d48cdd617472128f924::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4b5e1320ab435d48cdd617472128f924::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit4b5e1320ab435d48cdd617472128f924::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit4b5e1320ab435d48cdd617472128f924::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit4b5e1320ab435d48cdd617472128f924::$classMap;
 
         }, null, ClassLoader::class);
     }
