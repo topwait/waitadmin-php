@@ -1,6 +1,6 @@
 <h1 align="center">WaitAdmin管理后台</h1>
 
-WaitAdmin是一款ThinkPHP8 + Layui2.11.*的极速后台开发框架。
+WaitAdmin是一款ThinkPHP8.1 + Layui2.11.*的极速后台开发框架。
 实现了后台系统常见的RBAC权限管理，并且内置了诸多好用的工具。
 
 ## 项目说明
@@ -23,7 +23,7 @@ WaitAdmin是一款ThinkPHP8 + Layui2.11.*的极速后台开发框架。
 
 | 运行环境           | 要求版本    | 推荐版本   |
 |:---------------|:--------|:-------|
-| PHP            | >=8.0.2 | 8.0.26 |
+| PHP            | >=8.0.2 | 8.0.30 |
 | Mysql          | >=5.7   | 5.7    |
 | nginx 或 apache | 无限制     | nginx  |
 
