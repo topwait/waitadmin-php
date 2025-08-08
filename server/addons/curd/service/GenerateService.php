@@ -538,6 +538,7 @@ class GenerateService extends Service
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('>>>', '', $content);
             $content = str_replace('__', '', $content);
+            $content = str_replace('_\_construct', '__construct', $content);
             $detail[$v] = $content;
         }
 
