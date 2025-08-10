@@ -33,7 +33,7 @@ class {$table.gen_class}Validate extends Validate
 {/volist}
     ];
 ;#;
-    public function __construct()
+    public function _\_construct()
     {
         $this->field = [
 {volist name="$columns" id="vo"}
@@ -43,6 +43,6 @@ class {$table.gen_class}Validate extends Validate
 {/volist}
         ];
 ;#;
-        parent::__construct();
+        parent::_\_construct();
     }
 }

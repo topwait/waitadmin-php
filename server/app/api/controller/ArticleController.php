@@ -36,9 +36,6 @@ class ArticleController extends Api
      * 文章分类
      *
      * @return Json
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @method [GET]
      * @author zero
      */

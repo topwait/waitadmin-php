@@ -22,9 +22,7 @@ use app\common\exception\SystemException;
 use app\common\model\auth\AuthMenu;
 use app\common\model\sys\SysDictType;
 use Exception;
-use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 use ZipArchive;
 
 /**
@@ -175,9 +173,6 @@ class GenerateService extends Service
      *
      * @param int $id
      * @return array
-     * @throws DbException
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function detail(int $id): array
@@ -239,9 +234,6 @@ class GenerateService extends Service
      * 同步表结构信息
      *
      * @param int $id
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @throws OperateException
      * @author zero
      */
@@ -421,9 +413,6 @@ class GenerateService extends Service
      * 导出生成的代码
      *
      * @param int $id
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @throws OperateException
      * @author zero
      */
@@ -472,9 +461,6 @@ class GenerateService extends Service
      *
      * @param int $id
      * @return string
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function download(int $id): string
@@ -532,9 +518,6 @@ class GenerateService extends Service
      *
      * @param int $id
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     public static function preview(int $id): array
@@ -555,6 +538,7 @@ class GenerateService extends Service
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('>>>', '', $content);
             $content = str_replace('__', '', $content);
+            $content = str_replace('_\_construct', '__construct', $content);
             $detail[$v] = $content;
         }
 
@@ -568,7 +552,8 @@ class GenerateService extends Service
      * @throws OperateException
      * @author zero
      */
-    public static function initMenu(array $table) {
+    public static function initMenu(array $table): void
+    {
         if ($table['menu_type'] != 'auto') {
             return;
         }

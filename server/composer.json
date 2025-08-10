@@ -17,11 +17,11 @@
         {
             "name": "yunwuxin",
             "email": "448901948@qq.com"
-        }        
+        }
     ],
     "require": {
         "php": ">=8.0",
-        "topthink/framework": "^8.0.0",
+        "topthink/framework": "^8.1.0",
         "topthink/think-orm": "^3.0",
         "topthink/think-multi-app": "^1.0",
         "topthink/think-view": "^2.0",
@@ -34,21 +34,22 @@
         "ext-fileinfo": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*",
-        "aliyuncs/oss-sdk-php": "^2.6",
+        "aliyuncs/oss-sdk-php": "^2.7",
         "qcloud/cos-sdk-v5": "^v2.6",
-        "qiniu/php-sdk": "^7.6",
-        "phpmailer/phpmailer": "^6.6",
+        "qiniu/php-sdk": "^7.14",
+        "phpmailer/phpmailer": "^6.10",
         "symfony/var-exporter": "5.4.10",
         "w7corp/easywechat": "6.12",
         "alibabacloud/client": "^1.5",
-        "topwait/wait-addons": "^1.0",
+        "topwait/wait-addons": "^1.1",
         "tencentcloud/sms": "^3.0",
         "phpoffice/phpspreadsheet": "^1.29",
-        "dragonmantank/cron-expression": "^3.3"
+        "dragonmantank/cron-expression": "^3.4",
+        "psr/simple-cache": "^2.0.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.0",
-        "topthink/think-trace": "^1.0"
+        "topthink/think-trace": "^1.6"
     },
     "autoload": {
         "psr-4": {
