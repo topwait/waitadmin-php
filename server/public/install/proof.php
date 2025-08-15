@@ -217,7 +217,6 @@ class Proof
      * @return string
      * @author zero
      */
-    #[Pure]
     public function freeDiskSpace(): string
     {
         $freeDiskSpace = disk_free_space(realpath(__DIR__)) / 1024 / 1024;
