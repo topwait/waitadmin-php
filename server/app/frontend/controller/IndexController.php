@@ -22,9 +22,6 @@ use app\common\utils\AjaxUtils;
 use app\common\utils\ConfigUtils;
 use app\frontend\service\ArticleService;
 use app\frontend\service\IndexService;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 use think\facade\Cookie;
 use think\response\Json;
 use think\response\View;
@@ -40,9 +37,6 @@ class IndexController extends Frontend
      * 首页
      *
      * @return View
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @method [GET]
      * @author zero
      */
