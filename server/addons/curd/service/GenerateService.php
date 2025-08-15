@@ -435,6 +435,7 @@ class GenerateService extends Service
             $content = str_replace('%%%', '', $content);
             $content = str_replace('>>>', '', $content);
             $content = str_replace('__', '', $content);
+            $content = str_replace('_\_construct', '__construct', $content);
 
             $genFolder = str_replace('\\', '/', $table['gen_folder']);
             $writePath = match ($k) {
@@ -494,6 +495,7 @@ class GenerateService extends Service
             $content = str_replace(';#;', ' ', $content);
             $content = str_replace('%%%', '', $content);
             $content = str_replace('__', '', $content);
+            $content = str_replace('_\_construct', '__construct', $content);
 
             $genFolder = str_replace('\\', '/', $table['gen_folder']);
             $writePath = match ($k) {
