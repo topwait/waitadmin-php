@@ -14,7 +14,7 @@
             </template>
             <swiper 
                 :current="swiperCurrent" 
-                style="height: 100%;" 
+                :style="{ height: '100%' }" 
                 @transition="transition"
                 @animationfinish="animations"
             >
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref, getCurrentInstance } from 'vue'
+import { ref, nextTick } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import articleApi from '@/api/articleApi'
 import ArticlePagInList from './component/article-pagin-list'
@@ -43,7 +43,7 @@ const keyword = ref('')
 const tabList = ref([])
 const current = ref(0)
 const swiperCurrent = ref(0)
-const currentInstance = getCurrentInstance()
+const uTabs = ref(null)
 
 // 发起搜索
 const onSearch = (e) => {
@@ -58,13 +58,17 @@ const tabChange = (e) => {
 // 切换过度
 const transition = (e) => {
     let dx = e.detail.dx
-    currentInstance.ctx.$refs.uTabs.setDx(dx)
+    if (uTabs.value) {
+        uTabs.value.setDx(dx)
+    }
 }
 
 // 切换动画
 const animations = (e) => {
     let index = e.detail.current
-    currentInstance.ctx.$refs.uTabs.setFinishCurrent(index)
+    if (uTabs.value) {
+        uTabs.value.setFinishCurrent(index)
+    }
     swiperCurrent.value = index
     current.value = index
 }
