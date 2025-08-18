@@ -57,7 +57,7 @@ if ($step == 4) {
         'admin_user' => $_POST['admin_user'] ?? '',
         'admin_pwd'  => $_POST['admin_pwd'] ?? '',
         'admin_pwd_confirm'  => $_POST['admin_pwd_confirm'] ?? '',
-        'backend_entrance'   => $adminName ?? '/admin.php',
+        'backend_entrance'   => $adminName,
     ];
 
     // 连接数据库

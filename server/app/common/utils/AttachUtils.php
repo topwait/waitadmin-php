@@ -153,7 +153,7 @@ class AttachUtils
      * @param string $scene
      * @author zero
      */
-    private static function _updateQuote(string $url, string $scene)
+    private static function _updateQuote(string $url, string $scene): void
     {
         $modelAttach = new Attach();
         $attach = $modelAttach

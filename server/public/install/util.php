@@ -12,8 +12,6 @@
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
 
-use JetBrains\PhpStorm\Pure;
-
 class Util
 {
     /**
@@ -94,7 +92,6 @@ class Util
      * @return bool
      * @author zero
      */
-    #[Pure]
     public function loadLock(): bool
     {
         return file_exists(APP_ROOT . '/install.lock');
@@ -103,11 +100,11 @@ class Util
     /**
      * 替换访问入口
      *
-     * @param $name (新入口名称)
-     * @param $oldName (旧入口名称)
+     * @param string $name (新入口名称)
+     * @param string $oldName (旧入口名称)
      * @author zero
      */
-    public function replaceEntrance(string $name, string $oldName)
+    public function replaceEntrance(string $name, string $oldName): void
     {
         // 替换配置
         $environment = file_get_contents(APP_ROOT . '/.env');

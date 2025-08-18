@@ -228,19 +228,22 @@
                             <div class="layui-form-item">
                                 <label for="host" class="layui-form-label">数据库主机：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="host" name="host" value="localhost" lay-verType="tips" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" id="host" name="host" value="localhost" lay-verType="tips"
+                                           lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="username" class="layui-form-label">数据库用户：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="username" name="username" value="root" lay-verType="tips" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" id="username" name="username" value="root" lay-verType="tips"
+                                           lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="password" class="layui-form-label">数据库密码：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="password" name="password" lay-verType="tips" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" id="password" name="password" lay-verType="tips"
+                                           lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -252,13 +255,15 @@
                             <div class="layui-form-item">
                                 <label for="db" class="layui-form-label">数据库名称：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="db" name="db" value="waitadmin" lay-verType="tips" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" id="db" name="db" value="waitadmin" lay-verType="tips"
+                                           lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="prefix" class="layui-form-label">数据表前缀：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="prefix" name="prefix" value="wait_" lay-verType="tips" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" id="prefix" name="prefix" value="wait_" lay-verType="tips"
+                                           lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -275,19 +280,23 @@
                             <div class="layui-form-item">
                                 <label for="admin_user" class="layui-form-label">用户名称：</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="admin_user" name="admin_user" lay-verType="tips" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" id="admin_user" name="admin_user" lay-verType="tips"
+                                           lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="admin_pwd" class="layui-form-label">登录密码：</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" id="admin_pwd" name="admin_pwd" lay-verType="tips" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="password" id="admin_pwd" name="admin_pwd" lay-verType="tips"
+                                           lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="admin_pwd_confirm" class="layui-form-label">确认密码：</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" id="admin_pwd_confirm" name="admin_pwd_confirm" lay-verType="tips" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="password" id="admin_pwd_confirm" name="admin_pwd_confirm"
+                                           lay-verType="tips" lay-verify="required" autocomplete="off"
+                                           class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">

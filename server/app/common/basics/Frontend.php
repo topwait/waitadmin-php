@@ -24,9 +24,6 @@ use app\common\utils\UrlUtils;
 use app\frontend\service\UserService;
 use LogicException;
 use think\App;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 use think\facade\Cookie;
 use think\facade\View;
 
@@ -63,9 +60,6 @@ abstract class Frontend extends BaseController
      *
      * Frontend constructor.
      * @param App $app
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      */
     public function __construct(App $app)
     {
@@ -94,9 +88,6 @@ abstract class Frontend extends BaseController
     /**
      * 设置变量
      *
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @author zero
      */
     protected function setValues(): void

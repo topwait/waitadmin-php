@@ -146,7 +146,7 @@ class Mysql
         $dbFile = INSTALL_ROOT . '/db/wait.sql';
         $tables = str_replace(";\r\n", ";\n", file_get_contents($dbFile));
         $tables = explode(";\n", $tables);
-        array_push($tables, $this->initAccount());
+        $tables[] = $this->initAccount();
 
         $this->pdo->exec('USE ' . $this->db);
 
@@ -223,9 +223,9 @@ class Mysql
             if (!$this->createDB($version)) {
                 return '创建数据库错误';
             }
-        } elseif ($this->tableExits() and $this->clear == false) {
+        } elseif ($this->tableExits() and !$this->clear) {
             return '数据表已经存在，您可以清空现有数据库继续安装';
-        } elseif ($this->dbExists() and $this->clear == true) {
+        } elseif ($this->dbExists() and $this->clear) {
             if (!$this->dropTable()) {
                 return '删除存在的数据库库出错了,请手动清除';
             } else {
