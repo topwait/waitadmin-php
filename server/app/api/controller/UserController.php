@@ -70,6 +70,21 @@ class UserController extends Api
     }
 
     /**
+     * 验证密码
+     *
+     * @return Json
+     * @method [POST]
+     * @author zero
+     */
+    public function checkPwd(): Json
+    {
+        $password = $this->request->post('password', '');
+        $results = UserService::checkPwd($password, $this->userId);
+        $message = $results ? 'success' : 'failed';
+        return AjaxUtils::success($message, ['status'=>$results]);
+    }
+
+    /**
      * 忘记密码
      *
      * @return Json

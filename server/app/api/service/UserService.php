@@ -147,6 +147,32 @@ class UserService extends Service
     }
 
     /**
+     * 验证密码
+     *
+     * @param string $password
+     * @param int $userId
+     * @return bool
+     */
+    public static function checkPwd(string $password, int $userId): bool
+    {
+        // 查询账户
+        $modelUser = new User();
+        $user = $modelUser->field(['id,password,salt'])
+            ->where(['id'=>$userId])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证密码
+        $originalPwd = make_md5_str($password, $user['salt']);
+        if ($user['password'] !== $originalPwd) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * 忘记密码
      *
      * @param array $post (参数)
