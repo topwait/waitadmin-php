@@ -332,6 +332,7 @@ class UserService extends Service
     public static function bindMobile(array $post, int $userId): void
     {
         // 接收参数
+        $password = $post['password']??'';
         $mobile = $post['mobile']??'';
         $code   = $post['code']??'';
 //        $type   = $post['type']??'';
@@ -371,10 +372,14 @@ class UserService extends Service
         }
 
         // 验证密码
+        $originalPwd = make_md5_str($password, $user['salt']);
+        if ($user['password'] !== $originalPwd) {
+            throw new OperateException('检测到密码不正确!');
+        }
 
         // 查询手机
         $mobileCheck = $modeUser->field(['id'])
-            ->where(['id', '<>', $userId])
+            ->where('id', '<>', $userId)
             ->where(['mobile'=>$mobile])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
