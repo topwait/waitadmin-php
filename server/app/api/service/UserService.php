@@ -361,7 +361,7 @@ class UserService extends Service
         $modeUser = new User();
         $user = $modeUser->field(['id,mobile'])
             ->where(['id'=>$userId])
-            ->where(['is_delete'=>$userId])
+            ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
 
