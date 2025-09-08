@@ -334,18 +334,27 @@ class UserService extends Service
         // 接收参数
         $mobile = $post['mobile']??'';
         $code   = $post['code']??'';
-        $type   = $post['type']??'';
+//        $type   = $post['type']??'';
 
-        if ($type === 'code') {
-            // 微信验证
-            $phoneArr = WeChatService::wxPhoneNumber($code);
-            $mobile = $phoneArr['phoneNumber'];
-        } else {
-            // 短信验证
-            $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
-            if (!MsgDriver::checkCode($nCode, $code, true)) {
-                throw new OperateException('验证码错误');
-            }
+//        if ($type === 'code') {
+//            // 微信验证
+//            $phoneArr = WeChatService::wxPhoneNumber($code);
+//            $mobile = $phoneArr['phoneNumber'];
+//        } else {
+//            // 短信验证
+//            $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
+//            if (!MsgDriver::checkCode($nCode, $code, true)) {
+//                throw new OperateException('验证码错误');
+//            }
+//        }
+
+        //  $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
+
+
+        // 短信验证
+        $nCode = NoticeEnum::BIND_MOBILE;
+        if (!MsgDriver::checkCode($nCode, $code, true)) {
+            throw new OperateException('验证码错误');
         }
 
         // 查询用户
@@ -360,6 +369,8 @@ class UserService extends Service
         if (!$user) {
             throw new OperateException('检测到用户已不存在!');
         }
+
+        // 验证密码
 
         // 查询手机
         $mobileCheck = $modeUser->field(['id'])

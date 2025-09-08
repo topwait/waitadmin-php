@@ -71,28 +71,33 @@ class UserValidate extends Validate
 
     /**
      * 绑定手机
-
+     *
      * @return UserValidate
      * @author zero
      */
     public function sceneBindMobile(): UserValidate
     {
-        $type = request()->post('type')??'';
-        if ($type === 'code') {
-            return $this->only(['code', 'type'])
-                ->append('code', 'require|alphaDash|max:200')
-                ->append('type', 'require|in:change,bind,code');
-        } else {
-            return $this->only(['mobile', 'code', 'type'])
-                ->append('mobile', 'require|mobile|min:11|max:11')
-                ->append('code', 'require|alphaDash|max:6')
-                ->append('type', 'require|in:change,bind,code');
-        }
+//        $type = request()->post('type')??'';
+//        if ($type === 'code') {
+//            return $this->only(['code', 'type'])
+//                ->append('code', 'require|alphaDash|max:200')
+//                ->append('type', 'require|in:change,bind,code');
+//        } else {
+//            return $this->only(['mobile', 'code', 'type'])
+//                ->append('mobile', 'require|mobile|min:11|max:11')
+//                ->append('code', 'require|alphaDash|max:6')
+//                ->append('type', 'require|in:change,bind,code');
+//        }
+
+        return $this->only(['password', 'mobile', 'code'])
+            ->append('password', 'require|alphaDash|min:6|max:20')
+            ->append('mobile', 'require|mobile|min:11|max:11')
+            ->append('code', 'require|alphaDash|max:6');
     }
 
     /**
      * 绑定邮箱
-
+     *
      * @return UserValidate
      * @author zero
      */
