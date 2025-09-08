@@ -360,7 +360,7 @@ class UserService extends Service
 
         // 查询用户
         $modeUser = new User();
-        $user = $modeUser->field(['id,mobile'])
+        $user = $modeUser->field(['id,mobile,password,salt'])
             ->where(['id'=>$userId])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
