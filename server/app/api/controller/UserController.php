@@ -43,19 +43,6 @@ class UserController extends Api
     }
 
     /**
-     * 个人信息
-     *
-     * @return Json
-     * @method [GET]
-     * @author zero
-     */
-    public function info(): Json
-    {
-        $result = UserService::info($this->userId);
-        return AjaxUtils::success($result);
-    }
-
-    /**
      * 编辑信息
      *
      * @return Json

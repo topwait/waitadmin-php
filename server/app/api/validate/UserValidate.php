@@ -54,7 +54,7 @@ class UserValidate extends Validate
         ];
         return $this->only(['newPassword', 'oldPassword'])
             ->append('newPassword', 'require|alphaNum|min:6|max:20')
-            ->append('oldPassword', 'require|alphaNum|min:6|max:20');
+            ->append('oldPassword', 'alphaNum|min:6|max:20');
     }
 
     /**
@@ -65,6 +65,12 @@ class UserValidate extends Validate
      */
     public function sceneBindMobile(): UserValidate
     {
+        $this->field = [
+            'password' => '登录密码',
+            'mobile'   => '手机号码',
+            'code'     => '验证码'
+        ];
+
         return $this->only(['password', 'mobile', 'code'])
             ->append('password', 'require|alphaDash|min:6|max:20')
             ->append('mobile', 'require|mobile|min:11|max:11')
@@ -79,7 +85,13 @@ class UserValidate extends Validate
      */
     public function sceneBindEmail(): UserValidate
     {
-        return $this->only(['password', 'mobile', 'code'])
+        $this->field = [
+            'password' => '登录密码',
+            'mobile'   => '邮箱号码',
+            'code'     => '验证码'
+        ];
+
+        return $this->only(['password', 'email', 'code'])
             ->append('password', 'require|alphaDash|min:6|max:20')
             ->append('email', 'require|email')
             ->append('code', 'require|alphaDash|max:6');

@@ -44,12 +44,9 @@ class UserService extends Service
     {
         $modelUser = new User();
         $user = $modelUser
-            ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
+            ->field(['id,sn,account,nickname,avatar,mobile,email,gender,password'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
-            ->withAttr(['gender' => function ($val) {
-                return GenderEnum::getMsgByCode($val);
-            }])
             ->withAttr(['is_wechat' => function() use ($id) {
                 $modelUserAuth = new UserAuth();
                 return !$modelUserAuth->field(['id'])
@@ -67,40 +64,10 @@ class UserService extends Service
             $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
         }
 
-        return $user;
-    }
+        $user['gender'] = GenderEnum::getMsgByCode($user['gender']);
+        $user['is_pwd'] = (bool) $user['password'];
 
-    /**
-     * 用户信息
-     *
-     * @param int $id
-     * @return array
-     * @author zero
-     */
-    public static function info(int $id): array
-    {
-        $modelUser = new User();
-        $user = $modelUser
-            ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
-            ->where(['id'=>$id])
-            ->where(['is_delete'=>0])
-            ->withAttr(['isWeiChat' => function() use ($id) {
-                $modelUserAuth = new UserAuth();
-                return !$modelUserAuth->field(['id'])
-                    ->where(['user_id'=>$id])
-                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA, ClientEnum::H5])
-                    ->findOrEmpty()
-                    ->isEmpty();
-            }])
-            ->append(['isWeiChat'])
-            ->findOrEmpty()
-            ->toArray();
-
-        if (isset($user['avatar']) && !$user['avatar']) {
-            $defaultAvatar = 'static/common/images/avatar.png';
-            $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
-        }
-
+        unset($user['password']);
         return $user;
     }
 
@@ -238,8 +205,8 @@ class UserService extends Service
     public static function changePwd(array $post, int $userId): void
     {
         // 接收参数
-        $newPassword = $post['newPassword'];
-        $oldPassword = $post['oldPassword'];
+        $newPassword = $post['newPassword']??'';
+        $oldPassword = $post['oldPassword']??'';
 
         // 查询账户
         $modelUser = new User();
@@ -255,9 +222,11 @@ class UserService extends Service
         }
 
         // 验证密码
-        $originalPwd = make_md5_str($oldPassword, $user['salt']);
-        if ($user['password'] !== $originalPwd) {
-            throw new OperateException('检测到旧密码不正确!');
+        if ($user['password']) {
+            $originalPwd = make_md5_str($oldPassword, $user['salt']);
+            if ($user['password'] !== $originalPwd) {
+                throw new OperateException('检测到旧密码不正确!');
+            }
         }
 
         // 更新密码
@@ -267,6 +236,8 @@ class UserService extends Service
             'password'    => make_md5_str($newPassword, $salt),
             'update_time' => time()
         ], ['id'=>$userId]);
+
+        // todo 退出用户登录
     }
 
     /**
