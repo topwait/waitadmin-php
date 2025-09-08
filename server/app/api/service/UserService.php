@@ -270,57 +270,6 @@ class UserService extends Service
     }
 
     /**
-     * 绑定微信
-     *
-     * @param array $post (参数)
-     * @param int $userId (用户ID)
-     * @throws OperateException
-     * @throws Exception
-     * @author zero
-     */
-    public static function bindWeChat(array $post, int $userId): void
-    {
-        // 接收参数
-        $code = $post['code'];
-
-        // 微信授权
-        $response = WeChatService::wxJsCode2session($code);
-
-        // 验证账户
-        $modeUserAuth = new UserAuth();
-        $userAuth = $modeUserAuth->field(['id,openid,unionid,terminal'])
-            ->where(['id'=>$userId])
-            ->where(['terminal'=>1])
-            ->findOrEmpty()
-            ->toArray();
-
-        // 验证绑定
-        if ($userAuth
-            && $userAuth['openid'] == $response['openid']
-            && $userAuth['unionid'] == $response['unionid']) {
-            throw new OperateException('已绑定,请勿重复操作!');
-        }
-
-        //更新授权
-        if ($userAuth) {
-            UserAuth::update([
-                'openid'      => $response['openid'] ?? $userAuth['openid'],
-                'unionid'     => $response['unionid'] ?? $userAuth['unionid'],
-                'update_time' => time(),
-            ], ['id'=>intval($userAuth['id'])]) ;
-        } else {
-            UserAuth::create([
-                'user_id'  => $userId,
-                'openid'   => $response['openid'],
-                'unionid'  => $response['unionid'],
-                'terminal' => 1,
-                'create_time' => time(),
-                'update_time' => time()
-            ]);
-        }
-    }
-
-    /**
      * 绑定手机
      *
      * @param array $post (参数)
@@ -332,29 +281,12 @@ class UserService extends Service
     public static function bindMobile(array $post, int $userId): void
     {
         // 接收参数
-        $password = $post['password']??'';
-        $mobile = $post['mobile']??'';
-        $code   = $post['code']??'';
-//        $type   = $post['type']??'';
-
-//        if ($type === 'code') {
-//            // 微信验证
-//            $phoneArr = WeChatService::wxPhoneNumber($code);
-//            $mobile = $phoneArr['phoneNumber'];
-//        } else {
-//            // 短信验证
-//            $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
-//            if (!MsgDriver::checkCode($nCode, $code, true)) {
-//                throw new OperateException('验证码错误');
-//            }
-//        }
-
-        //  $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
-
+        $password = $post['password'];
+        $mobile = $post['mobile'];
+        $code   = $post['code'];
 
         // 短信验证
-        $nCode = NoticeEnum::BIND_MOBILE;
-        if (!MsgDriver::checkCode($nCode, $code, true)) {
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code, true)) {
             throw new OperateException('验证码错误');
         }
 
@@ -408,6 +340,7 @@ class UserService extends Service
     public static function bindEmail(array $post, int $userId): void
     {
         // 接收参数
+        $password = $post['password'];
         $email = $post['email'];
         $code  = $post['code'];
 
@@ -418,7 +351,7 @@ class UserService extends Service
 
         // 查询用户
         $modeUser = new User();
-        $user = $modeUser->field(['id,email'])
+        $user = $modeUser->field(['id,email,password,salt'])
             ->where(['id'=>$userId])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
@@ -429,9 +362,15 @@ class UserService extends Service
             throw new OperateException('检测到用户已不存在!');
         }
 
+        // 验证密码
+        $originalPwd = make_md5_str($password, $user['salt']);
+        if ($user['password'] !== $originalPwd) {
+            throw new OperateException('检测到密码不正确!');
+        }
+
         // 查询邮箱
         $emailCheck = $modeUser->field(['id'])
-            ->where([['id', '<>', $userId]])
+            ->where('id', '<>', $userId)
             ->where(['email'=>$email])
             ->where(['is_delete'=>0])
             ->findOrEmpty()
@@ -450,5 +389,56 @@ class UserService extends Service
             'email' => $email,
             'update_time' => time()
         ], ['id'=>$userId]);
+    }
+
+    /**
+     * 绑定微信
+     *
+     * @param array $post (参数)
+     * @param int $userId (用户ID)
+     * @throws OperateException
+     * @throws Exception
+     * @author zero
+     */
+    public static function bindWeChat(array $post, int $userId): void
+    {
+        // 接收参数
+        $code = $post['code'];
+
+        // 微信授权
+        $response = WeChatService::wxJsCode2session($code);
+
+        // 验证账户
+        $modeUserAuth = new UserAuth();
+        $userAuth = $modeUserAuth->field(['id,openid,unionid,terminal'])
+            ->where(['id'=>$userId])
+            ->where(['terminal'=>1])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证绑定
+        if ($userAuth
+            && $userAuth['openid'] == $response['openid']
+            && $userAuth['unionid'] == $response['unionid']) {
+            throw new OperateException('已绑定,请勿重复操作!');
+        }
+
+        //更新授权
+        if ($userAuth) {
+            UserAuth::update([
+                'openid'      => $response['openid'] ?? $userAuth['openid'],
+                'unionid'     => $response['unionid'] ?? $userAuth['unionid'],
+                'update_time' => time(),
+            ], ['id'=>intval($userAuth['id'])]) ;
+        } else {
+            UserAuth::create([
+                'user_id'  => $userId,
+                'openid'   => $response['openid'],
+                'unionid'  => $response['unionid'],
+                'terminal' => 1,
+                'create_time' => time(),
+                'update_time' => time()
+            ]);
+        }
     }
 }

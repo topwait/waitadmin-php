@@ -117,22 +117,6 @@ class UserController extends Api
     }
 
     /**
-     * 绑定微信
-     *
-     * @return Json
-     * @throws OperateException
-     * @method [POST]
-     * @author zero
-     */
-    public function bindWeChat(): Json
-    {
-        (new UserValidate())->goCheck('bindWeChat');
-
-        UserService::bindWeChat($this->request->post(), $this->userId);
-        return AjaxUtils::success();
-    }
-
-    /**
      * 绑定手机
      *
      * @return Json
@@ -161,6 +145,22 @@ class UserController extends Api
         (new UserValidate())->goCheck('bindEmail');
 
         UserService::bindEmail($this->request->post(), $this->userId);
+        return AjaxUtils::success();
+    }
+
+    /**
+     * 绑定微信
+     *
+     * @return Json
+     * @throws OperateException
+     * @method [POST]
+     * @author zero
+     */
+    public function bindWeChat(): Json
+    {
+        (new UserValidate())->goCheck('bindWeChat');
+
+        UserService::bindWeChat($this->request->post(), $this->userId);
         return AjaxUtils::success();
     }
 }

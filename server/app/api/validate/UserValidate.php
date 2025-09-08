@@ -58,18 +58,6 @@ class UserValidate extends Validate
     }
 
     /**
-     * 绑定微信
-
-     * @return UserValidate
-     * @author zero
-     */
-    public function sceneBindWeChat(): UserValidate
-    {
-        return $this->only(['code'])
-            ->append('code', 'require|alphaDash');
-    }
-
-    /**
      * 绑定手机
      *
      * @return UserValidate
@@ -77,18 +65,6 @@ class UserValidate extends Validate
      */
     public function sceneBindMobile(): UserValidate
     {
-//        $type = request()->post('type')??'';
-//        if ($type === 'code') {
-//            return $this->only(['code', 'type'])
-//                ->append('code', 'require|alphaDash|max:200')
-//                ->append('type', 'require|in:change,bind,code');
-//        } else {
-//            return $this->only(['mobile', 'code', 'type'])
-//                ->append('mobile', 'require|mobile|min:11|max:11')
-//                ->append('code', 'require|alphaDash|max:6')
-//                ->append('type', 'require|in:change,bind,code');
-//        }
-
         return $this->only(['password', 'mobile', 'code'])
             ->append('password', 'require|alphaDash|min:6|max:20')
             ->append('mobile', 'require|mobile|min:11|max:11')
@@ -103,8 +79,21 @@ class UserValidate extends Validate
      */
     public function sceneBindEmail(): UserValidate
     {
-        return $this->only(['mobile', 'code'])
+        return $this->only(['password', 'mobile', 'code'])
+            ->append('password', 'require|alphaDash|min:6|max:20')
             ->append('email', 'require|email')
             ->append('code', 'require|alphaDash|max:6');
+    }
+
+    /**
+     * 绑定微信
+     *
+     * @return UserValidate
+     * @author zero
+     */
+    public function sceneBindWeChat(): UserValidate
+    {
+        return $this->only(['code'])
+            ->append('code', 'require|alphaDash');
     }
 }
