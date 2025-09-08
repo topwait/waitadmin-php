@@ -17,6 +17,7 @@ namespace app\api\service;
 
 use app\common\basics\Service;
 use app\common\enums\ClientEnum;
+use app\common\enums\GenderEnum;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
@@ -46,6 +47,18 @@ class UserService extends Service
             ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
+            ->withAttr(['gender' => function ($val) {
+                return GenderEnum::getMsgByCode($val);
+            }])
+            ->withAttr(['is_wechat' => function() use ($id) {
+                $modelUserAuth = new UserAuth();
+                return !$modelUserAuth->field(['id'])
+                    ->where(['user_id'=>$id])
+                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA, ClientEnum::H5])
+                    ->findOrEmpty()
+                    ->isEmpty();
+            }])
+            ->append(['is_wechat'])
             ->findOrEmpty()
             ->toArray();
 
