@@ -25,18 +25,45 @@ use app\common\utils\UrlUtils;
 class DiyService extends Service
 {
     /**
+     * 底部导航装修
+     *
+     * @return array
+     * @author zero
+     */
+    public static function tabbar(): array
+    {
+        $tabbar = ConfigUtils::get('diy', 'tabbar', []);
+        $tabbar = [
+            'style' => [
+                'color'         => $tabbar['style']['selectedColor']   ?? '#2979ff',
+                'selectedColor' => $tabbar['style']['unselectedColor'] ?? '#333333',
+                'backgroundColor' => '#ffffff',
+            ],
+            'list' => $tabbar['list'] ?? []
+        ];
+        foreach ($tabbar['list'] as &$item) {
+            $item['pagePath'] = $item['pagePath']??'';
+            $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
+            $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
+        }
+        return $tabbar;
+    }
+
+    /**
      * 首页页面装修
      *
      * @return array
      * @author zero
      */
-    public static function index(): array
+    public static function homing(): array
     {
         // 此处只是临时使用的数据,以后可接入diy功能
         return [
             'banner' => [
-                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner01.jpg')],
-                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner02.jpg')],
+                UrlUtils::toAbsoluteUrl('/static/common/images/init/banner01.jpg'),
+                UrlUtils::toAbsoluteUrl('/static/common/images/init/banner02.jpg')
+//                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner01.jpg')],
+//                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner02.jpg')],
             ],
             'nav' => [
                 [
@@ -64,30 +91,12 @@ class DiyService extends Service
     }
 
     /**
-     * 联系客服装修
-     *
-     * @return array
-     * @author zero
-     */
-    public static function tie(): array
-    {
-        $detail = ConfigUtils::get('diy', 'contact');
-        return [
-            'title'    => $detail['title']??'',
-            'datetime' => $detail['datetime']??'',
-            'mobile'   => $detail['mobile']??'',
-            'qq'       => $detail['qq']??'',
-            'image'    => UrlUtils::toAbsoluteUrl($detail['image']??'')
-        ] ?? [];
-    }
-
-    /**
      * 个人中心装修
      *
      * @return array
      * @author zero
      */
-    public static function me(): array
+    public static function myself(): array
     {
         $data = [];
         $detail = ConfigUtils::get('diy', 'person');
@@ -113,5 +122,23 @@ class DiyService extends Service
         }
 
         return $data;
+    }
+
+    /**
+     * 联系客服装修
+     *
+     * @return array
+     * @author zero
+     */
+    public static function tie(): array
+    {
+        $detail = ConfigUtils::get('diy', 'contact');
+        return [
+            'title'    => $detail['title']??'',
+            'datetime' => $detail['datetime']??'',
+            'mobile'   => $detail['mobile']??'',
+            'qq'       => $detail['qq']??'',
+            'image'    => UrlUtils::toAbsoluteUrl($detail['image']??'')
+        ] ?? [];
     }
 }

@@ -68,6 +68,19 @@ class IndexController extends Api
     }
 
     /**
+     * 装修数据
+     *
+     * @return Json
+     * @author zero
+     * @method [GET]
+     */
+    public function decorate(): Json
+    {
+        $detail = IndexService::decorate();
+        return AjaxUtils::success($detail);
+    }
+
+    /**
      * 发送短信
      *
      * @return Json

@@ -85,18 +85,18 @@ class IndexService extends Service
         ];
 
         // 底部导航
-        $tabBar = ConfigUtils::get('diy', 'tabbar', []);
-        $detail['tabBar'] = [
-            'style' => [
-                'selectedColor'   => $tabBar['style']['selectedColor'] ?? '#2979ff',
-                'unselectedColor' => $tabBar['style']['unselectedColor'] ?? '##333333'
-            ],
-            'list' => $tabBar['list'] ?? []
-        ];
-        foreach ($detail['tabBar']['list'] as &$item) {
-            $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
-            $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
-        }
+//        $tabBar = ConfigUtils::get('diy', 'tabbar', []);
+//        $detail['tabBar'] = [
+//            'style' => [
+//                'selectedColor'   => $tabBar['style']['selectedColor'] ?? '#2979ff',
+//                'unselectedColor' => $tabBar['style']['unselectedColor'] ?? '##333333'
+//            ],
+//            'list' => $tabBar['list'] ?? []
+//        ];
+//        foreach ($detail['tabBar']['list'] as &$item) {
+//            $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
+//            $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
+//        }
 
         return $detail;
     }
@@ -112,5 +112,21 @@ class IndexService extends Service
     {
         $value = ConfigUtils::get('policy', $type, '');
         return ['content'=>$value] ?? [];
+    }
+
+    /**
+     * 装修数据
+     *
+     * @return array
+     * @author zero
+     */
+    public static function decorate(): array
+    {
+        return [
+            'theme'  => 'default',
+            'tabbar' => DiyService::tabbar(),
+            'homing' => DiyService::homing(),
+            'myself' => DiyService::myself()
+        ];
     }
 }
