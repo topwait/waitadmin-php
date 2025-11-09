@@ -57,15 +57,21 @@ class IndexService extends Service
     {
         // 登录配置
         $loginConfig = ConfigUtils::get('login');
-        $loginOther  = array_map(function ($val) {return intval($val);}, $loginConfig['login_other']??[]);
-        if (in_array('2', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'account', 'name'=>'账号登录'];
-        if (in_array('1', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'mobile', 'name'=>'免密登录'];
+//        $loginOther  = array_map(function ($val) {return intval($val);}, $loginConfig['login_other']??[]);
+//        if (in_array('2', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'account', 'name'=>'账号登录'];
+//        if (in_array('1', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'mobile', 'name'=>'免密登录'];
         $detail['login'] = [
-            'is_agreement' => intval($loginConfig['is_agreement']??0),
-            'force_mobile' => intval($loginConfig['force_mobile']??0),
-            'auths_mobile' => intval($loginConfig['auths_mobile']??0),
-            'login_modes'  => $loginModes??[],
-            'login_other'  => $loginOther,
+            // 显示协议条款
+            'is_agreement' => boolval($loginConfig['is_agreement']??0),
+            // 强制绑定手机
+            'force_mobile' => boolval($loginConfig['force_mobile']??0),
+            // 默认登录方式
+            'login_method' => 'account',
+            // 可用登录渠道
+            'login_channel' => []
+//            'auths_mobile' => intval($loginConfig['auths_mobile']??0),
+//            'login_modes'  => $loginModes??[],
+//            'login_other'  => $loginOther,
         ];
 
         // H5配置
@@ -83,20 +89,6 @@ class IndexService extends Service
             'subject' => $themeConfig['subject'] ?? '',
             'color'   => $themeConfig['color']   ?? ''
         ];
-
-        // 底部导航
-//        $tabBar = ConfigUtils::get('diy', 'tabbar', []);
-//        $detail['tabBar'] = [
-//            'style' => [
-//                'selectedColor'   => $tabBar['style']['selectedColor'] ?? '#2979ff',
-//                'unselectedColor' => $tabBar['style']['unselectedColor'] ?? '##333333'
-//            ],
-//            'list' => $tabBar['list'] ?? []
-//        ];
-//        foreach ($detail['tabBar']['list'] as &$item) {
-//            $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
-//            $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
-//        }
 
         return $detail;
     }

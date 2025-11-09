@@ -41,8 +41,12 @@ class DiyService extends Service
             ],
             'list' => $tabbar['list'] ?? []
         ];
+        $pages = ['/pages/index/index', '/pages/article/index', '/pages/user/index'];
+        $index = 0;
         foreach ($tabbar['list'] as &$item) {
-            $item['pagePath'] = $item['pagePath']??'';
+//            $item['pagePath'] = $item['pagePath']??'';
+            $item['pagePath'] = $pages[$index];
+            $index++;
             $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
             $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
         }
