@@ -10,9 +10,65 @@
 {block name="body"}
 <div class="container">
     <div class="layui-form">
+        <!-- 微信端设置 -->
+        <div class="layui-card">
+            <div class="layui-card-header">微信端登录设置</div>
+            <div class="layui-card-body">
+                <!-- 显示登录协议 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="asterisk">*</span>显示登录协议:</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="wx_is_agreement" value="1"
+                               title="开启" {if $detail.wx_is_agreement==1}checked{/if}>
+                        <input type="radio" name="wx_is_agreement" value="0"
+                               title="关闭" {if $detail.wx_is_agreement==0}checked{/if}>
+                    </div>
+                </div>
+                <!-- 强制绑定手机 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="asterisk">*</span>强制绑定手机:</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="wx_force_mobile" value="1"
+                               title="开启" {if $detail.wx_force_mobile==1}checked{/if}>
+                        <input type="radio" name="wx_force_mobile" value="0"
+                               title="关闭" {if $detail.wx_force_mobile==0}checked{/if}>
+                    </div>
+                </div>
+                <!-- 默认登录方式 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
+                    <div class="layui-input-block">
+                        {foreach $detail.clients as $k => $v}
+                            {if $detail.wx_default_method == $k}
+                                <input type="radio" name="wx_default_method"
+                                       value="{$k}" title="{$v}" checked />
+                            {else}
+                                <input type="radio" name="wx_default_method" value="{$k}" title="{$v}" />
+                            {/if}
+                        {/foreach}
+                    </div>
+                </div>
+                <!-- 可用登录方式 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
+                    <div class="layui-input-block">
+                        {foreach $detail.clients as $k => $v}
+                            {if in_array($k, $detail.wx_usable_channel)}
+                                <input type="checkbox" name="wx_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag" checked />
+                            {else}
+                                <input type="checkbox" name="wx_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag"  />
+                            {/if}
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- PC端设置 -->
         <div class="layui-card">
-            <div class="layui-card-header">PC端设置</div>
+            <div class="layui-card-header">PC端登录设置</div>
             <div class="layui-card-body">
                 <!-- 显示登录协议 -->
                 <div class="layui-form-item">
@@ -38,24 +94,29 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="pc_default" value="account"
-                               title="账号登录" {if $detail.pc_default==1}checked{/if}>
-                        <input type="radio" name="pc_default" value="mobile"
-                               title="短信登录" {if $detail.pc_default==0}checked{/if}>
-                        <input type="radio" name="pc_default" value="wx"
-                               title="微信登录" {if $detail.pc_default==0}checked{/if}>
+                        {foreach $detail.clients as $k => $v}
+                            {if $detail.pc_default_method == $k}
+                                <input type="radio" name="pc_default_method"
+                                       value="{$k}" title="{$v}" checked />
+                            {else}
+                                <input type="radio" name="pc_default_method" value="{$k}" title="{$v}" />
+                            {/if}
+                        {/foreach}
                     </div>
                 </div>
-                <!-- 通用登录方式 -->
+                <!-- 可用登录方式 -->
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="pc_channel[]" value="account" title="账号登录"
-                               lay-skin="tag" {if in_array('account', $detail.pc_channel)}checked{/if}>
-                        <input type="checkbox" name="pc_channel[]" value=mobile title="短信登录"
-                               lay-skin="tag" {if in_array('mobile', $detail.pc_channel)}checked{/if}>
-                        <input type="checkbox" name="pc_channel[]" value=wx title="微信登录"
-                               lay-skin="tag" {if in_array('wx', $detail.pc_channel)}checked{/if}>
+                        {foreach $detail.clients as $k => $v}
+                            {if in_array($k, $detail.pc_usable_channel)}
+                                <input type="checkbox" name="pc_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag" checked />
+                            {else}
+                                <input type="checkbox" name="pc_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag"  />
+                            {/if}
+                        {/foreach}
                     </div>
                 </div>
             </div>
@@ -63,7 +124,7 @@
 
         <!-- H5端设置 -->
         <div class="layui-card">
-            <div class="layui-card-header">H5端设置</div>
+            <div class="layui-card-header">H5端登录设置</div>
             <div class="layui-card-body">
                 <!-- 显示登录协议 -->
                 <div class="layui-form-item">
@@ -89,75 +150,29 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="h5_default" value="account"
-                               title="账号登录" {if $detail.h5_default==1}checked{/if}>
-                        <input type="radio" name="h5_default" value="mobile"
-                               title="短信登录" {if $detail.h5_default==0}checked{/if}>
-                        <input type="radio" name="h5_default" value="wx"
-                               title="微信登录" {if $detail.h5_default==0}checked{/if}>
+                        {foreach $detail.clients as $k => $v}
+                            {if $detail.h5_default_method == $k}
+                                <input type="radio" name="h5_default_method"
+                                       value="{$k}" title="{$v}" checked />
+                            {else}
+                                <input type="radio" name="h5_default_method" value="{$k}" title="{$v}" />
+                            {/if}
+                        {/foreach}
                     </div>
                 </div>
-                <!-- 通用登录方式 -->
+                <!-- 可用登录方式 -->
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="h5_channel[]" value="account" title="账号登录"
-                               lay-skin="tag" {if in_array('account', $detail.h5_channel)}checked{/if}>
-                        <input type="checkbox" name="h5_channel[]" value=mobile title="短信登录"
-                               lay-skin="tag" {if in_array('mobile', $detail.h5_channel)}checked{/if}>
-                        <input type="checkbox" name="h5_channel[]" value=wx title="微信登录"
-                               lay-skin="tag" {if in_array('wx', $detail.h5_channel)}checked{/if}>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 微信端设置 -->
-        <div class="layui-card">
-            <div class="layui-card-header">微信端设置</div>
-            <div class="layui-card-body">
-                <!-- 显示登录协议 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>显示登录协议:</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="wx_is_agreement" value="1"
-                               title="开启" {if $detail.wx_is_agreement==1}checked{/if}>
-                        <input type="radio" name="wx_is_agreement" value="0"
-                               title="关闭" {if $detail.wx_is_agreement==0}checked{/if}>
-                    </div>
-                </div>
-                <!-- 强制绑定手机 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>强制绑定手机:</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="force_mobile" value="1"
-                               title="开启" {if $detail.wx_force_mobile==1}checked{/if}>
-                        <input type="radio" name="force_mobile" value="0"
-                               title="关闭" {if $detail.wx_force_mobile==0}checked{/if}>
-                    </div>
-                </div>
-                <!-- 默认登录方式 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="wx_default" value="account"
-                               title="账号登录" {if $detail.wx_default==1}checked{/if}>
-                        <input type="radio" name="wx_default" value="mobile"
-                               title="短信登录" {if $detail.wx_default==0}checked{/if}>
-                        <input type="radio" name="wx_default" value="wx"
-                               title="微信登录" {if $detail.wx_default==0}checked{/if}>
-                    </div>
-                </div>
-                <!-- 通用登录方式 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="wx_channel[]" value="account" title="账号登录"
-                               lay-skin="tag" {if in_array('account', $detail.wx_channel)}checked{/if}>
-                        <input type="checkbox" name="wx_channel[]" value=mobile title="短信登录"
-                               lay-skin="tag" {if in_array('mobile', $detail.wx_channel)}checked{/if}>
-                        <input type="checkbox" name="wx_channel[]" value=wx title="微信登录"
-                               lay-skin="tag" {if in_array('wx', $detail.wx_channel)}checked{/if}>
+                        {foreach $detail.clients as $k => $v}
+                            {if in_array($k, $detail.h5_usable_channel)}
+                                <input type="checkbox" name="h5_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag" checked />
+                            {else}
+                                <input type="checkbox" name="h5_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag"  />
+                            {/if}
+                        {/foreach}
                     </div>
                 </div>
             </div>
@@ -165,7 +180,7 @@
 
         <!-- 其它端设置 -->
         <div class="layui-card">
-            <div class="layui-card-header">其它端设置</div>
+            <div class="layui-card-header">其它端登录设置</div>
             <div class="layui-card-body">
                 <!-- 显示登录协议 -->
                 <div class="layui-form-item">
@@ -191,24 +206,29 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="other_default" value="account"
-                               title="账号登录" {if $detail.other_default==1}checked{/if}>
-                        <input type="radio" name="other_default" value="mobile"
-                               title="短信登录" {if $detail.other_default==0}checked{/if}>
-                        <input type="radio" name="other_default" value="wx"
-                               title="微信登录" {if $detail.other_default==0}checked{/if}>
+                        {foreach $detail.clients as $k => $v}
+                            {if $detail.other_default_method == $k}
+                                <input type="radio" name="other_default_method"
+                                       value="{$k}" title="{$v}" checked />
+                            {else}
+                                <input type="radio" name="other_default_method" value="{$k}" title="{$v}" />
+                            {/if}
+                        {/foreach}
                     </div>
                 </div>
-                <!-- 通用登录方式 -->
+                <!-- 可用登录方式 -->
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="other_channel[]" value="account" title="账号登录"
-                               lay-skin="tag" {if in_array('account', $detail.other_channel)}checked{/if}>
-                        <input type="checkbox" name="other_channel[]" value=mobile title="短信登录"
-                               lay-skin="tag" {if in_array('mobile', $detail.other_channel)}checked{/if}>
-                        <input type="checkbox" name="other_channel[]" value=wx title="微信登录"
-                               lay-skin="tag" {if in_array('wx', $detail.other_channel)}checked{/if}>
+                        {foreach $detail.clients as $k => $v}
+                            {if in_array($k, $detail.other_usable_channel)}
+                                <input type="checkbox" name="other_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag" checked />
+                            {else}
+                                <input type="checkbox" name="other_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag"  />
+                            {/if}
+                        {/foreach}
                     </div>
                 </div>
             </div>
