@@ -18,6 +18,7 @@ namespace app\backend\service\setting;
 use app\common\basics\Service;
 use app\common\exception\OperateException;
 use app\common\utils\ConfigUtils;
+use app\common\utils\UrlUtils;
 
 /**
  * 登录配置服务类
@@ -35,7 +36,6 @@ class LoginService extends Service
         $conf = ConfigUtils::get('login') ?? [];
         $clients = ['account'=>'账号登录', 'mobile'=>'短信登录', 'wx'=>'微信登录'];
         return [
-            //
             'clients' => $clients,
             // 微信端
             'wx_is_agreement'   => $conf['wx']['is_agreement'] ?? 0,
@@ -56,7 +56,10 @@ class LoginService extends Service
             'other_is_agreement'   => $conf['other']['is_agreement'] ?? 0,
             'other_force_mobile'   => $conf['other']['force_mobile'] ?? 0,
             'other_default_method' => $conf['other']['default_method'] ?? '',
-            'other_usable_channel' => $conf['other']['usable_channel'] ?? []
+            'other_usable_channel' => $conf['other']['usable_channel'] ?? [],
+            // 基础
+            'basis_logo' => UrlUtils::toAbsoluteUrl($conf['basis']['logo'] ?? ''),
+            'basis_tips' => $conf['basis']['tips'] ?? '',
         ];
     }
 
@@ -82,6 +85,10 @@ class LoginService extends Service
                 $msg = '『' . $v . '』默认登录方式常未启用';
                 throw new OperateException($msg);
             }
+        }
+
+        if (empty($post['basis_logo'])) {
+            throw new OperateException('请设置登录Logo');
         }
 
         ConfigUtils::set('login', 'wx', [
@@ -115,6 +122,11 @@ class LoginService extends Service
             'default_method' => $post['other_default_method'] ?? '',
             'usable_channel' => $post['other_usable_channel'] ?? []
         ], '其它登录方式');
+
+        ConfigUtils::set('login', 'basis', [
+            'logo'   => UrlUtils::toRelativeUrl($post['basis_logo']),
+            'tips'   => $post['basis_tips'] ?? ''
+        ], '基础登录配置');
 
 //        ConfigUtils::set('login', 'is_agreement', intval($post['is_agreement'] ?? 0), '显示登录协议');
 //        ConfigUtils::set('login', 'force_mobile', intval($post['force_mobile'] ?? 0), '强制绑定手机');

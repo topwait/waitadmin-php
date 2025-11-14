@@ -12,6 +12,49 @@
     <div class="layui-form">
         <!-- 微信端设置 -->
         <div class="layui-card">
+            <div class="layui-card-header">基础配置</div>
+            <div class="layui-card-body">
+                <!-- logo -->
+                <div class="layui-form-item">
+                    <div class="layui-form-label"><span class="asterisk">*</span>登录logo:</div>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <div class="thumbnail" data-type="image" data-field="basis_logo" data-limit="1">
+                                <div class="musters">
+                                    {if $detail.basis_logo}
+                                        <div class="preview">
+                                            <input type="hidden" id="basis_logo"
+                                                   name="basis_logo" value="{$detail.basis_logo}">
+                                            <i class="layui-icon layui-icon-close"></i>
+                                            <img src="{$detail.basis_logo}" alt="img" class="previewImage">
+                                        </div>
+                                    {/if}
+                                </div>
+                                <div class="builder layui-auto {if $detail.basis_logo}layui-hide{/if}">
+                                    <i class="layui-icon layui-icon-camera"></i>
+                                    <p>上传图标</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 描述 -->
+                <div class="layui-form-item">
+                    <label for="basis_tips" class="layui-form-label">
+                        <span class="asterisk">*</span>登录提示:
+                    </label>
+                    <div class="layui-input-block">
+                        <div class="layui-col-md4">
+                            <input type="text" id="basis_tips" name="basis_tips"
+                                   value="{$detail.basis_tips}" class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 微信端设置 -->
+        <div class="layui-card">
             <div class="layui-card-header">微信端登录设置</div>
             <div class="layui-card-body">
                 <!-- 显示登录协议 -->

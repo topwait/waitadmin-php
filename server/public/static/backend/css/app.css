@@ -129,9 +129,9 @@ input::-webkit-input-placeholder { color: #a8abb2; font-size: 12px; }
 /** 缩略样式 **/
 .thumbnail { display: flex; }
 .thumbnail .musters { display: flex; }
-.thumbnail .builder { position: relative; display: flex; align-items: center; flex-direction: column; justify-content: center; margin-right: 15px; width: 90px; height: 90px; border-radius: 3px; border: 1px dashed #e2e2e2; background: #fafafa; }
-.thumbnail .builder i { font-size: 40px; color: #5a5858; }
-.thumbnail .builder p { padding-top: 8px; font-size: 12px; color: #5a5858; }
+.thumbnail .builder { position: relative; text-align: center; margin-right: 15px; width: 90px; height: 90px; border-radius: 3px; border: 1px dashed #e2e2e2; background: #fafafa; }
+.thumbnail .builder i { font-size: 40px; height: 40px; color: #5a5858; }
+.thumbnail .builder p { display: block; font-size: 12px; color: #5a5858; }
 .thumbnail .builder:hover .mask { visibility: visible; }
 .thumbnail .builder .mask { position: absolute; z-index: 9999; display: flex; align-items: center; flex-direction: column; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.76); visibility: hidden; }
 .thumbnail .builder .mask .item { display: flex; align-items: center; justify-content: center; width: 100%; height: 50%; color: #ffffff; box-sizing: border-box; }

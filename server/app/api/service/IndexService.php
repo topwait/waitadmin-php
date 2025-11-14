@@ -57,21 +57,40 @@ class IndexService extends Service
     {
         // 登录配置
         $loginConfig = ConfigUtils::get('login');
-//        $loginOther  = array_map(function ($val) {return intval($val);}, $loginConfig['login_other']??[]);
-//        if (in_array('2', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'account', 'name'=>'账号登录'];
-//        if (in_array('1', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'mobile', 'name'=>'免密登录'];
         $detail['login'] = [
-            // 显示协议条款
-            'is_agreement' => boolval($loginConfig['is_agreement']??0),
-            // 强制绑定手机
-            'force_mobile' => boolval($loginConfig['force_mobile']??0),
-            // 默认登录方式
-            'login_method' => 'account',
-            // 可用登录渠道
-            'login_channel' => []
-//            'auths_mobile' => intval($loginConfig['auths_mobile']??0),
-//            'login_modes'  => $loginModes??[],
-//            'login_other'  => $loginOther,
+            // 微信端
+            'wx' => [
+                'is_agreement'   => boolval($loginConfig['wx']['is_agreement'] ?? 0),
+                'force_mobile'   => boolval($loginConfig['wx']['force_mobile'] ?? 0),
+                'default_method' => $loginConfig['wx']['default_method'] ?? '',
+                'usable_channel' => $loginConfig['wx']['usable_channel'] ?? []
+            ],
+            // PC端
+            'pc' => [
+                'is_agreement'   => boolval($loginConfig['pc']['is_agreement'] ?? 0),
+                'force_mobile'   => boolval($loginConfig['pc']['force_mobile'] ?? 0),
+                'default_method' => $loginConfig['pc']['default_method'] ?? '',
+                'usable_channel' => $loginConfig['pc']['usable_channel'] ?? []
+            ],
+            // H5端
+            'h5' => [
+                'is_agreement'   => boolval($loginConfig['h5']['is_agreement'] ?? 0),
+                'force_mobile'   => boolval($loginConfig['h5']['force_mobile'] ?? 0),
+                'default_method' => $loginConfig['h5']['default_method'] ?? '',
+                'usable_channel' => $loginConfig['h5']['usable_channel'] ?? [],
+            ],
+            // 其它端
+            'other' => [
+                'is_agreement'   => boolval($loginConfig['other']['is_agreement'] ?? 0),
+                'force_mobile'   => boolval($loginConfig['other']['force_mobile'] ?? 0),
+                'default_method' => $loginConfig['other']['default_method'] ?? '',
+                'usable_channel' => $loginConfig['other']['usable_channel'] ?? []
+            ],
+            // 基础配置
+            'basis' => [
+                'logo' => UrlUtils::toAbsoluteUrl($loginConfig['basis']['logo'] ?? ''),
+                'tips' => $loginConfig['basis']['tips'] ?? ''
+            ]
         ];
 
         // H5配置
