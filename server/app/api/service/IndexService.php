@@ -101,14 +101,6 @@ class IndexService extends Service
             'status'    => intval($h5Config['status']??0),
             'close_url' => strval($h5Config['close_url']??'')
         ];
-
-        // 主题风格
-        $themeConfig = ConfigUtils::get('diy', 'theme');
-        $detail['theme'] = [
-            'subject' => $themeConfig['subject'] ?? '',
-            'color'   => $themeConfig['color']   ?? ''
-        ];
-
         return $detail;
     }
 
@@ -133,8 +125,10 @@ class IndexService extends Service
      */
     public static function decorate(): array
     {
+        $themeConfig = ConfigUtils::get('diy', 'theme');
         return [
-            'theme'  => 'default',
+            'color'  => $themeConfig['color'] ?? '',
+            'theme'  => $themeConfig['subject'] ?? '',
             'tabbar' => DiyService::tabbar(),
             'homing' => DiyService::homing(),
             'myself' => DiyService::myself()
