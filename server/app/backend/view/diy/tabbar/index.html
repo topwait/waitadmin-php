@@ -7,6 +7,16 @@
     .phone .bottom .item { display: flex; align-items: center; flex-direction: column; justify-content: center; width: 33.33%; }
     .phone .bottom .item img { width: 22px; height: 22px; }
     .container .layui-card { min-width: 880px; }
+    .editor .layui-form-label { width: 58px; padding: 9px 0; }
+    .editor .layui-input-block { margin-left: 70px; }
+    .editor .thumbnail .builder,
+    .editor .thumbnail .preview { width: 62px; height: 62px; }
+    .editor .tabbar {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        background: #f2f2f2;
+    }
 </style>
 {/block}
 
@@ -33,8 +43,36 @@
                         <legend>样式设置</legend>
                         <div class="layui-field-box">
                             <div class="layui-form-item">
-                                <label for="unselectedColorInput" class="layui-form-label" style="width:58px; padding:9px 0;">默认颜色:</label>
-                                <div class="layui-input-block" style="margin-left:70px;">
+                                <label class="layui-form-label">展示效果:</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="effect" value="system"
+                                           title="系统默认">
+                                    <input type="radio" name="effect" value="custom"
+                                           title="自定义">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">导航类型:</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="shape" value="default"
+                                           title="底部固定">
+                                    <input type="radio" name="shape" value="round"
+                                           title="底部悬浮">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="backgroundColorInput" class="layui-form-label">背景颜色:</label>
+                                <div class="layui-input-block">
+                                    <div id="backgroundColor"></div>
+                                    <div class="layui-inline">
+                                        <input type="text" id="backgroundColorInput" name="backgroundColor"
+                                               class="layui-input" value="{$style.backgroundColor}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="unselectedColorInput" class="layui-form-label">默认颜色:</label>
+                                <div class="layui-input-block">
                                     <div id="unselectedColor"></div>
                                     <div class="layui-inline">
                                         <input type="text" id="unselectedColorInput" name="unselectedColor"
@@ -43,8 +81,8 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="selectedColorInput" class="layui-form-label" style="width:58px; padding:9px 0;">选中颜色:</label>
-                                <div class="layui-input-block" style="margin-left:70px;">
+                                <label for="selectedColorInput" class="layui-form-label">选中颜色:</label>
+                                <div class="layui-input-block">
                                     <div id="selectedColor"></div>
                                     <div class="layui-inline">
                                         <input type="text" id="selectedColorInput" name="selectedColor"
@@ -58,21 +96,67 @@
                     <fieldset class="layui-elem-field" style="margin-top:30px;">
                         <legend>导航设置</legend>
                         <div class="layui-field-box wait-table-cell">
-                            <table id="wait-table-list" lay-filter="wait-table-list"></table>
-                            <script type="text/html" id="table-text">
-                                <label><input type="text" name="text" class="layui-input" value="{{d.text}}"></label>
-                            </script>
-                            <script type="text/html" id="table-selected">
-                                <img class="upload" src="{{ d.selectedIconPath }}" alt="img" style="width:30px; height:30px;">
-                            </script>
-                            <script type="text/html" id="table-unselected">
-                                <img class="upload" src="{{ d.iconPath }}" alt="img" style="width:30px; height:30px;">
-                            </script>
+                            {volist name="$list" id="vo"}
+                                <div class="tabbar">
+                                    <div style="display: flex; margin-bottom: 6px;">
+                                        <div class="thumbnail" data-type="image" data-field="selectedIconPath">
+                                            <div class="musters">
+                                                {if $vo.selectedIconPath}
+                                                    <div class="preview">
+                                                        <input type="hidden" name="image" value="{$vo.selectedIconPath}">
+                                                        <i class="layui-icon layui-icon-close"></i>
+                                                        <img src="{$vo.selectedIconPath}" alt="img" class="previewImage">
+                                                    </div>
+                                                {/if}
+                                            </div>
+                                            <div class="builder {if $vo.selectedIconPath}layui-hide{/if}">
+                                                <i class="layui-icon layui-icon-camera"></i>
+                                                <p>选中</p>
+                                                <div class="mask">
+                                                    <div class="item layui-auto">图库选择</div>
+                                                    <div class="item layui-auto-call">本地上传</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="thumbnail" data-type="image" data-field="iconPath">
+                                            <div class="musters">
+                                                {if $vo.iconPath}
+                                                    <div class="preview">
+                                                        <input type="hidden" name="image" value="{$vo.iconPath}">
+                                                        <i class="layui-icon layui-icon-close"></i>
+                                                        <img src="{$vo.iconPath}" alt="img" class="previewImage">
+                                                    </div>
+                                                {/if}
+                                            </div>
+                                            <div class="builder {if $vo.iconPath}layui-hide{/if}">
+                                                <i class="layui-icon layui-icon-camera"></i>
+                                                <p>未选中</p>
+                                                <div class="mask">
+                                                    <div class="item layui-auto">图库选择</div>
+                                                    <div class="item layui-auto-call">本地上传</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form">
+                                        <label>
+                                            <input type="text" name="name" value="{$vo.text}" placeholder="图片名称"
+                                                      autocomplete="off" class="layui-input">
+                                        </label>
+                                        <label style="display: block; margin-top: 6px;">
+                                            <input type="text" name="link" value="{$vo.pagePath}" placeholder="图片链接"
+                                                      autocomplete="off" class="layui-input">
+                                        </label>
+                                    </div>
+                                </div>
+                            {/volist}
                         </div>
                     </fieldset>
                     <!-- 提交按钮 -->
                     <div style="margin-top:20px;">
-                        <button class="layui-btn layui-btn-default {:check_perms('save', false)}" lay-submit lay-filter="addForm">保存配置</button>
+                        <button class="layui-btn layui-btn-default {:check_perms('save', false)}"
+                                lay-submit lay-filter="addForm">保存配置</button>
                     </div>
                 </div>
             </div>
@@ -87,6 +171,15 @@
         let $ = layui.$;
         let form = layui.form;
         let colorpicker = layui.colorpicker;
+
+        // 背景颜色
+        colorpicker.render({
+            elem: '#backgroundColor',
+            color: '{$style.backgroundColor}'
+            ,change: function(color){
+                $("input[name=backgroundColor]").val(color);
+            }
+        });
 
         // 默认颜色
         colorpicker.render({
@@ -126,8 +219,11 @@
 
                 // 样式设置
                 let style = {
+                    effect: data.field['effect'],
+                    shape: data.field['shape'],
                     selectedColor: data.field['selectedColor'],
                     unselectedColor: data.field['unselectedColor'],
+                    backgroundColor: data.field['backgroundColor']
                 };
 
                 // 导航设置

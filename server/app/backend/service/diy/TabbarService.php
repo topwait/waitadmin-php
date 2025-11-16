@@ -34,12 +34,17 @@ class TabbarService extends Service
     {
         $config = ConfigUtils::get('diy', 'tabbar', []);
         $style = [
+            'shape'  => $config['style']['shape'] ?? 'default',
+            'effect' => $config['style']['effect'] ?? 'default',
             'selectedColor'   => $config['style']['selectedColor'] ?? '#2979ff',
-            'unselectedColor' => $config['style']['unselectedColor'] ?? '##333333'
+            'unselectedColor' => $config['style']['unselectedColor'] ?? '#333333',
+            'backgroundColor' => $config['style']['backgroundColor'] ?? '#ffffff'
         ];
 
         $list = [];
         foreach ($config['list']??[] as $item) {
+            $item['text'] = $item['text']??'';
+            $item['pagePath'] = $item['pagePath']??'';
             $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']);
             $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']);
             $list[] = $item;
@@ -60,15 +65,19 @@ class TabbarService extends Service
         foreach ($post['list'] as $item) {
             $list[] = [
                 'text' => $item['text'],
+                'pagePath' => $item['pagePath'],
                 'iconPath' => UrlUtils::toRelativeUrl($item['iconPath']),
-                'selectedIconPath' => UrlUtils::toRelativeUrl($item['selectedIconPath']),
+                'selectedIconPath' => UrlUtils::toRelativeUrl($item['selectedIconPath'])
             ];
         }
 
         ConfigUtils::set('diy', 'tabbar', [
             'style' => [
-                'selectedColor'   => $post['style']['selectedColor']??'',
-                'unselectedColor' => $post['style']['unselectedColor']??''
+                'shape'  => $post['style']['shape'] ?? 'default',
+                'effect' => $post['style']['effect'] ?? 'default',
+                'selectedColor'   => $post['style']['selectedColor'] ?? '',
+                'unselectedColor' => $post['style']['unselectedColor'] ?? '',
+                'backgroundColor' => $post['style']['backgroundColor'] ?? ''
             ],
             'list' => $list
         ]);
