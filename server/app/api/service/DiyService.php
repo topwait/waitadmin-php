@@ -35,10 +35,10 @@ class DiyService extends Service
         $tabbar = ConfigUtils::get('diy', 'tabbar', []);
         $tabbar = [
             'style' => [
-                'effect' => 'default',
+                'effect' => 'system',
                 'shape'  => 'default',
-                'color'  => $tabbar['style']['selectedColor'] ?? '#2979ff',
-                'selectedColor' => $tabbar['style']['unselectedColor'] ?? '#333333',
+                'color'  => $tabbar['style']['unselectedColor'] ?? '#333333',
+                'selectedColor' => $tabbar['style']['selectedColor'] ?? '#2979ff',
                 'backgroundColor' => $tabbar['style']['backgroundColor'] ?? '#ffffff',
             ],
             'list' => $tabbar['list'] ?? []

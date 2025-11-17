@@ -34,7 +34,7 @@ class TabbarService extends Service
     {
         $config = ConfigUtils::get('diy', 'tabbar', []);
         $style = [
-            'shape'  => $config['style']['shape'] ?? 'default',
+            'shape'  => $config['style']['shape'] ?? 'system',
             'effect' => $config['style']['effect'] ?? 'default',
             'selectedColor'   => $config['style']['selectedColor'] ?? '#2979ff',
             'unselectedColor' => $config['style']['unselectedColor'] ?? '#333333',
@@ -73,7 +73,7 @@ class TabbarService extends Service
 
         ConfigUtils::set('diy', 'tabbar', [
             'style' => [
-                'shape'  => $post['style']['shape'] ?? 'default',
+                'shape'  => $post['style']['shape'] ?? 'system',
                 'effect' => $post['style']['effect'] ?? 'default',
                 'selectedColor'   => $post['style']['selectedColor'] ?? '',
                 'unselectedColor' => $post['style']['unselectedColor'] ?? '',

@@ -9,14 +9,11 @@
     .container .layui-card { min-width: 880px; }
     .editor .layui-form-label { width: 58px; padding: 9px 0; }
     .editor .layui-input-block { margin-left: 70px; }
-    .editor .thumbnail .builder,
-    .editor .thumbnail .preview { width: 62px; height: 62px; }
-    .editor .tabbar {
-        padding: 10px;
-        margin-bottom: 20px;
-        border-radius: 4px;
-        background: #f2f2f2;
-    }
+    .editor .add-btn { padding: 6px 12px; font-size: 12px; border: 1px solid #efefef; text-align: center; white-space: nowrap; color: #6b6b6b; background: #fdfdfd !important; transition: background-color 0.3s; cursor: pointer; }
+    .editor .tabbar { position: relative; padding: 10px; margin-bottom: 20px; border-radius: 4px; background: #f2f2f2; }
+    .editor .tabbar .close { position: absolute; top: 4px; right: 4px; display: none; padding: 3px; font-size: 12px; border-radius: 50%; color: #ffffff; background: rgba(0, 0, 0, .3); line-height: 1; }
+    .editor .tabbar .close:hover { background: rgba(0, 0, 0, .7); }
+    .editor .tabbar:hover .close { display: block; }
 </style>
 {/block}
 
@@ -28,10 +25,10 @@
                 <!-- 手机端 -->
                 <div class="phone">
                     <div class="bottom">
-                        {volist name="list" id="vo"}
+                        {volist name="list" id="vo" key="k"}
                             <div class="item w-scale-{php}echo count($list);{/php}">
-                                <img src="{$vo.iconPath}" alt="icon">
-                                <div>{$vo.text}</div>
+                                <img src="{$k==1 ? $vo.selectedIconPath : $vo.iconPath}" alt="icon">
+                                <div class="text {if $k==1}select{/if}">{$vo.text}</div>
                             </div>
                         {/volist}
                     </div>
@@ -46,18 +43,18 @@
                                 <label class="layui-form-label">展示效果:</label>
                                 <div class="layui-input-block">
                                     <input type="radio" name="effect" value="system"
-                                           title="系统默认">
+                                           title="系统默认" {if $style.effect=='system'}checked{/if}>
                                     <input type="radio" name="effect" value="custom"
-                                           title="自定义">
+                                           title="自定义" {if $style.effect=='custom'}checked{/if}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">导航类型:</label>
                                 <div class="layui-input-block">
                                     <input type="radio" name="shape" value="default"
-                                           title="底部固定">
+                                           title="底部固定" {if $style.shape=='default'}checked{/if}>
                                     <input type="radio" name="shape" value="round"
-                                           title="底部悬浮">
+                                           title="底部悬浮" {if $style.shape=='round'}checked{/if}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -95,15 +92,16 @@
                     <!-- 导航设置 -->
                     <fieldset class="layui-elem-field" style="margin-top:30px;">
                         <legend>导航设置</legend>
-                        <div class="layui-field-box wait-table-cell">
+                        <div class="layui-field-box wait-table-cell" id="advDrag">
                             {volist name="$list" id="vo"}
                                 <div class="tabbar">
+                                    <i class="layui-icon layui-icon-close close"></i>
                                     <div style="display: flex; margin-bottom: 6px;">
-                                        <div class="thumbnail" data-type="image" data-field="selectedIconPath">
+                                        <div class="thumbnail small" data-type="image" data-field="selectedIconPath">
                                             <div class="musters">
                                                 {if $vo.selectedIconPath}
                                                     <div class="preview">
-                                                        <input type="hidden" name="image" value="{$vo.selectedIconPath}">
+                                                        <input type="hidden" name="selectedIconPath" value="{$vo.selectedIconPath}">
                                                         <i class="layui-icon layui-icon-close"></i>
                                                         <img src="{$vo.selectedIconPath}" alt="img" class="previewImage">
                                                     </div>
@@ -118,11 +116,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="thumbnail" data-type="image" data-field="iconPath">
+                                        <div class="thumbnail small" data-type="image" data-field="iconPath">
                                             <div class="musters">
                                                 {if $vo.iconPath}
                                                     <div class="preview">
-                                                        <input type="hidden" name="image" value="{$vo.iconPath}">
+                                                        <input type="hidden" name="iconPath" value="{$vo.iconPath}">
                                                         <i class="layui-icon layui-icon-close"></i>
                                                         <img src="{$vo.iconPath}" alt="img" class="previewImage">
                                                     </div>
@@ -138,21 +136,22 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form">
                                         <label>
-                                            <input type="text" name="name" value="{$vo.text}" placeholder="图片名称"
+                                            <input type="text" name="name" value="{$vo.text}" placeholder="请输入名称"
                                                       autocomplete="off" class="layui-input">
                                         </label>
                                         <label style="display: block; margin-top: 6px;">
-                                            <input type="text" name="link" value="{$vo.pagePath}" placeholder="图片链接"
+                                            <input type="text" name="link" value="{$vo.pagePath}" placeholder="请填写链接"
                                                       autocomplete="off" class="layui-input">
                                         </label>
                                     </div>
                                 </div>
                             {/volist}
                         </div>
+
                     </fieldset>
+                    <div class="add-btn">添加一个</div>
                     <!-- 提交按钮 -->
                     <div style="margin-top:20px;">
                         <button class="layui-btn layui-btn-default {:check_perms('save', false)}"
@@ -172,12 +171,17 @@
         let form = layui.form;
         let colorpicker = layui.colorpicker;
 
+        $('.bottom').css('background', '{$style.backgroundColor}');
+        $('.bottom .text').css('color', '{$style.unselectedColor}');
+        $('.bottom .text.select').css('color', '{$style.selectedColor}');
+
         // 背景颜色
         colorpicker.render({
             elem: '#backgroundColor',
             color: '{$style.backgroundColor}'
             ,change: function(color){
                 $("input[name=backgroundColor]").val(color);
+                $('.bottom').css('background', color);
             }
         });
 
@@ -187,6 +191,7 @@
             color: '{$style.unselectedColor}'
             ,change: function(color){
                 $("input[name=unselectedColor]").val(color);
+                $('.bottom .text').css('color', color);
             }
         });
 
@@ -196,6 +201,7 @@
             color: '{$style.selectedColor}'
             ,change: function(color){
                 $("input[name=selectedColor]").val(color);
+                $('.bottom .text.select').css('color', color);
             }
         });
 
@@ -228,16 +234,17 @@
 
                 // 导航设置
                 let list = [];
-                let trElems = $('.layui-table tbody tr');
+                let trElems = $(document).find('#advDrag .tabbar');
                 trElems.each(function () {
-                    let tdElem = $(this).find('td')
-                    let text = $(tdElem[0]).find('input').val();
-                    let selected = $(tdElem[1]).find('img').attr('src');
-                    let unselected = $(tdElem[2]).find('img').attr('src');
+                    let text = $(this).find('input[name="name"]').val();
+                    let link = $(this).find('input[name="link"]').val();
+                    let iconPath = $(this).find('input[name="iconPath"]').val();
+                    let selectedIconPath = $(this).find('input[name="selectedIconPath"]').val();
                     list.push({
                         text: text,
-                        iconPath: unselected,
-                        selectedIconPath: selected
+                        pagePath: link,
+                        iconPath: iconPath,
+                        selectedIconPath: selectedIconPath
                     });
                 })
 
@@ -250,12 +257,49 @@
             });
         });
 
-        // 上传图片
-        $(document).on('click', '.upload', function () {
-            let that = $(this);
-            waitUtil.uploader().then(data => {
-                $(that).attr('src', data[0].url);
-            });
+        // 删除模块
+        $(document).on('click', '.editor .tabbar .close', function () {
+            $(this).parent().remove();
+        });
+
+        // 创建模块
+        $(document).on('click', '.add-btn', function () {
+            let itemArr = $(document).find('#advDrag .tabbar');
+            if (itemArr.length >= 5) {
+                return layer.msg('您已超出规定的5个元素!', {icon: 2})
+            }
+
+            let html = '<div class="tabbar">';
+            html += '<i class="layui-icon layui-icon-close close"></i>';
+
+            html += '<div style="display: flex; margin-bottom: 6px;">'
+            // 1
+            html += '<div class="thumbnail small" data-type="image" data-field="selectedIconPath">';
+            html += '<div class="musters"></div>';
+            html += '<div class="builder">';
+            html += '<i class="layui-icon layui-icon-camera"></i>';
+            html += '<p>选中</p>';
+            html += '<div class="mask">';
+            html += '<div class="item layui-auto">图库选择</div>';
+            html += '<div class="item layui-auto-call">本地上传</div>';
+            html += '</div></div></div>';
+            // 2
+            html += '<div class="thumbnail small" data-type="image" data-field="iconPath">';
+            html += '<div class="musters"></div>';
+            html += '<div class="builder">';
+            html += '<i class="layui-icon layui-icon-camera"></i>';
+            html += '<p>选中</p>';
+            html += '<div class="mask">';
+            html += '<div class="item layui-auto">图库选择</div>';
+            html += '<div class="item layui-auto-call">本地上传</div>';
+            html += '</div></div></div>';
+            html += '</div>'
+            html += '<div class="form">';
+            html += '<label><input type="text" name="name" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>';
+            html += '<label style="display: block; margin-top: 6px;">';
+            html += '<input type="text" name="link" placeholder="请填写链接" autocomplete="off" class="layui-input"></label>';
+            html += '</div></div>';
+            $('#advDrag').append(html)
         });
     });
 </script>
