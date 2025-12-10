@@ -131,7 +131,8 @@ class IndexService extends Service
             'theme'  => $themeConfig['subject'] ?? '',
             'tabbar' => DiyService::tabbar(),
             'homing' => DiyService::homing(),
-            'myself' => DiyService::myself()
+            'myself' => DiyService::myself(),
+            'tie'    => DiyService::tie()
         ];
     }
 }

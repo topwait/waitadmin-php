@@ -7,6 +7,7 @@
     .phone .bottom .item { display: flex; align-items: center; flex-direction: column; justify-content: center; width: 33.33%; }
     .phone .bottom .item img { width: 22px; height: 22px; }
     .container .layui-card { min-width: 880px; }
+    .editor { min-width: 400px; }
     .editor .layui-form-label { width: 58px; padding: 9px 0; }
     .editor .layui-input-block { margin-left: 70px; }
     .editor .add-btn { padding: 6px 12px; font-size: 12px; border: 1px solid #efefef; text-align: center; white-space: nowrap; color: #6b6b6b; background: #fdfdfd !important; transition: background-color 0.3s; cursor: pointer; }
@@ -138,12 +139,14 @@
                                     </div>
                                     <div class="form">
                                         <label>
-                                            <input type="text" name="name" value="{$vo.text}" placeholder="请输入名称"
-                                                      autocomplete="off" class="layui-input">
+                                            <input type="text" name="name"
+                                                   value="{$vo.text}" placeholder="请输入名称"
+                                                   autocomplete="off" class="layui-input">
                                         </label>
                                         <label style="display: block; margin-top: 6px;">
-                                            <input type="text" name="link" value="{$vo.pagePath}" placeholder="请填写链接"
-                                                      autocomplete="off" class="layui-input">
+                                            <input type="text" name="link"
+                                                   value="{$vo.pagePath}" placeholder="请填写链接"
+                                                   autocomplete="off" class="layui-input">
                                         </label>
                                     </div>
                                 </div>
@@ -288,7 +291,7 @@
             html += '<div class="musters"></div>';
             html += '<div class="builder">';
             html += '<i class="layui-icon layui-icon-camera"></i>';
-            html += '<p>选中</p>';
+            html += '<p>未选中</p>';
             html += '<div class="mask">';
             html += '<div class="item layui-auto">图库选择</div>';
             html += '<div class="item layui-auto-call">本地上传</div>';

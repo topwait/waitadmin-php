@@ -35,23 +35,25 @@ class DiyService extends Service
         $tabbar = ConfigUtils::get('diy', 'tabbar', []);
         $tabbar = [
             'style' => [
-                'effect' => 'system',
-                'shape'  => 'default',
+                'effect' => $tabbar['style']['effect'] ?? 'custom',
+                'shape'  => $tabbar['style']['shape'] ?? 'round',
                 'color'  => $tabbar['style']['unselectedColor'] ?? '#333333',
                 'selectedColor' => $tabbar['style']['selectedColor'] ?? '#2979ff',
-                'backgroundColor' => $tabbar['style']['backgroundColor'] ?? '#ffffff',
+                'backgroundColor' => $tabbar['style']['backgroundColor'] ?? '#ffffff'
             ],
             'list' => $tabbar['list'] ?? []
         ];
-        $pages = ['/pages/index/index', '/pages/article/index', '/pages/user/index'];
-        $index = 0;
+
+        $routes = [];
         foreach ($tabbar['list'] as &$item) {
-//            $item['pagePath'] = $item['pagePath']??'';
-            $item['pagePath'] = $pages[$index];
-            $index++;
+            $item['text'] = trim($item['text']);
+            $item['pagePath'] = trim($item['pagePath']);
             $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
             $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
+            $routes[] = trim($item['pagePath']);
         }
+
+        $tabbar['routes'] = $routes;
         return $tabbar;
     }
 
