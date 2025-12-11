@@ -115,7 +115,7 @@ class DiyService extends Service
                 ],
                 'service' => [
                     'layout' => $item['base']['layout'] ?? 'row',
-                    'title'  => $item['base']['title'] ?? '',
+                    'title'  => $item['base']['title']  ?? '',
                     'number' => $item['base']['number'] ?? 4,
                 ]
             };

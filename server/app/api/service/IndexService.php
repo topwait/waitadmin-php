@@ -55,6 +55,9 @@ class IndexService extends Service
      */
     public static function config(): array
     {
+        // 资源地址
+        $detail['oss_domain'] = UrlUtils::getDomain();
+
         // 登录配置
         $loginConfig = ConfigUtils::get('login');
         $detail['login'] = [

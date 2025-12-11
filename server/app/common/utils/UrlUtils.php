@@ -185,4 +185,21 @@ class UrlUtils
         $preg = '/(<.*?src=")(?!http|https)(.*?)(".*?>)/is';
         return preg_replace($preg, "\${1}$domain\${2}\${3}", $content);
     }
+
+    /**
+     * @notes 获取存储域名
+     * @return string
+     * @author zero
+     */
+    public static function getDomain(): string
+    {
+        $engine = ConfigUtils::get('storage', 'default', 'local');
+        if ($engine === 'local') {
+            return request()->domain();
+        } else {
+            $config = ConfigUtils::get('storage', $engine, []);
+            $domain = $config['domain'] ?? '';
+            return rtrim($domain, '/');
+        }
+    }
 }
