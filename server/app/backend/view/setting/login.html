@@ -2,8 +2,8 @@
 
 {block name="style"}
 <style>
-    .layui-card .layui-form-label { width: 95px; }
-    .layui-card .layui-input-block { margin-left: 125px; }
+    .layui-card .layui-form-label {display: flex; align-items: center; gap: 2px; width: 110px; }
+    .layui-card .layui-input-block { margin-left: 120px; }
 </style>
 {/block}
 
@@ -16,8 +16,10 @@
             <div class="layui-card-body">
                 <!-- logo -->
                 <div class="layui-form-item">
-                    <div class="layui-form-label"><span class="asterisk">*</span>登录logo:</div>
-                    <div class="layui-input-block">
+                    <div class="layui-form-label" style="width: 70px; display: inline-block;">
+                        <span class="asterisk">*</span>登录logo:
+                    </div>
+                    <div class="layui-input-block" style="margin-left: 100px;">
                         <div class="layui-col-md4">
                             <div class="thumbnail" data-type="image" data-field="basis_logo" data-limit="1">
                                 <div class="musters">
@@ -40,10 +42,13 @@
                 </div>
                 <!-- 描述 -->
                 <div class="layui-form-item">
-                    <label for="basis_tips" class="layui-form-label">
+                    <label for="basis_tips"
+                            class="layui-form-label"
+                            style="width: 70px; display: inline-block;"
+                    >
                         <span class="asterisk">*</span>登录提示:
                     </label>
-                    <div class="layui-input-block">
+                    <div class="layui-input-block" style="margin-left: 100px;">
                         <div class="layui-col-md4">
                             <input type="text" id="basis_tips" name="basis_tips"
                                    value="{$detail.basis_tips}" class="layui-input" autocomplete="off">
@@ -59,7 +64,12 @@
             <div class="layui-card-body">
                 <!-- 显示登录协议 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>显示登录协议:</label>
+                    <label class="layui-form-label" >
+                        <span class="asterisk">*</span>显示登录协议:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后登录或注册则显示用户协议"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         <input type="radio" name="pc_is_agreement" value="1"
                                title="开启" {if $detail.pc_is_agreement==1}checked{/if}>
@@ -69,7 +79,12 @@
                 </div>
                 <!-- 强制绑定手机 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>强制绑定手机:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>强制绑定手机:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后用户注册时强制用户填写手机号码"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         <input type="radio" name="pc_force_mobile" value="1"
                                title="开启" {if $detail.pc_force_mobile==1}checked{/if}>
@@ -79,7 +94,12 @@
                 </div>
                 <!-- 默认登录方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>默认登录方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="即用户打开登录页面默认展示的登录方式"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.login_channels as $k => $v}
                             {if $detail.pc_default_method == $k}
@@ -93,7 +113,12 @@
                 </div>
                 <!-- 可用登录方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>可用登录方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="如果没有勾选任何方式将关闭登录功能"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.login_channels as $k => $v}
                             {if in_array($k, $detail.pc_usable_channel)}
@@ -108,7 +133,12 @@
                 </div>
                 <!-- 可用注册方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用注册方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>可用注册方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="如果没有勾选任何方式将关闭注册功能"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.enroll_channels as $k => $v}
                             {if in_array($k, $detail.pc_usable_register)}
@@ -124,13 +154,114 @@
             </div>
         </div>
 
+        <!-- H5端设置 -->
+        <div class="layui-card">
+            <div class="layui-card-header">H5端登录设置</div>
+            <div class="layui-card-body">
+                <!-- 显示登录协议 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label" >
+                        <span class="asterisk">*</span>显示登录协议:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后登录或注册则显示用户协议"
+                        ></i>
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="h5_is_agreement" value="1"
+                               title="开启" {if $detail.h5_is_agreement==1}checked{/if}>
+                        <input type="radio" name="h5_is_agreement" value="0"
+                               title="关闭" {if $detail.h5_is_agreement==0}checked{/if}>
+                    </div>
+                </div>
+                <!-- 强制绑定手机 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>强制绑定手机:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后用户注册时强制用户填写手机号码"
+                        ></i>
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="h5_force_mobile" value="1"
+                               title="开启" {if $detail.h5_force_mobile==1}checked{/if}>
+                        <input type="radio" name="h5_force_mobile" value="0"
+                               title="关闭" {if $detail.h5_force_mobile==0}checked{/if}>
+                    </div>
+                </div>
+                <!-- 默认登录方式 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>默认登录方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="即用户打开登录页面默认展示的登录方式"
+                        ></i>
+                    </label>
+                    <div class="layui-input-block">
+                        {foreach $detail.login_channels as $k => $v}
+                            {if $detail.h5_default_method == $k}
+                                <input type="radio" name="h5_default_method"
+                                       value="{$k}" title="{$v}" checked />
+                            {else}
+                                <input type="radio" name="h5_default_method" value="{$k}" title="{$v}" />
+                            {/if}
+                        {/foreach}
+                    </div>
+                </div>
+                <!-- 可用登录方式 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label" >
+                        <span class="asterisk">*</span>显示登录协议:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后登录或注册则显示用户协议"
+                        ></i>
+                    </label>
+                    <div class="layui-input-block">
+                        {foreach $detail.login_channels as $k => $v}
+                            {if in_array($k, $detail.h5_usable_channel)}
+                                <input type="checkbox" name="h5_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag" checked />
+                            {else}
+                                <input type="checkbox" name="h5_usable_channel[]"
+                                       value="{$k}" title="{$v}" lay-skin="tag"  />
+                            {/if}
+                        {/foreach}
+                    </div>
+                </div>
+                <!-- 可用注册方式 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>可用注册方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="如果没有勾选任何方式将关闭注册功能"
+                        ></i>
+                    </label>
+                    <div class="layui-input-block">
+                        {foreach $detail.enroll_channels as $k => $v}
+                        {if in_array($k, $detail.h5_usable_register)}
+                        <input type="checkbox" name="h5_usable_register[]"
+                               value="{$k}" title="{$v}" lay-skin="tag" checked />
+                        {else}
+                        <input type="checkbox" name="h5_usable_register[]"
+                               value="{$k}" title="{$v}" lay-skin="tag"  />
+                        {/if}
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 微信端设置 -->
         <div class="layui-card">
             <div class="layui-card-header">微信端登录设置</div>
             <div class="layui-card-body">
                 <!-- 显示登录协议 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>显示登录协议:</label>
+                    <label class="layui-form-label" >
+                        <span class="asterisk">*</span>显示登录协议:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后登录或注册则显示用户协议"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         <input type="radio" name="wx_is_agreement" value="1"
                                title="开启" {if $detail.wx_is_agreement==1}checked{/if}>
@@ -140,7 +271,12 @@
                 </div>
                 <!-- 强制绑定手机 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>强制绑定手机:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>强制绑定手机:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后用户注册时强制用户填写手机号码"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         <input type="radio" name="wx_force_mobile" value="1"
                                title="开启" {if $detail.wx_force_mobile==1}checked{/if}>
@@ -150,7 +286,12 @@
                 </div>
                 <!-- 默认登录方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>默认登录方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="即用户打开登录页面默认展示的登录方式"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.login_channels as $k => $v}
                             {if $detail.wx_default_method == $k}
@@ -164,7 +305,12 @@
                 </div>
                 <!-- 可用登录方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>可用登录方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="如果没有勾选任何方式将关闭登录功能"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.login_channels as $k => $v}
                             {if in_array($k, $detail.wx_usable_channel)}
@@ -179,7 +325,12 @@
                 </div>
                 <!-- 可用注册方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用注册方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>可用注册方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="如果没有勾选任何方式将关闭注册功能"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.enroll_channels as $k => $v}
                             {if in_array($k, $detail.wx_usable_register)}
@@ -195,84 +346,18 @@
             </div>
         </div>
 
-        <!-- H5端设置 -->
-        <div class="layui-card">
-            <div class="layui-card-header">H5端登录设置</div>
-            <div class="layui-card-body">
-                <!-- 显示登录协议 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>显示登录协议:</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="h5_is_agreement" value="1"
-                               title="开启" {if $detail.h5_is_agreement==1}checked{/if}>
-                        <input type="radio" name="h5_is_agreement" value="0"
-                               title="关闭" {if $detail.h5_is_agreement==0}checked{/if}>
-                    </div>
-                </div>
-                <!-- 强制绑定手机 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>强制绑定手机:</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="h5_force_mobile" value="1"
-                               title="开启" {if $detail.h5_force_mobile==1}checked{/if}>
-                        <input type="radio" name="h5_force_mobile" value="0"
-                               title="关闭" {if $detail.h5_force_mobile==0}checked{/if}>
-                    </div>
-                </div>
-                <!-- 默认登录方式 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
-                    <div class="layui-input-block">
-                        {foreach $detail.login_channels as $k => $v}
-                            {if $detail.h5_default_method == $k}
-                                <input type="radio" name="h5_default_method"
-                                       value="{$k}" title="{$v}" checked />
-                            {else}
-                                <input type="radio" name="h5_default_method" value="{$k}" title="{$v}" />
-                            {/if}
-                        {/foreach}
-                    </div>
-                </div>
-                <!-- 可用登录方式 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
-                    <div class="layui-input-block">
-                        {foreach $detail.login_channels as $k => $v}
-                            {if in_array($k, $detail.h5_usable_channel)}
-                                <input type="checkbox" name="h5_usable_channel[]"
-                                       value="{$k}" title="{$v}" lay-skin="tag" checked />
-                            {else}
-                                <input type="checkbox" name="h5_usable_channel[]"
-                                       value="{$k}" title="{$v}" lay-skin="tag"  />
-                            {/if}
-                        {/foreach}
-                    </div>
-                </div>
-                <!-- 可用注册方式 -->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用注册方式:</label>
-                    <div class="layui-input-block">
-                        {foreach $detail.enroll_channels as $k => $v}
-                            {if in_array($k, $detail.h5_usable_register)}
-                                <input type="checkbox" name="h5_usable_register[]"
-                                       value="{$k}" title="{$v}" lay-skin="tag" checked />
-                            {else}
-                                <input type="checkbox" name="h5_usable_register[]"
-                                       value="{$k}" title="{$v}" lay-skin="tag"  />
-                            {/if}
-                        {/foreach}
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- 其它端设置 -->
         <div class="layui-card">
             <div class="layui-card-header">其它端登录设置</div>
             <div class="layui-card-body">
                 <!-- 显示登录协议 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>显示登录协议:</label>
+                    <label class="layui-form-label" >
+                        <span class="asterisk">*</span>显示登录协议:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后登录或注册则显示用户协议"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         <input type="radio" name="other_is_agreement" value="1"
                                title="开启" {if $detail.other_is_agreement==1}checked{/if}>
@@ -282,7 +367,12 @@
                 </div>
                 <!-- 强制绑定手机 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>强制绑定手机:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>强制绑定手机:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="开启后用户注册时强制用户填写手机号码"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         <input type="radio" name="other_force_mobile" value="1"
                                title="开启" {if $detail.other_force_mobile==1}checked{/if}>
@@ -292,7 +382,12 @@
                 </div>
                 <!-- 默认登录方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>默认登录方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>默认登录方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="即用户打开登录页面默认展示的登录方式"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.login_channels as $k => $v}
                             {if $detail.other_default_method == $k}
@@ -306,7 +401,12 @@
                 </div>
                 <!-- 可用登录方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用登录方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>可用登录方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="如果没有勾选任何方式将关闭登录功能"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.login_channels as $k => $v}
                             {if in_array($k, $detail.other_usable_channel)}
@@ -321,7 +421,12 @@
                 </div>
                 <!-- 可用注册方式 -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="asterisk">*</span>可用注册方式:</label>
+                    <label class="layui-form-label">
+                        <span class="asterisk">*</span>可用注册方式:
+                        <i class="layui-icon layui-icon-about"
+                           lay-tips="如果没有勾选任何方式将关闭注册功能"
+                        ></i>
+                    </label>
                     <div class="layui-input-block">
                         {foreach $detail.enroll_channels as $k => $v}
                             {if in_array($k, $detail.other_usable_register)}
