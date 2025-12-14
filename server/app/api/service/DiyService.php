@@ -99,40 +99,6 @@ class DiyService extends Service
     }
 
     /**
-     * 个人中心装修
-     *
-     * @return array
-     * @author zero
-     */
-    public static function myself(): array
-    {
-        $data = [];
-        $detail = ConfigUtils::get('diy', 'person');
-        foreach ($detail as $type => $item) {
-            $data[$type]['base'] = match ($type) {
-                'adv' => [
-                    'open' => intval($item['base']['open'] ?? '0')
-                ],
-                'service' => [
-                    'layout' => $item['base']['layout'] ?? 'row',
-                    'title'  => $item['base']['title']  ?? '',
-                    'number' => $item['base']['number'] ?? 4,
-                ]
-            };
-
-            foreach ($item['list'] as $value) {
-                $data[$type]['list'][] = [
-                    'image' => UrlUtils::toAbsoluteUrl($value['image']??''),
-                    'name'  => $value['name']??'',
-                    'link'  => $value['link']??'',
-                ];
-            }
-        }
-
-        return $data;
-    }
-
-    /**
      * 联系客服装修
      *
      * @return array
