@@ -598,11 +598,11 @@ INSERT INTO `wait_sys_config` VALUES (50, 'h5', 'title', 'WaitAdmin开源系统'
 INSERT INTO `wait_sys_config` VALUES (51, 'h5', 'logo', 'static/common/images/init/logo_h5.png', 'H5图标', 1665319505, 1679125300);
 INSERT INTO `wait_sys_config` VALUES (52, 'h5', 'status', '1', 'H5状态', 1665319505, 1679125300);
 INSERT INTO `wait_sys_config` VALUES (53, 'h5', 'close_url', '', 'H5关闭页面', 1665319505, 1679125300);
-INSERT INTO `wait_sys_config` VALUES (60, 'login', 'is_agreement', '1', '显示登录协议', 1665319505, 1665319505);
-INSERT INTO `wait_sys_config` VALUES (61, 'login', 'force_mobile', '1', '强制绑定手机', 1665319505, 1665319505);
-INSERT INTO `wait_sys_config` VALUES (62, 'login', 'auths_mobile', '0', '微信授权手机', 1665319505, 1665319505);
-INSERT INTO `wait_sys_config` VALUES (63, 'login', 'login_modes', '[\"1\",\"2\"]', '通用登录方式', 1665319505, 1665319505);
-INSERT INTO `wait_sys_config` VALUES (64, 'login', 'login_other', '[\"1\"]', '第三方登录', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (61, 'login', 'pc', '{\"is_agreement\":\"1\",\"force_mobile\":\"1\",\"default_method\":\"account\",\"usable_channel\":[\"account\",\"mobile\",\"wx\"],\"usable_register\":[\"account\",\"mobile\",\"oauth\"]}', 'PC端登录方式', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (62, 'login', 'h5', '{\"is_agreement\":\"1\",\"force_mobile\":\"0\",\"default_method\":\"account\",\"usable_channel\":[\"account\",\"mobile\",\"wx\"],\"usable_register\":[\"account\",\"mobile\",\"oauth\"]}', 'H5端登录方式', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (63, 'login', 'wx', '{\"is_agreement\":\"1\",\"force_mobile\":\"1\",\"default_method\":\"account\",\"usable_channel\":[\"account\",\"mobile\",\"wx\"],\"usable_register\":[\"account\",\"mobile\",\"oauth\"]}', '微信端登录方式', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (64, 'login', 'other', '{\"is_agreement\":\"1\",\"force_mobile\":\"1\",\"default_method\":\"account\",\"usable_channel\":[\"account\",\"mobile\",\"wx\"],\"usable_register\":[\"account\",\"mobile\",\"oauth\"]}', '其它登录方式', 1665319505, 1665319505);
+INSERT INTO `wait_sys_config` VALUES (68, 'login', 'basis', '{\"logo\":\"static\\/common\\/images\\/init\\/logo_h5.png\",\"tips\":\"\\u4e00\\u7ad9\\u5f0f\\u5feb\\u901f\\u5f00\\u53d1\\u6a21\\u677f\"}', '基础登录配置', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (70, 'mail', 'smtp_type', 'smtp', '邮件方式', 1665319505, 1679046920);
 INSERT INTO `wait_sys_config` VALUES (71, 'mail', 'smtp_host', 'smtp.163.com', 'SMTP服务', 1665319505, 1679046920);
 INSERT INTO `wait_sys_config` VALUES (72, 'mail', 'smtp_port', '25', 'SMTP端口', 1665319505, 1679046920);
