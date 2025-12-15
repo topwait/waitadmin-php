@@ -643,8 +643,9 @@ INSERT INTO `wait_sys_config` VALUES (801, 'diy', 'theme', '{\"type\":\"blue-the
 INSERT INTO `wait_sys_config` VALUES (802, 'diy', 'tabbar', '{\"style\":{\"selectedColor\":\"#2979ff\",\"unselectedColor\":\"#333333\"},\"list\":[{\"text\":\"\\u9996\\u9875\",\"iconPath\":\"/static/common/images/init/tab_home.png\",\"selectedIconPath\":\"/static/common/images/init/tab_home_no.png\"},{\"text\":\"\\u8d44\\u8baf\",\"iconPath\":\"/static/common/images/init/tab_archive.png\",\"selectedIconPath\":\"/static/common/images/init/tab_archive_no.png\"},{\"text\":\"\\u6211\\u7684\",\"iconPath\":\"/static/common/images/init/tab_user.png\",\"selectedIconPath\":\"/static/common/images/init/tab_user_no.png\"}]}', 'tabBar导航', 1665319505, 1665319505);
 INSERT INTO `wait_sys_config` VALUES (803, 'diy', 'contact', '{\"title\":\"\\u6dfb\\u52a0\\u5ba2\\u670d\\u4e8c\\u7ef4\\u7801\",\"datetime\":\"\\u65e9\\u4e0a 9:00 - \\u665a\\u4e0a17:00\",\"mobile\":\"13800138000\",\"qq\":\"1019900755\",\"image\":\"static/common/images/init/contact_qr.png\"}', '联系客服装修', 1665319505, 1665319505);
 
-INSERT INTO `wait_auth_menu` VALUES (1, 0, 'app', '首页', 'layui-icon icon-home-fill', 'index/console', 0, 1, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (10, 0, 'app', '权限', 'layui-icon icon-member-manage', '', 50, 1, 0, 0, 1648696695, 1678629659, 0);
+BEGIN;
+INSERT INTO `wait_auth_menu` VALUES (1, 0, 'app', '首页', 'layui-icon icon-homed-fill', 'index/console', 0, 1, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (10, 0, 'app', '权限', 'layui-icon icon-admin-setting-fill', '', 50, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (11, 10, 'app', '管理员', '', 'auth.admin/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (12, 11, 'app', '管理员列表', '', 'auth.admin/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (13, 11, 'app', '管理员新增', '', 'auth.admin/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
@@ -672,7 +673,7 @@ INSERT INTO `wait_auth_menu` VALUES (51, 50, 'app', '岗位列表', '', 'auth.po
 INSERT INTO `wait_auth_menu` VALUES (52, 50, 'app', '岗位新增', '', 'auth.post/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (53, 50, 'app', '岗位编辑', '', 'auth.post/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (54, 50, 'app', '岗位删除', '', 'auth.post/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (200, 0, 'app', '设置', 'layui-icon icon-setup-fill', '', 60, 1, 0, 0, 1648696695, 1678629649, 0);
+INSERT INTO `wait_auth_menu` VALUES (200, 0, 'app', '设置', 'layui-icon icon-setup-fill', '', 60, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (201, 200, 'app', '系统设置', '', 'setting.basics/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (202, 201, 'app', '配置页面', '', 'setting.basics/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (203, 201, 'app', '配置保存', '', 'setting.basics/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
@@ -716,7 +717,7 @@ INSERT INTO `wait_auth_menu` VALUES (321, 320, 'app', '友链列表', '', 'setti
 INSERT INTO `wait_auth_menu` VALUES (322, 320, 'app', '友链新增', '', 'setting.pc.links/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (323, 320, 'app', '友链编辑', '', 'setting.pc.links/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (324, 320, 'app', '友链删除', '', 'setting.pc.links/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (3000, 0, 'app', '系统', 'layui-icon icon-system', '', 70, 1, 0, 0, 1648696695, 1678629644, 0);
+INSERT INTO `wait_auth_menu` VALUES (3000, 0, 'app', '系统', 'layui-icon icon-equalizer', '', 70, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3001, 3000, 'app', '计划任务', '', 'system.crontab/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3002, 3001, 'app', '任务列表', '', 'system.crontab/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3003, 3001, 'app', '任务详情', '', 'system.crontab/detail', 0, 0, 0, 0, 1648696695, 1648696695, 0);
@@ -742,7 +743,7 @@ INSERT INTO `wait_auth_menu` VALUES (3027, 3020, 'app', '分组命名', '', 'att
 INSERT INTO `wait_auth_menu` VALUES (3028, 3020, 'app', '分组删除', '', 'attach/cateDel', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3030, 3000, 'app', '上传管理', '', '', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3031, 3030, 'app', '附件上传', '', 'upload/permanent', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (3032, 3030, 'app', '临时上传', '', 'upload/temporary', 0, 0, 0, 0, 1648696695, 1678713499, 0);
+INSERT INTO `wait_auth_menu` VALUES (3032, 3030, 'app', '临时上传', '', 'upload/temporary', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3050, 3000, 'app', '字典管理', '', 'system.dictType/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3051, 3050, 'app', '字典类型列表', '', 'system.dictType/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3052, 3050, 'app', '字典类型新增', '', 'system.dictType/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
@@ -752,7 +753,7 @@ INSERT INTO `wait_auth_menu` VALUES (3055, 3050, 'app', '字典数据列表', ''
 INSERT INTO `wait_auth_menu` VALUES (3056, 3050, 'app', '字典数据新增', '', 'system.dictData/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3057, 3050, 'app', '字典数据编辑', '', 'system.dictData/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3058, 3050, 'app', '字典数据删除', '', 'system.dictData/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (3500, 0, 'app', '内容', 'layui-icon icon-text-doc', '', 20, 1, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (3500, 0, 'app', '内容', 'layui-icon icon-text-fill', '', 20, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3501, 3500, 'app', '分类管理', '', 'content.category/index', 20, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3502, 3501, 'app', '分类列表', '', 'content.category/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3503, 3501, 'app', '分类详情', '', 'content.category/detail', 0, 0, 0, 0, 1648696695, 1648696695, 0);
@@ -765,7 +766,7 @@ INSERT INTO `wait_auth_menu` VALUES (3512, 3510, 'app', '文章详情', '', 'con
 INSERT INTO `wait_auth_menu` VALUES (3513, 3510, 'app', '文章新增', '', 'content.article/add', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3514, 3510, 'app', '文章编辑', '', 'content.article/edit', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (3515, 3510, 'app', '文章删除', '', 'content.article/del', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (4000, 0, 'app', '用户', 'layui-icon icon-member-user', '', 30, 1, 0, 0, 1648696695, 1648696695, 0);
+INSERT INTO `wait_auth_menu` VALUES (4000, 0, 'app', '用户', 'layui-icon icon-users-fill', '', 30, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4001, 4000, 'app', '用户管理', '', 'user.user/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4002, 4001, 'app', '用户列表', '', 'user.user/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4003, 4001, 'app', '用户详情', '', 'user.user/detail', 0, 0, 0, 0, 1648696695, 1648696695, 0);
@@ -779,7 +780,7 @@ INSERT INTO `wait_auth_menu` VALUES (4105, 4100, 'app', '分组删除', '', 'use
 INSERT INTO `wait_auth_menu` VALUES (4110, 4000, 'app', '用户足迹', '', 'user.visitor/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4111, 4110, 'app', '足迹列表', '', 'user.visitor/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (4112, 4110, 'app', '足迹详情', '', 'user.visitor/detail', 0, 0, 0, 0, 1648696695, 1648696695, 0);
-INSERT INTO `wait_auth_menu` VALUES (5700, 0, 'app', '装修', 'layui-icon layui-icon-windows', '', 40, 1, 0, 0, 1648696695, 1678629666, 0);
+INSERT INTO `wait_auth_menu` VALUES (5700, 0, 'app', '装修', 'layui-icon layui-icon-windows', '', 40, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (5720, 5700, 'app', '主题风格', '', 'diy.theme/index', 0, 1, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (5721, 5720, 'app', '主题装修页面', '', 'diy.theme/index', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (5722, 5720, 'app', '主题装修保存', '', 'diy.theme/save', 0, 0, 0, 0, 1648696695, 1648696695, 0);
@@ -799,3 +800,4 @@ INSERT INTO `wait_auth_menu` VALUES (6006, 6000, 'curd', '导入库表', '', 'ad
 INSERT INTO `wait_auth_menu` VALUES (6007, 6000, 'curd', '导出生成', '', 'addons/curd/gen/exports', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (6008, 6000, 'curd', '下载生成', '', 'addons/curd/gen/download', 0, 0, 0, 0, 1648696695, 1648696695, 0);
 INSERT INTO `wait_auth_menu` VALUES (6009, 6000, 'curd', '预览生成', '', 'addons/curd/gen/preview', 0, 0, 0, 0, 1648696695, 1648696695, 0);
+COMMIT;
