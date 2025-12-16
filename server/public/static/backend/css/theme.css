@@ -1,6 +1,4 @@
 /** 主题: 默认 **/
-body[data-theme="classic-green"],
-body[data-theme="header-green"],
 body[data-theme="default"] { --theme-color: #009688; }
 body[data-theme="default"] .layui-bg-default { background-color: #009688; }
 body[data-theme="default"] .layui-btn-default { background-color: #009688; }
@@ -13,63 +11,72 @@ body[data-theme="default"] .layui-input-hover:focus { border-color: #009688 !imp
 body[data-theme="default"] .layui-color-default { color: #009688; }
 body[data-theme="default"] .layui-layer-btn .layui-layer-btn0 { border-color: #009688; background-color: #009688; }
 
-/** 主题: 蓝色 **/
-body[data-theme="classic-blue"],
-body[data-theme="header-blue"],
-body[data-theme="blue"] { --theme-color: #3b91ff; }
-body[data-theme="blue"] .layui-bg-default { background-color: #3b91ff; }
-body[data-theme="blue"] .layui-btn-default { background-color: #3b91ff; }
-body[data-theme="blue"] .layui-bg-default.active { background-color: #055fd2; }
-body[data-theme="blue"] .layui-btn-default.active { background-color: #055fd2; }
-body[data-theme="blue"] .layui-bg-default:hover { opacity: 0.85; }
-body[data-theme="blue"] .layui-border-color { border-color: #3b91ff !important; }
-body[data-theme="blue"] .layui-input-hover:hover { border-color: #3b91ff !important; }
-body[data-theme="blue"] .layui-input-hover:focus { border-color: #3b91ff !important; }
-body[data-theme="blue"] .layui-laypage .layui-laypage-curr .layui-laypage-em { background-color: #3b91ff; }
-body[data-theme="blue"] .layui-form-select dl dd.layui-this { color: #5fa2f8; }
-body[data-theme="blue"] .layui-form-radio:hover *,
-body[data-theme="blue"] .layui-form-radioed,
-body[data-theme="blue"] .layui-form-radioed > i { color: #5fa2f8; }
-body[data-theme="blue"] .layui-form-checked[lay-skin="primary"] i { border-color: #5fa2f8 !important; background-color: #5fa2f8; }
-body[data-theme="blue"] .layui-form-checkbox[lay-skin="primary"]:hover i { border-color: #5fa2f8 !important; }
-body[data-theme="blue"] .layui-form-checked>div { background-color: #5fa2f8; }
-body[data-theme="blue"] .layui-form-checked>i { color: #5fa2f8; }
-body[data-theme="blue"] .layui-btn.layui-btn-primary:hover { border-color: #5fa2f8; }
-body[data-theme="blue"] .layui-tab-brief > .layui-tab-title .layui-this { color: #5fa2f8; }
-body[data-theme="blue"] .layui-tab-brief > .layui-tab-title .layui-this::after { border-color: #5fa2f8; }
-body[data-theme="blue"] .layui-laydate .layui-this { background-color: #3b91ff !important; }
-body[data-theme="blue"] .layui-laydate-footer span:hover { color: #5fa2f8; }
-body[data-theme="blue"] .layui-btn-drop.layui-btn-default em:hover { background-color: #055fd2; }
-body[data-theme="blue"] .layui-btn-drop.layui-btn-default i:hover { background-color: #055fd2; }
-body[data-theme="blue"] .layui-btn-drop.layui-btn-default span.toggle:hover { background-color: #055fd2; }
-body[data-theme="blue"] .layui-btn-drop.layui-btn-default .toggle.active { background-color: #055fd2; }
+/** 主题: 绿色 (classic,header) **/
+body[data-theme$="green"] { --theme-color: #009688; }
+body[data-theme$="green"] .layui-bg-default { background-color: #009688; }
+body[data-theme$="green"] .layui-btn-default { background-color: #009688; }
+body[data-theme$="green"] .layui-bg-default.active { background-color: #046c73; }
+body[data-theme$="green"] .layui-btn-default.active { background-color: #046c73; }
+body[data-theme$="green"] .layui-bg-default:hover { opacity: 0.85; }
+body[data-theme$="green"] .layui-border-color { border-color: #009688 !important; }
+body[data-theme$="green"] .layui-input-hover:hover { border-color: #009688 !important; }
+body[data-theme$="green"] .layui-input-hover:focus { border-color: #009688 !important; }
+body[data-theme$="green"] .layui-color-default { color: #009688; }
+body[data-theme$="green"] .layui-layer-btn .layui-layer-btn0 { border-color: #009688; background-color: #009688; }
 
-/** 主题: 红色 **/
-body[data-theme="classic-red"],
-body[data-theme="header-red"],
-body[data-theme="red"] { --theme-color: #f75444; }
-body[data-theme="red"] .layui-bg-default { background-color: #f75444; }
-body[data-theme="red"] .layui-btn-default { background-color: #f75444; }
-body[data-theme="red"] .layui-bg-default.active { background-color: #b41f11; }
-body[data-theme="red"] .layui-btn-default.active { background-color: #b41f11; }
-body[data-theme="red"] .layui-bg-default:hover { opacity: 0.85; }
-body[data-theme="red"] .layui-border-color { border-color: #f75444 !important; }
-body[data-theme="red"] .layui-input-hover:hover { border-color: #f75444 !important; }
-body[data-theme="red"] .layui-input-hover:focus { border-color: #f75444 !important; }
-body[data-theme="red"] .layui-laypage .layui-laypage-curr .layui-laypage-em { background-color: #f75444; }
-body[data-theme="red"] .layui-form-select dl dd.layui-this { color: #ea6457; }
-body[data-theme="red"] .layui-form-radio:hover *,
-body[data-theme="red"] .layui-form-radioed,
-body[data-theme="red"] .layui-form-radioed > i { color: #ea6457; }
-body[data-theme="red"] .layui-form-checked[lay-skin="primary"] i { border-color: #ea6457 !important; background-color: #ea6457; }
-body[data-theme="red"] .layui-form-checkbox[lay-skin="primary"]:hover i { border-color: #ea6457 !important; }
-body[data-theme="red"] .layui-form-checked>div { background-color: #ea6457; }
-body[data-theme="red"] .layui-form-checked>i { color: #ea6457; }
-body[data-theme="red"] .layui-btn.layui-btn-primary:hover { border-color: #ea6457; }
-body[data-theme="red"] .layui-tab-brief > .layui-tab-title .layui-this { color: #ea6457; }
-body[data-theme="red"] .layui-tab-brief > .layui-tab-title .layui-this::after { border-color: #ea6457; }
-body[data-theme="red"] .layui-laydate .layui-this { background-color: #f75444 !important; }
-body[data-theme="red"] .layui-laydate-footer span:hover { color: #ea6457; }
+/** 主题: 蓝色 (classic,header) **/
+body[data-theme$="blue"] { --theme-color: #3b91ff; }
+body[data-theme$="blue"] .layui-bg-default { background-color: #3b91ff; }
+body[data-theme$="blue"] .layui-btn-default { background-color: #3b91ff; }
+body[data-theme$="blue"] .layui-bg-default.active { background-color: #055fd2; }
+body[data-theme$="blue"] .layui-btn-default.active { background-color: #055fd2; }
+body[data-theme$="blue"] .layui-bg-default:hover { opacity: 0.85; }
+body[data-theme$="blue"] .layui-border-color { border-color: #3b91ff !important; }
+body[data-theme$="blue"] .layui-input-hover:hover { border-color: #3b91ff !important; }
+body[data-theme$="blue"] .layui-input-hover:focus { border-color: #3b91ff !important; }
+body[data-theme$="blue"] .layui-laypage .layui-laypage-curr .layui-laypage-em { background-color: #3b91ff; }
+body[data-theme$="blue"] .layui-form-select dl dd.layui-this { color: #5fa2f8; }
+body[data-theme$="blue"] .layui-form-radio:hover *,
+body[data-theme$="blue"] .layui-form-radioed,
+body[data-theme$="blue"] .layui-form-radioed > i { color: #5fa2f8; }
+body[data-theme$="blue"] .layui-form-checked[lay-skin="primary"] i { border-color: #5fa2f8 !important; background-color: #5fa2f8; }
+body[data-theme$="blue"] .layui-form-checkbox[lay-skin="primary"]:hover i { border-color: #5fa2f8 !important; }
+body[data-theme$="blue"] .layui-form-checked[lay-skin="tag"] > div { background-color: #5fa2f8; }
+body[data-theme$="blue"] .layui-form-checked[lay-skin="tag"] > i { color: #5fa2f8; }
+body[data-theme$="blue"] .layui-btn.layui-btn-primary:hover { border-color: #5fa2f8; }
+body[data-theme$="blue"] .layui-tab-brief > .layui-tab-title .layui-this { color: #5fa2f8; }
+body[data-theme$="blue"] .layui-tab-brief > .layui-tab-title .layui-this::after { border-color: #5fa2f8; }
+body[data-theme$="blue"] .layui-laydate .layui-this { background-color: #3b91ff !important; }
+body[data-theme$="blue"] .layui-laydate-footer span:hover { color: #5fa2f8; }
+body[data-theme$="blue"] .layui-btn-drop.layui-btn-default em:hover { background-color: #055fd2; }
+body[data-theme$="blue"] .layui-btn-drop.layui-btn-default i:hover { background-color: #055fd2; }
+body[data-theme$="blue"] .layui-btn-drop.layui-btn-default span.toggle:hover { background-color: #055fd2; }
+body[data-theme$="blue"] .layui-btn-drop.layui-btn-default .toggle.active { background-color: #055fd2; }
+
+/** 主题: 红色 (classic,header) **/
+body[data-theme$="red"] { --theme-color: #f75444; }
+body[data-theme$="red"] .layui-bg-default { background-color: #f75444; }
+body[data-theme$="red"] .layui-btn-default { background-color: #f75444; }
+body[data-theme$="red"] .layui-bg-default.active { background-color: #b41f11; }
+body[data-theme$="red"] .layui-btn-default.active { background-color: #b41f11; }
+body[data-theme$="red"] .layui-bg-default:hover { opacity: 0.85; }
+body[data-theme$="red"] .layui-border-color { border-color: #f75444 !important; }
+body[data-theme$="red"] .layui-input-hover:hover { border-color: #f75444 !important; }
+body[data-theme$="red"] .layui-input-hover:focus { border-color: #f75444 !important; }
+body[data-theme$="red"] .layui-laypage .layui-laypage-curr .layui-laypage-em { background-color: #f75444; }
+body[data-theme$="red"] .layui-form-select dl dd.layui-this { color: #ea6457; }
+body[data-theme$="red"] .layui-form-radio:hover *,
+body[data-theme$="red"] .layui-form-radioed,
+body[data-theme$="red"] .layui-form-radioed > i { color: #ea6457; }
+body[data-theme$="red"] .layui-form-checked[lay-skin="primary"] i { border-color: #ea6457 !important; background-color: #ea6457; }
+body[data-theme$="red"] .layui-form-checkbox[lay-skin="primary"]:hover i { border-color: #ea6457 !important; }
+body[data-theme$="red"] .layui-form-checked[lay-skin="tag"]>div { background-color: #ea6457; }
+body[data-theme$="red"] .layui-form-checked[lay-skin="tag"]>i { color: #ea6457; }
+body[data-theme$="red"] .layui-btn.layui-btn-primary:hover { border-color: #ea6457; }
+body[data-theme$="red"] .layui-tab-brief > .layui-tab-title .layui-this { color: #ea6457; }
+body[data-theme$="red"] .layui-tab-brief > .layui-tab-title .layui-this::after { border-color: #ea6457; }
+body[data-theme$="red"] .layui-laydate .layui-this { background-color: #f75444 !important; }
+body[data-theme$="red"] .layui-laydate-footer span:hover { color: #ea6457; }
 
 /** 主题: 紫色 **/
 body[data-theme="purple"] { --theme-color: #784976; }
@@ -88,8 +95,8 @@ body[data-theme="purple"] .layui-form-radioed,
 body[data-theme="purple"] .layui-form-radioed > i { color: #9e669c; }
 body[data-theme="purple"] .layui-form-checked[lay-skin="primary"] i { border-color: #9e669c !important; background-color: #9e669c; }
 body[data-theme="purple"] .layui-form-checkbox[lay-skin="primary"]:hover i { border-color: #9e669c !important; }
-body[data-theme="purple"] .layui-form-checked>div { background-color: #9e669c; }
-body[data-theme="purple"] .layui-form-checked>i { color: #9e669c; }
+body[data-theme="purple"] .layui-form-checked[lay-skin="tag"]>div { background-color: #9e669c; }
+body[data-theme="purple"] .layui-form-checked[lay-skin="tag"]>i { color: #9e669c; }
 body[data-theme="purple"] .layui-btn.layui-btn-primary:hover { border-color: #9e669c; }
 body[data-theme="purple"] .layui-tab-brief > .layui-tab-title .layui-this { color: #9e669c; }
 body[data-theme="purple"] .layui-tab-brief > .layui-tab-title .layui-this::after { border-color: #9e669c; }
@@ -113,8 +120,8 @@ body[data-theme="coffee"] .layui-form-radioed,
 body[data-theme="coffee"] .layui-form-radioed > i { color: #bb9f83; }
 body[data-theme="coffee"] .layui-form-checked[lay-skin="primary"] i { border-color: #bb9f83 !important; background-color: #bb9f83; }
 body[data-theme="coffee"] .layui-form-checkbox[lay-skin="primary"]:hover i { border-color: #bb9f83 !important; }
-body[data-theme="coffee"] .layui-form-checked>div { background-color: #bb9f83; }
-body[data-theme="coffee"] .layui-form-checked>i { color: #bb9f83; }
+body[data-theme="coffee"] .layui-form-checked[lay-skin="tag"]>div { background-color: #bb9f83; }
+body[data-theme="coffee"] .layui-form-checked[lay-skin="tag"]>i { color: #bb9f83; }
 body[data-theme="coffee"] .layui-btn.layui-btn-primary:hover { border-color: #bb9f83; }
 body[data-theme="coffee"] .layui-tab-brief > .layui-tab-title .layui-this { color: #bb9f83; }
 body[data-theme="coffee"] .layui-tab-brief > .layui-tab-title .layui-this::after { border-color: #bb9f83; }
@@ -138,8 +145,8 @@ body[data-theme="white"] .layui-form-radioed,
 body[data-theme="white"] .layui-form-radioed > i { color: #5fa2f8; }
 body[data-theme="white"] .layui-form-checked[lay-skin="primary"] i { border-color: #5fa2f8 !important; background-color: #5fa2f8; }
 body[data-theme="white"] .layui-form-checkbox[lay-skin="primary"]:hover i { border-color: #5fa2f8 !important; }
-body[data-theme="white"] .layui-form-checked>div { background-color: #5fa2f8; }
-body[data-theme="white"] .layui-form-checked>i { color: #5fa2f8; }
+body[data-theme="white"] .layui-form-checked[lay-skin="tag"]>div { background-color: #5fa2f8; }
+body[data-theme="white"] .layui-form-checked[lay-skin="tag"]>i { color: #5fa2f8; }
 body[data-theme="white"] .layui-btn.layui-btn-primary:hover { border-color: #5fa2f8; }
 body[data-theme="white"] .layui-tab-brief > .layui-tab-title .layui-this { color: #5fa2f8; }
 body[data-theme="white"] .layui-tab-brief > .layui-tab-title .layui-this::after { border-color: #5fa2f8; }
