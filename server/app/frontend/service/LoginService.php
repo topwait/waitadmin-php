@@ -62,26 +62,35 @@ class LoginService extends Service
      */
     public static function register(array $post, int $terminal): void
     {
+        // 获取配置
+        $config = self::config();
+        if (!in_array('account', $config['usable_register'])) {
+            throw new OperateException('账号注册通道已关闭');
+        }
+
         // 接收参数
-        $code     = $post['code'];
-        $mobile   = $post['mobile'];
-        $account  = $post['account'] ?? '';
-        $password = $post['password'] ?? '';
+        $code     = $post['code'] ?? '';
+        $mobile   = $post['mobile'] ?? '';
+        $account  = $post['account'];
+        $password = $post['password'];
         $modelUser = new User();
 
-        // 手机验证
-        if (!$modelUser->where(['mobile'=>trim($mobile)])->findOrEmpty()->isEmpty()) {
-            throw new OperateException('手机已被占用!');
+        // 短信验证
+        $mobile = $config['force_mobile'] ? $mobile : '';
+        if ($config['force_mobile']) {
+            // 手机验证
+            if (!$modelUser->where(['mobile' => trim($mobile)])->findOrEmpty()->isEmpty()) {
+                throw new OperateException('手机已被占用!');
+            }
+            // 短信验证
+            if (!MsgDriver::checkCode(NoticeEnum::REGISTER, $code)) {
+                throw new OperateException('验证码错误!');
+            }
         }
 
         // 账号验证
         if (!$modelUser->where(['account'=>trim($account)])->findOrEmpty()->isEmpty()) {
             throw new OperateException('账号已被占用!');
-        }
-
-        // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::REGISTER, $code)) {
-            throw new OperateException('验证码错误!');
         }
 
         // 创建账号
@@ -109,6 +118,12 @@ class LoginService extends Service
      */
     public static function accountLogin(string $account, string $password): void
     {
+        // 获取配置
+        $config = self::config();
+        if (!in_array('account', $config['usable_channel'])) {
+            throw new OperateException('账号登录通道已关闭');
+        }
+
         // 查询账户
         $modelUser = new User();
         $userInfo = $modelUser
@@ -148,6 +163,12 @@ class LoginService extends Service
      */
     public static function mobileLogin(string $mobile, string $code): void
     {
+        // 获取配置
+        $config = self::config();
+        if (!in_array('mobile', $config['usable_channel'])) {
+            throw new OperateException('手机号登录通道已关闭');
+        }
+
         // 短信验证
         if (!MsgDriver::checkCode(NoticeEnum::LOGIN, $code)) {
             throw new OperateException('验证码错误了!');
