@@ -132,8 +132,8 @@
 
         // 微信登录
         $(document).on('click', '#wxLogin', function () {
-            $('.ac-login').hide();
-            $('.wx-login').show();
+            $('.ac-login').addClass('layui-hide');
+            $('.wx-login').removeClass('layui-hide');
 
             waitUtil.ajax({
                 url: "{:route('login/login')}",
