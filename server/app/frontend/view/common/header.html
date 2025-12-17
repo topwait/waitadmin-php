@@ -20,11 +20,19 @@
                     {/if}
                 {/volist}
             </ul>
+            {if $isOpenLogin || $isOpenRegister}
             <ul class="layui-nav">
                 {if !$Request.session.userId}
                     <li class="sign-in">
-                        <a href="javascript:" id="js-enroll-btn">登录</a> /
+                        {if $isOpenLogin}
+                        <a href="javascript:" id="js-enroll-btn">登录</a>
+                        {/if}
+
+                        {if $isOpenLogin && $isOpenRegister}/{/if}
+
+                        {if $isOpenRegister}
                         <a href="javascript:" id="js-signup-btn">注册</a>
+                        {/if}
                     </li>
                 {else}
                     <li class="layui-nav-item">
@@ -40,6 +48,7 @@
                     </li>
                 {/if}
             </ul>
+            {/if}
         </div>
     </div>
 </div>
