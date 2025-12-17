@@ -135,7 +135,7 @@ class LoginService extends Service
 
         // 验证账户
         if (!$userInfo) {
-            throw new OperateException('账号不存在了!');
+            throw new OperateException('账号或密码错误!');
         }
 
         // 验证密码
