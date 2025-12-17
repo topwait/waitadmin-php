@@ -108,18 +108,22 @@ class UserWidget extends Service
                     'update_time' => time()
                 ]);
 
-                // 公众号端同步授权 (因为openId/unionid是一样的)
-                // 因为PC端也是采用公众号扫码的方式授权,如果你改用开放平台的方式,那就不一样了
-                $oaAuth = (new UserAuth())->where(['user_id'=>$user['id']])->where(['terminal'=>ClientEnum::PC])->findOrEmpty();
-                if ($oaAuth->isEmpty()) {
-                    UserAuth::create([
-                        'user_id'     => $user['id'],
-                        'terminal'    => ClientEnum::PC,
-                        'openid'      => $openId,
-                        'unionid'     => $unionId,
-                        'create_time' => time(),
-                        'update_time' => time()
-                    ]);
+                // PC端采用微信公众号扫码登录时: openId 与 H5端的 openId是一样的, 所以可以直接创建两个端的授权
+                // 之所以要创建一个PC端的授权记录,是为了方便PC端如果要用openId时方便查询而已。
+                // PS: PC端的微信登录还有另外一种实现方式: 开放平台方式,那样就和H5端的不一致,我们采用扫码方式,所以一致
+                if ($terminal === ClientEnum::PC || $terminal === ClientEnum::OA) {
+                    $oaWhere = [['user_id', '=', $user['id']], ['terminal', '=', ClientEnum::PC]];
+                    $oaAuth = (new UserAuth())->where($oaWhere)->findOrEmpty();
+                    if ($oaAuth->isEmpty()) {
+                        UserAuth::create([
+                            'user_id' => $user['id'],
+                            'terminal' => ClientEnum::PC,
+                            'openid' => $openId,
+                            'unionid' => $unionId,
+                            'create_time' => time(),
+                            'update_time' => time()
+                        ]);
+                    }
                 }
             }
 
