@@ -243,7 +243,7 @@
 .layout-global-session .jumps:hover { opacity: 0.85; }
 .layout-global-session .empower { display: flex; justify-content: center; padding: 15px 0; }
 .layout-global-session .empower i { padding: 0 10px; font-size: 38px; color: #00c777; cursor: pointer; }
-.layout-global-session .treaty { padding-top: 10px; font-size: 14px; text-align: center; color: #9199a1; }
+.layout-global-session .treaty { display: flex; align-items: center; padding-top: 10px; font-size: 14px; text-align: center; color: #9199a1; }
 .layout-global-session .treaty a { font-size: 14px; color: #3377ff; }
 .layout-global-session .treaty a:hover { opacity: 0.85; }
 .layout-global-session .agreement { padding-bottom: 8px; }

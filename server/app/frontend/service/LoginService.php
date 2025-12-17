@@ -22,6 +22,7 @@ use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
+use app\common\utils\ConfigUtils;
 use app\frontend\cache\ScanLoginCache;
 use app\frontend\cache\WebEnrollCache;
 use app\frontend\widgets\UserWidget;
@@ -32,6 +33,24 @@ use Exception;
  */
 class LoginService extends Service
 {
+    /**
+     * PC登录配置
+     *
+     * @return array
+     * @author zero
+     */
+    public static function config(): array
+    {
+        $config = ConfigUtils::get('login', 'pc');
+        return [
+            "is_agreement"    => boolval($config['is_agreement']??false),
+            "force_mobile"    => boolval($config['force_mobile']??false),
+            "default_method"  => $config['default_method'] ?? '',
+            "usable_channel"  => $config['usable_channel'] ?? [],
+            "usable_register" => $config['usable_register'] ?? []
+        ];
+    }
+
     /**
      * 注册账号
      *

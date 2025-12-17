@@ -42,7 +42,8 @@ class LoginController extends Frontend
     {
         $get = $this->request->get();
         return view('', [
-            'scene' => $get['scene']??'login'
+            'scene' => $get['scene']??'login',
+            'config' => LoginService::config()
         ]);
     }
 
