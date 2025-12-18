@@ -157,8 +157,9 @@ class LoginService extends Service
      * 短信登录
      *
      * @param string $mobile (手机号)
-     * @param string $code   (验证码)
+     * @param string $code (验证码)
      * @throws OperateException
+     * @throws Exception
      * @author zero
      */
     public static function mobileLogin(string $mobile, string $code): void
@@ -182,6 +183,21 @@ class LoginService extends Service
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
+
+        // 不存在则自动注册账号
+        if (!$userInfo and in_array('mobile', $config['usable_register'])) {
+            $userId = UserWidget::createUser([
+                'mobile'   => $mobile,
+                'terminal' => ClientEnum::PC
+            ]);
+
+            $userInfo = $modelUser
+                ->field(['id,mobile,is_disable'])
+                ->where(['is_delete'=>0])
+                ->where(['id'=>$userId])
+                ->findOrEmpty()
+                ->toArray();
+        }
 
         // 验证账户
         if (!$userInfo) {

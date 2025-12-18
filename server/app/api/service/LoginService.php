@@ -34,6 +34,33 @@ use Exception;
 class LoginService extends Service
 {
     /**
+     * 获取登录配置
+     *
+     * @param int $terminal
+     * @return array
+     * @author zero
+     */
+    public static function config(int $terminal): array
+    {
+        $key = match ($terminal) {
+            ClientEnum::PC => 'pc',
+            ClientEnum::H5 => 'h5',
+            ClientEnum::MNP,
+            ClientEnum::OA => 'wx',
+            default => 'other'
+        };
+
+        $config = ConfigUtils::get('login', $key) ?? [];
+        return [
+            'is_agreement'    => boolval(intval($config['is_agreement']??0)),
+            'force_mobile'    => boolval(intval($config['force_mobile']??0)),
+            'default_method'  => $config['default_method'] ?? '',
+            'usable_channel'  => $config['usable_channel'] ?? [],
+            'usable_register' => $config['usable_register'] ?? []
+        ];
+    }
+
+    /**
      * 注册账号
      *
      * @param array $post   (参数)
@@ -46,7 +73,7 @@ class LoginService extends Service
     public static function register(array $post, int $terminal): array
     {
         // 获取配置
-        $config = self::getConfig($terminal);
+        $config = self::config($terminal);
         if (!in_array('account', $config['usable_register'])) {
             throw new OperateException('账号注册通道已关闭');
         }
@@ -91,7 +118,7 @@ class LoginService extends Service
     public static function accountLogin(string $account, string $password, int $terminal): array
     {
         // 获取配置
-        $config = self::getConfig($terminal);
+        $config = self::config($terminal);
         if (!in_array('account', $config['usable_channel'])) {
             throw new OperateException('账号登录通道已关闭');
         }
@@ -130,16 +157,17 @@ class LoginService extends Service
      * 短信登录
      *
      * @param string $mobile (手机号)
-     * @param string $code   (验证码)
-     * @param int $terminal  (设备)
+     * @param string $code (验证码)
+     * @param int $terminal (设备)
      * @return array
      * @throws OperateException
+     * @throws Exception
      * @author zero
      */
     public static function mobileLogin(string $mobile, string $code, int $terminal): array
     {
         // 获取配置
-        $config = self::getConfig($terminal);
+        $config = self::config($terminal);
         if (!in_array('mobile', $config['usable_channel'])) {
             throw new OperateException('手机号登录通道已关闭');
         }
@@ -157,6 +185,21 @@ class LoginService extends Service
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
+
+        // 不存在则自动注册账号
+        if (!$userInfo and in_array('mobile', $config['usable_register'])) {
+            $userId = UserWidget::createUser([
+                'mobile'   => $mobile,
+                'terminal' => $terminal
+            ]);
+
+            $userInfo = $modelUser
+                ->field(['id,mobile,is_disable'])
+                ->where(['id'=>$userId])
+                ->where(['is_delete'=>0])
+                ->findOrEmpty()
+                ->toArray();
+        }
 
         // 验证账户
         if (!$userInfo) {
@@ -235,7 +278,7 @@ class LoginService extends Service
     public static function wxLogin(string $code, string $wxCode, int $terminal): array
     {
         // 获取配置
-        $config = self::getConfig($terminal);
+        $config = self::config($terminal);
         if (!in_array('wx', $config['usable_channel'])) {
             throw new OperateException('微信登录通道已关闭');
         }
@@ -277,7 +320,7 @@ class LoginService extends Service
     public static function oaLogin(string $code, string $state, int $terminal): array
     {
         // 获取配置
-        $config = self::getConfig($terminal);
+        $config = self::config($terminal);
         if (!in_array('wx', $config['usable_channel'])) {
             throw new OperateException('微信登录通道已关闭');
         }
@@ -320,32 +363,5 @@ class LoginService extends Service
 
         $url = explode('?', $url)[0];
         return ['url'=>WeChatService::oaBuildAuthUrl($url, $state)] ?? [];
-    }
-
-    /**
-     * 获取登录配置
-     *
-     * @param int $terminal
-     * @return array
-     * @author zero
-     */
-    private static function getConfig(int $terminal): array
-    {
-        $key = match ($terminal) {
-            ClientEnum::PC => 'pc',
-            ClientEnum::H5 => 'h5',
-            ClientEnum::MNP,
-            ClientEnum::OA => 'wx',
-            default => 'other'
-        };
-
-        $config = ConfigUtils::get('login', $key) ?? [];
-        return [
-            'is_agreement' => boolval(intval($config['is_agreement']??0)),
-            'force_mobile' => boolval(intval($config['force_mobile']??0)),
-            'default_method' => $config['default_method'] ?? '',
-            'usable_channel' => $config['usable_channel'] ?? [],
-            'usable_register' => $config['usable_register'] ?? []
-        ];
     }
 }
