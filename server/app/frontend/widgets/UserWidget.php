@@ -60,6 +60,7 @@ class UserWidget extends Service
             ClientEnum::OA => 'wx',
             default => 'other'
         };
+        $config = ConfigUtils::get('login', $ck, []);
 
         // 密码信息
         $salt = make_rand_char(7-1);
@@ -68,7 +69,7 @@ class UserWidget extends Service
         }
 
         // 强制绑定
-        $forceMobile = boolval(ConfigUtils::get('login', $ck, 'force_mobile')??false);
+        $forceMobile = boolval($config['force_mobile']??false);
         if ($forceMobile && !$mobile) {
             $data = ['sign'=>md5(time().make_rand_char(9))];
             EnrollCache::set($data['sign'], $response);
