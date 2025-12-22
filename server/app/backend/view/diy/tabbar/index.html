@@ -3,9 +3,11 @@
 {block name="style"}
 <style>
     .phone { position: relative; margin-right: 25px; width: 360px; min-width: 360px; height: 615px; border: 1px solid #dddddd; color: #333333; background-color: #f7f7f7; }
-    .phone .bottom { position: absolute; bottom: 0; display: flex; justify-content: space-between; width: 100%; height: 50px; border: 2px solid var(--theme-color); background-color: #ffffff; box-sizing: border-box; }
+    .phone .bottom { position: absolute; bottom: 0; display: flex; justify-content: space-between; width: 100%; height: 50px; border-top: 1px solid #e8e8e8; background-color: #ffffff; box-sizing: border-box; }
     .phone .bottom .item { display: flex; align-items: center; flex-direction: column; justify-content: center; width: 33.33%; }
     .phone .bottom .item img { width: 22px; height: 22px; }
+    .phone .bottom.round { left: 3%; width: 94%; bottom: 10px; border-radius: 999px; border: none;
+        box-shadow: rgba(0, 0, 0, 0.05) 0 6px 30px 5px, rgba(0, 0, 0, 0.04) 0 16px 24px 2px, rgba(0, 0, 0, 0.08) 0 8px 10px -5px}
     .container .layui-card { min-width: 880px; }
     .editor { min-width: 400px; }
     .editor .layui-form-label { width: 58px; padding: 9px 0; }
@@ -25,7 +27,7 @@
             <div style="display: flex;">
                 <!-- 手机端 -->
                 <div class="phone">
-                    <div class="bottom">
+                    <div class="bottom {if $style.effect=='custom' && $style.shape=='round'}round{/if}">
                         {volist name="list" id="vo" key="k"}
                             <div class="item w-scale-{php}echo count($list);{/php}">
                                 <img src="{$k==1 ? $vo.selectedIconPath : $vo.iconPath}" alt="icon">
@@ -44,17 +46,21 @@
                                 <label class="layui-form-label">展示效果:</label>
                                 <div class="layui-input-block">
                                     <input type="radio" name="effect" value="system"
+                                           lay-filter="effect-filter"
                                            title="系统默认" {if $style.effect=='system'}checked{/if}>
                                     <input type="radio" name="effect" value="custom"
+                                           lay-filter="effect-filter"
                                            title="自定义" {if $style.effect=='custom'}checked{/if}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">导航类型:</label>
-                                <div class="layui-input-block">
+                                <div class="layui-input-block shape">
                                     <input type="radio" name="shape" value="default"
+                                           lay-filter="shape-filter"
                                            title="底部固定" {if $style.shape=='default'}checked{/if}>
                                     <input type="radio" name="shape" value="round"
+                                           lay-filter="shape-filter"
                                            title="底部悬浮" {if $style.shape=='round'}checked{/if}>
                                 </div>
                             </div>
@@ -93,6 +99,9 @@
                     <!-- 导航设置 -->
                     <fieldset class="layui-elem-field" style="margin-top:30px;">
                         <legend>导航设置</legend>
+                        <div style="margin-left: 20px; margin-top: 10px; font-size: 12px; color: #999;">
+                            此处不提供实时预览，保存后刷新页面查看效果，请限制在5个内。
+                        </div>
                         <div class="layui-field-box wait-table-cell" id="advDrag">
                             {volist name="$list" id="vo"}
                                 <div class="tabbar">
@@ -220,6 +229,46 @@
                 {field:'unselected', title:'未选图标', width:90, align:'center', templet:'#table-unselected'}
             ]]
         });
+
+        // 展示效果监听
+        form.on('radio(effect-filter)', function(data){
+            const elem = data.elem;
+            const value = elem.value;
+            const node = $('input[name="shape"]')
+            const oneNode = node.eq(0)
+            const towNode = node.eq(1)
+            const bottomNode = $('.bottom')
+
+            if (value === 'system') {
+                oneNode.next().click()
+                bottomNode.removeClass('round')
+                towNode.next().addClass('layui-radio-disabled')
+                towNode.next().addClass('layui-disabled')
+                towNode.prop('checked', false)
+                towNode.prop('disabled', true)
+            } else {
+                towNode.next().removeClass('layui-radio-disabled')
+                towNode.next().removeClass('layui-disabled')
+                towNode.prop('disabled', false)
+                const navType = $('input[name="shape"]:checked').val()
+                if (navType === 'round') {
+                    bottomNode.addClass('round')
+                }
+            }
+        })
+
+        // 导航类型监听
+        form.on('radio(shape-filter)', function(data){
+            const elem = data.elem;
+            const value = elem.value;
+            const bottomNode = $('.bottom')
+
+            if (value === 'round') {
+                bottomNode.addClass('round')
+            } else {
+                bottomNode.removeClass('round')
+            }
+        })
 
         // 提交表单
         form.on('submit(addForm)', function(data){
