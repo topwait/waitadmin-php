@@ -1,13 +1,4 @@
 {
     "pages.index.index": "WaitAdmin開源系統",
-    "pages.login.enroll": "登錄",
-    "pages.login.regist": "註冊",
-    "pages.login.forget": "忘記密碼",
-    "pages.user.home": "個人中心",
-    "pages.user.intro": "個人簡介",
-    "pages.article.list": "資訊列表",
-    "page.article.detail": "資訊詳情",
-    "pages.other.about": "關於我們",
-    "pages.other.policy": "政策協議",
-    "pages.other.customer": "聯系客服"
+    "pages.login.enroll": "登錄"
 }

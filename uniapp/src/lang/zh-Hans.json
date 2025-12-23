@@ -1,13 +1,5 @@
 {
     "pages.index.index": "WaitAdmin开源系统",
     "pages.login.enroll": "登录",
-    "pages.login.regist": "注册",
-    "pages.login.forget": "忘记密码",
-    "pages.user.home": "个人中心",
-    "pages.user.intro": "个人简介",
-    "pages.article.list": "资讯列表",
-    "page.article.detail": "资讯详情",
-    "pages.other.about": "关于我们",
-    "pages.other.policy": "政策协议",
-    "pages.other.customer": "联系客服"
+    "pages.account": "你好，{name}！"
 }

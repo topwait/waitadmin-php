@@ -109,7 +109,7 @@ class ConfigUtils
     {
         Cache::delete(self::SYSTEM_CONFIG_KEY);
         if (is_array($value)) {
-            $value = json_encode($value);
+            $value = json_encode($value, JSON_UNESCAPED_UNICODE);
         }
 
         $model = new SysConfig();

@@ -15,9 +15,11 @@ declare (strict_types = 1);
 
 namespace app\api\controller;
 
+use app\api\cache\LoginCache;
 use app\api\service\LoginService;
 use app\api\validate\LoginValidate;
 use app\common\basics\Api;
+use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use Exception;
 use think\response\Json;
@@ -27,7 +29,7 @@ use think\response\Json;
  */
 class LoginController extends Api
 {
-    protected array $notNeedLogin = ['register', 'login', 'logout', 'oaCodeUrl'];
+    protected array $notNeedLogin = ['register', 'login', 'logout', 'oaCodeUrl', 'uniWxLogin'];
 
     /**
      * 注册
@@ -98,6 +100,8 @@ class LoginController extends Api
      */
     public function logout(): Json
     {
+        $token = $this->request->header('token', '');
+        LoginCache::delete($this->terminal, $token);
         return AjaxUtils::success();
     }
 
@@ -116,5 +120,23 @@ class LoginController extends Api
 
         $response = LoginService::oaCodeUrl($url);
         return AjaxUtils::success($response);
+    }
+
+    /**
+     * UniApp微信登录(App端)
+     *
+     * @return Json
+     * @throws OperateException
+     * @method [POST]
+     * @author zero
+     */
+    public function uniWxLogin(): Json
+    {
+        (new LoginValidate())->goCheck('uni');
+        $openid = $this->request->post('openid');
+        $accessToken = $this->request->post('access_token');
+
+        $result = LoginService::uniWxLogin($openid, $accessToken, $this->terminal);
+        return AjaxUtils::success($result);
     }
 }

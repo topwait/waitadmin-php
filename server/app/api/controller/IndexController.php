@@ -17,6 +17,7 @@ namespace app\api\controller;
 
 use app\api\service\IndexService;
 use app\common\basics\Api;
+use app\common\exception\OperateException;
 use app\common\service\msg\MsgDriver;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
@@ -26,7 +27,10 @@ use think\response\Json;
  */
 class IndexController extends Api
 {
-    protected array $notNeedLogin = ['index', 'config', 'policy', 'sendSms', 'sendEmail'];
+    protected array $notNeedLogin = [
+        'index', 'config', 'policy', 'decorate',
+        'sendSms', 'sendEmail', 'verifyCode'
+    ];
 
     /**
      * 首页数据
@@ -64,6 +68,19 @@ class IndexController extends Api
     {
         $type = $this->request->get('type');
         $detail = IndexService::policy($type);
+        return AjaxUtils::success($detail);
+    }
+
+    /**
+     * 装修数据
+     *
+     * @return Json
+     * @author zero
+     * @method [GET]
+     */
+    public function decorate(): Json
+    {
+        $detail = IndexService::decorate();
         return AjaxUtils::success($detail);
     }
 
@@ -106,5 +123,26 @@ class IndexController extends Api
         ]);
 
         return AjaxUtils::success();
+    }
+
+    /**
+     * 验证验证码
+     *
+     * @return Json
+     * @method [POST]
+     * @throws OperateException
+     * @author zero
+     */
+    public function verifyCode(): Json
+    {
+        $this->validate($this->request->post(), ['scene'=>'require', 'code'=>'require']);
+        $scene = $this->request->post('scene');
+        $code = $this->request->post('code');
+        $ip = $this->request->ip();
+
+        $state = IndexService::verifyCode($scene, $code, $ip);
+        return AjaxUtils::success([
+            'state' => $state
+        ]);
     }
 }

@@ -5,7 +5,7 @@
 layui.define(['laypage', 'form'], function (exports) {
     'use strict';
 
-    let IconPicker = function () { this.v = '0.1.beta'; };
+    let IconPicker = function () { this.v = '0.2.beta'; };
     let $    = layui.jquery;
     let _MOD = 'iconPicker';
     let BODY = 'body';
@@ -20,7 +20,7 @@ layui.define(['laypage', 'form'], function (exports) {
             // 是否分页: true/false
             page = opts.page,
             // 每页显示数量
-            limit = opts.limit == null ? 12 : opts.limit,
+            limit = opts.limit == null ? 24 : opts.limit,
             // 是否开启搜索：true/false
             search = opts.search == null ? true : opts.search,
             // 点击回调
@@ -38,7 +38,7 @@ layui.define(['laypage', 'form'], function (exports) {
             LIST_BOX     = 'layui-iconPicker-list-box',
             selected     = 'layui-form-selected',
             unselect     = 'layui-unselect';
-
+        console.log(limit)
         let a = {
             /**
              * 初始化
@@ -229,7 +229,7 @@ layui.define(['laypage', 'form'], function (exports) {
                 a.event('click', item, function (e) {
                     let el = $(e.currentTarget).find('i');
                     let icon =  el.attr('class');
-                            
+
                     $('#' + TITLE_ID).find('.layui-iconPicker-item .layui-iconPicker-icon i').html('').attr('class', icon);
                     $('#' + ICON_BODY).removeClass(selected).addClass(unselect);
                     $(elem).attr('value', icon);
@@ -258,58 +258,121 @@ layui.define(['laypage', 'form'], function (exports) {
              */
             getData: {
                 fontClass: function () {
-                    return [
+                    const layIcon = [
                         'layui-icon-circle-dot',
-
-                        'icon-run', 'icon-stop', 'icon-window-min', 'icon-window-max', 'icon-window-close',
-                        'icon-detail', 'icon-drag', 'icon-del', 'icon-edit', 'icon-add', 'icon-text-stay', 'icon-text-sign',
-                        'icon-text-order', 'icon-text-invoice', 'icon-text-file', 'icon-text-doc', 'icon-text-catalogue',
-                        'icon-telephone-fixed', 'icon-telephone-fill', 'icon-telephone', 'icon-team-fill', 'icon-team', 'icon-system',
-                        'icon-shutdown', 'icon-shopping-cart-fill', 'icon-shopping-cart', 'icon-shop-fill', 'icon-shop', 'icon-share-ring-fill',
-                        'icon-share-ring', 'icon-share-plain', 'icon-share-frame', 'icon-sex-male-fill', 'icon-sex-male', 'icon-sex-girl-fill',
-                        'icon-sex-girl', 'icon-setup-fill', 'icon-setup', 'icon-seckill-plain', 'icon-seckill-hollow', 'icon-seckill-flash',
-                        'icon-seckill-clock', 'icon-screen-small', 'icon-screen-narrow', 'icon-screen-large', 'icon-screen-enlarge',
-                        'icon-reverse-lens-fill', 'icon-reverse-lens', 'icon-purse-fill', 'icon-purse', 'icon-present-fill', 'icon-present',
-                        'icon-play-history-fill', 'icon-play-history', 'icon-mike-fill', 'icon-mike', 'icon-message-fill', 'icon-message',
-                        'icon-member-user', 'icon-member-staff', 'icon-member-manage', 'icon-member-fill', 'icon-member', 'icon-masonry-fill',
-                        'icon-masonry', 'icon-marketing', 'icon-map-marker-fill', 'icon-map-marker', 'icon-maintain', 'icon-maintain',
-                        'icon-mailbox-fill', 'icon-mailbox', 'icon-luckdraw', 'icon-loupe-fill', 'icon-loupe', 'icon-logo-weibo', 'icon-logo-wechat',
-                        'icon-logo-qq', 'icon-logo-mp', 'icon-logo-alipay', 'icon-lock-fill', 'icon-lock', 'icon-location-fill', 'icon-location',
-                        'icon-integral', 'icon-image-fill', 'icon-image', 'icon-horn-fill', 'icon-horn', 'icon-home-hollow', 'icon-home-fill', 'icon-history-fill',
-                        'icon-history', 'icon-help-sigh', 'icon-help-lack', 'icon-help-fill', 'icon-gift-bag-fill', 'icon-gift-bag', 'icon-function-fill',
-                        'icon-function-case', 'icon-function-apply', 'icon-function', 'icon-fabulous-fill', 'icon-fabulous', 'icon-eye-fill', 'icon-evaluate-fill',
-                        'icon-evaluate', 'icon-download-folder', 'icon-download-cloud-fill', 'icon-download-cloud', 'icon-download-batch', 'icon-download-arrow',
-                        'icon-delete-fill', 'icon-delete', 'icon-customer-service-fill', 'icon-customer-service', 'icon-clean-fill', 'icon-clean', 'icon-chart-fill',
-                        'icon-chart', 'icon-camera-fill', 'icon-camera', 'icon-btn-play', 'icon-btn-pause', 'icon-btn-cut', 'icon-btn-cut', 'icon-btn-cut',
-                        'icon-btn-add', 'icon-beauty-fill', 'icon-beauty', 'icon-beauty', 'icon-bargain', 'icon-badge-fill', 'icon-badge', 'icon-audio-quiet',
-                        'icon-audio-go',
-
-                        'layui-icon-heart-fill', 'layui-icon-heart', 'layui-icon-light', 'layui-icon-time', 'layui-icon-bluetooth', 'layui-icon-at',
-                        'layui-icon-mute', 'layui-icon-mike', 'layui-icon-key', 'layui-icon-gift', 'layui-icon-email', 'layui-icon-rss',
-                        'layui-icon-wifi', 'layui-icon-logout', 'layui-icon-android', 'layui-icon-ios', 'layui-icon-windows', 'layui-icon-transfer',
-                        'layui-icon-service', 'layui-icon-subtraction', 'layui-icon-addition', 'layui-icon-slider', 'layui-icon-print', 'layui-icon-export',
-                        'layui-icon-cols', 'layui-icon-screen-restore', 'layui-icon-screen-full', 'layui-icon-rate-half', 'layui-icon-rate', 'layui-icon-rate-solid',
-                        'layui-icon-cellphone', 'layui-icon-vercode', 'layui-icon-login-wechat', 'layui-icon-login-qq', 'layui-icon-login-weibo', 'layui-icon-password',
-                        'layui-icon-username', 'layui-icon-refresh-3', 'layui-icon-auz', 'layui-icon-spread-left', 'layui-icon-shrink-right', 'layui-icon-snowflake',
-                        'layui-icon-tips', 'layui-icon-note', 'layui-icon-home', 'layui-icon-senior', 'layui-icon-refresh', 'layui-icon-refresh-1',
-                        'layui-icon-flag', 'layui-icon-theme', 'layui-icon-notice', 'layui-icon-website', 'layui-icon-console', 'layui-icon-face-surprised',
-                        'layui-icon-set', 'layui-icon-template-1', 'layui-icon-app', 'layui-icon-template', 'layui-icon-praise', 'layui-icon-tread',
-                        'layui-icon-male', 'layui-icon-female', 'layui-icon-camera', 'layui-icon-camera-fill', 'layui-icon-more', 'layui-icon-more-vertical',
-                        'layui-icon-rmb', 'layui-icon-dollar', 'layui-icon-diamond', 'layui-icon-fire', 'layui-icon-return', 'layui-icon-location',
-                        'layui-icon-read', 'layui-icon-survey', 'layui-icon-face-smile', 'layui-icon-face-cry', 'layui-icon-cart-simple', 'layui-icon-cart',
-                        'layui-icon-next', 'layui-icon-prev', 'layui-icon-upload-drag', 'layui-icon-upload', 'layui-icon-download-circle', 'layui-icon-component',
-                        'layui-icon-file-b', 'layui-icon-user', 'layui-icon-find-fill', 'layui-icon-add-1', 'layui-icon-play', 'layui-icon-pause', 'layui-icon-headset',
-                        'layui-icon-video', 'layui-icon-voice', 'layui-icon-speaker', 'layui-icon-fonts-del', 'layui-icon-fonts-code', 'layui-icon-unlink',
-                        'layui-icon-picture', 'layui-icon-link', 'layui-icon-tabs', 'layui-icon-radio', 'layui-icon-circle', 'layui-icon-edit', 'layui-icon-share',
-                        'layui-icon-delete', 'layui-icon-form', 'layui-icon-cellphone-fine', 'layui-icon-dialogue', 'layui-icon-fonts-clearv', 'layui-icon-layer',
-                        'layui-icon-date', 'layui-icon-water', 'layui-icon-code-circle', 'layui-icon-carousel', 'layui-icon-prev-circle', 'layui-icon-layouts',
-                        'layui-icon-util', 'layui-icon-templeate-1', 'layui-icon-upload-circle', 'layui-icon-tree', 'layui-icon-table', 'layui-icon-chart',
-                        'layui-icon-chart-screen', 'layui-icon-engine', 'layui-icon-file', 'layui-icon-set-sm', 'layui-icon-reduce-circle', 'layui-icon-add-circle',
-                        'layui-icon-404', 'layui-icon-about', 'layui-icon-search', 'layui-icon-set-fill', 'layui-icon-group', 'layui-icon-friends',
-                        'layui-icon-reply-fill', 'layui-icon-menu-fill', 'layui-icon-log', 'layui-icon-picture-fine', 'layui-icon-face-smile-fine',
-                        'layui-icon-list', 'layui-icon-release', 'layui-icon-ok', 'layui-icon-help', 'layui-icon-chat', 'layui-icon-top', 'layui-icon-star',
-                        'layui-icon-star-fill', 'layui-icon-close-fill', 'layui-icon-close', 'layui-icon-ok-circle', 'layui-icon-add-circle-fine'
+                        'layui-icon-bot', 'layui-icon-leaf', 'layui-icon-folder', 'layui-icon-folder-open',
+                        'layui-icon-gitee', 'layui-icon-github', 'layui-icon-light', 'layui-icon-moon',
+                        'layui-icon-error', 'layui-icon-success', 'layui-icon-question', 'layui-icon-lock',
+                        'layui-icon-eye', 'layui-icon-eye-invisible', 'layui-icon-clear', 'layui-icon-backspace',
+                        'layui-icon-disabled', 'layui-icon-tips-fill', 'layui-icon-test', 'layui-icon-music',
+                        'layui-icon-chrome', 'layui-icon-firefox', 'layui-icon-edge', 'layui-icon-ie',
+                        'layui-icon-heart-fill', 'layui-icon-heart', 'layui-icon-time', 'layui-icon-at',
+                        'layui-icon-email', 'layui-icon-rss', 'layui-icon-sound', 'layui-icon-mute',
+                        'layui-icon-mike', 'layui-icon-key', 'layui-icon-gift', 'layui-icon-bluetooth',
+                        'layui-icon-wifi', 'layui-icon-logout', 'layui-icon-android', 'layui-icon-ios',
+                        'layui-icon-windows', 'layui-icon-transfer', 'layui-icon-service', 'layui-icon-subtraction',
+                        'layui-icon-addition', 'layui-icon-slider', 'layui-icon-print', 'layui-icon-export',
+                        'layui-icon-cols', 'layui-icon-screen-restore', 'layui-icon-screen-full',
+                        'layui-icon-rate-half', 'layui-icon-rate', 'layui-icon-rate-solid', 'layui-icon-cellphone',
+                        'layui-icon-vercode', 'layui-icon-login-wechat', 'layui-icon-login-qq',
+                        'layui-icon-login-weibo', 'layui-icon-password', 'layui-icon-username', 'layui-icon-refresh-3',
+                        'layui-icon-auz', 'layui-icon-spread-left', 'layui-icon-shrink-right',
+                        'layui-icon-snowflake', 'layui-icon-tips', 'layui-icon-note', 'layui-icon-home',
+                        'layui-icon-senior', 'layui-icon-refresh', 'layui-icon-refresh-1', 'layui-icon-flag',
+                        'layui-icon-theme', 'layui-icon-notice', 'layui-icon-website', 'layui-icon-console',
+                        'layui-icon-face-surprised', 'layui-icon-set', 'layui-icon-template-1', 'layui-icon-app',
+                        'layui-icon-template', 'layui-icon-praise', 'layui-icon-tread', 'layui-icon-male',
+                        'layui-icon-female', 'layui-icon-camera', 'layui-icon-camera-fill', 'layui-icon-more',
+                        'layui-icon-more-vertical', 'layui-icon-rmb', 'layui-icon-dollar',
+                        'layui-icon-diamond', 'layui-icon-fire', 'layui-icon-return', 'layui-icon-location',
+                        'layui-icon-read', 'layui-icon-survey', 'layui-icon-face-smile', 'layui-icon-face-cry',
+                        'layui-icon-cart-simple', 'layui-icon-cart', 'layui-icon-next', 'layui-icon-prev',
+                        'layui-icon-upload-drag', 'layui-icon-upload', 'layui-icon-download-circle',
+                        'layui-icon-component', 'layui-icon-file-b', 'layui-icon-user', 'layui-icon-find-fill',
+                        'layui-icon-loading', 'layui-icon-loading-1', 'layui-icon-add-1',
+                        'layui-icon-play', 'layui-icon-pause', 'layui-icon-headset', 'layui-icon-video',
+                        'layui-icon-voice', 'layui-icon-speaker', 'layui-icon-fonts-del', 'layui-icon-fonts-code',
+                        'layui-icon-fonts-html', 'layui-icon-fonts-strong', 'layui-icon-unlink', 'layui-icon-picture',
+                        'layui-icon-link', 'layui-icon-face-smile-b', 'layui-icon-align-left', 'layui-icon-align-right',
+                        'layui-icon-align-center', 'layui-icon-fonts-u', 'layui-icon-fonts-i', 'layui-icon-tabs',
+                        'layui-icon-radio', 'layui-icon-circle', 'layui-icon-edit',
+                        'layui-icon-share', 'layui-icon-delete', 'layui-icon-form', 'layui-icon-cellphone-fine',
+                        'layui-icon-dialogue', 'layui-icon-fonts-clear', 'layui-icon-layer', 'layui-icon-date',
+                        'layui-icon-water', 'layui-icon-code-circle', 'layui-icon-carousel', 'layui-icon-prev-circle',
+                        'layui-icon-layouts', 'layui-icon-util', 'layui-icon-templeate-1', 'layui-icon-upload-circle',
+                        'layui-icon-tree', 'layui-icon-table', 'layui-icon-chart', 'layui-icon-chart-screen',
+                        'layui-icon-engine', 'layui-icon-triangle-d', 'layui-icon-triangle-r', 'layui-icon-file',
+                        'layui-icon-set-sm', 'layui-icon-reduce-circle', 'layui-icon-add-circle', 'layui-icon-404',
+                        'layui-icon-about', 'layui-icon-up', 'layui-icon-down', 'layui-icon-left', 'layui-icon-right',
+                        'layui-icon-search', 'layui-icon-set-fill', 'layui-icon-group',
+                        'layui-icon-friends', 'layui-icon-reply-fill', 'layui-icon-menu-fill', 'layui-icon-log',
+                        'layui-icon-picture-fine', 'layui-icon-face-smile-fine', 'layui-icon-list',
+                        'layui-icon-release', 'layui-icon-ok', 'layui-icon-help', 'layui-icon-chat', 'layui-icon-top',
+                        'layui-icon-star', 'layui-icon-star-fill', 'layui-icon-close-fill', 'layui-icon-close',
+                        'layui-icon-ok-circle', 'layui-icon-add-circle-fine'
                     ];
+
+                    const customIcon = [
+                        'icon-helping', 'icon-run', 'icon-robot', 'icon-deposit',
+                        'icon-refund', 'icon-lottery', 'icon-box', 'icon-marketing',
+                        'icon-integral', 'icon-invoice', 'icon-voucher', 'icon-clock-in',
+                        'icon-be-payment', 'icon-be-received', 'icon-be-shipped', 'icon-classify',
+                        'icon-menu', 'icon-apply', 'icon-sort', 'icon-remove',
+                        'icon-disable', 'icon-forbid-view', 'icon-allow-view', 'icon-enter',
+                        'icon-leave', 'icon-retrieve', 'icon-mix', 'icon-semantics',
+                        'icon-terminal', 'icon-code', 'icon-detail', 'icon-copy',
+                        'icon-drag', 'icon-server', 'icon-equalizer', 'icon-maintain',
+                        'icon-fingerprint', 'icon-safety', 'icon-shutdown', 'icon-font',
+                        'icon-character', 'icon-row', 'icon-col', 'icon-modify',
+                        'icon-editor', 'icon-edit', 'icon-true', 'icon-correct',
+                        'icon-append', 'icon-add', 'icon-suspend', 'icon-stop',
+                        'icon-wrong', 'icon-btn-cut', 'icon-btn-add', 'icon-douyin',
+                        'icon-weibo', 'icon-alipay', 'icon-qq', 'icon-wechat',
+                        'icon-logo-account', 'icon-logo-phone', 'icon-logo-google', 'icon-logo-douyin',
+                        'icon-logo-gitee', 'icon-logo-github', 'icon-logo-mp', 'icon-logo-alipay',
+                        'icon-logo-qq', 'icon-logo-wechat', 'icon-download-cloud', 'icon-download-cloud-fill',
+                        'icon-download-folder', 'icon-download-batch', 'icon-download-arrow', 'icon-unlock',
+                        'icon-unlocking', 'icon-locking', 'icon-lockout', 'icon-lock',
+                        'icon-lock-fill', 'icon-window-close', 'icon-window-max', 'icon-window-min',
+                        'icon-screen-enlarge', 'icon-screen-narrow', 'icon-screen-large', 'icon-screen-small',
+                        'icon-arrow-down', 'icon-arrow-up', 'icon-arrow-right', 'icon-arrow-left',
+                        'icon-notepad', 'icon-notepad-fill', 'icon-backlog', 'icon-backlog-fill',
+                        'icon-order', 'icon-order-fill', 'icon-text', 'icon-text-fill',
+                        'icon-report', 'icon-report-fill', 'icon-catalogue', 'icon-catalogue-fill',
+                        'icon-folder', 'icon-folder-fill', 'icon-homed', 'icon-homed-fill',
+                        'icon-family', 'icon-family-fill', 'icon-seckill', 'icon-seckill-fill',
+                        'icon-shopping-cart', 'icon-shopping-cart-fill', 'icon-store', 'icon-store-fill',
+                        'icon-bargain', 'icon-bargain-fill', 'icon-present', 'icon-present-fill',
+                        'icon-purse', 'icon-purse-fill', 'icon-function', 'icon-function-fill',
+                        'icon-chart', 'icon-chart-fill', 'icon-masonry', 'icon-masonry-fill',
+                        'icon-badge', 'icon-badge-fill', 'icon-evaluate', 'icon-evaluate-fill',
+                        'icon-message', 'icon-message-fill', 'icon-chats', 'icon-chats-fill',
+                        'icon-play-history', 'icon-play-history-fill', 'icon-wait-history', 'icon-wait-history-fill',
+                        'icon-flash', 'icon-flash-fill', 'icon-trample', 'icon-trample-fill',
+                        'icon-fabulous', 'icon-fabulous-fill', 'icon-look', 'icon-look-fill',
+                        'icon-forward', 'icon-forward-fill', 'icon-sharing', 'icon-sharing-fill',
+                        'icon-shared', 'icon-shared-fill', 'icon-speaker-close', 'icon-speaker-open',
+                        'icon-horn', 'icon-horn-fill', 'icon-mike', 'icon-mike-fill',
+                        'icon-camera', 'icon-camera-fill', 'icon-reverse-lens', 'icon-reverse-lens-fill',
+                        'icon-tips', 'icon-tips-fill', 'icon-doubt', 'icon-doubt-fill',
+                        'icon-playing', 'icon-playing-fill', 'icon-images', 'icon-images-fill',
+                        'icon-image', 'icon-image-fill', 'icon-phone', 'icon-phone-fill',
+                        'icon-telephony', 'icon-telephony-fill', 'icon-telephone', 'icon-telephone-fill',
+                        'icon-mail', 'icon-mail-fill', 'icon-loupe', 'icon-find-fill',
+                        'icon-sex-girl', 'icon-sex-girl-fill', 'icon-sex-male', 'icon-sex-male-fill',
+                        'icon-positioning', 'icon-positioning-fill', 'icon-locate', 'icon-locate-fill',
+                        'icon-position', 'icon-position-fill', 'icon-broom', 'icon-broom-fill',
+                        'icon-clear', 'icon-clear-fill', 'icon-del', 'icon-del-fill',
+                        'icon-setting', 'icon-setting-fill', 'icon-setup', 'icon-setup-fill',
+                        'icon-specialist', 'icon-specialist-fill', 'icon-customer-serv', 'icon-customer-serv-fill',
+                        'icon-team', 'icon-team-fill', 'icon-crowd', 'icon-crowd-fill',
+                        'icon-administrator', 'icon-administrator-fill', 'icon-admin-unlock', 'icon-admin-lock-fill',
+                        'icon-admin-setting', 'icon-admin-setting-fill', 'icon-people', 'icon-people-fill',
+                        'icon-friend', 'icon-friend-fill', 'icon-users', 'icon-users-fill',
+                        'icon-member', 'icon-member-fill'
+                    ];
+
+                    return [...layIcon, ...customIcon];
                 }
             }
         };

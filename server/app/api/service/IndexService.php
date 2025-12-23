@@ -16,9 +16,13 @@ declare (strict_types = 1);
 namespace app\api\service;
 
 use app\common\basics\Service;
+use app\common\enums\NoticeEnum;
+use app\common\exception\OperateException;
 use app\common\model\article\Article;
+use app\common\service\msg\MsgDriver;
 use app\common\utils\ConfigUtils;
 use app\common\utils\UrlUtils;
+use think\facade\Cache;
 
 /**
  * 主页服务类
@@ -55,17 +59,49 @@ class IndexService extends Service
      */
     public static function config(): array
     {
+        // 资源地址
+        $detail['oss_domain'] = UrlUtils::getDomain();
+
         // 登录配置
         $loginConfig = ConfigUtils::get('login');
-        $loginOther  = array_map(function ($val) {return intval($val);}, $loginConfig['login_other']??[]);
-        if (in_array('2', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'account', 'name'=>'账号登录'];
-        if (in_array('1', $loginConfig['login_modes']??[])) $loginModes[] = ['alias'=>'mobile', 'name'=>'免密登录'];
         $detail['login'] = [
-            'is_agreement' => intval($loginConfig['is_agreement']??0),
-            'force_mobile' => intval($loginConfig['force_mobile']??0),
-            'auths_mobile' => intval($loginConfig['auths_mobile']??0),
-            'login_modes'  => $loginModes??[],
-            'login_other'  => $loginOther,
+            // 微信端
+            'wx' => [
+                'is_agreement'    => boolval($loginConfig['wx']['is_agreement'] ?? 0),
+                'force_mobile'    => boolval($loginConfig['wx']['force_mobile'] ?? 0),
+                'default_method'  => $loginConfig['wx']['default_method']  ?? '',
+                'usable_channel'  => $loginConfig['wx']['usable_channel']  ?? [],
+                'usable_register' => $loginConfig['wx']['usable_register'] ?? []
+            ],
+            // PC端
+            'pc' => [
+                'is_agreement'   => boolval($loginConfig['pc']['is_agreement'] ?? 0),
+                'force_mobile'   => boolval($loginConfig['pc']['force_mobile'] ?? 0),
+                'default_method' => $loginConfig['pc']['default_method']   ?? '',
+                'usable_channel' => $loginConfig['pc']['usable_channel']   ?? [],
+                'usable_register' => $loginConfig['pc']['usable_register'] ?? []
+            ],
+            // H5端
+            'h5' => [
+                'is_agreement'   => boolval($loginConfig['h5']['is_agreement'] ?? 0),
+                'force_mobile'   => boolval($loginConfig['h5']['force_mobile'] ?? 0),
+                'default_method' => $loginConfig['h5']['default_method']   ?? '',
+                'usable_channel' => $loginConfig['h5']['usable_channel']   ?? [],
+                'usable_register' => $loginConfig['h5']['usable_register'] ?? []
+            ],
+            // 其它端
+            'other' => [
+                'is_agreement'    => boolval($loginConfig['other']['is_agreement'] ?? 0),
+                'force_mobile'    => boolval($loginConfig['other']['force_mobile'] ?? 0),
+                'default_method'  => $loginConfig['other']['default_method']  ?? '',
+                'usable_channel'  => $loginConfig['other']['usable_channel']  ?? [],
+                'usable_register' => $loginConfig['other']['usable_register'] ?? []
+            ],
+            // 基础配置
+            'basis' => [
+                'logo' => UrlUtils::toAbsoluteUrl($loginConfig['basis']['logo'] ?? ''),
+                'tips' => $loginConfig['basis']['tips'] ?? ''
+            ]
         ];
 
         // H5配置
@@ -76,28 +112,6 @@ class IndexService extends Service
             'status'    => intval($h5Config['status']??0),
             'close_url' => strval($h5Config['close_url']??'')
         ];
-
-        // 主题风格
-        $themeConfig = ConfigUtils::get('diy', 'theme');
-        $detail['theme'] = [
-            'subject' => $themeConfig['subject'] ?? '',
-            'color'   => $themeConfig['color']   ?? ''
-        ];
-
-        // 底部导航
-        $tabBar = ConfigUtils::get('diy', 'tabbar', []);
-        $detail['tabBar'] = [
-            'style' => [
-                'selectedColor'   => $tabBar['style']['selectedColor'] ?? '#2979ff',
-                'unselectedColor' => $tabBar['style']['unselectedColor'] ?? '##333333'
-            ],
-            'list' => $tabBar['list'] ?? []
-        ];
-        foreach ($detail['tabBar']['list'] as &$item) {
-            $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
-            $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
-        }
-
         return $detail;
     }
 
@@ -112,5 +126,49 @@ class IndexService extends Service
     {
         $value = ConfigUtils::get('policy', $type, '');
         return ['content'=>$value] ?? [];
+    }
+
+    /**
+     * 装修数据
+     *
+     * @return array
+     * @author zero
+     */
+    public static function decorate(): array
+    {
+        $themeConfig = ConfigUtils::get('diy', 'theme');
+        return [
+            'color'  => $themeConfig['color'] ?? '',
+            'theme'  => $themeConfig['subject'] ?? '',
+            'tabbar' => DiyService::tabbar(),
+            'homing' => DiyService::homing(),
+            'tie'    => DiyService::tie()
+        ];
+    }
+
+    /**
+     * 验证验证码
+     *
+     * @param $scene
+     * @param $code
+     * @param $ip
+     * @return bool
+     * @throws OperateException
+     * @author zero
+     */
+    public static function verifyCode($scene, $code, $ip): bool
+    {
+        $key = "verifyCode:$scene:$ip";
+
+        $count = intval(Cache::get($key) ?? 0);
+        if ($count > 5) {
+            throw new OperateException('多次验证失败,您已被限制操作!');
+        }
+
+        if (!MsgDriver::checkCode($scene, strval($code))) {
+            Cache::set($key, $count + 1, 60 * 5);
+            return false;
+        }
+        return true;
     }
 }

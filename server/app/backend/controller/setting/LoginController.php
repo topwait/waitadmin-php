@@ -17,6 +17,7 @@ namespace app\backend\controller\setting;
 
 use app\backend\service\setting\LoginService;
 use app\common\basics\Backend;
+use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use think\response\Json;
 use think\response\View;
@@ -45,6 +46,7 @@ class LoginController extends Backend
      *
      * @return Json
      * @method [POST]
+     * @throws OperateException
      * @author zero
      */
     public function save(): Json

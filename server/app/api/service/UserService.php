@@ -17,6 +17,7 @@ namespace app\api\service;
 
 use app\common\basics\Service;
 use app\common\enums\ClientEnum;
+use app\common\enums\GenderEnum;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
@@ -43,9 +44,18 @@ class UserService extends Service
     {
         $modelUser = new User();
         $user = $modelUser
-            ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
+            ->field(['id,sn,account,nickname,avatar,mobile,email,gender,password'])
             ->where(['id'=>$id])
             ->where(['is_delete'=>0])
+            ->withAttr(['is_wechat' => function() use ($id) {
+                $modelUserAuth = new UserAuth();
+                return !$modelUserAuth->field(['id'])
+                    ->where(['user_id'=>$id])
+                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA, ClientEnum::H5])
+                    ->findOrEmpty()
+                    ->isEmpty();
+            }])
+            ->append(['is_wechat'])
             ->findOrEmpty()
             ->toArray();
 
@@ -54,40 +64,10 @@ class UserService extends Service
             $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
         }
 
-        return $user;
-    }
+        $user['gender'] = GenderEnum::getMsgByCode($user['gender']);
+        $user['is_pwd'] = (bool) $user['password'];
 
-    /**
-     * 用户信息
-     *
-     * @param int $id
-     * @return array
-     * @author zero
-     */
-    public static function info(int $id): array
-    {
-        $modelUser = new User();
-        $user = $modelUser
-            ->field(['id,sn,account,nickname,avatar,mobile,email,gender'])
-            ->where(['id'=>$id])
-            ->where(['is_delete'=>0])
-            ->withAttr(['isWeiChat' => function() use ($id) {
-                $modelUserAuth = new UserAuth();
-                return !$modelUserAuth->field(['id'])
-                    ->where(['user_id'=>$id])
-                    ->whereIn('terminal', [ClientEnum::MNP, ClientEnum::OA, ClientEnum::H5])
-                    ->findOrEmpty()
-                    ->isEmpty();
-            }])
-            ->append(['isWeiChat'])
-            ->findOrEmpty()
-            ->toArray();
-
-        if (isset($user['avatar']) && !$user['avatar']) {
-            $defaultAvatar = 'static/common/images/avatar.png';
-            $user['avatar'] = UrlUtils::toAbsoluteUrl($defaultAvatar);
-        }
-
+        unset($user['password']);
         return $user;
     }
 
@@ -147,6 +127,32 @@ class UserService extends Service
     }
 
     /**
+     * 验证密码
+     *
+     * @param string $password
+     * @param int $userId
+     * @return bool
+     */
+    public static function checkPwd(string $password, int $userId): bool
+    {
+        // 查询账户
+        $modelUser = new User();
+        $user = $modelUser->field(['id,password,salt'])
+            ->where(['id'=>$userId])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证密码
+        $originalPwd = make_md5_str($password, $user['salt']);
+        if ($user['password'] !== $originalPwd) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * 忘记密码
      *
      * @param array $post (参数)
@@ -199,8 +205,8 @@ class UserService extends Service
     public static function changePwd(array $post, int $userId): void
     {
         // 接收参数
-        $newPassword = $post['newPassword'];
-        $oldPassword = $post['oldPassword'];
+        $newPassword = $post['newPassword']??'';
+        $oldPassword = $post['oldPassword']??'';
 
         // 查询账户
         $modelUser = new User();
@@ -216,9 +222,11 @@ class UserService extends Service
         }
 
         // 验证密码
-        $originalPwd = make_md5_str($oldPassword, $user['salt']);
-        if ($user['password'] !== $originalPwd) {
-            throw new OperateException('检测到旧密码不正确!');
+        if ($user['password']) {
+            $originalPwd = make_md5_str($oldPassword, $user['salt']);
+            if ($user['password'] !== $originalPwd) {
+                throw new OperateException('检测到旧密码不正确!');
+            }
         }
 
         // 更新密码
@@ -226,6 +234,130 @@ class UserService extends Service
         User::update([
             'salt'        => $salt,
             'password'    => make_md5_str($newPassword, $salt),
+            'update_time' => time()
+        ], ['id'=>$userId]);
+
+        // todo 退出用户登录
+    }
+
+    /**
+     * 绑定手机
+     *
+     * @param array $post (参数)
+     * @param int $userId (用户ID)
+     * @throws OperateException
+     * @throws Exception
+     * @author zero
+     */
+    public static function bindMobile(array $post, int $userId): void
+    {
+        // 接收参数
+        $password = $post['password'];
+        $mobile = $post['mobile'];
+        $code   = $post['code'];
+
+        // 短信验证
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_MOBILE, $code, true)) {
+            throw new OperateException('验证码错误');
+        }
+
+        // 查询用户
+        $modeUser = new User();
+        $user = $modeUser->field(['id,mobile,password,salt'])
+            ->where(['id'=>$userId])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证用户
+        if (!$user) {
+            throw new OperateException('检测到用户已不存在!');
+        }
+
+        // 验证密码
+        $originalPwd = make_md5_str($password, $user['salt']);
+        if ($user['password'] !== $originalPwd) {
+            throw new OperateException('检测到密码不正确!');
+        }
+
+        // 查询手机
+        $mobileCheck = $modeUser->field(['id'])
+            ->where('id', '<>', $userId)
+            ->where(['mobile'=>$mobile])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证手机
+        if ($mobileCheck) {
+            throw new OperateException('检测到手机号已被占用!');
+        }
+
+        // 更新信息
+        User::update([
+            'mobile' => $mobile,
+            'update_time' => time()
+        ], ['id'=>$userId]);
+    }
+
+    /**
+     * 绑定邮箱
+     *
+     * @param array $post (参数)
+     * @param int $userId (用户ID)
+     * @throws OperateException
+     * @author zero
+     */
+    public static function bindEmail(array $post, int $userId): void
+    {
+        // 接收参数
+        $password = $post['password'];
+        $email = $post['email'];
+        $code  = $post['code'];
+
+        // 短信验证
+        if (!MsgDriver::checkCode(NoticeEnum::BIND_EMAIL, $code)) {
+            throw new OperateException('验证码错误');
+        }
+
+        // 查询用户
+        $modeUser = new User();
+        $user = $modeUser->field(['id,email,password,salt'])
+            ->where(['id'=>$userId])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证用户
+        if (!$user) {
+            throw new OperateException('检测到用户已不存在!');
+        }
+
+        // 验证密码
+        $originalPwd = make_md5_str($password, $user['salt']);
+        if ($user['password'] !== $originalPwd) {
+            throw new OperateException('检测到密码不正确!');
+        }
+
+        // 查询邮箱
+        $emailCheck = $modeUser->field(['id'])
+            ->where('id', '<>', $userId)
+            ->where(['email'=>$email])
+            ->where(['is_delete'=>0])
+            ->findOrEmpty()
+            ->toArray();
+
+        // 验证邮箱
+        if ($emailCheck) {
+            throw new OperateException('检测到邮箱号已被占用!');
+        }
+
+        // 删验证码
+        MsgDriver::useCode(NoticeEnum::BIND_EMAIL, $code);
+
+        // 更新信息
+        User::update([
+            'email' => $email,
             'update_time' => time()
         ], ['id'=>$userId]);
     }
@@ -279,121 +411,5 @@ class UserService extends Service
                 'update_time' => time()
             ]);
         }
-    }
-
-    /**
-     * 绑定手机
-     *
-     * @param array $post (参数)
-     * @param int $userId (用户ID)
-     * @throws OperateException
-     * @throws Exception
-     * @author zero
-     */
-    public static function bindMobile(array $post, int $userId): void
-    {
-        // 接收参数
-        $mobile = $post['mobile']??'';
-        $code   = $post['code']??'';
-        $type   = $post['type']??'';
-
-        if ($type === 'code') {
-            // 微信验证
-            $phoneArr = WeChatService::wxPhoneNumber($code);
-            $mobile = $phoneArr['phoneNumber'];
-        } else {
-            // 短信验证
-            $nCode = $type === 'change' ? NoticeEnum::CHANGE_MOBILE : NoticeEnum::BIND_MOBILE;
-            if (!MsgDriver::checkCode($nCode, $code, true)) {
-                throw new OperateException('验证码错误');
-            }
-        }
-
-        // 查询用户
-        $modeUser = new User();
-        $user = $modeUser->field(['id,mobile'])
-            ->where(['id'=>$userId])
-            ->where(['is_delete'=>$userId])
-            ->findOrEmpty()
-            ->toArray();
-
-        // 验证用户
-        if (!$user) {
-            throw new OperateException('检测到用户已不存在!');
-        }
-
-        // 查询手机
-        $mobileCheck = $modeUser->field(['id'])
-            ->where(['id', '<>', $userId])
-            ->where(['mobile'=>$mobile])
-            ->where(['is_delete'=>0])
-            ->findOrEmpty()
-            ->toArray();
-
-        // 验证手机
-        if ($mobileCheck) {
-            throw new OperateException('检测到手机号已被占用!');
-        }
-
-        // 更新信息
-        User::update([
-            'mobile' => $mobile,
-            'update_time' => time()
-        ], ['id'=>$userId]);
-    }
-
-    /**
-     * 绑定邮箱
-     *
-     * @param array $post (参数)
-     * @param int $userId (用户ID)
-     * @throws OperateException
-     * @author zero
-     */
-    public static function bindEmail(array $post, int $userId): void
-    {
-        // 接收参数
-        $email = $post['email'];
-        $code  = $post['code'];
-
-        // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::BIND_EMAIL, $code)) {
-            throw new OperateException('验证码错误');
-        }
-
-        // 查询用户
-        $modeUser = new User();
-        $user = $modeUser->field(['id,email'])
-            ->where(['id'=>$userId])
-            ->where(['is_delete'=>0])
-            ->findOrEmpty()
-            ->toArray();
-
-        // 验证用户
-        if (!$user) {
-            throw new OperateException('检测到用户已不存在!');
-        }
-
-        // 查询邮箱
-        $emailCheck = $modeUser->field(['id'])
-            ->where([['id', '<>', $userId]])
-            ->where(['email'=>$email])
-            ->where(['is_delete'=>0])
-            ->findOrEmpty()
-            ->toArray();
-
-        // 验证邮箱
-        if ($emailCheck) {
-            throw new OperateException('检测到邮箱号已被占用!');
-        }
-
-        // 删验证码
-        MsgDriver::useCode(NoticeEnum::BIND_EMAIL, $code);
-
-        // 更新信息
-        User::update([
-            'email' => $email,
-            'update_time' => time()
-        ], ['id'=>$userId]);
     }
 }

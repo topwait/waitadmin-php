@@ -1,27 +1,19 @@
-<script setup>
-import { getCurrentInstance } from 'vue'
+<script setup lang="ts">
 import { onLaunch } from '@dcloudio/uni-app'
-import { useAppStore } from '@/stores/appStore'
-import { useUserStore } from '@/stores/userStore'
+import useUserStore from '@/stores/user'
+import useAppStore from '@/stores/app'
+import decorUtil from '@/utils/decor'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
-const { proxy } = getCurrentInstance()
 
 onLaunch(async () => {
-    uni.hideTabBar({
-        animation: false,
-        fail() {}
-    })
+    appStore.getRoutePages()
     await appStore.getSysConfig()
+    await appStore.getDecorates()
     await appStore.h5Intercepts()
-    await userStore.getUserInfo()
-    proxy.$isResolve()
+    await userStore.getUser()
+    await decorUtil.setNavBar()
+    await decorUtil.setTabBar()
 })
 </script>
-
-<style lang="scss">
-// #ifdef H5
-* { touch-action: pan-y; }
-// #endif
-</style>

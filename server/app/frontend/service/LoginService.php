@@ -22,6 +22,7 @@ use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
+use app\common\utils\ConfigUtils;
 use app\frontend\cache\ScanLoginCache;
 use app\frontend\cache\WebEnrollCache;
 use app\frontend\widgets\UserWidget;
@@ -33,6 +34,24 @@ use Exception;
 class LoginService extends Service
 {
     /**
+     * PC登录配置
+     *
+     * @return array
+     * @author zero
+     */
+    public static function config(): array
+    {
+        $config = ConfigUtils::get('login', 'pc');
+        return [
+            "is_agreement"    => boolval($config['is_agreement']??false),
+            "force_mobile"    => boolval($config['force_mobile']??false),
+            "default_method"  => $config['default_method'] ?? '',
+            "usable_channel"  => $config['usable_channel'] ?? [],
+            "usable_register" => $config['usable_register'] ?? []
+        ];
+    }
+
+    /**
      * 注册账号
      *
      * @param array $post   (参数)
@@ -43,26 +62,35 @@ class LoginService extends Service
      */
     public static function register(array $post, int $terminal): void
     {
+        // 获取配置
+        $config = self::config();
+        if (!in_array('account', $config['usable_register'])) {
+            throw new OperateException('账号注册通道已关闭');
+        }
+
         // 接收参数
-        $code     = $post['code'];
-        $mobile   = $post['mobile'];
-        $account  = $post['account'] ?? '';
-        $password = $post['password'] ?? '';
+        $code     = $post['code'] ?? '';
+        $mobile   = $post['mobile'] ?? '';
+        $account  = $post['account'];
+        $password = $post['password'];
         $modelUser = new User();
 
-        // 手机验证
-        if (!$modelUser->where(['mobile'=>trim($mobile)])->findOrEmpty()->isEmpty()) {
-            throw new OperateException('手机已被占用!');
+        // 短信验证
+        $mobile = $config['force_mobile'] ? $mobile : '';
+        if ($config['force_mobile']) {
+            // 手机验证
+            if (!$modelUser->where(['mobile' => trim($mobile)])->findOrEmpty()->isEmpty()) {
+                throw new OperateException('手机已被占用!');
+            }
+            // 短信验证
+            if (!MsgDriver::checkCode(NoticeEnum::REGISTER, $code)) {
+                throw new OperateException('验证码错误!');
+            }
         }
 
         // 账号验证
         if (!$modelUser->where(['account'=>trim($account)])->findOrEmpty()->isEmpty()) {
             throw new OperateException('账号已被占用!');
-        }
-
-        // 短信验证
-        if (!MsgDriver::checkCode(NoticeEnum::REGISTER, $code)) {
-            throw new OperateException('验证码错误!');
         }
 
         // 创建账号
@@ -90,6 +118,12 @@ class LoginService extends Service
      */
     public static function accountLogin(string $account, string $password): void
     {
+        // 获取配置
+        $config = self::config();
+        if (!in_array('account', $config['usable_channel'])) {
+            throw new OperateException('账号登录通道已关闭');
+        }
+
         // 查询账户
         $modelUser = new User();
         $userInfo = $modelUser
@@ -101,7 +135,7 @@ class LoginService extends Service
 
         // 验证账户
         if (!$userInfo) {
-            throw new OperateException('账号不存在了!');
+            throw new OperateException('账号或密码错误!');
         }
 
         // 验证密码
@@ -123,12 +157,19 @@ class LoginService extends Service
      * 短信登录
      *
      * @param string $mobile (手机号)
-     * @param string $code   (验证码)
+     * @param string $code (验证码)
      * @throws OperateException
+     * @throws Exception
      * @author zero
      */
     public static function mobileLogin(string $mobile, string $code): void
     {
+        // 获取配置
+        $config = self::config();
+        if (!in_array('mobile', $config['usable_channel'])) {
+            throw new OperateException('手机号登录通道已关闭');
+        }
+
         // 短信验证
         if (!MsgDriver::checkCode(NoticeEnum::LOGIN, $code)) {
             throw new OperateException('验证码错误了!');
@@ -142,6 +183,21 @@ class LoginService extends Service
             ->where(['is_delete'=>0])
             ->findOrEmpty()
             ->toArray();
+
+        // 不存在则自动注册账号
+        if (!$userInfo and in_array('mobile', $config['usable_register'])) {
+            $userId = UserWidget::createUser([
+                'mobile'   => $mobile,
+                'terminal' => ClientEnum::PC
+            ]);
+
+            $userInfo = $modelUser
+                ->field(['id,mobile,is_disable'])
+                ->where(['is_delete'=>0])
+                ->where(['id'=>$userId])
+                ->findOrEmpty()
+                ->toArray();
+        }
 
         // 验证账户
         if (!$userInfo) {

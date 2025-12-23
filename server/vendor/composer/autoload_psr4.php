@@ -15,7 +15,6 @@ return array(
     'clagiordano\\weblibs\\configmanager\\' => array($vendorDir . '/clagiordano/weblibs-configmanager/src'),
     'app\\' => array($baseDir . '/app'),
     'ZipStream\\' => array($vendorDir . '/maennchen/zipstream-php/src'),
-    'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'TheNorthMemory\\Xml\\' => array($vendorDir . '/thenorthmemory/xml/src'),
     'TencentCloud\\' => array($vendorDir . '/tencentcloud/common/src/TencentCloud', $vendorDir . '/tencentcloud/sms/src/TencentCloud'),
     'Symfony\\Polyfill\\Php81\\' => array($vendorDir . '/symfony/polyfill-php81'),

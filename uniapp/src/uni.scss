@@ -1,25 +1,34 @@
-@import "@/uni_modules/vk-uview-ui/theme.scss";
+
+/* 基础相关颜色 */
+$uni-color-black: #000000;
+$uni-color-white: #ffffff;
 
 /* 背景颜色 */
-$uni-bg-pages: #f6f6f6;
-$uni-bg-white: #ffffff;
-$uni-bg-black: #000000;
-$uni-bg-muted: #999999;
-$uni-bg-normal: #909399;
-$uni-bg-light: #ecf5ff;
-$uni-bg-success: #4cd964;
-$uni-bg-warning: #f0ad4e;
-$uni-bg-error: #dd524d;
-$uni-bg-mask: rgb(0 0 0 / 40%);
+$uni-bg-color: #f6f6f6;
+$uni-bg-color-page: #ffffff;
+$uni-bg-color-overlay: #ffffff;
+$uni-bg-color-lighter: #f0f0f0;
+$uni-bg-color-light: #e0e0e0;
 
-/* 文字颜色 */
-$uni-color-white: #ffffff;
-$uni-color-black: #000000;
-$uni-color-main: #333333;
-$uni-color-text: #666666;
-$uni-color-muted: #999999;
-$uni-color-normal: #909399;
-$uni-color-lighter: #e5e5e5;
-$uni-color-success: #4cd964;
-$uni-color-warning: #f0ad4e;
-$uni-color-error: #dd524d;
+/* 文字基本颜色 */
+$uni-text-color-primary: #303133;
+$uni-text-color-regular: #606266;
+$uni-text-color-secondary: #909399;
+$uni-text-color-placeholder: #c0c4cc;
+$uni-text-color-disable: #d9d9d9;
+$uni-text-color-thinnest: #e8e8e8;
+
+/* 边框颜色 */
+$uni-border-color: #dcdfe6;
+$uni-border-light: #e4e7ed;
+$uni-border-lighter: #ebeef5;
+$uni-border-thinned: #f2f6fc;
+
+/* 文字尺寸 */
+$uni-font-size-xs: 24rpx;
+$uni-font-size-sm: 26rpx;
+$uni-font-size-base: 28rpx;
+$uni-font-size-lg: 30rpx;
+$uni-font-size-xl: 32rpx;
+$uni-font-size-2xl: 34rpx;
+$uni-font-size-3xl: 36rpx;

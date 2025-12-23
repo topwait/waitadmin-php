@@ -38,7 +38,7 @@ class LogService extends Service
     {
         self::setSearch([
             '='        => ['method@sl.method', 'status@sl.status', 'url@sl.url', 'ip@sl.ip'],
-            'like'     => ['username@a.username'],
+            '%like&'   => ['username@a.username'],
             'datetime' => ['datetime@sl.create_time'],
         ]);
 
