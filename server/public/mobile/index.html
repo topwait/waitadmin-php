@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <link rel="stylesheet" href="/mobile/assets/uni.6663ff89.css">
+  <link rel="stylesheet" href="/mobile/assets/uni.80b8ebb7.css">
 
     <meta charset="UTF-8" />
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <script>
-        var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
-            CSS.supports('top: constant(a)'))
-        document.write(
-            '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
-            (coverSupport ? ', viewport-fit=cover' : '') + '" />')
+        if ('CSS' in window && typeof CSS.supports === 'function' && CSS.supports('top: env(a)')) {
+            document.addEventListener('DOMContentLoaded', function () {
+                const metaViewport = document.querySelector('meta[name="viewport"]');
+                if (metaViewport) {
+                    let content = metaViewport.getAttribute('content');
+                    metaViewport.setAttribute('content', content + ', viewport-fit=cover');
+                }
+            });
+        }
     </script>
     <title>加载中</title>
     <!--preload-links-->
     <!--app-context-->
-  <script type="module" crossorigin src="/mobile/assets/index-a66df76d.js"></script>
-  <link rel="stylesheet" href="/mobile/assets/index-a7bdb237.css">
+  <script type="module" crossorigin src="/mobile/assets/index-4glTkX_N.js"></script>
+  <link rel="stylesheet" crossorigin href="/mobile/assets/index-D1vuCJZW.css">
 </head>
 
 <body>
-    <div id="app"><!--app-html--></div>
-    
+<div id="app"><!--app-html--></div>
 </body>
 
 </html>

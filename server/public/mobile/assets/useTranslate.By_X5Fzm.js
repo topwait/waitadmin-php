@@ -1,0 +1,1 @@
+import{bx as s,br as r,be as a,a5 as t}from"./index-4glTkX_N.js";import{L as e}from"./index.mNFG9pMF.js";const n=n=>{const o=n?s(n)+".":"";return{translate:(s,...n)=>{const m=e.messages(),i=r(m,o+s);return a(i)?i(...n):t(i)?i:`${o}${s}`}}};export{n as u};
