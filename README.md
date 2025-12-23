@@ -14,6 +14,7 @@ WaitAdmin是一款ThinkPHP8.1 + Layui2.13.*的极速后台开发框架。
 - 官方网址: https://www.waitadmin.cn
 - 开发文档: https://www.waitadmin.cn/docs/php
 - 演示站点: https://php-demo.waitadmin.cn/admin.php
+- H5端演示: https://php-demo.waitadmin.cn/mobile
 
 ## 体验账号
 - 账号：admin
@@ -24,7 +25,7 @@ WaitAdmin是一款ThinkPHP8.1 + Layui2.13.*的极速后台开发框架。
 | 运行环境           | 要求版本    | 推荐版本   |
 |:---------------|:--------|:-------|
 | PHP            | >=8.0.2 | 8.0.30 |
-| Mysql          | >=5.7   | 5.7    |
+| Mysql          | >=5.7   | 8.0    |
 | nginx 或 apache | 无限制     | nginx  |
 
 ## 架构说明
@@ -45,7 +46,6 @@ WaitAdmin是一款ThinkPHP8.1 + Layui2.13.*的极速后台开发框架。
 - TailwindCss
 - TypeScript
 - Vite
-
 
 ## 主要特性
 - 基于RBAC的权限管理系统
