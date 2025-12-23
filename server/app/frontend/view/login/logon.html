@@ -1,14 +1,22 @@
-<div class="ac-login layui-tab layui-tab-brief">
+{if $config.usable_channel}
+<!-- 手机/账号登录 -->
+<div class="ac-login layui-tab layui-tab-brief {$config.default_method === 'wx' ? 'layui-hide' : ''}">
     <ul class="layui-tab-title">
-        <li class="layui-this">账号登录</li>
-        <li>验证码登录</li>
+        {if !in_array('account', $config.usable_channel)}
+            <li class="layui-this">验证码登录</li>
+        {elseif !in_array('mobile', $config.usable_channel)}
+            <li class="layui-this">账号登录</li>
+        {else}
+            <li class="{$config.default_method === 'account' ? 'layui-this' : ''}">账号登录</li>
+            <li class="{$config.default_method === 'mobile' ? 'layui-this' : ''}">验证码登录</li>
+        {/if}
     </ul>
     <div class="layui-tab-content">
-        <div class="layui-tab-item layui-show">
+        <div class="layui-tab-item {$config.default_method === 'account' ? 'layui-show' : ''}">
             <form class="layui-form">
                 <label>
                     <input type="hidden" name="scene" value="account">
-                    <input type="text" name="account" autocomplete="off" placeholder="请输入登录手机号/邮箱"
+                    <input type="text" name="account" autocomplete="off" placeholder="请输入账号"
                            class="layui-input" lay-verType="tips" lay-verify="required">
                 </label>
                 <label>
@@ -19,18 +27,36 @@
                     <a href="javascript:" class="forget js-forget-btn">忘记密码?</a>
                 </div>
                 <a href="javascript:" class="confirm" lay-filter="loginSubmit" lay-submit>登录</a>
+
+                {if in_array('account', $config.usable_register)}
                 <a href="javascript:" class="jumps">
                     <span class="jump">快速注册</span>
                 </a>
+                {/if}
+
+                {if in_array('wx', $config.usable_channel)}
                 <div class="empower">
                     <i id="wxLogin" class="layui-icon layui-icon-login-wechat"></i>
                 </div>
+                {/if}
+
+                {if $config.is_agreement}
                 <div class="treaty">
-                    登录即同意本网站<a href="{:route('index/protocol', ['type'=>'privacy'])}" target="_blank">《隐私政策》</a>
+                    <label for="is_agreement1" class="layui-hide"></label>
+                    <input type="text" id="is_agreement1" name="is_agreement" value="1" class="layui-hide" />
+
+                    <label for="agreement1" class="layui-hide"></label>
+                    <input type="checkbox" id="agreement1" name="agreement" lay-skin="primary" value="0" />
+                    <div class="compact">
+                        已阅读并同意
+                        <a href="{:route('index/protocol', ['type'=>'service'])}" target="_blank">《用户协议》</a> 与
+                        <a href="{:route('index/protocol', ['type'=>'privacy'])}" target="_blank">《隐私协议》</a>
+                    </div>
                 </div>
+                {/if}
             </form>
         </div>
-        <div class="layui-tab-item">
+        <div class="layui-tab-item {$config.default_method === 'mobile' ? 'layui-show' : ''}">
             <form class="layui-form">
                 <label class="phone">
                     <em class="area_code">+86</em>
@@ -47,22 +73,42 @@
                     <a href="javascript:" class="forget js-forget-btn">忘记密码?</a>
                 </div>
                 <a href="javascript:" class="confirm" lay-filter="loginSubmit" lay-submit>登录</a>
+
+                {if in_array('account', $config.usable_register)}
                 <a href="javascript:" class="jumps">
                     <span class="jump">快速注册</span>
                 </a>
+                {/if}
+
+                {if in_array('wx', $config.usable_channel)}
                 <div class="empower">
                     <i class="layui-icon layui-icon-login-wechat"></i>
                 </div>
-                <div class="treaty">
-                    登录即同意本网站<a href="{:route('index/protocol', ['type'=>'privacy'])}" target="_blank">《隐私政策》</a>
+                {/if}
+
+                {if $config.is_agreement}
+                <div class="treaty mt-10">
+                    <label for="is_agreement" class="layui-hide"></label>
+                    <input type="text" id="is_agreement" name="is_agreement" value="1" class="layui-hide" />
+
+                    <label for="agreement" class="layui-hide"></label>
+                    <input type="checkbox" id="agreement" name="agreement" lay-skin="primary" value="0" />
+                    <div class="compact">
+                        已阅读并同意
+                        <a href="{:route('index/protocol', ['type'=>'service'])}" target="_blank">《用户协议》</a> 与
+                        <a href="{:route('index/protocol', ['type'=>'privacy'])}" target="_blank">《隐私协议》</a>
+                    </div>
                 </div>
+                {/if}
             </form>
         </div>
     </div>
 </div>
 
-<div class="wx-login" style="display: none;">
-    <div class="switch"></div>
+<!-- 微信登录 -->
+<div class="wx-login {$config.default_method !== 'wx' ? 'layui-hide' : ''}">
+    <div class="switch {if !array_intersect(['account', 'mobile'], $config.usable_channel)}layui-hide{/if}">
+    </div>
     <div class="title">微信扫码登录或注册</div>
     <div class="qrCode">
         <img src="" alt="qr" style="display: none;">
@@ -75,12 +121,16 @@
         </div>
     </div>
     <div class="remark">打开微信扫一扫，快速登录/注册</div>
+    {if $config.is_agreement}
     <div class="treaty">
-        登录即同意本网站<a href="{:route('index/protocol', ['type'=>'privacy'])}" target="_blank">《隐私政策》</a>
+        登录即同意本网站
+        <a href="{:route('index/protocol', ['type'=>'service'])}" target="_blank">《用户协议》</a>
     </div>
+    {/if}
 </div>
 
-<div class="ba-mobile" style="display: none;">
+<!-- 绑定手机 -->
+<div class="ba-mobile pb-20" style="display: none;">
     <div class="title">绑定手机号完成登录</div>
     <div class="tips">首次登录需要绑定手机号</div>
     <form class="layui-form">
@@ -97,8 +147,15 @@
                    class="layui-input" lay-verType="tips" lay-verify="required|number">
         </label>
         <a href="javascript:" class="confirm" lay-filter="bindSubmit" lay-submit>登录</a>
-        <div class="treaty mt-10 mb-20">
-            登录即同意本网站<a href="{:route('index/protocol', ['type'=>'privacy'])}" target="_blank">《隐私政策》</a>
-        </div>
+
     </form>
 </div>
+{else}
+<!-- 无 -->
+<div style="display: flex; align-items: center; justify-content: center; height: 480px;">
+    <div style="text-align: center; color: #666666;">
+        <i class="layui-icon layui-icon-close" style="font-size: 88px;"></i>
+        <div style="margin: 5px;">无可用登录渠道</div>
+    </div>
+</div>
+{/if}

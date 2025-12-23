@@ -25,18 +25,53 @@ use app\common\utils\UrlUtils;
 class DiyService extends Service
 {
     /**
+     * 底部导航装修
+     *
+     * @return array
+     * @author zero
+     */
+    public static function tabbar(): array
+    {
+        $tabbar = ConfigUtils::get('diy', 'tabbar', []);
+        $tabbar = [
+            'style' => [
+                'effect' => $tabbar['style']['effect'] ?? 'custom',
+                'shape'  => $tabbar['style']['shape'] ?? 'round',
+                'color'  => $tabbar['style']['unselectedColor'] ?? '#333333',
+                'selectedColor' => $tabbar['style']['selectedColor'] ?? '#2979ff',
+                'backgroundColor' => $tabbar['style']['backgroundColor'] ?? '#ffffff'
+            ],
+            'list' => $tabbar['list'] ?? []
+        ];
+
+        $routes = [];
+        foreach ($tabbar['list'] as &$item) {
+            $item['text'] = trim($item['text']);
+            $item['pagePath'] = trim($item['pagePath']);
+            $item['iconPath'] = UrlUtils::toAbsoluteUrl($item['iconPath']??'');
+            $item['selectedIconPath'] = UrlUtils::toAbsoluteUrl($item['selectedIconPath']??'');
+            $routes[] = trim($item['pagePath']);
+        }
+
+        $tabbar['routes'] = $routes;
+        return $tabbar;
+    }
+
+    /**
      * 首页页面装修
      *
      * @return array
      * @author zero
      */
-    public static function index(): array
+    public static function homing(): array
     {
         // 此处只是临时使用的数据,以后可接入diy功能
         return [
             'banner' => [
-                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner01.jpg')],
-                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner02.jpg')],
+                UrlUtils::toAbsoluteUrl('/static/common/images/init/banner01.jpg'),
+                UrlUtils::toAbsoluteUrl('/static/common/images/init/banner02.jpg')
+//                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner01.jpg')],
+//                ['image' => UrlUtils::toAbsoluteUrl('/static/common/images/init/banner02.jpg')],
             ],
             'nav' => [
                 [
@@ -79,39 +114,5 @@ class DiyService extends Service
             'qq'       => $detail['qq']??'',
             'image'    => UrlUtils::toAbsoluteUrl($detail['image']??'')
         ] ?? [];
-    }
-
-    /**
-     * 个人中心装修
-     *
-     * @return array
-     * @author zero
-     */
-    public static function me(): array
-    {
-        $data = [];
-        $detail = ConfigUtils::get('diy', 'person');
-        foreach ($detail as $type => $item) {
-            $data[$type]['base'] = match ($type) {
-                'adv' => [
-                    'open' => intval($item['base']['open'] ?? '0')
-                ],
-                'service' => [
-                    'layout' => $item['base']['layout'] ?? 'row',
-                    'title'  => $item['base']['title'] ?? '',
-                    'number' => $item['base']['number'] ?? 4,
-                ]
-            };
-
-            foreach ($item['list'] as $value) {
-                $data[$type]['list'][] = [
-                    'image' => UrlUtils::toAbsoluteUrl($value['image']??''),
-                    'name'  => $value['name']??'',
-                    'link'  => $value['link']??'',
-                ];
-            }
-        }
-
-        return $data;
     }
 }

@@ -42,16 +42,14 @@ class DemoMiddleware
      */
     public function handle($request, Closure $next): mixed
     {
-        $response = $next($request);
-
         if ($request->method() != 'POST' || !env('demo.demo_status')) {
-            return $response;
+            return $next($request);
         }
 
         $adminUser = session('adminUser')??[];
         $adminId = intval($adminUser['id']??0);
         if ($adminId === 1 and env('demo.demo_super')) {
-            return $response;
+            return $next($request);
         }
 
         $accessUri = strtolower($request->controller() . '/' . $request->action());
@@ -59,6 +57,6 @@ class DemoMiddleware
             throw new OperateException('演示环境不支持修改数据, 请下载源码本地部署体验!');
         }
 
-        return $response;
+        return $next($request);
     }
 }

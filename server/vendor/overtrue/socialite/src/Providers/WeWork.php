@@ -48,6 +48,9 @@ class WeWork extends Base
         $user = $this->getUser($token, $code);
 
         if ($this->detailed) {
+            if (empty($user['UserId'])) {
+                throw new Exceptions\AuthorizeFailedException('Authorization failed: missing UserId in user response', $user);
+            }
             $user = $this->getUserById($user['UserId']);
         }
 
@@ -100,8 +103,11 @@ class WeWork extends Base
 
         if ($this->asQrcode) {
             unset($queries[Contracts\RFC6749_ABNF_SCOPE]);
+            unset($queries[Contracts\RFC6749_ABNF_RESPONSE_TYPE]);
 
-            return \sprintf('https://open.work.weixin.qq.com/wwopen/sso/qrConnect?%s', http_build_query($queries));
+            $queries['login_type'] = 'CorpApp';
+
+            return \sprintf('https://login.work.weixin.qq.com/wwlogin/sso/login?%s', http_build_query($queries));
         }
 
         return \sprintf('https://open.weixin.qq.com/connect/oauth2/authorize?%s#wechat_redirect', \http_build_query($queries));
@@ -201,6 +207,10 @@ class WeWork extends Base
 
         if (($response['errcode'] ?? 1) > 0) {
             throw new Exceptions\AuthorizeFailedException((string) $responseInstance->getBody(), $response);
+        }
+
+        if (empty($response[Contracts\RFC6749_ABNF_ACCESS_TOKEN])) {
+            throw new Exceptions\AuthorizeFailedException('Authorization failed: missing access_token in response', $response);
         }
 
         return $response[Contracts\RFC6749_ABNF_ACCESS_TOKEN];

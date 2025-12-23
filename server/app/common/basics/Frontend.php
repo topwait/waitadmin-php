@@ -103,11 +103,17 @@ abstract class Frontend extends BaseController
         $pcConfig = ConfigUtils::get('pc');
         $pcConfig['logo'] = UrlUtils::toAbsoluteUrl($pcConfig['logo']??'');
 
+        $loginConfig = ConfigUtils::get('login', 'pc');
+        $isOpenLogin = (bool) $loginConfig['usable_channel'];
+        $isOpenRegister = in_array('account', $loginConfig['usable_register']);
+
         View::assign('pc', $pcConfig);
         View::assign('userInfo', $this->userInfo);
         View::assign('action', $this->request->action());
         View::assign('website', ConfigUtils::get('website'));
         View::assign('navigation', ArrayUtils::toTreeJson($navigationData));
+        View::assign('isOpenLogin', $isOpenLogin);
+        View::assign('isOpenRegister', $isOpenRegister);
     }
 
     /**

@@ -53,6 +53,15 @@ class UserWidget extends Service
         $mobile   = $response['mobile']    ?? '';
         $gender   = intval($response['gender'] ?? 0);
 
+        $ck = match ($terminal) {
+            ClientEnum::PC => 'pc',
+            ClientEnum::H5 => 'h5',
+            ClientEnum::MNP,
+            ClientEnum::OA => 'wx',
+            default => 'other'
+        };
+        $config = ConfigUtils::get('login', $ck, []);
+
         // 密码信息
         $salt = make_rand_char(7-1);
         if (!empty($password)) {
@@ -60,7 +69,7 @@ class UserWidget extends Service
         }
 
         // 强制绑定
-        $forceMobile = ConfigUtils::get('login', 'force_mobile', 0);
+        $forceMobile = boolval($config['force_mobile']??false);
         if ($forceMobile && !$mobile) {
             $data = ['sign'=>md5(time().make_rand_char(9))];
             EnrollCache::set($data['sign'], $response);

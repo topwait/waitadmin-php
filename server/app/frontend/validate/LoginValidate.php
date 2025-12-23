@@ -100,7 +100,7 @@ class LoginValidate extends Validate
         return $this->only(['account', 'password', 'mobile', 'code'])
             ->append('account', 'require|alphaNum|min:2|max:20')
             ->append('password', 'require|alphaNum|min:6|max:20')
-            ->append('mobile', 'require|mobile|min:11|max:11')
-            ->append('code', 'require|alphaDash|max:6');
+            ->append('mobile', 'mobile|min:11|max:11')
+            ->append('code', 'alphaDash|max:6');
     }
 }

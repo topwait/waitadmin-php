@@ -30,6 +30,11 @@
         // 账号登录
         form.on('submit(loginSubmit)', function(data) {
             waitUtil.locking(this)
+            if (data.field['is_agreement'] && !data.field['agreement']) {
+                waitUtil.unlock(this);
+                return layer.msg('请阅读并同意服务协议', {icon: 2});
+            }
+
             waitUtil.ajax({
                 url: "{:route('login/login')}",
                 type: 'POST',
@@ -50,7 +55,7 @@
         // 账号注册
         form.on('submit(registerSubmit)', function(data) {
             waitUtil.locking(this);
-            if (!data.field['agreement']) {
+            if (data.field['is_agreement'] && !data.field['agreement']) {
                 waitUtil.unlock(this);
                 return layer.msg('请阅读并同意服务协议', {icon: 2});
             }
@@ -127,8 +132,8 @@
 
         // 微信登录
         $(document).on('click', '#wxLogin', function () {
-            $('.ac-login').hide();
-            $('.wx-login').show();
+            $('.ac-login').addClass('layui-hide');
+            $('.wx-login').removeClass('layui-hide');
 
             waitUtil.ajax({
                 url: "{:route('login/login')}",
@@ -149,8 +154,9 @@
         // 切换方式
         $(document).on('click', '.wx-login .switch', function () {
             stopInterval();
-            $('.wx-login').hide();
-            $('.ac-login').show();
+            $('.wx-login').addClass('layui-hide');
+            $('.ac-login').removeClass('layui-hide');
+            $('.ac-login .layui-tab-title li').eq(0).click();
         })
 
         // 刷新二维码

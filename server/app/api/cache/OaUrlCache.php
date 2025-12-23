@@ -35,8 +35,8 @@ class OaUrlCache
     public static function get(string $state): string
     {
         $value = Cache::get(self::$prefix . $state);
-        self::delete($value);
-        return $value;
+        self::delete($state);
+        return $value ?? '';
     }
 
     /**

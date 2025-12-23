@@ -3,10 +3,20 @@
 {block name="style"}
 <style>
     .phone { position: relative; margin-right: 25px; width: 360px; min-width: 360px; height: 615px; border: 1px solid #dddddd; color: #333333; background-color: #f7f7f7; }
-    .phone .bottom { position: absolute; bottom: 0; display: flex; justify-content: space-between; width: 100%; height: 50px; border: 2px solid var(--theme-color); background-color: #ffffff; box-sizing: border-box; }
+    .phone .bottom { position: absolute; bottom: 0; display: flex; justify-content: space-between; width: 100%; height: 50px; border-top: 1px solid #e8e8e8; background-color: #ffffff; box-sizing: border-box; }
     .phone .bottom .item { display: flex; align-items: center; flex-direction: column; justify-content: center; width: 33.33%; }
     .phone .bottom .item img { width: 22px; height: 22px; }
+    .phone .bottom.round { left: 3%; width: 94%; bottom: 10px; border-radius: 999px; border: none;
+        box-shadow: rgba(0, 0, 0, 0.05) 0 6px 30px 5px, rgba(0, 0, 0, 0.04) 0 16px 24px 2px, rgba(0, 0, 0, 0.08) 0 8px 10px -5px}
     .container .layui-card { min-width: 880px; }
+    .editor { min-width: 400px; }
+    .editor .layui-form-label { width: 58px; padding: 9px 0; }
+    .editor .layui-input-block { margin-left: 70px; }
+    .editor .add-btn { padding: 6px 12px; font-size: 12px; border: 1px solid #efefef; text-align: center; white-space: nowrap; color: #6b6b6b; background: #fdfdfd !important; transition: background-color 0.3s; cursor: pointer; }
+    .editor .tabbar { position: relative; padding: 10px; margin-bottom: 20px; border-radius: 4px; background: #f2f2f2; }
+    .editor .tabbar .close { position: absolute; top: 4px; right: 4px; display: none; padding: 3px; font-size: 12px; border-radius: 50%; color: #ffffff; background: rgba(0, 0, 0, .3); line-height: 1; }
+    .editor .tabbar .close:hover { background: rgba(0, 0, 0, .7); }
+    .editor .tabbar:hover .close { display: block; }
 </style>
 {/block}
 
@@ -17,11 +27,11 @@
             <div style="display: flex;">
                 <!-- 手机端 -->
                 <div class="phone">
-                    <div class="bottom">
-                        {volist name="list" id="vo"}
+                    <div class="bottom {if $style.effect=='custom' && $style.shape=='round'}round{/if}">
+                        {volist name="list" id="vo" key="k"}
                             <div class="item w-scale-{php}echo count($list);{/php}">
-                                <img src="{$vo.iconPath}" alt="icon">
-                                <div>{$vo.text}</div>
+                                <img src="{$k==1 ? $vo.selectedIconPath : $vo.iconPath}" alt="icon">
+                                <div class="text {if $k==1}select{/if}">{$vo.text}</div>
                             </div>
                         {/volist}
                     </div>
@@ -33,8 +43,40 @@
                         <legend>样式设置</legend>
                         <div class="layui-field-box">
                             <div class="layui-form-item">
-                                <label for="unselectedColorInput" class="layui-form-label" style="width:58px; padding:9px 0;">默认颜色:</label>
-                                <div class="layui-input-block" style="margin-left:70px;">
+                                <label class="layui-form-label">展示效果:</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="effect" value="system"
+                                           lay-filter="effect-filter"
+                                           title="系统默认" {if $style.effect=='system'}checked{/if}>
+                                    <input type="radio" name="effect" value="custom"
+                                           lay-filter="effect-filter"
+                                           title="自定义" {if $style.effect=='custom'}checked{/if}>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">导航类型:</label>
+                                <div class="layui-input-block shape">
+                                    <input type="radio" name="shape" value="default"
+                                           lay-filter="shape-filter"
+                                           title="底部固定" {if $style.shape=='default'}checked{/if}>
+                                    <input type="radio" name="shape" value="round"
+                                           lay-filter="shape-filter"
+                                           title="底部悬浮" {if $style.shape=='round'}checked{/if}>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="backgroundColorInput" class="layui-form-label">背景颜色:</label>
+                                <div class="layui-input-block">
+                                    <div id="backgroundColor"></div>
+                                    <div class="layui-inline">
+                                        <input type="text" id="backgroundColorInput" name="backgroundColor"
+                                               class="layui-input" value="{$style.backgroundColor}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="unselectedColorInput" class="layui-form-label">默认颜色:</label>
+                                <div class="layui-input-block">
                                     <div id="unselectedColor"></div>
                                     <div class="layui-inline">
                                         <input type="text" id="unselectedColorInput" name="unselectedColor"
@@ -43,8 +85,8 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label for="selectedColorInput" class="layui-form-label" style="width:58px; padding:9px 0;">选中颜色:</label>
-                                <div class="layui-input-block" style="margin-left:70px;">
+                                <label for="selectedColorInput" class="layui-form-label">选中颜色:</label>
+                                <div class="layui-input-block">
                                     <div id="selectedColor"></div>
                                     <div class="layui-inline">
                                         <input type="text" id="selectedColorInput" name="selectedColor"
@@ -57,22 +99,75 @@
                     <!-- 导航设置 -->
                     <fieldset class="layui-elem-field" style="margin-top:30px;">
                         <legend>导航设置</legend>
-                        <div class="layui-field-box wait-table-cell">
-                            <table id="wait-table-list" lay-filter="wait-table-list"></table>
-                            <script type="text/html" id="table-text">
-                                <label><input type="text" name="text" class="layui-input" value="{{d.text}}"></label>
-                            </script>
-                            <script type="text/html" id="table-selected">
-                                <img class="upload" src="{{ d.selectedIconPath }}" alt="img" style="width:30px; height:30px;">
-                            </script>
-                            <script type="text/html" id="table-unselected">
-                                <img class="upload" src="{{ d.iconPath }}" alt="img" style="width:30px; height:30px;">
-                            </script>
+                        <div style="margin-left: 20px; margin-top: 10px; font-size: 12px; color: #999;">
+                            此处不提供实时预览，保存后刷新页面查看效果，请限制在5个内。
                         </div>
+                        <div class="layui-field-box wait-table-cell" id="advDrag">
+                            {volist name="$list" id="vo"}
+                                <div class="tabbar">
+                                    <i class="layui-icon layui-icon-close close"></i>
+                                    <div style="display: flex; margin-bottom: 6px;">
+                                        <div class="thumbnail small" data-type="image" data-field="selectedIconPath">
+                                            <div class="musters">
+                                                {if $vo.selectedIconPath}
+                                                    <div class="preview">
+                                                        <input type="hidden" name="selectedIconPath" value="{$vo.selectedIconPath}">
+                                                        <i class="layui-icon layui-icon-close"></i>
+                                                        <img src="{$vo.selectedIconPath}" alt="img" class="previewImage">
+                                                    </div>
+                                                {/if}
+                                            </div>
+                                            <div class="builder {if $vo.selectedIconPath}layui-hide{/if}">
+                                                <i class="layui-icon layui-icon-camera"></i>
+                                                <p>选中</p>
+                                                <div class="mask">
+                                                    <div class="item layui-auto">图库选择</div>
+                                                    <div class="item layui-auto-call">本地上传</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="thumbnail small" data-type="image" data-field="iconPath">
+                                            <div class="musters">
+                                                {if $vo.iconPath}
+                                                    <div class="preview">
+                                                        <input type="hidden" name="iconPath" value="{$vo.iconPath}">
+                                                        <i class="layui-icon layui-icon-close"></i>
+                                                        <img src="{$vo.iconPath}" alt="img" class="previewImage">
+                                                    </div>
+                                                {/if}
+                                            </div>
+                                            <div class="builder {if $vo.iconPath}layui-hide{/if}">
+                                                <i class="layui-icon layui-icon-camera"></i>
+                                                <p>未选中</p>
+                                                <div class="mask">
+                                                    <div class="item layui-auto">图库选择</div>
+                                                    <div class="item layui-auto-call">本地上传</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form">
+                                        <label>
+                                            <input type="text" name="name"
+                                                   value="{$vo.text}" placeholder="请输入名称"
+                                                   autocomplete="off" class="layui-input">
+                                        </label>
+                                        <label style="display: block; margin-top: 6px;">
+                                            <input type="text" name="link"
+                                                   value="{$vo.pagePath}" placeholder="请填写链接"
+                                                   autocomplete="off" class="layui-input">
+                                        </label>
+                                    </div>
+                                </div>
+                            {/volist}
+                        </div>
+
                     </fieldset>
+                    <div class="add-btn">添加一个</div>
                     <!-- 提交按钮 -->
                     <div style="margin-top:20px;">
-                        <button class="layui-btn layui-btn-default {:check_perms('save', false)}" lay-submit lay-filter="addForm">保存配置</button>
+                        <button class="layui-btn layui-btn-default {:check_perms('save', false)}"
+                                lay-submit lay-filter="addForm">保存配置</button>
                     </div>
                 </div>
             </div>
@@ -88,12 +183,27 @@
         let form = layui.form;
         let colorpicker = layui.colorpicker;
 
+        $('.bottom').css('background', '{$style.backgroundColor}');
+        $('.bottom .text').css('color', '{$style.unselectedColor}');
+        $('.bottom .text.select').css('color', '{$style.selectedColor}');
+
+        // 背景颜色
+        colorpicker.render({
+            elem: '#backgroundColor',
+            color: '{$style.backgroundColor}'
+            ,change: function(color){
+                $("input[name=backgroundColor]").val(color);
+                $('.bottom').css('background', color);
+            }
+        });
+
         // 默认颜色
         colorpicker.render({
             elem: '#unselectedColor',
             color: '{$style.unselectedColor}'
             ,change: function(color){
                 $("input[name=unselectedColor]").val(color);
+                $('.bottom .text').css('color', color);
             }
         });
 
@@ -103,6 +213,7 @@
             color: '{$style.selectedColor}'
             ,change: function(color){
                 $("input[name=selectedColor]").val(color);
+                $('.bottom .text.select').css('color', color);
             }
         });
 
@@ -119,6 +230,46 @@
             ]]
         });
 
+        // 展示效果监听
+        form.on('radio(effect-filter)', function(data){
+            const elem = data.elem;
+            const value = elem.value;
+            const node = $('input[name="shape"]')
+            const oneNode = node.eq(0)
+            const towNode = node.eq(1)
+            const bottomNode = $('.bottom')
+
+            if (value === 'system') {
+                oneNode.next().click()
+                bottomNode.removeClass('round')
+                towNode.next().addClass('layui-radio-disabled')
+                towNode.next().addClass('layui-disabled')
+                towNode.prop('checked', false)
+                towNode.prop('disabled', true)
+            } else {
+                towNode.next().removeClass('layui-radio-disabled')
+                towNode.next().removeClass('layui-disabled')
+                towNode.prop('disabled', false)
+                const navType = $('input[name="shape"]:checked').val()
+                if (navType === 'round') {
+                    bottomNode.addClass('round')
+                }
+            }
+        })
+
+        // 导航类型监听
+        form.on('radio(shape-filter)', function(data){
+            const elem = data.elem;
+            const value = elem.value;
+            const bottomNode = $('.bottom')
+
+            if (value === 'round') {
+                bottomNode.addClass('round')
+            } else {
+                bottomNode.removeClass('round')
+            }
+        })
+
         // 提交表单
         form.on('submit(addForm)', function(data){
             layer.confirm('确定保存当前配置吗?', function(index) {
@@ -126,22 +277,26 @@
 
                 // 样式设置
                 let style = {
+                    effect: data.field['effect'],
+                    shape: data.field['shape'],
                     selectedColor: data.field['selectedColor'],
                     unselectedColor: data.field['unselectedColor'],
+                    backgroundColor: data.field['backgroundColor']
                 };
 
                 // 导航设置
                 let list = [];
-                let trElems = $('.layui-table tbody tr');
+                let trElems = $(document).find('#advDrag .tabbar');
                 trElems.each(function () {
-                    let tdElem = $(this).find('td')
-                    let text = $(tdElem[0]).find('input').val();
-                    let selected = $(tdElem[1]).find('img').attr('src');
-                    let unselected = $(tdElem[2]).find('img').attr('src');
+                    let text = $(this).find('input[name="name"]').val();
+                    let link = $(this).find('input[name="link"]').val();
+                    let iconPath = $(this).find('input[name="iconPath"]').val();
+                    let selectedIconPath = $(this).find('input[name="selectedIconPath"]').val();
                     list.push({
                         text: text,
-                        iconPath: unselected,
-                        selectedIconPath: selected
+                        pagePath: link,
+                        iconPath: iconPath,
+                        selectedIconPath: selectedIconPath
                     });
                 })
 
@@ -154,12 +309,49 @@
             });
         });
 
-        // 上传图片
-        $(document).on('click', '.upload', function () {
-            let that = $(this);
-            waitUtil.uploader().then(data => {
-                $(that).attr('src', data[0].url);
-            });
+        // 删除模块
+        $(document).on('click', '.editor .tabbar .close', function () {
+            $(this).parent().remove();
+        });
+
+        // 创建模块
+        $(document).on('click', '.add-btn', function () {
+            let itemArr = $(document).find('#advDrag .tabbar');
+            if (itemArr.length >= 5) {
+                return layer.msg('您已超出规定的5个元素!', {icon: 2})
+            }
+
+            let html = '<div class="tabbar">';
+            html += '<i class="layui-icon layui-icon-close close"></i>';
+
+            html += '<div style="display: flex; margin-bottom: 6px;">'
+            // 1
+            html += '<div class="thumbnail small" data-type="image" data-field="selectedIconPath">';
+            html += '<div class="musters"></div>';
+            html += '<div class="builder">';
+            html += '<i class="layui-icon layui-icon-camera"></i>';
+            html += '<p>选中</p>';
+            html += '<div class="mask">';
+            html += '<div class="item layui-auto">图库选择</div>';
+            html += '<div class="item layui-auto-call">本地上传</div>';
+            html += '</div></div></div>';
+            // 2
+            html += '<div class="thumbnail small" data-type="image" data-field="iconPath">';
+            html += '<div class="musters"></div>';
+            html += '<div class="builder">';
+            html += '<i class="layui-icon layui-icon-camera"></i>';
+            html += '<p>未选中</p>';
+            html += '<div class="mask">';
+            html += '<div class="item layui-auto">图库选择</div>';
+            html += '<div class="item layui-auto-call">本地上传</div>';
+            html += '</div></div></div>';
+            html += '</div>'
+            html += '<div class="form">';
+            html += '<label><input type="text" name="name" placeholder="请输入名称" autocomplete="off" class="layui-input"></label>';
+            html += '<label style="display: block; margin-top: 6px;">';
+            html += '<input type="text" name="link" placeholder="请填写链接" autocomplete="off" class="layui-input"></label>';
+            html += '</div></div>';
+            $('#advDrag').append(html)
         });
     });
 </script>

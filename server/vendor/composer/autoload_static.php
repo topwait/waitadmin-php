@@ -60,10 +60,6 @@ class ComposerStaticInit4b5e1320ab435d48cdd617472128f924
         array (
             'ZipStream\\' => 10,
         ),
-        'W' => 
-        array (
-            'Webmozart\\Assert\\' => 17,
-        ),
         'T' => 
         array (
             'TheNorthMemory\\Xml\\' => 19,
@@ -201,10 +197,6 @@ class ComposerStaticInit4b5e1320ab435d48cdd617472128f924
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
-        ),
-        'Webmozart\\Assert\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
         'TheNorthMemory\\Xml\\' => 
         array (

@@ -1,0 +1,62 @@
+/* Root */
+page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    font-size: 28rpx;
+    background-color: var(--bg-color) !important;
+    .wot-theme-light,
+    .wot-theme-dark {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-height: 100%;
+        background-color: var(--bg-color);
+    }
+}
+
+/* #ifndef H5 */
+page {
+    .wot-theme-light,
+    .wot-theme-dark {
+        min-height: 100vh;
+    }
+}
+/* #endif */
+
+/* #ifndef MP-ALIPAY */
+page button {
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: initial;
+    line-height: normal;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    &::after {
+        display: none;
+    }
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY */
+.a-button {
+    height: auto;
+    overflow: initial;
+    line-height: normal;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+/* #endif */
+
+.wd-input {
+    --wot-dark-color: #595959;
+    --wot-input-not-empty-border-color: #dadada;
+    .wd-input__icon {
+        background-color: transparent !important;
+    }
+}
