@@ -1,5 +1,6 @@
 <?php
 
+use Overtrue\Socialite\Exceptions\AuthorizeFailedException;
 use Overtrue\Socialite\Providers\WeChat;
 use PHPUnit\Framework\TestCase;
 
@@ -8,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class WechatTest extends TestCase
 {
-    public function testWeChatProviderHasCorrectlyRedirectResponse()
+    public function test_we_chat_provider_has_correctly_redirect_response()
     {
         $response = (new WeChat([
             'client_id' => 'client_id',
@@ -20,7 +21,7 @@ class WechatTest extends TestCase
         $this->assertMatchesRegularExpression('/redirect_uri=http%3A%2F%2Flocalhost%2Fsocialite%2Fcallback.php/', $response);
     }
 
-    public function testWeChatProviderTokenUrlAndRequestFields()
+    public function test_we_chat_provider_token_url_and_request_fields()
     {
         $provider = new WeChat([
             'client_id' => 'client_id',
@@ -55,7 +56,7 @@ class WechatTest extends TestCase
         ], $getCodeFields->invoke($provider->withState('wechat-state')));
     }
 
-    public function testOpenPlatformComponent()
+    public function test_open_platform_component()
     {
         $provider = new WeChat([
             'client_id' => 'client_id',
@@ -96,7 +97,7 @@ class WechatTest extends TestCase
         $this->assertSame('https://api.weixin.qq.com/sns/oauth2/component/access_token', $getTokenUrl->invoke($provider));
     }
 
-    public function testOpenPlatformComponentWithCustomParameters()
+    public function test_open_platform_component_with_custom_parameters()
     {
         $provider = new WeChat([
             'client_id' => 'client_id',
@@ -116,5 +117,73 @@ class WechatTest extends TestCase
         $fields = $getCodeFields->invoke($provider->withState('wechat-state'));
         $this->assertArrayHasKey('foo', $fields);
         $this->assertSame('bar', $fields['foo']);
+    }
+
+    public function test_throws_exception_when_openid_missing()
+    {
+        $provider = new WeChat([
+            'client_id' => 'client_id',
+            'client_secret' => 'client_secret',
+            'redirect_url' => 'http://localhost/socialite/callback.php',
+        ]);
+
+        // Test that getSnsapiBaseUserFromCode throws exception when openid is missing
+        $getSnsapiBaseUserFromCode = new ReflectionMethod(WeChat::class, 'getSnsapiBaseUserFromCode');
+        $getSnsapiBaseUserFromCode->setAccessible(true);
+
+        // Mock the getTokenFromCode method to return response without openid
+        $mockProvider = $this->getMockBuilder(WeChat::class)
+            ->setConstructorArgs([[
+                'client_id' => 'client_id',
+                'client_secret' => 'client_secret',
+                'redirect_url' => 'http://localhost/socialite/callback.php',
+            ]])
+            ->onlyMethods(['getTokenFromCode', 'fromJsonBody'])
+            ->getMock();
+
+        $mockResponse = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
+        $mockProvider->method('getTokenFromCode')->willReturn($mockResponse);
+
+        // Test missing openid
+        $mockProvider->method('fromJsonBody')->willReturn(['access_token' => 'token123']);
+
+        $this->expectException(AuthorizeFailedException::class);
+        $this->expectExceptionMessage('Authorization failed: missing openid in token response');
+
+        $getSnsapiBaseUserFromCode->invoke($mockProvider, 'test_code');
+    }
+
+    public function test_throws_exception_when_access_token_missing()
+    {
+        $provider = new WeChat([
+            'client_id' => 'client_id',
+            'client_secret' => 'client_secret',
+            'redirect_url' => 'http://localhost/socialite/callback.php',
+        ]);
+
+        // Test that getSnsapiBaseUserFromCode throws exception when access_token is missing
+        $getSnsapiBaseUserFromCode = new ReflectionMethod(WeChat::class, 'getSnsapiBaseUserFromCode');
+        $getSnsapiBaseUserFromCode->setAccessible(true);
+
+        // Mock the getTokenFromCode method to return response without access_token
+        $mockProvider = $this->getMockBuilder(WeChat::class)
+            ->setConstructorArgs([[
+                'client_id' => 'client_id',
+                'client_secret' => 'client_secret',
+                'redirect_url' => 'http://localhost/socialite/callback.php',
+            ]])
+            ->onlyMethods(['getTokenFromCode', 'fromJsonBody'])
+            ->getMock();
+
+        $mockResponse = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
+        $mockProvider->method('getTokenFromCode')->willReturn($mockResponse);
+
+        // Test missing access_token
+        $mockProvider->method('fromJsonBody')->willReturn(['openid' => 'openid123']);
+
+        $this->expectException(AuthorizeFailedException::class);
+        $this->expectExceptionMessage('Authorization failed: missing access_token in token response');
+
+        $getSnsapiBaseUserFromCode->invoke($mockProvider, 'test_code');
     }
 }
