@@ -52,7 +52,8 @@ class DemoMiddleware
             return $next($request);
         }
 
-        $accessUri = strtolower($request->controller() . '/' . $request->action());
+        $entrance = config('project.backend_entrance').'/';
+        $accessUri = str_replace($entrance, '', request()->url());
         if (!in_array($accessUri, $this->needPostApi)) {
             throw new OperateException('演示环境不支持修改数据, 请下载源码本地部署体验!');
         }
