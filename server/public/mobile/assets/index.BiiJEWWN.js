@@ -1,0 +1,1 @@
+import{T as t}from"./index-4glTkX_N.js";const a={category:()=>t.get({url:"/article/category"}),lists:a=>t.get({url:"/article/lists",params:a}),detail:a=>t.get({url:"/article/detail",params:{id:a}})};export{a};
