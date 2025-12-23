@@ -15,6 +15,7 @@ declare (strict_types = 1);
 
 namespace app\api\controller;
 
+use app\api\cache\LoginCache;
 use app\api\service\LoginService;
 use app\api\validate\LoginValidate;
 use app\common\basics\Api;
@@ -99,6 +100,8 @@ class LoginController extends Api
      */
     public function logout(): Json
     {
+        $token = $this->request->header('token', '');
+        LoginCache::delete($this->terminal, $token);
         return AjaxUtils::success();
     }
 
