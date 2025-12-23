@@ -368,22 +368,49 @@ class LoginService extends Service
         return ['url'=>WeChatService::oaBuildAuthUrl($url, $state)] ?? [];
     }
 
-    public static function uniAppLogin($openId, $accessToken)
+    /**
+     * UniAPP微信登录(APP端)
+     * 注意: uniApp需要配置微信开发平台的appid
+     *
+     * @param string $openId
+     * @param string $accessToken
+     * @param int $terminal
+     * @return array
+     * @throws OperateException
+     * @throws Exception
+     * @author zero
+     */
+    public static function uniWxLogin(string $openId, string $accessToken, int $terminal): array
     {
-        try {
-//            $requests = Requests::get('https://api.weixin.qq.com/sns/userinfo?openid=' . 'openid=' . $openId . '&access_token=' . $accessToken);
+        $url = "https://api.weixin.qq.com/sns/userinfo?openid=$openId&access_token=$accessToken";
+        $result = curl_get($url);
 
-            $config = WeChatConfig::getWxConfig();
-            $app = new MiniApplication($config);
-            $api = $app->getClient();
-            $result = $api->get('sns/userinfo', [
-                'openid' => 'openid='.$openId,
-                "access_token" => $accessToken
-            ]);
-            Log::write($result);
-            return $result;
-        } catch (Exception $e) {
-            throw new OperateException($e->getMessage());
+        // 验证结果
+        if (isset($result['errcode'])) {
+            $errCode = $result['errcode'];
+            $errMsg = $result['errmsg'];
+            throw new OperateException("$errCode: $errMsg");
         }
+
+        // 整理数据
+        $response = [
+            'openid'    => $result['openid']??'',
+            'unionid'   => $result['unionid']??'',
+            'nickname'  => $result['nickname']??'',
+            'avatarUrl' => $result['headimgurl']??''
+        ];
+
+        // 验证账户
+        $userInfo = UserWidget::getUserAuthByResponse($response);
+        if (empty($userInfo)) {
+            $userId = UserWidget::createUser($response);
+        } else {
+            $response['user_id'] = intval($userInfo['user_id']);
+            $userId = UserWidget::updateUser($response);
+        }
+
+        // 登录账户
+        $token = UserWidget::granToken($userId, $terminal);
+        return ['token'=>$token] ?? [];
     }
 }

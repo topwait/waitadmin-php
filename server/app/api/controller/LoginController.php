@@ -18,6 +18,7 @@ namespace app\api\controller;
 use app\api\service\LoginService;
 use app\api\validate\LoginValidate;
 use app\common\basics\Api;
+use app\common\exception\OperateException;
 use app\common\utils\AjaxUtils;
 use Exception;
 use think\response\Json;
@@ -118,10 +119,21 @@ class LoginController extends Api
         return AjaxUtils::success($response);
     }
 
-    public function uniAppLogin()
+    /**
+     * UniApp微信登录(App端)
+     *
+     * @return Json
+     * @throws OperateException
+     * @method [POST]
+     * @author zero
+     */
+    public function uniWxLogin(): Json
     {
+        (new LoginValidate())->goCheck('uni');
         $openid = $this->request->post('openid');
         $accessToken = $this->request->post('access_token');
-        return LoginService::uniAppLogin($openid, $accessToken);
+
+        $result = LoginService::uniWxLogin($openid, $accessToken, $this->terminal);
+        return AjaxUtils::success($result);
     }
 }

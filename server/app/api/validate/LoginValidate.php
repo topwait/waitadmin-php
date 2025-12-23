@@ -70,6 +70,19 @@ class LoginValidate extends Validate
     }
 
     /**
+     * UniApp微信登录
+     *
+     * @return LoginValidate
+     * @author zero
+     */
+    public function sceneUni(): LoginValidate
+    {
+        return $this->only(['code', 'wxCode'])
+            ->append('openid', 'require')
+            ->append('access_token', 'require');
+    }
+
+    /**
      * 微信登录
      *
      * @return LoginValidate
