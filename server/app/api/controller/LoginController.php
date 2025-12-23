@@ -27,7 +27,7 @@ use think\response\Json;
  */
 class LoginController extends Api
 {
-    protected array $notNeedLogin = ['register', 'login', 'logout', 'oaCodeUrl'];
+    protected array $notNeedLogin = ['register', 'login', 'logout', 'oaCodeUrl', 'uniAppLogin'];
 
     /**
      * 注册
@@ -116,5 +116,12 @@ class LoginController extends Api
 
         $response = LoginService::oaCodeUrl($url);
         return AjaxUtils::success($response);
+    }
+
+    public function uniAppLogin()
+    {
+        $openid = $this->request->post('openid');
+        $accessToken = $this->request->post('access_token');
+        return LoginService::uniAppLogin($openid, $accessToken);
     }
 }

@@ -24,9 +24,12 @@ use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\service\msg\MsgDriver;
+use app\common\service\wechat\WeChatConfig;
 use app\common\service\wechat\WeChatService;
 use app\common\utils\ConfigUtils;
+use EasyWeChat\MiniApp\Application as MiniApplication;
 use Exception;
+use think\facade\Log;
 
 /**
  * 登录服务类
@@ -363,5 +366,24 @@ class LoginService extends Service
 
         $url = explode('?', $url)[0];
         return ['url'=>WeChatService::oaBuildAuthUrl($url, $state)] ?? [];
+    }
+
+    public static function uniAppLogin($openId, $accessToken)
+    {
+        try {
+//            $requests = Requests::get('https://api.weixin.qq.com/sns/userinfo?openid=' . 'openid=' . $openId . '&access_token=' . $accessToken);
+
+            $config = WeChatConfig::getWxConfig();
+            $app = new MiniApplication($config);
+            $api = $app->getClient();
+            $result = $api->get('sns/userinfo', [
+                'openid' => 'openid='.$openId,
+                "access_token" => $accessToken
+            ]);
+            Log::write($result);
+            return $result;
+        } catch (Exception $e) {
+            throw new OperateException($e->getMessage());
+        }
     }
 }
