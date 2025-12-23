@@ -27,6 +27,26 @@ WaitAdmin是一款ThinkPHP8.1 + Layui2.13.*的极速后台开发框架。
 | Mysql          | >=5.7   | 5.7    |
 | nginx 或 apache | 无限制     | nginx  |
 
+## 架构说明
+#### 服务端 (server)
+> 采用传统的方式实现页面渲染，以及提供接口服务。
+
+- ThinkPHP8
+- Layui
+- Jquery
+- Mysql
+
+#### 移动端 (uniapp)
+> 可以编译到多个端，如: `H5`、`APP`、`微信小程序`、`支付宝小程序`等。
+
+- Uniapp
+- WotUI
+- Sass
+- TailwindCss
+- TypeScript
+- Vite
+
+
 ## 主要特性
 - 基于RBAC的权限管理系统
 - 强大的代码构建功能 (包含控制器、模型、视图、菜单等)
