@@ -1,0 +1,224 @@
+{
+    "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+            "theme": true,
+            "path": "pages/index/index",
+            "style": {
+                "navigationBarTitleText": "WaitAdmin开源系统",
+                "navigationBarTextStyle": "white"
+            }
+        },
+        {
+            "path": "pages/index/404",
+            "style": {
+                "navigationBarTitleText": "404"
+            }
+        },
+        {
+            "path": "pages/login/index",
+            "style": {
+                "navigationBarTitleText": "登录系统",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/login/oauth",
+            "style": {
+                "navigationBarTitleText": "登录中",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/login/recover",
+            "style": {
+                "navigationBarTitleText": "找回密码",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/login/register",
+            "style": {
+                "navigationBarTitleText": "注册账号",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/user/index",
+            "style": {
+                "navigationBarTitleText": "个人中心",
+                "navigationBarTextStyle": "white",
+                "navigationStyle": "custom"
+            }
+        },
+
+        {
+            "theme": true,
+            "path": "pages/article/index",
+            "style": {
+                "navigationBarTitleText": "资讯热点",
+                "disableScroll": true
+            }
+        },
+        {
+            "path": "pages/article/detail",
+            "style": {
+                "navigationBarTitleText": "资讯详情"
+            }
+        }
+    ],
+    "subPackages": [
+        {
+            "root": "bundle",
+            "pages": [
+                {
+                    "path": "pages/example/lang",
+                    "style": {
+                        "navigationBarTitleText": "多语言"
+                    }
+                },
+                {
+                    "path": "pages/example/upload",
+                    "style": {
+                        "navigationBarTitleText": "上传组件"
+                    }
+                },
+                {
+                    "path": "pages/example/order",
+                    "style": {
+                        "navigationBarTitleText": "订单列表"
+                    }
+                },
+                {
+                    "path": "pages/index/about",
+                    "style": {
+                        "navigationBarTitleText": "关于我们"
+                    }
+                },
+                {
+                    "path": "pages/index/policy",
+                    "style": {
+                        "navigationBarTitleText": "政策协议"
+                    }
+                },
+                {
+                    "path": "pages/index/kefu",
+                    "style": {
+                        "navigationBarTitleText": "联系客服"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/user/intro",
+                    "style": {
+                        "navigationBarTitleText": "个人信息"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/user/setup",
+                    "style": {
+                        "navigationBarTitleText": "设置"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/user/adjust_email",
+                    "style": {
+                        "navigationBarTitleText": "修改邮箱号"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/user/adjust_mobile",
+                    "style": {
+                        "navigationBarTitleText": "修改手机号"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/user/change_account",
+                    "style": {
+                        "navigationBarTitleText": "修改账号"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/user/change_nickname",
+                    "style": {
+                        "navigationBarTitleText": "修改昵称"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/user/change_password",
+                    "style": {
+                        "navigationBarTitleText": "修改密码"
+                    }
+                },
+                {
+                    "path": "pages/user/wallet",
+                    "style": {
+                        "navigationBarTitleText": "我的钱包",
+                        "navigationBarTextStyle": "black",
+                        "navigationBarBackgroundColor": "#ffffff"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/address/index",
+                    "style": {
+                        "navigationBarTitleText": "地址管理"
+                    }
+                },
+                {
+                    "login": true,
+                    "path": "pages/address/edit",
+                    "style": {
+                        "navigationBarTitleText": "地址编辑"
+                    }
+                }
+            ]
+        }
+    ],
+    "tabBar": {
+        "color": "#666666",
+        "selectedColor": "#333333",
+        "backgroundColor": "#f8f8f8",
+        "list": [
+            {
+                "text": "",
+                "pagePath": "pages/index/index"
+            },
+            {
+                "text": "",
+                "pagePath": "pages/article/index"
+            },
+            {
+                "text": "",
+                "pagePath": "pages/user/index"
+            }
+        ]
+    },
+    "globalStyle": {
+        "navigationBarTitleText": "Loading",
+        "navigationBarTextStyle": "black",
+        "navigationBarBackgroundColor": "#ffffff",
+        "backgroundColor": "#f8f8f8",
+        "pageOrientation": "portrait",
+        "app-plus": {
+            "bounce": "none"
+        },
+        "mp-alipay": {
+            "allowsBounceVertical": "NO",
+            "showTitleLoading": "YES"
+        }
+    },
+    "easycom": {
+        "autoscan": true,
+        "custom": {
+            "^(?!z-paging-refresh|z-paging-load-more)z-paging(.*)": "z-paging/components/z-paging$1/z-paging$1.vue",
+            "^wd-(.*)": "wot-design-uni/components/wd-$1/wd-$1.vue",
+            "^w-(.*)$": "@/components/$1/index.vue"
+        }
+    }
+}
