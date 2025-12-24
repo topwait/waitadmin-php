@@ -35,7 +35,7 @@ class LogsMiddleware
             $params['password'] = '******';
         }
 
-        if (request()->isAjax() && app()->http->getName() === 'backend') {
+        if (request()->isAjax() && app()->http->getName() === 'backend' && request()->isPost()) {
             if (SysLog::$logId) {
                 SysLog::update([
                     'task_time' => $taskTime,
@@ -58,7 +58,7 @@ class LogsMiddleware
                     'create_time' => time()
                 ]);
             }
-        } else if (app()->http->getName() !== 'backend') {
+        } else if (app()->http->getName() !== 'backend' && request()->isPost()) {
             if (SysVisitor::$logId) {
                 SysVisitor::update([
                     'task_time' => $taskTime,

@@ -108,7 +108,7 @@ watch(
                     {
                         title: 'Wait',
                         link: '/pages/article/detail?id=8',
-                        url: appStore.toAbsoluteUrl('/static/common/images/init/banner01.jpg'),
+                        url: appStore.toAbsoluteUrl('/static/common/images/init/banner01.jpg')
 
                     },
                     {
