@@ -1,5 +1,5 @@
 {
-    "name": "",
+    "name": "WaitAdmin",
     "appid": "",
     "description": "",
     "versionName": "2.0.0",
@@ -43,7 +43,33 @@
             /* ios打包配置 */
             "ios": {},
             /* SDK配置 */
-            "sdkConfigs": {}
+            "sdkConfigs": {
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "fill in your appid",
+                        "appsecret" : "fill in your appsecret",
+                        "UniversalLinks" : "https://you.waitadmin.cn/ulink/"
+                    }
+                },
+                "payment" : {
+                    "alipay" : {
+                        "__platform__" : [ "ios", "android" ]
+                    },
+                    "weixin" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appid" : "fill in your appid",
+                        "UniversalLinks" : "https://you.waitadmin.cn/ulink/"
+                    }
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "fill in your appid",
+                        "UniversalLinks" : "https://you.waitadmin.cn/ulink/"
+                    }
+                },
+                "push" : {},
+                "maps" : {}
+            }
         }
     },
     /* 快应用特有相关 */
@@ -75,13 +101,13 @@
     "vueVersion": "3",
     /* H5特有相关 */
     "h5" : {
-        "router" : {
-            "mode" : "history",
-            "base" : "/mobile/"
-        },
         "title" : "加载中",
         "devServer" : {
             "https" : false
+        },
+        "router" : {
+            "mode" : "history",
+            "base" : "/mobile/"
         }
     }
 }
