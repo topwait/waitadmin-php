@@ -11,11 +11,11 @@
 // +----------------------------------------------------------------------
 // | Author: WaitAdmin Team <2474369941@qq.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
 
-namespace app\frontend\widgets;
+namespace app\common\widgets;
 
 use app\api\cache\EnrollCache;
+use app\api\cache\LoginCache;
 use app\common\basics\Service;
 use app\common\enums\ClientEnum;
 use app\common\exception\OperateException;
@@ -45,14 +45,15 @@ class UserWidget extends Service
         $snCode   = make_rand_code(new User());
         $terminal = intval($response['terminal']);
         $avatar   = $response['avatarUrl'] ?? '';
-        $nickname = $response['nickname']  ?? 'u'.$snCode;
         $account  = $response['account']   ?? 'u'.$snCode;
+        $nickname = $response['nickname']  ?? 'u'.$snCode;
         $password = $response['password']  ?? '';
+        $mobile   = $response['mobile']    ?? '';
         $openId   = $response['openid']    ?? '';
         $unionId  = $response['unionid']   ?? '';
-        $mobile   = $response['mobile']    ?? '';
         $gender   = intval($response['gender'] ?? 0);
 
+        // 获取配置
         $ck = match ($terminal) {
             ClientEnum::PC => 'pc',
             ClientEnum::H5 => 'h5',
@@ -63,15 +64,15 @@ class UserWidget extends Service
         $config = ConfigUtils::get('login', $ck, []);
 
         // 密码信息
-        $salt = make_rand_char(7-1);
-        if (!empty($password)) {
+        $salt = make_rand_char(6);
+        if ($password) {
             $password = make_md5_str(trim($password), $salt);
         }
 
         // 强制绑定
         $forceMobile = boolval($config['force_mobile']??false);
         if ($forceMobile && !$mobile) {
-            $data = ['sign'=>md5(time().make_rand_char(9))];
+            $data = ['sign'=>md5(time().make_rand_char(8))];
             EnrollCache::set($data['sign'], $response);
             throw new OperateException('需绑定手机号', 1, $data);
         }
@@ -80,12 +81,12 @@ class UserWidget extends Service
         $modelUser = new User();
         $where = array(['account'=>$account,'is_delete'=>0], ['mobile'=>$mobile,'is_delete'=>0]);
         if ($account && !$modelUser->field(['id'])->where($where[0])->findOrEmpty()->isEmpty()) {
-            throw new OperateException('账号已被占用了');
+            throw new OperateException('账号已被占用');
         }
 
         // 验证手机
         if ($mobile && !$modelUser->field(['id'])->where($where[1])->findOrEmpty()->isEmpty()) {
-            throw new OperateException('手机已被占用了');
+            throw new OperateException('手机已被占用');
         }
 
         self::dbStartTrans();
@@ -93,13 +94,13 @@ class UserWidget extends Service
             // 创建用户
             $user = User::create([
                 'sn'              => $snCode,
-                'avatar'          => '',
+                'avatar'          => '/static/common/images/avatar.png',
                 'mobile'          => $mobile,
                 'account'         => $account,
                 'password'        => $password,
                 'nickname'        => $nickname,
-                'salt'            => $salt,
                 'gender'          => $gender,
+                'salt'            => $salt,
                 'last_login_ip'   => request()->ip(),
                 'last_login_time' => time(),
                 'create_time'     => time(),
@@ -110,30 +111,35 @@ class UserWidget extends Service
             if ($openId || $unionId) {
                 UserAuth::create([
                     'user_id'     => $user['id'],
-                    'terminal'    => $terminal,
                     'openid'      => $openId,
                     'unionid'     => $unionId,
+                    'terminal'    => $terminal,
                     'create_time' => time(),
                     'update_time' => time()
                 ]);
 
-                // 公众号端同步授权 (因为openId/unionid是一样的)
-                // 因为PC端也是采用公众号扫码的方式授权,如果你改用开放平台的方式,那就不一样了
-                $oaAuth = (new UserAuth())->where(['user_id'=>$user['id']])->where(['terminal'=>ClientEnum::OA])->findOrEmpty();
-                if ($oaAuth->isEmpty()) {
-                    UserAuth::create([
-                        'user_id'     => $user['id'],
-                        'terminal'    => ClientEnum::OA,
-                        'openid'      => $openId,
-                        'unionid'     => $unionId,
-                        'create_time' => time(),
-                        'update_time' => time()
-                    ]);
+                // PC端采用微信公众号扫码登录时: openId 与 H5端的 openId是一样的, 所以可以直接创建两个端的授权
+                // 之所以要创建一个PC端的授权记录,是为了方便PC端如果要用openId时方便查询而已。
+                // PS: PC端的微信登录还有另外一种实现方式: 开放平台方式,那样就和H5端的不一致,我们采用扫码方式,所以一致
+                if ($terminal === ClientEnum::PC || $terminal === ClientEnum::OA) {
+                    $t = $terminal === ClientEnum::PC ? ClientEnum::OA : ClientEnum::PC;
+                    $oaWhere = [['user_id', '=', $user['id']], ['terminal', '=', $t]];
+                    $oaAuth = (new UserAuth())->where($oaWhere)->findOrEmpty();
+                    if ($oaAuth->isEmpty()) {
+                        UserAuth::create([
+                            'user_id'     => $user['id'],
+                            'terminal'    => $t,
+                            'openid'      => $openId,
+                            'unionid'     => $unionId,
+                            'create_time' => time(),
+                            'update_time' => time()
+                        ]);
+                    }
                 }
             }
 
             // 下载头像
-            self::downUpdateAvatar($avatar, $user['id'], $user['create_time']);
+            self::downUpdateAvatar($avatar, intval($user['id']), $user['create_time']);
 
             self::dbCommit();
             return intval($user['id']);
@@ -154,22 +160,22 @@ class UserWidget extends Service
     public static function updateUser(array $response): int
     {
         // 接收参数
-        $terminal = intval($response['terminal']);
         $userId   = intval($response['user_id']);
-        $avatar   = $response['avatarUrl'] ?? '';
+        $terminal = intval($response['terminal']);
+        $mobile   = $response['mobile']  ?? '';
         $openId   = $response['openid']  ?? '';
         $unionId  = $response['unionid'] ?? '';
-        $mobile   = $response['mobile']  ?? '';
+        $avatar   = $response['avatar'] ?? '';
 
         // 用户信息
-        $userInfo = (new User())->where(['id'=>$userId, 'is_delete'=>0])->findOrEmpty()->toArray();
-        $userAuth = (new UserAuth())->where(['terminal'=>$terminal, 'user_id'=>$userId])->findOrEmpty()->toArray();
+        $userInfo = (new User())->where(['id'=>$userId])->findOrEmpty()->toArray();
+        $userAuth = (new UserAuth())->where(['user_id'=>$userId, 'terminal'=>$terminal])->findOrEmpty()->toArray();
 
         // 验证手机
         $modelUser = new User();
         $where = array(['mobile', '=', $mobile], ['is_delete', '=',0], ['id', '<>', $userId]);
         if ($mobile && !$modelUser->field(['id'])->where($where)->findOrEmpty()->isEmpty()) {
-            throw new OperateException('手机已被占用了');
+            throw new OperateException('手机已被占用');
         }
 
         self::dbStartTrans();
@@ -186,23 +192,26 @@ class UserWidget extends Service
             if (!$userAuth && ($openId || $unionId)) {
                 UserAuth::create([
                     'user_id'     => $userId,
-                    'unionid'     => $unionId,
                     'openid'      => $openId,
+                    'unionid'     => $unionId,
                     'terminal'    => $terminal,
                     'create_time' => time(),
                     'update_time' => time()
                 ]);
 
-                $oaAuth = (new UserAuth())->where(['user_id'=>$userId])->where(['terminal'=>ClientEnum::OA])->findOrEmpty();
-                if ($oaAuth->isEmpty()) {
-                    UserAuth::create([
-                        'user_id'     => $userId,
-                        'terminal'    => ClientEnum::OA,
-                        'openid'      => $openId,
-                        'unionid'     => $unionId,
-                        'create_time' => time(),
-                        'update_time' => time()
-                    ]);
+                if ($terminal === ClientEnum::PC || $terminal === ClientEnum::OA) {
+                    $t = $terminal === ClientEnum::PC ? ClientEnum::OA : ClientEnum::PC;
+                    $oaAuth = (new UserAuth())->where(['user_id'=>$userId])->where(['terminal'=>$t])->findOrEmpty();
+                    if ($oaAuth->isEmpty()) {
+                        UserAuth::create([
+                            'user_id' => $userId,
+                            'terminal' => $t,
+                            'openid' => $openId,
+                            'unionid' => $unionId,
+                            'create_time' => time(),
+                            'update_time' => time()
+                        ]);
+                    }
                 }
             }
 
@@ -216,7 +225,7 @@ class UserWidget extends Service
 
             // 更新头像
             if (!$userInfo['avatar']) {
-                self::downUpdateAvatar($avatar, $userInfo['id'], $userInfo['create_time']);
+                self::downUpdateAvatar($avatar, intval($userInfo['id']), $userInfo['create_time']);
             }
 
             self::dbCommit();
@@ -236,8 +245,8 @@ class UserWidget extends Service
      */
     public static function getUserAuthByResponse(array $response): array
     {
-        $unionId  = $response['unionid'] ?? '';
         $openId   = $response['openid']  ?? '';
+        $unionId  = $response['unionid'] ?? '';
 
         return (new UserAuth())->alias('au')
             ->join('user u', 'au.user_id = u.id')
@@ -248,6 +257,20 @@ class UserWidget extends Service
                     $query->whereOr(['au.unionid'=>$unionId]);
                 }
             })->findOrEmpty()->toArray();
+    }
+
+    /**
+     * 生成令牌
+     *
+     * @param int $userId
+     * @param int $terminal
+     * @return string
+     */
+    public static function granToken(int $userId, int $terminal): string
+    {
+        $token = make_md5_str(time().$userId);
+        LoginCache::set($userId, $terminal, $token);
+        return $token;
     }
 
     /**
@@ -263,7 +286,7 @@ class UserWidget extends Service
         try {
             if ($avatarUrl) {
                 $date = date('Ymd', strtotime($createTime));
-                $saveTo = 'storage/avatars/' . $date . '/' . md5((string)$userId) . trim('.jpg');
+                $saveTo = 'storage/avatars/' . $date . '/' . md5((string)$userId) . '.jpg';
 
                 $engine = ConfigUtils::get('storage', 'default', 'local');
                 if ($engine === 'local') {

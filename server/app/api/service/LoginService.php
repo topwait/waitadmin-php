@@ -17,19 +17,16 @@ namespace app\api\service;
 
 use app\api\cache\EnrollCache;
 use app\api\cache\OaUrlCache;
-use app\api\widgets\UserWidget;
+use app\common\widgets\UserWidget;
 use app\common\basics\Service;
 use app\common\enums\ClientEnum;
 use app\common\enums\NoticeEnum;
 use app\common\exception\OperateException;
 use app\common\model\user\User;
 use app\common\service\msg\MsgDriver;
-use app\common\service\wechat\WeChatConfig;
 use app\common\service\wechat\WeChatService;
 use app\common\utils\ConfigUtils;
-use EasyWeChat\MiniApp\Application as MiniApplication;
 use Exception;
-use think\facade\Log;
 
 /**
  * 登录服务类
