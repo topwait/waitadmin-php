@@ -72,11 +72,6 @@
                     value="点击修改"
                     @click="$go('/pages/user/change_password')"
                 />
-                <wd-cell
-                    title="账号注销"
-                    :is-link="true"
-                    value="不可恢复"
-                />
             </wd-cell-group>
         </view>
 

@@ -18,6 +18,25 @@ const loginApi = {
     },
 
     /**
+     * UniApp微信登录(App端用)
+     * 注意: 需要配置 manifest.json/sdkConfigs 微信配置
+     * 配置来源: 到微信开放平台创建移动端应用获取
+     *
+     * @param params
+     * @param params.openid
+     * @param params.access_token
+     */
+    uniWxLogin(params: {
+        openid: string;
+        access_token: string;
+    }): Promise<LoginResultResponse> {
+        return request.post<LoginResultResponse>({
+            url: '/login/uniWxLogin',
+            params
+        })
+    },
+
+    /**
      * 微信登录
      *
      * @param {string} code
@@ -132,6 +151,15 @@ const loginApi = {
         return request.post({
             url: '/login/register',
             params
+        })
+    },
+
+    /**
+     * 退出登录
+     */
+    logout(): Promise<void> {
+        return request.post({
+            url: '/login/logout'
         })
     }
 }

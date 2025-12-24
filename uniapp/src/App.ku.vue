@@ -14,6 +14,7 @@
             :active-color="diyTabbar?.style.selectedColor"
             :inactive-color="diyTabbar?.style.color"
             @change="changeTabbar"
+            custom-style="bottom: calc(env(safe-area-inset-bottom) + 10rpx)"
         >
             <wd-tabbar-item
                 v-for="(item, index) in diyTabbar.list"
@@ -76,11 +77,3 @@ watch(
     }
 )
 </script>
-
-<style lang="scss">
-page {
-    .wd-tabbar--round.is-fixed.is-safe {
-        bottom: calc(env(safe-area-inset-bottom) + 12rpx) !important;
-    }
-}
-</style>

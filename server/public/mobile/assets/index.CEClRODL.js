@@ -1,0 +1,1 @@
+import{aL as a}from"./index-CbP45Wwt.js";const t={category:()=>a.get({url:"/article/category"}),lists:t=>a.get({url:"/article/lists",params:t}),detail:t=>a.get({url:"/article/detail",params:{id:t}})};export{t as a};

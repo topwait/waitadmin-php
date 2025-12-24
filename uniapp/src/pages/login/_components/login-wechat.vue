@@ -186,14 +186,33 @@ const mnpLogin = async () => {
     // #endif
 }
 
+/**
+ * IOS/安卓APP端微信登录
+ */
 const appLogin = async () => {
+    wxLocking.value = true
     uni.login({
         provider: "weixin",
-        success: (res: UniApp.LoginRes) => {
+        success: async (res: UniApp.LoginRes) => {
             const data: any = res.authResult || {}
-            console.log(data?.openid)
-            console.log(data?.access_token)
-            // const { openid, access_token } = res.authResult;
+            const result = await loginApi.uniWxLogin({
+                openid: data?.openid,
+                access_token: data.access_token
+            }).finally(() => {
+                setTimeout(() => {
+                    wxLocking.value = false
+                }, 1500)
+            })
+
+            if (result?.sign) {
+                formData.sign = result.sign
+                formData.show = true
+            } else {
+                await __handleSuccess(result.token)
+            }
+        },
+        fail(err) {
+            wxLocking.value = false
         }
     })
 }

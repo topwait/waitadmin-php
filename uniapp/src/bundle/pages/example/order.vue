@@ -1,6 +1,6 @@
 <template>
     <view class="flex-1 flex items-center justify-center">
-        <view>
+        <view class="text-center">
             <wd-icon
                 name="a-controlplatform"
                 size="180rpx"

@@ -10,6 +10,8 @@
                     :list="diyHoming?.banner"
                     :autoplay="true"
                     height="300rpx"
+                    value-key="url"
+                    @click="handleClick"
                 />
             </view>
         </view>
@@ -76,6 +78,19 @@ const articleList = ref<IndexDataResponse['article']>([])
 // 首页装修
 const diyHoming = ref()
 
+/**
+ * 轮播点击
+ *
+ * @param {number} index
+ * @author zero
+ */
+const handleClick = ({ index }: { index: number }) => {
+    const item: any = diyHoming.value.banner[index]
+    uni.navigateTo({
+        url: item.link
+    })
+}
+
 onShow(async () => {
     const results = await indexApi.index()
     articleList.value = results.article
@@ -90,8 +105,17 @@ watch(
         if (value) {
             diyHoming.value = {
                 banner: [
-                    appStore.toAbsoluteUrl('/static/common/images/init/banner01.jpg'),
-                    appStore.toAbsoluteUrl('/static/common/images/init/banner02.jpg')
+                    {
+                        title: 'Wait',
+                        link: '/pages/article/detail?id=8',
+                        url: appStore.toAbsoluteUrl('/static/common/images/init/banner01.jpg')
+
+                    },
+                    {
+                        title: 'Admin',
+                        link: '/pages/article/detail?id=7',
+                        url: appStore.toAbsoluteUrl('/static/common/images/init/banner02.jpg')
+                    }
                 ],
                 nav: [
                     {

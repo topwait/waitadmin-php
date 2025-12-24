@@ -26,7 +26,7 @@ use app\common\service\msg\MsgDriver;
 use app\common\service\wechat\WeChatService;
 use app\common\utils\UrlUtils;
 use app\frontend\cache\ScanLoginCache;
-use app\frontend\widgets\UserWidget;
+use app\common\widgets\UserWidget;
 use Exception;
 use think\db\exception\DbException;
 

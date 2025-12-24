@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { CacheEnum } from '@/enums/cache'
 import cacheUtil from '@/utils/cache'
+import loginApi from '@/api/login'
 import userApi from '@/api/user'
 
 interface UserSate {
@@ -45,6 +46,7 @@ const useUserStore = defineStore('userStore', {
         logout(): void {
             this.token = null
             cacheUtil.remove(CacheEnum.TOKEN_KEY)
+            loginApi.logout().then()
         }
     }
 })

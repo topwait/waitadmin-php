@@ -3,6 +3,7 @@
 
     <view class="border-t border-br-lighter">
         <!-- 弹框组件 -->
+        <wd-toast />
         <wd-message-box />
 
         <!-- 用户信息 -->
@@ -69,10 +70,11 @@
 </template>
 
 <script setup lang="ts">
-import { useMessage } from 'wot-design-uni'
+import { useToast, useMessage } from 'wot-design-uni'
 import config from '@/config/index'
 import useUserStore from '@/stores/user'
 
+const toast = useToast()
 const message = useMessage()
 const userStore = useUserStore()
 
@@ -93,6 +95,13 @@ const logout = () => {
         })
         .then(() => {
             userStore.logout()
+            toast.show('退出成功')
+
+            setTimeout(() => {
+                uni.reLaunch({
+                    url: '/pages/index/index'
+                }).then()
+            }, 1500)
         })
         .catch(() => {})
 }
