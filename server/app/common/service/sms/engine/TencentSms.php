@@ -44,7 +44,7 @@ class TencentSms
     /**
      * 短信参数
      */
-    private string $templateParam;
+    private array $templateParam;
 
     /**
      * 初始化配置
@@ -79,7 +79,7 @@ class TencentSms
                 'SmsSdkAppid'      => $this->config['app_id'],
                 'TemplateID'       => $this->templateCode,
                 'PhoneNumberSet'   => ['+86' . $this->phoneNumbers],
-                'TemplateParamSet' => $this->templateParam,
+                'TemplateParamSet' => $this->templateParam
             ];
 
             $req->fromJsonString(json_encode($params));
@@ -130,7 +130,7 @@ class TencentSms
      */
     public function setTemplateParam(array $param): TencentSms
     {
-        $this->templateParam = json_encode($param, JSON_UNESCAPED_UNICODE);
+        $this->templateParam = $param;
         return $this;
     }
 }

@@ -37,8 +37,6 @@ class ErrorController extends Backend
      */
     public function __call($name, $arguments): void
     {
-        parent::__call($name, $arguments);
-
         $errCode = ErrorEnum::CONTROl_ERROR;
         $message = ErrorEnum::getMsgByCode($errCode);
         throw new SystemException($message, $errCode);
