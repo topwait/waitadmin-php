@@ -36,9 +36,6 @@ class MenuController extends Backend
      * 菜单列表
      *
      * @return Json|View
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @method [GET]
      * @author zero
      */
@@ -56,9 +53,6 @@ class MenuController extends Backend
      * 菜单新增
      *
      * @return Json|View
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @throws OperateException
      * @method [GET|POST]
      * @author zero

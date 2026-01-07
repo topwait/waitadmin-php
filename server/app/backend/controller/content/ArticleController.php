@@ -55,9 +55,6 @@ class ArticleController extends Backend
      * 文章新增
      *
      * @return Json|View
-     * @throws DbException
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
      * @method [GET|POST]
      * @author zero
      */

@@ -86,9 +86,6 @@ class AdminController extends Backend
      * 管理员新增
      *
      * @return Json|View
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @throws OperateException
      * @method [GET|POST]
      * @author zero
