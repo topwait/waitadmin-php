@@ -22,6 +22,22 @@ const i18nConfig = {
     }
 }
 
+const patchVueAssignSlots = () => {
+    const originalDefineProperty = Object.defineProperty
+    Object.defineProperty = function(
+        obj: any, 
+        prop: string | symbol,
+        descriptor: PropertyDescriptor
+    ): any {
+        if (prop === '_' && descriptor && descriptor.writable === false) {
+            descriptor.writable = true
+        }
+        return originalDefineProperty(obj, prop, descriptor)
+    }
+}
+
+patchVueAssignSlots()
+
 export function createApp() {
     const pinia: Pinia = createPinia()
     const app = createSSRApp(App)
