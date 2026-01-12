@@ -116,7 +116,6 @@ class RoleController extends Backend
      * 角色删除
      *
      * @return Json
-     * @throws DbException
      * @throws OperateException
      * @method [POST]
      * @author zero

@@ -164,7 +164,6 @@ class Proof
      * @return string
      * @author zero
      */
-    #[Pure]
     public function checkDirWrite(string $dir=''): string
     {
         $route = APP_ROOT . '/' .$dir;
@@ -178,7 +177,6 @@ class Proof
      * @return string
      * @author zero
      */
-    #[Pure]
     public function checkDirRead(string $dir=''): string
     {
         $route = APP_ROOT . '/' .$dir;
@@ -192,7 +190,6 @@ class Proof
      * @return string
      * @author zero
      */
-    #[Pure]
     public function checkParams($post): string
     {
         if (!$post['host'])     return '数据库主机不可为空';
@@ -203,7 +200,10 @@ class Proof
         if (!$post['prefix'])   return '数据库前缀不可为空';
         if (!$post['admin_user']) return '管理员账号不可为空';
         if (!$post['admin_pwd'])  return '管理员密码不可为空';
-        if (strlen($post['admin_pwd']) < 6)  return '管理员密码不能少于6位数';
+        if (mb_strlen($post['admin_user']) < 2)  return '管理员账号不能少于2个字符';
+        if (mb_strlen($post['admin_user']) > 8)  return '管理员账号不能超出8个字符';
+        if (mb_strlen($post['admin_pwd']) < 6)  return '管理员密码不能少于6个字符';
+        if (mb_strlen($post['admin_pwd']) > 18)  return '管理员密码不能超出18个字符';
         if (!$post['admin_pwd_confirm'])  return '确认密码不可为空';
         if ($post['admin_pwd'] !== $post['admin_pwd_confirm']) {
             return '两次密码不一致';

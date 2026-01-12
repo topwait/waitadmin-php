@@ -120,9 +120,6 @@ class AttachController extends Backend
      * 分组列表
      *
      * @return Json
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @method [GET]
      * @author zero
      */

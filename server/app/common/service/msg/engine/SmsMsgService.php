@@ -86,9 +86,12 @@ class SmsMsgService
     {
         $content = $template['sms_template']['content']??'';
         foreach ($params as $item => $val) {
-            $search_replace = '{' . $item . '}';
-            $content = str_replace($search_replace, $val, $content);
+            $search_replace1 = '${' . $item . '}';
+            $search_replace2 = '{' . $item . '}';
+            $content = str_replace($search_replace1, strval($val), $content);
+            $content = str_replace($search_replace2, strval($val), $content);
         }
+
         return (string)$content;
     }
 
@@ -133,9 +136,10 @@ class SmsMsgService
         $content = $template['sms_template']['content'];
         foreach ($params as $item => $val) {
             $search = '{' . $item . '}';
-            if(str_contains($content, $search) && !in_array($item, $arr)) {
+            if (str_contains($content, $search) && !in_array($item, $arr)) {
                 $arr[] = $item;
             }
+
         }
 
         // 调整好顺序的变量名数组

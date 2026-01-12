@@ -36,9 +36,6 @@ class DeptController extends Backend
      * 部门列表
      *
      * @return Json|View
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @method [GET]
      * @author zero
      */
@@ -56,9 +53,6 @@ class DeptController extends Backend
      * 部门新增
      *
      * @return Json|View
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      * @throws OperateException
      * @method [GET|POST]
      * @author zero
