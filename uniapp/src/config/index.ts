@@ -1,6 +1,6 @@
 const config = {
     // 版本编号
-    version: '2.0.1',
+    version: '2.0.2',
     // 请求域名
     baseUrl: `${import.meta.env.VITE_APP_BASE_URL || ''}`,
     // 请求前缀
