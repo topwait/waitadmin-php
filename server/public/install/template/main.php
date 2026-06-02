@@ -167,6 +167,11 @@
                                     <td>必须扩展</td>
                                     <td><?php echo $proof->successOrFail($proof->checkFileInfo()) ?></td>
                                 </tr>
+                                <tr>
+                                    <td>mbstring</td>
+                                    <td>必须扩展</td>
+                                    <td><?php echo $proof->successOrFail($proof->checkMbString()) ?></td>
+                                </tr>
                             </tbody>
                         </table>
 
