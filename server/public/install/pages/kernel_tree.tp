@@ -28,7 +28,7 @@ layui.use(['jquery', 'element'], function() {
                 $iframe.parent().append(load);
                 let loadNode = $iframe.parent().find('.wait-loading');
                 $iframe.on('load', function() {
-                    let theme = waitCache.getItem('theme');
+                    let theme = waitCache.getItem('theme') ?? waitConfig.theme;
                     let $body = $($iframe[0].contentWindow.document).find('body');
                     $body.attr('data-theme', theme);
 
