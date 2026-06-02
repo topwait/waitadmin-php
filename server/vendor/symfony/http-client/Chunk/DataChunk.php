@@ -20,8 +20,8 @@ use Symfony\Contracts\HttpClient\ChunkInterface;
  */
 class DataChunk implements ChunkInterface
 {
-    private int $offset = 0;
-    private string $content = '';
+    private $offset = 0;
+    private $content = '';
 
     public function __construct(int $offset = 0, string $content = '')
     {

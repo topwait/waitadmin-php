@@ -94,13 +94,15 @@ class ServiceClient implements ServiceClientInterface
             if (isset($options['fulfilled'])) {
                 $options['fulfilled']($v, $k);
             }
-            $results[$k] = $v;
+            $resultKey = $k === null ? '' : $k;
+            $results[$resultKey] = $v;
         };
         $options['rejected'] = function ($v, $k) use (&$results, $options) {
             if (isset($options['rejected'])) {
                 $options['rejected']($v, $k);
             }
-            $results[$k] = $v;
+            $resultKey = $k === null ? '' : $k;
+            $results[$resultKey] = $v;
         };
 
         // Execute multiple commands synchronously, then sort and return the results.
@@ -118,6 +120,18 @@ class ServiceClient implements ServiceClientInterface
         // Apply default concurrency.
         if (!isset($options['concurrency'])) {
             $options['concurrency'] = 25;
+        }
+
+        if (!\is_iterable($commands)) {
+            \trigger_deprecation(
+                'guzzlehttp/command',
+                '1.5',
+                'Passing a non-iterable command collection to %s::executeAll() or %s::executeAllAsync() is deprecated; guzzlehttp/command 2.0 will require an iterable.',
+                __CLASS__,
+                __CLASS__
+            );
+
+            $commands = [$commands];
         }
 
         // Convert the iterator of commands to a generator of promises.
@@ -153,9 +167,9 @@ class ServiceClient implements ServiceClientInterface
             $command = $this->getCommand(substr($name, 0, -5), $args);
 
             return $this->executeAsync($command);
-        } else {
-            return $this->execute($this->getCommand($name, $args));
         }
+
+        return $this->execute($this->getCommand($name, $args));
     }
 
     /**

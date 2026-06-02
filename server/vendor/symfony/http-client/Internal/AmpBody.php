@@ -26,17 +26,15 @@ use Symfony\Component\HttpClient\Exception\TransportException;
 class AmpBody implements RequestBody, InputStream
 {
     private $body;
-    private array $info;
-    private \Closure $onProgress;
-    private ?int $offset = 0;
-    private int $length = -1;
-    private ?int $uploaded = null;
+    private $info;
+    private $onProgress;
+    private $offset = 0;
+    private $length = -1;
+    private $uploaded;
 
-    /**
-     * @param \Closure|resource|string $body
-     */
     public function __construct($body, &$info, \Closure $onProgress)
     {
+        $this->body = $body;
         $this->info = &$info;
         $this->onProgress = $onProgress;
 
@@ -46,9 +44,6 @@ class AmpBody implements RequestBody, InputStream
             $this->body = new ResourceInputStream($body);
         } elseif (\is_string($body)) {
             $this->length = \strlen($body);
-            $this->body = $body;
-        } else {
-            $this->body = $body;
         }
     }
 

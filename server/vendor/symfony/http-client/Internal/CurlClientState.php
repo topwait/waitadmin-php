@@ -23,18 +23,22 @@ use Symfony\Component\HttpClient\Response\CurlResponse;
  */
 final class CurlClientState extends ClientState
 {
-    public ?\CurlMultiHandle $handle;
-    public ?\CurlShareHandle $share;
-
+    /** @var \CurlMultiHandle|resource|null */
+    public $handle;
+    /** @var \CurlShareHandle|resource|null */
+    public $share;
     /** @var PushedResponse[] */
-    public array $pushedResponses = [];
-    public DnsCache $dnsCache;
+    public $pushedResponses = [];
+    /** @var DnsCache */
+    public $dnsCache;
     /** @var float[] */
-    public array $pauseExpiries = [];
-    public int $execCounter = \PHP_INT_MIN;
-    public ?LoggerInterface $logger = null;
+    public $pauseExpiries = [];
+    public $execCounter = \PHP_INT_MIN;
+    /** @var LoggerInterface|null */
+    public $logger;
+    public $performing = false;
 
-    public static array $curlVersion;
+    public static $curlVersion;
 
     public function __construct(int $maxHostConnections, int $maxPendingPushes)
     {
@@ -48,15 +52,15 @@ final class CurlClientState extends ClientState
         if (\defined('CURLPIPE_MULTIPLEX')) {
             curl_multi_setopt($this->handle, \CURLMOPT_PIPELINING, \CURLPIPE_MULTIPLEX);
         }
-        if (\defined('CURLMOPT_MAX_HOST_CONNECTIONS')) {
-            $maxHostConnections = curl_multi_setopt($this->handle, \CURLMOPT_MAX_HOST_CONNECTIONS, 0 < $maxHostConnections ? $maxHostConnections : \PHP_INT_MAX) ? 0 : $maxHostConnections;
+        if (\defined('CURLMOPT_MAX_HOST_CONNECTIONS') && 0 < $maxHostConnections) {
+            $maxHostConnections = curl_multi_setopt($this->handle, \CURLMOPT_MAX_HOST_CONNECTIONS, $maxHostConnections) ? 4294967295 : $maxHostConnections;
         }
         if (\defined('CURLMOPT_MAXCONNECTS') && 0 < $maxHostConnections) {
             curl_multi_setopt($this->handle, \CURLMOPT_MAXCONNECTS, $maxHostConnections);
         }
 
         // Skip configuring HTTP/2 push when it's unsupported or buggy, see https://bugs.php.net/77535
-        if (0 >= $maxPendingPushes) {
+        if (0 >= $maxPendingPushes || \PHP_VERSION_ID < 70217 || (\PHP_VERSION_ID >= 70300 && \PHP_VERSION_ID < 70304)) {
             return;
         }
 

@@ -56,6 +56,12 @@ class Description implements DescriptionInterface
         // Set the baseUri
         // Account for the old style of using baseUrl
         if (isset($config['baseUrl'])) {
+            \trigger_deprecation(
+                'guzzlehttp/guzzle-services',
+                '1.6',
+                'The "baseUrl" service description option is deprecated; use "baseUri" instead.'
+            );
+
             $config['baseUri'] = $config['baseUrl'];
         }
         $this->baseUri = isset($config['baseUri']) ? new Uri($config['baseUri']) : new Uri();
@@ -143,7 +149,7 @@ class Description implements DescriptionInterface
         }
 
         // Lazily create operations as they are retrieved
-        if (!($this->operations[$name] instanceof Operation)) {
+        if (!$this->operations[$name] instanceof Operation) {
             $this->operations[$name]['name'] = $name;
             $this->operations[$name] = new Operation($this->operations[$name], $this);
         }
@@ -167,7 +173,7 @@ class Description implements DescriptionInterface
         }
 
         // Lazily create models as they are retrieved
-        if (!($this->models[$id] instanceof Parameter)) {
+        if (!$this->models[$id] instanceof Parameter) {
             $this->models[$id] = new Parameter(
                 $this->models[$id],
                 ['description' => $this]
@@ -261,8 +267,8 @@ class Description implements DescriptionInterface
             return $this->extraData;
         } elseif (isset($this->extraData[$key])) {
             return $this->extraData[$key];
-        } else {
-            return null;
         }
+
+        return null;
     }
 }

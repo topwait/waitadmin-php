@@ -20,15 +20,15 @@ use TencentCloud\Common\AbstractModel;
 /**
  * DeleteSmsSign返回参数结构体
  *
- * @method DeleteSignStatus getDeleteSignStatus() 获取删除签名响应
- * @method void setDeleteSignStatus(DeleteSignStatus $DeleteSignStatus) 设置删除签名响应
+ * @method DeleteSignStatus getDeleteSignStatus() 获取<p>删除签名响应</p>
+ * @method void setDeleteSignStatus(DeleteSignStatus $DeleteSignStatus) 设置<p>删除签名响应</p>
  * @method string getRequestId() 获取唯一请求 ID，由服务端生成，每次请求都会返回（若请求因其他原因未能抵达服务端，则该次请求不会获得 RequestId）。定位问题时需要提供该次请求的 RequestId。
  * @method void setRequestId(string $RequestId) 设置唯一请求 ID，由服务端生成，每次请求都会返回（若请求因其他原因未能抵达服务端，则该次请求不会获得 RequestId）。定位问题时需要提供该次请求的 RequestId。
  */
 class DeleteSmsSignResponse extends AbstractModel
 {
     /**
-     * @var DeleteSignStatus 删除签名响应
+     * @var DeleteSignStatus <p>删除签名响应</p>
      */
     public $DeleteSignStatus;
 
@@ -38,7 +38,7 @@ class DeleteSmsSignResponse extends AbstractModel
     public $RequestId;
 
     /**
-     * @param DeleteSignStatus $DeleteSignStatus 删除签名响应
+     * @param DeleteSignStatus $DeleteSignStatus <p>删除签名响应</p>
      * @param string $RequestId 唯一请求 ID，由服务端生成，每次请求都会返回（若请求因其他原因未能抵达服务端，则该次请求不会获得 RequestId）。定位问题时需要提供该次请求的 RequestId。
      */
     function __construct()

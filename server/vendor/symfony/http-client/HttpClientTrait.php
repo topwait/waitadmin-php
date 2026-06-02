@@ -23,12 +23,12 @@ use Symfony\Component\HttpClient\Exception\TransportException;
  */
 trait HttpClientTrait
 {
-    private static int $CHUNK_SIZE = 16372;
+    private static $CHUNK_SIZE = 16372;
 
     /**
      * {@inheritdoc}
      */
-    public function withOptions(array $options): static
+    public function withOptions(array $options): self
     {
         $clone = clone $this;
         $clone->defaultOptions = self::mergeDefaultOptions($options, $this->defaultOptions);
@@ -197,7 +197,13 @@ trait HttpClientTrait
         if ($resolve = $options['resolve'] ?? false) {
             $options['resolve'] = [];
             foreach ($resolve as $k => $v) {
-                $options['resolve'][substr(self::parseUrl('http://'.$k)['authority'], 2)] = (string) $v;
+                if ('' === $v = (string) $v) {
+                    $v = null;
+                } elseif ('[' === $v[0] && ']' === substr($v, -1) && str_contains($v, ':')) {
+                    $v = substr($v, 1, -1);
+                }
+
+                $options['resolve'][substr(self::parseUrl('http://'.$k)['authority'], 2)] = $v;
             }
         }
 
@@ -220,7 +226,13 @@ trait HttpClientTrait
 
         if ($resolve = $defaultOptions['resolve'] ?? false) {
             foreach ($resolve as $k => $v) {
-                $options['resolve'] += [substr(self::parseUrl('http://'.$k)['authority'], 2) => (string) $v];
+                if ('' === $v = (string) $v) {
+                    $v = null;
+                } elseif ('[' === $v[0] && ']' === substr($v, -1) && str_contains($v, ':')) {
+                    $v = substr($v, 1, -1);
+                }
+
+                $options['resolve'] += [substr(self::parseUrl('http://'.$k)['authority'], 2) => $v];
             }
         }
 
@@ -268,7 +280,7 @@ trait HttpClientTrait
         $normalizedHeaders = [];
 
         foreach ($headers as $name => $values) {
-            if ($values instanceof \Stringable) {
+            if (\is_object($values) && method_exists($values, '__toString')) {
                 $values = (string) $values;
             }
 
@@ -389,9 +401,11 @@ trait HttpClientTrait
     }
 
     /**
+     * @param string|string[] $fingerprint
+     *
      * @throws InvalidArgumentException When an invalid fingerprint is passed
      */
-    private static function normalizePeerFingerprint(mixed $fingerprint): array
+    private static function normalizePeerFingerprint($fingerprint): array
     {
         if (\is_string($fingerprint)) {
             switch (\strlen($fingerprint = str_replace(':', '', $fingerprint))) {
@@ -413,16 +427,22 @@ trait HttpClientTrait
     }
 
     /**
+     * @param mixed $value
+     *
      * @throws InvalidArgumentException When the value cannot be json-encoded
      */
-    private static function jsonEncode(mixed $value, int $flags = null, int $maxDepth = 512): string
+    private static function jsonEncode($value, ?int $flags = null, int $maxDepth = 512): string
     {
         $flags = $flags ?? (\JSON_HEX_TAG | \JSON_HEX_APOS | \JSON_HEX_AMP | \JSON_HEX_QUOT | \JSON_PRESERVE_ZERO_FRACTION);
 
         try {
-            $value = json_encode($value, $flags | \JSON_THROW_ON_ERROR, $maxDepth);
+            $value = json_encode($value, $flags | (\PHP_VERSION_ID >= 70300 ? \JSON_THROW_ON_ERROR : 0), $maxDepth);
         } catch (\JsonException $e) {
             throw new InvalidArgumentException('Invalid value for "json" option: '.$e->getMessage());
+        }
+
+        if (\PHP_VERSION_ID < 70300 && \JSON_ERROR_NONE !== json_last_error() && (false === $value || !($flags & \JSON_PARTIAL_OUTPUT_ON_ERROR))) {
+            throw new InvalidArgumentException('Invalid value for "json" option: '.json_last_error_msg());
         }
 
         return $value;
@@ -437,6 +457,8 @@ trait HttpClientTrait
      */
     private static function resolveUrl(array $url, ?array $base, array $queryDefaults = []): array
     {
+        $givenUrl = $url;
+
         if (null !== $base && '' === ($base['scheme'] ?? '').($base['authority'] ?? '')) {
             throw new InvalidArgumentException(sprintf('Invalid "base_uri" option: host or scheme is missing in "%s".', implode('', $base)));
         }
@@ -490,6 +512,10 @@ trait HttpClientTrait
             $url['query'] = null;
         }
 
+        if (null !== $url['scheme'] && null === $url['authority']) {
+            throw new InvalidArgumentException(\sprintf('Invalid URL: host is missing in "%s".', implode('', $givenUrl)));
+        }
+
         return $url;
     }
 
@@ -500,7 +526,9 @@ trait HttpClientTrait
      */
     private static function parseUrl(string $url, array $query = [], array $allowedSchemes = ['http' => 80, 'https' => 443]): array
     {
-        if (false === $parts = parse_url($url)) {
+        $tail = '';
+
+        if (false === $parts = parse_url(\strlen($url) !== strcspn($url, '?#') ? $url : $url.$tail = '#')) {
             throw new InvalidArgumentException(sprintf('Malformed URL "%s".', $url));
         }
 
@@ -508,18 +536,27 @@ trait HttpClientTrait
             $parts['query'] = self::mergeQueryString($parts['query'] ?? null, $query, true);
         }
 
+        $scheme = $parts['scheme'] ?? null;
+        $host = $parts['host'] ?? null;
+
+        if (!$scheme && $host && !str_starts_with($url, '//')) {
+            $parts = parse_url(':/'.$url.$tail);
+            $parts['path'] = substr($parts['path'], 2);
+            $scheme = $host = null;
+        }
+
         $port = $parts['port'] ?? 0;
 
-        if (null !== $scheme = $parts['scheme'] ?? null) {
+        if (null !== $scheme) {
             if (!isset($allowedSchemes[$scheme = strtolower($scheme)])) {
-                throw new InvalidArgumentException(sprintf('Unsupported scheme in "%s".', $url));
+                throw new InvalidArgumentException(sprintf('Unsupported scheme in "%s": "%s" expected.', $url, implode('" or "', array_keys($allowedSchemes))));
             }
 
             $port = $allowedSchemes[$scheme] === $port ? 0 : $port;
             $scheme .= ':';
         }
 
-        if (null !== $host = $parts['host'] ?? null) {
+        if (null !== $host) {
             if (!\defined('INTL_IDNA_VARIANT_UTS46') && preg_match('/[\x80-\xFF]/', $host)) {
                 throw new InvalidArgumentException(sprintf('Unsupported IDN "%s", try enabling the "intl" PHP extension or running "composer require symfony/polyfill-intl-idn".', $host));
             }
@@ -539,7 +576,7 @@ trait HttpClientTrait
             }
 
             // https://tools.ietf.org/html/rfc3986#section-3.3
-            $parts[$part] = preg_replace_callback("#[^-A-Za-z0-9._~!$&/'()*+,;=:@%]++#", function ($m) { return rawurlencode($m[0]); }, $parts[$part]);
+            $parts[$part] = preg_replace_callback("#[^-A-Za-z0-9._~!$&/'()[\]*+,;=:@{}%]++#", function ($m) { return rawurlencode($m[0]); }, $parts[$part]);
         }
 
         return [
@@ -547,7 +584,7 @@ trait HttpClientTrait
             'authority' => null !== $host ? '//'.(isset($parts['user']) ? $parts['user'].(isset($parts['pass']) ? ':'.$parts['pass'] : '').'@' : '').$host : null,
             'path' => isset($parts['path'][0]) ? $parts['path'] : null,
             'query' => isset($parts['query']) ? '?'.$parts['query'] : null,
-            'fragment' => isset($parts['fragment']) ? '#'.$parts['fragment'] : null,
+            'fragment' => isset($parts['fragment']) && !$tail ? '#'.$parts['fragment'] : null,
         ];
     }
 
@@ -613,6 +650,23 @@ trait HttpClientTrait
         $queryArray = [];
 
         if ($queryString) {
+            if (str_contains($queryString, '%')) {
+                // https://tools.ietf.org/html/rfc3986#section-2.3 + some chars not encoded by browsers
+                $queryString = strtr($queryString, [
+                    '%21' => '!',
+                    '%24' => '$',
+                    '%28' => '(',
+                    '%29' => ')',
+                    '%2A' => '*',
+                    '%2F' => '/',
+                    '%3A' => ':',
+                    '%3B' => ';',
+                    '%40' => '@',
+                    '%5B' => '[',
+                    '%5D' => ']',
+                ]);
+            }
+
             foreach (explode('&', $queryString) as $v) {
                 $queryArray[rawurldecode(explode('=', $v, 2)[0])] = $v;
             }
@@ -626,16 +680,7 @@ trait HttpClientTrait
      */
     private static function getProxy(?string $proxy, array $url, ?string $noProxy): ?array
     {
-        if (null === $proxy) {
-            // Ignore HTTP_PROXY except on the CLI to work around httpoxy set of vulnerabilities
-            $proxy = $_SERVER['http_proxy'] ?? (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) ? $_SERVER['HTTP_PROXY'] ?? null : null) ?? $_SERVER['all_proxy'] ?? $_SERVER['ALL_PROXY'] ?? null;
-
-            if ('https:' === $url['scheme']) {
-                $proxy = $_SERVER['https_proxy'] ?? $_SERVER['HTTPS_PROXY'] ?? $proxy;
-            }
-        }
-
-        if (null === $proxy) {
+        if (null === $proxy = self::getProxyUrl($proxy, $url)) {
             return null;
         }
 
@@ -661,6 +706,22 @@ trait HttpClientTrait
             'auth' => isset($proxy['user']) ? 'Basic '.base64_encode(rawurldecode($proxy['user']).':'.rawurldecode($proxy['pass'] ?? '')) : null,
             'no_proxy' => $noProxy,
         ];
+    }
+
+    private static function getProxyUrl(?string $proxy, array $url): ?string
+    {
+        if (null !== $proxy) {
+            return $proxy;
+        }
+
+        // Ignore HTTP_PROXY except on the CLI to work around httpoxy set of vulnerabilities
+        $proxy = $_SERVER['http_proxy'] ?? (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) ? $_SERVER['HTTP_PROXY'] ?? null : null) ?? $_SERVER['all_proxy'] ?? $_SERVER['ALL_PROXY'] ?? null;
+
+        if ('https:' === $url['scheme']) {
+            $proxy = $_SERVER['https_proxy'] ?? $_SERVER['HTTPS_PROXY'] ?? $proxy;
+        }
+
+        return $proxy;
     }
 
     private static function shouldBuffer(array $headers): bool

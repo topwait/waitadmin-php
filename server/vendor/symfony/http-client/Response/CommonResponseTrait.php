@@ -32,8 +32,8 @@ trait CommonResponseTrait
     private $initializer;
     private $shouldBuffer;
     private $content;
-    private int $offset = 0;
-    private ?array $jsonData = null;
+    private $offset = 0;
+    private $jsonData;
 
     /**
      * {@inheritdoc}
@@ -89,9 +89,13 @@ trait CommonResponseTrait
         }
 
         try {
-            $content = json_decode($content, true, 512, \JSON_BIGINT_AS_STRING | \JSON_THROW_ON_ERROR);
+            $content = json_decode($content, true, 512, \JSON_BIGINT_AS_STRING | (\PHP_VERSION_ID >= 70300 ? \JSON_THROW_ON_ERROR : 0));
         } catch (\JsonException $e) {
             throw new JsonException($e->getMessage().sprintf(' for "%s".', $this->getInfo('url')), $e->getCode());
+        }
+
+        if (\PHP_VERSION_ID < 70300 && \JSON_ERROR_NONE !== json_last_error()) {
+            throw new JsonException(json_last_error_msg().sprintf(' for "%s".', $this->getInfo('url')), json_last_error());
         }
 
         if (!\is_array($content)) {

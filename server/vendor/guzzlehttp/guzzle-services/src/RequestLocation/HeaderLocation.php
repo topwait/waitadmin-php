@@ -32,8 +32,12 @@ class HeaderLocation extends AbstractLocation
         Parameter $param
     ) {
         $value = $command[$param->getName()];
+        $prepared = self::prepareHeaderValue($param->filter($value));
+        if ($prepared === []) {
+            return $request;
+        }
 
-        return $request->withHeader($param->getWireName(), $param->filter($value));
+        return $request->withHeader($param->getWireName(), $prepared);
     }
 
     /**
@@ -49,11 +53,74 @@ class HeaderLocation extends AbstractLocation
         if ($additional && ($additional->getLocation() === $this->locationName)) {
             foreach ($command->toArray() as $key => $value) {
                 if (!$operation->hasParam($key)) {
-                    $request = $request->withHeader($key, $additional->filter($value));
+                    $prepared = self::prepareHeaderValue($additional->filter($value));
+                    if ($prepared === []) {
+                        continue;
+                    }
+
+                    $request = $request->withHeader($key, $prepared);
                 }
             }
         }
 
         return $request;
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return string|string[]
+     */
+    private static function prepareHeaderValue($value)
+    {
+        if (is_string($value)) {
+            return $value;
+        }
+
+        if (is_scalar($value)) {
+            \trigger_deprecation(
+                'guzzlehttp/guzzle-services',
+                '1.6',
+                'Passing %s as a header location value is deprecated; guzzlehttp/guzzle-services 2.0 requires string|string[].',
+                get_debug_type($value)
+            );
+
+            return (string) $value;
+        }
+
+        if (is_array($value)) {
+            if ($value === []) {
+                \trigger_deprecation(
+                    'guzzlehttp/guzzle-services',
+                    '1.6',
+                    'Passing an empty array as a header location value is deprecated; guzzlehttp/guzzle-services 2.0 requires string or a non-empty array of strings.'
+                );
+
+                return $value;
+            }
+
+            foreach ($value as $key => $item) {
+                if (is_string($item)) {
+                    continue;
+                }
+
+                if (!is_scalar($item)) {
+                    throw new \InvalidArgumentException('Header location values must be scalar or an array of scalars.');
+                }
+
+                \trigger_deprecation(
+                    'guzzlehttp/guzzle-services',
+                    '1.6',
+                    'Passing %s inside a header location value array is deprecated; guzzlehttp/guzzle-services 2.0 requires string|string[].',
+                    get_debug_type($item)
+                );
+
+                $value[$key] = (string) $item;
+            }
+
+            return $value;
+        }
+
+        throw new \InvalidArgumentException('Header location values must be scalar or an array of scalars.');
     }
 }
