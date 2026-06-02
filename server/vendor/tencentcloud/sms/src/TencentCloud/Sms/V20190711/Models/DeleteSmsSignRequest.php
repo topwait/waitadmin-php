@@ -20,18 +20,18 @@ use TencentCloud\Common\AbstractModel;
 /**
  * DeleteSmsSign请求参数结构体
  *
- * @method integer getSignId() 获取待删除的签名 ID。
- * @method void setSignId(integer $SignId) 设置待删除的签名 ID。
+ * @method integer getSignId() 获取<p>待删除的签名 ID。</p>
+ * @method void setSignId(integer $SignId) 设置<p>待删除的签名 ID。</p>
  */
 class DeleteSmsSignRequest extends AbstractModel
 {
     /**
-     * @var integer 待删除的签名 ID。
+     * @var integer <p>待删除的签名 ID。</p>
      */
     public $SignId;
 
     /**
-     * @param integer $SignId 待删除的签名 ID。
+     * @param integer $SignId <p>待删除的签名 ID。</p>
      */
     function __construct()
     {

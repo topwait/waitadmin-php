@@ -62,7 +62,7 @@ class Proof
     }
 
     /**
-     * 是否安装PdoMsql
+     * 是否安装pdo_mysql
      *
      * @return string
      * @author zero
@@ -155,6 +155,17 @@ class Proof
     public function checkFileInfo(): string
     {
         return extension_loaded('fileinfo') ? 'ok' : 'fail';
+    }
+
+    /**
+     * 是否支持mb_string
+     *
+     * @return string
+     * @author zero
+     */
+    public function checkMbString(): string
+    {
+        return extension_loaded('mbstring') ? 'ok' : 'fail';
     }
 
     /**

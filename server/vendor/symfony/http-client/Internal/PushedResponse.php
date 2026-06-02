@@ -25,9 +25,9 @@ final class PushedResponse
     public $response;
 
     /** @var string[] */
-    public array $requestHeaders;
+    public $requestHeaders;
 
-    public array $parentOptions = [];
+    public $parentOptions = [];
 
     public $handle;
 

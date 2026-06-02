@@ -100,21 +100,35 @@
     <div class="layui-card-header">系统配置</div>
     <form class="layui-form">
         <div class="layui-form-item">
-            <label for="isTabHidden" class="layui-form-label">标签隐藏：</label>
+            <label for="isTabHidden" class="layui-form-label"
+                   lay-tips="开启后将隐藏顶部的标签导航栏">标签隐藏：</label>
             <div class="layui-input-block">
-                <input type="checkbox" id="isTabHidden" name="switch" lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
+                <input type="checkbox" id="isTabHidden" name="switch"
+                       lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="isTabMemory" class="layui-form-label">标签记忆：</label>
+            <label for="isTabMemory" class="layui-form-label"
+                   lay-tips="刷新浏览器页面时是否保留标签页">标签记忆：</label>
             <div class="layui-input-block">
-                <input type="checkbox" id="isTabMemory" name="switch" lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
+                <input type="checkbox" id="isTabMemory" name="switch"
+                       lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="isTabRefresh" class="layui-form-label">切换刷新：</label>
+            <label for="isTabRefresh" class="layui-form-label"
+                   lay-tips="每次切换标签页是否自动刷新">切换刷新：</label>
             <div class="layui-input-block">
-                <input type="checkbox" id="isTabRefresh" name="switch" lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
+                <input type="checkbox" id="isTabRefresh" name="switch"
+                       lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="isMenuFoldUp" class="layui-form-label"
+                   lay-tips="三级菜单是否默认不展开">菜单叠起：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" id="isMenuFoldUp" name="switch"
+                       lay-skin="switch" lay-text="开启|关闭" lay-filter="switch-status">
             </div>
         </div>
     </form>
@@ -134,10 +148,10 @@
             const theme = cacheConfig['theme']|| waitConfig.theme;
             $('.theme ul li').removeClass('layui-this');
             $('.theme ul li[data-alias='+theme+']').addClass('layui-this');
-
-            $('#isTabHidden').prop('checked',  cacheConfig['isTabHidden'] || waitConfig.isTabHidden);
-            $('#isTabMemory').prop('checked',  cacheConfig['isTabMemory'] || waitConfig.isTabMemory);
-            $('#isTabRefresh').prop('checked', cacheConfig['isTabRefresh'] || waitConfig.isTabRefresh);
+            $('#isTabHidden').prop('checked',  cacheConfig['isTabHidden'] ?? waitConfig.isTabHidden);
+            $('#isTabMemory').prop('checked',  cacheConfig['isTabMemory'] ?? waitConfig.isTabMemory);
+            $('#isTabRefresh').prop('checked', cacheConfig['isTabRefresh'] ?? waitConfig.isTabRefresh);
+            $('#isMenuFoldUp').prop('checked', cacheConfig['isMenuFoldUp'] ?? waitConfig.isMenuFoldUp);
             form.render();
         });
 

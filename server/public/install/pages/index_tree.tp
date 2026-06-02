@@ -172,6 +172,19 @@
     layui.use(function() {
         let $ = layui.$;
 
+        // 三级菜单是否默认收起
+        const isMenuFoldUp = waitCache.getItem('isMenuFoldUp') ?? waitConfig.isMenuFoldUp
+        if (!isMenuFoldUp) {
+            $('.wait-second-menu dd').each(function() {
+                if ($(this).children('dl').length) {
+                    $(this).addClass('active');
+                    $(this).children('dl').show();
+                    $(this).children('a').children('span').addClass('layui-icon-down');
+                    $(this).children('a').children('span').removeClass('layui-icon-left');
+                }
+            });
+        }
+
         waitUtil.event({
             info: function () {
                 waitUtil.popup({

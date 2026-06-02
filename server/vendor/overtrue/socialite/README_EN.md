@@ -8,7 +8,7 @@ Socialite is an [OAuth2](https://oauth.net/2/)  Authentication tool. It is inspi
 
 [![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me-button-s.svg?raw=true)](https://github.com/sponsors/overtrue)
 
-This tool now supports platforms such as Facebook, GitHub, Google, Figma, LinkedIn, Outlook, QQ, Tapd, Alipay, Taobao, Baidu, DingTalk, Weibo, WeChat, Douyin, Feishu, Lark, Douban, WeWork, Tencent Cloud, Line, Gitee and Coding.
+This tool now supports platforms such as Apple, Facebook, GitHub, Google, Figma, LinkedIn, Outlook, QQ, Tapd, Alipay, Taobao, Baidu, DingTalk, Weibo, WeChat, Douyin, Feishu, Lark, Douban, WeWork, Tencent Cloud, Line, Gitee, Coding and Twitter.
 
 如果你喜欢我的项目并想支持我，[点击这里 :heart:](https://github.com/sponsors/overtrue)
 
@@ -47,7 +47,7 @@ $config = [
     'github' => [
         'client_id'     => 'your-app-id',
         'client_secret' => 'your-app-secret',
-        'redirect'      => 'http://localhost/socialite/callback.php',
+        'redirect_uri' => 'http://localhost/socialite/callback.php',
     ],
 ];
 
@@ -69,7 +69,7 @@ $config = [
     'github' => [
         'client_id' => 'your-app-id',
         'client_secret' => 'your-app-secret',
-        'redirect' => 'http://localhost/socialite/callback.php',
+        'redirect_uri' => 'http://localhost/socialite/callback.php',
     ],
 ];
 
@@ -89,7 +89,8 @@ $user->getEmail();     // "anzhengchao@gmail.com"
 
 ## Configuration
 
-Each create uses the same configuration keys: `client_id`, `client_secret`, `redirect`.
+Each provider uses the same configuration keys: `client_id`, `client_secret`, `redirect_uri`.
+Legacy aliases are still supported: `redirect`, `redirect_url`.
 
 Example:
 ```php
@@ -97,12 +98,12 @@ $config = [
   'weibo' => [
     'client_id'     => 'your-app-id',
     'client_secret' => 'your-app-secret',
-    'redirect'      => 'http://localhost/socialite/callback.php',
+    'redirect_uri' => 'http://localhost/socialite/callback.php',
   ],
   'facebook' => [
     'client_id'     => 'your-app-id',
     'client_secret' => 'your-app-secret',
-    'redirect'      => 'http://localhost/socialite/callback.php',
+    'redirect_uri' => 'http://localhost/socialite/callback.php',
   ],
 ];
 ```
@@ -117,7 +118,7 @@ $config = [
         'provider' => 'github',  // <-- provider name
         'client_id' => 'your-app-id',
         'client_secret' => 'your-app-secret',
-        'redirect' => 'http://localhost/socialite/callback.php',
+        'redirect_uri' => 'http://localhost/socialite/callback.php',
     ],
        
     // another github app
@@ -125,7 +126,7 @@ $config = [
         'provider' => 'github',  // <-- provider name
         'client_id' => 'your-app-id',
         'client_secret' => 'your-app-secret',
-        'redirect' => 'http://localhost/socialite/callback.php',
+        'redirect_uri' => 'http://localhost/socialite/callback.php',
     ],
     //...
 ];
@@ -144,7 +145,7 @@ $config = [
         'provider' => 'myprovider',  // <-- provider name
         'client_id' => 'your-app-id',
         'client_secret' => 'your-app-secret',
-        'redirect' => 'http://localhost/socialite/callback.php',
+        'redirect_uri' => 'http://localhost/socialite/callback.php',
     ],
 ];
 
@@ -176,7 +177,7 @@ $config = [
         'provider' => MyCustomProvider::class,  // <-- class name
         'client_id' => 'your-app-id',
         'client_secret' => 'your-app-secret',
-        'redirect' => 'http://localhost/socialite/callback.php',
+        'redirect_uri' => 'http://localhost/socialite/callback.php',
     ],
 ];
 
@@ -206,8 +207,8 @@ $config = [
     'rsa_private_key' => 'your-rsa-private-key',
 
     // Be sure to set this value and make sure that it is the same address value as set in the official admin system.
-    // This can also be named as 'redirect_url' like the official documentation.
-    'redirect' => 'http://localhost/socialite/callback.php',
+    // Recommended key: 'redirect_uri' (legacy aliases: 'redirect', 'redirect_url')
+    'redirect_uri' => 'http://localhost/socialite/callback.php',
   ]
   ...
 ];
@@ -240,8 +241,8 @@ $config = [
       // or 'app_secret' 
       'client_secret' => 'your app secret',
 
-      // or 'redirect_url'
-      'redirect' => 'redirect URL'
+      // legacy aliases: 'redirect' or 'redirect_url'
+      'redirect_uri' => 'redirect URL'
   ]
 ];
 
@@ -268,7 +269,7 @@ $config = [
 
       'client_secret' => 'your app secret',
 
-      'redirect' => 'redirect URL'
+      'redirect_uri' => 'redirect URL'
   ]
 ];
 
@@ -288,7 +289,7 @@ $config = [
   'toutiao' => [
     'client_id' => 'your app id',
     'client_secret' => 'your app secret',
-    'redirect' => 'redirect URL'
+    'redirect_uri' => 'redirect URL'
   ]
 ];
 
@@ -307,7 +308,7 @@ $config = [
   'xigua' => [
     'client_id' => 'your app id',
     'client_secret' => 'your app secret',
-    'redirect' => 'redirect URL'
+    'redirect_uri' => 'redirect URL'
   ]
 ];
 
@@ -348,8 +349,8 @@ $config = [
         // or 'app_secret' 
         'client_secret' => 'your app secret',
 
-        // or 'redirect_url'
-        'redirect' => 'redirect URL',
+        // legacy aliases: 'redirect' or 'redirect_url'
+        'redirect_uri' => 'redirect URL',
 
         // if you want to use internal way to get app_access_token
         // set this key by 'internal' then you already turn on the internal app mode 
@@ -378,8 +379,8 @@ $config = [
         // or 'app_secret' 
         'client_secret' => 'your app secret',
 
-        // or 'redirect_url'
-        'redirect' => 'redirect URL',
+        // legacy aliases: 'redirect' or 'redirect_url'
+        'redirect_uri' => 'redirect URL',
 
         // if you want to use internal way to get app_access_token
         // set this key by 'internal' then you already turn on the internal app mode 
@@ -416,7 +417,7 @@ You just need input your config like below config. Official Accounts authorizati
         [
             'client_id' => 'client_id',
             'client_secret' => 'client_secret',
-            'redirect' => 'redirect-url',
+            'redirect_uri' => 'redirect-url',
 
             // Open Platform - Third-party Platform Need
             'component' => [
@@ -438,7 +439,7 @@ $config = [
         'team_url' => 'https://{your-team}.coding.net',
         'client_id' => 'your app id',
         'client_secret' => 'your app secret',
-        'redirect' => 'redirect URL',
+        'redirect_uri' => 'redirect URL',
     ]
 ];
 ```
@@ -456,7 +457,25 @@ $config = [
         'client_id'     => 'AT******************',
         'client_secret' => 'EK**************',
         'sandbox'      => false,
-        'redirect_url'=>"nativexo://paypalpay",
+        'redirect_uri' => "nativexo://paypalpay",
+    ],
+];
+```
+
+### [Apple](https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api)
+
+Sign in with Apple requires creating a Service ID in the Apple Developer portal. You can provide a `client_secret` directly or let it be generated automatically from `team_id`, `key_id`, and `private_key` (recommended).
+
+> https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens
+
+```php
+$config = [
+    'apple' => [
+        'client_id'   => 'com.example.app',   // Services ID
+        'team_id'     => 'XXXXXXXXXX',         // Apple Developer Team ID
+        'key_id'      => 'XXXXXXXXXX',         // Key ID from Apple Developer
+        'private_key' => file_get_contents('/path/to/AuthKey_XXXXXXXXXX.p8'), // .p8 private key content
+        'redirect_uri' => 'https://example.com/auth/apple/callback',
     ],
 ];
 ```
@@ -476,7 +495,7 @@ $response = $socialite->create('github')
 
 ### Redirect URL
 
-You may also want to dynamically set `redirect_uri`，you can use the following methods to change the `redirect_uri` URL:
+You may also want to dynamically set `redirect_uri`, you can use the following methods to change the `redirect_uri` URL:
 
 ```php
 $url = 'your callback url.';
@@ -648,6 +667,7 @@ $user = $socialite->userFromToken($accessToken);
 - [Line - OAuth 2.0](https://developers.line.biz/en/docs/line-login/integrate-line-login/)
 - [Gitee - OAuth文档](https://gitee.com/api/v5/oauth_doc#/)
 - [PayPal - OAuth文档](https://developer.paypal.com/docs/log-in-with-paypal/)
+- [Apple - Sign in with Apple REST API](https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api)
 
 [![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
 

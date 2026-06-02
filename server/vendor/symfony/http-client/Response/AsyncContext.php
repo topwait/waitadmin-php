@@ -28,14 +28,11 @@ final class AsyncContext
     private $passthru;
     private $client;
     private $response;
-    private array $info = [];
+    private $info = [];
     private $content;
-    private int $offset;
+    private $offset;
 
-    /**
-     * @param resource|null $content
-     */
-    public function __construct(?callable &$passthru, HttpClientInterface $client, ResponseInterface &$response, array &$info, $content, int $offset)
+    public function __construct(&$passthru, HttpClientInterface $client, ResponseInterface &$response, array &$info, $content, int $offset)
     {
         $this->passthru = &$passthru;
         $this->client = $client;
@@ -95,7 +92,7 @@ final class AsyncContext
         if (\is_callable($pause = $this->response->getInfo('pause_handler'))) {
             $pause($duration);
         } elseif (0 < $duration) {
-            usleep(1E6 * $duration);
+            usleep((int) (1E6 * $duration));
         }
     }
 
@@ -114,7 +111,7 @@ final class AsyncContext
     /**
      * Returns the current info of the response.
      */
-    public function getInfo(string $type = null): mixed
+    public function getInfo(?string $type = null)
     {
         if (null !== $type) {
             return $this->info[$type] ?? $this->response->getInfo($type);
@@ -128,7 +125,7 @@ final class AsyncContext
      *
      * @return $this
      */
-    public function setInfo(string $type, mixed $value): static
+    public function setInfo(string $type, $value): self
     {
         if ('canceled' === $type && $value !== $this->info['canceled']) {
             throw new \LogicException('You cannot set the "canceled" info directly.');
@@ -187,7 +184,7 @@ final class AsyncContext
      *
      * @param ?callable(ChunkInterface, self): ?\Iterator $passthru
      */
-    public function passthru(callable $passthru = null): void
+    public function passthru(?callable $passthru = null): void
     {
         $this->passthru = $passthru ?? static function ($chunk, $context) {
             $context->passthru = null;

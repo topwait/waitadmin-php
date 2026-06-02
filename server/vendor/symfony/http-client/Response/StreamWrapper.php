@@ -25,8 +25,10 @@ class StreamWrapper
     /** @var resource|null */
     public $context;
 
+    /** @var HttpClientInterface */
     private $client;
 
+    /** @var ResponseInterface */
     private $response;
 
     /** @var resource|string|null */
@@ -35,17 +37,17 @@ class StreamWrapper
     /** @var resource|null */
     private $handle;
 
-    private bool $blocking = true;
-    private ?float $timeout = null;
-    private bool $eof = false;
-    private ?int $offset = 0;
+    private $blocking = true;
+    private $timeout;
+    private $eof = false;
+    private $offset = 0;
 
     /**
      * Creates a PHP stream resource from a ResponseInterface.
      *
      * @return resource
      */
-    public static function createResource(ResponseInterface $response, HttpClientInterface $client = null)
+    public static function createResource(ResponseInterface $response, ?HttpClientInterface $client = null)
     {
         if ($response instanceof StreamableInterface) {
             $stack = debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT | \DEBUG_BACKTRACE_IGNORE_ARGS, 2);

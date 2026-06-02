@@ -1,11 +1,14 @@
 <?php
 
+use GuzzleHttp\Client;
+use Overtrue\Socialite\Contracts\FactoryInterface;
 use Overtrue\Socialite\Exceptions\AuthorizeFailedException;
 use Overtrue\Socialite\Providers\WeChat;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 
 // here we need loaded the symbols first.
-\class_exists(\Overtrue\Socialite\Contracts\FactoryInterface::class);
+\class_exists(FactoryInterface::class);
 
 class WechatTest extends TestCase
 {
@@ -141,7 +144,7 @@ class WechatTest extends TestCase
             ->onlyMethods(['getTokenFromCode', 'fromJsonBody'])
             ->getMock();
 
-        $mockResponse = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
+        $mockResponse = $this->createMock(ResponseInterface::class);
         $mockProvider->method('getTokenFromCode')->willReturn($mockResponse);
 
         // Test missing openid
@@ -175,7 +178,7 @@ class WechatTest extends TestCase
             ->onlyMethods(['getTokenFromCode', 'fromJsonBody'])
             ->getMock();
 
-        $mockResponse = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
+        $mockResponse = $this->createMock(ResponseInterface::class);
         $mockProvider->method('getTokenFromCode')->willReturn($mockResponse);
 
         // Test missing access_token
@@ -185,5 +188,35 @@ class WechatTest extends TestCase
         $this->expectExceptionMessage('Authorization failed: missing access_token in token response');
 
         $getSnsapiBaseUserFromCode->invoke($mockProvider, 'test_code');
+    }
+
+    public function test_throws_exception_when_get_user_by_token_fails()
+    {
+        $mockProvider = $this->getMockBuilder(WeChat::class)
+            ->setConstructorArgs([[
+                'client_id' => 'client_id',
+                'client_secret' => 'client_secret',
+                'redirect_url' => 'http://localhost/socialite/callback.php',
+            ]])
+            ->onlyMethods(['getHttpClient', 'fromJsonBody'])
+            ->getMock();
+
+        $mockResponse = $this->createMock(ResponseInterface::class);
+        $mockHttpClient = $this->createMock(Client::class);
+        $mockHttpClient->method('get')->willReturn($mockResponse);
+
+        $mockProvider->method('getHttpClient')->willReturn($mockHttpClient);
+        $mockProvider->method('fromJsonBody')->willReturn([
+            'errcode' => 40003,
+            'errmsg' => 'invalid openid',
+        ]);
+
+        $getUserByToken = new ReflectionMethod(WeChat::class, 'getUserByToken');
+        $getUserByToken->setAccessible(true);
+
+        $this->expectException(AuthorizeFailedException::class);
+        $this->expectExceptionMessage('invalid openid');
+
+        $getUserByToken->invoke($mockProvider, 'test_token');
     }
 }

@@ -78,6 +78,12 @@ class Operation implements ToArrayInterface
 
         // Account for the old style of using responseClass
         if (isset($config['responseClass'])) {
+            \trigger_deprecation(
+                'guzzlehttp/guzzle-services',
+                '1.6',
+                'The "responseClass" operation option is deprecated; use "responseModel" instead.'
+            );
+
             $this->config['responseModel'] = $config['responseClass'];
         }
 
@@ -252,9 +258,9 @@ class Operation implements ToArrayInterface
             return $this->config['data'];
         } elseif (isset($this->config['data'][$name])) {
             return $this->config['data'][$name];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

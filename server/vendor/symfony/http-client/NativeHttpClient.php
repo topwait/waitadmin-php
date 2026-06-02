@@ -36,9 +36,10 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
     use HttpClientTrait;
     use LoggerAwareTrait;
 
-    private array $defaultOptions = self::OPTIONS_DEFAULTS;
-    private static array $emptyDefaults = self::OPTIONS_DEFAULTS;
+    private $defaultOptions = self::OPTIONS_DEFAULTS;
+    private static $emptyDefaults = self::OPTIONS_DEFAULTS;
 
+    /** @var NativeClientState */
     private $multi;
 
     /**
@@ -77,6 +78,9 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
             }
             if (str_starts_with($options['bindto'], 'host!')) {
                 $options['bindto'] = substr($options['bindto'], 5);
+            }
+            if ((\PHP_VERSION_ID < 80223 || 80300 <= \PHP_VERSION_ID && 80311 < \PHP_VERSION_ID) && '\\' === \DIRECTORY_SEPARATOR && '[' === $options['bindto'][0]) {
+                $options['bindto'] = preg_replace('{^\[[^\]]++\]}', '[$0]', $options['bindto']);
             }
         }
 
@@ -199,6 +203,11 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
             $options['timeout'] = min($options['max_duration'], $options['timeout']);
         }
 
+        $bindto = $options['bindto'];
+        if (!$bindto && (70322 === \PHP_VERSION_ID || 70410 === \PHP_VERSION_ID)) {
+            $bindto = '0:0';
+        }
+
         $context = [
             'http' => [
                 'protocol_version' => min($options['http_version'] ?: '1.1', '1.1'),
@@ -227,7 +236,7 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
                 'disable_compression' => true,
             ], static function ($v) { return null !== $v; }),
             'socket' => [
-                'bindto' => $options['bindto'],
+                'bindto' => $bindto,
                 'tcp_nodelay' => true,
             ],
         ];
@@ -257,10 +266,12 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
     /**
      * {@inheritdoc}
      */
-    public function stream(ResponseInterface|iterable $responses, float $timeout = null): ResponseStreamInterface
+    public function stream($responses, ?float $timeout = null): ResponseStreamInterface
     {
         if ($responses instanceof NativeResponse) {
             $responses = [$responses];
+        } elseif (!is_iterable($responses)) {
+            throw new \TypeError(sprintf('"%s()" expects parameter 1 to be an iterable of NativeResponse objects, "%s" given.', __METHOD__, get_debug_type($responses)));
         }
 
         return new ResponseStream(NativeResponse::stream($responses, $timeout));
@@ -312,9 +323,14 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
     /**
      * Resolves the IP of the host using the local DNS cache if possible.
      */
-    private static function dnsResolve(string $host, NativeClientState $multi, array &$info, ?\Closure $onProgress): string
+    private static function dnsResolve($host, NativeClientState $multi, array &$info, ?\Closure $onProgress): string
     {
-        if (null === $ip = $multi->dnsCache[$host] ?? null) {
+        $flag = '' !== $host && '[' === $host[0] && ']' === $host[-1] && str_contains($host, ':') ? \FILTER_FLAG_IPV6 : \FILTER_FLAG_IPV4;
+        $ip = \FILTER_FLAG_IPV6 === $flag ? substr($host, 1, -1) : $host;
+
+        if (filter_var($ip, \FILTER_VALIDATE_IP, $flag)) {
+            // The host is already an IP address
+        } elseif (null === $ip = $multi->dnsCache[$host] ?? null) {
             $info['debug'] .= "* Hostname was NOT found in DNS cache\n";
             $now = microtime(true);
 
@@ -322,13 +338,15 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
                 throw new TransportException(sprintf('Could not resolve host "%s".', $host));
             }
 
-            $info['namelookup_time'] = microtime(true) - ($info['start_time'] ?: $now);
             $multi->dnsCache[$host] = $ip = $ip[0];
             $info['debug'] .= "* Added {$host}:0:{$ip} to DNS cache\n";
+            $host = $ip;
         } else {
             $info['debug'] .= "* Hostname was found in DNS cache\n";
+            $host = str_contains($ip, ':') ? "[$ip]" : $ip;
         }
 
+        $info['namelookup_time'] = microtime(true) - ($info['start_time'] ?: $now);
         $info['primary_ip'] = $ip;
 
         if ($onProgress) {
@@ -336,7 +354,7 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
             $onProgress();
         }
 
-        return $ip;
+        return $host;
     }
 
     /**
@@ -367,13 +385,14 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
 
             try {
                 $url = self::parseUrl($location);
+                $locationHasHost = isset($url['authority']);
+                $url = self::resolveUrl($url, $info['url']);
             } catch (InvalidArgumentException $e) {
                 $info['redirect_url'] = null;
 
                 return null;
             }
 
-            $url = self::resolveUrl($url, $info['url']);
             $info['redirect_url'] = implode('', $url);
 
             if ($info['redirect_count'] >= $maxRedirects) {
@@ -398,13 +417,17 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
                     $redirectHeaders['no_auth'] = array_filter($redirectHeaders['no_auth'], $filterContentHeaders);
                     $redirectHeaders['with_auth'] = array_filter($redirectHeaders['with_auth'], $filterContentHeaders);
 
-                    stream_context_set_option($context, ['http' => $options]);
+                    if (\PHP_VERSION_ID >= 80300) {
+                        stream_context_set_options($context, ['http' => $options]);
+                    } else {
+                        stream_context_set_option($context, ['http' => $options]);
+                    }
                 }
             }
 
             [$host, $port] = self::parseHostPort($url, $info);
 
-            if (false !== (parse_url($location, \PHP_URL_HOST) ?? false)) {
+            if ($locationHasHost) {
                 // Authorization and Cookie headers MUST NOT follow except for the initial host name
                 $requestHeaders = $redirectHeaders['host'] === $host ? $redirectHeaders['with_auth'] : $redirectHeaders['no_auth'];
                 $requestHeaders[] = 'Host: '.$host.$port;

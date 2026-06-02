@@ -28,7 +28,7 @@ layui.use(['jquery', 'element'], function() {
                 $iframe.parent().append(load);
                 let loadNode = $iframe.parent().find('.wait-loading');
                 $iframe.on('load', function() {
-                    let theme = waitCache.getItem('theme') || waitConfig.theme;
+                    let theme = waitCache.getItem('theme') ?? waitConfig.theme;
                     let $html = $($iframe[0].contentWindow.document).find('html');
                     let $body = $($iframe[0].contentWindow.document).find('body');
                     $html.removeAttr('style');
@@ -42,7 +42,7 @@ layui.use(['jquery', 'element'], function() {
         }
         // 记忆标签页面数据
         ,tabMemory: function () {
-            let isTabMemory = waitCache.getItem('isTabMemory') || waitConfig.isTabMemory;
+            let isTabMemory = waitCache.getItem('isTabMemory') ?? waitConfig.isTabMemory;
             if (isTabMemory) {
                 setTimeout(function(){
                     let tabs = [];
@@ -103,7 +103,7 @@ layui.use(['jquery', 'element'], function() {
                 $($waitBodyNode).find('.tab-body-item').removeClass('layui-show');
                 $($waitBodyNode).find('.tab-body-item[lay-id='+id+']').addClass('layui-show');
                 // 标签页面切换刷新加载过场动画
-                let isTabRefresh = waitCache.getItem('isTabRefresh') || waitConfig.isTabRefresh;
+                let isTabRefresh = waitCache.getItem('isTabRefresh') ?? waitConfig.isTabRefresh;
                 if (isTabRefresh) {
                     events.loading();
                     let iframe = $waitBodyNode.find('.tab-body-item.layui-show iframe');
@@ -220,18 +220,18 @@ layui.use(['jquery', 'element'], function() {
         }
 
         // 初始主题
-        let theme = waitCache.getItem('theme') || waitConfig.theme;
+        let theme = waitCache.getItem('theme') ?? waitConfig.theme;
         $mainBodyNode.attr('data-theme', theme);
         waitCache.setItem('theme', theme);
 
         // 隐藏标签
-        let isTabHidden = waitCache.getItem('isTabHidden') || waitConfig.isTabHidden;
+        let isTabHidden = waitCache.getItem('isTabHidden') ?? waitConfig.isTabHidden;
         if (isTabHidden) {
             $mainBodyNode.attr('data-tab', true);
         } else {
             // 记忆标签
             let tabMenus = sessionStorage.getItem('tabMenus');
-            let isTabMemory = waitCache.getItem('isTabMemory') || waitConfig.isTabMemory;
+            let isTabMemory = waitCache.getItem('isTabMemory') ?? waitConfig.isTabMemory;
             if (isTabMemory && tabMenus) {
                 let data = JSON.parse(tabMenus);
                 $waitBodyNode.html(data['body']);
@@ -528,7 +528,7 @@ layui.use(['jquery', 'element'], function() {
         $waitBodyNode.find('.tab-body-item[lay-id='+id+']').addClass('layui-show');
 
         // 标签页面切换刷新
-        let isTabRefresh = waitCache.getItem('isTabRefresh') || waitConfig.isTabRefresh;
+        let isTabRefresh = waitCache.getItem('isTabRefresh') ?? waitConfig.isTabRefresh;
         if (isTabRefresh) {
             events.loading();
             let iframe = $waitBodyNode.find('.tab-body-item.layui-show iframe');

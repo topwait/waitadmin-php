@@ -30,13 +30,13 @@ class MockResponse implements ResponseInterface, StreamableInterface
         doDestruct as public __destruct;
     }
 
-    private string|iterable $body;
-    private array $requestOptions = [];
-    private string $requestUrl;
-    private string $requestMethod;
+    private $body;
+    private $requestOptions = [];
+    private $requestUrl;
+    private $requestMethod;
 
-    private static ClientState $mainMulti;
-    private static int $idSequence = 0;
+    private static $mainMulti;
+    private static $idSequence = 0;
 
     /**
      * @param string|string[]|iterable $body The response body as a string or an iterable of strings,
@@ -45,9 +45,9 @@ class MockResponse implements ResponseInterface, StreamableInterface
      *
      * @see ResponseInterface::getInfo() for possible info, e.g. "response_headers"
      */
-    public function __construct(string|iterable $body = '', array $info = [])
+    public function __construct($body = '', array $info = [])
     {
-        $this->body = $body;
+        $this->body = is_iterable($body) ? $body : (string) $body;
         $this->info = $info + ['http_code' => 200] + $this->info;
 
         if (!isset($info['response_headers'])) {
@@ -93,7 +93,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
     /**
      * {@inheritdoc}
      */
-    public function getInfo(string $type = null): mixed
+    public function getInfo(?string $type = null)
     {
         return null !== $type ? $this->info[$type] ?? null : $this->info;
     }
@@ -106,10 +106,14 @@ class MockResponse implements ResponseInterface, StreamableInterface
         $this->info['canceled'] = true;
         $this->info['error'] = 'Response has been canceled.';
         try {
-            unset($this->body);
+            $this->body = null;
         } catch (TransportException $e) {
             // ignore errors when canceling
         }
+
+        $onProgress = $this->requestOptions['on_progress'] ?? static function () {};
+        $dlSize = isset($this->headers['content-encoding']) || 'HEAD' === ($this->info['http_method'] ?? null) || \in_array($this->info['http_code'], [204, 304], true) ? 0 : (int) ($this->headers['content-length'][0] ?? 0);
+        $onProgress($this->offset, $dlSize, $this->info);
     }
 
     /**
@@ -160,7 +164,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
      */
     protected static function schedule(self $response, array &$runningResponses): void
     {
-        if (!isset($response->id)) {
+        if (!$response->id) {
             throw new InvalidArgumentException('MockResponse instances must be issued by MockHttpClient before processing.');
         }
 
@@ -181,7 +185,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
         foreach ($responses as $response) {
             $id = $response->id;
 
-            if (!isset($response->body)) {
+            if (null === $response->body) {
                 // Canceled response
                 $response->body = [];
             } elseif ([] === $response->body) {

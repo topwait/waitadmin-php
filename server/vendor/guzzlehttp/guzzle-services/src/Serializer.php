@@ -25,6 +25,9 @@ class Serializer
     /** @var RequestLocationInterface[] */
     private $locations;
 
+    /** @var RequestLocationInterface[] */
+    private $customRequestLocations;
+
     /** @var DescriptionInterface */
     private $description;
 
@@ -35,20 +38,8 @@ class Serializer
         DescriptionInterface $description,
         array $requestLocations = []
     ) {
-        static $defaultRequestLocations;
-        if (!$defaultRequestLocations) {
-            $defaultRequestLocations = [
-                'body' => new BodyLocation(),
-                'query' => new QueryLocation(),
-                'header' => new HeaderLocation(),
-                'json' => new JsonLocation(),
-                'xml' => new XmlLocation(),
-                'formParam' => new FormParamLocation(),
-                'multipart' => new MultiPartLocation(),
-            ];
-        }
-
-        $this->locations = $requestLocations + $defaultRequestLocations;
+        $this->customRequestLocations = $requestLocations;
+        $this->resetDefaultRequestLocations();
         $this->description = $description;
     }
 
@@ -59,7 +50,26 @@ class Serializer
     {
         $request = $this->createRequest($command);
 
-        return $this->prepareRequest($command, $request);
+        try {
+            return $this->prepareRequest($command, $request);
+        } catch (\Throwable $e) {
+            $this->resetDefaultRequestLocations();
+
+            throw $e;
+        }
+    }
+
+    private function resetDefaultRequestLocations()
+    {
+        $this->locations = $this->customRequestLocations + [
+            'body' => new BodyLocation(),
+            'query' => new QueryLocation(),
+            'header' => new HeaderLocation(),
+            'json' => new JsonLocation(),
+            'xml' => new XmlLocation(),
+            'formParam' => new FormParamLocation(),
+            'multipart' => new MultiPartLocation(),
+        ];
     }
 
     /**
@@ -96,7 +106,12 @@ class Serializer
         // Ensure that the after() method is invoked for additionalParameters
         /** @var Parameter $additional */
         if ($additional = $operation->getAdditionalParameters()) {
-            $visitedLocations[$additional->getLocation()] = true;
+            if ($location = $additional->getLocation()) {
+                if (!isset($this->locations[$location])) {
+                    throw new \RuntimeException('No location registered for additionalParameters');
+                }
+                $visitedLocations[$location] = true;
+            }
         }
 
         // Call the after() method for each visited location
@@ -120,8 +135,22 @@ class Serializer
 
         // If command does not specify a template, assume the client's base URL.
         if (null === $operation->getUri()) {
+            /** @var mixed $method */
+            $method = $operation->getHttpMethod() ?: 'GET';
+            if (is_string($method)) {
+                $normalizedMethod = strtoupper($method);
+                if ($method !== $normalizedMethod) {
+                    \trigger_deprecation(
+                        'guzzlehttp/guzzle-services',
+                        '1.6',
+                        'Passing a non-uppercase operation "httpMethod" value to Serializer::createRequest() is deprecated; guzzlehttp/guzzle-services 2.0 will preserve HTTP method casing. Pass an uppercase method explicitly if uppercase is required.'
+                    );
+                    $method = $normalizedMethod;
+                }
+            }
+
             return new Request(
-                $operation->getHttpMethod() ?: 'GET',
+                $method,
                 $this->description->getBaseUri()
             );
         }
@@ -154,9 +183,22 @@ class Serializer
 
         // Expand the URI template.
         $uri = new Uri(UriTemplate::expand($operation->getUri(), $variables));
+        /** @var mixed $method */
+        $method = $operation->getHttpMethod() ?: 'GET';
+        if (is_string($method)) {
+            $normalizedMethod = strtoupper($method);
+            if ($method !== $normalizedMethod) {
+                \trigger_deprecation(
+                    'guzzlehttp/guzzle-services',
+                    '1.6',
+                    'Passing a non-uppercase operation "httpMethod" value to Serializer::createCommandWithUri() is deprecated; guzzlehttp/guzzle-services 2.0 will preserve HTTP method casing. Pass an uppercase method explicitly if uppercase is required.'
+                );
+                $method = $normalizedMethod;
+            }
+        }
 
         return new Request(
-            $operation->getHttpMethod() ?: 'GET',
+            $method,
             UriResolver::resolve($this->description->getBaseUri(), $uri)
         );
     }
